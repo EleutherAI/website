@@ -1,0 +1,181 @@
+<!doctype html>
+
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+
+  <title>EleutherAI</title>
+
+      <style>
+      body {
+  background-color: black;
+
+  height: 100vh;
+  margin: 0;
+  padding: 2rem;
+  color: white;
+  font-family: 'Ubuntu Mono', 'Courier New', monospace;
+  text-shadow: 0 0 10px #C8C8C8;
+
+}
+::selection {
+  background: #0080FF;
+  text-shadow: none;
+}
+pre {
+  margin: 0;
+}
+
+.container {
+    width: 80ch;
+    margin:auto;
+    word-wrap: break-word;
+}
+.logo {
+    white-space: pre;
+}
+
+.blinky {
+    -webkit-animation: blink 1s step-end infinite;
+  animation: blink 1s step-end infinite;
+}
+@-webkit-keyframes blink {
+  0% { opacity: 1.0; }
+  50% { opacity: 0.0; }
+  100% { opacity: 1.0; }
+}
+
+@keyframes blink {
+  0% { opacity: 1.0; }
+  50% { opacity: 0.0; }
+  100% { opacity: 1.0; }
+}
+
+a:link {
+  color: white;
+  background-color: transparent;
+}
+
+a:visited {
+  color: white;
+  background-color: transparent;
+}
+
+a:hover {
+  color: gray;
+  background-color: transparent;
+}
+
+a:active {
+  color: gray;
+  background-color: transparent;
+}
+
+  </style>
+
+</head>
+
+<body>
+  <div class="container">  
+      <div class="logo">
+          
+                    @@@@@@@@@@@                                             
+                (@@@@@@@@@@@@@@@@@@                                         
+              @@@@@@@@@@#((&@@@@@@@@@(                                      
+            @@@@                    @@@@                                    
+          @@        ,#@@@&&@@@#.        @.                                  
+        @   @@@@@    @@@@@@@@@,   #@@@@@  @                                 
+       * @@@@@    &@@@@@@@@@@@@@@    .@@@@@ %                               
+     ( @@@@@    *@@@@@@@@@@@@@@@@@@     @@@@.,                              
+    @  @@@@    @@@@@@@@@@@@@@@@@@@@@@    @@@@ .                             
+   @   @@@    @@@@@@@@@@@@@@@@@@@@@@@@    @@@  @                            
+  @@   @@@  *@@@@@@@@@@@@@@@@@@@@@@@@@@   @@/  .@                           
+ @@@    @@  @@@@@@@@@@@@@@@@@@@@@@@@@@@@  @@    @@                          
+ @@@     @ @@@@@@@@@@@@@@@@@@@@@@@@@@@@@* @    @@@@                         
+@@@@@     @ @@@@@@@@@@@@@@@@@@@@@@@@@@@@ @     @@@@                         
+@@@@@&     * @@@@@@@@@@@@@@@@@@@@@@@@@@       @@@@@                         
+ @@@@@@      @   @@@@@@@@@@@@@@@@@@/  @      @@@@@@                         
+ (@@@@@@.      @@                  @@      @@@@@@@                          
+   @@@@@@@@      @@@@@&      @@@@@@      @@@@@@@                            
+      @@@@@@@@     @@@@@@@@@@@@@&     @@@@@@@*                              
+           ,@@@@@@@    .@@@@     @@@@@@@                                    
+                                                                                                
+        </div>                                                                     
+                                                                                                    
+                                                                                                    
+<p>
+    # EleutherAI
+</p>
+
+<p>
+    [ <a href="https://github.com/EleutherAI/info">FAQ</a> ] &nbsp;&nbsp;&nbsp; [ <a href="https://github.com/EleutherAI/">Github</a> ] &nbsp;&nbsp;&nbsp; [ <a href="https://discord.gg/ejc9GWY">Discord</a> ]
+</p>
+
+<p>
+    EleutherAI is a grassroots AI research group aimed at democratizing and open sourcing AI research. To get started, click on one of the projects below. When you've found something that interests you, come join us on <a href="https://discord.gg/ejc9GWY">Discord</a>.
+</p>
+
+<p>
+    ## GPT-Neo
+</p>
+<p>
+GPT-Neo is the name of our codebase for transformer-based language models loosely styled around the GPT architecture. One of our goals is to use GPT-Neo to replicate a GPT-3 sized model and open source it to the public, for free.
+    
+</p>
+<p>
+Along the way we will be running experiments with alternative architectures and attention types, releasing any intermediate models, and writing up any findings on our blog.
+    
+</p>
+<p>
+Our models are built in Mesh TensorFlow, which will allow us to scale up to GPT-3 sizes and beyond using simultaneous model and data parallelism.
+    
+</p>
+<br>
+
+<p>
+## The Pile
+    
+</p>
+<p>
+The Pile is a large, diverse, open source language modelling data set that consists of many smaller datasets combined together. The objective is to obtain text from as many modalities as possible to ensure that models trained using The Pile will have much broader generalization abilities. 
+    
+</p>
+<p>
+The Pile is now complete! Check it out <a href="https://pile.eleuther.ai/">here</a>.
+    
+</p>
+
+<br>
+<p>
+## OpenWebText2
+    
+</p>
+
+<p>
+The core principle of WebText is to build a high-quality internet dataset by extracting URLs from Reddit submissions, scraping the URLs, and then performing filtering for quality (by upvotes) & deduplication. As the dataset collected for training the original GPT-2 is not public, researchers independently reproduced the pipeline and released the resulting dataset, called OpenWebTextCorpus (OWT).
+    
+</p>
+
+<p>
+    OpenWebText2 (OWT2) is an enhanced version of the original OpenWebTextCorpus covering all Reddit submissions from 2005 up until April 2020, with further months becoming available after the corresponding PushShift dump files are released.
+    
+</p>
+<br>                                                                                          
+<p>
+    # Publications
+</p>                                                                                          
+<p>
+<p>
+- Gao, Biderman, Black, Golding, Hoppe, Foster, Phang, He, Thite, Nabeshima, Presser, and Leahy. 2020. "The Pile: An 800GB Dataset of Diverse Text for Language Modeling." [<a href="https://arxiv.org/abs/">arXiv</a>]
+</p>
+- Komatsuzaki. 2020. "Current Limitations of Language Models: What You Need is Retrieval." [<a href="https://arxiv.org/abs/2009.06857">arXiv</a>]
+</p>
+
+<br>
+
+<p>
+    <|endoftext|><span class="blinky">█</span>
+</p><br><br><br>
+  </div>
+</body>
+</html>
