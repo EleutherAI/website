@@ -193,6 +193,30 @@ h1.logo a .logo-text{
   font-weight: 200;
 }
 
+.project-section {
+  margin: 2em 0;
+  display: block;
+}
+
+.project-icon {
+  text-align: center;
+}
+
+.project-icon img {
+  max-width: 17em;
+}
+
+.project-text {
+  margin-left: 2em;
+}
+
+.project-text h5 {
+  font-size: 2.5em;
+  font-weight: 300;
+  color: var(--blue);
+  text-decoration: underline;
+}
+
 .footer-text {
   font-size: 0.6em;
 }
@@ -252,6 +276,14 @@ h2.text-title {
 
   .image-content img {
     width: 350px;
+  }
+
+  .project-section {
+    display: flex;
+  }
+
+  .project-icon {
+    text-align: left;
   }
 }
 
