@@ -1,10 +1,10 @@
 ---
 title: "Open Web Text 2"
 date: 2019-04-26T20:18:54+03:00
-layout: about
+layout: page
 ---
 
-# Open Web Text 2
+## Open Web Text 2
 
 WebText is an internet dataset created by extracting URLs from Reddit submissions and scraping the URLs. It was collected for training the original GPT-2 and never released to the public, researchers independently reproduced the pipeline and released the resulting dataset, called OpenWebTextCorpus (OWT).
 

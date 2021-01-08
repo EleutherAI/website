@@ -3,7 +3,9 @@ languageCode = "en-us"
 title = "Eleuther AI site"
 theme = "eai-theme"
 [params]
-    description = "My site description"
+    logo="EleutherAI"
+    logo_image_url="images/eai_logo.png"
+    contact_mail="contact@eleuther.ai"
 [menu]
   [[menu.main]]
     name = "Home"

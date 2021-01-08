@@ -1,10 +1,10 @@
 ---
 title: "Gpt-Neo"
 date: 2019-04-26T20:18:54+03:00
-layout: about
+layout: page
 ---
 
-# GPT-Neo
+## GPT-Neo
 
 GPT-Neo is the code name for a series of transformer-based language models loosely styled around the GPT architecture that we plan to train and open source. Our primary goal is to replicate a GPT-3 sized model and open source it to the public, for free.
 
