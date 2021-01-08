@@ -181,6 +181,18 @@ h1.logo a .logo-text{
   font-style: italic;
 }
 
+.promo-title {
+  font-size: 3.2em;
+  text-align: center;
+  font-weight: 400;
+}
+
+.promo-text {
+  font-size: 1.8em;
+  text-align: center;
+  font-weight: 200;
+}
+
 .footer-text {
   font-size: 0.6em;
 }

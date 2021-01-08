@@ -4,7 +4,11 @@
         <div class="grid-1-1">
             <div class="page-content">
                 {{ .Content }}
-                <h1>{{ with .Site.GetPage "section" "pile" }}{{ .Title }}{{ end }}</h1>
+                {{/*  <h1>{{ with .Site.GetPage "section" "pile" }}{{ .Title }}{{ end }}</h1>  */}}
+                <div clas="promo-section">
+                    <h4 class="promo-title">{{ .Params.promo_title}}</h4>
+                    <h4 class="promo-text">{{ .Params.promo_text}}</h4>     
+                </div>
             </div>
         </div>
 
