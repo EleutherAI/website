@@ -1,0 +1,13 @@
+{{ define "main" }}
+{{ $address := "123 Main St." }}
+<h1>Blog</h1>
+<p>{{ .Title}} {{.Pages}}</p>
+
+{{ range .Pages.ByPublishDate.Reverse }}
+<p>
+    <h3><a class="title" href="{{ .RelPermalink }}">{{ .Title }}</a></h3>
+    {{ partial "metadata.html" . }}
+    <p>{{ .Summary }}</p>
+</p>
+{{ end }}
+{{ end }}
