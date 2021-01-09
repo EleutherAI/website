@@ -12,18 +12,18 @@ theme = "eai-theme"
     url = "/"
     weight = 1
   [[menu.main]]
+    name = "About"
+    url = "/about/"
+    weight = 2
+  [[menu.main]]
     name = "Blog"
     url = "/blog/"
-    weight = 2
+    weight = 3
   [[menu.main]]
     name = "Publications"
     url = "/publications/"
-    weight = 3
-  [[menu.main]]
-      name = "About"
-      url = "/about/"
-      weight = 3
+    weight = 4
   [[menu.main]]
     name = "Get Involved"
     url = "/get-involved/"
-    weight = 3
+    weight = 5
