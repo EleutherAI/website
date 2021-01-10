@@ -192,10 +192,10 @@ h1.logo a .logo-text{
   letter-spacing: 0.5px;
 }
 
-.page-content p {
+.page-content p, li {
   font-weight: 400;
   line-height: 1.6667;
-  font-size: 0.9em;
+  font-size: 0.95em;
 }
 
 .page-content ul, ol {
@@ -256,11 +256,40 @@ h1.logo a .logo-text{
   margin-left: 2em;
 }
 
-.project-text h5 {
+h2.content-block + ul {
+  display: flex;
+  list-style: none;
+  justify-content: space-between;
+}
+
+h2.content-block + ul li {
+  margin-right: 1em;
+}
+
+h2.content-block + ul li img {
+  max-width: 20em;
+}
+
+h2.content-block + ul li ul li {
+  list-style: square;
+  font-weight: 400;
+  line-height: 1.6667;
+  font-size: 1em;
+}
+
+.project-text h2 {
   font-size: 2.5em;
   font-weight: 300;
   color: var(--blue);
   text-decoration: underline;
+}
+
+.text-announcement {
+  text-align: center;
+}
+
+.text-announcement + p {
+  text-align: center;
 }
 
 .footer-text {
@@ -303,9 +332,13 @@ h2.text-title {
 /* ------ RESPONSIVE STYLES ------ */
 
 /* Phone */
-@media (max-width: 450px) {
+@media (max-width: 480px) {
   .slide-menu {
     width: 80%;
+  }
+
+  h2.content-block + ul {
+    display: block;
   }
 }
 

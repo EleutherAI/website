@@ -1,0 +1,17 @@
+<div class="main-container">
+    <div class="content-wrapper">
+        <div class="grid-1-1">
+            <div class="page-content">
+                {{ range ((where .Site.Pages.ByDate "Section" "projects-intros"))}}
+                    <div class="project-section">
+                        <div class="project-icon"><img src="{{ .Site.BaseURL}}/{{ .Params.project_image }}" alt="{{ .Params.Title }}"></div>
+                        <div class="project-text">
+                            {{ .Content }}
+                        </div>
+                    </div>
+                    {{ end }}
+            </div>
+        </div>
+
+    </div>
+</div>
