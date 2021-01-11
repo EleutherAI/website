@@ -11,16 +11,5 @@ layout: page
 
 
 ## The Pile is now live! ## {class="text-announcement"}
-[Download now](https://the-eye.eu/public/AI/pile/), or you can [read the paper](https://pile.eleuther.ai/paper.pdf)
+[Download now](https://pile.eleuther.ai/), or you can [read the docs](https://pile.eleuther.ai/paper.pdf)
 
-
-##  ## {class="content-block"}
-- ### Comes pre-cleaned and pre-processed:
-    - Deduplicated by URL
-    - Filtered by minimum combined reddit score 3
-    - Deduplicated at document level with MinHashLSH.
-
-- ### Stats:
-    - 17,103,059 documents
-    - 65.86 GB uncompressed text
-    - 28 GB compressed including text and metadata
