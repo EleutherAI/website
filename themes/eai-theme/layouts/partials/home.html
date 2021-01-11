@@ -2,6 +2,10 @@
     <div class="content-wrapper">
         <div class="grid-1-1">
             <div class="page-content">
+                <div clas="promo-section">
+                    <h4 class="promo-title">{{ .Params.promo_title}}</h4>
+                    <h4 class="promo-text">{{ .Params.promo_text}}</h4>
+                </div>
                 {{ range ((where .Site.Pages.ByDate "Section" "projects-intros"))}}
                     <div class="project-section">
                         <div class="project-icon"><img src="{{ .Site.BaseURL}}/{{ .Params.project_image }}" alt="{{ .Params.Title }}"></div>
