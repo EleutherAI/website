@@ -1,4 +1,4 @@
-baseURL = "http://example.org/"
+baseURL = "https://eleutherai.github.io/"
 languageCode = "en-us"
 title = "Eleuther AI site"
 theme = "eai-theme"
