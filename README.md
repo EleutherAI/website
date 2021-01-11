@@ -1,6 +1,6 @@
 # EleutherAI Website 2021
 
-This is the new website for EleutherAI thats based on hugo, static site generator. The content should correspond to existing google sites website but with added blog.
+This is the new website for EleutherAI based on Hugo, a static site generator. The content should correspond to existing google sites website but with added blog and other features. Please make sure to familiarize with the basics of working with Hugo before you start using it.
 
 
 ## How it works?
