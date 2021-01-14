@@ -4,11 +4,11 @@ title = "Eleuther AI site"
 theme = "eai-theme"
 contentDir = "content"
 publishDir = "public"
-site_type="main"
 [params]
     logo="EleutherAI"
     logo_image_url="images/eai_logo.png"
     contact_mail="contact@eleuther.ai"
+    site_type="website"
 [menu]
   [[menu.main]]
     name = "Home"

@@ -1,14 +1,14 @@
-baseURL = "https://www.jankoprester.com/"
+baseURL = "https://blog.eleutherai.github.io/"
 languageCode = "en-us"
 title = "Eleuther AI Blog"
 theme = "eai-theme"
-contentDir = "content2"
-publishDir="public2"
-site_type="blog"
+contentDir = "content-blog"
+publishDir="public-blog"
 [params]
     logo="EleutherAI"
     logo_image_url="images/eai_logo.png"
     contact_mail="contact@eleuther.ai"
+    site_type="blog"
 [menu]
   [[menu.main]]
     name = "Home"
