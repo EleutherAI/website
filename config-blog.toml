@@ -12,11 +12,11 @@ publishDir="public-blog"
 [menu]
   [[menu.main]]
     name = "Home"
-    url = "/"
+    url = "https://eleutherai.github.io/"
     weight = 1
   [[menu.main]]
     name = "About"
-    url = "/about/"
+    url = "https://eleutherai.github.io//about/"
     weight = 2
   [[menu.main]]
     name = "Blog"
@@ -24,9 +24,9 @@ publishDir="public-blog"
     weight = 3
   [[menu.main]]
     name = "Publications"
-    url = "/publications/"
+    url = "https://eleutherai.github.io/publications/"
     weight = 4
   [[menu.main]]
     name = "Get Involved"
-    url = "/get-involved/"
+    url = "https://eleutherai.github.io/get-involved/"
     weight = 5
