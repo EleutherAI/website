@@ -1,14 +1,14 @@
-baseURL = "https://eleutherai.github.io/"
+baseURL = "https://blog.eleutherai.github.io/"
 languageCode = "en-us"
-title = "Eleuther AI site"
+title = "Eleuther AI Blog"
 theme = "eai-theme"
-contentDir = "content"
-publishDir = "public"
+contentDir = "content-blog"
+publishDir="public-blog"
 [params]
     logo="EleutherAI"
     logo_image_url="images/eai_logo.png"
     contact_mail="contact@eleuther.ai"
-    site_type="website"
+    site_type="blog"
 [menu]
   [[menu.main]]
     name = "Home"
