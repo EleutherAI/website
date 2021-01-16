@@ -16,7 +16,7 @@ publishDir="public-blog"
     weight = 1
   [[menu.main]]
     name = "About"
-    url = "https://eleutherai.github.io//about/"
+    url = "https://eleutherai.github.io/about/"
     weight = 2
   [[menu.main]]
     name = "Blog"
