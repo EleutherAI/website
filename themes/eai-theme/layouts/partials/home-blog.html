@@ -2,10 +2,7 @@
     <div class="content-wrapper">
         <div class="grid-1-1">
             <div class="page-content">
-                <div clas="promo-section">
-                    <h4 class="promo-title">{{ .Params.promo_title}}</h4>
-                    <h4 class="promo-text">{{ .Params.promo_text}}</h4>
-                </div>
+                <h2>Blog</h2>
                 {{ range .Site.RegularPages }}
                     <ul class="project-section">
                         <li><a href="{{ .Permalink }}">{{.Name}}</li>
