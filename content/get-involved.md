@@ -6,7 +6,7 @@ layout: page
 
 ## Get Involved
 
-We welcome contributors of all backgrounds and experience levels. Joining EleutherAI is as simple as [joining us on Discord](https://discord.com/invite/vtRgjbM) and picking a project to contribute to. However we have some areas where we are particularly interested in recruiting experienced collaborators:
+We welcome contributors of all backgrounds and experience levels! Joining EleutherAI is as simple as [joining us on Discord](https://discord.com/invite/vtRgjbM) and picking a project to contribute to. However we have some areas where we are particularly interested in recruiting experienced collaborators:
 
 - **GPT-Neo** is looking for people with expertise in ML pipelining and developing ML apps with user-friendly UIs.
 
