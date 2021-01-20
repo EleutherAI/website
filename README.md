@@ -14,7 +14,7 @@ if everything is working feel at this point feel free to start working on the we
 Once you are done with your work you cant now try to  publish the changes. To do that you need to push the git changes both for the repo and for /public folder that is set as git submodule for the website html content.
 
 Easiest way to do it is to run deploy scripts:
-`./deploy.sh`
+`./deploy.sh` and then just commit changes frgom the main repo.
 
 If that doesnt work you can do it manually:
 
@@ -30,14 +30,14 @@ So it will be `sudo ./deploy.sh`, `sudo git commit `.. etc.
 To use the blog, the instructions are similar like in the previous section with few differences. The blog markdown content is served from content-blog, the submodule repo is public-blog and it uses different config file: config-blog.toml and different deploy script deploy_blog.sh.
 
 1. change the content in content-blog
-2. when generating static html run: `hugo --config=config-blog.toml`
-3. when deploying run: `./deploy_blog.sh`
+2. when deploying run: `./deploy_blog.sh`
+3. commit/push the changes for the main rep
 
 ### Update: now there is the script that should do all of this for you. You just need to run:
 
 `./run_all.sh`
 
-and it will generates all the sites and deploy them. (both for website and blog).
+### and it will generate all the sites and deploy them. (both for website and blog).
 
 ## Editing content
 The theme and content structure should be similar to the standard Hugo projects. Content for main pages is in `/content folder`. The Blog is in `/content/blog`. 
