@@ -12,6 +12,9 @@ hugo --config=config-blog.toml  # if using a theme, replace with `hugo -t <YOURT
 # Go To Public folder
 cd public
 
+# Change to master branch
+git checkout master
+
 # Add changes to git.
 git add .
 
@@ -27,6 +30,9 @@ git push origin master
 
 # Go To Blog folder
 cd ../public-blog/
+
+# Change to master branch
+git checkout master
 
 # Add changes to git.
 git add .
