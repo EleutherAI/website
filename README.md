@@ -6,7 +6,7 @@ This is the new website for EleutherAI based on Hugo, a static site generator. T
 ## How it works?
 1. [install hugo](https://gohugo.io/getting-started/installing/)
 2. clone this repository (and make sure you are in the `master` branch)
-3. get git submodules which serve as the generated website in the /public folder: `git submodule update --init` and then make sure that they are set to `master` branch.
+3. get git submodules which serve as the generated website in the public folders (/public, /public-blog ...etc): `git submodule update --init` and then make sure that you have set them all to `master` branch.
 4. now you can try to run hugo locally `hugo server -D`
 
 if everything is working feel at this point feel free to start working on the website. 
@@ -35,7 +35,9 @@ To use the blog, the instructions are similar like in the previous section with 
 
 ### Update: now there is the script that should do all of this for you. You just need to run:
 
-`./run_all.sh`
+`./run_all.sh` 
+
+***(before running the script make sure all git submodules are in master branch as otherwise it wont push)***
 
 ### and it will generate all the sites and deploy them. (both for website and blog).
 
