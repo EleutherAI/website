@@ -5,6 +5,9 @@ set -e
 
 printf "\033[0;32mDeploying updates to GitHub...\033[0m\n"
 
+
+# FOR THE MAIN SITE
+
 # Build the project.
 hugo # if using a theme, replace with `hugo -t <YOURTHEME>`
 hugo --config=config-blog.toml  # if using a theme, replace with `hugo -t <YOURTHEME>`
@@ -12,7 +15,7 @@ hugo --config=config-blog.toml  # if using a theme, replace with `hugo -t <YOURT
 # Go To Public folder
 cd public
 
-# Change to master branch
+# Change to master branch if not there already
 git checkout master
 
 # Add changes to git.
@@ -27,6 +30,9 @@ git commit -m "$msg"
 
 # Push source and build repos.
 git push origin master
+
+
+# FOR THE BLOG SITE
 
 # Go To Blog folder
 cd ../public-blog/
