@@ -37,7 +37,7 @@ To bind on another IP apart from localhost and change the baseURL (ensuring the 
 
 `hugo server --bind=BIND-IP --baseUrl=IP-OR-DOMAIN -D`
 
-If everything is working feel at this point feel free to start working on the website. Once you are happy with the changes, perform the build as explained below.
+If everything is working at this point feel free to start working on the website. Once you are happy with the changes, perform the build as explained below.
 
 ## Building And Pushing
 
