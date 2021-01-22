@@ -45,9 +45,9 @@ We are using submodules for the site builds (public and public-blog) so these ne
 
 We have created build scripts to make this process easier:
 
-**Main Site:** `./deploy.sh` 
-**Blog:** `./deploy_blog.sh` 
-**Both:** `./run_all.sh` 
+**Main Site:** `./deploy.sh`  
+**Blog:** `./deploy_blog.sh`  
+**Both:** `./run_all.sh`  
 
 Afterwards you can separately push your underlying changes.
 
