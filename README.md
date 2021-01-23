@@ -4,8 +4,9 @@ This is the new website for EleutherAI based on Hugo, a static site generator. T
 
 ## Setup
 1. [install hugo](https://gohugo.io/getting-started/installing/)
-2. clone this repository (and make sure you are in the `master` branch)
-3. get git submodules which serve as the generated website in the public folders (/public, /public-blog ...etc): `git submodule update --init` and then make sure that you have set them all to `master` branch.
+2. clone this repository: `git clone https://github.com/EleutherAI/new-website.git; cd new-website`
+3. get git submodules which serve as the generated website in the public folders (/public, /public-blog ...etc): `git submodule update --init`
+4. set the public and public-blog folders to `master` branch: `(cd public; git checkout master)` and `(cd public-blog; git checkout master)`
 
 ## Project Layout
 

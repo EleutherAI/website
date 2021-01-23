@@ -9,3 +9,5 @@ project_image: "images/open-web-text2.png"
 OpenWebText2 is a dataset inspired by WebText, created by scraping URLs extracted from Reddit submissions up until April 2020 with a minimum score of 3 as a proxy for quality. 
 
 It features content from multiple languages, document metadata, multiple dataset versions, and open source replication code.
+
+OpenWebText2 is complete! Check it out [here](projects/open-web-text2/).
