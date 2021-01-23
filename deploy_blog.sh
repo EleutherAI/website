@@ -11,9 +11,6 @@ hugo --config=config-blog.toml  # if using a theme, replace with `hugo -t <YOURT
 # Go To Public folder
 cd public-blog
 
-# Change to master branch if not there already
-git checkout master
-
 # Add changes to git.
 git add .
 
