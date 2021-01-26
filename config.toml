@@ -8,6 +8,7 @@ publishDir = "public"
     logo="EleutherAI"
     logo_image_url="images/eai_logo.png"
     contact_mail="contact@eleuther.ai"
+    site_type="website"
 [menu]
   [[menu.main]]
     name = "Home"
@@ -19,7 +20,7 @@ publishDir = "public"
     weight = 2
   [[menu.main]]
     name = "Blog"
-    url = "/blog-posts"
+    url = "https://eleuther.ai/eleuther-blog/"
     weight = 3
   [[menu.main]]
     name = "Publications"
