@@ -1,7 +1,3 @@
 {{ define "main" }}
-    {{ if eq .Site.Params.site_type "blog" }}
-        {{- partial "home-blog.html" . -}}
-    {{ else }}
-        {{- partial "home.html" . -}}
-    {{ end }}
+    {{- partial "home.html" . -}}
 {{ end }}
