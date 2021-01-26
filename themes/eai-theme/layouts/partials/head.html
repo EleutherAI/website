@@ -1,6 +1,15 @@
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
+    <!-- Global site tag (gtag.js) - Google Analytics -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-9KCLV8BK53"></script>
+    <script>
+        window.dataLayer = window.dataLayer || [];
+        function gtag(){dataLayer.push(arguments);}
+        gtag('js', new Date());
+
+        gtag('config', 'G-9KCLV8BK53');
+    </script>
     <link rel="stylesheet" type="text/css" href="{{ .Site.BaseURL}}css/normalize.css">
     <link rel="stylesheet" type="text/css" href="{{ .Site.BaseURL}}css/styles.css">
     {{ $title := print .Site.Title " | " .Title }}
