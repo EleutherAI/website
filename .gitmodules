@@ -1,8 +1,0 @@
-[submodule "public"]
-	path = public
-	url = https://github.com/EleutherAI/eleutherai.github.io.git
-	branch = master
-[submodule "public-blog"]
-	path = public-blog
-	url = https://github.com/EleutherAI/eleuther-blog.git
-	branch = master
