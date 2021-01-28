@@ -2,7 +2,7 @@
 
 The EleutherAI is built using [Hugo](https://gohugo.io), a static site generator. We are currently using Netlify for build and hosting.
 
-While the blog and main site are visually integrated, the blog is currently being served on a separate domain blog.eleuther.ai, so we have a separate config-blog.toml file for this.
+While the blog and main site are visually integrated, the blog is served on a separate domain blog.eleuther.ai, with a corresponding config-blog.toml.
 
 ## Development Process Overview
 1. [Install Hugo](https://gohugo.io/getting-started/installing/)
@@ -41,5 +41,5 @@ If everything is working at this point feel free to start working on the website
 
 ## How to display 2 containers that are horizontally aligned?
 
-1. add an empty header markdown with the class `content-block` -> `##  ## {class="content-block"}`
+1. add an empty header markdown with the class `content-block` -> `## {class="content-block"}`
 2. after that line, add 2 containers as 2 elements of the list. In CSS it is defined that first list `<ul>` below content-block header will display items horizontally. (only the first one, any other list elements will be displayed as expected)
