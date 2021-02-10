@@ -1,28 +1,17 @@
 # EleutherAI Website 2021
 
-This is the new website for EleutherAI based on Hugo, a static site generator. The content should correspond to existing google sites website but with added blog and other features. Please make sure to familiarize with the basics of working with Hugo before you start using it.
+The EleutherAI is built using [Hugo](https://gohugo.io), a static site generator. We are currently using Netlify for build and hosting.
 
-## Setup
-1. [install hugo](https://gohugo.io/getting-started/installing/)
-2. clone this repository: `git clone https://github.com/EleutherAI/new-website.git; cd new-website`
-3. get git submodules which serve as the generated website in the public folders (/public, /public-blog ...etc): `git submodule update --init`
-4. set the public and public-blog folders to `master` branch: `(cd public; git checkout master)` and `(cd public-blog; git checkout master)`
+While the blog and main site are visually integrated, the blog is served on a separate domain blog.eleuther.ai, with a corresponding config-blog.toml.
 
-## Project Layout
-
-| Directory      | Description |
-| -----------: | ----------- |
-| `content` | Underyling content for the main site|
-| `content-blog` | Underyling content for the blog |
-| `static/images` | Images for both sites. |
-| `themes/eai-theme` | We use a single theme for both the main site and the blog. | 
-| `public` | Contains the main site build | 
-| `public-blog` | Build for the blog.| 
-
-## How to display 2 containers that are horizontally aligned?
-
-1. add an empty header markdown with the class `content-block` -> `##  ## {class="content-block"}`
-2. after that line, add 2 containers as 2 elements of the list. In CSS it is defined that first list `<ul>` below content-block header will display items horizontally. (only the first one, any other list elements will be displayed as expected)
+## Development Process Overview
+1. [Install Hugo](https://gohugo.io/getting-started/installing/)
+2. Clone this repository.
+3. Create a new branch for your work.
+4. Use the Hugo dev server locally to test your changes.
+5. Commit your branch with changes.
+6. Create a PR to merge your branch into master and discuss on Discord. 
+7. When the branch is merged, a Netlify build will be triggered for both the blog and main site.
 
 ## Dev Environment
 
@@ -38,26 +27,17 @@ To bind on another IP apart from localhost and change the baseURL (ensuring the 
 
 `hugo server --bind=BIND-IP --baseUrl=IP-OR-DOMAIN -D`
 
-If everything is working at this point feel free to start working on the website. Once you are happy with the changes, perform the build as explained below.
+## Project Layout
 
-## Building And Pushing
-
-We are using submodules for the site builds (public and public-blog) so these need to be built and pushed separately to the underlying template and content changes.
-
-We have created build scripts to make this process easier:
-
-**Main Site:** `./deploy.sh`  
-**Blog:** `./deploy_blog.sh`  
-**Both:** `./run_all.sh`  
-
-Afterwards you can separately push your underlying changes.
-
-***Note: based on your user settings you might not have privileges to do changes in /public folder. In that case you can still do all the previous steps with `sudo` command.***
-
-So it will be `sudo ./deploy.sh`, `sudo git commit `.. etc.
-
-***(before running the script make sure all git submodules are in master branch as otherwise it wont push)***
+| Directory      | Description |
+| -----------: | ----------- |
+| `content` | Underyling content for the main site|
+| `content-blog` | Underyling content for the blog |
+| `static/images` | Images for both sites. |
+| `themes/eai-theme` | We use a single theme for both the main site and the blog. | 
 
 
+## How to display 2 containers that are horizontally aligned?
 
-
+1. add an empty header markdown with the class `content-block` -> `## {class="content-block"}`
+2. after that line, add 2 containers as 2 elements of the list. In CSS it is defined that first list `<ul>` below content-block header will display items horizontally. (only the first one, any other list elements will be displayed as expected)

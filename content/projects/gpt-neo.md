@@ -5,7 +5,7 @@ project_image: "images/the-pile.png"
 layout: project-page
 ---
 
-##  ## {class="content-block"}
+## {class="content-block"}
 - ![alt](../../images/gpt-neo.png)
 - ## GPT-Neo 
     GPT-Neo is the code name for a series of transformer-based language models loosely styled around the GPT architecture that we plan to train and open source. Our primary goal is to replicate a GPT-3 sized model and open source it to the public, for free.
@@ -15,7 +15,7 @@ layout: project-page
     Our models are built in Tensorflow-mesh, which will allow us to scale up to GPT-3 sizes and beyond using simultaneous model and data parallelism.
 
 
-##  ## {class="content-block"}
+## {class="content-block"}
 - ### Progress:
     - We have the bulk of the model built, GPT-2 size models trained, and several experimental architectures implemented.
 
