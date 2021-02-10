@@ -1,7 +1,7 @@
 ---
 title: "The Pile"
 date: 2019-03-26T20:18:54+03:00
-project_image: "images/the-pile.png"
+project_image: "images/the_pile_static.png"
 ---
 
 ## [The Pile](https://pile.eleuther.ai/)
