@@ -18,6 +18,9 @@
                         </div>
                     </div>
                     {{ end }}
+                <div>
+                    {{ with .Site.GetPage "/announcements" }}{{ .Content }}{{ end }}
+                </div>
             </div>
         </div>
 
