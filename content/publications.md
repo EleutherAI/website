@@ -6,7 +6,7 @@ layout: page
 
 ## Publications and Preprints
 
-- Isaac Caswell, Julia Kreutzer, and 47 others (incl. **Stella Biderman**). "Quality at a Glance: An Audit of Web-Crawled Multilingual Datasets." _EACL Workshop on African NLP_. [[arXiv]](https://arxiv.org/abs/2103.12028)
+- Isaac Caswell, Julia Kreutzer, and 50 others (incl. **Stella Biderman**). "Quality at a Glance: An Audit of Web-Crawled Multilingual Datasets." _EACL Workshop on African NLP_. [[arXiv]](https://arxiv.org/abs/2103.12028)
 
 - **Aran Komatsuzaki.** "Current Limitations of Language Models: What You Need is Retrieval." _Preprint._ [[arXiv]](https://arxiv.org/abs/2009.06857) 
 
