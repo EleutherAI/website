@@ -8,9 +8,11 @@ layout: page
 
 (Bold indicates EleutherAI-affiliated author.)
 
-### Preprints Under Review:
+### Accepted For Publication:
 
 - Isaac Caswell, Julia Kreutzer, and 47 others (incl. **Stella Biderman**). "Quality at a Glance: An Audit of Web-Crawled Multilingual Datasets." [[arXiv]](https://arxiv.org/abs/2103.12028)
+
+### Preprints:
 
 - **Aran Komatsuzaki.** "Current Limitations of Language Models: What You Need is Retrieval." [[arXiv]](https://arxiv.org/abs/2009.06857) 
 
