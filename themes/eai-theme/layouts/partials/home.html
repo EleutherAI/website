@@ -13,19 +13,10 @@
                 <div class="home-page announcement-section">
                     {{ with .Site.GetPage "/announcements" }}{{ .Content }}{{ end }}
                 </div>
-
-                <div class="home-page announcement-projects">
-                    {{ with .Site.GetPage "/projects" }}{{ .Content }}{{ end }}
+                <div class="home-page projects-section">
+                    {{ with .Site.GetPage "/projects-list" }}{{ .Content }}{{ end }}
                 </div>
-                {{/*  {{ range ((where .Site.Pages.ByDate "Section" "projects-intros"))}}
-                    <div class="project-section">
-                        <div class="project-icon"><img src="{{ .Site.BaseURL}}/{{ .Params.project_image }}" alt="{{ .Params.Title }}"></div>
-                        <div class="project-text">
-                            {{ .Content }}
-                        </div>
-                    </div>
-                    {{ end }}  */}}
-
+                
             </div>
         </div>
 

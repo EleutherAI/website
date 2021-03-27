@@ -250,6 +250,43 @@ h1.logo a .logo-text{
   width: 100%;
 }
 
+.projects-section {
+  margin-top: 3em;
+}
+
+.home-page.projects-section>h3 {
+  text-align: center;
+  font-size: 1.3em;
+  margin-bottom: 1.2em;
+  margin-top: 1.5em;
+}
+
+.home-page.projects-section>ul>li>h4 {
+  text-align: center;
+  font-size: 1.2em;
+  font-weight: 400;
+}
+
+.home-page.projects-section ul>li>ul>li {
+  list-style-type: none;
+}
+
+.home-page.projects-section ul>li>ul>li:first-child {
+  list-style-type: none;
+  text-align: center;
+}
+
+.home-page.projects-section ul>li>ul>li:first-child img {
+  border: 1px solid var(--grey);
+  box-sizing: border-box;
+  padding: 2px;
+  border-radius: 12px;
+}
+
+.projects-section ul li {
+  list-style-type: none;
+}
+
 .page-content h4 {
   margin-top: 0.2em;
   margin-bottom: 0.4em;
