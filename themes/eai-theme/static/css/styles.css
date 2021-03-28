@@ -214,7 +214,15 @@ h1.logo a .logo-text{
 } 
 
 .page-content h3 {
-  margin: 1.2em 0 0.5em 0;
+  margin: 1.6em 0 0.5em 0;
+}
+
+.page-content blockquote {
+  font-size: 1.1em;
+  font-style: italic;
+  border-left: 1px solid #959595;
+  padding: 0.5em 0.6em;
+  margin: 0.8em 0.2em;
 }
 
 .announcement-section {
@@ -269,6 +277,7 @@ h1.logo a .logo-text{
 
 .home-page.projects-section ul>li>ul>li {
   list-style-type: none;
+  width: 21em;
 }
 
 .home-page.projects-section ul>li>ul>li:first-child {
@@ -283,12 +292,25 @@ h1.logo a .logo-text{
   border-radius: 12px;
 }
 
+.home-page.projects-section ul>li>ul>li:last-child {
+  margin-top: 1em;
+  background-color: var(--blue);
+  padding: 0.2em 0.4em;
+  color: white;
+  border-radius: 0.3em;
+  font-size: 0.6em;
+  width: 8em;
+  text-align: center;
+  text-transform: uppercase;
+
+}
+
 .projects-section ul li {
   list-style-type: none;
 }
 
 .page-content h4 {
-  margin-top: 0.2em;
+  margin-top: 1.2em;
   margin-bottom: 0.4em;
 }
 
@@ -365,6 +387,7 @@ h2.content-block + ul {
   list-style: none;
   margin: 0;
   padding:0;
+  justify-content: space-between;
 }
 
 h2.content-block + ul li {
