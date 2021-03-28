@@ -5,6 +5,6 @@ layout: project-page
 ---
 
 ## {class="content-block"}
-- ![alt](../../images/art50.png.png)
+- ![alt](../../images/art50.png)
 - ## GPT-NeoX 
   Coming soon!

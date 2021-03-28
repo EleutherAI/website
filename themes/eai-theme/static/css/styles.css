@@ -58,7 +58,7 @@ body {
   display: flex;
   flex-direction: column;
   margin: 0 auto;
-  padding: 0 0.5em;
+  padding: 0 1em;
 }
 
 .grid-1-2 {
@@ -68,7 +68,7 @@ body {
 
 .grid-1-1 {
   margin: 1em 0;
-  max-width: 100%;
+  width: 100%;
   display: inline-block;
 }
 
@@ -170,6 +170,7 @@ h1.logo a .logo-text{
 
 .main-container {
   padding-top: 1em;
+  padding-bottom: 5em;
 }
 
 .page-content h1,
@@ -468,6 +469,15 @@ h2.text-title {
   h2.content-block + ul {
     display: block;
   }
+
+  .home-page.projects-section ul>li>ul>li {
+    width: 100%;
+  }
+
+  .announcement-section ul li {
+    border: 0px none;
+    padding: 0;
+  }
 }
 
 /* Tablet */
@@ -520,6 +530,7 @@ h2.text-title {
 @media (min-width: 1140px) {
   .content-wrapper {
     max-width: 1020px;
+    margin: 0 auto;
     flex-direction: row;
   }
 }
