@@ -6,7 +6,7 @@ layout: project-page
 ---
 
 ## {class="content-block"}
-- ![alt](../../images/gpt-neo.png)
+- ![alt](../../images/art49.png)
 - ## GPT-Neo 
     GPT-Neo is the code name for a series of transformer-based language models loosely styled around the GPT architecture that we plan to train and open source. Our primary goal is to replicate a GPT-3 sized model and open source it to the public, for free.
 

@@ -1,11 +1,10 @@
 ---
 title: "Eval Harness"
 date: 2019-04-26T20:18:54+03:00
-project_image: "images/the-pile.png"
 layout: project-page
 ---
 
 ## {class="content-block"}
-- ![alt](../../images/gpt-neo.png)
+- ![alt](../../images/art32.png)
 - ## Eval Harness
   Coming soon!
