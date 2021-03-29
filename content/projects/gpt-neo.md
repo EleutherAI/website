@@ -12,17 +12,14 @@ layout: project-page
 
     Along the way we will be running experiments with [alternative](https://arxiv.org/abs/1701.06538) [architectures](https://arxiv.org/abs/1911.03864) and [attention](https://arxiv.org/abs/2006.16236) [types](https://www.aclweb.org/anthology/2020.acl-main.672.pdf), releasing any intermediate models, and writing up any findings on our blog.
 
-    Our models are built in Tensorflow-mesh, which will allow us to scale up to GPT-3 sizes and beyond using simultaneous model and data parallelism.
+    We have two repositories in development, [GPT-Neo](https://github.com/EleutherAI/gpt-neo/) (for training on TPUs) and [GPT-NeoX](https://github.com/EleutherAI/gpt-neox/) (for training on GPUs). 
 
 
 ## {class="content-block"}
 - ### Progress:
-    - We have the bulk of the model built, GPT-2 size models trained, and several experimental architectures implemented.
-
-    - Our current codebase should be able to scale up to GPT-3 sized models
-
+    - We are now focusing development on the GPT-NeoX library, as cloud compute provider [Coreweave](https://coreweave.com/) has offered to provide us the GPUs necessary to train a GPT-3 scale language model! Our devs' mental health will greatly benefit from moving the codebase over to pytorch.
+    - We have released two mid-sized (1.3B and 2.7B parameter) models in our [GPT-Neo library](https://github.com/EleutherAI/gpt-neo#pretrained-models)/
+    - GPT-Neo models are [now available on HuggingFace](https://github.com/huggingface/transformers/pull/10848)!
 - ### Next Steps:
-    - We are currently working on wrapping up GPT-2-sized model replication, looking mostly at evaluations there.
-
-    - The largest model we've gotten to train for a single step so far has been 200B parameters.
+    - We are currently waiting for Coreweave to finish building the final hardware we'll be training on, and in the meantime, are optimizing GPT-NeoX to run as efficiently as possible on said hardware.
 
