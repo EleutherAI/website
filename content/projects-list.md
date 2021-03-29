@@ -16,7 +16,7 @@ layout: page
 - #### [GPT NeoX](projects/gpt-neox/)
     - [![alt](../../images/art50.png) ](projects/gpt-neox/)
     - An implementation of model parallel GPT-3-like models on GPUs, based on the DeepSpeed library. Designed to be able to train models in the hundreds of billions of parameters or larger.
-    - completed
+    - in progress
 
 ## {class="content-block"}
 - #### [The Pile](https://pile.eleuther.ai/)
@@ -27,7 +27,7 @@ layout: page
     - [![alt](../../images/art4.png) ](projects/open-web-text2/)
     - OpenWebText2 is a dataset inspired by WebText, created by scraping URLs extracted from Reddit submissions up until April 2020 with a minimum score of 3 as a proxy for quality. It features content from multiple languages, document metadata, multiple dataset versions, and open source replication code.
         **Update**: OpenWebText2 is complete! Check it out [here](projects/open-web-text2/).
-    - in progress
+    - completed
 <!-- 
 ## {class="content-block"}
 - #### [Eval Harness](projects/eval-harness/)
