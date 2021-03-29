@@ -10,9 +10,5 @@ layout: page
 - **GPT-Neo**  - Released the weights for the 1.3B and 2.7B param models trained on The Pile - [Github Link](https://github.com/EleutherAI/gpt-neo/) 
 
 ## {class="content-block"}
-- 2021.02.17
-- Organizational update from EleutherAI. [Read more >](https://blog.eleuther.ai/welcome-to-eleutherai/) 
-
-## {class="content-block"}
-- 2021.02.17
-- **Blog** - Welcome to open AI! [Read more >](https://blog.eleuther.ai/welcome-to-eleutherai/) 
+- 2021.01.25
+- **The Pile** - We are proud to announce the release of the Pile, a free and publicly available 800GB dataset of diverse English text for language modeling! [Read more >](https://pile.eleuther.ai/)
