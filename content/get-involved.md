@@ -18,6 +18,7 @@ As an independent organization, we are dependent upon donations for our computin
 
 
 ### Stuff We Need Help With
+---
 
 People keep asking how they can help, so this document is intended to help people figure out what they can contribute to. The #1 thing that we need is people who are competent at implementing deep learning systems. While there is some work for people without that skill set, we are a DL research lab and therefore most of the work involves writing and using neural networks. What follows is organized by *skillset* rather than by project.
 
@@ -27,7 +28,7 @@ If you have any questions, the #research channel on Discord is the best place to
 
 Data processing work involves searching the internet for data, scraping and cleaning data, and writing scripts to load datasets. Our current data processing need involves building an [evaluation harness](https://github.com/EleutherAI/lm-evaluation-harness). If you're interested in helping out, check out the open Issues in the repo or stop by #lm_thunderdome on Discord. Other projects may have individual data processing needs.
 
-#### Software Development
+##### Software Development
 
 Software development work involves creating support systems, building software systems, and cleaning up code and documentation.
 
@@ -49,7 +50,8 @@ We have sporadic need for UI/UX work. We are currently training GPT-3-style mode
 
 We sporadically need help with various tasks related to managing our intnet presence. Right now [our website](https://eleuther.ai) has the basic functionality we need, but there's always room for improvement. Post in #website on Discord if you can help.
 
-#### Science
+
+### Science
 
 #### Biology
 

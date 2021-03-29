@@ -5,6 +5,7 @@
   --green: #699f56;
   --blue: #34566f;
   --grey: #959595;
+  --grey-2: #D8D8D8;
   --red: #aa4926;
   --orange: #cc7832;
 }
@@ -57,7 +58,7 @@ body {
   display: flex;
   flex-direction: column;
   margin: 0 auto;
-  padding: 0 0.5em;
+  padding: 0 1em;
 }
 
 .grid-1-2 {
@@ -67,7 +68,7 @@ body {
 
 .grid-1-1 {
   margin: 1em 0;
-  max-width: 100%;
+  width: 100%;
   display: inline-block;
 }
 
@@ -169,6 +170,7 @@ h1.logo a .logo-text{
 
 .main-container {
   padding-top: 1em;
+  padding-bottom: 5em;
 }
 
 .page-content h1,
@@ -185,11 +187,12 @@ h1.logo a .logo-text{
 }
 
 .page-content h2 {
-  font-size: 2.5em;
-  color: var(--blue);
-  font-weight: 300;
+  font-size: 1.38em;
+  color: var(--black);
+  font-weight: 400;
   line-height: 1.2;
   letter-spacing: 0.5px;
+  text-transform: uppercase;
 }
 
 .page-content p, li {
@@ -212,11 +215,103 @@ h1.logo a .logo-text{
 } 
 
 .page-content h3 {
-  margin: 1.2em 0 0.5em 0;
+  margin: 1.6em 0 0.5em 0;
+}
+
+.page-content blockquote {
+  font-size: 1.1em;
+  font-style: italic;
+  border-left: 1px solid #959595;
+  padding: 0.5em 0.6em;
+  margin: 0.8em 0.2em;
+}
+
+.announcement-section {
+  margin-top: 1.4em;
+}
+
+.announcement-section ul {
+  margin-left: 0;
+  margin-top: 1.5em;
+  width: 100%;
+}
+
+.announcement-section ul li {
+  font-size: 0.85em;
+  margin-left: 0;
+  margin-right: 0;
+  padding: 0em 1em 1em 0em;
+}
+
+.announcement-section h2.content-block + ul li {
+  margin-right: 0;
+}
+
+.announcement-section ul li {
+  border-bottom: 1px solid var(--grey-2);
+}
+
+.announcement-section ul li:first-child {
+  font-weight: 200;
+}
+
+.announcement-section ul li:last-child {
+  width: 100%;
+}
+
+.projects-section {
+  margin-top: 3em;
+}
+
+.home-page.projects-section>h3 {
+  text-align: center;
+  font-size: 1.3em;
+  margin-bottom: 1.2em;
+  margin-top: 1.5em;
+}
+
+.home-page.projects-section>ul>li>h4 {
+  text-align: center;
+  font-size: 1.2em;
+  font-weight: 400;
+}
+
+.home-page.projects-section ul>li>ul>li {
+  list-style-type: none;
+  width: 21em;
+}
+
+.home-page.projects-section ul>li>ul>li:first-child {
+  list-style-type: none;
+  text-align: center;
+}
+
+.home-page.projects-section ul>li>ul>li:first-child img {
+  border: 1px solid var(--grey);
+  box-sizing: border-box;
+  padding: 2px;
+  border-radius: 12px;
+}
+
+.home-page.projects-section ul>li>ul>li:last-child {
+  margin-top: 1em;
+  background-color: var(--blue);
+  padding: 0.2em 0.4em;
+  color: white;
+  border-radius: 0.3em;
+  font-size: 0.6em;
+  width: 8em;
+  text-align: center;
+  text-transform: uppercase;
+
+}
+
+.projects-section ul li {
+  list-style-type: none;
 }
 
 .page-content h4 {
-  margin-top: 0.9em;
+  margin-top: 1.2em;
   margin-bottom: 0.4em;
 }
 
@@ -242,6 +337,14 @@ h1.logo a .logo-text{
   font-size: 1.8em;
   text-align: center;
   font-weight: 200;
+}
+
+.page-content h4.promo-title {
+  margin-top: 0.5em;
+}
+
+.page-content .promo-text {
+  margin-top: 0.5em;
 }
 
 .promo-buttons {
@@ -281,7 +384,7 @@ h1.logo a .logo-text{
 }
 
 .project-icon img {
-  max-width: 20em;
+  max-width: 280px;
 }
 
 .project-text {
@@ -291,6 +394,8 @@ h1.logo a .logo-text{
 h2.content-block + ul {
   display: flex;
   list-style: none;
+  margin: 0;
+  padding:0;
   justify-content: space-between;
 }
 
@@ -372,6 +477,15 @@ h2.text-title {
   h2.content-block + ul {
     display: block;
   }
+
+  .home-page.projects-section ul>li>ul>li {
+    width: 100%;
+  }
+
+  .announcement-section ul li {
+    border: 0px none;
+    padding: 0;
+  }
 }
 
 /* Tablet */
@@ -424,6 +538,7 @@ h2.text-title {
 @media (min-width: 1140px) {
   .content-wrapper {
     max-width: 1020px;
+    margin: 0 auto;
     flex-direction: row;
   }
 }
