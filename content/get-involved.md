@@ -28,7 +28,7 @@ If you have any questions, the #research channel on Discord is the best place to
 
 Data processing work involves searching the internet for data, scraping and cleaning data, and writing scripts to load datasets. Our current data processing need involves building an [evaluation harness](https://github.com/EleutherAI/lm-evaluation-harness). If you're interested in helping out, check out the open Issues in the repo or stop by #lm_thunderdome on Discord. Other projects may have individual data processing needs.
 
-##### Software Development
+#### Software Development
 
 Software development work involves creating support systems, building software systems, and cleaning up code and documentation.
 
