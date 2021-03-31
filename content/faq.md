@@ -43,7 +43,7 @@ A: Yes. If you or someone you know has access to large quantities of CPU, GPU, o
 
 #### Q: *So . . . what's the deal with your logo?*
 
-A: In keeping with the theme, our logo and font are also AI-generated.
+A: In keeping with the theme, our logo, font, and images are all generated with machine learning techniques.
 
 ---
 
@@ -97,7 +97,7 @@ A: Yes, that is the plan. We expect our final model to be somewhere between 150B
 
 #### Q: *When do you plan to have a model of that scale trained? Wouldn't that take a long time?*
 
-We asked some of our GPT-Neo and GPT-NeoX contributors about their predictions, and we got the following responses:
+We asked some of our GPT&#8209;Neo and GPT&#8209;NeoX contributors about their predictions, and we got the following responses:
 
 "Soon™"  
 &nbsp;&nbsp;&nbsp;&nbsp;--- **Leo Gao**  
@@ -127,7 +127,7 @@ Our estimates for how long a model similar to GPT&#8209;3 DaVinci will take to t
 
 #### Q: *How are you training such large models?* {#compute}
 
-A: For our "small" 1.3B and 2.7B parameter models trained with GPT-Neo, we utilized our limited access to preemptible TPUs through the [TensorFlow Research Cloud (TFRC) program](https://www.tensorflow.org/tfrc).
+A: For our "small" 1.3B and 2.7B parameter models trained with GPT&#8209;Neo, we utilized our limited access to preemptible TPUs through the [TensorFlow Research Cloud (TFRC) program](https://www.tensorflow.org/tfrc).
 For our larger future models to be trained with GPT&#8209;NeoX, we have been graciously been offered high-performance GPU compute by [CoreWeave](https://www.coreweave.com/), an NVIDIA Preferred Cloud Services Provider. CoreWeave is excited by the open nature of the project and is very keen in helping us to break the OpenAI-Microsoft monopoly on massive autoregressive language models.
 
 ---
@@ -136,7 +136,7 @@ For our larger future models to be trained with GPT&#8209;NeoX, we have been gra
 
 A: We have considered the possibility of pooling GPUs for training models, but upon thorough review, we have concluded that such approaches are not a viable option today. There are numerous problems with current distributed approaches for us:
 - Backpropagation is extremely dense and sensitive to precision, therefore requiring high-bandwidth communication.
-- MoE-based models tend to significantly underperform regular models.
+- MoE-based models tend to significantly underperform regular models for the same number of parameters.
 - Having enough contributors to outweigh the high overhead is infeasible.
 - Resistance to outside attack is not currently possible without significant additional overhead.
 
