@@ -1,5 +1,5 @@
 ---
-title: "Gpt-NeoX"
+title: "GPT-NeoX"
 date: 2019-04-26T20:18:54+03:00
 layout: project-page
 ---
@@ -7,18 +7,16 @@ layout: project-page
 ## {class="content-block"}
 - ![alt](../../images/art50.png)
 - ## GPT-NeoX
-    GPT-Neo is the code name for a series of transformer-based language models loosely styled around the GPT architecture that we plan to train and open source. Our primary goal is to replicate a GPT-3 sized model and open source it to the public, for free.
+    GPT&#8209;Neo is the code name for a family of transformer-based language models loosely styled around the GPT architecture. Our primary goal is to replicate a GPT&#8209;3&nbsp;DaVinci-sized model and open-source it to the public, for free.
 
-    NeoX is an implementation of model parallel GPT-3-like models on GPUs, based loosely around the DeepSpeed framework and Megatron Library. Designed to be able to train models in the hundreds of billions of parameters or larger.
+    [GPT&#8209;NeoX](https://github.com/EleutherAI/gpt-neo) is an implementation of 3D-parallel GPT&#8209;3-like models on distributed GPUs, based upon [DeepSpeed](https://www.deepspeed.ai/) and [Megatron-LM](https://github.com/NVIDIA/Megatron-LM). It is designed to be able to train models in the hundreds of billions of parameters or larger.
 
-    Along the way we will be running experiments with [alternative](https://arxiv.org/abs/1701.06538) [architectures](https://arxiv.org/abs/1911.03864) and [attention](https://arxiv.org/abs/2006.16236) [types](https://www.aclweb.org/anthology/2020.acl-main.672.pdf), releasing any intermediate models, and writing up any findings on our blog.
-
-    We have two repositories in development, [GPT-Neo](https://github.com/EleutherAI/gpt-neo/) (for training on TPUs) and [GPT-NeoX](https://github.com/EleutherAI/gpt-neox/) (for training on GPUs). 
+    We have been graciously been offered high-performance GPU compute by [CoreWeave](https://www.coreweave.com/), an NVIDIA Preferred Cloud Services Provider. CoreWeave is excited by the open nature of the project and is very keen in helping us to break the OpenAI-Microsoft monopoly on massive autoregressive language models.
 
 
 ## {class="content-block"}
 - ### Progress:
-    - The codebase (as of 29/03/2021) is fairly stable. Training with deepspeed, 3D parallelism and ZeRO are all working nicely. We are currently optimizing the performance as much as possible whilst we await the requisite hardware for training.
+    - As of `2021-03-31`, the codebase is fairly stable. DeepSpeed, 3D-parallelism and ZeRO are all working properly.
 - ### Next Steps:
-    - We are currently waiting for Coreweave to finish building the final hardware we'll be training on, and in the meantime, are optimizing GPT-NeoX to run as efficiently as possible on said hardware.
+    - We are currently waiting for CoreWeave to finish building the final hardware we'll be training on. In the meantime, we are optimizing GPT&#8209;NeoX to run as efficiently as possible on that hardware.
 
