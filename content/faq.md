@@ -103,7 +103,7 @@ We asked some of our GPT-Neo and GPT-NeoX contributors about their predictions, 
 &nbsp;&nbsp;&nbsp;&nbsp;--- **Leo Gao**  
 
 "Before we all become paperclips—if we're lucky."  
-&nbsp;&nbsp;&nbsp;&nbsp;--- **Connor Leahey**  
+&nbsp;&nbsp;&nbsp;&nbsp;--- **Connor Leahy**  
 
 "Before the next Millennium Prize Problem is solved."  
 &nbsp;&nbsp;&nbsp;&nbsp;--- **Stella Biderman**  
