@@ -6,25 +6,21 @@ layout: page
 
 ## Get Involved
 
-We welcome contributors of all backgrounds and experience levels! Joining EleutherAI is as simple as [joining us on Discord](https://discord.com/invite/vtRgjbM) and picking a project to contribute to. However we have some areas where we are particularly interested in recruiting experienced collaborators:
-
-- **GPT-Neo** is looking for people with expertise in ML pipelining and developing ML apps with user-friendly UIs.
-
-- **Multimodal Transformers** is looking for people with access to high-quality image, video, and/or audio data or the ability to scrape, clean, and process large-scale data sources.
+Joining EleutherAI is as simple as [joining us on Discord](https://discord.com/invite/vtRgjbM) and picking a project to contribute to.
 
 As an independent organization, we are dependent upon donations for our computing costs. We are always interested in speaking with people who can donate compute time.
 
 
-### Stuff We Need Help With
+### What We Need Help With
 ---
 
-People keep asking how they can help, so this document is intended to help people figure out what they can contribute to. The #1 thing that we need is people who are competent at implementing deep learning systems. While there is some work for people without that skill set, we are a DL research lab and therefore most of the work involves writing and using neural networks. What follows is organized by *skillset* rather than by project.
+Contributors are expected to have at some experience with deep learning. While there is some work for people without that skill set, we are a DL research lab and therefore most work involves writing, training, and inferensing neural networks with industry-standard frameworks. What follows is organized by *skillset* rather than by project.
 
-If you have any questions, the #research channel on Discord is the best place to learn about our projects. Discord users Sid, BMK, Stella Biderman, and Connor (Daj) are generally involved with organizing things and can point you towards specific resources or answer questions.
+If you have any questions, the {{<discord/channel "#research">}} channel on Discord is the best place to learn about our projects. Sid Black ({{<discord/handle role="O5" name="@Sid">}}), Leo Gao ({{<discord/handle role="O5" name="@bmk">}}), Stella Biderman ({{<discord/handle role="mathemagician" name="@StellaAthena">}}), and Connor Leahy ({{<discord/handle role="O5" name="@Daj">}}) are generally involved with organizing things and can point you towards specific resources or answer questions.
 
 #### Data Processing
 
-Data processing work involves searching the internet for data, scraping and cleaning data, and writing scripts to load datasets. Our current data processing need involves building an [evaluation harness](https://github.com/EleutherAI/lm-evaluation-harness). If you're interested in helping out, check out the open Issues in the repo or stop by #lm_thunderdome on Discord. Other projects may have individual data processing needs.
+Data processing work involves searching the internet for data, scraping and cleaning data, and writing scripts to load datasets. Our current data processing need involves building an [evaluation harness](https://github.com/EleutherAI/lm-evaluation-harness). If you're interested in helping out, check out the open Issues in the repo or stop by {{<discord/channel "#lm_thunderdome">}} on Discord. Other projects may have individual data processing needs.
 
 #### Software Development
 
@@ -34,31 +30,27 @@ Software development work involves creating support systems, building software s
 
 We always need more SWEs who are skilled with deep learning to help with our projects. Our biggest need is for skilled deep learning software engineers looking to contribute to open source software or build their expertise on new projects.
 
-The main repo we are developing right now is our open-source GPT3 model, [GPT-NeoX](https://github.com/EleutherAI/gpt-neox). We try to keep the git issues as up to date as possible, so if you can familiarize yourself with the codebase and see an issue you think you can take on, go for it! Also feel free to ping @Sid on discord with any questions.
+Our primary focus is currently [GPT&#8209;NeoX](/gpt-neox). We try to keep the git issues as up to date as possible, so if you can familiarize yourself with the codebase and see an issue you think you can take on, go for it! Also feel free to ping Sid Black ({{<discord/handle role="O5" name="@Sid">}}) on Discord with any questions.
 
-Other DL projects we're working on include systematic scaling experiments (#scaling-laws), transformer and VD-VAE training (#multimodal), and replicating alphafold2 (#alphafold). Please ask in the relevant discord channels if you think you can help out with any of the above.
+Other DL projects we're working on include systematic scaling experiments in {{<discord/channel "#scaling-laws">}}, transformer and VD-VAE training in {{<discord/channel "#multimodal">}}, and replicating AlphaFold2 in {{<discord/channel "#alphafold">}}. Please ask in the relevant Discord channels if you think you can help out with any of the above.
 
 Unfortunately we do not have many projects that are accessible to people who are beginners at deep learning. We welcome you to hang out in our Discord and learn, and may have jobs you can help with from time to time, but we have many more beginners than beginner-friendly tasks.
 
-#### UI/UX
-
-We have sporadic need for UI/UX work. We are currently training GPT-3-style models for public release and would be very interested in assistance from anyone who could develop a web application / UI for it. Post in #website on Discord if you can help.
-
 #### Web Development and Graphic Design
 
-We sporadically need help with various tasks related to managing our internet presence. Right now [our website](https://eleuther.ai) has the basic functionality we need, but there's always room for improvement. Post in #website on Discord if you can help.
+We sporadically need help with various tasks related to managing our internet presence. Right now [our website](https://eleuther.ai) has the basic functionality we need, but there's always room for improvement. Post in {{<discord/channel "#website">}} on Discord if you can help.
 
 
 ### Science
 
 #### Biology
 
-We are working to implement and publish [AlphaFold2](https://github.com/lucidrains/alphafold2). Reach out to Lucidrains on Discord or post in the #alphafold channel if you can help.
+We are working to implement and publish [AlphaFold2](https://github.com/lucidrains/alphafold2). Reach out to Phil Wang ({{<discord/handle role="none" name="@lucidrains">}}) or Eric Alcaide ({{<discord/handle role="regular" name="@hypnopump">}}) on Discord or post in the {{<discord/channel "#alphafold">}} channel if you can help.
 
 #### Linguistics
 
-We do a lot of NLP research, and are always interested in more linguists contributing. There is active interest in how scaling laws generalize across languages, but we are also interested in pitches from linguists about topics they are interested in. Post in the #scaling-laws channel if you can help.
+We do a lot of NLP research, and are always interested in more linguists contributing. There is active interest in how scaling laws generalize across languages, but we are also interested in pitches from linguists about topics they are interested in. Post in the {{<discord/channel "#scaling-laws">}} channel if you can help.
 
 #### Mathematics
 
-We have a need for theoretical and applied mathematicians to assist with various tasks, predominantly but not exclusively surrounding implementing group equivariant neural networks and doing topological data analysis. We are interested in expanding the more mathematically sophisticated research we do, but we are strongly limited by the number of mathematicians we have. Reach out to Stella Biderman or the #equivariance channel on Discord if you can help.
+We have a need for theoretical and applied mathematicians to assist with various tasks, predominantly but not exclusively surrounding implementing group equivariant neural networks and doing topological data analysis. We are interested in expanding the more mathematically sophisticated research we do, but we are strongly limited by the number of mathematicians we have. Reach out to Stella Biderman ({{<discord/handle role="mathemagician" name="@StellaAthena">}}) or the {{<discord/channel "#equivariance">}} channel on Discord if you can help.
