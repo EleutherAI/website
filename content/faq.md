@@ -108,7 +108,7 @@ We asked some of our GPT&#8209;Neo and GPT&#8209;NeoX contributors about their p
 > Before the next Millennium Prize Problem is solved.  
 **Stella Biderman** ({{<discord/handle drole="mathemagician" name="@StellaAthena">}})  
 
-> Exactly 1.5 Megaseconds after you read this.  
+> Exactly 1.5 Gigaseconds after you read this.  
 **Shivanshu Purohit** ({{<discord/handle drole="level5" name="@triggerhappygandi">}})  
 
 > In less time than it took *Voyager I* to reach interstellar space.  
