@@ -10,12 +10,11 @@ layout: page
 
 #### Q: *How did this all start?*
 
-A: On July 3rd, 2020, [Connor Leahy](https://github.com/ConnorJL) posted in the TPU Podcast Discord:
-> https://arxiv.org/abs/2006.16668
-> 
+A: On July 3rd, 2020, [Connor Leahy](https://github.com/ConnorJL) ({{<discord/handle drole="O5" name="@Daj">}}) posted in the TPU Podcast Discord:
+> https://arxiv.org/abs/2006.16668  
 > Hey guys lets give OpenAI a run for their money like the good ol' days
 
-To which [Leo Gao](https://github.com/leogao2) replied:
+To which [Leo Gao](https://github.com/leogao2) ({{<discord/handle drole="O5" name="@bmk">}}) replied:
 > this but unironically
 
 And so it began.
@@ -30,51 +29,52 @@ A: In Ancient Greek, [*eleutheria*](https://en.wikipedia.org/wiki/Eleutheria) is
 
 #### Q: *How can I get involved?*
 
-A: Join our [Discord](https://discord.gg/avxKQUv2fW) or check us out on [Github](https://github.com/EleutherAI)! We're an open community, so you are free to contribute as you wish. However, we expect newcomers either to be fairly knowledgeable or to sit on the sidelines until they understand the internal structure and culture of our operations.  
+A: Join our [Discord](https://discord.gg/avxKQUv2fW) or check us out on [GitHub](https://github.com/EleutherAI)! We're an open community, so you are free to contribute as you wish. However, we expect newcomers either to be fairly knowledgeable or to sit on the sidelines until they understand the internal structure and culture of our operations.  
 If you are interested, check out our page on [getting involved](/get-involved).
 
 ---
 
 #### Q: *Are there any other ways to support EleutherAI?*
 
-A: Yes. If you or someone you know has access to large quantities of CPU, GPU, or TPU resources, send a message to `@Sid` on [Discord](https://discord.gg/avxKQUv2fW) with more details.
+A: Yes. If you or someone you know has access to large quantities of CPU, GPU, or TPU resources, send a message to Sid Black ({{<discord/handle drole="O5" name="@Sid">}}) on [Discord](https://discord.gg/avxKQUv2fW) with more details.
 
 ---
 
 #### Q: *So . . . what's the deal with your logo?*
 
-A: In keeping with the theme, our logo, font, and images are all generated with machine learning techniques.
+A: Keeping with the theme, our logotype and all images on this website are all generated with machine learning techniques.
 
 ---
 
 #### Q: *Where can I go if I have more questions?*
 
-A: [Discord](https://discord.gg/avxKQUv2fW) is the best place for that. Some of our core contributors' usernames will appear in <span style="color:purple">purple</span> or <span style="color:blue">blue</span> in the chat, and our regulars will appear in <span style="color:green">green</span>. They should be able to provide helpful guidance or answer questions. However, do not expect us to be your tech support; those who contribute to EleutherAI do so in their free time and tend to prefer contributing to projects rather than debugging your problems. We recommend consulting the corresponding documentation before asking us for help. If you think you have found a bug, please consider opening an issue on [Github](https://github.com/EleutherAI).
+A: [Discord](https://discord.gg/avxKQUv2fW) is the best place for that. Some of our core contributors' usernames will appear in {{<discord/handle drole="O5" name="purple">}} or {{<discord/handle drole="level5" name="blue">}} in the chat, and our regulars familiar with our operations will appear in {{<discord/handle drole="regular" name="green">}}. They should be able to provide helpful guidance or answer questions.  
+However, we ask that you do not expect us to be your tech support; those who contribute to EleutherAI do so in their free time and tend to prefer contributing to projects rather than debugging your problems. We recommend consulting the corresponding documentation before asking us for help. If you think you have found a bug, please consider opening an issue on [GitHub](https://github.com/EleutherAI).
 
 ---
 
-#### Q: *I'm new to deep learning - How do I get into AI? What is a transformer? Tell me how everything works!*
+#### Q: *I'm new to deep learning---How do I get into AI? What is a transformer? Tell me how everything works!*
 
-A: We are a research-focused Discord server and not an educational one. We welcome beginners to lurk and talk about topics they are knowledgeable of, but this is not the place to get intro-level resources or answers to basic questions. We have links to several excellent beginner-friendly servers on [Discord](https://discord.gg/avxKQUv2fW) in the `#communities` channel.
+A: We are a research-focused Discord server and not an educational one. We welcome beginners to lurk and talk about topics they are knowledgeable of, but this is not the place to get intro-level resources or answers to basic questions. We have links to several excellent beginner-friendly servers on [Discord](https://discord.gg/avxKQUv2fW) in the {{< discord/channel "#communities" >}} channel.
 
 ---
 
-### GPT-Neo and GPT-NeoX
+### GPT&#8209;Neo and GPT&#8209;NeoX
 
-#### Q: *What are GPT-Neo and GPT-NeoX?*
+#### Q: *What are GPT&#8209;Neo and GPT&#8209;NeoX?*
 
 A: [GPT&#8209;Neo](https://github.com/EleutherAI/gpt-neo) and [GPT&#8209;NeoX](https://github.com/EleutherAI/gpt-neox) are our codebases for training massive language models, which we plan to release as open-source. The models themselves are referred to by their size in billions of parameters.
 
 ---
 
-#### Q: *What differentiates GPT-NeoX from GPT-Neo?*
+#### Q: *What differentiates GPT&#8209;NeoX from GPT&#8209;Neo?*
 
 A: GPT&#8209;Neo is a codebase built from the ground up upon [Mesh Tensorflow](https://github.com/tensorflow/mesh), designed to lets us train models at super-large scales on GPUs or TPUs.
-Apart from appending the 24th letter of the ISO basic Latin alphabet, GPT&#8209;NeoX is an entirely separate, in-development codebase based upon NVIDIA's Megatron&#8209;LM.
+Apart from appending the 24th letter of the ISO basic Latin alphabet, GPT&#8209;NeoX is an entirely separate, in-development codebase based upon Megatron&#8209;LM and DeepSpeed.
 
 ---
 
-#### Q: *Why do you need GPT-NeoX when you have GPT-Neo? Why maintain two codebases?*
+#### Q: *Why do you need GPT&#8209;NeoX when you have GPT&#8209;Neo? Why maintain two codebases?*
 
 A: GPT-NeoX is designed to succeed GPT-Neo as our primary codebase, which provides several benefits over the older code:
 - We can utilize PyTorch, which we find far more flexible and maintainable than TensorFlow. 
@@ -89,7 +89,7 @@ A: On March 21th 2021 we released a 2.7 billion (2.7B) parameter model trained u
 
 ---
 
-#### Q: *Are you serious when you say you are going to train a model comparable to GPT-3 DaVinci (175B parameters)?*
+#### Q: *Are you serious when you say you are going to train a model comparable to GPT&#8209;3 DaVinci (175B parameters)?*
 
 A: Yes, that is the plan. We expect our final model to be somewhere between 150B and 200B parameters.
 
@@ -99,22 +99,22 @@ A: Yes, that is the plan. We expect our final model to be somewhere between 150B
 
 We asked some of our GPT&#8209;Neo and GPT&#8209;NeoX contributors about their predictions, and we got the following responses:
 
-"Soon™"  
-&nbsp;&nbsp;&nbsp;&nbsp;--- **Leo Gao**  
+> Soon™  
+**Leo Gao** ({{<discord/handle drole="O5" name="@bmk">}})  
 
-"Before we all become paperclips—if we're lucky."  
-&nbsp;&nbsp;&nbsp;&nbsp;--- **Connor Leahy**  
+> Before we all become paperclips—if we're lucky.  
+**Connor Leahy** ({{<discord/handle drole="O5" name="@Daj">}})  
 
-"Before the next Millennium Prize Problem is solved."  
-&nbsp;&nbsp;&nbsp;&nbsp;--- **Stella Biderman**  
+> Before the next Millennium Prize Problem is solved.  
+**Stella Biderman** ({{<discord/handle drole="mathemagician" name="@StellaAthena">}})  
 
-"Exactly 1.5 Megaseconds after you read this."  
-&nbsp;&nbsp;&nbsp;&nbsp;--- **Shivanshu Purohit**  
+> Exactly 1.5 Megaseconds after you read this.  
+**Shivanshu Purohit** ({{<discord/handle drole="level5" name="@triggerhappygandi">}})  
 
-"In less time than it took *Voyager I* to reach interstellar space."  
-&nbsp;&nbsp;&nbsp;&nbsp;--- **Eric Hallahan**  
+> In less time than it took *Voyager I* to reach interstellar space.  
+**Eric Hallahan** ({{<discord/handle drole="level5" name="@EricHallahan">}})  
 
-A: As a collective of volunteer developers, engineers, and researchers who contribute in our free time, we are unable to commit to a timeline as to when larger models will become available in the future. Our original estimation for a model somewhere between 150B and 200B parameters was to be done sometime in Q3 2021, most likely the August-September timeframe.
+A: As a collective of volunteer developers, engineers, and researchers who contribute in our free time, we are unable to commit to a timeline as to when larger models will become available in the future. Our original estimation for a model somewhere between 150B and 200B parameters was sometime in Q3 2021, most likely the August-September timeframe.
 
 To be more specific in our confidence,
 - No earlier than August 2021.
@@ -166,13 +166,13 @@ A: We have not determined the licensing situation for our models yet.
 
 #### Q: *What's in the Pile?*
 
-A: The Pile is a 1.25 Terabyte dataset constructed from a curated conglomeration of diverse, high-quality text datasets. It covers a wide gamut, from academic writing to legal texts, to online literature, video subtitles, and more. This abundance means that saying precisely what is in this meta-dataset is difficult. If you are interested in exploring this, send a message to `#the-pile` on Discord.
+A: The Pile is a 1.25 Terabyte dataset constructed from a curated conglomeration of diverse, high-quality text datasets. It covers a wide gamut, from academic writing to legal texts, to online literature, video subtitles, and more. This abundance means that saying precisely what is in this meta-dataset is difficult. If you are interested in exploring this, send a message to {{< discord/channel "#the-pile" >}} on Discord.
 
 ---
 
 #### Q: *What's the format of the Pile?*
 
-A: We use a simple, compressed JSON format of our design called [lm_dataformat (LMD)](https://github.com/leogao2/lm_dataformat). It's designed to make writing, storing, and reading text simple and performant. Every logical document maps to a JSON object with `text` and `meta` fields, and batches of these objects are compressed using `zstd` or `gz`. Any kind of corpus that goes into the Pile™---whether HTML, ePUB, PDF extraction, etc.---will be converted into LMD.
+A: We use a simple, compressed JSON format of our design called [`lm_dataformat` (LMD)](https://github.com/leogao2/lm_dataformat). It's designed to make writing, storing, and reading text simple and performant. Every logical document maps to a JSON object with `text` and `meta` fields, and batches of these objects are compressed using `zstd` or `gz`. Any kind of corpus that goes into the Pile---whether HTML, ePUB, PDF extraction, etc.---will be converted into LMD.
 
 ---
 

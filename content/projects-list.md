@@ -9,24 +9,23 @@ layout: page
 
 ### Large Language models
 ## {class="content-block"}
-- #### [GPT Neo](projects/gpt-neo/)
+- #### [GPT&#8209;Neo](projects/gpt-neo/)
     - [![alt](../../images/art49.png)](projects/gpt-neo/)
-    - GPT-Neo is the name of our codebase for transformer-based language models loosely styled around the GPT architecture. One of our goals is to use GPT-Neo to replicate a GPT-3 sized model and open source it to the public, for free. 
+    - An implementation of model & data-parallel GPT&#8209;2 and GPT&#8209;3-like models, utilizing Mesh&nbsp;Tensorflow for distributed support. 
     - completed
-- #### [GPT NeoX](projects/gpt-neox/)
+- #### [GPT&#8209;NeoX](projects/gpt-neox/)
     - [![alt](../../images/art50.png) ](projects/gpt-neox/)
-    - An implementation of model parallel GPT-3-like models on GPUs, based on the DeepSpeed library. Designed to be able to train models in the hundreds of billions of parameters or larger.
+    - An implementation of 3D-parallel GPT&#8209;3-like models on distributed GPUs, based upon DeepSpeed and Megatron-LM.
     - in progress
 
 ## {class="content-block"}
 - #### [The Pile](https://pile.eleuther.ai/)
     - [![alt](../../images/art43.png)](https://pile.eleuther.ai/)
-    - The Pile is an **825 GiB** diverse, open source language modelling dataset consisting of data from 22 high quality sources. It is useful for both training and benchmarking large language models. The Pile is now complete! Check it out [here](https://pile.eleuther.ai/).
+    - The Pile is an **825 GiB** diverse, open source language modelling dataset consisting of data from 22 high quality sources. It is useful for both training and benchmarking large language models.
     - completed
 - #### [OpenWebText2](projects/open-web-text2/)
     - [![alt](../../images/art4.png) ](projects/open-web-text2/)
     - OpenWebText2 is a dataset inspired by WebText, created by scraping URLs extracted from Reddit submissions up until April 2020 with a minimum score of 3 as a proxy for quality. It features content from multiple languages, document metadata, multiple dataset versions, and open source replication code.
-        **Update**: OpenWebText2 is complete! Check it out [here](projects/open-web-text2/).
     - completed
 <!-- 
 ## {class="content-block"}

@@ -1,4 +1,8 @@
 @import url("https://fonts.googleapis.com/css2?family=Lato:ital,wght@0,300;0,400;0,700;0,900;1,300;1,700;1,900&display=swap");
+@font-face {
+  font-family: 'Eleuther';
+  src: url('../fonts/eleuther.ttf');
+}
 
 :root {
   --black: #000000;
@@ -110,11 +114,12 @@ h1.logo a img {
 }
 
 h1.logo a .logo-text{
-  font-size: 0.65em;
+  font-size: 0.6em;
   font-weight: 300;
   position: relative;
-  bottom: 0.5em;
+  bottom: 0.6em;
   left: 0.4em;
+  font-family: 'Eleuther';
 }
 
 .navigation {
@@ -219,11 +224,12 @@ h1.logo a .logo-text{
 }
 
 .page-content blockquote {
-  font-size: 1.1em;
-  font-style: italic;
+  font-size: 1em;
   border-left: 1px solid #959595;
-  padding: 0.5em 0.6em;
-  margin: 0.8em 0.2em;
+  padding: 0.0em 0.6em;
+  margin: 0.5em 1em;
+  margin-left: 0.5;
+  margin-right: 0;
 }
 
 .announcement-section {
@@ -328,9 +334,10 @@ h1.logo a .logo-text{
 }
 
 .promo-title {
-  font-size: 3.2em;
+  font-size: 3em;
   text-align: center;
   font-weight: 400;
+  font-family: 'Eleuther';
 }
 
 .promo-text {
@@ -341,6 +348,7 @@ h1.logo a .logo-text{
 
 .page-content h4.promo-title {
   margin-top: 0.5em;
+
 }
 
 .page-content .promo-text {
@@ -465,6 +473,29 @@ h2.text-title {
   width: 100%;
 }
 
+samp.role-none {
+  font-weight: bolder;
+}
+
+samp.role-regular {
+  color:rgb(17,128,106);
+  font-weight: bolder;
+}
+
+samp.role-level5 {
+  color:rgb(52,152,219);
+  font-weight: bolder;
+}
+
+samp.role-mathemagician {
+  color: rgb(46,204,113);
+  font-weight: bolder;
+}
+
+samp.role-O5 {
+  color:rgb(132,61,164);
+  font-weight: bolder;
+}
 
 /* ------ RESPONSIVE STYLES ------ */
 

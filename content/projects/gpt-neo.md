@@ -19,7 +19,7 @@ layout: project-page
 - ### Progress:
     - GPT&#8209;Neo should be feature complete. We are making bugfixes, but we do not expect to make significant changes. 
     - As of `2021-03-21`, 1.3B and 2.7B parameter GPT&#8209;Neo models are available to be run with [GPT&#8209;Neo](https://github.com/EleutherAI/gpt-neo).
-    - As of `2021-03-31`, 1.3B and 2.7B parameter GPT&#8209;Neo models are [now available on Hugging Face](https://huggingface.co/EleutherAI)!
+    - As of `2021-03-31`, 1.3B and 2.7B parameter GPT&#8209;Neo models are [now available on Hugging Face Model Hub](https://huggingface.co/EleutherAI)!
 - ### Next Steps:
     - We continue our efforts in in our GPU codebase, [GPT&#8209;NeoX](/projects/gpt-neox/).
 
