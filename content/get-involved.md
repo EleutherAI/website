@@ -16,7 +16,7 @@ As an independent organization, we are dependent upon donations for our computin
 
 Contributors are traditionally expected to have at some experience with machine learning and data science. While there is some work for people without that skillset, we are a DL research lab and therefore most work involves writing, training, and inferencing neural networks with industry-standard frameworks. What follows is organized by *skillset* rather than by project.
 
-If you would like to inquire about contributing, drop in to the {{<discord/channel "#general">}} channel on Discord. Sid Black ({{<discord/handle role="O5" name="@Sid">}}), Leo Gao ({{<discord/handle role="O5" name="@bmk">}}), Stella Biderman ({{<discord/handle role="mathemagician" name="@StellaAthena">}}), and Connor Leahy ({{<discord/handle role="O5" name="@Daj">}}) are generally involved with organizing things and can point you towards specific resources or answer questions.
+If you would like to inquire about contributing, drop in to the {{<discord/channel "#general">}} channel on Discord. Sid Black ({{<discord/handle drole="O5" name="@Sid">}}), Leo Gao ({{<discord/handle drole="O5" name="@bmk">}}), Stella Biderman ({{<discord/handle drole="mathemagician" name="@StellaAthena">}}), and Connor Leahy ({{<discord/handle drole="O5" name="@Daj">}}) are generally involved with organizing things and can point you towards specific resources or answer questions.
 
 #### Data Processing
 
@@ -30,7 +30,7 @@ Software development work involves creating support systems, building software s
 
 We always need more SWEs who are skilled with deep learning to help with our projects. Our biggest need is for skilled deep learning software engineers looking to contribute to open-source software or build their expertise on new projects.
 
-Our primary focus is currently [GPT&#8209;NeoX](/gpt-neox). We are currently looking for individuals that have HPC experience, especially when it comes to distributed training optimization. Feel free to ping Sid Black ({{<discord/handle role="O5" name="@Sid">}}) on Discord with any questions.
+Our primary focus is currently [GPT&#8209;NeoX](/gpt-neox). We are currently looking for individuals that have HPC experience, especially when it comes to distributed training optimization. Feel free to ping Sid Black ({{<discord/handle drole="O5" name="@Sid">}}) on Discord with any questions.
 
 Other DL projects we're working on include systematic scaling experiments in {{<discord/channel "#scaling-laws">}}, transformer and VD-VAE training in {{<discord/channel "#multimodal">}}, and replicating AlphaFold2 in {{<discord/channel "#alphafold">}}. Please ask in the relevant Discord channels if you think you can help out with any of the above.
 
@@ -45,7 +45,7 @@ We sporadically need help with various tasks related to managing our internet pr
 
 #### Biology
 
-We are working to implement and publish [AlphaFold2](https://github.com/lucidrains/alphafold2). Reach out to Phil Wang ({{<discord/handle role="none" name="@lucidrains">}}) or Eric Alcaide ({{<discord/handle role="regular" name="@hypnopump">}}) on Discord or post in the {{<discord/channel "#alphafold">}} channel if you can help.
+We are working to implement and publish [AlphaFold2](https://github.com/lucidrains/alphafold2). Reach out to Phil Wang ({{<discord/handle drole="none" name="@lucidrains">}}) or Eric Alcaide ({{<discord/handle drole="regular" name="@hypnopump">}}) on Discord or post in the {{<discord/channel "#alphafold">}} channel if you can help.
 
 #### Linguistics
 
@@ -53,4 +53,4 @@ We do a lot of NLP research, and are always interested in more linguists contrib
 
 #### Mathematics
 
-We have a need for theoretical and applied mathematicians to assist with various tasks, predominantly but not exclusively surrounding implementing group equivariant neural networks and doing topological data analysis. We are interested in expanding the more mathematically sophisticated research we do, but we are strongly limited by the number of mathematicians we have. Reach out to Stella Biderman ({{<discord/handle role="mathemagician" name="@StellaAthena">}}) or the {{<discord/channel "#equivariance">}} channel on Discord if you can help.
+We have a need for theoretical and applied mathematicians to assist with various tasks, predominantly but not exclusively surrounding implementing group equivariant neural networks and doing topological data analysis. We are interested in expanding the more mathematically sophisticated research we do, but we are strongly limited by the number of mathematicians we have. Reach out to Stella Biderman ({{<discord/handle drole="mathemagician" name="@StellaAthena">}}) or the {{<discord/channel "#equivariance">}} channel on Discord if you can help.

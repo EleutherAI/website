@@ -10,11 +10,11 @@ layout: page
 
 #### Q: *How did this all start?*
 
-A: On July 3rd, 2020, [Connor Leahy](https://github.com/ConnorJL) ({{<discord/handle role="O5" name="@Daj">}}) posted in the TPU Podcast Discord:
+A: On July 3rd, 2020, [Connor Leahy](https://github.com/ConnorJL) ({{<discord/handle drole="O5" name="@Daj">}}) posted in the TPU Podcast Discord:
 > https://arxiv.org/abs/2006.16668  
 > Hey guys lets give OpenAI a run for their money like the good ol' days
 
-To which [Leo Gao](https://github.com/leogao2) ({{<discord/handle role="O5" name="@bmk">}}) replied:
+To which [Leo Gao](https://github.com/leogao2) ({{<discord/handle drole="O5" name="@bmk">}}) replied:
 > this but unironically
 
 And so it began.
@@ -36,7 +36,7 @@ If you are interested, check out our page on [getting involved](/get-involved).
 
 #### Q: *Are there any other ways to support EleutherAI?*
 
-A: Yes. If you or someone you know has access to large quantities of CPU, GPU, or TPU resources, send a message to Sid Black ({{<discord/handle role="O5" name="@Sid">}}) on [Discord](https://discord.gg/avxKQUv2fW) with more details.
+A: Yes. If you or someone you know has access to large quantities of CPU, GPU, or TPU resources, send a message to Sid Black ({{<discord/handle drole="O5" name="@Sid">}}) on [Discord](https://discord.gg/avxKQUv2fW) with more details.
 
 ---
 
@@ -48,7 +48,7 @@ A: Keeping with the theme, our logotype and all images on this website are all g
 
 #### Q: *Where can I go if I have more questions?*
 
-A: [Discord](https://discord.gg/avxKQUv2fW) is the best place for that. Some of our core contributors' usernames will appear in {{<discord/handle role="O5" name="purple">}} or {{<discord/handle role="level5" name="blue">}} in the chat, and our regulars familiar with our operations will appear in {{<discord/handle role="regular" name="green">}}. They should be able to provide helpful guidance or answer questions.  
+A: [Discord](https://discord.gg/avxKQUv2fW) is the best place for that. Some of our core contributors' usernames will appear in {{<discord/handle drole="O5" name="purple">}} or {{<discord/handle drole="level5" name="blue">}} in the chat, and our regulars familiar with our operations will appear in {{<discord/handle drole="regular" name="green">}}. They should be able to provide helpful guidance or answer questions.  
 However, we ask that you do not expect us to be your tech support; those who contribute to EleutherAI do so in their free time and tend to prefer contributing to projects rather than debugging your problems. We recommend consulting the corresponding documentation before asking us for help. If you think you have found a bug, please consider opening an issue on [GitHub](https://github.com/EleutherAI).
 
 ---
@@ -100,19 +100,19 @@ A: Yes, that is the plan. We expect our final model to be somewhere between 150B
 We asked some of our GPT&#8209;Neo and GPT&#8209;NeoX contributors about their predictions, and we got the following responses:
 
 > Soon™  
-**Leo Gao** ({{<discord/handle role="O5" name="@bmk">}})  
+**Leo Gao** ({{<discord/handle drole="O5" name="@bmk">}})  
 
 > Before we all become paperclips—if we're lucky.  
-**Connor Leahy** ({{<discord/handle role="O5" name="@Daj">}})  
+**Connor Leahy** ({{<discord/handle drole="O5" name="@Daj">}})  
 
 > Before the next Millennium Prize Problem is solved.  
-**Stella Biderman** ({{<discord/handle role="mathemagician" name="@StellaAthena">}})  
+**Stella Biderman** ({{<discord/handle drole="mathemagician" name="@StellaAthena">}})  
 
 > Exactly 1.5 Megaseconds after you read this.  
-**Shivanshu Purohit** ({{<discord/handle role="level5" name="@triggerhappygandi">}})  
+**Shivanshu Purohit** ({{<discord/handle drole="level5" name="@triggerhappygandi">}})  
 
 > In less time than it took *Voyager I* to reach interstellar space.  
-**Eric Hallahan** ({{<discord/handle role="level5" name="@EricHallahan">}})  
+**Eric Hallahan** ({{<discord/handle drole="level5" name="@EricHallahan">}})  
 
 A: As a collective of volunteer developers, engineers, and researchers who contribute in our free time, we are unable to commit to a timeline as to when larger models will become available in the future. Our original estimation for a model somewhere between 150B and 200B parameters was sometime in Q3 2021, most likely the August-September timeframe.
 
