@@ -30,7 +30,7 @@ Software development work involves creating support systems, building software s
 
 We always need more SWEs who are skilled with deep learning to help with our projects. Our biggest need is for skilled deep learning software engineers looking to contribute to open-source software or build their expertise on new projects.
 
-Our primary focus is currently [GPT&#8209;NeoX](/projects/gpt-neox). We are currently looking for individuals that have HPC experience, especially when it comes to distributed training optimization. Feel free to ping Sid Black ({{<discord/handle drole="O5" name="@Sid">}}) on Discord with any questions.
+Our primary focus is currently [GPT&#8288;-&#8288;NeoX](/projects/gpt-neox). We are currently looking for individuals that have HPC experience, especially when it comes to distributed training optimization. Feel free to ping Sid Black ({{<discord/handle drole="O5" name="@Sid">}}) on Discord with any questions.
 
 Other DL projects we're working on include systematic scaling experiments in {{<discord/channel "#scaling-laws">}}, transformer and VD-VAE training in {{<discord/channel "#multimodal">}}, and replicating AlphaFold2 in {{<discord/channel "#alphafold">}}. Please ask in the relevant Discord channels if you think you can help out with any of the above.
 
@@ -45,7 +45,7 @@ We sporadically need help with various tasks related to managing our internet pr
 
 #### Biology
 
-We are working to implement and publish [AlphaFold2](https://github.com/lucidrains/alphafold2). Reach out to Phil Wang ({{<discord/handle drole="none" name="@lucidrains">}}) or Eric Alcaide ({{<discord/handle drole="regular" name="@hypnopump">}}) on Discord or post in the {{<discord/channel "#alphafold">}} channel if you can help.
+We are working to implement and publish [AlphaFold2](https://github.com/lucidrains/alphafold2). Reach out to Phil Wang ({{<discord/handle drole="regular" name="@lucidrains">}}) or Eric Alcaide ({{<discord/handle drole="regular" name="@hypnopump">}}) on Discord or post in the {{<discord/channel "#alphafold">}} channel if you can help.
 
 #### Linguistics
 

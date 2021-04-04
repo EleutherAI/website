@@ -9,13 +9,13 @@ layout: page
 
 ### Large Language models
 ## {class="content-block"}
-- #### [GPT&#8209;Neo](projects/gpt-neo/)
+- #### [GPT&#8288;-&#8288;Neo](projects/gpt-neo/)
     - [![alt](../../images/art49.png)](projects/gpt-neo/)
-    - An implementation of model & data-parallel GPT&#8209;2 and GPT&#8209;3-like models, utilizing Mesh&nbsp;Tensorflow for distributed support. 
+    - An implementation of model & data-parallel GPT&#8288;-&#8288;2 and GPT&#8288;-&#8288;3-like models, utilizing Mesh&nbsp;Tensorflow for distributed support. 
     - completed
-- #### [GPT&#8209;NeoX](projects/gpt-neox/)
+- #### [GPT&#8288;-&#8288;NeoX](projects/gpt-neox/)
     - [![alt](../../images/art50.png) ](projects/gpt-neox/)
-    - An implementation of 3D-parallel GPT&#8209;3-like models on distributed GPUs, based upon DeepSpeed and Megatron-LM.
+    - An implementation of 3D-parallel GPT&#8288;-&#8288;3-like models on distributed GPUs, based upon DeepSpeed and Megatron-LM.
     - in progress
 
 ## {class="content-block"}
