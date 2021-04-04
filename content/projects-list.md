@@ -19,7 +19,7 @@ layout: page
     - in progress
 
 ## {class="content-block"}
-- #### [The Pile](https://pile.eleuther.ai/)
+- #### [The Pile](projects/pile/)
     - [![alt](../../images/art43.png)](projects/pile/)
     - The Pile is an **825 GiB** diverse, open source language modelling dataset consisting of data from 22 high quality sources. It is useful for both training and benchmarking large language models. The Pile is now complete! Check it out [here](projects/pile).
     - completed
