@@ -14,9 +14,9 @@ As an independent organization, we are dependent upon donations for our computin
 ### What We Need Help With
 ---
 
-Contributors are expected to have at some experience with deep learning. While there is some work for people without that skill set, we are a DL research lab and therefore most work involves writing, training, and inferensing neural networks with industry-standard frameworks. What follows is organized by *skillset* rather than by project.
+Contributors are traditionally expected to have at some experience with machine learning and data science. While there is some work for people without that skillset, we are a DL research lab and therefore most work involves writing, training, and inferencing neural networks with industry-standard frameworks. What follows is organized by *skillset* rather than by project.
 
-If you have any questions, the {{<discord/channel "#research">}} channel on Discord is the best place to learn about our projects. Sid Black ({{<discord/handle role="O5" name="@Sid">}}), Leo Gao ({{<discord/handle role="O5" name="@bmk">}}), Stella Biderman ({{<discord/handle role="mathemagician" name="@StellaAthena">}}), and Connor Leahy ({{<discord/handle role="O5" name="@Daj">}}) are generally involved with organizing things and can point you towards specific resources or answer questions.
+If you would like to inquire about contributing, drop in to the {{<discord/channel "#general">}} channel on Discord. Sid Black ({{<discord/handle role="O5" name="@Sid">}}), Leo Gao ({{<discord/handle role="O5" name="@bmk">}}), Stella Biderman ({{<discord/handle role="mathemagician" name="@StellaAthena">}}), and Connor Leahy ({{<discord/handle role="O5" name="@Daj">}}) are generally involved with organizing things and can point you towards specific resources or answer questions.
 
 #### Data Processing
 
@@ -28,9 +28,9 @@ Software development work involves creating support systems, building software s
 
 #### Deep Learning
 
-We always need more SWEs who are skilled with deep learning to help with our projects. Our biggest need is for skilled deep learning software engineers looking to contribute to open source software or build their expertise on new projects.
+We always need more SWEs who are skilled with deep learning to help with our projects. Our biggest need is for skilled deep learning software engineers looking to contribute to open-source software or build their expertise on new projects.
 
-Our primary focus is currently [GPT&#8209;NeoX](/gpt-neox). We try to keep the git issues as up to date as possible, so if you can familiarize yourself with the codebase and see an issue you think you can take on, go for it! Also feel free to ping Sid Black ({{<discord/handle role="O5" name="@Sid">}}) on Discord with any questions.
+Our primary focus is currently [GPT&#8209;NeoX](/gpt-neox). We are currently looking for individuals that have HPC experience, especially when it comes to distributed training optimization. Feel free to ping Sid Black ({{<discord/handle role="O5" name="@Sid">}}) on Discord with any questions.
 
 Other DL projects we're working on include systematic scaling experiments in {{<discord/channel "#scaling-laws">}}, transformer and VD-VAE training in {{<discord/channel "#multimodal">}}, and replicating AlphaFold2 in {{<discord/channel "#alphafold">}}. Please ask in the relevant Discord channels if you think you can help out with any of the above.
 
@@ -38,7 +38,7 @@ Unfortunately we do not have many projects that are accessible to people who are
 
 #### Web Development and Graphic Design
 
-We sporadically need help with various tasks related to managing our internet presence. Right now [our website](https://eleuther.ai) has the basic functionality we need, but there's always room for improvement. Post in {{<discord/channel "#website">}} on Discord if you can help.
+We sporadically need help with various tasks related to managing our internet presence. Right now [our website](https://eleuther.ai) has the basic functionality we need, but there is always room for improvement. Post in {{<discord/channel "#website">}} on Discord if you can help.
 
 
 ### Science
