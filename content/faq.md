@@ -152,13 +152,13 @@ A: Yes, we are exploring the full design space, including various linear-scaling
 
 #### Q: *Are the codebases free software?*
 
-A: GPT&#8288;-&#8288;Neo is MIT-licensed, while GPT&#8288;-&#8288;NeoX is licenced under Apache. These are the most freely-termed licenses that we can provide for each codebase respectively.
+A: GPT&#8288;-&#8288;Neo is MIT-licensed, while GPT&#8288;-&#8288;NeoX is licensed under Apache 2.0. These are the most freely-termed licenses that we can provide for each codebase respectively.
 
 ---
 
 #### Q: *Are the models free software?*
 
-A: We have not determined the licensing situation for our models yet.
+A: Models are licensed as under Apache 2.0.
 
 ---
 
