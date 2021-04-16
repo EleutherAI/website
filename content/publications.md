@@ -6,7 +6,7 @@ layout: page
 
 ## Publications and Preprints
 
-- **{Louis Castricato, Stella Biderman}**, Rogelio E. Cardona-Rivera, and David Thue. "Towards a Model-theoretic View of Narratives." _Preprint_, 2021. [[arXiv]](https://arxiv.org/abs/2103.12872) 
+- **{Louis Castricato, Stella Biderman}**, Rogelio E. Cardona-Rivera, and David Thue. "Towards a Model-theoretic View of Narratives." _3rd Workshop on Narrative Understanding at NAACL-HLT_, 2021. [[arXiv]](https://arxiv.org/abs/2103.12872) 
 
 - Isaac Caswell, Julia Kreutzer, and 50 others (incl. **Stella Biderman**). "Quality at a Glance: An Audit of Web-Crawled Multilingual Datasets." _EACL Workshop on African NLP_, 2021. [[arXiv]](https://arxiv.org/abs/2103.12028)
 
