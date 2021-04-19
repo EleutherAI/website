@@ -1,6 +1,6 @@
 baseURL = "https://blog.eleuther.ai/"
 languageCode = "en-us"
-title = "Eleuther AI Blog"
+title = "EleutherAI Blog"
 theme = "eai-theme"
 contentDir = "content-blog"
 publishDir="public-blog"

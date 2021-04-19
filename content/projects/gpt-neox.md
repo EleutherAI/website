@@ -6,12 +6,10 @@ layout: project-page
 
 ## {class="content-block"}
 - ![alt](../../images/art50.png)
-- ## GPT-NeoX
-    GPT&#8288;-&#8288;Neo is the code name for a family of transformer-based language models loosely styled around the GPT architecture. Our primary goal is to replicate a GPT&#8288;-&#8288;3&nbsp;DaVinci-sized model and open-source it to the public, for free.
+- # GPT-NeoX
+    GPT&#8288;-&#8288;Neo is the code name for a family of transformer-based language models loosely styled around the GPT architecture. Our primary goal is to train an equivalent model to the full-sized GPT&#8288;-&#8288;3 and make it available to the public under an open licence.
 
     [GPT&#8288;-&#8288;NeoX](https://github.com/EleutherAI/gpt-neox) is an implementation of 3D-parallel GPT&#8288;-&#8288;3-like models on distributed GPUs, based upon [DeepSpeed](https://www.deepspeed.ai/) and [Megatron&#8288;-&#8288;LM](https://github.com/NVIDIA/Megatron-LM).
-
-    We have been graciously been offered high-performance GPU compute by [CoreWeave](https://www.coreweave.com/), an NVIDIA Preferred Cloud Services Provider. CoreWeave is excited by the open nature of the project and is very keen in helping us to break the OpenAI-Microsoft monopoly on massive autoregressive language models.
 
 
 ## {class="content-block"}

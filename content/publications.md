@@ -4,7 +4,7 @@ date: 2019-04-26T20:18:54+03:00
 layout: page
 ---
 
-## Publications and Preprints
+# Publications and Preprints
 
 - **{Louis Castricato, Stella Biderman}**, Rogelio E. Cardona-Rivera, and David Thue. "Towards a Model-theoretic View of Narratives." _Preprint_, 2021. [[arXiv]](https://arxiv.org/abs/2103.12872) 
 

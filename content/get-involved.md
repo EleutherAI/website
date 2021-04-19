@@ -4,7 +4,7 @@ date: 2021-03-29
 layout: page
 ---
 
-## Get Involved
+# Get Involved
 
 Joining EleutherAI is as simple as [joining us on Discord](https://discord.com/invite/vtRgjbM) and picking a project to contribute to.
 
@@ -45,7 +45,7 @@ We sporadically need help with various tasks related to managing our internet pr
 
 #### Biology
 
-We are working to implement and publish [AlphaFold2](https://github.com/lucidrains/alphafold2). Reach out to Phil Wang ({{<discord/handle drole="regular" name="@lucidrains">}}) or Eric Alcaide ({{<discord/handle drole="regular" name="@hypnopump">}}) on Discord or post in the {{<discord/channel "#alphafold">}} channel if you can help.
+We are working to implement and publish [AlphaFold2](https://github.com/lucidrains/alphafold2). Reach out to Phil Wang ({{<discord/handle drole="level5" name="@lucidrains">}}) or Eric Alcaide ({{<discord/handle drole="regular" name="@hypnopump">}}) on Discord or post in the {{<discord/channel "#alphafold">}} channel if you can help.
 
 #### Linguistics
 

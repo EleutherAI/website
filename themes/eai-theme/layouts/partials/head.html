@@ -40,4 +40,5 @@
     <meta property="twitter:description" content="A grassroots collective of researchers working to open source AI research.">
     <meta property="twitter:image" content="https://www.eleuther.ai/images/meta_image.jpg">
 
+    {{ if .Params.mathjax }}{{ partial "mathjax.html" . }}{{ end }}
 </head>
