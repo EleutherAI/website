@@ -35,7 +35,7 @@ A key piece of information is the geometric definition of the dot product betwee
 In plain English, the dot product between two vectors is a function of the magnitude of individual vectors and the angle between them.
 With this in mind, the intuition behind rotary embeddings is that we can represent the token embeddings as complex numbers and their positions as pure rotations that we apply to them. If we shift both the query and key by the same amount, changing absolute position but not relative position, this will lead both representations to be additionally rotated in the same manner---as we will see in the derivation---thus the angle between them will remain unchanged and thus the dot product will also remain unchanged. By exploiting of the nature of rotations, the dot product used in self-attention will have the property we are looking for, preserving relative positional information while discarding absolute position.
 
-The following is an example illustrating the core idea of rotary embeddings—a more rigorous derivation is presented in a subsequent section. Some arbitrary $0 < \varepsilon \leq \frac \pi {2N}$ is chosen, where $N$ is the maximum sequence length. When viewed elementwise on $\mathbf{q}$ and $\mathbf{k}$, the rotary embedding can be viewed as follows:
+The following is an example illustrating the core idea of rotary embeddings—a more rigorous derivation is presented in a subsequent section. Some arbitrary $0 < \varepsilon \leq \frac \pi {2N}$ is chosen, where $N$ is the maximum sequence length. When viewed elementwise on $\mathbf{q}$ and $\mathbf{k}$, with $j$ as the element index, the rotary embedding can be viewed as follows:
 
 \begin{align}
     \mathrm{RoPE}(x, m) &= xe^{mi\varepsilon} \\\\
