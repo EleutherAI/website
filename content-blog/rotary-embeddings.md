@@ -247,7 +247,7 @@ To cite this blog post, please use:
 
 ```
   @misc{rope-eleutherai,
-    title = {The Road to Transformer Upgrade: 2. The Rotary Position Coding to Learn from the Experts},
+    title = {Rotary Embeddings: A Relative Revolution},
     author = {Biderman, Stella and Black, Sid and Foster, Charles and Gao, Leo and Hallahan, Eric and He, Horace and Wang, Ben and Wang, Phil},
     howpublished = \url{blog.eleuther.ai/},
     note = {[Online; accessed DATE]},
