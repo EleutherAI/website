@@ -8,6 +8,14 @@ mathjax: True
 
 by Stella Biderman, Sid Black, Charles Foster, Leo Gao, Eric Hallahan, Horace He, Ben Wang, and Phil Wang
 
+<figure>
+<center>
+ <img src="/images/blog/rotary-embeddings/janus.png" alt="Rotary Embeddings as imagined by Big Sleep" style="width:800px"> 
+ <figcaption>Rotary Embeddings as imagined by <a href="https://generative.ink">Janus</a></figcaption>
+
+</center>
+</figure>
+
 <br>
 
 ## TL;DR:
@@ -136,35 +144,37 @@ After reading  Jianlin Su's original blog posts [12, 13], we were curious how we
 A naive implementation of rotary positional embeddings would use the matrix form shown in Equation 12. In practice, implementing rotary positional embeddings this way is highly inefficient and more optimized forms are readily available. The original implementations of RoPE are available in the [roformer](https://github.com/ZhuiyiTechnology/roformer) and [bert4keras](https://github.com/bojone/bert4keras) libraries. Additionally, we have implemented rotary positional embeddings in the [x-transformers](https://github.com/lucidrains/x-transformers) library and the [GPT-Neo](https://github.com/EleutherAI/gpt-neo) and [GPT-NeoX](https://github.com/EleutherAI/gpt-neox) codebases. An example implementation from GPT-NeoX is shown below for reference: 
 
 ```python
-class Rotary(torch.nn.Module):
-    
-    def __init__(self, dim, base=10000):
-        super().__init__()
-        inv_freq = 1. / (base ** (torch.arange(0, dim, 2).float() / dim))
-        self.register_buffer('inv_freq', inv_freq)
-        self.seq_len_cached = None
-        self.cos_cached = None
-        self.sin_cached = None
 
-    def forward(self, x, seq_dim=1):
-        seq_len = x.shape[seq_dim]
-        if seq_len != self.seq_len_cached:
-            self.seq_len_cached = seq_len
-            t = torch.arange(x.shape[seq_dim], device=x.device).type_as(self.inv_freq)
-            freqs = torch.einsum('i,j->ij', t, self.inv_freq)
-            emb = torch.cat((freqs, freqs), dim=-1).to(x.device)
-            self.cos_cached = emb.cos()[:, None, None, :]
-            self.sin_cached = emb.sin()[:, None, None, :]
-        return self.cos_cached, self.sin_cached
+    class Rotary(torch.nn.Module):
         
-# rotary pos emb helpers:
-def rotate_half(x):
-    x1, x2 = x[..., :x.shape[-1] // 2], x[..., x.shape[-1] // 2:]
-    return torch.cat((-x2, x1), dim=x1.ndim - 1) # dim=-1 triggers a bug in torch < 1.8.0
+        def __init__(self, dim, base=10000):
+            super().__init__()
+            inv_freq = 1. / (base ** (torch.arange(0, dim, 2).float() / dim))
+            self.register_buffer('inv_freq', inv_freq)
+            self.seq_len_cached = None
+            self.cos_cached = None
+            self.sin_cached = None
+    
+        def forward(self, x, seq_dim=1):
+            seq_len = x.shape[seq_dim]
+            if seq_len != self.seq_len_cached:
+                self.seq_len_cached = seq_len
+                t = torch.arange(x.shape[seq_dim], device=x.device).type_as(self.inv_freq)
+                freqs = torch.einsum('i,j->ij', t, self.inv_freq)
+                emb = torch.cat((freqs, freqs), dim=-1).to(x.device)
+                self.cos_cached = emb.cos()[:, None, None, :]
+                self.sin_cached = emb.sin()[:, None, None, :]
+            return self.cos_cached, self.sin_cached
+            
+    # rotary pos emb helpers:
+    def rotate_half(x):
+        x1, x2 = x[..., :x.shape[-1] // 2], x[..., x.shape[-1] // 2:]
+        return torch.cat((-x2, x1), dim=x1.ndim - 1) # dim=-1 triggers a bug in torch < 1.8.0
+    
+    @torch.jit.script
+    def apply_rotary_pos_emb(q, k, cos, sin):
+        return (q * cos) + (rotate_half(q) * sin), (k * cos) + (rotate_half(k) * sin)
 
-@torch.jit.script
-def apply_rotary_pos_emb(q, k, cos, sin):
-    return (q * cos) + (rotate_half(q) * sin), (k * cos) + (rotate_half(k) * sin)
 ```
 **N.B:** The layout of the queries and keys in GPT-NeoX, following Megatron, is `[seq, batch, heads, hdim]`, in order to avoid memory-intensive transpose operations. The code will need to be modified to work with the conventional layout of `[batch, seq, heads, hdim]`.
 <br>
