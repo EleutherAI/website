@@ -8,6 +8,14 @@ mathjax: True
 
 by Stella Biderman, Sid Black, Charles Foster, Leo Gao, Eric Hallahan, Horace He, Ben Wang, and Phil Wang
 
+<figure>
+<center>
+ <img src="/images/blog/rotary-embeddings/janus.png" alt="Rotary Embeddings as imagined by Big Sleep" style="width:800px"> 
+ <figcaption>Rotary Embeddings as imagined by <a href="https://generative.ink">Janus</a></figcaption>
+
+</center>
+</figure>
+
 <br>
 
 ## TL;DR:
