@@ -5,14 +5,13 @@ draft: False
 description: "This is a short description of the page"
 mathjax: True
 ---
-# Rotary Embeddings: A Relative Revolution
 
 Stella Biderman, Sid Black, Charles Foster, Leo Gao, Eric Hallahan, Horace He, Ben Wang, Phil Wang
 
-## TL;DR:
+### TL;DR:
 Rotary Position Embedding (RoPE) is a new type of position encoding that unifies absolute and relative approaches. Developed by Jianlin Su in a series of blog posts earlier this year [12, 13], it has already garnered widespread interest in some Chinese NLP circles. However this development is not widely known to the global community, in large part due to the lack of English-language resources. This post walks through the method as we understand it, with the goal of bringing it to the attention of the wider academic community. In general we have found that, across a large suite of setups including regular, linear, and local self-attention, it **either matches or beats all other methods currently available for injecting positional information into transformers.**
 
-## What's the Problem?
+### What's the Problem?
 
 Since Vaswani et al., 2017 [16] there have been many schemes introduced for encoding positional information in transformers. When applying self-attention to a given domain, the choice of position encoding typically involves tradeoffs between simplicity, flexibility, and efficiency. For example, learned absolute positional encoding is very simple, but may not generalize while sinusoidal embeddings.
 
@@ -20,16 +19,17 @@ Another major limitation of existing methods is that they do not work with effic
 
 A principled, easy to implement, and generally-applicable method for relative position encoding---one that works for both vanilla and “efficient” attention---is of great interest. Rotary Position Embedding (RoPE) is designed to address this need.
 
-## What's the Solution?
+### What's the Solution?
 
 In this section we introduce and derive the rotary positional embedding. We begin with discussing the intuition, before presenting a full derivation.
 
-### Intuition
+#### Intuition
 
 We would like to find a positional encoding function $f(x, t)$ for an item $x$ and its position $t$ such that, for two items $q$ and $k$ at positions $m$ and $n$, the inner product between $f(q, m)$ and $f(k, n)$ is sensitive only to the values of $q$, $k$, and their relative position $m-n$. This is related in spirit to the kernel trick: we are searching for a feature map such that its kernel has certain properties.
 A key piece of information is the geometric definition of the dot product between Euclidean vectors:
+
 \begin{equation}
-    q \cdot k = \left\lVert q \right\rVert \left\lVert k \right\rVert \cos(\theta_{qk})
+    q \cdot k = \lVert q \rVert \lVert k \rVert \cos(\theta_{qk})Z
 \end{equation}
 
 In plain English, the dot product between two vectors is a function of the magnitude of individual vectors and the angle between them.
@@ -38,10 +38,10 @@ With this in mind, the intuition behind rotary embeddings is that we can represe
 The following is an example illustrating the core idea of rotary embeddings—a more rigorous derivation is presented in a subsequent section. Some arbitrary $0 < \varepsilon \leq \frac \pi {2N}$ is chosen, where $N$ is the maximum sequence length. When viewed elementwise on $\mathbf{q}$ and $\mathbf{k}$, the rotary embedding can be viewed as follows:
 
 \begin{align}
-    \mathrm{RoPE}(x, m) &= xe^{mi\varepsilon} \\
-    \langle \mathrm{RoPE}(\mathbf{q}_i, m), \mathrm{RoPE}(\mathbf{k}_i, n)\rangle &= \langle \mathbf{q}_i e^{mi\varepsilon}, \mathbf{k}_i e^{ni\varepsilon} \rangle \\
-    &= \mathbf{q}_i\mathbf{k}_i e^{mi\varepsilon} \overline{e^{ni\varepsilon}} \\
-    &= \mathbf{q}_i\mathbf{k}_i e^{(m - n)i\varepsilon} \\
+    \mathrm{RoPE}(x, m) &= xe^{mi\varepsilon} \\\\
+    \langle \mathrm{RoPE}(\mathbf{q}_i, m), \mathrm{RoPE}(\mathbf{k}_i, n)\rangle &= \langle \mathbf{q}_i e^{mi\varepsilon}, \mathbf{k}_i e^{ni\varepsilon} \rangle \\\\
+    &= \mathbf{q}_i\mathbf{k}_i e^{mi\varepsilon} \overline{e^{ni\varepsilon}} \\\\
+    &= \mathbf{q}_i\mathbf{k}_i e^{(m - n)i\varepsilon} \\\\
     &= \mathrm{RoPE}(\mathbf{q}_i\mathbf{k}_i, m - n)
 \end{align}
 
@@ -67,16 +67,16 @@ Let $\mathbf{q}$ and $\mathbf{k}$ be query and key vectors respectively and let 
 
 where $g(\mathbf{q},\mathbf{k},m-n)$ now represents the pre-softmax logit of the usual attention equation. Writing these three functions in exponential form gives
 \begin{align*}
-    f(\mathbf{q}, m) &= R_f(\mathbf{q}, m)e^{i\Theta_f(\mathbf{q}, m)}\\
-    f(\mathbf{k}, n) &= R_f(\mathbf{k}, n)e^{i\Theta_f(\mathbf{k}, n)}\\
+    f(\mathbf{q}, m) &= R_f(\mathbf{q}, m)e^{i\Theta_f(\mathbf{q}, m)}\\\\
+    f(\mathbf{k}, n) &= R_f(\mathbf{k}, n)e^{i\Theta_f(\mathbf{k}, n)}\\\\
     g(\mathbf{q}, \mathbf{k}, m - n) &= R_g(\mathbf{q}, \mathbf{k}, m - n)e^{i\Theta_g(\mathbf{q}, \mathbf{k}, m - n)}
 \end{align*}
 
 Computing the inner product and equating corresponding components yields
 
 \begin{align*}
-    R_f(\mathbf{q}, m) R_f(\mathbf{k}, n) &= R_g(\mathbf{q}, \mathbf{k}, m - n)\\
-    \Theta_f(\mathbf{q}, m) - \Theta_f(\mathbf{k}, n) &= \Theta_g(\mathbf{q}, \mathbf{k}, m - n)\\
+    R_f(\mathbf{q}, m) R_f(\mathbf{k}, n) &= R_g(\mathbf{q}, \mathbf{k}, m - n)\\\\
+    \Theta_f(\mathbf{q}, m) - \Theta_f(\mathbf{k}, n) &= \Theta_g(\mathbf{q}, \mathbf{k}, m - n)\\\\
 \end{align*}
 
 Substituting $m=n$ and applying the initial condition $f(\mathbf{x}, 0) = \mathbf{x}$ gives
@@ -106,19 +106,19 @@ A naive implementation of rotary position embeddings would left multiply every q
 \begin{equation*}
 R_{m} = 
 \begin{pmatrix}
-cos(m\theta_{0}) & -sin(m\theta_{0}) & 0 & 0 & \cdots & 0 & 0 \\
-sin(m\theta_{0}) & cos(m\theta_{0}) & 0 & 0 & \cdots & 0 & 0 \\
-0 & 0 & cos(m\theta_{1}) & -sin(m\theta_{1}) & \cdots & 0 & 0 \\
-0 & 0 & sin(m\theta_{1}) & cos(m\theta_{1}) & \cdots & 0 & 0 \\
-\vdots & \vdots & \vdots & \vdots & \ddots & \vdots & \vdots \\
-0 & 0 & 0 & 0 & \cdots & cos(m\theta_{d/2-1}) & -sin(m\theta_{d/2-1}) \\
+cos(m\theta_{0}) & -sin(m\theta_{0}) & 0 & 0 & \cdots & 0 & 0 \\\\
+sin(m\theta_{0}) & cos(m\theta_{0}) & 0 & 0 & \cdots & 0 & 0 \\\\
+0 & 0 & cos(m\theta_{1}) & -sin(m\theta_{1}) & \cdots & 0 & 0 \\\\
+0 & 0 & sin(m\theta_{1}) & cos(m\theta_{1}) & \cdots & 0 & 0 \\\\
+\vdots & \vdots & \vdots & \vdots & \ddots & \vdots & \vdots \\\\
+0 & 0 & 0 & 0 & \cdots & cos(m\theta_{d/2-1}) & -sin(m\theta_{d/2-1}) \\\\
 0 & 0 & 0 & 0 & \cdots & sin(m\theta_{d/2-1}) & cos(m\theta_{d/2-1}) 
 \end{pmatrix}
 \end{equation*}
 This matrix $R_{m}$ consists of a set of rotations that are applied $m$ times to each pair of dimensions by an angle $\theta_{k}$. The $\theta_{k}$ are shared across all positions $m$, and are intended to provide multiple scales of resolution for positional information. 
 In practice, implementing rotary positional embeddings this way is highly inefficient and more optimized forms are readily available. The original implementations of RoPE are available in the [roformer](https://github.com/ZhuiyiTechnology/roformer) and [bert4keras](https://github.com/bojone/bert4keras) libraries. Additionally, we have implemented rotary positional embeddings in the [x-transformers](https://github.com/lucidrains/x-transformers) library and the [GPT-Neo](https://github.com/EleutherAI/gpt-neo) and [GPT-NeoX](https://github.com/EleutherAI/gpt-neox) codebases. An example implementation from GPT-NeoX is shown below for reference: 
 
-```
+```python
 class RotaryEmbedding(torch.nn.Module):
     
     def __init__(self, dim, base=10000):
@@ -148,7 +148,6 @@ def rotate_half(x):
 @torch.jit.script
 def apply_rotary_pos_emb(q, k, cos, sin):
     return (q * cos) + (rotate_half(q) * sin), (k * cos) + (rotate_half(k) * sin)
-\end{verbatim}
 ```
 **N.B:** The layout of the queries and keys in GPT-NeoX, following Megatron \cite{megatron}, is `[seq, batch, heads, hdim]`, in order to avoid memory-intensive transpose operations. The code will need to be modified to work with the conventional layout of `[batch, seq, heads, hdim]`.
 
@@ -223,36 +222,36 @@ Rotary embeddings make it possible to implement relative attention in a straight
 
 With relative ease RoPE can be extended into the multidimensional case. To represent two dimensions, two independent 1-dimensional rotary embeddings can be used. To implement this, we can split each of $\mathbf{q}$ and $\mathbf{k}$ in half and apply rotary piece-wise as follows:
 
-\begin{align}
-    \langle f(\mathbf{q}, m, i),f(\mathbf{k}, n, j) \rangle &= \langle f_1(\mathbf{q}_{:N/2}, m),f_1(\mathbf{k}_{:N/2}, n) \rangle + \langle f_2(\mathbf{q}_{N/2:}, i),f_2(\mathbf{k}_{N/2:}, j) \rangle \\
-    &= g_1(\mathbf{q}_{:N/2}, \mathbf{k}_{:N/2}, m - n) + g_2(\mathbf{q}_{N/2:}, \mathbf{k}_{N/2:}, i - j) \\
+`\begin{align}
+    \langle f(\mathbf{q}, m, i),f(\mathbf{k}, n, j) \rangle &= \langle f_1(\mathbf{q}_{:N/2}, m),f_1(\mathbf{k}_{:N/2}, n) \rangle + \langle f_2(\mathbf{q}_{N/2:}, i),f_2(\mathbf{k}_{N/2:}, j) \rangle \\\\
+    &= g_1(\mathbf{q}_{:N/2}, \mathbf{k}_{:N/2}, m - n) + g_2(\mathbf{q}_{N/2:}, \mathbf{k}_{N/2:}, i - j) \\\\
     &= g(\mathbf{q}, \mathbf{k}, m - n, i - j)
-\end{align}
+\end{align}`
 
 This formulation can also be further extended to data of an arbitrary number of dimensions. This sort of multi-dimensional relative coding would let us, for example, implement relative timing and relative pitch embeddings similar to Music Transformer [4] in a drastically simpler manner. More generally, we believe there is potentially a large class of invariances that first-principles positional codes like RoPE may enable us to capture. 
 
 ### Citation Information
 
 To cite the RoPE methodology, please use:
-```
-  @article{rope-paper,
-    title={RoFormer: Enhanced Transformer with Rotary Position Embedding},
-    author={Su, Jianlin and Lu, Yu and Pan, Shengfeng and Wen, Bo and Liu, Yunfeng},
-    journal={arXiv preprint arXiv:2012.15832},
-    year={2021}
-  }
+```bibtex
+@article{rope-paper,
+  title={RoFormer: Enhanced Transformer with Rotary Position Embedding},
+  author={Su, Jianlin and Lu, Yu and Pan, Shengfeng and Wen, Bo and Liu, Yunfeng},
+  journal={arXiv preprint arXiv:2012.15832},
+  year={2021}
+}
 ```
 
 To cite this blog post, please use:
 
-```
-  @misc{rope-eleutherai,
-    title = {Rotary Embeddings: A Relative Revolution},
-    author = {Biderman, Stella and Black, Sid and Foster, Charles and Gao, Leo and Hallahan, Eric and He, Horace and Wang, Ben and Wang, Phil},
-    howpublished = \url{blog.eleuther.ai/},
-    note = {[Online; accessed DATE]},
-    year = {2021}
-  }
+```bibtex
+@misc{rope-eleutherai,
+  title = {Rotary Embeddings: A Relative Revolution},
+  author = {Biderman, Stella and Black, Sid and Foster, Charles and Gao, Leo and Hallahan, Eric and He, Horace and Wang, Ben and Wang, Phil},
+  howpublished = \url{blog.eleuther.ai/},
+  note = {[Online; accessed ]},
+  year = {2021}
+}
 ```
 
 ## References
