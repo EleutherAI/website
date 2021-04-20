@@ -278,11 +278,11 @@ To cite this blog post, please use:
 
 [11] Peter Shaw, Jakob Uszkoreit, and Ashish Vaswani. Self-attention with relative position representations. *arXiv preprint arXiv:1803.02155*, 2018.
 
-[12] Su Jianlin. 让研究人员绞尽脑汁的Transformer位置编码. https://kexue.fm/archives/8130, 2021. [Online; accessed 18-April-2021].
+[12] Jianlin Su. 让研究人员绞尽脑汁的Transformer位置编码. https://kexue.fm/archives/8130, 2021. [Online; accessed 18-April-2021].
 
-[13] Su Jianlin. Transformer升级之路：2、博采众长的旋转式位置编码. https://kexue.fm/archives/8265, 2021. [Online; accessed 18-April-2021].
+[13] Jianlin Su. Transformer升级之路：2、博采众长的旋转式位置编码. https://kexue.fm/archives/8265, 2021. [Online; accessed 18-April-2021].
 
-[14] Su Jianlin, Yu Lu, Shengfeng Pan, Bo Wen, and Yunfeng Liu. RoFormer: Enhanced Transformer with Rotary Position . https://kexue.fm/archives/8265, 2021. [Online; accessed 18-April-2021].
+[14] Jianlin Su, Yu Lu, Shengfeng Pan, Bo Wen, and Yunfeng Liu. RoFormer: Enhanced Transformer with Rotary Position . https://kexue.fm/archives/8265, 2021. [Online; accessed 18-April-2021].
 
 [15] Hao Tan and Mohit Bansal. Vokenization: improving language understanding with contextual-ized, visual-grounded supervision. *arXiv preprint arXiv:2010.06775*, 2020.
 
