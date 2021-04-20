@@ -8,10 +8,10 @@ mathjax: True
 
 Stella Biderman, Sid Black, Charles Foster, Leo Gao, Eric Hallahan, Horace He, Ben Wang, Phil Wang
 
-### TL;DR:
+## TL;DR:
 Rotary Position Embedding (RoPE) is a new type of position encoding that unifies absolute and relative approaches. Developed by Jianlin Su in a series of blog posts earlier this year [12, 13], it has already garnered widespread interest in some Chinese NLP circles. However this development is not widely known to the global community, in large part due to the lack of English-language resources. This post walks through the method as we understand it, with the goal of bringing it to the attention of the wider academic community. In general we have found that, across a large suite of setups including regular, linear, and local self-attention, it **either matches or beats all other methods currently available for injecting positional information into transformers.**
 
-### What's the Problem?
+## What's the Problem?
 
 Since Vaswani et al., 2017 [16] there have been many schemes introduced for encoding positional information in transformers. When applying self-attention to a given domain, the choice of position encoding typically involves tradeoffs between simplicity, flexibility, and efficiency. For example, learned absolute positional encoding is very simple, but may not generalize while sinusoidal embeddings.
 
@@ -19,7 +19,7 @@ Another major limitation of existing methods is that they do not work with effic
 
 A principled, easy to implement, and generally-applicable method for relative position encoding---one that works for both vanilla and “efficient” attention---is of great interest. Rotary Position Embedding (RoPE) is designed to address this need.
 
-### What's the Solution?
+## What's the Solution?
 
 In this section we introduce and derive the rotary positional embedding. We begin with discussing the intuition, before presenting a full derivation.
 
@@ -215,7 +215,7 @@ In general, we find that the runtime cost of rotary embeddings is fairly negligi
 Unlike standard positional embeddings, however,  rotary embeddings must be applied at every layer. As large transformer models are typically dominated by matrix multiplies, we find that the overall overhead remains negligible. With fusion, we find that rotary embeddings imposes a 1-3\% overhead across a range of transformer sizes.
 
 
-### Conclusion
+## Conclusion
 Rotary embeddings make it possible to implement relative attention in a straightforward and efficient manner. We are excited to read the upcoming rotary positional embeddings paper from the original authors and the work it inspires. Simple improvements to the transformer architecture that carry over robustly between different types of self-attention are few and far between [6].
 
 With relative ease RoPE can be extended into the multidimensional case. To represent two dimensions, two independent 1-dimensional rotary embeddings can be used. To implement this, we can split each of $\mathbf{q}$ and $\mathbf{k}$ in half and apply rotary piece-wise as follows:
