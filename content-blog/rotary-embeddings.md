@@ -25,24 +25,24 @@ In this section we introduce and derive the rotary positional embedding. We begi
 
 #### Intuition
 
-We would like to find a positional encoding function $f(x, t)$ for an item $x$ and its position $t$ such that, for two items $q$ and $k$ at positions $m$ and $n$, the inner product between $f(q, m)$ and $f(k, n)$ is sensitive only to the values of $q$, $k$, and their relative position $m-n$. This is related in spirit to the kernel trick: we are searching for a feature map such that its kernel has certain properties.
+We would like to find a positional encoding function $f(\mathbf{x}, \ell)$ for an item $\mathbf{x}$ and its position $\ell$ such that, for two items $\mathbf{q}$ and $\mathbf{k}$ at positions $m$ and $n$, the inner product between $f(\mathbf{q}, m)$ and $f(\mathbf{k}, n)$ is sensitive only to the values of $\mathbf{q}$, $\mathbf{k}$, and their relative position $m-n$. This is related in spirit to the kernel trick: we are searching for a feature map such that its kernel has certain properties.
 A key piece of information is the geometric definition of the dot product between Euclidean vectors:
 
 \begin{equation}
-    q \cdot k = \lVert q \rVert \lVert k \rVert \cos(\theta_{qk})Z
+    \mathbf{q} \cdot \mathbf{k} = \lVert \mathbf{q} \rVert \lVert \mathbf{k} \rVert \cos(\theta_{qk})
 \end{equation}
 
 In plain English, the dot product between two vectors is a function of the magnitude of individual vectors and the angle between them.
-With this in mind, the intuition behind rotary embeddings is that we can represent the token embeddings as complex numbers and their positions as pure rotations that we apply to them. If we shift both the query and key by the same amount, changing absolute position but not relative position, this will lead both representations to be additionally rotated in the same manner---as we will see in the derivation---thus the angle between them will remain unchanged and thus the dot product will remain unchanged. By exploiting of the nature of rotations, the dot product used in self-attention will have the property we are looking for, preserving relative positional information while discarding absolute position.
+With this in mind, the intuition behind rotary embeddings is that we can represent the token embeddings as complex numbers and their positions as pure rotations that we apply to them. If we shift both the query and key by the same amount, changing absolute position but not relative position, this will lead both representations to be additionally rotated in the same manner---as we will see in the derivation---thus the angle between them will remain unchanged and thus the dot product will also remain unchanged. By exploiting of the nature of rotations, the dot product used in self-attention will have the property we are looking for, preserving relative positional information while discarding absolute position.
 
 The following is an example illustrating the core idea of rotary embeddings—a more rigorous derivation is presented in a subsequent section. Some arbitrary $0 < \varepsilon \leq \frac \pi {2N}$ is chosen, where $N$ is the maximum sequence length. When viewed elementwise on $\mathbf{q}$ and $\mathbf{k}$, the rotary embedding can be viewed as follows:
 
 \begin{align}
     \mathrm{RoPE}(x, m) &= xe^{mi\varepsilon} \\\\
-    \langle \mathrm{RoPE}(\mathbf{q}_i, m), \mathrm{RoPE}(\mathbf{k}_i, n)\rangle &= \langle \mathbf{q}_i e^{mi\varepsilon}, \mathbf{k}_i e^{ni\varepsilon} \rangle \\\\
-    &= \mathbf{q}_i\mathbf{k}_i e^{mi\varepsilon} \overline{e^{ni\varepsilon}} \\\\
-    &= \mathbf{q}_i\mathbf{k}_i e^{(m - n)i\varepsilon} \\\\
-    &= \mathrm{RoPE}(\mathbf{q}_i\mathbf{k}_i, m - n)
+    \langle \mathrm{RoPE}(q_i, m), \mathrm{RoPE}(k_i, n)\rangle &= \langle q_i e^{mi\varepsilon}, k_i e^{ni\varepsilon} \rangle \\\\
+    &= q_i k_i e^{mi\varepsilon} \overline{e^{ni\varepsilon}} \\\\
+    &= q_i k_i e^{(m - n)i\varepsilon} \\\\
+    &= \mathrm{RoPE}(q_i k_i, m - n)
 \end{align}
 
 ### Visualization and an Analogy from Physics
@@ -93,8 +93,6 @@ where $q_j$ is the $j^{th}$ coordinate of $\mathbf{q}\in\mathbb{C}^{d/2}$ and $\
 A response many of us at EleutherAI had when first coming across this was "how does this differ from sinusoidal embeddings," so we feel it is worth discussing this comparison. There are two ways that rotary embeddings are different from sinusoidal embeddings:
 1. Sinusoidal embeddings apply to each coordinate individually, while rotary embeddings mix pairs of coordinates
 2. Sinusoidal embeddings add a $\cos(m\theta)$ or $\sin(m\theta)$ term, while rotary embeddings use a multiplicative factor.
-
-While we have only begun to experiment with the foundational ideas at play here, we feel that 
 
 ## Okay, what About in Practice?
 
@@ -223,8 +221,8 @@ Rotary embeddings make it possible to implement relative attention in a straight
 With relative ease RoPE can be extended into the multidimensional case. To represent two dimensions, two independent 1-dimensional rotary embeddings can be used. To implement this, we can split each of $\mathbf{q}$ and $\mathbf{k}$ in half and apply rotary piece-wise as follows:
 
 `\begin{align}
-    \langle f(\mathbf{q}, m, i),f(\mathbf{k}, n, j) \rangle &= \langle f_1(\mathbf{q}_{:N/2}, m),f_1(\mathbf{k}_{:N/2}, n) \rangle + \langle f_2(\mathbf{q}_{N/2:}, i),f_2(\mathbf{k}_{N/2:}, j) \rangle \\\\
-    &= g_1(\mathbf{q}_{:N/2}, \mathbf{k}_{:N/2}, m - n) + g_2(\mathbf{q}_{N/2:}, \mathbf{k}_{N/2:}, i - j) \\\\
+    \langle f(\mathbf{q}, m, i),f(\mathbf{k}, n, j) \rangle &= \langle f_1(\mathbf{q}_{:d/2}, m),f_1(\mathbf{k}_{:d/2}, n) \rangle + \langle f_2(\mathbf{q}_{d/2:}, i),f_2(\mathbf{k}_{d/2:}, j) \rangle \\\\
+    &= g_1(\mathbf{q}_{:d/2}, \mathbf{k}_{:d/2}, m - n) + g_2(\mathbf{q}_{d/2:}, \mathbf{k}_{d/2:}, i - j) \\\\
     &= g(\mathbf{q}, \mathbf{k}, m - n, i - j)
 \end{align}`
 
