@@ -9,7 +9,7 @@ mathjax: True
 by Stella Biderman, Sid Black, Charles Foster, Leo Gao, Eric Hallahan, Horace He, Ben Wang, and Phil Wang
 
 ## TL;DR:
-Rotary Positional Embedding (RoPE) is a new type of position encoding that unifies absolute and relative approaches. Developed by Jianlin Su in a series of blog posts earlier this year [12, 13], it has already garnered widespread interest in some Chinese NLP circles. However this development is not widely known to the global community, in large part due to the lack of English-language resources. This post walks through the method as we understand it, with the goal of bringing it to the attention of the wider academic community. In general we have found that, across a large suite of setups including regular, linear, and local self-attention, it **either matches or beats all other methods currently available for injecting positional information into transformers.**
+Rotary Positional Embedding (RoPE) is a new type of position encoding that unifies absolute and relative approaches. Developed by Jianlin Su in a series of blog posts earlier this year [12, 13], it has already garnered widespread interest in some Chinese NLP circles. However this development is not widely known to the global community, in large part due to the lack of English-language resources. This post walks through the method as we understand it, with the goal of bringing it to the attention of the wider academic community. In general we have found that, across a large suite of setups including regular, linear, and local self-attention, it **either matches or surpasses all other methods currently available for injecting positional information into transformers.**
 
 ## What's the Problem?
 
@@ -40,13 +40,20 @@ The following is an example illustrating the core idea of RoPE —a more rigorou
     &= \mathrm{RoPE}(q_j k_j, m - n)
 \end{align}
 
-### Visualization and an Analogy from Physics
+#### Visual Intuision
+<figure>
+<iframe id="waveplate-animation" src="/waveplate.html" class="auto" style="border-width:0; display: block;
+    margin-right: auto;
+    margin-left: auto;
+    height: 300px" loading="lazy" ></iframe>
+  <figcaption>A quarter-waveplate can change the polarization of an electromagnetic wave.</figcaption>
+</figure>
 
-Sinusoidal embeddings  
+To see how relative position might be preserved in this transformation, we can look to an analogous situation in classical electrodynamics.
 
-Interferometry is a common technique for measuring small changes in distance through relative phase. Imagining a double-slit interferometer, 
+We imagine a linearly polarized electromagnetic wave that is sent through a quarter-wave plate at an angle of 45 degrees. This takes the incoming wave and shifts its phase on only one principal dimension as it travels. When the wave emerges from the waveplate, the polarization is no longer linear---it has become circular through a shift equal to quarter of a period.
 
-However the difference in phase cannot provide absolute distance: as a periodic function, it is impo
+As the wave travels through the waveplate, we can see how the magnitude of the wave is preserved. We can also better see how the relative position may be encoded as the angle between subsequent timesteps: the angle between timesteps, and therefore distance along the axis of travel, is constant. This means the positional information must be orthogonal to the amplitude in the modulated wave.
 
 ### Derivation
 

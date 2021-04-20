@@ -9,6 +9,10 @@ publishDir="public-blog"
     logo_image_url="images/eai_logo.png"
     contact_mail="contact@eleuther.ai"
     site_type="blog"
+[markup]
+  [markup.goldmark]
+    [markup.goldmark.renderer]
+      unsafe = true
 [menu]
   [[menu.main]]
     name = "Home"
