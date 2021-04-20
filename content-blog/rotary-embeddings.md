@@ -39,10 +39,10 @@ The following is an example illustrating the core idea of rotary embeddings—a 
 
 \begin{align}
     \mathrm{RoPE}(x, m) &= xe^{mi\varepsilon} \\\\
-    \langle \mathrm{RoPE}(q_i, m), \mathrm{RoPE}(k_i, n)\rangle &= \langle q_i e^{mi\varepsilon}, k_i e^{ni\varepsilon} \rangle \\\\
-    &= q_i k_i e^{mi\varepsilon} \overline{e^{ni\varepsilon}} \\\\
-    &= q_i k_i e^{(m - n)i\varepsilon} \\\\
-    &= \mathrm{RoPE}(q_i k_i, m - n)
+    \langle \mathrm{RoPE}(q_j, m), \mathrm{RoPE}(k_j, n)\rangle &= \langle q_j e^{mi\varepsilon}, k_j e^{ni\varepsilon} \rangle \\\\
+    &= q_j k_j e^{mi\varepsilon} \overline{e^{ni\varepsilon}} \\\\
+    &= q_j k_j e^{(m - n)i\varepsilon} \\\\
+    &= \mathrm{RoPE}(q_j k_j, m - n)
 \end{align}
 
 ### Visualization and an Analogy from Physics
