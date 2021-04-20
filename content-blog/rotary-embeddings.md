@@ -5,38 +5,37 @@ draft: False
 description: "This is a short description of the page"
 mathjax: True
 ---
-# Rotary Position Embedding (RoPE)
+# Rotary Embeddings: A Relative Revolution
 
 Stella Biderman, Sid Black, Charles Foster, Leo Gao, Eric Hallahan, Horace He, Ben Wang, Phil Wang
 
-### TL;DR:
-Rotary Position Embedding (RoPE) is a new type of position encoding that unifies absolute and relative approaches. Developed by Jianlin Su in a series of blog posts earlier this year [5], it has already garnered widespread interest in some Chinese NLP circles. However this development is not widely known to the global community, in large part due to the lack of English-language resources. This post walks through the method as we understand it, with the goal of bringing it to the attention of the wider academic community. In general we have found that, across a large suite of setups including regular, linear, and local self-attention, it **either matches or beats all other methods currently available for injecting positional information into transformers.**
+## TL;DR:
+Rotary Position Embedding (RoPE) is a new type of position encoding that unifies absolute and relative approaches. Developed by Jianlin Su in a series of blog posts earlier this year [12, 13], it has already garnered widespread interest in some Chinese NLP circles. However this development is not widely known to the global community, in large part due to the lack of English-language resources. This post walks through the method as we understand it, with the goal of bringing it to the attention of the wider academic community. In general we have found that, across a large suite of setups including regular, linear, and local self-attention, it **either matches or beats all other methods currently available for injecting positional information into transformers.**
 
-### What's the Problem?
+## What's the Problem?
 
-Since Vaswani et al., 2017 [15] there have been many schemes introduced for encoding positional information in transformers. When applying self-attention to a given domain, the choice of position encoding typically involves tradeoffs between simplicity, flexibility, and efficiency. For example, learned absolute positional encoding is very simple, but may not generalize while sinusoidal embeddings.
+Since Vaswani et al., 2017 [16] there have been many schemes introduced for encoding positional information in transformers. When applying self-attention to a given domain, the choice of position encoding typically involves tradeoffs between simplicity, flexibility, and efficiency. For example, learned absolute positional encoding is very simple, but may not generalize while sinusoidal embeddings.
 
-Another major limitation of existing methods is that they do not work with efficient transformers. Methods like T5's relative positional bias [11] require constructing the full $N \times N$ attention matrix between positions, which is not possible when using many of the efficient alternatives to softmax attention, including kernelized variants like FAVOR+ [2].
+Another major limitation of existing methods is that they do not work with efficient transformers. Methods like T5's relative positional bias [10] require constructing the full $N \times N$ attention matrix between positions, which is not possible when using many of the efficient alternatives to softmax attention, including kernelized variants like FAVOR+ [2].
 
 A principled, easy to implement, and generally-applicable method for relative position encoding---one that works for both vanilla and “efficient” attention---is of great interest. Rotary Position Embedding (RoPE) is designed to address this need.
 
-### What's the Solution?
+## What's the Solution?
 
 In this section we introduce and derive the rotary positional embedding. We begin with discussing the intuition, before presenting a full derivation.
 
-#### Intuition
+### Intuition
 
 We would like to find a positional encoding function $f(x, t)$ for an item $x$ and its position $t$ such that, for two items $q$ and $k$ at positions $m$ and $n$, the inner product between $f(q, m)$ and $f(k, n)$ is sensitive only to the values of $q$, $k$, and their relative position $m-n$. This is related in spirit to the kernel trick: we are searching for a feature map such that its kernel has certain properties.
 A key piece of information is the geometric definition of the dot product between Euclidean vectors:
 \begin{equation}
     q \cdot k = \left\lVert q \right\rVert \left\lVert k \right\rVert \cos(\theta_{qk})
 \end{equation}
+
 In plain English, the dot product between two vectors is a function of the magnitude of individual vectors and the angle between them.
 With this in mind, the intuition behind rotary embeddings is that we can represent the token embeddings as complex numbers and their positions as pure rotations that we apply to them. If we shift both the query and key by the same amount, changing absolute position but not relative position, this will lead both representations to be additionally rotated in the same manner---as we will see in the derivation---thus the angle between them will remain unchanged and thus the dot product will remain unchanged. By exploiting of the nature of rotations, the dot product used in self-attention will have the property we are looking for, preserving relative positional information while discarding absolute position.
 
-
 The following is an example illustrating the core idea of rotary embeddings—a more rigorous derivation is presented in a subsequent section. Some arbitrary $0 < \varepsilon \leq \frac \pi {2N}$ is chosen, where $N$ is the maximum sequence length. When viewed elementwise on $\mathbf{q}$ and $\mathbf{k}$, the rotary embedding can be viewed as follows:
-
 
 \begin{align}
     \mathrm{RoPE}(x, m) &= xe^{mi\varepsilon} \\
@@ -46,7 +45,7 @@ The following is an example illustrating the core idea of rotary embeddings—a 
     &= \mathrm{RoPE}(\mathbf{q}_i\mathbf{k}_i, m - n)
 \end{align}
 
-#### Visualization and an Analogy from Physics
+### Visualization and an Analogy from Physics
 
 Sinusoidal embeddings  
 
@@ -54,13 +53,13 @@ Interferometry is a common technique for measuring small changes in distance thr
 
 However the difference in phase cannot provide absolute distance: as a periodic function, it is impo
 
-#### Derivation
+### Derivation
 
-We begin with absolute positional information: for each token, we know where it is in the sequence. However dot products (and therefore attention) do not preserve absolute positional information, so if we encode that positional information in the absolute position of the embeddings, we will lose a significant amount of information. Additionally, absolute position is not particularly meaningful due to the common practice [1, 3, 10, 14] of packing short sentences and phrases together in a single context and breaking up sentences across contexts. Dot products do preserve relative position however, so if we can encode the absolute positional information into the token embeddings in a way that only leverages relative positional information, that will be preserved by the attention function.
+We begin with absolute positional information: for each token, we know where it is in the sequence. However dot products (and therefore attention) do not preserve absolute positional information, so if we encode that positional information in the absolute position of the embeddings, we will lose a significant amount of information. Additionally, absolute position is not particularly meaningful due to the common practice [1, 3, 9, 15] of packing short sentences and phrases together in a single context and breaking up sentences across contexts. Dot products do preserve relative position however, so if we can encode the absolute positional information into the token embeddings in a way that only leverages relative positional information, that will be preserved by the attention function.
 
 While it is common in machine learning to restrict our attention to the real numbers, for rotary embeddings it is mathematically more convenient to use the complex numbers as the base field for our embedding space. Instead of working in the usual $\mathbb{R}^d$, we will work in $\mathbb{C}^{d/2}$ by considering consecutive pairs of elements of the query and key vectors to be a single complex number. Specifically, instead of viewing $\mathbf{q}=(q_0,q_1,q_2,q_3,\ldots,q_{d-1})$ as a $d$-dimensional real vector we view it as $\mathbf{q}=(q_0+iq_1, q_2+iq_3,\ldots q_{d-2} + iq_{d-1})\in\mathbb{C}^{d/2}$. As we will see, casting it in this fashion will make discussing the rotary embeddings easier. If $d$ is odd, we can pad it with a dummy coordinate to ensure things line up correctly. Alternatively, we can simply increase $d$ by one.
 
-Let $\mathbf{q}$ and $\mathbf{k}$ be query and key vectors respectively and let $m$ and $n$ be the absolute positions of the corresponding tokens. Let $f(\mathbf{x}, \ell)$ be the function that takes the token embedding $\mathbf{x}$ for a token in position $\ell$ and outputs a new embedding that contains (in some fashion) the relative positional information. Our goal is to find a ``nice'' function $f$ that does this. Once the positional information is encoded, we need to compute the inner product like so:
+Let $\mathbf{q}$ and $\mathbf{k}$ be query and key vectors respectively and let $m$ and $n$ be the absolute positions of the corresponding tokens. Let $f(\mathbf{x}, \ell)$ be the function that takes the token embedding $\mathbf{x}$ for a token in position $\ell$ and outputs a new embedding that contains (in some fashion) the relative positional information. Our goal is to find a "nice" function $f$ that does this. Once the positional information is encoded, we need to compute the inner product like so:
 
 \begin{equation}\label{fg}
     \langle f(\mathbf{q}, m),f(\mathbf{k},n) \rangle = g(\mathbf{q}, \mathbf{k}, m - n)
@@ -89,20 +88,19 @@ Putting all of these pieces together, we get the final formula for the rotary po
 \end{equation}
 where $q_j$ is the $j^{th}$ coordinate of $\mathbf{q}\in\mathbb{C}^{d/2}$ and $\vec{e_j}$ is the $j^{th}$ unit vector of $\mathbb{C}^{d/2}$.
 
-#### How is this different from the sinusoidal embeddings used in "Attention is All You Need"?
+### How is this different from the sinusoidal embeddings used in "Attention is All You Need"?
 
-A response many of us at EleutherAI had when first coming across this was "how does this differ from sinusoidal embeddings,"" so we feel it is worth discussing this comparison. There are two ways that rotary embeddings are different from sinusoidal embeddings:
+A response many of us at EleutherAI had when first coming across this was "how does this differ from sinusoidal embeddings," so we feel it is worth discussing this comparison. There are two ways that rotary embeddings are different from sinusoidal embeddings:
 1. Sinusoidal embeddings apply to each coordinate individually, while rotary embeddings mix pairs of coordinates
 2. Sinusoidal embeddings add a $\cos(m\theta)$ or $\sin(m\theta)$ term, while rotary embeddings use a multiplicative factor.
 
 While we have only begun to experiment with the foundational ideas at play here, we feel that 
 
+## Okay, what About in Practice?
 
-### Okay, what About in Practice?
+After reading  Jianlin Su's original blog posts [12, 13], we were curious how well such a first-principles approach to positional encoding would stack up against existing methods. Despite a tremendous amount of papers that have come out claiming to improve the transformer architecture, very few approaches generalize well across codebases and tasks. However, we have found that rotary positional embeddings perform as well or better than other positional embedding techniques in every architecture we have tried.
 
-After reading  Jianlin Su's original blog post [14], we were curious how well such a first-principles approach to positional encoding would stack up against existing methods. Despite a tremendous amount of papers that have come out claiming to improve the transformer architecture, very few approaches generalize well across codebases and tasks. However, we have found that rotary positional embeddings perform as well or better than other positional embedding techniques in every architecture we have tried.
-
-#### Implementation
+### Implementation
 
 A naive implementation of rotary position embeddings would left multiply every query and key at position $m$ by the following block diagonal matrix:
 \begin{equation*}
@@ -154,16 +152,11 @@ def apply_rotary_pos_emb(q, k, cos, sin):
 ```
 **N.B:** The layout of the queries and keys in GPT-NeoX, following Megatron \cite{megatron}, is `[seq, batch, heads, hdim]`, in order to avoid memory-intensive transpose operations. The code will need to be modified to work with the conventional layout of `[batch, seq, heads, hdim]`.
 
-#### Runtime
-In general, we find that the runtime cost of rotary embeddings is fairly negligible. With the above implementation, we find that applying the rotary embeddings is naively about 4-5x the cost of applying additive positional embeddings. With the addition of a fusing optimizer like Torchscript, the runtime can be reduced to about 2-2.5x the runtime of additive positional embeddings. Concretely, for query and key tensors of shape $[2048, 16, 12, 64]$, applying rotary embeddings take 5.3 milliseconds, while applying additive positional embeddings takes 2.1 milliseconds.
-
-Unlike standard positional embeddings, however,  rotary embeddings must be applied at every layer. As large transformer models are typically dominated by matrix multiplies, we find that the overall overhead remains negligible. With fusion, we find that rotary embeddings imposes a 1-3\% overhead across a range of transformer sizes.
-
-\subsection{Experiments}
+### Experiments
 
 We have found rotary embeddings to be effective for many varieties of attention:
 
-**Comparison against other PEs for Global attention:** We conducted [comparisons](https://wandb.ai/eleutherai/neox/reports/Rotary-Test-3--Vmlldzo2MTIwMDM) of rotary embeddings with learned absolute positional embeddings, used in GPT-3 [1], and the learned relative positional embeddings (henceforth RPE) used in T5 [11] using our GPT-Neox codebase. Comparisons were done using 125M parameter models with the same hyperparameters as the equally-sized model from [1]. Models were trained on [OpenWebText2]({https://www.eleuther.ai/projects/open-web-text2/), a large and diverse dataset of online text. We see faster convergence of training and validation curves and a lower overall validation loss with a minimal decrease in throughput. 
+**Comparison against other PEs for Global attention:** We conducted [comparisons](https://wandb.ai/eleutherai/neox/reports/Rotary-Test-3--Vmlldzo2MTIwMDM) of rotary embeddings with learned absolute positional embeddings, used in GPT-3 [1], and the learned relative positional embeddings (henceforth RPE) used in T5 [10] using our GPT-Neox codebase. Comparisons were done using 125M parameter models with the same hyperparameters as the equally-sized model from [1]. Models were trained on [OpenWebText2]({https://www.eleuther.ai/projects/open-web-text2/), a large and diverse dataset of online text. We see faster convergence of training and validation curves and a lower overall validation loss with a minimal decrease in throughput. 
 
 \begin{figure}[ht]
     \centering
@@ -211,7 +204,7 @@ Final validation loss / ppl scores on Pile validation set at 8k steps (~5B token
 
 **Comparison against learned absolute for Performer:** Performer [2] is an example of an alternative attention mechanism designed to avoid quadratic bottlenecks with respect to sequence lengths. We ran small scale tests of Performer on enwiki8, for 8 layer char-based transformers with 512 dimensions and 8 heads. [These tests indicated](https://wandb.ai/lucidrains/eleuther-blogpost/reports/performer-rotary--Vmlldzo2MTgyNDg) that substituting rotary embeddings into the Performer leads to stark decreases in validation loss and to rapid convergence. Though these improvements do not close the gap between efficient and quadratic attention mechanisms, such a significant improvement makes mechanisms like Performer more attractive.
 
-In smaller scale tests, we have also put RoPE head to head against other alternatives including the relative position embedding method of Shaw et al. [12], TUPE [6], and position-infused attention [9], seeing positive results across the board. 
+In smaller scale tests, we have also put RoPE head to head against other alternatives including the relative position embedding method of Shaw et al. [11], TUPE [5], and position-infused attention [8], seeing positive results across the board. 
 \begin{figure}[ht]
     \centering
     \includegraphics[width=0.9\textwidth]{Rotary Embedding/preformer.png}
@@ -219,8 +212,14 @@ In smaller scale tests, we have also put RoPE head to head against other alterna
     \label{fig:preformer}
 \end{figure}
 
+#### Runtime
+In general, we find that the runtime cost of rotary embeddings is fairly negligible. With the above implementation, we find that applying the rotary embeddings is naively about 4-5x the cost of applying additive positional embeddings. With the addition of a fusing optimizer like Torchscript, the runtime can be reduced to about 2-2.5x the runtime of additive positional embeddings. Concretely, for query and key tensors of shape $[2048, 16, 12, 64]$, applying rotary embeddings take 5.3 milliseconds, while applying additive positional embeddings takes 2.1 milliseconds.
+
+Unlike standard positional embeddings, however,  rotary embeddings must be applied at every layer. As large transformer models are typically dominated by matrix multiplies, we find that the overall overhead remains negligible. With fusion, we find that rotary embeddings imposes a 1-3\% overhead across a range of transformer sizes.
+
+
 ### Conclusion
-Rotary embeddings make it possible to implement relative attention in a straightforward and efficient manner. We are excited to read the upcoming rotary positional embeddings paper from the original authors and the work it inspires. Simple improvements to the transformer architecture that carry over robustly between different types of self-attention are few and far between [7].
+Rotary embeddings make it possible to implement relative attention in a straightforward and efficient manner. We are excited to read the upcoming rotary positional embeddings paper from the original authors and the work it inspires. Simple improvements to the transformer architecture that carry over robustly between different types of self-attention are few and far between [6].
 
 With relative ease RoPE can be extended into the multidimensional case. To represent two dimensions, two independent 1-dimensional rotary embeddings can be used. To implement this, we can split each of $\mathbf{q}$ and $\mathbf{k}$ in half and apply rotary piece-wise as follows:
 
@@ -233,42 +232,59 @@ With relative ease RoPE can be extended into the multidimensional case. To repre
 This formulation can also be further extended to data of an arbitrary number of dimensions. This sort of multi-dimensional relative coding would let us, for example, implement relative timing and relative pitch embeddings similar to Music Transformer [4] in a drastically simpler manner. More generally, we believe there is potentially a large class of invariances that first-principles positional codes like RoPE may enable us to capture. 
 
 ### Citation Information
-We ask that you please cite the original blog post and their soon to be published paper, rather than this blog, if you find it helpful.
 
+To cite the RoPE methodology, please use:
 ```
-  @misc{Jianlin2021,
-    author = {Jianlin, Su},
-    title = {The Road to Transformer Upgrade: 2. The Rotary Position Coding to Learn from the Experts},
-    year = {2021},
-    howpublished = \url{https://kexue.fm/archives/8265},
-    note = {[Online; accessed 18-April-2021]}
+  @article{rope-paper,
+    title={RoFormer: Enhanced Transformer with Rotary Position Embedding},
+    author={Su, Jianlin and Lu, Yu and Pan, Shengfeng and Wen, Bo and Liu, Yunfeng},
+    journal={arXiv preprint arXiv:2012.15832},
+    year={2021}
   }
 ```
 
-# References
+To cite this blog post, please use:
 
-[1] Tom B Brown, Benjamin Mann, Nick Ryder, Melanie Subbiah, Jared Kaplan, Prafulla Dhariwal,Arvind Neelakantan, Pranav Shyam, Girish Sastry, Amanda Askell, et al. Language models are few-shot learners. *arXiv preprint arXiv:2005.14165*, 2020.
+```
+  @misc{rope-eleutherai,
+    title = {The Road to Transformer Upgrade: 2. The Rotary Position Coding to Learn from the Experts},
+    author = {Biderman, Stella and Black, Sid and Foster, Charles and Gao, Leo and Hallahan, Eric and He, Horace and Wang, Ben and Wang, Phil},
+    howpublished = \url{blog.eleuther.ai/},
+    note = {[Online; accessed DATE]},
+    year = {2021}
+  }
+```
 
-[2] Krzysztof Choromanski, Valerii Likhosherstov, David Dohan, Xingyou Song, Andreea Gane,Tamas Sarlos, Peter Hawkins, Jared Davis, Afroz Mohiuddin, Lukasz Kaiser, et al. Rethinking attention with performers. *arXiv preprint arXiv:2009.14794*, 2020.
+## References
+
+[1] Tom B Brown, Benjamin Mann, Nick Ryder, Melanie Subbiah, Jared Kaplan, Prafulla Dhariwal, Arvind Neelakantan, Pranav Shyam, Girish Sastry, Amanda Askell, et al. Language models are few-shot learners. *arXiv preprint arXiv:2005.14165*, 2020.
+
+[2] Krzysztof Choromanski, Valerii Likhosherstov, David Dohan, Xingyou Song, Andreea Gane, Tamas Sarlos, Peter Hawkins, Jared Davis, Afroz Mohiuddin, Lukasz Kaiser, et al. Rethinking attention with performers. *arXiv preprint arXiv:2009.14794*, 2020.
 
 [3] Leo Gao, Stella Biderman, Sid Black, Laurence Golding, Travis Hoppe, Charles Foster, Jason Phang, Horace He, Anish Thite, Noa Nabeshima, et al. The Pile: An 800GB dataset of diverse text for language modeling. *arXiv preprint arXiv:2101.00027*, 2021.
 
 [4] Cheng-Zhi Anna Huang, Ashish Vaswani, Jakob Uszkoreit, Noam Shazeer, Ian Simon, Curtis Hawthorne, Andrew M Dai, Matthew D Hoffman, Monica Dinculescu, and Douglas Eck. Music transformer. *arXiv preprint arXiv:1809.04281*, 2018.
 
-[5] Su Jianlin.  The road to transformer upgrade: 2. the rotary position coding to learn from theexperts.https://kexue.fm/archives/8265, 2021. [Online; accessed 18-April-2021].[6]Guolin Ke, Di He, and Tie-Yan Liu. Rethinking the positional encoding in language pre-training.arXiv preprint arXiv:2006.15595, 2020.
+[5] Guolin Ke, Di He, and Tie-Yan Liu. Rethinking the positional encoding in language pre-training.arXiv preprint arXiv:2006.15595, 2020.
 
-[7] Sharan Narang, Hyung Won Chung, Yi Tay, William Fedus, Thibault Fevry, Michael Matena,Karishma Malkan, Noah Fiedel, Noam Shazeer, Zhenzhong Lan, et al. Do transformer modifications transfer across implementations and applications? *arXiv preprint arXiv:2102.11972*, 2021.
+[6] Sharan Narang, Hyung Won Chung, Yi Tay, William Fedus, Thibault Fevry, Michael Matena, Karishma Malkan, Noah Fiedel, Noam Shazeer, Zhenzhong Lan, et al. Do transformer modifications transfer across implementations and applications? *arXiv preprint arXiv:2102.11972*, 2021.
 
-[8] Deepak Narayanan, Mohammad Shoeybi, Jared Casper, Patrick LeGresley, Mostofa Patwary,Vijay Korthikanti, Dmitri Vainbrand, Prethvi Kashinkunti, Julie Bernauer, Bryan Catanzaro,Amar Phanishayee, and Matei Zaharia. Efficient large-scale language model training on GPU clusters, 2021.
+[7] Deepak Narayanan, Mohammad Shoeybi, Jared Casper, Patrick LeGresley, Mostofa Patwary, Vijay Korthikanti, Dmitri Vainbrand, Prethvi Kashinkunti, Julie Bernauer, Bryan Catanzaro, et al. Efficient large-scale language model training on GPU clusters, 2021.
 
-[9] Ofir Press, Noah A Smith, and Mike Lewis. Shortformer:  Better language modeling usingshorter inputs. *arXiv preprint arXiv:2012.15832*, 2020.
+[8] Ofir Press, Noah A Smith, and Mike Lewis. Shortformer:  Better language modeling usingshorter inputs. *arXiv preprint arXiv:2012.15832*, 2020.
 
-[10] Alec Radford, Jong Wook Kim, Chris Hallacy, Aditya Ramesh, Gabriel Goh, Sandhini Agarwal,Girish Sastry, Amanda Askell, Pamela Mishkin, Jack Clark, et al. Learning transferable visual models from natural language supervision. *arXiv preprint arXiv:2103.00020*, 2021.
+[9] Alec Radford, Jong Wook Kim, Chris Hallacy, Aditya Ramesh, Gabriel Goh, Sandhini Agarwal, Girish Sastry, Amanda Askell, Pamela Mishkin, Jack Clark, et al. Learning transferable visual models from natural language supervision. *arXiv preprint arXiv:2103.00020*, 2021.
 
-[11] Colin Raffel, Noam Shazeer, Adam Roberts, Katherine Lee, Sharan Narang, Michael Matena,Yanqi Zhou, Wei Li, and Peter J Liu.  Exploring the limits of transfer learning with a unifiedtext-to-text transformer. *arXiv preprint arXiv:1910.10683*, 2019.
+[10] Colin Raffel, Noam Shazeer, Adam Roberts, Katherine Lee, Sharan Narang, Michael Matena, Yanqi Zhou, Wei Li, and Peter J Liu.  Exploring the limits of transfer learning with a unified text-to-text transformer. *arXiv preprint arXiv:1910.10683*, 2019.
 
-[12] Peter Shaw, Jakob Uszkoreit, and Ashish Vaswani. Self-attention with relative position representations. *arXiv preprint arXiv:1803.02155*, 2018.
+[11] Peter Shaw, Jakob Uszkoreit, and Ashish Vaswani. Self-attention with relative position representations. *arXiv preprint arXiv:1803.02155*, 2018.
 
-[13] Hao Tan and Mohit Bansal. Vokenization: improving language understanding with contextual-ized, visual-grounded supervision. *arXiv preprint arXiv:2010.06775*, 2020.
+[12] Su Jianlin. 让研究人员绞尽脑汁的Transformer位置编码. https://kexue.fm/archives/8130, 2021. [Online; accessed 18-April-2021].
 
-[14] Ashish Vaswani, Noam Shazeer, Niki Parmar, Jakob Uszkoreit, Llion Jones, Aidan N Gomez,Lukasz Kaiser, and Illia Polosukhin. Attention is all you need. *arXiv preprint arXiv:1706.03762*, 2017.
+[13] Su Jianlin. Transformer升级之路：2、博采众长的旋转式位置编码. https://kexue.fm/archives/8265, 2021. [Online; accessed 18-April-2021].
+
+[14] Su Jianlin, Yu Lu, Shengfeng Pan, Bo Wen, and Yunfeng Liu. RoFormer: Enhanced Transformer with Rotary Position Embedding. https://kexue.fm/archives/8265, 2021. [Online; accessed 18-April-2021].
+
+[15] Hao Tan and Mohit Bansal. Vokenization: improving language understanding with contextual-ized, visual-grounded supervision. *arXiv preprint arXiv:2010.06775*, 2020.
+
+[16] Ashish Vaswani, Noam Shazeer, Niki Parmar, Jakob Uszkoreit, Llion Jones, Aidan N Gomez,Lukasz Kaiser, and Illia Polosukhin. Attention is all you need. *arXiv preprint arXiv:1706.03762*, 2017.
