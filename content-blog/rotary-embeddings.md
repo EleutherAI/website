@@ -141,42 +141,105 @@ After reading  Jianlin Su's original blog posts [12, 13], we were curious how we
 
 ### Implementation
 
-A naive implementation of rotary positional embeddings would use the matrix form shown in Equation 12. In practice, implementing rotary positional embeddings this way is highly inefficient and more optimized forms are readily available. The original implementations of RoPE are available in the [roformer](https://github.com/ZhuiyiTechnology/roformer) and [bert4keras](https://github.com/bojone/bert4keras) libraries. Additionally, we have implemented rotary positional embeddings in the [x-transformers](https://github.com/lucidrains/x-transformers) library and the [GPT-Neo](https://github.com/EleutherAI/gpt-neo) and [GPT-NeoX](https://github.com/EleutherAI/gpt-neox) codebases. An example implementation from GPT-NeoX is shown below for reference: 
+A naive implementation of rotary positional embeddings would use the matrix form shown in Equation 12. In practice, implementing rotary positional embeddings this way is highly inefficient, and more optimized forms are readily available. The original implementations of RoPE are available in [roformer](https://github.com/ZhuiyiTechnology/roformer) and [bert4keras](https://github.com/bojone/bert4keras).
 
-```python
+Additionally, we have implemented rotary positional embeddings in [x-transformers](https://github.com/lucidrains/x-transformers), [GPT-Neo](https://github.com/EleutherAI/gpt-neo), [GPT-NeoX](https://github.com/EleutherAI/gpt-neox), and [Mesh Transformer Jax](https://github.com/kingoflolz/mesh-transformer-jax). Below are implimentations for TensorFlow, PyTorch, and JAX pulled from these codebases.
+<br>
+<details><summary>GPT-Neo (TensorFlow)</summary>
+{{< highlight python >}}
+def rotary_positional_emb(mesh, sequence_dim, params, variable_dtype):
+    dtype = variable_dtype.master_dtype
+    dim_head = params["n_embd"] // params["n_head"]
 
-    class Rotary(torch.nn.Module):
+    dim_head = mtf.Dimension("features_per_head", dim_head)
+    half_dim_head = mtf.Dimension("half_features_per_head", dim_head.size // 2)
+
+    dim_range = mtf.range(mesh, half_dim_head, dtype) * 2 / dim_head.size
+    half_freqs = 1. / mtf.pow(mtf.constant(mesh, 10000, dtype = dtype), dim_range)
+
+    seq = mtf.range(mesh, sequence_dim, dtype)
+    half_freqs = mtf.einsum([half_freqs, seq], [sequence_dim, half_dim_head])
+
+    freqs = mtf.concat((half_freqs, half_freqs), half_dim_head.name)
+    freqs = mtf.rename_dimension(freqs, half_dim_head.name, dim_head.name)
+    return mtf.cos(freqs), mtf.sin(freqs)
+
+def rotate_half(x):
+    dim_head_name = "features_per_head"
+    dim_head = x.shape.get_dim_by_name(dim_head_name)
+    half_dim_head_size = dim_head.size // 2
+    x1 = mtf.slice(x, 0, half_dim_head_size, dim_head_name)
+    x2 = mtf.slice(x, half_dim_head_size, half_dim_head_size, dim_head_name)
+    return mtf.concat((-x2, x1), dim_head.name)
+
+def apply_rotary_emb(x, cos, sin):
+    rotated_x = rotate_half(x)
+    return x * cos + rotated_x * sin
+{{</highlight>}}
+</details>
+<br>
+<details><summary>GPT-NeoX (PyTorch)</summary>
+{{< highlight python >}}
+class Rotary(torch.nn.Module):
+    
+    def __init__(self, dim, base=10000):
+        super().__init__()
+        inv_freq = 1. / (base ** (torch.arange(0, dim, 2).float() / dim))
+        self.register_buffer('inv_freq', inv_freq)
+        self.seq_len_cached = None
+        self.cos_cached = None
+        self.sin_cached = None
+
+    def forward(self, x, seq_dim=1):
+        seq_len = x.shape[seq_dim]
+        if seq_len != self.seq_len_cached:
+            self.seq_len_cached = seq_len
+            t = torch.arange(x.shape[seq_dim], device=x.device).type_as(self.inv_freq)
+            freqs = torch.einsum('i,j->ij', t, self.inv_freq)
+            emb = torch.cat((freqs, freqs), dim=-1).to(x.device)
+            self.cos_cached = emb.cos()[:, None, None, :]
+            self.sin_cached = emb.sin()[:, None, None, :]
+        return self.cos_cached, self.sin_cached
         
-        def __init__(self, dim, base=10000):
-            super().__init__()
-            inv_freq = 1. / (base ** (torch.arange(0, dim, 2).float() / dim))
-            self.register_buffer('inv_freq', inv_freq)
-            self.seq_len_cached = None
-            self.cos_cached = None
-            self.sin_cached = None
-    
-        def forward(self, x, seq_dim=1):
-            seq_len = x.shape[seq_dim]
-            if seq_len != self.seq_len_cached:
-                self.seq_len_cached = seq_len
-                t = torch.arange(x.shape[seq_dim], device=x.device).type_as(self.inv_freq)
-                freqs = torch.einsum('i,j->ij', t, self.inv_freq)
-                emb = torch.cat((freqs, freqs), dim=-1).to(x.device)
-                self.cos_cached = emb.cos()[:, None, None, :]
-                self.sin_cached = emb.sin()[:, None, None, :]
-            return self.cos_cached, self.sin_cached
-            
-    # rotary pos emb helpers:
-    def rotate_half(x):
-        x1, x2 = x[..., :x.shape[-1] // 2], x[..., x.shape[-1] // 2:]
-        return torch.cat((-x2, x1), dim=x1.ndim - 1) # dim=-1 triggers a bug in torch < 1.8.0
-    
-    @torch.jit.script
-    def apply_rotary_pos_emb(q, k, cos, sin):
-        return (q * cos) + (rotate_half(q) * sin), (k * cos) + (rotate_half(k) * sin)
+# rotary pos emb helpers:
+def rotate_half(x):
+    x1, x2 = x[..., :x.shape[-1] // 2], x[..., x.shape[-1] // 2:]
+    return torch.cat((-x2, x1), dim=x1.ndim - 1) # dim=-1 triggers a bug in torch < 1.8.0
 
-```
+@torch.jit.script
+def apply_rotary_pos_emb(q, k, cos, sin):
+    return (q * cos) + (rotate_half(q) * sin), (k * cos) + (rotate_half(k) * sin)
+{{</highlight>}}
+
 **N.B:** The layout of the queries and keys in GPT-NeoX, following Megatron, is `[seq, batch, heads, hdim]`, in order to avoid memory-intensive transpose operations. The code will need to be modified to work with the conventional layout of `[batch, seq, heads, hdim]`.
+</details>
+<br>
+<details><summary>Mesh Transformer Jax (JAX)</summary>
+{{< highlight python >}}
+def fixed_pos_embedding(x, seq_dim=0):
+    dim = x.shape[-1]
+    inv_freq = 1. / (10000 ** (np.arange(0, dim, 2) / dim))
+
+    sinusoid_inp = np.einsum('i , j -> i j', np.arange(x.shape[seq_dim]), inv_freq)
+
+    return np.sin(sinusoid_inp), np.cos(sinusoid_inp)
+
+
+def rotate_every_two(x):
+    x1 = x[:, :, ::2]
+    x2 = x[:, :, 1::2]
+
+    x = jnp.stack((-x2, x1), axis=-1)
+
+    return rearrange(x, '... d j -> ... (d j)')
+
+
+def apply_rotary_pos_emb(x, sincos):
+    sin, cos = map(lambda t: repeat(t, 'b n -> b (n j)', j=2)[:, None, :], sincos)
+    return (x * cos) + (rotate_every_two(x) * sin)
+{{</highlight>}}
+</details>
+
 <br>
 
 ### Experiments
