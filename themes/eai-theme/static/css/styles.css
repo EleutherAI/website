@@ -580,3 +580,17 @@ samp.role-O5 {
     flex-direction: row;
   }
 }
+
+
+/* fix */
+img {
+    max-width: 100%;
+}
+pre {
+    max-width: 100%;
+    white-space: pre-wrap;
+}
+
+#waveplate-animation {
+    max-width: 100%;
+}
