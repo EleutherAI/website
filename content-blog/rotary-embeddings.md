@@ -331,7 +331,7 @@ To cite the RoPE methodology, please use:
 @article{rope-paper,
   title={RoFormer: Enhanced Transformer with Rotary Position Embedding},
   author={Su, Jianlin and Lu, Yu and Pan, Shengfeng and Wen, Bo and Liu, Yunfeng},
-  journal={arXiv preprint arXiv:2012.15832},
+  journal={arXiv preprint arXiv:2104.09864},
   year={2021}
 }
 ```
