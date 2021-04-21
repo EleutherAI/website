@@ -405,7 +405,7 @@ To cite this blog post, please use:
 
 [13] Jianlin Su. Transformer升级之路：2、博采众长的旋转式位置编码. https://kexue.fm/archives/8265, 2021. [Online; accessed 18-April-2021].
 
-[14] Jianlin Su, Yu Lu, Shengfeng Pan, Bo Wen, and Yunfeng Liu. RoFormer: Enhanced Transformer with Rotary Position Embedding. https://kexue.fm/archives/8265, 2021. [Online; accessed 18-April-2021].
+[14] Jianlin Su, Yu Lu, Shengfeng Pan, Bo Wen, and Yunfeng Liu. RoFormer: Enhanced Transformer with Rotary Position Embedding. https://arxiv.org/abs/2104.09864, 2021. [Online; accessed 18-April-2021].
 
 [15] Hao Tan and Mohit Bansal. Vokenization: improving language understanding with contextual-ized, visual-grounded supervision. *arXiv preprint arXiv:2010.06775*, 2020.
 
