@@ -83,7 +83,7 @@ We begin with absolute positional information: for each token, we know where it 
 
 While it is common in machine learning to restrict our attention to the real numbers, for rotary embeddings it is mathematically more convenient to use the complex numbers as the base field for our  space. Instead of working in the usual $\mathbb{R}^d$, we will work in $\mathbb{C}^{d/2}$ by considering consecutive pairs of elements of the query and key vectors to be a single complex number. Specifically, instead of viewing $\mathbf{q}=(q_0,q_1,q_2,q_3,\ldots,q_{d-1})$ as a $d$-dimensional real vector we view it as $\mathbf{q}=(q_0+iq_1, q_2+iq_3,\ldots q_{d-2} + iq_{d-1})\in\mathbb{C}^{d/2}$. As we will see, casting it in this fashion will make discussing the rotary embeddings easier. If $d$ is odd, we can pad it with a dummy coordinate to ensure things line up correctly. Alternatively, we can simply increase $d$ by one.
 
-Let $\mathbf{q}$ and $\mathbf{k}$ be query and key vectors respectively and let $m$ and $n$ be the absolute positions of the corresponding tokens. Let $f(\mathbf{x}, \ell)$ be the function that takes the token  $\mathbf{x}$ for a token in position $\ell$ and outputs a new  that contains (in some fashion) the relative positional information. Our goal is to find a "nice" function $f$ that does this. Once the positional information is encoded, we need to compute the inner product like so:
+Let $\mathbf{q}$ and $\mathbf{k}$ be query and key vectors respectively and let $m$ and $n$ be the absolute positions of the corresponding tokens. Let $f(\mathbf{x}, \ell)$ be the function that takes the token embedding $\mathbf{x}$ in position $\ell$ and outputs a new embedding that contains (in some fashion) the relative positional information. Our goal is to find a "nice" function $f$ that does this. Once the positional information is encoded, we need to compute the inner product like so:
 
 \begin{equation}\label{fg}
     \langle f(\mathbf{q}, m),f(\mathbf{k},n) \rangle = g(\mathbf{q}, \mathbf{k}, m - n)
@@ -114,19 +114,19 @@ and likewise for $\mathbf{k}$. Since computers tend to like real numbers and mat
 \begin{equation}
     f(\mathbf{q}, m) =
     \begin{pmatrix}
-	    M_1 & & &  \\\\
+	    M_1 & & & \\\\
 	   & M_2 & & \\\\
 	   & & \ddots & \\\\
 	   & & & M_{d/2}
     \end{pmatrix}
     \begin{pmatrix}
 	   q_1\\\\
-	   q_2& \\\\
+	   q_2\\\\
 	   \vdots\\\\
-	   q_{d/2}
+	   q_{d}
     \end{pmatrix} = \mathbf{\Theta_m Q_m} = \mathbf{\Theta_m W_qX_m}
     \end{equation}
-where $M_j=\begin{pmatrix}\cos m\theta_j & -\sin m\theta_j \\\sin m\theta_j & \cos m\theta_j\end{pmatrix}$, $\mathbf{\Theta_m}$ is the block diagonal rotation matrix, $\mathbf{W_q}$ is the learned query weights, and $\mathbf{X_m}$ is the  of the $m^{th}$ token.  Again, we also have the corresponding equation for $\mathbf{k}$.
+where $M_j=\begin{pmatrix}\cos m\theta_j & -\sin m\theta_j \\\sin m\theta_j & \cos m\theta_j\end{pmatrix}$, $\mathbf{\Theta_m}$ is the block diagonal rotation matrix, $\mathbf{W_q}$ is the learned query weights, and $\mathbf{X_m}$ is the embedding of the $m^{th}$ token.  Again, we also have the corresponding equation for $\mathbf{k}$.
 
 ### Extension to multiple dimensions
 
