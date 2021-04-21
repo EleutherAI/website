@@ -6,6 +6,13 @@ layout: page
 
 ## News & Announcements
 
+
+## {class="content-block"}
+- {{<date year="2021" month="04" day="20">}}
+- **Blog**  
+Rotary Positional Embedding (RoPE) is a new type of position encoding that unifies absolute and relative approaches.  
+[Rotary Embeddings: A Relative Revolution >](https://blog.eleuther.ai/rotary-embeddings/)
+
 ## {class="content-block"}
 - {{<date year="2021" month="03" day="31">}}
 - **GPT&#8288;-&#8288;Neo**  
