@@ -65,7 +65,7 @@ The following is an example illustrating the core idea of RoPE—a more rigorous
     margin-left: auto;
     height: 400px;
     width: 800px" loading="lazy" ></iframe>
-  <figcaption>A quarter-waveplate can change the polarization of an electromagnetic wave.</figcaption>
+  <figcaption>A quarter-waveplate can change the polarization of an electromagnetic wave. (This figure is interactive, try dragging the cube!)</figcaption>
 <br>
 </figure>
 
