@@ -1,6 +1,6 @@
 ---
 title: "Rotary Embeddings: A Relative Revolution"
-date: 2021-04-19T11:07:40+01:00
+date: 2021-04-20T21:00:00-04:00
 draft: False
 description: "This is a short description of the page"
 mathjax: True
@@ -19,7 +19,7 @@ by Stella Biderman, Sid Black, Charles Foster, Leo Gao, Eric Hallahan, Horace He
 <br>
 
 ## TL;DR:
-Rotary Positional Embedding (RoPE) is a new type of position encoding that unifies absolute and relative approaches. Developed by Jianlin Su in a series of blog posts earlier this year [12, 13] and in a new preprint [14], it has already garnered widespread interest in some Chinese NLP circles. However, this development is not widely known to the global community, in large part due to the lack of English-language resources. This post walks through the method as we understand it, with the goal of bringing it to the attention of the wider academic community. In general we have found that across a large suite of setups including regular, linear, and local self-attention, it **either matches or surpasses all other methods currently available for injecting positional information into transformers.**
+Rotary Positional Embedding (RoPE) is a new type of position encoding that unifies absolute and relative approaches. Developed by Jianlin Su in a series of blog posts earlier this year [12, 13] and in a new preprint [14], it has already garnered widespread interest in some Chinese NLP circles. This post walks through the method as we understand it, with the goal of bringing it to the attention of the wider academic community. In general we have found that across a large suite of setups including regular, linear, and local self-attention, it **either matches or surpasses all other methods currently available for injecting positional information into transformers.**
 
 <br>
 
@@ -143,40 +143,7 @@ After reading  Jianlin Su's original blog posts [12, 13], we were curious how we
 
 A naive implementation of rotary positional embeddings would use the matrix form shown in Equation 12. In practice, implementing rotary positional embeddings this way is highly inefficient, and more optimized forms are readily available. The original implementations of RoPE are available in [roformer](https://github.com/ZhuiyiTechnology/roformer) and [bert4keras](https://github.com/bojone/bert4keras).
 
-Additionally, we have implemented rotary positional embeddings in [x-transformers](https://github.com/lucidrains/x-transformers), [GPT-Neo](https://github.com/EleutherAI/gpt-neo), [GPT-NeoX](https://github.com/EleutherAI/gpt-neox), and [Mesh Transformer Jax](https://github.com/kingoflolz/mesh-transformer-jax). Below are implimentations for TensorFlow, PyTorch, and JAX pulled from these codebases.
-<br>
-<details><summary>GPT-Neo (TensorFlow)</summary>
-{{< highlight python >}}
-def rotary_positional_emb(mesh, sequence_dim, params, variable_dtype):
-    dtype = variable_dtype.master_dtype
-    dim_head = params["n_embd"] // params["n_head"]
-
-    dim_head = mtf.Dimension("features_per_head", dim_head)
-    half_dim_head = mtf.Dimension("half_features_per_head", dim_head.size // 2)
-
-    dim_range = mtf.range(mesh, half_dim_head, dtype) * 2 / dim_head.size
-    half_freqs = 1. / mtf.pow(mtf.constant(mesh, 10000, dtype = dtype), dim_range)
-
-    seq = mtf.range(mesh, sequence_dim, dtype)
-    half_freqs = mtf.einsum([half_freqs, seq], [sequence_dim, half_dim_head])
-
-    freqs = mtf.concat((half_freqs, half_freqs), half_dim_head.name)
-    freqs = mtf.rename_dimension(freqs, half_dim_head.name, dim_head.name)
-    return mtf.cos(freqs), mtf.sin(freqs)
-
-def rotate_half(x):
-    dim_head_name = "features_per_head"
-    dim_head = x.shape.get_dim_by_name(dim_head_name)
-    half_dim_head_size = dim_head.size // 2
-    x1 = mtf.slice(x, 0, half_dim_head_size, dim_head_name)
-    x2 = mtf.slice(x, half_dim_head_size, half_dim_head_size, dim_head_name)
-    return mtf.concat((-x2, x1), dim_head.name)
-
-def apply_rotary_emb(x, cos, sin):
-    rotated_x = rotate_half(x)
-    return x * cos + rotated_x * sin
-{{</highlight>}}
-</details>
+Additionally, we have implemented rotary positional embeddings in [x-transformers](https://github.com/lucidrains/x-transformers), [GPT-Neo](https://github.com/EleutherAI/gpt-neo), [GPT-NeoX](https://github.com/EleutherAI/gpt-neox), and [Mesh Transformer Jax](https://github.com/kingoflolz/mesh-transformer-jax). Below are implimentations for PyTorch and JAX pulled from these codebases.
 <br>
 <details><summary>GPT-NeoX (PyTorch)</summary>
 {{< highlight python >}}
@@ -370,7 +337,8 @@ To cite this blog post, please use:
 ```bibtex
 @misc{rope-eleutherai,
   title = {Rotary Embeddings: A Relative Revolution},
-  author = {Biderman, Stella and Black, Sid and Foster, Charles and Gao, Leo and Hallahan, Eric and He, Horace and Wang, Ben and Wang, Phil},
+  author = {Biderman, Stella and Black, Sid and Foster, Charles and Gao, Leo and
+                Hallahan, Eric and He, Horace and Wang, Ben and Wang, Phil},
   howpublished = \url{blog.eleuther.ai/},
   note = {[Online; accessed ]},
   year = {2021}
