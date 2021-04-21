@@ -1,6 +1,6 @@
 baseURL = "https://blog.eleuther.ai/"
 languageCode = "en-us"
-title = "Eleuther AI Blog"
+title = "EleutherAI Blog"
 theme = "eai-theme"
 contentDir = "content-blog"
 publishDir="public-blog"
@@ -9,6 +9,12 @@ publishDir="public-blog"
     logo_image_url="images/eai_logo.png"
     contact_mail="contact@eleuther.ai"
     site_type="blog"
+[markup]
+  [markup.goldmark]
+    [markup.goldmark.renderer]
+      unsafe = true
+  [markup.highlight]
+    style = "solarized-light"
 [menu]
   [[menu.main]]
     name = "Home"

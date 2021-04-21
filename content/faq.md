@@ -4,7 +4,7 @@ date: 2021-02-26T20:18:54+03:00
 layout: page
 ---
 
-## FAQ  
+# FAQ  
 
 ### General
 
@@ -42,13 +42,14 @@ A: Yes. If you or someone you know has access to large quantities of CPU, GPU, o
 
 #### Q: *So . . . what's the deal with your logo?*
 
-A: Keeping with the theme, our logotype and all images on this website are all generated with machine learning techniques.
+A: Keeping with the theme, our logotype and all images on this website were generated with deep learning techniques.
 
 ---
 
 #### Q: *Where can I go if I have more questions?*
 
-A: [Discord](https://discord.gg/avxKQUv2fW) is the best place for that. Some of our core contributors' usernames will appear in {{<discord/handle drole="O5" name="purple">}} or {{<discord/handle drole="level5" name="blue">}} in the chat, and our regulars familiar with our operations will appear in {{<discord/handle drole="regular" name="green">}}. They should be able to provide helpful guidance or answer questions.  
+A: [Discord](https://discord.gg/avxKQUv2fW) is the best place for that. Our founding members appear in {{<discord/handle drole="O5" name="purple">}} and our core contributors appear in {{<discord/handle drole="level5" name="blue">}}. They will be able to provide helpful guidance or answer questions.
+
 However, we ask that you do not expect us to be your tech support; those who contribute to EleutherAI do so in their free time and tend to prefer contributing to projects rather than debugging your problems. We recommend consulting the corresponding documentation before asking us for help. If you think you have found a bug, please consider opening an issue on [GitHub](https://github.com/EleutherAI).
 
 ---
@@ -63,39 +64,33 @@ A: We are a research-focused Discord server and not an educational one. We welco
 
 #### Q: *What are GPT&#8288;-&#8288;Neo and GPT&#8288;-&#8288;NeoX?*
 
-A: [GPT&#8288;-&#8288;Neo](https://github.com/EleutherAI/gpt-neo) and [GPT&#8288;-&#8288;NeoX](https://github.com/EleutherAI/gpt-neox) are our codebases for training massive language models, which we plan to release as open-source. The models themselves are referred to by their size in billions of parameters.
-
----
-
-#### Q: *What differentiates GPT&#8288;-&#8288;NeoX from GPT&#8288;-&#8288;Neo?*
-
-A: GPT&#8288;-&#8288;Neo is a codebase built from the ground up upon [Mesh Tensorflow](https://github.com/tensorflow/mesh), designed to lets us train models at super-large scales on GPUs or TPUs.
-Apart from appending the 24th letter of the ISO basic Latin alphabet, GPT&#8288;-&#8288;NeoX is an entirely separate, in-development codebase based upon Megatron&#8288;-&#8288;LM and DeepSpeed.
-
----
-
-#### Q: *Why do you need GPT&#8288;-&#8288;NeoX when you have GPT&#8288;-&#8288;Neo? Why maintain two codebases?*
-
-A: GPT&#8288;-&#8288;NeoX is designed to succeed GPT&#8288;-&#8288;Neo as our primary codebase, which provides several benefits over the older code:
-- We can utilize PyTorch, which we find far more flexible and maintainable than TensorFlow. 
-- It is not feasible to use the TPUs we have access to through TFRC to train larger models.
-- [We have access to sufficient GPU resources to train larger models.](#compute)
+A: [GPT&#8288;-&#8288;Neo](https://github.com/EleutherAI/gpt-neo) and [GPT&#8288;-&#8288;NeoX](https://github.com/EleutherAI/gpt-neox) are our codebases for training massive language models, for which we plan to release under open licenses. The models themselves are referred to by their size (in millions or billions of parameters).
 
 ---
 
 #### Q: *How big is the largest publically available model you have trained?*
 
-A: On March 21th 2021 we released a 2.7 billion (2.7B) parameter model trained upon the Pile, comparable in size and performance to GPT&#8288;-&#8288;3 Ada.
+A: On March 21st, 2021 we released a 2.7 billion parameter model trained upon the Pile.
 
 ---
 
-#### Q: *Are you serious when you say you are going to train a model comparable to GPT&#8288;-&#8288;3 DaVinci (175B parameters)?*
+#### Q: *Are you serious when you say you are going to train a model comparable to the biggest GPT&#8288;-&#8288;3 (175 billion parameters)?*
 
-A: Yes, that is the plan. We expect our final model to be somewhere between 150B and 200B parameters.
+A: Yes, that is the plan. We expect our final model to be somewhere between 150 and 200 billion parameters.
 
 ---
 
-#### Q: *When do you plan to have a model of that scale trained? Wouldn't that take a long time?*
+#### Q: *Have you considered the possible risks of creating a model like this?*
+
+A: Yes, we have considered the risks of creating such models at length. Although EleutherAI contributors have nuanced opinions, there is a consensus with the following arguments:
+- Given the continuing advancement of technology, it is impossible to prevent these kinds of models from becoming widespread. We cannot put the genie back in the bottle.
+- Any sufficiently funded actor (including but not limited to large corporations and foreign intelligence services) could already have built such models outside of the public eye. There is good reason to believe multiple already have, or are at least in the process of doing so. [*Understanding&nbsp;the&nbsp;Capabilities, Limitations, and&nbsp;Societal&nbsp;Impact of Large Language Models*](https://arxiv.org/abs/2102.02503) estimates that such models could be completed within a year after [*Language&nbsp;Models&nbsp;are&nbsp;Few&#8288;-&#8288;Shot&nbsp;Learners*](https://arxiv.org/abs/2005.14165).
+- Without open access to such models to study, [performing critical safety research](https://arxiv.org/abs/2103.14659) is difficult. We intend to make these models accessible to assist academics in such research.
+- To entrust the assessments of for-profit corporations on the risks of new technologies is difficult, even if they have the best of intentions. This is especially true when a clear financial incentive to exclusivity exists for those afformentioned new technologies.
+
+---
+
+#### Q: *When do you plan to have a model of that scale trained? Wouldn't that take a long time?*  
 
 We asked some of our GPT&#8288;-&#8288;Neo and GPT&#8288;-&#8288;NeoX contributors about their predictions, and we got the following responses:
 
@@ -114,39 +109,67 @@ We asked some of our GPT&#8288;-&#8288;Neo and GPT&#8288;-&#8288;NeoX contributo
 > In less time than it took *Voyager I* to reach interstellar space.  
 **Eric Hallahan** ({{<discord/handle drole="level5" name="@EricHallahan">}})  
 
-A: As a collective of volunteer developers, engineers, and researchers who contribute in our free time, we are unable to commit to a timeline as to when larger models will become available in the future. Our original estimation for a model somewhere between 150B and 200B parameters was sometime in Q3 2021, most likely the August-September timeframe.
+> Before the heat death of the universe.  
+**Sid Black** ({{<discord/handle drole="O5" name="@Sid">}})
 
-To be more specific in our confidence,
-- No earlier than August 2021.
-- Ideally by the end of 2021.
-- "Before the heat death of the universe." ---&nbsp;**Sid&nbsp;Black**&nbsp;({{<discord/handle drole="O5" name="@Sid">}}) 
+A: As a collective of volunteer researchers and engineers who contribute in our free time, we are unable to commit to a timeline as to when larger models will become available in the future. However, our best predictions are consistant in that a model in the range of 150 to 200 billion parameters would be ready no earlier than August 2021. We ideally would like to be done by the end of 2021, and there is no hard deadline on completion except for the heat death of the universe.
 
-Our estimates for how long a model similar to GPT&#8288;-&#8288;3 DaVinci will take to train lies somewhere around the four-to-five-month range with optimization and the right hardware.
+Our estimates for how long a model of that magnitude will take to train lie somewhere around the four-to-five-month range with optimization and the right hardware.
 
 ---
 
-#### Q: *How are you training such large models?* {#compute}
+#### Q: *How are you training such large models?*
 
-A: For our "small" 1.3B and 2.7B parameter models trained with GPT&#8288;-&#8288;Neo, we utilized our limited access to preemptible TPUs through the [TensorFlow Research Cloud (TFRC) program](https://www.tensorflow.org/tfrc).
-For our larger future models to be trained with GPT&#8288;-&#8288;NeoX, we have been graciously been offered high-performance GPU compute by [CoreWeave](https://www.coreweave.com/), an NVIDIA Preferred Cloud Services Provider. CoreWeave is excited by the open nature of the project and is very keen in helping us to break the OpenAI-Microsoft monopoly on massive autoregressive language models.
+A: For GPT&#8288;-&#8288;Neo, we utilize our limited access to preemptible TPUs through the [TPU Research Cloud (TRC)](https://sites.research.google/trc/). For our future models to be trained with GPT&#8288;-&#8288;NeoX, we have been graciously offered high-performance GPU compute by [CoreWeave](https://www.coreweave.com/). CoreWeave is excited by the open nature of the project and is very keen in helping us to break the OpenAI-Microsoft monopoly on massive autoregressive language models.
 
 ---
 
-#### Q: *What about distributed computing, like [Folding@Home](https://foldingathome.org/) or [hivemind](https://github.com/learning-at-home/hivemind)?*
+#### Q: *What differentiates GPT&#8288;-&#8288;NeoX from GPT&#8288;-&#8288;Neo?*
 
-A: We have considered the possibility of pooling GPUs for training models, but upon thorough review, we have concluded that such approaches are not a viable option today. There are numerous problems with current distributed approaches for us:
-- Backpropagation is extremely dense and sensitive to precision, therefore requiring high-bandwidth communication.
-- MoE-based models tend to significantly underperform regular models for the same number of parameters.
+A: GPT&#8288;-&#8288;Neo is a codebase built from the ground up upon [Mesh Tensorflow](https://github.com/tensorflow/mesh), designed for training on TPUs.  
+Apart from appending the 24th letter of the ISO basic Latin alphabet, GPT&#8288;-&#8288;NeoX is an entirely separate, in-development codebase based upon Megatron&#8288;-&#8288;LM and [DeepSpeed](https://www.deepspeed.ai/) and is designed for GPUs.
+
+---
+
+#### Q: *Why do you need GPT&#8288;-&#8288;NeoX when you have GPT&#8288;-&#8288;Neo? Why maintain two codebases?*
+
+A: Our motivation for the development of GPT&#8288;-&#8288;NeoX is our access to compute resources: It is not realistic for us to use TRC TPUs to train models larger than around 20 billion parameters. Although TRC can potentially provide enough TPUs to train such large models, the compute is unavailable for the time we would need due to the pre-empting of instances. Even with a v3&#8288;-&#8288;2048, a model between 150 and 175 billion parameters would require months to train. CoreWeave provides us a path to train models at the scales we would like, but we need to utilize their GPUs for training instead of TPUs.
+
+We, therefore, have two reasons to retire the GPT-Neo codebase in favor of developing GPT-NeoX:
+- Mesh TensorFlow handles TPUs and GPUs differently, and code designed for use with TPUs has no guarantee to work well on GPUs.
+- It makes sense to build a new codebase to take full advantage of GPU hardware---even tiny performance improvements can add up to substantial time and resource savings.
+
+---
+
+#### Q: *What about volunteer-driven distributed computing, like&nbsp;[BOINC](https://boinc.berkeley.edu/), [Folding@Home](https://foldingathome.org/), or&nbsp;[hivemind](https://github.com/learning-at-home/hivemind)?*
+
+A: We have considered the possibility of pooling volunteer resources for training models, but upon thorough review, we have concluded that such approaches are not a viable option today. There are numerous problems with current distributed approaches for us:
+- Backpropagation is dense and sensitive to precision, therefore requiring high-bandwidth communication.
+- Mixture-of-experts-based models tend to significantly underperform monolithic (regular) models for the same number of parameters.
 - Having enough contributors to outweigh the high overhead is infeasible.
-- Resistance to outside attack is not currently possible without significant additional overhead.
+- Verifiability and resistance to outside attack are not currently possible without significant additional overhead.
 
-In short, doing distributed compute well at this scale is an unsolved problem. If you have expertise in this area, drop us a line and we will be happy to hear you out.
+In short, doing volunteer-driven distributed compute well for this use case is an unsolved problem. If you have expertise in this area, drop us a line and we will be happy to hear you out.
 
 ---
 
-#### Q: *Have you considered more efficient architectures or methods?*
+#### Q: *Have you considered more efficient architectures or methods? Have you considered distillation?*
 
-A: Yes, we are exploring the full design space, including various linear-scaling attention mechanisms, mixture-of-experts, and other designs. In general, we have found that a mix of global and local attention is important for robust performance.
+A: Our intention is not to perfectly replicate the architecture used by GPT&#8288;-&#8288;3 but to instead build models comparable to what OpenAI has built. We are committed to exploring the entire space of architectures and methods, including various linear-scaling attention mechanisms, mixture-of-experts, and other designs. However, in our experience, these designs are not always well suited to language modeling: Attention mechanisms that scale with linear complexity with respect to sequence length are often strictly incompatible with the autoregressive objective used for text generation; the remaining methods have faired poorly in our testing. Engineering is full of trade-offs, and silver-bullet research breakthroughs are uncommon occurences. If and when new methodologies surpass what we have already, we will integrate and use them.
+
+Our agreement with CoreWeave includes a stipulation that we attempt distillation on the final model to make it easier to deploy. It is unknown if distillation is advantageous at these scales, but we intend to find out.
+
+---
+
+#### Q: *Will I be able to run models on my computer locally, offline?*
+
+A: The answer is highly dependent on hardware and configuration.
+
+No, you will not be able to run a model the size of full-scale GPT&#8288;-&#8288;3 on your first-generation Macbook Air. 175 billion parameters at single-precision (binary32) take up 700 Gigabytes, and realistically the entire model needs to be loaded into memory for inference. It is unlikely that consumer hardware will be able to run anything of that scale for years to come, even on CPU. To run large models beyond a few billion parameters there is an expectation to utilize systems with large amounts of compute and memory.
+
+Smaller models can be run on more pedestrian hardware: 125 million parameters take up only 500 Megabytes and should run on a basic laptop without a hitch, while 1.3 billion parameters take up 5 Gigabytes and should run on capable personal computers without issue.
+
+If you are interested in inferencing and fine-tuning models, we highly recommend using [the implementation in Hugging Face Transformers](https://huggingface.co/transformers/model_doc/gpt_neo.html), which is far easier to both install and use than our research code. We do not support or maintain the Hugging Face implementation beyond [our organization in Model Hub](https://huggingface.co/eleutherai), and issues with Transformers or its usage should be directed elsewhere.
 
 ---
 
@@ -158,7 +181,7 @@ A: GPT&#8288;-&#8288;Neo is MIT-licensed, while GPT&#8288;-&#8288;NeoX is licens
 
 #### Q: *Are the models free software?*
 
-A: Models are licensed as under Apache 2.0.
+A: EleutherAI is licensing models under Apache 2.0. If you use our models, we would highly appreciate you citing or displaying your usage of them.
 
 ---
 
