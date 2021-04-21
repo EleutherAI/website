@@ -108,7 +108,7 @@ $$R_f(\mathbf{q}, m) R_f(\mathbf{k}, m) = R_g(\mathbf{q}, \mathbf{k}, 0) = R_f(\
 
 Putting all of these pieces together, we get the final formula for the rotary positional embedding:
 \begin{equation}
-    f(\mathbf{q}, m) = R_f(\mathbf{q}, m)e^{i\Theta_f(\mathbf{q}, m)}=\mathbf{q}e^{i(\Theta(\mathbf{q})+m\mathbf{\theta})} = \sum_{j=0}^{d/2} q_je^{im\theta_j} \vec{e_j}
+    f(\mathbf{q}, m) = R_f(\mathbf{q}, m)e^{i\Theta_f(\mathbf{q}, m)}=\mathbf{q}e^{i(\Theta(\mathbf{q})+m\mathbf{\theta})} = \sum_{j=1}^{d/2} q_je^{im\theta_j} \vec{e_j}
 \end{equation}
 and likewise for $\mathbf{k}$. Since computers tend to like real numbers and matrices more than complex numbers, its convenient to convert this expression into the matrix equation
 \begin{equation}
@@ -123,7 +123,7 @@ and likewise for $\mathbf{k}$. Since computers tend to like real numbers and mat
 	   q_1\\\\
 	   q_2\\\\
 	   \vdots\\\\
-	   q_{d}
+	   q_{d/2}
     \end{pmatrix} = \mathbf{\Theta_m Q_m} = \mathbf{\Theta_m W_qX_m}
     \end{equation}
 where $M_j=\begin{pmatrix}\cos m\theta_j & -\sin m\theta_j \\\sin m\theta_j & \cos m\theta_j\end{pmatrix}$, $\mathbf{\Theta_m}$ is the block diagonal rotation matrix, $\mathbf{W_q}$ is the learned query weights, and $\mathbf{X_m}$ is the embedding of the $m^{th}$ token.  Again, we also have the corresponding equation for $\mathbf{k}$.
