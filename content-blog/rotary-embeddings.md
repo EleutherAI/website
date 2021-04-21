@@ -128,6 +128,18 @@ and likewise for $\mathbf{k}$. Since computers tend to like real numbers and mat
     \end{equation}
 where $M_j=\begin{pmatrix}\cos m\theta_j & -\sin m\theta_j \\\sin m\theta_j & \cos m\theta_j\end{pmatrix}$, $\mathbf{\Theta_m}$ is the block diagonal matrix rotation matrix, $\mathbf{W_q}$ is the learned query weights, and $\mathbf{X_m}$ is the  of the $m^{th}$ token.  Again, we also have the corresponding equation for $\mathbf{k}$.
 
+### Extension to multiple dimensions
+
+With relative ease RoPE can be extended into the multidimensional case. To represent two dimensions, two independent 1-dimensional rotary embeddings can be used. To implement this, we can split each of $\mathbf{q}$ and $\mathbf{k}$ in half and apply rotary piece-wise as follows:
+
+`\begin{align}
+    \langle f(\mathbf{q}, m, i),f(\mathbf{k}, n, j) \rangle &= \langle f_1(\mathbf{q}_{:d/2}, m),f_1(\mathbf{k}_{:d/2}, n) \rangle + \langle f_2(\mathbf{q}_{d/2:}, i),f_2(\mathbf{k}_{d/2:}, j) \rangle \\\\
+    &= g_1(\mathbf{q}_{:d/2}, \mathbf{k}_{:d/2}, m - n) + g_2(\mathbf{q}_{d/2:}, \mathbf{k}_{d/2:}, i - j) \\\\
+    &= g(\mathbf{q}, \mathbf{k}, m - n, i - j)
+\end{align}`
+
+This formulation can also be further extended to data of an arbitrary number of dimensions. This sort of multi-dimensional relative coding would let us, for example, implement relative timing and relative pitch embeddings similar to Music Transformer [4] in a drastically simpler manner. More generally, we believe there is potentially a large class of invariances that first-principles positional codes like RoPE may enable us to capture. 
+
 ### How is this different from the sinusoidal embeddings used in "Attention is All You Need"?
 
 A response many of us at EleutherAI had when first coming across this was "how does this differ from sinusoidal embeddings," so we feel it is worth discussing this comparison. There are two ways that rotary embeddings are different from sinusoidal s:
@@ -205,6 +217,8 @@ def apply_rotary_pos_emb(x, sincos):
     sin, cos = map(lambda t: repeat(t, 'b n -> b (n j)', j=2)[:, None, :], sincos)
     return (x * cos) + (rotate_every_two(x) * sin)
 {{</highlight>}}
+
+**N.B:** The layout of the queries and keys in Mesh Transformer Jax is `[seq, n_head, d_head]` (no batch dim).
 </details>
 
 <br>
@@ -263,13 +277,13 @@ We have found rotary embeddings to be effective for many varieties of attention.
 
 <figure>
 <center>
-<figcaption><b>Final validation loss / ppl scores on Pile validation set at 8k steps (~5B tokens):</b></figcaption>
+<figcaption><b>Final validation loss / ppl scores on Pile validation set at 8k steps (~8B tokens):</b></figcaption>
 <br>
 <table style="width:50%">
   <tr>
     <th><b>Type</b></th>
-    <th>OWT2 Loss</th>
-    <th>OWT2 Ppl.</th>
+    <th>Pile Loss</th>
+    <th>Pile Ppl.</th>
   </tr>
   <tr>
     <td><b>Learned Absolute</b></td>
@@ -308,17 +322,7 @@ Unlike standard positional embeddings, however,  rotary embeddings must be appli
 <br> <br> 
 
 ## Conclusion
-Rotary embeddings make it possible to implement relative attention in a straightforward and efficient manner. We are excited to read the upcoming rotary positional embeddings paper from the original authors and the work it inspires. Simple improvements to the transformer architecture that carry over robustly between different types of self-attention are few and far between [6].
-
-With relative ease RoPE can be extended into the multidimensional case. To represent two dimensions, two independent 1-dimensional rotary embeddings can be used. To implement this, we can split each of $\mathbf{q}$ and $\mathbf{k}$ in half and apply rotary piece-wise as follows:
-
-`\begin{align}
-    \langle f(\mathbf{q}, m, i),f(\mathbf{k}, n, j) \rangle &= \langle f_1(\mathbf{q}_{:d/2}, m),f_1(\mathbf{k}_{:d/2}, n) \rangle + \langle f_2(\mathbf{q}_{d/2:}, i),f_2(\mathbf{k}_{d/2:}, j) \rangle \\\\
-    &= g_1(\mathbf{q}_{:d/2}, \mathbf{k}_{:d/2}, m - n) + g_2(\mathbf{q}_{d/2:}, \mathbf{k}_{d/2:}, i - j) \\\\
-    &= g(\mathbf{q}, \mathbf{k}, m - n, i - j)
-\end{align}`
-
-This formulation can also be further extended to data of an arbitrary number of dimensions. This sort of multi-dimensional relative coding would let us, for example, implement relative timing and relative pitch embeddings similar to Music Transformer [4] in a drastically simpler manner. More generally, we believe there is potentially a large class of invariances that first-principles positional codes like RoPE may enable us to capture. 
+Rotary embeddings make it possible to implement relative attention in a straightforward and efficient manner, and we look forward to the work it inspires. Simple improvements to the transformer architecture that carry over robustly between different types of self-attention are few and far between [6].
 
 ### Citation Information
 
