@@ -341,8 +341,7 @@ To cite this blog post, please use:
 ```bibtex
 @misc{rope-eleutherai,
   title = {Rotary Embeddings: A Relative Revolution},
-  author = {Biderman, Stella and Black, Sid and Foster, Charles and Gao, Leo and
-                Hallahan, Eric and He, Horace and Wang, Ben and Wang, Phil},
+  author = {Biderman, Stella and Black, Sid and Foster, Charles and Gao, Leo and Hallahan, Eric and He, Horace and Wang, Ben and Wang, Phil},
   howpublished = \url{blog.eleuther.ai/},
   note = {[Online; accessed ]},
   year = {2021}
