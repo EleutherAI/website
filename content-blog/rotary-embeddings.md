@@ -350,34 +350,34 @@ To cite this blog post, please use:
 
 ## References
 
-[1] Tom B Brown, Benjamin Mann, Nick Ryder, Melanie Subbiah, Jared Kaplan, Prafulla Dhariwal, Arvind Neelakantan, Pranav Shyam, Girish Sastry, Amanda Askell, et al. Language models are few-shot learners. *arXiv preprint arXiv:2005.14165*, 2020.
+[1] Tom B Brown, Benjamin Mann, Nick Ryder, Melanie Subbiah, Jared Kaplan, Prafulla Dhariwal, Arvind Neelakantan, Pranav Shyam, Girish Sastry, Amanda Askell, et al. **Language Models are Few-Shot Learners**. *arXiv preprint [arXiv:2005.14165](https://arxiv.org/abs/2005.14165)*, 2020.
 
-[2] Krzysztof Choromanski, Valerii Likhosherstov, David Dohan, Xingyou Song, Andreea Gane, Tamas Sarlos, Peter Hawkins, Jared Davis, Afroz Mohiuddin, Lukasz Kaiser, et al. Rethinking attention with performers. *arXiv preprint arXiv:2009.14794*, 2020.
+[2] Krzysztof Choromanski, Valerii Likhosherstov, David Dohan, Xingyou Song, Andreea Gane, Tamas Sarlos, Peter Hawkins, Jared Davis, Afroz Mohiuddin, Lukasz Kaiser, et al. **Rethinking Attention with Performers**. *arXiv preprint [arXiv:2009.14794](https://arxiv.org/abs/2009.14794)*, 2020.
 
-[3] Leo Gao, Stella Biderman, Sid Black, Laurence Golding, Travis Hoppe, Charles Foster, Jason Phang, Horace He, Anish Thite, Noa Nabeshima, et al. The Pile: An 800GB dataset of diverse text for language modeling. *arXiv preprint arXiv:2101.00027*, 2021.
+[3] Leo Gao, Stella Biderman, Sid Black, Laurence Golding, Travis Hoppe, Charles Foster, Jason Phang, Horace He, Anish Thite, Noa Nabeshima, et al. **The Pile: An 800GB Dataset of Diverse Text for Language Modeling**. *arXiv preprint [arXiv:2101.00027](https://arxiv.org/abs/2101.00027)*, 2021.
 
-[4] Cheng-Zhi Anna Huang, Ashish Vaswani, Jakob Uszkoreit, Noam Shazeer, Ian Simon, Curtis Hawthorne, Andrew M Dai, Matthew D Hoffman, Monica Dinculescu, and Douglas Eck. Music transformer. *arXiv preprint arXiv:1809.04281*, 2018.
+[4] Cheng-Zhi Anna Huang, Ashish Vaswani, Jakob Uszkoreit, Noam Shazeer, Ian Simon, Curtis Hawthorne, Andrew M Dai, Matthew D Hoffman, Monica Dinculescu, and Douglas Eck. **Music Transformer**. *arXiv preprint [arXiv:1809.04281](https://arxiv.org/abs/1809.04281)*, 2018.
 
-[5] Guolin Ke, Di He, and Tie-Yan Liu. Rethinking the positional encoding in language pre-training.arXiv preprint arXiv:2006.15595, 2020.
+[5] Guolin Ke, Di He, and Tie-Yan Liu. **Rethinking Positional Encoding in Language Pre-training**. *arXiv preprint [arXiv:2006.15595](https://arxiv.org/abs/2006.15595)*, 2020.
 
-[6] Sharan Narang, Hyung Won Chung, Yi Tay, William Fedus, Thibault Fevry, Michael Matena, Karishma Malkan, Noah Fiedel, Noam Shazeer, Zhenzhong Lan, et al. Do transformer modifications transfer across implementations and applications? *arXiv preprint arXiv:2102.11972*, 2021.
+[6] Sharan Narang, Hyung Won Chung, Yi Tay, William Fedus, Thibault Fevry, Michael Matena, Karishma Malkan, Noah Fiedel, Noam Shazeer, Zhenzhong Lan, et al. **Do Transformer Modifications Transfer Across Implementations and Applications?** *arXiv preprint [arXiv:2102.11972](https://arxiv.org/abs/2102.11972)*, 2021.
 
-[7] Deepak Narayanan, Mohammad Shoeybi, Jared Casper, Patrick LeGresley, Mostofa Patwary, Vijay Korthikanti, Dmitri Vainbrand, Prethvi Kashinkunti, Julie Bernauer, Bryan Catanzaro, et al. Efficient large-scale language model training on GPU clusters, 2021.
+[7] Deepak Narayanan, Mohammad Shoeybi, Jared Casper, Patrick LeGresley, Mostofa Patwary, Vijay Korthikanti, Dmitri Vainbrand, Prethvi Kashinkunti, Julie Bernauer, Bryan Catanzaro, et al. **Efficient Large-Scale Language Model Training on GPU Clusters**. *arXiv preprint [arXiv:2104.04473](https://arxiv.org/abs/2104.04473)*, 2021.
 
-[8] Ofir Press, Noah A Smith, and Mike Lewis. Shortformer:  Better language modeling usingshorter inputs. *arXiv preprint arXiv:2012.15832*, 2020.
+[8] Ofir Press, Noah A Smith, and Mike Lewis. **Shortformer: Better Language Modeling using Shorter Inputs**. *arXiv preprint [arXiv:2012.15832](https://arxiv.org/abs/2012.15832)*, 2020.
 
-[9] Alec Radford, Jong Wook Kim, Chris Hallacy, Aditya Ramesh, Gabriel Goh, Sandhini Agarwal, Girish Sastry, Amanda Askell, Pamela Mishkin, Jack Clark, et al. Learning transferable visual models from natural language supervision. *arXiv preprint arXiv:2103.00020*, 2021.
+[9] Alec Radford, Jong Wook Kim, Chris Hallacy, Aditya Ramesh, Gabriel Goh, Sandhini Agarwal, Girish Sastry, Amanda Askell, Pamela Mishkin, Jack Clark, et al. **Learning Transferable Visual Models From Natural Language Supervision**. *arXiv preprint [arXiv:2103.00020](https://arxiv.org/abs/2103.00020)*, 2021.
 
-[10] Colin Raffel, Noam Shazeer, Adam Roberts, Katherine Lee, Sharan Narang, Michael Matena, Yanqi Zhou, Wei Li, and Peter J Liu.  Exploring the limits of transfer learning with a unified text-to-text transformer. *arXiv preprint arXiv:1910.10683*, 2019.
+[10] Colin Raffel, Noam Shazeer, Adam Roberts, Katherine Lee, Sharan Narang, Michael Matena, Yanqi Zhou, Wei Li, and Peter J Liu. **Exploring the Limits of Transfer Learning with a Unified Text-to-Text Transformer**. *arXiv preprint [arXiv:1910.10683](https://arxiv.org/abs/1910.10683)*, 2019.
 
-[11] Peter Shaw, Jakob Uszkoreit, and Ashish Vaswani. Self-attention with relative position representations. *arXiv preprint arXiv:1803.02155*, 2018.
+[11] Peter Shaw, Jakob Uszkoreit, and Ashish Vaswani. **Self-Attention with Relative Position Representations**. *arXiv preprint [arXiv:1803.02155](https://arxiv.org/abs/1803.02155)*, 2018.
 
-[12] Jianlin Su. 让研究人员绞尽脑汁的Transformer位置编码. [https://kexue.fm/archives/8130](https://kexue.fm/archives/8130), 2021. [Online; accessed 18-April-2021].
+[12] Jianlin Su. **让研究人员绞尽脑汁的Transformer位置编码**. [https://kexue.fm/archives/8130](https://kexue.fm/archives/8130), 2021. [Online; accessed 18-April-2021].
 
-[13] Jianlin Su. Transformer升级之路：2、博采众长的旋转式位置编码. [https://kexue.fm/archives/8265](https://kexue.fm/archives/8265), 2021. [Online; accessed 18-April-2021].
+[13] Jianlin Su. **Transformer升级之路：2、博采众长的旋转式位置编码**. [https://kexue.fm/archives/8265](https://kexue.fm/archives/8265), 2021. [Online; accessed 18-April-2021].
 
-[14] Jianlin Su, Yu Lu, Shengfeng Pan, Bo Wen, and Yunfeng Liu. RoFormer: Enhanced Transformer with Rotary Position Embedding. [https://arxiv.org/abs/2104.09864](https://arxiv.org/abs/2104.09864), 2021. [Online; accessed 18-April-2021].
+[14] Jianlin Su, Yu Lu, Shengfeng Pan, Bo Wen, and Yunfeng Liu. **RoFormer: Enhanced Transformer with Rotary Position Embedding**. *arXiv preprint [arXiv:2104.09864](https://arxiv.org/abs/2104.09864)*, 2021.
 
-[15] Hao Tan and Mohit Bansal. Vokenization: improving language understanding with contextual-ized, visual-grounded supervision. *arXiv preprint arXiv:2010.06775*, 2020.
+[15] Hao Tan and Mohit Bansal. **Vokenization: Improving Language Understanding with Contextualized, Visual-Grounded Supervision**. *arXiv preprint [arXiv:2010.06775](https://arxiv.org/abs/2010.06775)*, 2020.
 
-[16] Ashish Vaswani, Noam Shazeer, Niki Parmar, Jakob Uszkoreit, Llion Jones, Aidan N Gomez,Lukasz Kaiser, and Illia Polosukhin. Attention is all you need. *arXiv preprint arXiv:1706.03762*, 2017.
+[16] Ashish Vaswani, Noam Shazeer, Niki Parmar, Jakob Uszkoreit, Llion Jones, Aidan N Gomez, Lukasz Kaiser, and Illia Polosukhin. **Attention Is All You Need**. *arXiv preprint [arXiv:1706.03762](https://arxiv.org/abs/1706.03762)*, 2017.
