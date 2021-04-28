@@ -8,7 +8,7 @@ layout: page
 
 Joining EleutherAI is as simple as [joining us on Discord](https://discord.com/invite/vtRgjbM) and picking a project to contribute to.
 
-As an independent organization, we are dependent upon donations for our computing costs. We are always interested in speaking with people who can donate compute time.
+As an independent organization, we are dependent upon donations to power our compute. If you have a very large quantity of compute or compute credits, please contact us directly at contact@eleuther.ai
 
 
 ### What We Need Help With
