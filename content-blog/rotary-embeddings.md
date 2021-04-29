@@ -123,9 +123,9 @@ and likewise for $\mathbf{k}$. Since computers tend to like real numbers and mat
 	   q_1\\\\
 	   q_2\\\\
 	   \vdots\\\\
-	   q_{d/2}
-    \end{pmatrix} = \mathbf{\Theta_m Q_m} = \mathbf{\Theta_m W_qX_m}
-    \end{equation}
+	   q_d
+    \end{pmatrix} = \mathbf{\Theta_m Q_m} = \mathbf{\Theta_m W_q X_m}
+\end{equation}
 where $M_j=\begin{pmatrix}\cos m\theta_j & -\sin m\theta_j \\\sin m\theta_j & \cos m\theta_j\end{pmatrix}$, $\mathbf{\Theta_m}$ is the block diagonal rotation matrix, $\mathbf{W_q}$ is the learned query weights, and $\mathbf{X_m}$ is the embedding of the $m^{th}$ token.  Again, we also have the corresponding equation for $\mathbf{k}$.
 
 ### Extension to multiple dimensions
