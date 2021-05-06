@@ -1,6 +1,6 @@
 # EleutherAI Website 2021
 
-The EleutherAI is built using [Hugo](https://gohugo.io), a static site generator. We are currently using Netlify for build and hosting.
+The site is built using [Hugo](https://gohugo.io) - a static site generator. We are currently using Netlify for build and hosting.
 
 While the blog and main site are visually integrated, the blog is served on a separate domain blog.eleuther.ai, with a corresponding config-blog.toml.
 
