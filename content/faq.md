@@ -169,7 +169,7 @@ No, you will not be able to run a model the size of full-scale GPT&#8288;-&#8288
 
 Smaller models can be run on more pedestrian hardware: 125 million parameters take up only 500 Megabytes and should run on a basic laptop without a hitch, while 1.3 billion parameters take up 5 Gigabytes and should run on capable personal computers without issue.
 
-If you are interested in inferencing and fine-tuning models, we highly recommend using [the implementation in Hugging Face Transformers](https://huggingface.co/transformers/model_doc/gpt_neo.html), which is far easier to both install and use than our research code. We do not support or maintain the Hugging Face implementation beyond [our organization in Model Hub](https://huggingface.co/eleutherai), and issues with Transformers or its usage should be directed elsewhere.
+If you are interested in inferencing and fine-tuning models, we highly recommend using [the implementation in Hugging Face Transformers](https://huggingface.co/transformers/model_doc/gpt_neo.html), which is far easier to both install and use than our research code. We do not support or maintain the Hugging Face implementation beyond [our organization in Model Hub](https://huggingface.co/eleutherai), and issues with Transformers or its usage should be directed elsewhere such as the [Hugging Face community forums](https://discuss.huggingface.co/).
 
 ---
 
