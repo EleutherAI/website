@@ -112,7 +112,7 @@ We asked some of our GPT&#8288;-&#8288;Neo and GPT&#8288;-&#8288;NeoX contributo
 > Before the heat death of the universe.  
 **Sid Black** ({{<discord/handle drole="O5" name="@Sid">}})
 
-A: As a collective of volunteer researchers and engineers who contribute in our free time, we are unable to commit to a timeline as to when larger models will become available in the future. However, our best predictions are consistant in that a model in the range of 150 to 200 billion parameters would not be ready any time soon. We ideally would like to be done before the heat death of the universe.
+A: As a collective of volunteer researchers and engineers who contribute in our free time, we are unable to commit to a timeline as to when larger models will become available in the future. However, our best predictions are consistent in that a model in the range of 150 to 200 billion parameters would not be ready any time soon. We ideally would like to be done before the heat death of the universe.
 
 Our estimates for how long a model of that magnitude will take to train lie somewhere around the four-to-five-month range with optimization and the right hardware.
 
@@ -211,7 +211,7 @@ Bibtex entries:
 
 #### Q: *What's in the Pile?*
 
-A: The Pile is a 825 GiB diverse, open source language modelling data set that consists of 22 smaller, high-quality datasets combined together. For more information, please read the [paper]((https://arxiv.org/abs/2101.00027).
+A: The Pile is a 825 GiB diverse, open source language modelling data set that consists of 22 smaller, high-quality datasets combined together. For more information, please read the [paper](https://arxiv.org/abs/2101.00027).
 
 ---
 
