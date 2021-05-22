@@ -185,14 +185,14 @@ A: EleutherAI is licensing models under Apache 2.0. If you use our models, we wo
 
 In main body:
 ```
-X.XB GPTNeo \citep{gpt-neo} model trained on the Pile \citep{gao2020pile}
+X.XB GPTNeo \citep{gpt-neo} model trained on the Pile \citep{pile}
 ```
 
 Bibtex entries:
 ```
-@article{gao2020pile,
-  title={The Pile: An 800GB Dataset of Diverse Text for Language Modeling},
-  author={Gao, Leo and Biderman, Stella and Black, Sid and Golding, Laurence and Hoppe, Travis and Foster, Charles and Phang, Jason and He, Horace and Thite, Anish and Nabeshima, Noa and others},
+@article{pile,
+  title={The {P}ile: An 800GB Dataset of Diverse Text for Language Modeling},
+  author={Gao, Leo and Biderman, Stella and Black, Sid and Golding, Laurence and Hoppe, Travis and Foster, Charles and Phang, Jason and He, Horace and Thite, Anish and Nabeshima, Noa and Presser, Shawn and Leahy, Connor},
   journal={arXiv preprint arXiv:2101.00027},
   year={2020}
 }
