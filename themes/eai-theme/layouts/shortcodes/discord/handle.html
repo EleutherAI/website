@@ -1,1 +1,1 @@
-{{if .Get "drole"}}<samp class=role-{{ .Get "drole" }}>{{.Get "name"}}</samp>{{else}}<samp class=role-none>{{index .Params 0}}</samp>{{end}}
+{{if .Get "drole"}}<span class=role-{{ .Get "drole" }}>{{.Get "name"}}</span>{{else}}<span class=role-none>{{index .Params 0}}</span>{{end}}

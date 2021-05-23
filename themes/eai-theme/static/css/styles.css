@@ -484,22 +484,22 @@ samp.role-none {
   font-weight: bolder;
 }
 
-samp.role-regular {
+span.role-regular {
   color:rgb(17,128,106);
   font-weight: bolder;
 }
 
-samp.role-level5 {
+span.role-level5 {
   color:rgb(52,152,219);
   font-weight: bolder;
 }
 
-samp.role-mathemagician {
+span.role-mathemagician {
   color: rgb(46,204,113);
   font-weight: bolder;
 }
 
-samp.role-O5 {
+span.role-O5 {
   color:rgb(132,61,164);
   font-weight: bolder;
 }

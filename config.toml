@@ -9,6 +9,9 @@ publishDir = "public"
     logo_image_url="images/eai_logo.png"
     contact_mail="contact@eleuther.ai"
     site_type="website"
+[markup]
+  [markup.highlight]
+    style = "solarized-light"
 [menu]
   [[menu.main]]
     name = "Home"
