@@ -3,14 +3,12 @@
     <div class="content-wrapper">
         <div class="grid-1-1">
             <div class="page-content">
-                <h2>Blog</h2>
+                <h2>{{ .Title }}</h2>
                 {{ range .Pages.ByPublishDate.Reverse }}
-                <div class="post">
-                    {{ partial "metadata.html" . }}
-                    <h3><a class="title" href="{{ .RelPermalink }}">{{ .Title }}</a></h3>
-                    <p>{{ .Summary }}</p>
-                </div>
-                {{ end }}
+                    <ul class="project-section">
+                        <li><a href="{{ .Permalink }}">{{.Name}}</li>
+                    </ul>
+                    {{ end }}
             </div>
         </div>  
     </div>
