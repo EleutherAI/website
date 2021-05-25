@@ -1,6 +1,6 @@
 ---
 title: "Sizes of OpenAI API models"
-date: 2021-05-24T14:00:02-06:00
+date: 2021-05-24T14:00:03-06:00
 draft: False
 ---
 by Leo Gao
