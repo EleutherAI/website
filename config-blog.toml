@@ -33,10 +33,6 @@ publishDir="public-blog"
     url = "/"
     weight = 4
   [[menu.main]]
-    name = "Research Log"
-    url = "/research-log"
-    weight = 5
-  [[menu.main]]
     name = "Publications"
     url = "https://eleuther.ai/publications/"
     weight = 6
