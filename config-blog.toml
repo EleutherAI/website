@@ -15,6 +15,10 @@ publishDir="public-blog"
       unsafe = true
   [markup.highlight]
     style = "solarized-light"
+[taxonomies]
+  category = "categories"
+  tags = "tags"
+  authors = "authors"
 [menu]
   [[menu.main]]
     name = "Home"
@@ -35,8 +39,8 @@ publishDir="public-blog"
   [[menu.main]]
     name = "Publications"
     url = "https://eleuther.ai/publications/"
-    weight = 6
+    weight = 5
   [[menu.main]]
     name = "Get Involved"
     url = "https://eleuther.ai/get-involved/"
-    weight = 7
+    weight = 6

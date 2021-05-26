@@ -3,12 +3,13 @@
     <div class="content-wrapper">
         <div class="grid-1-1">
             <div class="page-content">
-                <h2>{{ .Title }}</h2>
+                <h1>{{ .Title }}</h1>
+                {{.Content}}
                 {{ range .Pages.ByPublishDate.Reverse }}
                     <ul class="project-section">
-                        <li><a href="{{ .Permalink }}">{{.Name}}</li>
+                        <li><a style="font-size:20px" href="{{ .Permalink }}">{{.Name}}</li>
                     </ul>
-                    {{ end }}
+                {{ end }}
             </div>
         </div>  
     </div>

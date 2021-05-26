@@ -32,8 +32,8 @@ publishDir = "public"
   [[menu.main]]
     name = "Publications"
     url = "/publications/"
-    weight = 6
+    weight = 5
   [[menu.main]]
     name = "Get Involved"
     url = "/get-involved/"
-    weight = 7
+    weight = 6
