@@ -401,7 +401,7 @@ h1.logo a .logo-text{
   color: var(--grey);
 }
 
-.project-section {
+.project-list {
   margin: 2em 0;
   display: block;
 }
@@ -492,6 +492,10 @@ h2.text-title {
   width: 100%;
 }
 
+.project-list li a , .blog-section li a {
+  font-size: 19px;
+}
+
 summary {
   font-weight: bold;
 }
@@ -568,7 +572,7 @@ span.role-O5 {
     width: 350px;
   }
 
-  .project-section {
+  .project-list {
     display: flex;
   }
 

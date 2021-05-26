@@ -6,8 +6,8 @@
                 <h1>{{ .Title }}</h1>
                 {{.Content}}
                 {{ range .Pages.ByPublishDate.Reverse }}
-                    <ul class="project-section">
-                        <li><a style="font-size:20px" href="{{ .Permalink }}">{{.Name}}</li>
+                    <ul class="project-list">
+                        <li><a href="{{ .Permalink }}">{{.Name}}</li>
                     </ul>
                 {{ end }}
             </div>
