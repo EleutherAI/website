@@ -1,6 +1,6 @@
 ---
 title: "On the Sizes of OpenAI API Models"
-categories: ["Research Logs"]
+categories: ["Research Notes"]
 authors: ["Leo Gao"]
 date: 2021-05-24T14:00:03-06:00
 draft: False

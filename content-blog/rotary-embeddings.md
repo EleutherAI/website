@@ -4,6 +4,7 @@ date: 2021-04-20T21:00:00-04:00
 draft: False
 authors: ["Stella Biderman", "Sid Black", "Charles Foster", "Leo Gao", "Eric Hallahan", "Horace He", "Ben Wang", "Phil Wang"]
 description: "This is a short description of the page"
+categories: ["Article"]
 mathjax: True
 ---
 

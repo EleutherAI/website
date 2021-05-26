@@ -1,6 +1,6 @@
 ---
 title: "Finetuning Models on Downstream Tasks"
-categories: ["Research Logs"]
+categories: ["Research Notes"]
 authors: ["Leo Gao"]
 date: 2021-05-24T14:00:01-06:00
 draft: False
