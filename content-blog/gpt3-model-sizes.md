@@ -1,10 +1,10 @@
 ---
-title: "Sizes of OpenAI API models"
+title: "On the Sizes of OpenAI API Models"
+categories: ["Research Logs"]
+authors: ["Leo Gao"]
 date: 2021-05-24T14:00:03-06:00
 draft: False
 ---
-by Leo Gao
-
 
 OpenAI hasn't officially said anything about their API model sizes, which naturally leads to the question of just how big they are. Thankfully, we can use [eval harness](https://github.com/EleutherAI/lm-evaluation-harness) to evaluate the API models on a bunch of tasks and compare to the figures in the GPT-3 paper. Obviously since there are going to be minor differences in implemenation and OpenAI is probably fine tuning their API models all the time, the numbers don't line up exactly, but they should give a pretty good idea of the ballpark things are in.
 

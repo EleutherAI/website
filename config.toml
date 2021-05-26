@@ -30,14 +30,10 @@ publishDir = "public"
     url = "https://blog.eleuther.ai"
     weight = 4
   [[menu.main]]
-    name = "Research Log"
-    url = "/research-log"
-    weight = 5
-  [[menu.main]]
     name = "Publications"
     url = "/publications/"
-    weight = 6
+    weight = 5
   [[menu.main]]
     name = "Get Involved"
     url = "/get-involved/"
-    weight = 7
+    weight = 6

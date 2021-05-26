@@ -1,11 +1,13 @@
 ---
-title: "Finetuning models on downstream tasks"
+title: "Finetuning Models on Downstream Tasks"
+categories: ["Research Logs"]
+authors: ["Leo Gao"]
 date: 2021-05-24T14:00:01-06:00
 draft: False
 ---
-by Leo Gao
 
 The GPT-3 paper didn't explore fine tuning on downstream tasks, so I decided to tune Neo 2.7B for 1.1k iters on all the tasks in [eval harness](https://github.com/EleutherAI/lm-evaluation-harness) that have a train set (all at once, because tuning one model per task would have taken ages). I was quite surprised that the tuned model didn't destroy untuned 2.7B completely on all tasks, but rather from eyeballing it seems like a tossup. Interestingly, tuned seems to defeat 2.7B by quite a lot on anli, which is especially notable given that this is one task the models in the GPT-3 paper struggled on. Also, lambada and pubmedqa are included in these tables, even though it doesn't have a training set (at least for the implementation in eval harness, using the OA version of lambada), because I wanted to look at effects on sets not in the tuning, to potentially observe some catastrophic forgetting or something. Sure enough, lambada and pubmedqa scores are significantly worse on the tuned model. 
+
 
 ## Zero shot
 
@@ -185,7 +187,7 @@ The GPT-3 paper didn't explore fine tuning on downstream tasks, so I decided to 
 | math\_num\_theory                                     | acc       | 0\.019 ± 0.006      | **0\.046 ± 0.006**  |
 | math\_prealgebra                                      | acc       | 0\.001 ± 0.001      | **0\.039 ± 0.001**  |
 | math\_precalc                                         | acc       | 0\.005 ± 0.003      | 0\.016 ± 0.003      |
-|                                                       |           |                     |                     |
+
 
 ## One shot
 
@@ -367,6 +369,5 @@ The GPT-3 paper didn't explore fine tuning on downstream tasks, so I decided to 
 | math\_num\_theory                                     | acc       | 0\.037 ± 0.008      | 0\.039 ± 0.008        |
 | math\_prealgebra                                      | acc       | 0\.023 ± 0.005      |**0\.041 ± 0.005** |
 | math\_precalc                                         | acc       | 0\.015 ± 0.005      | 0\.022 ± 0.005        |
-|                                                       |           |                     |                       |
 
 The model can be downloaded [here](https://huggingface.co/lg/openinstruct_1k1), though I don't recommend using it for anything.

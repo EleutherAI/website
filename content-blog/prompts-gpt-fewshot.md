@@ -1,9 +1,10 @@
 ---
-title: "Trying different fewshot description prompting for GPT-3"
+title: "Ablating Different Fewshot Description Prompting for GPT-3"
+categories: ["Research Logs"]
+authors: ["Leo Gao"]
 date: 2021-05-24T14:00:02-06:00
 draft: False
 ---
-by Leo Gao
 
 [Adam Shimi](https://www.alignmentforum.org/users/adamshimi) suggested the idea of trying different fewshot prompts on GPT-3, and hopefully observing something that evidenced larger models being able to handle a wider variety of prompting. He also wrote up a bunch of prompts to try on SST. 
 
