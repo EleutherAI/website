@@ -1,7 +1,7 @@
 {{ with .Params.categories }}
 {{ range . }}
 {{ $href := print (absURL "categories/") (urlize .) }}
-<h3 style="margin-top:0em"><a href="{{ $href }}">{{ . }}</a></h3>
+<h4 class="category-title"><a href="{{ $href }}">{{ . }}</a></h3>
 {{ end }}
 {{end}}
 {{ $dateTime := .PublishDate.Format "2006-01-02" }}

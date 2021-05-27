@@ -496,6 +496,10 @@ h2.text-title {
   font-size: 19px;
 }
 
+.category-title {
+  margin-top: 0px;
+}
+
 summary {
   font-weight: bold;
 }
