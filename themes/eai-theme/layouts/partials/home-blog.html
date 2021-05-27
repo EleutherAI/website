@@ -5,8 +5,8 @@
                 <h1>{{.Title}}</h1>
                 {{.Content}}
                 {{ range .Site.RegularPages }}
-                    <ul class="project-section">
-                        <li><a style="font-size:20px" href="{{ .Permalink }}">{{.Name}}</a></li>
+                    <ul class="blog-list">
+                        <li><a href="{{ .Permalink }}">{{.Name}}</a></li>
                     </ul>
                 {{ end }}
             </div>
