@@ -3,14 +3,30 @@
         <div class="grid-1-1">
             <div class="page-content">
                 <h1>{{.Title}}</h1>
-                {{.Content}}
-                {{ range .Site.RegularPages }}
-                    <ul class="blog-list">
-                        <li><a href="{{ .Permalink }}">{{.Name}}</a></li>
+                <h3>Posts</h3>
+                <ul class="blog-section">
+                    {{ range $key, $taxonomy := .Site.Taxonomies.categories }}
+                        {{ if eq $key "article"  }}
+                            {{ range $taxonomy.Pages }}
+                                <li hugo-nav="{{ .RelPermalink}}"><a href="{{ .Permalink}}"> {{ .LinkTitle }} </a> </li>
+                            {{ end }}
+                        {{ end }}
+                    {{ end }}
                     </ul>
-                {{ end }}
+
+                    <h3>Research Notes</h3>
+
+                    {{with .Site.GetPage "/research-notes" }}{{ .Content }}{{ end }}
+                <ul class="blog-section">
+                    {{ range $key, $taxonomy := .Site.Taxonomies.categories }}
+                        {{ if eq $key "research-notes"  }}
+                                {{ range $taxonomy.Pages }}
+                                    <li hugo-nav="{{ .RelPermalink}}"><a href="{{ .Permalink}}"> {{ .LinkTitle }} </a> </li>
+                                {{ end }}
+                        {{ end }}
+                    {{ end }}
+                    </ul>
             </div>
         </div>
-
     </div>
 </div>
