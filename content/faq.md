@@ -1,6 +1,6 @@
 ---
 title: "FAQ"
-date: 2021-05-23T16:45:00-04:00
+date: 2021-06-07T12:00:00-04:00
 layout: page
 ---
 
@@ -29,14 +29,14 @@ A: In Ancient Greek, [*eleutheria*](https://en.wikipedia.org/wiki/Eleutheria) is
 
 #### Q: *How can I get involved?*
 
-A: Join our [Discord](https://discord.gg/avxKQUv2fW) or check us out on [GitHub](https://github.com/EleutherAI)! We're an open community, so you are free to contribute as you wish. However, we expect newcomers either to be fairly knowledgeable or to sit on the sidelines until they understand the internal structure and culture of our operations.  
+A: Join our [Discord](https://discord.gg/zBGx3azzUn) or check us out on [GitHub](https://github.com/EleutherAI)! We're an open community, so you are free to contribute as you wish. However, we expect newcomers either to be fairly knowledgeable or to sit on the sidelines until they understand the internal structure and culture of our operations.  
 If you are interested, check out our page on [getting involved](/get-involved).
 
 ---
 
 #### Q: *Are there any other ways to support EleutherAI?*
 
-A: Yes. If you or someone you know has access to large quantities of CPU, GPU, or TPU resources, send a message to Sid Black ({{<discord/handle drole="O5" name="@Sid">}}) on [Discord](https://discord.gg/avxKQUv2fW) with more details.
+A: Yes. If you or someone you know has access to large quantities of CPU, GPU, or TPU resources, send a message to Sid Black ({{<discord/handle drole="O5" name="@Sid">}}) on [Discord](https://discord.gg/zBGx3azzUn) with more details.
 
 ---
 
@@ -48,7 +48,7 @@ A: Keeping with the theme, our logotype and all images on this website were gene
 
 #### Q: *Where can I go if I have more questions?*
 
-A: [Discord](https://discord.gg/avxKQUv2fW) is the best place for that. Our founding members appear in {{<discord/handle drole="O5" name="purple">}} and our core contributors appear in {{<discord/handle drole="level5" name="blue">}}. They will be able to provide helpful guidance or answer questions.
+A: [Discord](https://discord.gg/zBGx3azzUn) is the best place for that. Our founding members appear in {{<discord/handle drole="O5" name="purple">}} and our core contributors appear in {{<discord/handle drole="level5" name="blue">}}. They will be able to provide helpful guidance or answer questions.
 
 However, we ask that you do not expect us to be your tech support; those who contribute to EleutherAI do so in their free time and tend to prefer contributing to projects rather than debugging your problems. We recommend consulting the corresponding documentation before asking us for help. If you think you have found a bug, please consider opening an issue on [GitHub](https://github.com/EleutherAI).
 
@@ -56,7 +56,7 @@ However, we ask that you do not expect us to be your tech support; those who con
 
 #### Q: *I'm new to deep learning---How do I get into AI? What is a transformer? Tell me how everything works!*
 
-A: We are a research-focused Discord server and not an educational one. We welcome beginners to lurk and talk about topics they are knowledgeable of, but this is not the place to get intro-level resources or answers to basic questions. We have links to several excellent beginner-friendly servers on [Discord](https://discord.gg/avxKQUv2fW) in the {{<discord/channel "#communities">}} channel.
+A: We are a research-focused Discord server and not an educational one. We welcome beginners to lurk and talk about topics they are knowledgeable of, but this is not the place to get intro-level resources or answers to basic questions. We have links to several excellent beginner-friendly servers on [Discord](https://discord.gg/zBGx3azzUn) in the {{<discord/channel "#communities">}} channel.
 
 ---
 
@@ -82,11 +82,7 @@ A: Yes, that is the plan. We expect our final model to be somewhere between 150 
 
 #### Q: *Have you considered the possible risks of creating models like these?*
 
-A: Yes, we have considered the risks of creating such models at length. Although EleutherAI contributors have nuanced opinions, there is a consensus with the following arguments:
-- Given the continuing advancement of technology, it is impossible to prevent these kinds of models from becoming widespread. We cannot put the genie back in the bottle.
-- Any sufficiently funded actor (including but not limited to large corporations and foreign intelligence services) could already have built such models outside of the public eye. There is good reason to believe multiple already have, or are at least in the process of doing so. [*Understanding&nbsp;the&nbsp;Capabilities, Limitations, and&nbsp;Societal&nbsp;Impact of Large Language Models*](https://arxiv.org/abs/2102.02503) estimates that such models could be completed within a year after [*Language&nbsp;Models&nbsp;are&nbsp;Few&#8288;-&#8288;Shot&nbsp;Learners*](https://arxiv.org/abs/2005.14165).
-- Without open access to such models to study, [performing critical safety research](https://arxiv.org/abs/2103.14659) is difficult. We intend to make these models accessible to assist academics in such research.
-- To entrust the assessments of for-profit corporations on the risks of new technologies is difficult, even if they have the best of intentions. This is especially true when a clear financial incentive to exclusivity exists for those afformentioned new technologies.
+A: [Yes, we have considered the risks of creating and releasing such models at length, and have come to the conclusion that we believe the benefits outweigh the risks.](https://blog.eleuther.ai/why-release-a-large-language-model/)
 
 ---
 

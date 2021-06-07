@@ -1,12 +1,12 @@
 ---
 title: "Get Involved"
-date: 2021-03-29
+date: 2021-06-07T12:00:00-04:00
 layout: page
 ---
 
 # Get Involved
 
-Joining EleutherAI is as simple as [joining us on Discord](https://discord.com/invite/vtRgjbM) and picking a project to contribute to.
+Joining EleutherAI is as simple as [joining us on Discord](https://discord.gg/zBGx3azzUn) and picking a project to contribute to.
 
 As an independent organization, we are dependent upon donations to power our compute. If you have a very large quantity of compute or compute credits, please contact us directly at contact[at]eleuther.ai
 
@@ -20,7 +20,7 @@ If you would like to inquire about contributing, we welcome you to introduce you
 
 #### Data Processing
 
-Data processing work involves searching the internet for data, scraping and cleaning data, and writing scripts to load datasets. Our current data processing need involves building an [evaluation harness](https://github.com/EleutherAI/lm-evaluation-harness). If you're interested in helping out, check out the open Issues in the repo or stop by {{<discord/channel "#lm_thunderdome">}} on Discord. Other projects may have individual data processing needs.
+Data processing work involves searching the internet for data, scraping and cleaning data, and writing scripts to load datasets. Our current data processing need involves building an [evaluation harness](https://github.com/EleutherAI/lm-evaluation-harness). If you're interested in helping out, check out the open Issues in the repo or stop by {{<discord/channel "#lm-thunderdome">}} on Discord. Other projects may have individual data processing needs.
 
 #### Software Development
 
