@@ -1,6 +1,6 @@
 ---
 title: "Get Involved"
-date: 2021-06-07T12:00:00-04:00
+date: 2021-06-08T19:00:00-07:00
 layout: page
 ---
 
@@ -45,7 +45,7 @@ We sporadically need help with various tasks related to managing our internet pr
 
 #### Biology
 
-We are working to implement and publish [AlphaFold2](https://github.com/lucidrains/alphafold2). Reach out to Phil Wang ({{<discord/handle drole="level5" name="@lucidrains">}}) or Eric Alcaide ({{<discord/handle drole="regular" name="@hypnopump">}}) on Discord or post in the {{<discord/channel "#alphafold">}} channel if you can help.
+We are working to implement and publish [AlphaFold2](https://github.com/lucidrains/alphafold2). Reach out to Phil Wang ({{<discord/handle drole="regular" name="@lucidrains">}}) or Eric Alcaide ({{<discord/handle drole="regular" name="@hypnopump">}}) on Discord or post in the {{<discord/channel "#alphafold">}} channel if you can help.
 
 #### Linguistics
 

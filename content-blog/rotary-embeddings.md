@@ -155,7 +155,7 @@ After reading  Jianlin Su's original blog posts [12, 13], we were curious how we
 
 A naive implementation of rotary positional embeddings would use the block diagonal matrix form shown earlier. In practice, implementing rotary positional embeddings this way is highly inefficient, and more optimized forms are readily available. The original implementations of RoPE are available in [roformer](https://github.com/ZhuiyiTechnology/roformer) and [bert4keras](https://github.com/bojone/bert4keras).
 
-Additionally, we have implemented rotary positional embeddings in [x-transformers](https://github.com/lucidrains/x-transformers), [GPT-Neo](https://github.com/EleutherAI/gpt-neo), [GPT-NeoX](https://github.com/EleutherAI/gpt-neox), and [Mesh Transformer Jax](https://github.com/kingoflolz/mesh-transformer-jax). Below are implimentations for PyTorch and JAX pulled from these codebases.
+Additionally, we have implemented rotary positional embeddings in [x-transformers](https://github.com/lucidrains/x-transformers), [GPT-Neo](https://github.com/EleutherAI/gpt-neo), [GPT-NeoX](https://github.com/EleutherAI/gpt-neox), and [Mesh Transformer JAX](https://github.com/kingoflolz/mesh-transformer-jax). Below are implimentations for PyTorch and JAX pulled from these codebases.
 <br>
 <details><summary>GPT-NeoX (PyTorch)</summary>
 {{< highlight python >}}
@@ -193,7 +193,7 @@ def apply_rotary_pos_emb(q, k, cos, sin):
 **N.B:** The layout of the queries and keys in GPT-NeoX, following Megatron, is `[seq, batch, heads, hdim]`, in order to avoid memory-intensive transpose operations. The code will need to be modified to work with the conventional layout of `[batch, seq, heads, hdim]`.
 </details>
 <br>
-<details><summary>Mesh Transformer Jax (JAX)</summary>
+<details><summary>Mesh Transformer JAX (JAX)</summary>
 {{< highlight python >}}
 def fixed_pos_embedding(x, seq_dim=0):
     dim = x.shape[-1]
@@ -218,7 +218,7 @@ def apply_rotary_pos_emb(x, sincos):
     return (x * cos) + (rotate_every_two(x) * sin)
 {{</highlight>}}
 
-**N.B:** The layout of the queries and keys in Mesh Transformer Jax is `[seq, n_head, d_head]` (no batch dim).
+**N.B:** The layout of the queries and keys in Mesh Transformer JAX is `[seq, n_head, d_head]` (no batch dim).
 </details>
 
 <br>
