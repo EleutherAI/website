@@ -1,4 +1,5 @@
 baseURL = "https://eleuther.ai/"
+languageName = "English"
 languageCode = "en-us"
 title = "EleutherAI"
 theme = "eai-theme"
@@ -6,10 +7,16 @@ contentDir = "content"
 publishDir = "public"
 [params]
     logo="EleutherAI"
+    promo_text = "A grassroots collective of researchers working to open source AI research."
     logo_image_url="images/eai_logo.png"
+    meta_image="images/meta_image.jpg"
     contact_mail="contact@eleuther.ai"
     site_type="website"
+    sitename = "EleutherAI"
 [markup]
+  [markup.goldmark]
+    [markup.goldmark.renderer]
+      unsafe = true
   [markup.highlight]
     style = "solarized-light"
 [menu]
