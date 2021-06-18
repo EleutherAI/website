@@ -69,6 +69,11 @@ code, samp, kbd {
   font-family: ui-monospace, "Segoe UI Mono", "Ubuntu Mono", "Roboto Mono", Menlo, Monaco, Consolas, monospace;
 }
 
+.highlight > pre {
+  padding: 0.5em;
+  border-radius: 0.5em;
+}
+
 .highlight > pre > code {
   font-family: ui-monospace, "Cascadia Mono", "Segoe UI Mono", "Ubuntu Mono", "Roboto Mono", Menlo, Monaco, Consolas, monospace;
   font-size: 0.875em;
@@ -125,25 +130,25 @@ code, samp, kbd {
   cursor: pointer;
 }
 
-h1.logo {
-  margin-top: 0.25em;
+.logo {
+  margin-top: 0.5em;
 }
 
-h1.logo a {
+.logo a {
   color: white;
 }
 
 
-h1.logo a img {
-  max-width: 1.2em;
+.logo a img {
+  max-width: 2.5em;
 }
 
-h1.logo a .logo-text{
-  font-size: 0.72em;
+a .logo-text {
+  font-size: 1.41em;
   font-weight: 300;
   position: relative;
-  bottom: 0.46em;
   left: 0.2em;
+  bottom: 0.5em;
   font-family: 'Eleuther';
 }
 
@@ -226,6 +231,7 @@ h1.logo a .logo-text{
   font-size: 1.31em;
   color: var(--black);
   line-height: 1.2;
+  margin: 1.6em 0 0.5em 0;
 }
 
 .page-content p, li {
@@ -247,7 +253,7 @@ h1.logo a .logo-text{
   margin-bottom: 1.5em;
 } 
 
-.page-content h3 {
+.page-content h3{
   margin: 1.6em 0 0.5em 0;
 }
 
@@ -279,6 +285,10 @@ h1.logo a .logo-text{
 
 .announcement-section h2.content-block + ul li {
   margin-right: 0;
+}
+
+.announcement-section h2.content-block {
+  margin-top: 0;
 }
 
 .announcement-section ul li {
@@ -373,13 +383,14 @@ h1.logo a .logo-text{
   font-weight: 200;
 }
 
-.page-content h4.promo-title {
+.page-content h1.promo-title {
   margin-top: 0.5em;
 
 }
 
 .page-content .promo-text {
   margin-top: 0.5em;
+  margin-bottom: 0.4em;
 }
 
 .promo-buttons {
@@ -505,7 +516,35 @@ h2.text-title {
 }
 
 .category-title {
-  margin-top: 0px;
+  margin-top: 1.2em;
+  margin-bottom: 0.4em;
+  font-weight: bold;
+  font-size: 105%;
+}
+
+dt.question {
+  margin-top: 1.5em;
+}
+
+dt.question h3 {
+  margin-top: 0em;
+  font-size: 104%;
+  margin-bottom: 0em;
+}
+
+dd.answer {
+  margin-top: 1em;
+  margin-left: 0px;
+}
+
+div.qadiv {
+  border-top-style: solid;
+  border-top-width: 1px;
+  border-color: gray;
+  margin: 0px 0px 0px 0px;
+  padding-left: 0.5em;
+  padding-right: 0.5em;
+  padding-bottom: 1em;
 }
 
 summary {

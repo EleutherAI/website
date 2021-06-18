@@ -3,7 +3,7 @@
         <div class="grid-1-1">
             <div class="page-content">
                 <h1>{{.Title}}</h1>
-                <h3>Posts</h3>
+                <h2>Posts</h2>
                 <ul class="blog-section">
                     {{ range $key, $taxonomy := .Site.Taxonomies.categories }}
                         {{ if eq $key "article"  }}
@@ -14,7 +14,7 @@
                     {{ end }}
                     </ul>
 
-                    <h3>Research Notes</h3>
+                    <h2>Research Notes</h2>
 
                     {{with .Site.GetPage "/research-notes" }}{{ .Content }}{{ end }}
                 <ul class="blog-section">

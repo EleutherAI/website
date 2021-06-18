@@ -3,9 +3,10 @@ title: "Rotary Embeddings: A Relative Revolution"
 date: 2021-04-20T21:00:00-04:00
 draft: False
 authors: ["Stella Biderman", "Sid Black", "Charles Foster", "Leo Gao", "Eric Hallahan", "Horace He", "Ben Wang", "Phil Wang"]
-description: "This is a short description of the page"
+description: "Rotary Positional Embedding (RoPE) is a new type of position encoding that unifies absolute and relative approaches. We put it to the test."
 categories: ["Article"]
 mathjax: True
+images: ["/images/blog/rotary-embeddings/janus.png"]
 ---
 
 <figure>
@@ -16,12 +17,8 @@ mathjax: True
 </center>
 </figure>
 
-<br>
-
 ## TL;DR:
 Rotary Positional Embedding (RoPE) is a new type of position encoding that unifies absolute and relative approaches. Developed by Jianlin Su in a series of blog posts earlier this year [12, 13] and in a new preprint [14], it has already garnered widespread interest in some Chinese NLP circles. This post walks through the method as we understand it, with the goal of bringing it to the attention of the wider academic community. In general we have found that across a large suite of setups including regular, linear, and local self-attention, it **either matches or surpasses all other methods currently available for injecting positional information into transformers.**
-
-<br>
 
 ## What's the Problem?
 
@@ -31,12 +28,9 @@ Another major limitation of existing methods is that they do not work with effic
 
 A principled, easy to implement, and generally-applicable method for relative position encoding---one that works for both vanilla and “efficient” attention---is of great interest. Rotary Positional Embedding (RoPE) is designed to address this need.
 
-<br>
-
 ## What's the Solution?
 
 In this section we introduce and derive the rotary positional embedding. We begin with discussing the intuition, before presenting a full derivation.
-<br>
 
 ### Intuition
 
@@ -55,8 +49,6 @@ The following is an example illustrating the core idea of RoPE—a more rigorous
     &= \mathrm{RoPE}(q_j k_j, m - n)
 \end{align}
 
-<br>
-
 ### Visual Intuition
 <figure>
 <br>
@@ -74,8 +66,6 @@ To see how relative position might be preserved in this transformation, we can l
 We imagine a linearly polarized electromagnetic wave that is sent through a quarter-wave plate at an angle of 45 degrees. This takes the incoming wave and shifts its phase on only one principal dimension as it travels. When the wave emerges from the waveplate, the polarization is no longer linear---it has become circular through a shift equal to quarter of a period.
 
 As the wave travels through the waveplate, we can see how the magnitude of the wave is preserved. We can also better see how the relative position may be encoded as the angle between subsequent timesteps: the angle between timesteps, and therefore distance along the axis of travel, is constant. This means the positional information must be orthogonal to the amplitude in the modulated wave.
-
-<br>
 
 ### Derivation
 
@@ -145,7 +135,6 @@ This formulation can also be further extended to data of an arbitrary number of 
 A response many of us at EleutherAI had when first coming across this was "how does this differ from sinusoidal embeddings," so we feel it is worth discussing this comparison. There are two ways that rotary embeddings are different from sinusoidal embeddings:
 1. Sinusoidal embeddings apply to each coordinate individually, while rotary embeddings mix pairs of coordinates
 2. Sinusoidal embeddings add a $\cos(m\theta)$ or $\sin(m\theta)$ term, while rotary embeddings use a multiplicative factor.
-<br><br>
 
 ## Okay, what About in Practice?
 
@@ -221,13 +210,11 @@ def apply_rotary_pos_emb(x, sincos):
 **N.B:** The layout of the queries and keys in Mesh Transformer JAX is `[seq, n_head, d_head]` (no batch dim).
 </details>
 
-<br>
-
 ### Experiments
 
 We have found rotary embeddings to be effective for many varieties of attention.
 
-**Comparison against other PEs for Global attention:** We conducted [comparisons](https://wandb.ai/eleutherai/neox/reports/Rotary-Test-3--Vmlldzo2MTIwMDM) of rotary embeddings with learned absolute positional embeddings, used in GPT-3 [1], and the learned relative positional embeddings (henceforth RPE) used in T5 [10] using our GPT-Neox codebase. Comparisons were done using 125M parameter models with the same hyperparameters as the equally-sized model from [1]. Models were trained on [OpenWebText2]({https://www.eleuther.ai/projects/open-web-text2/), a large and diverse dataset of online text. We see faster convergence of training and validation curves and a lower overall validation loss with a minimal decrease in throughput. 
+**Comparison against other PEs for Global attention:** We conducted [comparisons](https://wandb.ai/eleutherai/neox/reports/Rotary-Test-3--Vmlldzo2MTIwMDM) of rotary embeddings with learned absolute positional embeddings, used in GPT-3 [1], and the learned relative positional embeddings (henceforth RPE) used in T5 [10] using our GPT-Neox codebase. Comparisons were done using 125M parameter models with the same hyperparameters as the equally-sized model from [1]. Models were trained on [OpenWebText2](https://www.eleuther.ai/projects/open-web-text2/), a large and diverse dataset of online text. We see faster convergence of training and validation curves and a lower overall validation loss with a minimal decrease in throughput. 
 
 <figure>
  <img src="/images/blog/rotary-embeddings/rope-learned-rpe.png" alt="GPT-NeoX experiments" style="width:800px"> 
@@ -318,8 +305,6 @@ In smaller scale tests, we have also put RoPE head to head against other alterna
 In general, we find that the runtime cost of rotary embeddings is fairly negligible. With the above implementation, we find that applying the rotary embeddings is naively about 4-5x the cost of applying additive positional embeddings. With the addition of a fusing optimizer like Torchscript, the runtime can be reduced to about 2-2.5x the runtime of additive positional embeddings. Concretely, for query and key tensors of shape $[2048, 16, 12, 64]$, applying rotary embeddings take 5.3 milliseconds, while applying additive positional embeddings takes 2.1 milliseconds.
 
 Unlike standard positional embeddings, however,  rotary embeddings must be applied at every layer. As large transformer models are typically dominated by matrix multiplies, we find that the overall overhead remains negligible. With fusion, we find that rotary embeddings impose a 1-3\% overhead across a range of transformer sizes.
-
-<br> <br> 
 
 ## Conclusion
 Rotary embeddings make it possible to implement relative attention in a straightforward and efficient manner, and we look forward to the work it inspires. Simple improvements to the transformer architecture that carry over robustly between different types of self-attention are few and far between [6].

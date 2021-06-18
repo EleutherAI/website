@@ -2,6 +2,7 @@
 title: "Activation Function Ablation"
 categories: ["Research Notes"]
 authors: ["Leo Gao"]
+description: "An ablation of activation functions in GPT-like autoregressive language models."
 date: 2021-05-24T14:00:00-06:00
 draft: False
 ---

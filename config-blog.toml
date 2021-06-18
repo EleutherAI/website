@@ -1,4 +1,5 @@
 baseURL = "https://blog.eleuther.ai/"
+languageName = "English"
 languageCode = "en-us"
 title = "EleutherAI Blog"
 theme = "eai-theme"
@@ -9,6 +10,7 @@ publishDir="public-blog"
     logo_image_url="images/eai_logo.png"
     contact_mail="contact@eleuther.ai"
     site_type="blog"
+    sitename = "EleutherAI"
 [markup]
   [markup.goldmark]
     [markup.goldmark.renderer]
@@ -18,7 +20,6 @@ publishDir="public-blog"
 [taxonomies]
   category = "categories"
   tags = "tags"
-  authors = "authors"
 [menu]
   [[menu.main]]
     name = "Home"

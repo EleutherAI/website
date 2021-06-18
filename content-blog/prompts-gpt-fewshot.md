@@ -2,6 +2,7 @@
 title: "Evaluating Different Fewshot Description Prompts on GPT-3"
 categories: ["Research Notes"]
 authors: ["Leo Gao"]
+description: "We evaluate different fewshot prompts on GPT-3 to see how it changes performance."
 date: 2021-05-24T14:00:02-06:00
 draft: False
 ---
