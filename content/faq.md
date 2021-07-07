@@ -1,25 +1,31 @@
 ---
 title: "Frequently Asked Questions"
-date: 2021-06-18T00:00:00-04:00
-layout: page
+layout: faqpage
 description: "The official EleutherAI FAQ, covering every question you probably have about EleutherAI."
+ShowToc: true
 ---
-
-# Frequently Asked Questions
 
 ## General
 
-{{<qa>}}
 How did this all start?
 
-: On July 3rd, 2020, [Connor Leahy](https://github.com/ConnorJL) ({{<discord/handle drole="O5" name="@Daj">}}) posted in the TPU Podcast Discord:
+: One day, [Connor Leahy](https://github.com/ConnorJL) posted in the TPU Podcast Discord:
 
-  > https://arxiv.org/abs/2006.16668  
-  > Hey guys lets give OpenAI a run for their money like the good ol' days
+  {{<figure>}}
+  {{<discord/thread>}}
+  {{<discord/message handle="Daj" drole="regular" datetime="2020-07-02T07:50:55.844Z" img-src="https://cdn.discordapp.com/avatars/157923989262434304/ea2d9c1e1a063d890a948c48ef962c8d.png">}}https://arxiv.org/abs/2006.16668  
+  Hey guys lets give OpenAI a run for their money like the good ol' days{{</discord/message>}}
+  {{</discord/thread>}}
+  {{</figure>}}
+
+  To which [Leo Gao](https://github.com/leogao2) replied:
+  {{<figure>}}
+  {{<discord/thread>}}
+  {{<discord/message handle="bmk" drole="regular" datetime="2020-07-02T16:03:05.471Z" img-src="https://cdn.discordapp.com/avatars/606987544235868219/89c76c2459fb48c8856ecff4f33d4fd7.png">}}{{<discord/mention "@Daj" >}} this but unironically{{</discord/message>}}
+  {{</discord/thread>}}
+  {{</figure>}}
   
-  To which [Leo Gao](https://github.com/leogao2) ({{<discord/handle drole="O5" name="@bmk">}}) replied:
-  > this but unironically
-
+  
   And so it began.
 
 
@@ -57,19 +63,19 @@ I'm new to deep learning---How do I get into AI? What is a transformer? Tell me 
 
 
 
-## GPT&#8288;-&#8288;Neo and GPT&#8288;-&#8288;NeoX
+## GPT-Neo and GPT-NeoX
 
-What are GPT&#8288;-&#8288;Neo and GPT&#8288;-&#8288;NeoX?
+What are GPT-Neo and GPT-NeoX?
 
-: [GPT&#8288;-&#8288;Neo](https://github.com/EleutherAI/gpt-neo) and [GPT&#8288;-&#8288;NeoX](https://github.com/EleutherAI/gpt-neox) are our codebases for training massive language models, for which we plan to release under open licenses. The models themselves are referred to by their size (in millions or billions of parameters).
+: [GPT-Neo](https://github.com/EleutherAI/gpt-neo) and [GPT-NeoX](https://github.com/EleutherAI/gpt-neox) are our codebases for training massive language models, for which we plan to release under open licenses. The models themselves are referred to by their size (in millions or billions of parameters).
 
 
 How big is the largest publically available model you have trained?
 
-: On June 8th, 2021 we released a 6 billion parameter model trained upon the Pile, GPT-&#8288;J-6B.
+: On June 8th, 2021 we released a 6 billion parameter model trained upon the Pile, GPT-J-6B.
 
 
-Are you serious when you say you are going to train a model comparable to the biggest GPT&#8288;-&#8288;3 (175 billion parameters)?
+Are you serious when you say you are going to train a model comparable to the biggest GPT-3 (175 billion parameters)?
 
 : Yes, that is the plan. We expect our final model to be somewhere between 150 and 200 billion parameters.
 
@@ -86,18 +92,19 @@ When do you plan to have more models available?
 
 How are you training such large models?
 
-: For GPT&#8288;-&#8288;Neo, we utilize our limited access to preemptible TPUs through the [TPU Research Cloud (TRC)](https://sites.research.google/trc/). For our future models to be trained with GPT&#8288;-&#8288;NeoX, we have been graciously offered high-performance GPU compute by [CoreWeave](https://www.coreweave.com/). CoreWeave is excited by the open nature of the project and is very keen in helping us to break the OpenAI-Microsoft monopoly on massive autoregressive language models.
+: For GPT-Neo, we utilize our limited access to preemptible TPUs through the [TPU Research Cloud (TRC)](https://sites.research.google/trc/). For our future models to be trained with GPT-NeoX, we have been graciously offered high-performance GPU compute by [CoreWeave](https://www.coreweave.com/). CoreWeave is excited by the open nature of the project and is very keen in helping us to break the OpenAI-Microsoft monopoly on massive autoregressive language models.
 
 
-What differentiates GPT&#8288;-&#8288;NeoX from GPT&#8288;-&#8288;Neo?
+What differentiates GPT-NeoX from GPT-Neo?
 
-: GPT&#8288;-&#8288;Neo is a codebase built from the ground up upon [Mesh Tensorflow](https://github.com/tensorflow/mesh), designed for training on TPUs.  
-Apart from appending the 24th letter of the ISO basic Latin alphabet, GPT&#8288;-&#8288;NeoX is an entirely separate, in-development codebase based upon Megatron&#8288;-&#8288;LM and [DeepSpeed](https://www.deepspeed.ai/) and is designed for GPUs.
+: GPT-Neo is a codebase built from the ground up upon [Mesh Tensorflow](https://github.com/tensorflow/mesh), designed for training on TPUs.
+
+  Apart from appending the 24th letter of the ISO basic Latin alphabet, GPT-NeoX is an entirely separate, in-development codebase based upon Megatron-LM and [DeepSpeed](https://www.deepspeed.ai/) and is designed for GPUs.
 
 
-Why do you need GPT&#8288;-&#8288;NeoX when you have GPT&#8288;-&#8288;Neo? Why maintain two codebases?
+Why do you need GPT-NeoX when you have GPT-Neo? Why maintain two codebases?
 
-: Our motivation for the development of GPT&#8288;-&#8288;NeoX is our access to compute resources: It is not realistic for us to use TRC TPUs to train models larger than around 20 billion parameters. Although TRC can potentially provide enough TPUs to train such large models, the compute is unavailable for the time we would need due to the pre-empting of instances. Even with a v3&#8288;-&#8288;2048, a model between 150 and 175 billion parameters would require months to train. CoreWeave provides us a path to train models at the scales we would like, but we need to utilize their GPUs for training instead of TPUs.
+: Our motivation for the development of GPT-NeoX is our access to compute resources: It is not realistic for us to use TRC TPUs to train models larger than around 20 billion parameters. Although TRC can potentially provide enough TPUs to train such large models, the compute is unavailable for the time we would need due to the pre-empting of instances. Even with a v3-2048, a model between 150 and 175 billion parameters would require months to train. CoreWeave provides us a path to train models at the scales we would like, but we need to utilize their GPUs for training instead of TPUs.
 
   We, therefore, have two reasons to retire the GPT-Neo codebase in favor of developing GPT-NeoX:
   - Mesh TensorFlow handles TPUs and GPUs differently, and code designed for use with TPUs has no guarantee to work well on GPUs.
@@ -117,7 +124,7 @@ What about volunteer-driven distributed computing, like&nbsp;[BOINC](https://boi
 
 Have you considered more efficient architectures or methods? Have you considered distillation?
 
-: Our intention is not to perfectly replicate the architecture used by GPT&#8288;-&#8288;3 but to instead build models comparable to what OpenAI has built. We are committed to exploring the entire space of architectures and methods, including various linear-scaling attention mechanisms, mixture-of-experts, and other designs. However, in our experience, these designs are not always well suited to language modeling: Attention mechanisms that scale with linear complexity with respect to sequence length are often strictly incompatible with the autoregressive objective used for text generation; the remaining methods have faired poorly in our testing. Engineering is full of trade-offs, and silver-bullet research breakthroughs are uncommon occurences. [If and when new methodologies surpass what we have already, we will integrate and use them.](https://blog.eleuther.ai/rotary-embeddings)
+: Our intention is not to perfectly replicate the architecture used by GPT-3 but to instead build models comparable to what OpenAI has built. We are committed to exploring the entire space of architectures and methods, including various linear-scaling attention mechanisms, mixture-of-experts, and other designs. However, in our experience, these designs are not always well suited to language modeling: Attention mechanisms that scale with linear complexity with respect to sequence length are often strictly incompatible with the autoregressive objective used for text generation; the remaining methods have faired poorly in our testing. Engineering is full of trade-offs, and silver-bullet research breakthroughs are uncommon occurences. [If and when new methodologies surpass what we have already, we will integrate and use them.](https://blog.eleuther.ai/rotary-embeddings)
 
   Our agreement with CoreWeave includes a stipulation that we attempt distillation on the final model to make it easier to deploy. It is unknown if distillation is advantageous at these scales, but we intend to find out.
 
@@ -126,7 +133,7 @@ Will I be able to run models on my computer locally, offline?
 
 : The answer is highly dependent on hardware and configuration.
 
-  No, you will not be able to run a model the size of full-scale GPT&#8288;-&#8288;3 on your first-generation Macbook Air. 175 billion parameters at single-precision (binary32) take up 700 Gigabytes, and realistically the entire model needs to be loaded into memory for inference. It is unlikely that consumer hardware will be able to run anything of that scale for years to come, even on CPU. To run large models beyond a few billion parameters there is an expectation to utilize systems with large amounts of compute and memory.
+  No, you will not be able to run a model the size of full-scale GPT-3 on your first-generation Macbook Air. 175 billion parameters at single-precision (binary32) take up 700 Gigabytes, and realistically the entire model needs to be loaded into memory for inference. It is unlikely that consumer hardware will be able to run anything of that scale for years to come, even on CPU. To run large models beyond a few billion parameters there is an expectation to utilize systems with large amounts of compute and memory.
 
   Smaller models can be run on more pedestrian hardware: 125 million parameters take up only 500 Megabytes and should run on a basic laptop without a hitch, while 1.3 billion parameters take up 5 Gigabytes and should run on capable personal computers without issue.
 
@@ -135,7 +142,7 @@ Will I be able to run models on my computer locally, offline?
 
 Are the codebases free software?
 
-: GPT&#8288;-&#8288;Neo is MIT-licensed, while GPT&#8288;-&#8288;NeoX is licensed under Apache 2.0. These are the most freely-termed licenses that we can provide for each codebase respectively.
+: GPT-Neo is MIT-licensed, while GPT-NeoX is licensed under Apache 2.0. These are the most freely-termed licenses that we can provide for each codebase respectively.
 
 
 Are the models free software?
@@ -148,26 +155,22 @@ How should I cite your models?
 : We ask that you cite both the codebase and the dataset together when citing models. Our recommended citation method is as follows.
 
   *In the document body:*
-  ```latex
-  X.XB GPT-Neo \citep{gpt-neo} model trained on the Pile \citep{pile}
-  ```
+  {{< highlight latex >}}X.XB GPT-Neo \citep{gpt-neo} model trained on the Pile \citep{pile}{{< /highlight >}}
   
   *BibTeX entries:*
-  ```bibtex
-  @article{pile,
+  {{< highlight bibtex >}}@article{pile,
     title={The {P}ile: An 800GB Dataset of Diverse Text for Language Modeling},
     author={Gao, Leo and Biderman, Stella and Black, Sid and Golding, Laurence and Hoppe, Travis and Foster, Charles and Phang, Jason and He, Horace and Thite, Anish and Nabeshima, Noa and Presser, Shawn and Leahy, Connor},
     journal={arXiv preprint arXiv:2101.00027},
     year={2020}
-  }
-  @software{gpt-neo,
+}
+@software{gpt-neo,
     author = {Black, Sid and Gao, Leo and Wang, Phil and Leahy, Connor and Biderman, Stella},
     title = {{GPT-Neo}: Large Scale Autoregressive Language Modeling with Mesh-Tensorflow},
     url = {http://github.com/eleutherai/gpt-neo},
     version = {1.0},
     year = {2021}
-  }
-  ```
+}{{< /highlight >}}
 
 
 
@@ -201,4 +204,3 @@ Have you considered adding Discord logs?
 Can I make my own version of the Pile?
 
 : Of course! For just this reason, all of the components and the Pile creation process are reproducible. [The code used to create the Pile can be found here.](https://github.com/EleutherAI/the-pile) Links to the code for reproducing each component are also available at that repo.
-{{</qa>}}

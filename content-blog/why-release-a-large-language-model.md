@@ -3,7 +3,7 @@ title: "Why Release a Large Language Model?"
 date: 2021-06-02T23:30:00+02:00
 draft: False
 description: "We believe the creation and open source release of a large language model is a net good to AI safety. We explain why."
-authors: ["Connor Leahy"]
+author: ["Connor Leahy"]
 contributors: ["EleutherAI"]
 categories: ["Article"]
 ---

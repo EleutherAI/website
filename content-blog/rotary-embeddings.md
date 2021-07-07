@@ -2,20 +2,15 @@
 title: "Rotary Embeddings: A Relative Revolution"
 date: 2021-04-20T21:00:00-04:00
 draft: False
-authors: ["Stella Biderman", "Sid Black", "Charles Foster", "Leo Gao", "Eric Hallahan", "Horace He", "Ben Wang", "Phil Wang"]
+author: ["Stella Biderman", "Sid Black", "Charles Foster", "Leo Gao", "Eric Hallahan", "Horace He", "Ben Wang", "Phil Wang"]
 description: "Rotary Positional Embedding (RoPE) is a new type of position encoding that unifies absolute and relative approaches. We put it to the test."
 categories: ["Article"]
 mathjax: True
-images: ["/images/blog/rotary-embeddings/janus.png"]
+cover: 
+  image: "/images/blog/rotary-embeddings/janus.png"
+  caption: "`Rotary position encoding` as imagined by [Janus](https://generative.ink)"
+  alt: Rotary position encoding as imagined by Janus
 ---
-
-<figure>
-<center>
- <img src="/images/blog/rotary-embeddings/janus.png" alt="Rotary Embeddings as imagined by Big Sleep" style="width:800px"> 
- <figcaption>Rotary Embeddings as imagined by <a href="https://generative.ink">Janus</a></figcaption>
-
-</center>
-</figure>
 
 ## TL;DR:
 Rotary Positional Embedding (RoPE) is a new type of position encoding that unifies absolute and relative approaches. Developed by Jianlin Su in a series of blog posts earlier this year [12, 13] and in a new preprint [14], it has already garnered widespread interest in some Chinese NLP circles. This post walks through the method as we understand it, with the goal of bringing it to the attention of the wider academic community. In general we have found that across a large suite of setups including regular, linear, and local self-attention, it **either matches or surpasses all other methods currently available for injecting positional information into transformers.**
@@ -41,6 +36,7 @@ With this in mind, the intuition behind RoPE is that we can represent the token 
 
 The following is an example illustrating the core idea of RoPE—a more rigorous derivation is presented in a subsequent section. Some arbitrary $0 < \varepsilon \leq \frac \pi {2N}$ is chosen, where $N$ is the maximum sequence length. When viewed elementwise on $\mathbf{q}$ and $\mathbf{k}$, with $j$ as the element index, RoPE can be viewed as follows:
 
+$$
 \begin{align}
     \mathrm{RoPE}(x, m) &= xe^{mi\varepsilon} \\\\
     \langle \mathrm{RoPE}(q_j, m), \mathrm{RoPE}(k_j, n)\rangle &= \langle q_j e^{mi\varepsilon}, k_j e^{ni\varepsilon} \rangle \\\\
@@ -48,18 +44,16 @@ The following is an example illustrating the core idea of RoPE—a more rigorous
     &= q_j k_j e^{(m - n)i\varepsilon} \\\\
     &= \mathrm{RoPE}(q_j k_j, m - n)
 \end{align}
+$$
 
 ### Visual Intuition
-<figure>
-<br>
+{{<figure caption="A quarter-waveplate can change the polarization of an electromagnetic wave. (This figure is interactive, try dragging the cube!)">}}
 <iframe id="waveplate-animation" src="/images/blog/rotary-embeddings/waveplate.html" class="auto" style="border-width:0; display: block;
     margin-right: auto;
     margin-left: auto;
     height: 400px;
     width: 800px" loading="lazy" ></iframe>
-  <figcaption>A quarter-waveplate can change the polarization of an electromagnetic wave. (This figure is interactive, try dragging the cube!)</figcaption>
-<br>
-</figure>
+{{</figure>}}
 
 To see how relative position might be preserved in this transformation, we can look to an analogous situation in classical electrodynamics.
 
@@ -75,33 +69,44 @@ While it is common in machine learning to restrict our attention to the real num
 
 Let $\mathbf{q}$ and $\mathbf{k}$ be query and key vectors respectively and let $m$ and $n$ be the absolute positions of the corresponding tokens. Let $f(\mathbf{x}, \ell)$ be the function that takes the token embedding $\mathbf{x}$ in position $\ell$ and outputs a new embedding that contains (in some fashion) the relative positional information. Our goal is to find a "nice" function $f$ that does this. Once the positional information is encoded, we need to compute the inner product like so:
 
-\begin{equation}\label{fg}
-    \langle f(\mathbf{q}, m),f(\mathbf{k},n) \rangle = g(\mathbf{q}, \mathbf{k}, m - n)
-\end{equation}
+$$\label{fg}\langle f(\mathbf{q}, m),f(\mathbf{k},n) \rangle = g(\mathbf{q}, \mathbf{k}, m - n)$$
 
 where $g(\mathbf{q},\mathbf{k},m-n)$ now represents the pre-softmax logit of the usual attention equation. Writing these three functions in exponential form gives
+
+$$
 \begin{align*}
     f(\mathbf{q}, m) &= R_f(\mathbf{q}, m)e^{i\Theta_f(\mathbf{q}, m)}\\\\
     f(\mathbf{k}, n) &= R_f(\mathbf{k}, n)e^{i\Theta_f(\mathbf{k}, n)}\\\\
     g(\mathbf{q}, \mathbf{k}, m - n) &= R_g(\mathbf{q}, \mathbf{k}, m - n)e^{i\Theta_g(\mathbf{q}, \mathbf{k}, m - n)}
 \end{align*}
+$$
 
 Computing the inner product and equating corresponding components yields
 
+$$
 \begin{align*}
     R_f(\mathbf{q}, m) R_f(\mathbf{k}, n) &= R_g(\mathbf{q}, \mathbf{k}, m - n)\\\\
     \Theta_f(\mathbf{q}, m) - \Theta_f(\mathbf{k}, n) &= \Theta_g(\mathbf{q}, \mathbf{k}, m - n)\\\\
 \end{align*}
+$$
 
 Substituting $m=n$ and applying the initial condition $f(\mathbf{x}, 0) = \mathbf{x}$ gives
-$$R_f(\mathbf{q}, m) R_f(\mathbf{k}, m) = R_g(\mathbf{q}, \mathbf{k}, 0) = R_f(\mathbf{q}, 0) R_f(\mathbf{k}, 0) = \mathbf{q}\mathbf{k}$$ As the prior equation is valid for all $m$, it means that $R_f$ is independent of the value of $m$, so we can set $R_f(\mathbf{x}, y) = \mathbf{x}$. Similarly, if we denote $\Theta(\mathbf{x}) = \Theta_f(\mathbf{x}, 0)$ we obtain $$\Theta_f(\mathbf{q}, m) - \Theta_f(\mathbf{k}, m) = \Theta_g(\mathbf{q}, \mathbf{k}, 0) = \Theta_f(\mathbf{q}, 0) - \Theta_f(\mathbf{k}, 0) = \Theta(\mathbf{q}) - \Theta(\mathbf{k})$$ which implies that $\Theta_f(\mathbf{q}, m) - \Theta(\mathbf{q}) = \Theta_f(\mathbf{k}, m) - \Theta(\mathbf{k})$ for all $\mathbf{q},\mathbf{k},m$. This allows us to decompose $\Theta_f$ as $\Theta_f(\mathbf{x}, y) = \Theta(\mathbf{x}) + \varphi(y)$. Examining the case of $m = n + 1$ reveals that $$\varphi(m) - \varphi(m-1) = \Theta_g(\mathbf{q}, \mathbf{k}, 1) + \Theta(\mathbf{q}) - \Theta(\mathbf{k})$$ Since the right-hand side does not depend on $m$, the left hand side must not either and so $\varphi$ is an arithmetic progression. Setting the initial values $\varphi(0)=0$ and $\varphi(1)=\theta$, we have $\varphi(m)=m\theta$.
+
+$$R_f(\mathbf{q}, m) R_f(\mathbf{k}, m) = R_g(\mathbf{q}, \mathbf{k}, 0) = R_f(\mathbf{q}, 0) R_f(\mathbf{k}, 0) = \mathbf{q}\mathbf{k}$$
+
+As the prior equation is valid for all $m$, it means that $R_f$ is independent of the value of $m$, so we can set $R_f(\mathbf{x}, y) = \mathbf{x}$. Similarly, if we denote $\Theta(\mathbf{x}) = \Theta_f(\mathbf{x}, 0)$ we obtain $$\Theta_f(\mathbf{q}, m) - \Theta_f(\mathbf{k}, m) = \Theta_g(\mathbf{q}, \mathbf{k}, 0) = \Theta_f(\mathbf{q}, 0) - \Theta_f(\mathbf{k}, 0) = \Theta(\mathbf{q}) - \Theta(\mathbf{k})$$ which implies that $\Theta_f(\mathbf{q}, m) - \Theta(\mathbf{q}) = \Theta_f(\mathbf{k}, m) - \Theta(\mathbf{k})$ for all $\mathbf{q},\mathbf{k},m$. This allows us to decompose $\Theta_f$ as $\Theta_f(\mathbf{x}, y) = \Theta(\mathbf{x}) + \varphi(y)$. Examining the case of $m = n + 1$ reveals that 
+
+$$\varphi(m)-\varphi(m-1) = \Theta_g(\mathbf{q}, \mathbf{k}, 1) + \Theta(\mathbf{q}) - \Theta(\mathbf{k})$$
+
+Since the right-hand side does not depend on $m$, the left hand side must not either and so $\varphi$ is an arithmetic progression. Setting the initial values $\varphi(0)=0$ and $\varphi(1)=\theta$, we have $\varphi(m)=m\theta$.
 
 Putting all of these pieces together, we get the final formula for the rotary positional embedding:
-\begin{equation}
-    f(\mathbf{q}, m) = R_f(\mathbf{q}, m)e^{i\Theta_f(\mathbf{q}, m)}=\mathbf{q}e^{i(\Theta(\mathbf{q})+m\mathbf{\theta})} = \sum_{j=1}^{d/2} q_je^{im\theta_j} \vec{e_j}
-\end{equation}
+
+$$f(\mathbf{q}, m) = R_f(\mathbf{q}, m)e^{i\Theta_f(\mathbf{q}, m)}=\mathbf{q}e^{i(\Theta(\mathbf{q})+m\mathbf{\theta})} = \sum_{j=1}^{d/2} q_je^{im\theta_j} \vec{e_j}$$
+
 and likewise for $\mathbf{k}$. Since computers tend to like real numbers and matrices more than complex numbers, its convenient to convert this expression into the matrix equation
-\begin{equation}
+
+$$
     f(\mathbf{q}, m) =
     \begin{pmatrix}
 	    M_1 & & & \\\\
@@ -115,18 +120,21 @@ and likewise for $\mathbf{k}$. Since computers tend to like real numbers and mat
 	   \vdots\\\\
 	   q_d
     \end{pmatrix} = \mathbf{\Theta_m Q_m} = \mathbf{\Theta_m W_q X_m}
-\end{equation}
-where $M_j=\begin{pmatrix}\cos m\theta_j & -\sin m\theta_j \\\sin m\theta_j & \cos m\theta_j\end{pmatrix}$, $\mathbf{\Theta_m}$ is the block diagonal rotation matrix, $\mathbf{W_q}$ is the learned query weights, and $\mathbf{X_m}$ is the embedding of the $m^{th}$ token.  Again, we also have the corresponding equation for $\mathbf{k}$.
+$$
+
+where $M_j=\begin{pmatrix}\cos m\theta_j & -\sin m\theta_j \\\sin m\theta_j & \cos m\theta_j\end{pmatrix}$, $\mathbf{\Theta_m}$ is the block diagonal rotation matrix, $\mathbf{W_q}$ is the learned query weights, and $\mathbf{X_m}$ is the embedding of the $m$ token. Again, we also have the corresponding equation for $\mathbf{k}$.
 
 ### Extension to multiple dimensions
 
 With relative ease RoPE can be extended into the multidimensional case. To represent two dimensions, two independent 1-dimensional rotary embeddings can be used. To implement this, we can split each of $\mathbf{q}$ and $\mathbf{k}$ in half and apply rotary piece-wise as follows:
 
-`\begin{align}
+$$
+\begin{align*}
     \langle f(\mathbf{q}, m, i),f(\mathbf{k}, n, j) \rangle &= \langle f_1(\mathbf{q}_{:d/2}, m),f_1(\mathbf{k}_{:d/2}, n) \rangle + \langle f_2(\mathbf{q}_{d/2:}, i),f_2(\mathbf{k}_{d/2:}, j) \rangle \\\\
     &= g_1(\mathbf{q}_{:d/2}, \mathbf{k}_{:d/2}, m - n) + g_2(\mathbf{q}_{d/2:}, \mathbf{k}_{d/2:}, i - j) \\\\
     &= g(\mathbf{q}, \mathbf{k}, m - n, i - j)
-\end{align}`
+\end{align*}
+$$
 
 This formulation can also be further extended to data of an arbitrary number of dimensions. This sort of multi-dimensional relative coding would let us, for example, implement relative timing and relative pitch embeddings similar to Music Transformer [4] in a drastically simpler manner. More generally, we believe there is potentially a large class of invariances that first-principles positional codes like RoPE may enable us to capture. 
 
@@ -145,7 +153,7 @@ After reading  Jianlin Su's original blog posts [12, 13], we were curious how we
 A naive implementation of rotary positional embeddings would use the block diagonal matrix form shown earlier. In practice, implementing rotary positional embeddings this way is highly inefficient, and more optimized forms are readily available. The original implementations of RoPE are available in [roformer](https://github.com/ZhuiyiTechnology/roformer) and [bert4keras](https://github.com/bojone/bert4keras).
 
 Additionally, we have implemented rotary positional embeddings in [x-transformers](https://github.com/lucidrains/x-transformers), [GPT-Neo](https://github.com/EleutherAI/gpt-neo), [GPT-NeoX](https://github.com/EleutherAI/gpt-neox), and [Mesh Transformer JAX](https://github.com/kingoflolz/mesh-transformer-jax). Below are implimentations for PyTorch and JAX pulled from these codebases.
-<br>
+
 <details><summary>GPT-NeoX (PyTorch)</summary>
 {{< highlight python >}}
 class Rotary(torch.nn.Module):
@@ -181,7 +189,7 @@ def apply_rotary_pos_emb(q, k, cos, sin):
 
 **N.B:** The layout of the queries and keys in GPT-NeoX, following Megatron, is `[seq, batch, heads, hdim]`, in order to avoid memory-intensive transpose operations. The code will need to be modified to work with the conventional layout of `[batch, seq, heads, hdim]`.
 </details>
-<br>
+
 <details><summary>Mesh Transformer JAX (JAX)</summary>
 {{< highlight python >}}
 def fixed_pos_embedding(x, seq_dim=0):
@@ -214,92 +222,45 @@ def apply_rotary_pos_emb(x, sincos):
 
 We have found rotary embeddings to be effective for many varieties of attention.
 
-**Comparison against other PEs for Global attention:** We conducted [comparisons](https://wandb.ai/eleutherai/neox/reports/Rotary-Test-3--Vmlldzo2MTIwMDM) of rotary embeddings with learned absolute positional embeddings, used in GPT-3 [1], and the learned relative positional embeddings (henceforth RPE) used in T5 [10] using our GPT-Neox codebase. Comparisons were done using 125M parameter models with the same hyperparameters as the equally-sized model from [1]. Models were trained on [OpenWebText2](https://www.eleuther.ai/projects/open-web-text2/), a large and diverse dataset of online text. We see faster convergence of training and validation curves and a lower overall validation loss with a minimal decrease in throughput. 
+#### Comparison against other PEs for Global attention
 
-<figure>
- <img src="/images/blog/rotary-embeddings/rope-learned-rpe.png" alt="GPT-NeoX experiments" style="width:800px"> 
- <figcaption>OWT2 validation loss with 150M parameter models in GPT-NeoX</figcaption>
-</figure>
+We conducted [comparisons](https://wandb.ai/eleutherai/neox/reports/Rotary-Test-3--Vmlldzo2MTIwMDM) of rotary embeddings with learned absolute positional embeddings, used in GPT-3 [1], and the learned relative positional embeddings (henceforth RPE) used in T5 [10] using our GPT-Neox codebase. Comparisons were done using 125M parameter models with the same hyperparameters as the equally-sized model from [1]. Models were trained on [OpenWebText2](https://www.eleuther.ai/projects/open-web-text2/), a large and diverse dataset of online text. We see faster convergence of training and validation curves and a lower overall validation loss with a minimal decrease in throughput. 
 
+{{<figure src="/images/blog/rotary-embeddings/rope-learned-rpe.png" alt="GPT-NeoX experiments" caption="OWT2 validation loss with 150M parameter models in GPT-NeoX" />}}
 
-<figure>
-<center>
-<figcaption><b>Final validation loss / ppl scores on OWT2 validation set at 55k steps (~30B tokens):</b></figcaption>
-<br>
-<table style="width:50%">
-  <tr>
-    <th><b>Type</b></th>
-    <th>OWT2 Loss</th>
-    <th>OWT2 Ppl.</th>
-  </tr>
-  <tr>
-    <td><b>Learned Absolute</b></td>
-    <td>2.809</td>
-    <td>16.59</td>
-  </tr>
-  <tr>
-    <td><b>T5 RPE</b></td>
-    <td>2.801</td>
-    <td>16.46</td>
-  </tr>
-    <tr>
-    <td><b>Rotary</b></td>
-    <td>2.759</td>
-    <td>15.78</td>
-  </tr>
-</table> 
-</center>
-</figure>
-<br>
+{{<figure align="center" caption="Final validation loss / ppl scores on OWT2 validation set at 55k steps (~30B tokens)">}}
+
+| Type             | OWT2 Loss | OWT2 Ppl. |
+|------------------|-----------|-----------|
+| Learned Absolute | 2.809     | 16.59     |
+| T5 RPE           | 2.801     | 16.46     |
+| Rotary           | 2.759     | 15.78     |
+
+{{</figure>}}
 
 
-**Billion+ parameter models:** We additionally conducted additional larger scale experiments with the [mesh-transformer-jax](https://github.com/kingoflolz/mesh-transformer-jax) codebase and 1.4B parameter models, against baselines of learned absolute position embeddings and T5 RPE. Hyperparameters similar to GPT3's 1.3B model were used, with the dataset being the Pile [3]. A similar increase in convergence speed was observed as seen over learned absolute (~30\%), and a smaller improvement (10-20\%) was still seen over the T5 relative position encoding, demonstrating scalability into the billion parameter regimen. For full details, see [here](https://wandb.ai/eleutherai/mesh-transformer-jax/reports/Position-encoding-shootout--Vmlldzo2MTg2MzY).
+#### Billion+ parameter models
+We additionally conducted additional larger scale experiments with the [mesh-transformer-jax](https://github.com/kingoflolz/mesh-transformer-jax) codebase and 1.4B parameter models, against baselines of learned absolute position embeddings and T5 RPE. Hyperparameters similar to GPT3's 1.3B model were used, with the dataset being the Pile [3]. A similar increase in convergence speed was observed as seen over learned absolute (~30\%), and a smaller improvement (10-20\%) was still seen over the T5 relative position encoding, demonstrating scalability into the billion parameter regimen. For full details, see [here](https://wandb.ai/eleutherai/mesh-transformer-jax/reports/Position-encoding-shootout--Vmlldzo2MTg2MzY).
 
-<figure>
- <img src="/images/blog/rotary-embeddings/jax-experiments.png" alt="Jax experiments" style="width:800px"> 
- <figcaption>Pile validation loss with 1.5B parameter models</figcaption>
-</figure>
+{{<figure src="/images/blog/rotary-embeddings/jax-experiments.png" alt="Jax experiments" caption="Pile validation loss with 1.5B parameter models"/>}}
 
+{{<figure align="center" caption="Final validation loss / ppl scores on Pile validation set at 8k steps (~8B tokens)">}}
 
+| Type             | Pile Loss | Pile Ppl. |
+|------------------|-----------|-----------|
+| Learned Absolute | 2.240     | 9.393     |
+| T5 RPE           | 2.223     | 9.234     |
+| Rotary           | 2.173     | 8.784     |
 
-<figure>
-<center>
-<figcaption><b>Final validation loss / ppl scores on Pile validation set at 8k steps (~8B tokens):</b></figcaption>
-<br>
-<table style="width:50%">
-  <tr>
-    <th><b>Type</b></th>
-    <th>Pile Loss</th>
-    <th>Pile Ppl.</th>
-  </tr>
-  <tr>
-    <td><b>Learned Absolute</b></td>
-    <td>2.24</td>
-    <td>9.393</td>
-  </tr>
-  <tr>
-    <td><b>T5 RPE</b></td>
-    <td>2.223</td>
-    <td>9.234</td>
-  </tr>
-    <tr>
-    <td><b>Rotary</b></td>
-    <td>2.173</td>
-    <td>8.784</td>
-  </tr>
-</table> 
-</center>
-</figure>
+{{</figure>}}
 
-**Comparison against learned absolute for Performer:** Performer [2] is an example of an alternative attention mechanism designed to avoid quadratic bottlenecks with respect to sequence lengths. We ran small scale tests of Performer on enwiki8, for 8 layer char-based transformers with 512 dimensions and 8 heads. [These tests indicated](https://wandb.ai/lucidrains/eleuther-blogpost/reports/performer-rotary--Vmlldzo2MTgyNDg) that substituting rotary embeddings into the Performer leads to stark decreases in validation loss and to rapid convergence. Though these improvements do not close the gap between efficient and quadratic attention mechanisms, such a significant improvement makes mechanisms like Performer more attractive.
+#### Comparison against learned absolute for Performer
+
+Performer [2] is an example of an alternative attention mechanism designed to avoid quadratic bottlenecks with respect to sequence lengths. We ran small scale tests of Performer on enwiki8, for 8 layer char-based transformers with 512 dimensions and 8 heads. [These tests indicated](https://wandb.ai/lucidrains/eleuther-blogpost/reports/performer-rotary--Vmlldzo2MTgyNDg) that substituting rotary embeddings into the Performer leads to stark decreases in validation loss and to rapid convergence. Though these improvements do not close the gap between efficient and quadratic attention mechanisms, such a significant improvement makes mechanisms like Performer more attractive.
 
 In smaller scale tests, we have also put RoPE head to head against other alternatives including the relative position  method of Shaw et al. [11], TUPE [5], and position-infused attention [8], seeing positive results across the board. 
 
-<figure>
- <img src="/images/blog/rotary-embeddings/performer.png" alt="x-transformers experiments" style="width:800px"> 
- <figcaption>Enwik8 validation/train loss with performer</figcaption>
-</figure>
-<br>
+{{<figure src="/images/blog/rotary-embeddings/performer.png" alt="x-transformers experiments" caption="Enwik8 validation/train loss with performer"/>}}
 
 ### Runtime
 In general, we find that the runtime cost of rotary embeddings is fairly negligible. With the above implementation, we find that applying the rotary embeddings is naively about 4-5x the cost of applying additive positional embeddings. With the addition of a fusing optimizer like Torchscript, the runtime can be reduced to about 2-2.5x the runtime of additive positional embeddings. Concretely, for query and key tensors of shape $[2048, 16, 12, 64]$, applying rotary embeddings take 5.3 milliseconds, while applying additive positional embeddings takes 2.1 milliseconds.
