@@ -27,9 +27,6 @@ To bind on another IP apart from localhost and change the baseURL (ensuring the 
 
 `hugo server --bind=BIND-IP --baseUrl=IP-OR-DOMAIN -D`
 
-`hugo server -D -F --bind 192.168.1.205 --baseURL http://192.168.1.205 --port 1313 --disableFastRender`
-`hugo server -D -F --config config-blog.toml --bind 192.168.1.205 --baseURL http://192.168.1.205 --port 1314`
-
 ## Project Layout
 
 | Directory      | Description |
