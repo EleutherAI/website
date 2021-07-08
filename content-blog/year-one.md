@@ -95,9 +95,9 @@ Armed with access to a truly irresponsible amount of TPU computing power, we beg
 
 But we were faced with a terrible price to be paid: We had to use TensorFlow to use our TPUs. Worse, the model sizes we were aiming at were so huge, we had to use an even more obscure library, Mesh TensorFlow, on top of it.
 
-This was not the easiest thing to use.
+This was... not the easiest of things to do.
 
-{{<figure caption="Sid loses his mind attempting to understand Mesh Tensorflow.">}}
+{{<figure>}}
 {{<discord/thread channel="general">}}
 {{<discord/message handle="Sid" drole="O5" img-src="https://cdn.discordapp.com/avatars/616061740857425920/70f1854c9aebef81a8638b0ef1243b95.png" datetime="2020-07-15T15:34:53.929Z">}}AGH I HATE THIS LIBRARY{{</discord/message>}}
 {{<discord/message handle="Sid" drole="O5" datetime="2020-07-15T15:35:11.229Z">}}mtf.rename_dimension() does a different thing to tensor.shape.rename_dimension(){{</discord/message>}}
@@ -108,16 +108,17 @@ Progress was hard won, no thanks to our eternal greatest foe: The kafkaesque nig
 
 {{<figure src="https://cdn.discordapp.com/attachments/729741769738158194/730814288658169876/tf_meme.png" caption="Artist rendition of the hole that is TensorFlow documentation." width=400 align="center"/>}}
 
-
-Using TPUs also can be at best described as "not the easiest of undertakings", but our crack team of elite ML hackers was quickly making progress, and we were sure that we would be able to start training our first models while only sacrificing a modicum of our mortal sanity.
+But our crack team of elite ML hackers was quickly making progress.
 
 {{<figure>}}
 {{<discord/thread channel="gpt-neo">}}
-{{<discord/message handle="Stella Biderman" drole="mathemagician" datetime="2020-08-19T13:33:40.218Z"  img-src="https://cdn.discordapp.com/avatars/193204646687408129/4ab251145bf36bec6f54070e7d465485.png">}}
-![](https://cdn.discordapp.com/attachments/730090096287547444/745636603673968640/image0.jpg)
+{{<discord/message handle="Sid" drole="O5" img-src="https://cdn.discordapp.com/avatars/616061740857425920/70f1854c9aebef81a8638b0ef1243b95.png" datetime="2020-02-09T17:27:50.000Z">}} <!--todo: fix timestamp-->
+![](https://media.discordapp.net/attachments/730095596861521970/750738894953250909/Screenshot_2020-09-02_at_17.27.50.png)
 {{</discord/message>}}
 {{</discord/thread>}}
 {{</figure>}}
+
+And we were sure that we would be able to start training our first models while only sacrificing a modicum of our mortal sanity.
 
 {{<figure>}}
 {{<discord/thread channel="gpt-neo">}}
@@ -128,7 +129,17 @@ Woke: Achieving enlightenment to do more tensorflow debugging at 2AM
 {{</discord/thread>}}
 {{</figure>}}
 
+
 And quickly, GPT-Neo took shape. A horrible, horrible shape, but shape nonetheless! We were well on our way to doing real ML research!
+
+
+{{<figure>}}
+{{<discord/thread channel="gpt-neo">}}
+{{<discord/message handle="Stella Biderman" drole="mathemagician" datetime="2020-08-19T13:33:40.218Z"  img-src="https://cdn.discordapp.com/avatars/193204646687408129/4ab251145bf36bec6f54070e7d465485.png">}}
+![](https://cdn.discordapp.com/attachments/730090096287547444/745636603673968640/image0.jpg)
+{{</discord/message>}}
+{{</discord/thread>}}
+{{</figure>}}
 
 ### The Pile
 
