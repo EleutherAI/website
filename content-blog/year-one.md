@@ -174,7 +174,7 @@ Twitter thread: https://twitter.com/nabla_theta/status/1345130409579794432{{</di
 {{</discord/thread>}}
 {{</figure>}}
 
-<!-- ### First Results -->
+### First Results
 
 The exciting news was quickly followed up (the next day!) by the announcement of our collaboration with [CoreWeave](https://www.coreweave.com), which pledged to provide us with GPUs to make this crazy project a reality. Released from the torment of having to work with TPUs without JAX (as JAX wasn't yet in quite as usable a state as it is today), work on our new codebase, [GPT-NeoX](https://www.eleuther.ai/projects/gpt-neox) began in earnest soon after.
 
@@ -189,31 +189,23 @@ The codebase is a work-in-progress as we figure out how to maximize efficiency. 
 {{</discord/thread>}}
 {{</figure>}}
 
-While we didn’t know it at the time, a second significant development occurred that day: Phil Wang ({{<discord/mention "@lucidrains">}}) and Eric Alcaide ({{<discord/mention "@hypnopump">}}) began collaborating on [a replication of AlphaFold2](https://eleuther.ai/projects).
+While we didn’t know it at the time, a second significant development occurred that day: Phil Wang ({{<discord/mention "@lucidrains">}}) and Eric Alcaide ({{<discord/mention "@hypnopump">}}) began collaborating on a replication of AlphaFold2.
 
 {{<figure src="https://cdn.discordapp.com/attachments/788870744623939594/860912676334862396/Captura_de_pantalla_2021-07-03_a_las_17.30.58.png" alt="A unicorn and and Ice Cream join forces."/>}}
 
-With our first real results delivered, outside observers started to take notice. The [first mainstream article](https://venturebeat.com/2021/01/15/ai-weekly-meet-the-people-trying-to-replicate-and-open-source-openais-gpt-3/) about EleutherAI was published around this time in VentureBeat.
+With our first real results delivered, outside observers started to take notice. The [first mainstream article](https://venturebeat.com/2021/01/15/ai-weekly-meet-the-people-trying-to-replicate-and-open-source-openais-gpt-3/) about EleutherAI was published by VentureBeat around this time.
 
+With the Pile wrapped up, and GPT-NeoX still a while away, we put our TPUs to work on training our first large GPT-Neo models. 
 
-With the Pile wrapped up, and NeoX still a while away, we put our TPUs to work on training our first large GPT-Neo models. 
-
-{{<figure caption="Representative example of what training Neo was like">}}
-{{<discord/thread>}}
-{{<discord/message handle="bmk" drole="O5" datetime="2021-05-14T00:00:00.000Z" img-src="https://cdn.discordapp.com/avatars/606987544235868219/89c76c2459fb48c8856ecff4f33d4fd7.png">}} <!-- todo: fix timestamp-->AAAAAAAAAAAAAAA
-neo is segfaulting
-![](https://media.discordapp.net/attachments/788870744623939594/842970565983862864/unknown.png)
-{{</discord/message>}}
-{{<discord/message handle="bmk" drole="O5" datetime="2021-05-14T00:00:00.000Z" img-src="https://cdn.discordapp.com/avatars/606987544235868219/89c76c2459fb48c8856ecff4f33d4fd7.png">}} <!-- todo: fix timestamp-->internal scremaing
-![](https://media.discordapp.net/attachments/788870744623939594/842973700718067762/unknown.png?width=534&height=684)
-{{</discord/message>}}
-{{<discord/message handle="bmk" drole="O5" datetime="2021-05-14T00:00:00.000Z" img-src="https://cdn.discordapp.com/avatars/606987544235868219/89c76c2459fb48c8856ecff4f33d4fd7.png">}} <!-- todo: fix timestamp-->so
-by moving the transformers import to the beginning, there's no segfault
-this only happens with this one pyenv, 3.8.10
-{{</discord/message>}}
+{{<figure caption="Representative example of what training Neo was like.">}}
+{{<discord/thread channel="level-5">}}
+{{<discord/message handle="bmk" drole="O5" datetime="2021-05-15T03:44:05.182Z" img-src="https://cdn.discordapp.com/avatars/606987544235868219/89c76c2459fb48c8856ecff4f33d4fd7.png">}}![](https://cdn.discordapp.com/attachments/788870744623939594/842970565983862864/unknown.png){{</discord/message>}}
+{{<discord/message handle="bmk" drole="O5" datetime="2021-05-15T03:44:07.143Z">}}**AAAAAAAAAAAAAAA**{{</discord/message>}}
+{{<discord/message handle="bmk" drole="O5" datetime="2021-05-15T03:44:10.111Z">}}neo is segfaulting{{</discord/message>}}
+{{<discord/message handle="bmk" drole="O5" datetime="2021-05-15T03:46:37.100Z">}}![](https://media.discordapp.net/attachments/788870744623939594/842971204004347934/unknown.png){{</discord/message>}}
+{{<discord/message handle="bmk" drole="O5" datetime="2021-05-15T03:46:40.273Z">}}internal scremaing{{</discord/message>}}
 {{</discord/thread>}}
 {{</figure>}}
-
 
 And then we... promptly forgot about them.
 
@@ -233,14 +225,6 @@ The Neo-x project is progressing well, the codebase is mostly stable and we are 
 
 This might seem quaint in retrospect, but we really didn't think people would care that much about our "small models."
 
-![](https://media.discordapp.net/attachments/788870744623939594/862519696904683551/unknown.png) <!--todo: replace with higher res-->
-
-Turns out, people *did* care. 
-
-<!-- The response to the 1.3B and 2.7B GPT-Neo models was overwhelming. [EleutherAI/gpt-neo](https://github.com/EleutherAI/gpt-neo) trended in the top ten on GitHub for three consecutive days from March 22 through March 24, gaining thousands of stars in that time. -->
-
-This marked something of a new era of EleutherAI. We had already gotten a good amount of attention for the Pile, but now we had proven to the world we were the real deal. [WIRED](https://www.wired.com/) senior writer [Will Knight](https://www.wired.com/author/will-knight) published *[This AI Can Generate Convincing Text---and Anyone Can Use It](https://www.wired.com/story/ai-generate-convincing-text-anyone-use-it/)*, and other widely read articles follow. People were really excited to use our models!
-
 {{<figure>}}
 {{<discord/thread channel="gpt-neo">}}
 {{<discord/message handle="Stella Biderman" drole="mathemagician" img-src="https://cdn.discordapp.com/avatars/193204646687408129/4ab251145bf36bec6f54070e7d465485.png" datetime="2021-03-23T23:52:53.871Z">}}
@@ -256,14 +240,22 @@ I like how ice creams picture is everywhere
 {{</discord/thread>}}
 {{</figure>}}
 
+Turns out, people *did* care. 
+
+<!-- The response to the 1.3B and 2.7B GPT-Neo models was overwhelming. [EleutherAI/gpt-neo](https://github.com/EleutherAI/gpt-neo) trended in the top ten on GitHub for three consecutive days from March 22 through March 24, gaining thousands of stars in that time. -->
+
+This marked something of a new era of EleutherAI. We had already gotten a good amount of attention for the Pile, but now we had proven to the world we were the real deal. [WIRED](https://www.wired.com/) senior writer [Will Knight](https://www.wired.com/author/will-knight) published *[This AI Can Generate Convincing Text---and Anyone Can Use It](https://www.wired.com/story/ai-generate-convincing-text-anyone-use-it/)*, and other widely read articles follow. People were really excited to use our models!
+
+{{<figure src=https://media.discordapp.net/attachments/788870744623939594/862519696904683551/unknown.png alt="Over 100000 Downloads from Hugging Face Model hub." align="center"/>}}
+
 In early April, we announced our exciting new GOOSE project. Information about the GOOSE project can be found at https://www.eleuther.ai/goose
 
 {{<figure>}}
 {{<discord/thread>}}
-{{<discord/message handle="bmk" drole="O5" datetime="2021-04-01T00:00:00.000Z" img-src="https://cdn.discordapp.com/avatars/606987544235868219/89c76c2459fb48c8856ecff4f33d4fd7.png">}}<!-- todo: fix timestamp-->We are proud to announce that EleutherAI is now rebranding as GooseAI. Our new top priority is GOOSE (Goose-Oriented Object Search Engine). GPT-neo (Goose Pretrained Transformer with new engine option) is now deprecated. <br>
-For more information, please see our explanatory page: https://eleuther.ai/goose.html <br>
+{{<discord/message handle="bmk" drole="O5" datetime="2021-04-01T17:49:35.558Z" img-src="https://cdn.discordapp.com/avatars/606987544235868219/89c76c2459fb48c8856ecff4f33d4fd7.png">}}We are proud to announce that EleutherAI is now rebranding as GooseAI. Our new top priority is GOOSE (Goose-Oriented Object Search Engine). GPT-neo (Goose Pretrained Transformer with new engine option) is now deprecated.  
+For more information, please see our explanatory page: https://eleuther.ai/goose.html    
 Honk!
-![](https://media.discordapp.net/attachments/794042109048651818/827238963307216926/gooseai.png?width=250&height=250)
+![EleutherAI Goose Logo](https://media.discordapp.net/attachments/794042109048651818/827238963307216926/gooseai.png?width=300&height=300)
 {{</discord/message>}}
 {{</discord/thread>}}
 {{</figure>}}
@@ -372,8 +364,10 @@ I first heard about EleutherAI in August, during a paper discussion in Yannic Ki
 {{<blockquote author="Charles Foster (R&D Scientist)">}}
 Even as a lurker in the early days, I immediately got the sense of *Oh, this is gonna be big with Eleuther* (then LibreAI). There’s something about a collaboration between folks from across the world, most of whom have never met or who go by pseudonyms, doing AI research against all odds, that really stokes a feeling of frenetic excitement. Also, EleutherAI happens to host some of the smartest and strangest characters I know, who I have the pleasure of hanging out with in the {{<discord/channel "#research">}} channel and working on projects with. They say iron sharpens iron, and I think that applies: there’s a virtuous cycle here that somehow leads to high-caliber research and high-caliber memes alike. I’m truly excited to see where the next year takes all of us.
 {{</blockquote>}}
-{{<blockquote author="Eric Hallahan (Webmaster)">}}
-I like to feel that my involvement was an accident---a lurker who got involved because they were the right man in the wrong place. What started slightly over five months ago as "it cannot hurt to stick around" snowballed into assisting the early development of GPT-NeoX, writing papers and maintaining a website. It has been among the most valuble experiences I have ever had, and I have had a tremendous amount of fun along the way. 
+{{<blockquote author="Eric Hallahan (Undergraduate Student, PSU)">}}
+I like to feel that my involvement was an accident---a lurker who got involved because they were the right man in the wrong place. What started slightly over five months ago as "it cannot hurt to stick around" snowballed into assisting the early development of GPT-NeoX, writing papers and maintaining a website. It has been among the most valuable experiences I have ever had, and I have had a tremendous amount of fun along the way.
+
+In hindsight, EleutherAI filled a section of my life that I had been looking to fill for some time: a place where I could motivate myself to get work done that would truly make a difference in the world. I was loyal to the cause, and in return, it brought me experiences that I would have never imagined six months ago. We all may be a little crazy, but that is what is needed to tread new ground in a cutting-edge field. I cannot imagine what that new ground has in store, and I cannot wait to find out.
 {{</blockquote>}}
 {{<blockquote author="Stella Biderman (Mathematician and AI Researcher)">}}
 I am a hacker in the original sense of the word: one who enjoys the intellectual challenge of creatively overcoming limitations of software systems to achieve novel and clever outcomes. When a friend introduced me to EleutherAI last summer, I was in a depressive funk. My friend hoped that the people and ideas of EAI would strike my interest and whimsy, and he couldn’t have been more correct.
