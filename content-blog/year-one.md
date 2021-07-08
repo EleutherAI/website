@@ -258,6 +258,17 @@ I like how ice creams picture is everywhere
 
 In early April, we announced our exciting new GOOSE project. Information about the GOOSE project can be found at https://www.eleuther.ai/goose
 
+{{<figure>}}
+{{<discord/thread>}}
+{{<discord/message handle="bmk" drole="O5" datetime="2021-04-01T00:00:00.000Z" img-src="https://cdn.discordapp.com/avatars/606987544235868219/89c76c2459fb48c8856ecff4f33d4fd7.png">}}<!-- todo: fix timestamp-->We are proud to announce that EleutherAI is now rebranding as GooseAI. Our new top priority is GOOSE (Goose-Oriented Object Search Engine). GPT-neo (Goose Pretrained Transformer with new engine option) is now deprecated. <br>
+For more information, please see our explanatory page: https://eleuther.ai/goose.html <br>
+Honk!
+![](https://media.discordapp.net/attachments/794042109048651818/827238963307216926/gooseai.png?width=250&height=250)
+{{</discord/message>}}
+{{</discord/thread>}}
+{{</figure>}}
+
+
 GPT-NeoX was going well, we finally had code that could scale all the way to 175B, and beyond. We just needed the hardware to be ready. Unfortunately, we timed things perfectly to line up with [a global GPU shortage](https://nvidianews.nvidia.com/news/nvidia-announces-first-quarter-fiscal-2022-revenue-tracking-above-outlook) which made things... challenging. We are continuing to work with [CoreWeave](https://www.coreweave.com/) to source the computational resources we need.
 
 While waiting for the code and resources for GPT-NeoX, we decided to put the spare TPUs to use training a larger model. A new codebase, [Mesh Transformer JAX](https://github.com/kingoflolz/mesh-transformer-jax) was written for simplicity and efficiency in training medium sized models (<20B). After the customary TPU wrangling (although much shorter this time due to JAX having far less footguns than Mesh Tensorflow), a 6B parameter model was trained to completion and released.
