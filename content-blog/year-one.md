@@ -47,7 +47,7 @@ And another replied:
 
 And the rest was history!
 
-Quickly, we began to hash out our plans for ~~world domination~~ TPU necromancy. Connor still had access to a generous amount of TPUs through [TFRC](https://sites.research.google/trc/) from his previous GPT-2 misadventures, and so a few dedicated nerds wanted to see how far we could get with that. In all honesty, we didn't actually expect to get very far, but it was the height of a pandemic and we didn't exactly have anything better to do.
+Quickly, we began to hash out our plans for ~~world domination~~ TPU necromancy. Connor still had access to a generous amount of TPUs through [TRC](https://sites.research.google/trc/) from his previous GPT-2 misadventures, and so a few dedicated nerds wanted to see how far we could get with that. In all honesty, we didn't actually expect to get very far, but it was the height of a pandemic and we didn't exactly have anything better to do.
 
 After ~~spamming~~ liberally filling the text-AI related channels of our gracious hosts, we decided that we should strike out on our own. And so, on this very day one year ago, the "LibreAI" discord server was founded. We luckily wised up and picked a much cooler name shortly thereafter.
 
