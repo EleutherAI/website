@@ -360,6 +360,13 @@ Or it could be the producer of the most advanced alignment memes.
 
 {{<figure src="https://cdn.discordapp.com/attachments/730451873613611079/816103348155056168/stopdoingfdt.png" width="600" caption="<q>I promise, this is hilarious if you are one of the three people that know what FDT is.</q>" align="center"/>}}
 
+
+{{<figure src="https://pbs.twimg.com/media/E0Rj6wZVUAA3N_Y?format=png&name=large" width="600"align="center"/>}}
+{{<figure src="https/pbs.twimg.com/media/EzWfgekVcAoqD1s" width="600"align="center"/>}}
+
+{{<figure src="https://media.discordapp.net/attachments/733347369847881838/843585733784371280/gradienthackingtime.png" width="600" align="center"/>}}
+
+
 We’re not sure we know even today what EleutherAI really is, maybe we’ll figure it out this year.
 
 {{<figure src="https://cdn.discordapp.com/attachments/788870744623939594/862080138216603658/unknown.png" width="600" align="center"/>}}
