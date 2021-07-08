@@ -332,12 +332,13 @@ Before founding EleutherAI, Arch
 {{<discord/thread>}}
 {{<discord/message handle="BoneAmputee" drole="art" datetime="2021-07-06" img-src="https://cdn.discordapp.com/avatars/297844775585972235/852f28416750015c1426be34e1ccaace.png">}}".imagine I love when it rains. So cozy. -w 560 -h 416"{{</discord/message>}}
 {{<discord/message handle="BATbot McHorse" drole="none" datetime="2021-07-06" img-src="https://cdn.discordapp.com/avatars/297844775585972235/852f28416750015c1426be34e1ccaace.png">}}
+![](https://media.discordapp.net/attachments/838682121975234571/862080305770266654/1625605847_I_love_when_it_rains._So_cozy..jpg)
 *I love when it rains. So cozy.*
 > iteration 500/500 (100%) Elapsed: 8m36s
 {{</discord/message>}}
 {{</discord/thread>}}
 {{</figure>}}
-{{<figure src="https://media.discordapp.net/attachments/838682121975234571/862080305770266654/1625605847_I_love_when_it_rains._So_cozy..jpg" caption="" width="400" align="center"/>}}
+<!-- {{<figure src="https://media.discordapp.net/attachments/838682121975234571/862080305770266654/1625605847_I_love_when_it_rains._So_cozy..jpg" caption="" width="400" align="center"/>}} -->
 
 
 ## Looking Back, Looking Forward: The Future of EleutherAI
