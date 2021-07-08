@@ -309,7 +309,7 @@ We recommend [this wonderful post from Machine Learning at Berkeley](https://ml.
 
 </aside>
 
-Perhaps the most visually compelling development of {{<discord/channel "#art">}} is what became known as the "unreal engine trick." CLIP was trained on the internet, and the internet contains a lot of extremely high quality images that have a caption mentioning the Unreal Engine. CLIP noticed this, and we quickly realized that you could vastly improve the generates images by simply mentioning the Unreal Engine:
+Perhaps the most visually compelling development of {{<discord/channel "#art">}} is what became known as the "unreal engine trick." CLIP was trained on the internet, and the internet contains a lot of extremely high quality images that have a caption mentioning the Unreal Engine. CLIP noticed this, and we quickly realized that you could *vastly* improve the generates images by simply mentioning the Unreal Engine:
 
 {{<figure>}}
 {{<discord/thread channel="art">}}
@@ -319,6 +319,24 @@ Perhaps the most visually compelling development of {{<discord/channel "#art">}}
 {{</figure>}}
 
 {{<figure src="https://cdn.discordapp.com/attachments/730484623028519072/836379948905136219/the_angel_of_the_sea._unreal_engine.png" caption="<kbd>the angel of the sea. unreal engine</kbd> as imagined by jbuster.<br>This is the first image generated with the <q>unreal engine trick</q>." width="400" align="center"/>}}
+
+#### The Underground Studio, {{<discord/channel "#the-faraday-cage">}}
+
+{{<discord/channel "#the-faraday-cage">}} started as a channel to let anyone on our Discord use our early Neo models, mostly to laugh at how terrible they were. The channel has taken on (an insane) life of its own thanks to the Discord bot {{<discord/mention "@BATbot McHorse">}} maintained by [BoneAmputee](https://twitter.com/BoneAmputee), which lets anyone on the server create art using CLIP. If {{<discord/channel "#art">}} is the display gallery, {{<discord/channel "#the-faraday-cage">}} is the underground art studio.
+
+The bot is hooked up to some of our unused GPUs and now handles a staggering amount of requests, filling the Discord (and Twitter!) with spam art and creativity. At last count, it has produced over 35,000 images and survived two explosions in popularity after high-profile HackerNews and Twitter posts.
+
+{{<figure>}}
+{{<discord/thread>}}
+{{<discord/message handle="BoneAmputee" drole="art" datetime="2021-07-06T21:10:47.557Z" img-src="https://cdn.discordapp.com/avatars/741368021033025556/f7db73b81a19e0a3f5f92f55765ecc49.png">}}.imagine I love when it rains. So cozy. -w 560 -h 416{{</discord/message>}}
+{{<discord/message handle="BATbot McHorse" drole="none" datetime="2021-07-06T21:11:05.309Z" img-src="https://cdn.discordapp.com/avatars/834116436263436331/7dbea7f514c850e05ab6cf5f8ca047e2.png">}}![I love when it rains. So cozy.](https://media.discordapp.net/attachments/838682121975234571/862080305770266654/1625605847_I_love_when_it_rains._So_cozy..jpg){{</discord/message>}}
+{{<discord/message handle="BATbot McHorse" drole="none" datetime="2021-07-06T21:11:05.448Z">}}
+*I love when it rains. So cozy.*
+`iteration 500/500 (100%) Elapsed: 8m36s`
+{{</discord/message>}}
+{{</discord/thread>}}
+{{</figure>}}
+<!-- {{<figure src="https://media.discordapp.net/attachments/838682121975234571/862080305770266654/1625605847_I_love_when_it_rains._So_cozy..jpg" caption="" width="400" align="center"/>}} -->
 
 
 ## Looking Back, Looking Forward: The Future of EleutherAI
