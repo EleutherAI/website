@@ -419,9 +419,9 @@ Or maybe it is the most advanced producer of alignment memes. (I promise these a
 
 {{<figure src="https://cdn.discordapp.com/attachments/730451873613611079/816103348155056168/stopdoingfdt.png" width="500" align="center"/>}}
 
-{{<figure src="https://pbs.twimg.com/media/E0Rj6wZVUAA3N_Y?format=png" width="500" align="center"/>}}
+{{<figure src="https://pbs.twimg.com/media/E0Rj6wZVUAA3N_Y.png" width="500" align="center"/>}}
 
-{{<figure src="https://pbs.twimg.com/media/EzWfgekVcAoqD1s?format=png" width="500" align="center"/>}}
+{{<figure src="https://pbs.twimg.com/media/EzWfgekVcAoqD1s.png" width="500" align="center"/>}}
 
 {{<figure src="https://media.discordapp.net/attachments/733347369847881838/843585733784371280/gradienthackingtime.png" width="500" align="center"/>}}
 
