@@ -321,7 +321,7 @@ Perhaps the most visually compelling development of {{<discord/channel "#art">}}
 
 {{<discord/channel "#the-faraday-cage">}} started as a channel to let anyone on our Discord use our early Neo models, mostly to laugh at how terrible they were. The channel has taken on (an insane) life of its own thanks to the Discord bot {{<discord/mention "@BATbot McHorse">}} maintained by [BoneAmputee](https://twitter.com/BoneAmputee), which lets anyone on the server create art using CLIP. If {{<discord/channel "#art">}} is the display gallery, {{<discord/channel "#the-faraday-cage">}} is the underground art studio.
 
-The bot is hooked up to some of our unused GPUs and now handles a staggering amount of requests, filling the Discord (and Twitter!) with spam art and creativity. At last count, it has produced over 35,000 images and survived two explosions in popularity after high-profile HackerNews and Twitter posts.
+The bot is hooked up to some of our unused GPUs and now handles a staggering amount of requests, filling the Discord (and Twitter!) with ~~spam~~ art and creativity. At last count, it has produced over 35,000 images and survived two explosions in popularity after high-profile HackerNews and Twitter posts.
 
 {{<figure>}}
 {{<discord/thread>}}
