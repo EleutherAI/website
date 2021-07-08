@@ -213,7 +213,7 @@ With the Pile wrapped up, and GPT-NeoX still a while away, we put our TPUs to wo
 
 And then we... promptly forgot about them.
 
-We saw our Neo models more as proofs of concept -- learning experiences on the road to 175B. There were so many problems with the codebase that we were far more focused on figuring out how to deal with those than considering releasing them. But after several months of sitting in storage, we finally got around to releasing Neo 1.3B and 2.7B on 2021-03-21.
+We saw the 1.3B and 2.7B GPT-Neo models as our proofs of concept, learning experiences on the road towards making models orders of magnitude larger. There were so many problems with the codebase that we were more focused on figuring out how to deal with those than releasing our trained models. But after several months of sitting in storage, we finally got around to releasing them on March 21st, 2021.
 
 {{<figure>}}
 {{<discord/thread>}}
