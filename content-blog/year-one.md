@@ -289,6 +289,20 @@ Perhaps the most visually compelling development of {{<discord/channel "#art">}}
 
 {{<figure src="https://cdn.discordapp.com/attachments/730484623028519072/836379948905136219/the_angel_of_the_sea._unreal_engine.png" caption="<kbd>the angel of the sea. unreal engine</kbd> as imagined by jbuster.<br>This is the first image generated with the <q>unreal engine trick</q>." width="400" align="center"/>}}
 
+### The Underground Studio, #{{<discord/channel "#the-faraday-cage">}}
+
+The faraday cage started as a channel to let anyone on our Discord use our early Neo models, mostly to laugh at how terrible they were. The channel has taken on (an insane) life of its own thanks to the Discord bot BATbot McHorse made by [BoneAmputee](https://mobile.twitter.com/BoneAmputee) which lets anyone on the server create art using CLIP. If the #art channel is the display gallery, #the-faraday-cage is the underground art studio. 
+
+The bot is hooked up to some of our unused GPUs and now handles a staggering amount of requests, filling the Discord (and Twitter!) with spam art and creativity. At last count, it’s produced over 35,000 images and survived 2 explosions in popularity after high-profile HackerNews and Twitter posts.
+
+A4siMw).
+
+{{<figure>}}
+{{<discord/thread>}}
+{{<discord/message handle="janus" drole="level-5" datetime="2021-07-06T16:42"
+"it's like the manhattan project, except the funding is 5 orders of magnitude less, the people working on it are random nobodies from the internet, atmospheric ignition is the default rather than the unlikely outcome, and there are 5 soviet unions"{{</discord/message>}}
+{{</discord/thread>}}
+{{</figure>}}
 
 ## Looking Back, Looking Forward: The Future of EleutherAI
 
