@@ -1,7 +1,7 @@
 ---
 title: "Finetuning Models on Downstream Tasks"
 categories: ["Research Notes"]
-authors: ["Leo Gao"]
+author: ["Leo Gao"]
 description: "We tuned GPT-Neo on eval harness tasks to see how it would change it's performance."
 date: 2021-05-24T14:00:01-06:00
 draft: False
@@ -11,7 +11,7 @@ The GPT-3 paper didn't explore fine tuning on downstream tasks, so I decided to 
 
 
 ## Zero shot
-
+{{<figure>}}
 | Task                                                  | Metric    | 2\.7B               | Tuned     |
 | :---------------------------------------------------- | :-------- | :-----------------: | :-----------------: |
 | anli\_r1                                              | acc       | 0\.332 ± 0.015      | **0\.418 ± 0.015**  |
@@ -188,10 +188,10 @@ The GPT-3 paper didn't explore fine tuning on downstream tasks, so I decided to 
 | math\_num\_theory                                     | acc       | 0\.019 ± 0.006      | **0\.046 ± 0.006**  |
 | math\_prealgebra                                      | acc       | 0\.001 ± 0.001      | **0\.039 ± 0.001**  |
 | math\_precalc                                         | acc       | 0\.005 ± 0.003      | 0\.016 ± 0.003      |
-
+{{</figure>}}
 
 ## One shot
-
+{{<figure>}}
 | Task                                                  | Metric    | 2\.7B               | Tuned       |
 | :---------------------------------------------------- | :-------- | :-----------------: | :-------------------: |
 | anli\_r1                                              | acc       | 0\.331 ± 0.015      |**0\.443 ± 0.015** |
@@ -370,5 +370,6 @@ The GPT-3 paper didn't explore fine tuning on downstream tasks, so I decided to 
 | math\_num\_theory                                     | acc       | 0\.037 ± 0.008      | 0\.039 ± 0.008        |
 | math\_prealgebra                                      | acc       | 0\.023 ± 0.005      |**0\.041 ± 0.005** |
 | math\_precalc                                         | acc       | 0\.015 ± 0.005      | 0\.022 ± 0.005        |
+{{</figure>}}
 
 The model can be downloaded [here](https://huggingface.co/lg/openinstruct_1k1), though I don't recommend using it for anything.

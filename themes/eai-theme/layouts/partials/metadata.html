@@ -1,7 +1,0 @@
-<div style="margin-top: 0.5em; margin-bottom:0.5em">{{ with .Params.categories }}{{ range . }}{{ $href := print (absURL "categories/") (urlize .) }}<a href="{{ $href }}" class="category-title">{{ . }}</a>{{ end }}{{end}}</div>
-{{ $dateTime := .PublishDate.Format "2006-01-02" }}{{ $dateFormat := .Site.Params.dateFormat | default "Jan 2, 2006" }}
-<time datetime="{{ $dateTime }}" style="font-size:105%; padding-top: 0.5em;">{{ .PublishDate.Format $dateFormat }}</time>
-{{ if .Params.authors }}{{ $authors := .Params.authors }}{{if .Params.contributors}}{{ $authors = union .Params.authors .Params.contributors }}{{ end }}
-<div style="font-size:105%; margin-top: 0.5em; margin-bottom:1em">by {{if eq (len $authors) 2 }}{{ delimit $authors " and "  | replaceRE "EleutherAI" "EleutherAI contributors"}}{{ else }}{{ delimit $authors ", " ", and " | replaceRE "EleutherAI" "EleutherAI contributors"}}{{ end }}</div>{{ end }}
-{{ with .Params.tags }}{{ range . }}{{ $href := print (absURL "tags/") (urlize .) }}
-<a class="btn btn-sm btn-outline-dark tag-btn" href="{{ $href }}">{{ . }}</a>{{ end }}{{end}}

@@ -2,9 +2,9 @@
 title: "Publications"
 date: 2021-05-21T11:45:00-04:00
 layout: page
+description: A list of EleutherAI-affiliated publications.
+hideMeta: True
 ---
-
-# Publications and Preprints
 
 - **Eric Alcaide**, **Stella Biderman**, Amalio Telenti, and M. Cyrus Maher. "MP-NeRF: A Massively Parallel Method for Accelerating Protein Structure Reconstruction from Internal Coordinates" _Preprint_, 2021. [[bioRxiv]](https://www.biorxiv.org/content/10.1101/2021.06.08.446214v1) 
 

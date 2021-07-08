@@ -2,9 +2,8 @@
 title: "Get Involved"
 date: 2021-06-18T00:00:00-04:00
 layout: page
+hideMeta: True
 ---
-
-# Get Involved
 
 Joining EleutherAI is as simple as [joining us on Discord](https://discord.gg/zBGx3azzUn) and picking a project to contribute to.
 

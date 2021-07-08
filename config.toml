@@ -1,24 +1,54 @@
-baseURL = "https://eleuther.ai/"
+baseURL = "https://www.eleuther.ai/"
 languageName = "English"
 languageCode = "en-us"
 title = "EleutherAI"
-theme = "eai-theme"
+theme = ["eai-base","eai-www"]
 contentDir = "content"
 publishDir = "public"
+googleAnalytics = "G-9KCLV8BK53"
 [params]
-    logo="EleutherAI"
-    promo_text = "A grassroots collective of researchers working to open source AI research."
+    env = "production"
     logo_image_url="images/eai_logo.png"
     meta_image="images/meta_image.jpg"
     contact_mail="contact@eleuther.ai"
     site_type="website"
     sitename = "EleutherAI"
+    [params.organization]
+        name="EleutherAI"
+        baseURL="https://eleuther.ai/"
+        description="A decentralized grassroots collective of volunteer researchers, engineers, and developers focused on AI alignment, scaling, and open source AI research."
+        email="contact@eleuther.ai"
+        sameAs=["https://github.com/EleutherAI","https://wandb.ai/eleutherai","https://huggingface.co/EleutherAI"]
+        foundingDate="2020-07-02"
+        logo="https://eleuther.ai/images/EAI_logo2.png"
+    [params.homeInfoParams]
+        Title="EleutherAI"
+        Content="A grassroots collective of researchers working to open source AI research."
+    [[params.socialIcons]]
+        name="discord"
+        url="https://discord.gg/zBGx3azzUn"
+    [[params.socialIcons]]
+        name="github"
+        url="https://github.com/EleutherAI"
+    [params.label]
+        icon = "/images/libre.svg"
+        iconHeight = "45"
+    [params.assets]
+        disableHLJS = true
+        favicon="favicon.ico"
+        favicon16x16="favicon/favicon-16x16.png"
+        favicon32x32="favicon/favicon-32x32.png"
+        apple_touch_icon="favicon/apple-touch-icon.png"
 [markup]
   [markup.goldmark]
     [markup.goldmark.renderer]
       unsafe = true
-  [markup.highlight]
-    style = "solarized-light"
+[taxonomies]
+  category = "categories"
+  tags = "tags"
+  domain = "domain"
+  deliverable = "deliverables"
+  status = "status"
 [menu]
   [[menu.main]]
     name = "Home"
@@ -40,7 +70,3 @@ publishDir = "public"
     name = "Publications"
     url = "/publications/"
     weight = 5
-  [[menu.main]]
-    name = "Get Involved"
-    url = "/get-involved/"
-    weight = 6
