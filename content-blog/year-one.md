@@ -203,7 +203,10 @@ With the Pile wrapped up, and GPT-NeoX still a while away, we put our TPUs to wo
 {{<discord/message handle="bmk" drole="O5" datetime="2021-05-15T03:44:07.143Z">}}**AAAAAAAAAAAAAAA**{{</discord/message>}}
 {{<discord/message handle="bmk" drole="O5" datetime="2021-05-15T03:44:10.111Z">}}neo is segfaulting{{</discord/message>}}
 {{<discord/message handle="bmk" drole="O5" datetime="2021-05-15T03:46:37.100Z">}}![](https://media.discordapp.net/attachments/788870744623939594/842971204004347934/unknown.png){{</discord/message>}}
-{{<discord/message handle="bmk" drole="O5" datetime="2021-05-15T03:46:40.273Z">}}internal scremaing{{</discord/message>}}
+{{<discord/message handle="bmk" drole="O5" datetime="2021-05-15T03:46:40.273Z">}}internal scremaing
+so
+by moving the transformers import to the beginning, there's no segfault
+this only happens with this one pyenv, 3.8.10{{</discord/message>}}
 {{</discord/thread>}}
 {{</figure>}}
 
