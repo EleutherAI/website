@@ -362,7 +362,7 @@ We believe that AI Alignment presents one of the, if not *the* most important pr
 
 Safety research was always a primary motivation for our work at EleutherAI, as we explained in our blogpost *[Why Release A Large Language Model?](/why-release-a-large-language-model/)*. We think that access to large, pretrained models will enable large swathes of research that would not have been possible while such technologies are locked away behind corporate walls. For-profit entities have explicit incentives to downplay risks and discourage security probing. We want to help the wider safety and security communities access and study these new technologies.
 
-We ourselves are working on doing just this as well. We have produced our first contribution to the wider alignment community in the form of our Alignment Forum post *[Thoughts on the Alignment Implications of Scaling](https://www.alignmentforum.org/posts/EmxfgPGvaKqhttPM8/thoughts-on-the-alignment-implications-of-scaling-language)*, which summarizes many of the insights and ideas we have gained so far.
+We ourselves are working on doing just this as well. We have produced our first contribution to the wider alignment community in the form of our Alignment Forum post *[Thoughts on the Alignment Implications of Scaling](https://www.alignmentforum.org/posts/EmxfgPGvaKqhttPM8/thoughts-on-the-alignment-implications-of-scaling-language)*, which summarizes many of the insights and ideas we have had so far.
 
 And this is just a start, multiple groups inside EleutherAI are expanding their work in studying the safety and alignment of large, self-supervised models to human values.
 
