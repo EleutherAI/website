@@ -302,11 +302,11 @@ The bot is hooked up to some of our unused GPUs and now handles a staggering amo
 {{<discord/thread>}}
 {{<discord/message handle="janus" drole="level5" datetime="2021-07-06T20:42:46.550Z" img-src="https://cdn.discordapp.com/avatars/800858801220878376/a1cf0e69ce5452adc6606b6806fe1e24.png">}}!complete The heroic story of the founder of EleutherAI, Archibald Eleuther{{</discord/message>}}
 {{<discord/message handle="Isaac McHorse" drole="none" datetime="2021-07-06T20:43:20.947Z" img-src="https://cdn.discordapp.com/avatars/730435103498698802/06de06c12471f8f33021a52ec5ed7196.png">}}Input:
-<pre><code>The heroic story of the founder of EleutherAI, Archibald Eleuther</code></pre>
+The heroic story of the founder of EleutherAI, Archibald Eleuthers
 {{</discord/message>}}
 
 {{<discord/message handle="Isaac McHorse" drole="none" datetime="2021-07-06T20:43:21.183Z">}}Completion:
-<pre><code>, is an inspiring tale of a man that was not only brilliant, but also had great perseverance. This is a story of how Archibald went from being a high school dropout to founding a multi-billion dollar company, and how he did it all by himself.
+, is an inspiring tale of a man that was not only brilliant, but also had great perseverance. This is a story of how Archibald went from being a high school dropout to founding a multi-billion dollar company, and how he did it all by himself.
 
 If you want to learn more about how we built EleutherAI, our engineering process, and the amazing people who make it all happen, check out our Engineering Blog. We’ve got a lot more to share about that!
 
@@ -320,7 +320,7 @@ In 2008, Archibald was accepted into the Facebook graduate program and started w
 
 In 2014, he received his PhD degree in Computer Science from Stanford University.
 
-Before founding EleutherAI, Arch</code></pre>
+Before founding EleutherAI, Arch
 {{</discord/message>}}
 {{</discord/thread>}}
 {{</figure>}}
