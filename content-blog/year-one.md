@@ -278,7 +278,7 @@ We recommend [this wonderful post from Machine Learning at Berkeley](https://ml.
 
 </aside>
 
-Perhaps the most visually compelling development of {{<discord/channel "#art">}} is what became known as the "unreal engine trick." CLIP was trained on the internet, and the internet contains a lot of extremely high quality images that have a caption mentioning the Unreal Engine. CLIP noticed this, and we quickly realized that you could vastly improve the generates images by simply mentioning the Unreal Engine:
+Perhaps the most visually compelling development of {{<discord/channel "#art">}} is what became known as the "unreal engine trick." CLIP was trained on the internet, and the internet contains a lot of extremely high quality images that have a caption mentioning the Unreal Engine. CLIP noticed this, and we quickly realized that you could *vastly* improve the generates images by simply mentioning the Unreal Engine:
 
 {{<figure>}}
 {{<discord/thread channel="art">}}
