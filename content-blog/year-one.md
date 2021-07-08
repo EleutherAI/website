@@ -295,14 +295,43 @@ The faraday cage started as a channel to let anyone on our Discord use our early
 
 The bot is hooked up to some of our unused GPUs and now handles a staggering amount of requests, filling the Discord (and Twitter!) with spam art and creativity. At last count, it’s produced over 35,000 images and survived 2 explosions in popularity after high-profile HackerNews and Twitter posts.
 
-A4siMw).
+{{<figure>}}
+{{<discord/thread>}}
+{{<discord/message handle="janus" drole="" datetime="2021-07-06T16:43" img-src="https://cdn.discordapp.com/avatars/297844775585972235/852f28416750015c1426be34e1ccaace.png">}}"!complete The heroic story of the founder of EleutherAI, Archibald Eleuther"{{</discord/message>}}
+{{<discord/message handle="Isaac McHorse" drole="level-5" datetime="2021-07-06T16:42" img-src="https://cdn.discordapp.com/avatars/297844775585972235/852f28416750015c1426be34e1ccaace.png">}}"Input:
+> The heroic story of the founder of EleutherAI, Archibald Eleuther
+Completion:
+> , is an inspiring tale of a man that was not only brilliant, but also had great perseverance. This is a story of how Archibald went from being a high school dropout to founding a multi-billion dollar company, and how he did it all by himself.
+> 
+> If you want to learn more about how we built EleutherAI, our engineering process, and the amazing people who make it all happen, check out our Engineering Blog. We’ve got a lot more to share about that!
+> 
+> Archibald’s Background
+> 
+> Archibald was born in 1984 in San Francisco, California. He attended high school at the American School in San Jose, California, and graduated at the top of his class.
+> 
+> His first job after high school was at the University of California, Berkeley, working as a computer programmer. He started as a junior computer science student at Berkeley, and graduated at the top of his class with a Bachelor of Science degree in Computer Science in 2008.
+> 
+> In 2008, Archibald was accepted into the Facebook graduate program and started working at Facebook as an intern.
+> 
+> In 2014, he received his PhD degree in Computer Science from Stanford University.
+> 
+> Before founding EleutherAI, Arch"
+{{</discord/message>}}
+{{</discord/thread>}}
+{{</figure>}}
+    
 
 {{<figure>}}
 {{<discord/thread>}}
-{{<discord/message handle="janus" drole="level-5" datetime="2021-07-06T16:42"
-"it's like the manhattan project, except the funding is 5 orders of magnitude less, the people working on it are random nobodies from the internet, atmospheric ignition is the default rather than the unlikely outcome, and there are 5 soviet unions"{{</discord/message>}}
+{{<discord/message handle="BoneAmputee" drole="art" datetime="2021-07-06T16:43" img-src="https://cdn.discordapp.com/avatars/297844775585972235/852f28416750015c1426be34e1ccaace.png">}}".imagine I love when it rains. So cozy. -w 560 -h 416"{{</discord/message>}}
+{{<discord/message handle="BATbot McHorse" drole="" datetime="2021-07-06T16:42" img-src="https://cdn.discordapp.com/avatars/297844775585972235/852f28416750015c1426be34e1ccaace.png">}}
+*I love when it rains. So cozy.*
+> iteration 500/500 (100%) Elapsed: 8m36s
+{{</discord/message>}}
 {{</discord/thread>}}
 {{</figure>}}
+{{<figure src="https://media.discordapp.net/attachments/838682121975234571/862080305770266654/1625605847_I_love_when_it_rains._So_cozy..jpg" caption="" width="400" align="center"/>}}
+
 
 ## Looking Back, Looking Forward: The Future of EleutherAI
 
