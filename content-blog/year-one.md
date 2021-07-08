@@ -382,6 +382,9 @@ I first heard about EleutherAI in August, during a paper discussion in Yannic Ki
 {{<blockquote author="Charles Foster (R&D Scientist)">}}
 Even as a lurker in the early days, I immediately got the sense of *Oh, this is gonna be big with Eleuther* (then LibreAI). There’s something about a collaboration between folks from across the world, most of whom have never met or who go by pseudonyms, doing AI research against all odds, that really stokes a feeling of frenetic excitement. Also, EleutherAI happens to host some of the smartest and strangest characters I know, who I have the pleasure of hanging out with in the {{<discord/channel "#research">}} channel and working on projects with. They say iron sharpens iron, and I think that applies: there’s a virtuous cycle here that somehow leads to high-caliber research and high-caliber memes alike. I’m truly excited to see where the next year takes all of us.
 {{</blockquote>}}
+{{<blockquote author="Horace He (AI Researcher / AI Framework developer)">}}
+If nothing else, EleutherAI demonstrates how far initiative and drive can take you in today's world. EleutherAI is full of people who don't have traditional credentials, but that hasn't stopped us from doing awesome things. Many people, both established researchers and undergrads, come in and offer to help, but the people who stick around have nothing in common but an interest in pushing AI research forward. And that's pretty awesome.
+{{</blockquote>}}
 {{<blockquote author="Eric Hallahan (Undergraduate Student, PSU)">}}
 I like to feel that my involvement was an accident---a lurker who got involved because they were the right man in the wrong place. What started slightly over five months ago as "it cannot hurt to stick around" snowballed into assisting the early development of GPT-NeoX, writing papers and maintaining a website. It has been among the most valuable experiences I have ever had, and I have had a tremendous amount of fun along the way.
 
