@@ -3,10 +3,10 @@ title: "What A Long, Strange Trip It's Been: EleutherAI One Year Retrospective"
 date: 2021-07-07T20:00:00-04:00
 description: "A look back at the first year of EleutherAI."
 author: ["Connor Leahy", "Eric Hallahan", "Leo Gao", "Stella Biderman"]
-contributor: ["Charles Foster", "Jason Phang", "Shivanshu Purohit", "Leo Gao", "Eric Hallahan", "Connor Leahy"]
+contributor: ["Charles Foster", "Jason Phang", "Shivanshu Purohit", "Leo Gao", "Eric Hallahan", "Connor Leahy", "Horace He", "Laurence Golding"]
 categories: ["Article"]
 cover:
-    image: https://cdn.discordapp.com/attachments/730484623028519072/834941766230736906/rxvZyAAAAAASUVORK5CYII.png
+    image: /images/blog/year-one/hackers.png
     alt: The shadowy hacker group Eleuther
     caption: "<kbd>The shadowy hacker group Eleuther</kbd> as imagined by [Janus](https://generative.ink)"
 ShowToc: true
@@ -378,6 +378,11 @@ To my mind, EleutherAI is an AI hacking lab---and one unlike any other. In a yea
 {{</blockquote>}}
 {{<blockquote author="Shivanshu Purohit (ML Engineer)">}}
 I first heard about EleutherAI in August, during a paper discussion in Yannic Kilcher’s discord server. Someone mentioned a group of people trying to replicate GPT-3, and being one of the salty people who hadn’t yet gotten the access to the OpenAI API, I was curious as to how it was even possible that a rag-tag discord server could even dare to have such an ambitious goal. Eventually I started observing from afar and began appreciating the knowledge base the entire server represented and thought ‘damn, this might actually be possible’. I also started focusing on AI safety for the first time in my life courtesy of our general focus on alignment, realizing the dangers a superhuman intelligence poses and how real it actually is as of today. It's been quite a ride for me: I found my first stable employment in no small part thanks to the friends I made at Eleuther, working on a project that will most certainly have a global impact and most importantly, vastly increasing my understanding of deep learning.
+{{</blockquote>}}
+{{<blockquote author="Laurence Golding (Web Developer / Programmer / ML Groupie)">}}
+I was bored and stumbled in here from a Reddit post, then proceeded to spend the next month doing data scraping and processing. It turns out there is a lot of grind behind those nice papers on arXiv! That and ML methods often don’t generalize well to different datasets. 
+The work ethic in this community is obscenely high, with many losing sleep in a desperate attempt to avert eradication by killer robots.
+Eleuther has been an amazing learning experience for me, and a great maintainer of sanity during the turbulent start of the 2020s.
 {{</blockquote>}}
 {{<blockquote author="Charles Foster (R&D Scientist)">}}
 Even as a lurker in the early days, I immediately got the sense of *Oh, this is gonna be big with Eleuther* (then LibreAI). There’s something about a collaboration between folks from across the world, most of whom have never met or who go by pseudonyms, doing AI research against all odds, that really stokes a feeling of frenetic excitement. Also, EleutherAI happens to host some of the smartest and strangest characters I know, who I have the pleasure of hanging out with in the {{<discord/channel "#research">}} channel and working on projects with. They say iron sharpens iron, and I think that applies: there’s a virtuous cycle here that somehow leads to high-caliber research and high-caliber memes alike. I’m truly excited to see where the next year takes all of us.
