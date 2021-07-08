@@ -278,7 +278,7 @@ We recommend [this wonderful post from Machine Learning at Berkeley](https://ml.
 
 </aside>
 
-Perhaps the most visually compelling development of {{<discord/channel "#art">}} is what became known as the "unreal engine trick." With CLIP having been trained on the internet, and the internet contains a lot of extremely high quality images that have a caption mentioning the Unreal Engine. CLIP noticed this, and we quickly realized that you could vastly improve the generates images by simply mentioning the Unreal Engine:
+Perhaps the most visually compelling development of {{<discord/channel "#art">}} is what became known as the "unreal engine trick." CLIP was trained on the internet, and the internet contains a lot of extremely high quality images that have a caption mentioning the Unreal Engine. CLIP noticed this, and we quickly realized that you could vastly improve the generates images by simply mentioning the Unreal Engine:
 
 {{<figure>}}
 {{<discord/thread channel="art">}}
@@ -337,7 +337,7 @@ Even as a lurker in the early days, I immediately got the sense of *Oh, this is 
 I like to feel that my involvement was an accident---a lurker who got involved because they were the right man in the wrong place. What started slightly over five months ago as "it cannot hurt to stick around" snowballed into assisting the early development of GPT-NeoX, writing papers and maintaining a website. It has been ammong the most valuble experiences I have ever had, and I have had a tremendous amount of fun along the way. 
 {{</blockquote>}}
 {{<blockquote author="Leo Gao (EleutherAI Cofounder)">}}
-I often like to joke about how Eleuther is an outlier in that it has the most publications of any discord server---we’re “just” a bunch of volunteers working on stuff for fun, and yet we’ve gotten such a huge amount of stuff done in the past year. Eleuther is about more than just research, though. It’s also one of the most vibrant online communities that I’ve ever had the pleasure of being a part of, with constant lively discussions about scaling, alignment, and other ML topics (and memes, of course) with the most interesting cast of interlocutors. I can’t overstate how proud I am of what we’ve created so far. Our first year has been an incredible journey *ex nihilo*, but we’re only just getting started---here's to many more.
+I often like to joke about how Eleuther is an outlier in that it has the most publications of any discord server---we’re “just” a bunch of volunteers working on stuff for fun, and yet we’ve gotten such a huge amount of stuff done in the past year. Eleuther is about more than just research, though. It’s also one of the most vibrant online communities that I’ve ever had the pleasure of being a part of, with constant lively discussions about scaling, alignment, and other ML topics (and memes, of course) with the most interesting cast of interlocutors. I can’t overstate how proud I am of what we’ve created so far *ex nihilo*. Our first year has been an incredible journey, but we’re only just getting started---here's to many more.
 {{</blockquote>}}
 {{<blockquote author="Stella Biderman (Mathematician and AI Researcher)">}}
 I am a hacker in the original sense of the word: one who enjoys the intellectual challenge of creatively overcoming limitations of software systems to achieve novel and clever outcomes. When a friend introduced me to EleutherAI last summer, I was in a depressive funk. My friend hoped that the people and ideas of EAI would strike my interest and whimsy, and he couldn’t have been more correct.
