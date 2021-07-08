@@ -112,7 +112,7 @@ But our crack team of elite ML hackers was quickly making progress.
 
 {{<figure>}}
 {{<discord/thread channel="gpt-neo">}}
-{{<discord/message handle="Sid" drole="O5" img-src="https://cdn.discordapp.com/avatars/616061740857425920/70f1854c9aebef81a8638b0ef1243b95.png" datetime="2020-02-09T17:27:50.000Z">}} <!--todo: fix timestamp-->
+{{<discord/message handle="Sid" drole="O5" img-src="https://cdn.discordapp.com/avatars/616061740857425920/70f1854c9aebef81a8638b0ef1243b95.png" datetime="2020-09-02T15:28:21.196Z">}}
 ![](https://media.discordapp.net/attachments/730095596861521970/750738894953250909/Screenshot_2020-09-02_at_17.27.50.png)
 {{</discord/message>}}
 {{</discord/thread>}}
