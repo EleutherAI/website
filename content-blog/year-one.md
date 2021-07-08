@@ -234,9 +234,6 @@ Damn
 {{<discord/message handle="cfoster0" drole="level5" img-src="https://cdn.discordapp.com/avatars/314125175111286785/d1cea8680203099e65ce4bb9befda469.png" datetime="2021-03-23T23:53:22.445Z">}}
 Whoa
 {{</discord/message>}}
-{{<discord/message handle="lucidrains" drole="regular" img-src="https://cdn.discordapp.com/avatars/258105122595405835/daabf94af654e916600ed29aef2aa5bb.png" datetime="2021-03-24T00:00:35.869Z">}}
-I like how ice creams picture is everywhere
-{{</discord/message>}}
 {{</discord/thread>}}
 {{</figure>}}
 
