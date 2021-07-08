@@ -154,6 +154,21 @@ div.chat-message > div.contents > div.messageContent blockquote {
   text-indent: 0;
 }
 
+div.chat-message > div.contents > div.messageContent code {
+  line-height: 1.125rem;
+  background: #2f3136;
+  width: auto;
+  height: auto;
+  padding: .2em;
+  margin: -.2em 0;
+  border-radius: 3px;
+  font-size: 85%;
+  font-family: Consolas,Andale Mono WT,Andale Mono,Lucida Console,Lucida Sans Typewriter,DejaVu Sans Mono,Bitstream Vera Sans Mono,Liberation Mono,Nimbus Mono L,Monaco,Courier New,Courier,monospace;
+  text-indent: 0;
+  border: none;
+  white-space: pre-wrap;
+}
+
 div.chat-message > div.container {
   width: 100%;
   padding-top: 2px;

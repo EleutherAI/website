@@ -289,52 +289,19 @@ Perhaps the most visually compelling development of {{<discord/channel "#art">}}
 
 {{<figure src="https://cdn.discordapp.com/attachments/730484623028519072/836379948905136219/the_angel_of_the_sea._unreal_engine.png" caption="<kbd>the angel of the sea. unreal engine</kbd> as imagined by jbuster.<br>This is the first image generated with the <q>unreal engine trick</q>." width="400" align="center"/>}}
 
-### The Underground Studio, {{<discord/channel "#the-faraday-cage">}}
+#### The Underground Studio, {{<discord/channel "#the-faraday-cage">}}
 
-{{<discord/channel "#the-faraday-cage">}} started as a channel to let anyone on our Discord use our early Neo models, mostly to laugh at how terrible they were. The channel has taken on (an insane) life of its own thanks to the Discord bot BATbot McHorse made by [BoneAmputee](https://twitter.com/BoneAmputee) which lets anyone on the server create art using CLIP. If the #art channel is the display gallery, {{<discord/channel "#the-faraday-cage">}} is the underground art studio. 
+{{<discord/channel "#the-faraday-cage">}} started as a channel to let anyone on our Discord use our early Neo models, mostly to laugh at how terrible they were. The channel has taken on (an insane) life of its own thanks to the Discord bot {{<discord/mention "@BATbot McHorse">}} maintained by [BoneAmputee](https://twitter.com/BoneAmputee), which lets anyone on the server create art using CLIP. If {{<discord/channel "#art">}} is the display gallery, {{<discord/channel "#the-faraday-cage">}} is the underground art studio.
 
 The bot is hooked up to some of our unused GPUs and now handles a staggering amount of requests, filling the Discord (and Twitter!) with spam art and creativity. At last count, it has produced over 35,000 images and survived two explosions in popularity after high-profile HackerNews and Twitter posts.
 
-<details>
-<summary>Samples from {{<discord/channel "#the-faraday-cage">}}</summary>
-
 {{<figure>}}
 {{<discord/thread>}}
-{{<discord/message handle="janus" drole="level5" datetime="2021-07-06T20:42:46.550Z" img-src="https://cdn.discordapp.com/avatars/800858801220878376/a1cf0e69ce5452adc6606b6806fe1e24.png">}}!complete The heroic story of the founder of EleutherAI, Archibald Eleuther{{</discord/message>}}
-{{<discord/message handle="Isaac McHorse" drole="none" datetime="2021-07-06T20:43:20.947Z" img-src="https://cdn.discordapp.com/avatars/730435103498698802/06de06c12471f8f33021a52ec5ed7196.png">}}Input:
-The heroic story of the founder of EleutherAI, Archibald Eleuthers
-{{</discord/message>}}
-
-{{<discord/message handle="Isaac McHorse" drole="none" datetime="2021-07-06T20:43:21.183Z">}}Completion:
-, is an inspiring tale of a man that was not only brilliant, but also had great perseverance. This is a story of how Archibald went from being a high school dropout to founding a multi-billion dollar company, and how he did it all by himself.
-
-If you want to learn more about how we built EleutherAI, our engineering process, and the amazing people who make it all happen, check out our Engineering Blog. We’ve got a lot more to share about that!
-
-Archibald’s Background
-
-Archibald was born in 1984 in San Francisco, California. He attended high school at the American School in San Jose, California, and graduated at the top of his class.
-
-His first job after high school was at the University of California, Berkeley, working as a computer programmer. He started as a junior computer science student at Berkeley, and graduated at the top of his class with a Bachelor of Science degree in Computer Science in 2008.
-
-In 2008, Archibald was accepted into the Facebook graduate program and started working at Facebook as an intern.
-
-In 2014, he received his PhD degree in Computer Science from Stanford University.
-
-Before founding EleutherAI, Arch
-{{</discord/message>}}
-{{</discord/thread>}}
-{{</figure>}}
-
-</details>
-    
-
-{{<figure>}}
-{{<discord/thread>}}
-{{<discord/message handle="BoneAmputee" drole="art" datetime="2021-07-06" img-src="https://cdn.discordapp.com/avatars/297844775585972235/852f28416750015c1426be34e1ccaace.png">}}".imagine I love when it rains. So cozy. -w 560 -h 416"{{</discord/message>}}
-{{<discord/message handle="BATbot McHorse" drole="none" datetime="2021-07-06" img-src="https://cdn.discordapp.com/avatars/297844775585972235/852f28416750015c1426be34e1ccaace.png">}}
-![](https://media.discordapp.net/attachments/838682121975234571/862080305770266654/1625605847_I_love_when_it_rains._So_cozy..jpg)
+{{<discord/message handle="BoneAmputee" drole="art" datetime="2021-07-06T21:10:47.557Z" img-src="https://cdn.discordapp.com/avatars/741368021033025556/f7db73b81a19e0a3f5f92f55765ecc49.png">}}.imagine I love when it rains. So cozy. -w 560 -h 416{{</discord/message>}}
+{{<discord/message handle="BATbot McHorse" drole="none" datetime="2021-07-06T21:11:05.309Z" img-src="https://cdn.discordapp.com/avatars/834116436263436331/7dbea7f514c850e05ab6cf5f8ca047e2.png">}}![I love when it rains. So cozy.](https://media.discordapp.net/attachments/838682121975234571/862080305770266654/1625605847_I_love_when_it_rains._So_cozy..jpg){{</discord/message>}}
+{{<discord/message handle="BATbot McHorse" drole="none" datetime="2021-07-06T21:11:05.448Z">}}
 *I love when it rains. So cozy.*
-> iteration 500/500 (100%) Elapsed: 8m36s
+`iteration 500/500 (100%) Elapsed: 8m36s`
 {{</discord/message>}}
 {{</discord/thread>}}
 {{</figure>}}
