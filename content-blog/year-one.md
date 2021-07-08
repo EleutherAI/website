@@ -288,7 +288,7 @@ At this point, it’s most accurate to say that we have a biological ML *researc
 
 Since the early days of Eleuther, there always had been the humble, underutilized {{<discord/channel "#art">}} channel. While we had hoped it would be a place for ML artists of various kinds to exchange and discuss their creations, its initial purpose seemed mostly to be the dissemination of obscure German memes.
 
-{{<figure src="https://cdn.discordapp.com/attachments/730095596861521970/747197443602382958/EfwGdEwUMAEetmo.png" align=center alt="Bruder muss loss" caption="<q>I assure you if you are a German ML researcher of a very specific age this is the funniest shit you've ever seen.</q> --- Connor Leahy" width="400px" />}}
+{{<figure src="https://cdn.discordapp.com/attachments/730095596861521970/747197443602382958/EfwGdEwUMAEetmo.png" align=center alt="Bruder muss loss" caption="I assure you if you are a German ML researcher of a very specific age this is the funniest shit you've ever seen." width="400px" />}}
 
 But this would change after the release of [CLIP](https://openai.com/blog/clip/), and the rapid development of new techniques to generate astonishing ML art using it. {{<discord/channel "#art">}} now serves as the promised hub for creating and exchanging techniques, prompts, ideas and results, with the brilliant engineer-artists hard at work developing cool new models and prompt engineering techniques alike.
 
