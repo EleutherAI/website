@@ -282,9 +282,9 @@ We have created {{<discord/channel "#gpt-j">}} for questions and discussion abou
 ### An Explosion of BioML Research
 
 The {{<discord/channel "#alphafold">}} channel grew quickly, attracting not only machine learning people but also biology and chemistry people interested in integrating new deep learning techniques into their work. By June, the Bio ML group had grown enough that it made sense to spin it off into [its own server](https://discord.com/invite/cU24s3Sc8c). While the main effort of replicating AlphaFold2 is still a work-in progress, several additional projects have flourished:
-- Eric Alcide and Stella Biderman wrote a paper on faster algorithms for protein reconstruction, speeding up a mundane but important function by several OOMs
-- Michael Pieler (MicPie) has been building a CLIP-style model for amino acid sequencing.
-- Stella Biderman is working with the authors of proteinBERT to scale their model and try out autoregressive modeling ("proteinGPT" perhaps)
+- Eric Alcide and Stella Biderman wrote a paper on [faster algorithms for protein reconstruction](https://www.biorxiv.org/content/10.1101/2021.06.08.446214v1), speeding up a mundane but important function by several orders of magnitude.
+- Michael Pieler (MicPie) has been building a [CLIP-style model for amino acid sequences](https://github.com/MicPie/clasp).
+- Stella Biderman is working with the authors of [proteinBERT](https://www.biorxiv.org/content/10.1101/2021.05.24.445464v1) to scale their model and try out autoregressive modeling ("proteinGPT" perhaps).
 
 At this point, it’s most accurate to say that we have a biological ML *research group*, headed up by Phil and Eric.
 
