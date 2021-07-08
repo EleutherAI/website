@@ -49,9 +49,9 @@ And the rest was history!
 
 Quickly, we began to hash out our plans for ~~world domination~~ TPU necromancy. Connor still had access to a generous amount of TPUs through [TFRC](https://sites.research.google/trc/) from his previous GPT-2 misadventures, and so a few dedicated nerds wanted to see how far we could get with that. In all honesty, we didn't actually expect to get very far, but it was the height of a pandemic and we didn't exactly have anything better to do.
 
-After ~~spamming~~ liberally filling the text-AI related channels of our gracious hosts, we decided that we should strike out on our own. And so, on this very day one year ago, the "LibreAI" discord server was founded.
+After ~~spamming~~ liberally filling the text-AI related channels of our gracious hosts, we decided that we should strike out on our own. And so, on this very day one year ago, the "LibreAI" discord server was founded. We luckily wised up and picked a much cooler name shortly thereafter.
 
-{{<figure>}}
+<!-- {{<figure>}}
 {{<discord/thread>}}
 {{<discord/message handle="Daj" drole="regular" datetime="2020-07-07T15:56:06.308Z" img-src="https://cdn.discordapp.com/avatars/157923989262434304/ea2d9c1e1a063d890a948c48ef962c8d.png">}}> we should made a discord server for The Pile™️
 
@@ -61,9 +61,8 @@ After ~~spamming~~ liberally filling the text-AI related channels of our graciou
 {{<discord/message handle="bmk" drole="regular" datetime="2020-07-07T15:56:17.652Z">}}invite pls{{</discord/message>}}
 {{</discord/thread>}}
 {{</figure>}}
-{{<figure src="https://cdn.discordapp.com/attachments/730095596861521970/730422581072756806/LAI_logo7.png" caption="The original <q>Libre AI</q> logo as designed by Sid." width="200" align="center" />}}
+{{<figure src="https://cdn.discordapp.com/attachments/730095596861521970/730422581072756806/LAI_logo7.png" caption="The original <q>Libre AI</q> logo as designed by Sid." width="200" align="center" />}} -->
 
-We luckily wised up and picked a much cooler name shortly thereafter.
 
 {{<figure caption="No, there has never been a space in <q>EleutherAI</q>.">}}
 {{<discord/thread channel="general">}}
@@ -132,14 +131,22 @@ Woke: Achieving enlightenment to do more tensorflow debugging at 2AM
 
 And quickly, GPT-Neo took shape. A horrible, horrible shape, but shape nonetheless! We were well on our way to doing real ML research!
 
-
 {{<figure>}}
+{{<discord/thread channel="gpt-neo">}}
+{{<discord/message handle="Jason Phang" drole="level5" img-src="https://discord.com/assets/7c8f476123d28d103efe381543274c25.png" datetime="2021-03-24T19:48:05.290Z">}}
+![](https://cdn.discordapp.com/attachments/788870744623939594/860262360211652618/Screenshot_20210701-145500_Chrome.jpg)
+{{</discord/message>}}
+{{</discord/thread>}}
+{{</figure>}}
+
+
+<!-- {{<figure>}}
 {{<discord/thread channel="gpt-neo">}}
 {{<discord/message handle="Stella Biderman" drole="mathemagician" datetime="2020-08-19T13:33:40.218Z"  img-src="https://cdn.discordapp.com/avatars/193204646687408129/4ab251145bf36bec6f54070e7d465485.png">}}
 ![](https://cdn.discordapp.com/attachments/730090096287547444/745636603673968640/image0.jpg)
 {{</discord/message>}}
 {{</discord/thread>}}
-{{</figure>}}
+{{</figure>}} -->
 
 ### The Pile
 
@@ -148,7 +155,7 @@ What is training code without its data, though? Training large models needs a la
 {{<figure>}}
 {{<discord/thread>}}
 {{<discord/message handle="Connor" drole="O5" datetime="2020-07-07" img-src="https://cdn.discordapp.com/avatars/157923989262434304/ea2d9c1e1a063d890a948c48ef962c8d.png">}}The Pile&trade;{{</discord/message>}}
-{{<discord/message handle="Connor" drole="O5" datetime="2020-07-07">}}Calling it anything else is a banable offense.{{</discord/message>}}
+{{<discord/message handle="Connor" drole="O5" datetime="2020-07-07">}}Calling it anything else is a banable offense{{</discord/message>}}
 {{</discord/thread>}}
 {{</figure>}}
 
@@ -167,9 +174,9 @@ Twitter thread: https://twitter.com/nabla_theta/status/1345130409579794432{{</di
 {{</discord/thread>}}
 {{</figure>}}
 
-### First Results
+<!-- ### First Results -->
 
-The completion of the Pile was quickly followed up by the exciting news of our collaboration with [CoreWeave](https://www.coreweave.com), which pledged to provide us with GPUs to make this crazy project a reality. Released from the torment of having to work with TPUs without JAX (as JAX wasn't yet in quite as usable a state as it is today), work on our new codebase, [GPT-NeoX](https://www.eleuther.ai/projects/gpt-neox) began in earnest soon after.
+The exciting news was quickly followed up (the next day!) by the announcement of our collaboration with [CoreWeave](https://www.coreweave.com), which pledged to provide us with GPUs to make this crazy project a reality. Released from the torment of having to work with TPUs without JAX (as JAX wasn't yet in quite as usable a state as it is today), work on our new codebase, [GPT-NeoX](https://www.eleuther.ai/projects/gpt-neox) began in earnest soon after.
 
 {{<figure>}}
 {{<discord/thread channel="announcements">}}
@@ -186,14 +193,31 @@ While we didn’t know it at the time, a second significant development occurred
 
 {{<figure src="https://cdn.discordapp.com/attachments/788870744623939594/860912676334862396/Captura_de_pantalla_2021-07-03_a_las_17.30.58.png" alt="A unicorn and and Ice Cream join forces."/>}}
 
-With our first real results delivered, the first outside observers started to take notice. *[AI Weekly: Meet the people trying to replicate and open-source OpenAI's GPT-3](https://venturebeat.com/2021/01/15/ai-weekly-meet-the-people-trying-to-replicate-and-open-source-openais-gpt-3/)*, written by [Kyle Wiggers](https://venturebeat.com/author/kyle-wiggers/) of VentureBeat, would become the first mainstream article about EleutherAI around this time.
+With our first real results delivered, outside observers started to take notice. The [first mainstream article](https://venturebeat.com/2021/01/15/ai-weekly-meet-the-people-trying-to-replicate-and-open-source-openais-gpt-3/) about EleutherAI was published around this time in VentureBeat.
 
-With GPT-NeoX still a while away, we put our TPUs to work on training our first large GPT-Neo models. 
+
+With the Pile wrapped up, and NeoX still a while away, we put our TPUs to work on training our first large GPT-Neo models. 
+
+{{<figure caption="Representative example of what training Neo was like">}}
+{{<discord/thread>}}
+{{<discord/message handle="bmk" drole="O5" datetime="2021-05-14T00:00:00.000Z" img-src="https://cdn.discordapp.com/avatars/606987544235868219/89c76c2459fb48c8856ecff4f33d4fd7.png">}} <!-- todo: fix timestamp-->AAAAAAAAAAAAAAA
+neo is segfaulting
+![](https://media.discordapp.net/attachments/788870744623939594/842970565983862864/unknown.png)
+{{</discord/message>}}
+{{<discord/message handle="bmk" drole="O5" datetime="2021-05-14T00:00:00.000Z" img-src="https://cdn.discordapp.com/avatars/606987544235868219/89c76c2459fb48c8856ecff4f33d4fd7.png">}} <!-- todo: fix timestamp-->internal scremaing
+![](https://media.discordapp.net/attachments/788870744623939594/842973700718067762/unknown.png?width=534&height=684)
+{{</discord/message>}}
+{{<discord/message handle="bmk" drole="O5" datetime="2021-05-14T00:00:00.000Z" img-src="https://cdn.discordapp.com/avatars/606987544235868219/89c76c2459fb48c8856ecff4f33d4fd7.png">}} <!-- todo: fix timestamp-->so
+by moving the transformers import to the beginning, there's no segfault
+this only happens with this one pyenv, 3.8.10
+{{</discord/message>}}
+{{</discord/thread>}}
+{{</figure>}}
+
 
 And then we... promptly forgot about them.
 
-Our view of the 1.3B and 2.7B GPT-Neo models was that they were more "proof of concept" rather than "production-ready", and with the GPT-Neo codebase being not particularly friendly to work with, we were in no rush to release them. 
-But after several months of sitting in storage, we finally got around to releasing them on March 21st, 2021.
+We saw our Neo models more as proofs of concept -- learning experiences on the road to 175B. There were so many problems with the codebase that we were far more focused on figuring out how to deal with those than considering releasing them. But after several months of sitting in storage, we finally got around to releasing Neo 1.3B and 2.7B on 2021-03-21.
 
 {{<figure>}}
 {{<discord/thread>}}
@@ -205,7 +229,17 @@ The Neo-x project is progressing well, the codebase is mostly stable and we are 
 
 ## The Second Era of EleutherAI
 
+### GPT-Neo and GPT-J
+
 This might seem quaint in retrospect, but we really didn't think people would care that much about our "small models."
+
+![](https://media.discordapp.net/attachments/788870744623939594/862519696904683551/unknown.png) <!--todo: replace with higher res-->
+
+Turns out, people *did* care. 
+
+<!-- The response to the 1.3B and 2.7B GPT-Neo models was overwhelming. [EleutherAI/gpt-neo](https://github.com/EleutherAI/gpt-neo) trended in the top ten on GitHub for three consecutive days from March 22 through March 24, gaining thousands of stars in that time. -->
+
+This marked something of a new era of EleutherAI. We had already gotten a good amount of attention for the Pile, but now we had proven to the world we were the real deal. [WIRED](https://www.wired.com/) senior writer [Will Knight](https://www.wired.com/author/will-knight) published *[This AI Can Generate Convincing Text---and Anyone Can Use It](https://www.wired.com/story/ai-generate-convincing-text-anyone-use-it/)*, and other widely read articles follow. People were really excited to use our models!
 
 {{<figure>}}
 {{<discord/thread channel="gpt-neo">}}
@@ -221,23 +255,6 @@ I like how ice creams picture is everywhere
 {{</discord/message>}}
 {{</discord/thread>}}
 {{</figure>}}
-
-Turns out, people *did* care. The response to the 1.3B and 2.7B GPT-Neo models was overwhelming. [EleutherAI/gpt-neo](https://github.com/EleutherAI/gpt-neo) trended in the top ten on GitHub for three consecutive days from March 22 through March 24, gaining thousands of stars in that time.
-
-This marked a new era of EleutherAI. We had already received good amount of attention for the Pile, but this newfound time in the spotlight would mark a shift in how we thought about our work.
-
-{{<figure>}}
-{{<discord/thread channel="gpt-neo">}}
-{{<discord/message handle="Jason Phang" drole="level5" img-src="https://discord.com/assets/7c8f476123d28d103efe381543274c25.png" datetime="2021-03-24T19:48:05.290Z">}}
-> [poor] "just a bunch of wankers on discord"
-> [rich] "A grassroots collection of researchers working to open source AI research"
-{{</discord/message>}}
-{{</discord/thread>}}
-{{</figure>}}
-
-{{<figure src="https://cdn.discordapp.com/attachments/788870744623939594/860262360211652618/Screenshot_20210701-145500_Chrome.jpg" caption="Artist rendition of Jason's comment." align=center width="400px" />}}
-
-[WIRED](https://www.wired.com/) senior writer [Will Knight](https://www.wired.com/author/will-knight) reached out to us for information, and to the surprise of all of us, published *[This AI Can Generate Convincing Text---and Anyone Can Use It](https://www.wired.com/story/ai-generate-convincing-text-anyone-use-it/)* on March 29. Publications worldwide followed the lead of WIRED, and in short order there were half-a-dozen articles on the topic.
 
 In early April, we announced our exciting new GOOSE project. Information about the GOOSE project can be found at https://www.eleuther.ai/goose
 
