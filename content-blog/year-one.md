@@ -95,9 +95,9 @@ Armed with access to a truly irresponsible amount of TPU computing power, we beg
 
 But we were faced with a terrible price to be paid: We had to use TensorFlow to use our TPUs. Worse, the model sizes we were aiming at were so huge, we had to use an even more obscure library, Mesh TensorFlow, on top of it.
 
-This was not the easiest thing to use.
+This was... not the easiest of things to do.
 
-{{<figure caption="Sid loses his mind attempting to understand Mesh Tensorflow.">}}
+{{<figure>}}
 {{<discord/thread channel="general">}}
 {{<discord/message handle="Sid" drole="O5" img-src="https://cdn.discordapp.com/avatars/616061740857425920/70f1854c9aebef81a8638b0ef1243b95.png" datetime="2020-07-15T15:34:53.929Z">}}AGH I HATE THIS LIBRARY{{</discord/message>}}
 {{<discord/message handle="Sid" drole="O5" datetime="2020-07-15T15:35:11.229Z">}}mtf.rename_dimension() does a different thing to tensor.shape.rename_dimension(){{</discord/message>}}
@@ -108,16 +108,17 @@ Progress was hard won, no thanks to our eternal greatest foe: The kafkaesque nig
 
 {{<figure src="https://cdn.discordapp.com/attachments/729741769738158194/730814288658169876/tf_meme.png" caption="Artist rendition of the hole that is TensorFlow documentation." width=400 align="center"/>}}
 
-
-Using TPUs also can be at best described as "not the easiest of undertakings", but our crack team of elite ML hackers was quickly making progress, and we were sure that we would be able to start training our first models while only sacrificing a modicum of our mortal sanity.
+But our crack team of elite ML hackers was quickly making progress.
 
 {{<figure>}}
 {{<discord/thread channel="gpt-neo">}}
-{{<discord/message handle="Stella Biderman" drole="mathemagician" datetime="2020-08-19T13:33:40.218Z"  img-src="https://cdn.discordapp.com/avatars/193204646687408129/4ab251145bf36bec6f54070e7d465485.png">}}
-![](https://cdn.discordapp.com/attachments/730090096287547444/745636603673968640/image0.jpg)
+{{<discord/message handle="Sid" drole="O5" img-src="https://cdn.discordapp.com/avatars/616061740857425920/70f1854c9aebef81a8638b0ef1243b95.png" datetime="2020-02-09T17:27:50.000Z">}} <!--todo: fix timestamp-->
+![](https://media.discordapp.net/attachments/730095596861521970/750738894953250909/Screenshot_2020-09-02_at_17.27.50.png)
 {{</discord/message>}}
 {{</discord/thread>}}
 {{</figure>}}
+
+And we were sure that we would be able to start training our first models while only sacrificing a modicum of our mortal sanity.
 
 {{<figure>}}
 {{<discord/thread channel="gpt-neo">}}
@@ -128,7 +129,17 @@ Woke: Achieving enlightenment to do more tensorflow debugging at 2AM
 {{</discord/thread>}}
 {{</figure>}}
 
+
 And quickly, GPT-Neo took shape. A horrible, horrible shape, but shape nonetheless! We were well on our way to doing real ML research!
+
+
+{{<figure>}}
+{{<discord/thread channel="gpt-neo">}}
+{{<discord/message handle="Stella Biderman" drole="mathemagician" datetime="2020-08-19T13:33:40.218Z"  img-src="https://cdn.discordapp.com/avatars/193204646687408129/4ab251145bf36bec6f54070e7d465485.png">}}
+![](https://cdn.discordapp.com/attachments/730090096287547444/745636603673968640/image0.jpg)
+{{</discord/message>}}
+{{</discord/thread>}}
+{{</figure>}}
 
 ### The Pile
 
@@ -314,7 +325,7 @@ We believe that AI Alignment presents one of the, if not *the* most important pr
 
 {{<figure src="https://cdn.discordapp.com/attachments/733347369847881838/743244626521227375/Dp3Y1d1X4AElzyq.png" align="center" width=400 />}}
 
-Safety research was always a primary motivation for our work at EleutherAI, as we explained in our blogpost *[Why Release A Large Language Model?](/why-release-a-large-language-model/)*. We think that access to large, pretrained models will enable large swathes of research that would not have been possible while such technologies are locked away behind corporate walls. For-profit entities have explicit incentives to downplay risks and discourage security probing. We want to help the wider safety and security communities to unleash their creative potential on these new technologies.
+Safety research was always a primary motivation for our work at EleutherAI, as we explained in our blogpost *[Why Release A Large Language Model?](/why-release-a-large-language-model/)*. We think that access to large, pretrained models will enable large swathes of research that would not have been possible while such technologies are locked away behind corporate walls. For-profit entities have explicit incentives to downplay risks and discourage security probing. We want to help the wider safety and security communities access and study these new technologies.
 
 We ourselves are working on doing just this as well. We have produced our first contribution to the wider alignment community in the form of our Alignment Forum post *[Thoughts on the Alignment Implications of Scaling](https://www.alignmentforum.org/posts/EmxfgPGvaKqhttPM8/thoughts-on-the-alignment-implications-of-scaling-language)*, which summarizes many of the insights and ideas we have gained so far.
 
@@ -322,32 +333,28 @@ And this is just a start, multiple groups inside EleutherAI are expanding their 
 
 ### Reflections
 
-Do we even know what EleutherAI is after a year? EleutherAI has ment many things to many people.
+Do we even know what EleutherAI is after a year? EleutherAI has been many things to many people.
 
 {{<blockquote author="Jason Phang (PhD Student, NYU)">}}
 To my mind, EleutherAI is an AI hacking lab---and one unlike any other. In a year when many of us were suddenly cut off from in-person communication, our rag-tag assortment of researchers and hackers from around the globe somehow assembled on a Discord server and found ourselves trying to build the next big thing because wouldn't it be fun if we actually did it? There is a real excitement about advances in AI research, particularly with large-scale models, and a real drive to take ideas and put them to work quickly. The speed at which an idea can go from inspiration from the latest arXiv paper drop to full-scale experiment runs is astounding (there is literally a {{<discord/channel "#speedrun">}} channel). And while we do work on very important topics, a big part of EleutherAI is its more informal approach to research. For me, it's been a platform for more casual discussion, a replacement for the water cooler conversations where I can bounce off my silliest ideas and takes, poke fun at the field and ourselves, but very occasionally go "this, but unironically."
 {{</blockquote>}}
 {{<blockquote author="Shivanshu Purohit (ML Engineer)">}}
-I first heard about EleutherAI in August, during a paper discussion in Yannic Kilcher’s discord server. Someone mentioned a group of people trying to replicate GPT-3, and being one of the salty people who hadn’t yet gotten the access to the OpenAI API, I was curious as to how it was even possible that a rag-tag discord server could even dared to have such an ambitious goal. Eventually I started observing from afar and began appreciating the knowledge base the entire server represented and thought ‘damn, this might actually be possible’. I also started focusing on AI safety for the first time in my life courtesy of our general focus on alignment, realizing the dangers a superhuman intelligence poses and how real it actually is as of today. It's been quite a ride for me: I found my first stable employment in no small part thanks to the friends I made at Eleuther, working on a project that will most certainly have a global impact and most importantly, vastly increasing my understanding of deep learning.
+I first heard about EleutherAI in August, during a paper discussion in Yannic Kilcher’s discord server. Someone mentioned a group of people trying to replicate GPT-3, and being one of the salty people who hadn’t yet gotten the access to the OpenAI API, I was curious as to how it was even possible that a rag-tag discord server could even dare to have such an ambitious goal. Eventually I started observing from afar and began appreciating the knowledge base the entire server represented and thought ‘damn, this might actually be possible’. I also started focusing on AI safety for the first time in my life courtesy of our general focus on alignment, realizing the dangers a superhuman intelligence poses and how real it actually is as of today. It's been quite a ride for me: I found my first stable employment in no small part thanks to the friends I made at Eleuther, working on a project that will most certainly have a global impact and most importantly, vastly increasing my understanding of deep learning.
 {{</blockquote>}}
 {{<blockquote author="Charles Foster (R&D Scientist)">}}
 Even as a lurker in the early days, I immediately got the sense of *Oh, this is gonna be big with Eleuther* (then LibreAI). There’s something about a collaboration between folks from across the world, most of whom have never met or who go by pseudonyms, doing AI research against all odds, that really stokes a feeling of frenetic excitement. Also, EleutherAI happens to host some of the smartest and strangest characters I know, who I have the pleasure of hanging out with in the {{<discord/channel "#research">}} channel and working on projects with. They say iron sharpens iron, and I think that applies: there’s a virtuous cycle here that somehow leads to high-caliber research and high-caliber memes alike. I’m truly excited to see where the next year takes all of us.
 {{</blockquote>}}
-{{<blockquote author="Eric Hallahan ()">}}
-I like to feel that my involvement was an accident---a lurker who got involved because they were the right man in the wrong place. What started slightly over five months ago as "it cannot hurt to stick around" snowballed into assisting the early development of GPT-NeoX, writing papers and maintaining a website. It has been ammong the most valuble experiences I have ever had, and I have had a tremendous amount of fun along the way. 
-{{</blockquote>}}
-{{<blockquote author="Leo Gao (EleutherAI Cofounder)">}}
-I often like to joke about how Eleuther is an outlier in that it has the most publications of any discord server---we’re “just” a bunch of volunteers working on stuff for fun, and yet we’ve gotten such a huge amount of stuff done in the past year. Eleuther is about more than just research, though. It’s also one of the most vibrant online communities that I’ve ever had the pleasure of being a part of, with constant lively discussions about scaling, alignment, and other ML topics (and memes, of course) with the most interesting cast of interlocutors. I can’t overstate how proud I am of what we’ve created so far *ex nihilo*. Our first year has been an incredible journey, but we’re only just getting started---here's to many more.
+{{<blockquote author="Eric Hallahan (Webmaster)">}}
+I like to feel that my involvement was an accident---a lurker who got involved because they were the right man in the wrong place. What started slightly over five months ago as "it cannot hurt to stick around" snowballed into assisting the early development of GPT-NeoX, writing papers and maintaining a website. It has been among the most valuble experiences I have ever had, and I have had a tremendous amount of fun along the way. 
 {{</blockquote>}}
 {{<blockquote author="Stella Biderman (Mathematician and AI Researcher)">}}
 I am a hacker in the original sense of the word: one who enjoys the intellectual challenge of creatively overcoming limitations of software systems to achieve novel and clever outcomes. When a friend introduced me to EleutherAI last summer, I was in a depressive funk. My friend hoped that the people and ideas of EAI would strike my interest and whimsy, and he couldn’t have been more correct.
 
 EleutherAI is a special place. The passion, ambition, and bemusing arrogance of its members roused me back to life. It is a place where people don’t pause to ask “who am I to try to do this.” It is a place that follows the true spirit of the old French boast: <i lang="fr"><q>Mme, si c’est possible, c’est fait; si c’est impossible, cela se fera.</q></i> <q>If it's possible, madam, it's done; if it's impossible, it shall be done!</q>
 {{</blockquote>}}
-
-We’re not sure we know even today what EleutherAI really is, maybe we’ll figure it out this year.
-
-So what exactly makes EleutherAI special?
+{{<blockquote author="Leo Gao (EleutherAI Cofounder)">}}
+I often like to joke about how Eleuther is an outlier in that it has the most publications of any discord server---we’re “just” a bunch of volunteers working on stuff for fun, and yet we’ve gotten such a huge amount of stuff done in the past year. Eleuther is about more than just research, though. It’s also one of the most vibrant online communities that I’ve ever had the pleasure of being a part of, with constant lively discussions about scaling, alignment, and other ML topics (and memes, of course) with the most interesting cast of interlocutors. I can’t overstate how proud I am of what we’ve created so far *ex nihilo*. Our first year has been an incredible journey, but we’re only just getting started---here's to many more.
+{{</blockquote>}}
 
 Maybe it is the realization that Schmidhuber has been right all along.
 
@@ -356,17 +363,24 @@ Maybe it is the realization that Schmidhuber has been right all along.
 {{<discord/message handle="FractalCycle" drole="none" img-src="https://cdn.discordapp.com/avatars/178610757972393986/40f153df1d6212256b17bcc7e27279e7.png" datetime="2020-10-10T18:14:39.634Z">}}i{{</discord/message>}}
 {{<discord/message handle="FractalCycle" drole="none" datetime="2020-10-10T18:14:53.001Z">}}wait is Schmidhuber real? i thought that was fake{{</discord/message>}}
 {{<discord/message handle="FractalCycle" drole="none" datetime="2020-10-10T18:15:02.579Z">}}i literally cannot tell rn{{</discord/message>}}
-{{<discord/message handle="Connor" drole="O5" datetime="2020-10-10T18:16:11.780Z" img-src="https://cdn.discordapp.com/avatars/157923989262434304/ea2d9c1e1a063d890a948c48ef962c8d.png">}}Did you seriously think Schmidhuber was some kind of boogeyman the AI world invented?{{</discord/message>}}
-{{<discord/message handle="Connor" drole="O5" datetime="2020-10-10T18:16:18.600Z">}}That's absolutely hilarious if so{{</discord/message>}}
 {{<discord/message handle="FractalCycle" drole="none" img-src="https://cdn.discordapp.com/avatars/178610757972393986/40f153df1d6212256b17bcc7e27279e7.png" datetime="2020-10-10T18:16:31.306Z">}}i thought he was a fake 1800s german philosopher like hegel that we just made up{{</discord/message>}}
 {{</discord/thread>}}
 {{</figure>}}
 
-Or it could be the advanced alignment memes.
+Or maybeit's the producer of the most advanced alignment memes.
 
-{{<figure src="https://cdn.discordapp.com/attachments/730451873613611079/816103348155056168/stopdoingfdt.png" width="600" caption="<q>I promise, this is hilarious if you are one of the three people that know what FDT is.</q> --- Leo Gao" align="center"/>}}
+{{<figure src="https://cdn.discordapp.com/attachments/730451873613611079/816103348155056168/stopdoingfdt.png" width="600" caption="<q>I promise, this is hilarious if you are one of the three people that know what FDT is.</q>" align="center"/>}}
 
-We asked Connor, and he replied:
+{{<figure src="https://pbs.twimg.com/media/E0Rj6wZVUAA3N_Y?format=png" width="600" align="center"/>}}
+
+{{<figure src="https://pbs.twimg.com/media/EzWfgekVcAoqD1s?format=png" width="600" align="center"/>}}
+
+{{<figure src="https://media.discordapp.net/attachments/733347369847881838/843585733784371280/gradienthackingtime.png" width="600" align="center"/>}}
+
+
+We’re not sure we know even today what EleutherAI really is, maybe we’ll figure it out this year.
+
+{{<figure src="https://cdn.discordapp.com/attachments/788870744623939594/862080138216603658/unknown.png" width="600" align="center"/>}}
 
 {{<blockquote author="Connor Leahy (EleutherAI Founder)">}}
 It’s hard to say, even for me. It’s lightning in a bottle. Right place, right time, right people. Nothing like this could have been planned. Living inside of something special feels remarkably not-special. I don’t know what the legacy of what we have accomplished here will ultimately be. But if EleutherAI has been one thing to me personally, it’s hope. A crack in the pervasive narrative of disempowerment. If a small group of smart, ambitious friends can make this much happen, what else is possible? History has a feeling of inevitability when viewed with the benefit of hindsight, but ultimately history is written by people. I think we’ve earned ourselves at least a curious footnote in history, but the story is far from over. To me, EleutherAI has been purpose, companionship and hope. Hope that the future isn’t yet carved in stone. Let us carve something beautiful.
