@@ -392,6 +392,13 @@ I like to feel that my involvement was an accident---a lurker who got involved b
 
 In hindsight, EleutherAI filled a section of my life that I had been looking to fill for some time: a place where I could motivate myself to get work done that would truly make a difference in the world. I was loyal to the cause, and in return, it brought me experiences that I would have never imagined six months ago. We all may be a little crazy, but that is what is needed to tread new ground in a cutting-edge field. I cannot imagine what that new ground has in store, and I cannot wait to find out.
 {{</blockquote>}}
+{{<blockquote author="Janko Prester (Front End Engineer / UI  Designer)">}}
+Like many history nerds, I have often wondered how cool it would have been if I could live in the time and place where the major intellectual ideas that would shape our world were formed. Imagine hanging out in the coffee houses of Europe with Enlightenment thinkers in the 1700s, or visiting XEROX PARC in the 1970s, or partying with the Paypal mafia in the 2000s... But what are the odds, right? 
+
+Then one day during the pandemic summer of 2020 AD, I found myself in this strange dream-like place, a community of international Machine Learning flaneurs who somehow became convinced that they could actually make history. At first, I thought it would just be a fun place to discuss new AI developments. But I soon discovered that yeah, these people are serious about their ambitions, and more thrillingly they actually would like to have me on board! As it turns out, the fact that Machine Learning engineers despise JavaScript (while still needing it) become my entry ticket to some of the coolest projects I ever worked on. 
+
+So, it has been a fun, surreal year—and yet something tells me we are just getting started.
+{{</blockquote>}}
 {{<blockquote author="Stella Biderman (Mathematician and AI Researcher)">}}
 I am a hacker in the original sense of the word: one who enjoys the intellectual challenge of creatively overcoming limitations of software systems to achieve novel and clever outcomes. When a friend introduced me to EleutherAI last summer, I was in a depressive funk. My friend hoped that the people and ideas of EAI would strike my interest and whimsy, and he couldn’t have been more correct.
 
