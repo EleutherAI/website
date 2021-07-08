@@ -55,12 +55,7 @@ $$
     &= q_j k_j e^{(m - n)i\varepsilon} \\\\
     &= \mathrm{RoPE}(q_j k_j, m - n)
 \end{align}
-<<<<<<< HEAD
 $$
-
-=======
-
-> > > > > > > master
 
 ### Visual Intuition
 
