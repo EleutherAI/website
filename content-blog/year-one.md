@@ -356,7 +356,7 @@ Maybe it is the realization that Schmidhuber has been right all along.
 {{</discord/thread>}}
 {{</figure>}}
 
-Or it could be the advanced alignment memes.
+Or it could be the producer of the most advanced alignment memes.
 
 {{<figure src="https://cdn.discordapp.com/attachments/730451873613611079/816103348155056168/stopdoingfdt.png" width="600" caption="<q>I promise, this is hilarious if you are one of the three people that know what FDT is.</q>" align="center"/>}}
 
