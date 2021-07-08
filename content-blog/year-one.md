@@ -395,22 +395,22 @@ Maybe it is the realization that Schmidhuber has been right all along.
 {{</discord/thread>}}
 {{</figure>}}
 
-Or maybeit's the producer of the most advanced alignment memes.
+Or maybe it is the most advanced producer of alignment memes. (I promise these are hilarious if you are one of the three people that know what FDT is)
 
-{{<figure src="https://cdn.discordapp.com/attachments/730451873613611079/816103348155056168/stopdoingfdt.png" width="600" caption="<q>I promise, this is hilarious if you are one of the three people that know what FDT is.</q>" align="center"/>}}
+{{<figure src="https://cdn.discordapp.com/attachments/730451873613611079/816103348155056168/stopdoingfdt.png" width="500" align="center"/>}}
 
-{{<figure src="https://pbs.twimg.com/media/E0Rj6wZVUAA3N_Y?format=png" width="600" align="center"/>}}
+{{<figure src="https://pbs.twimg.com/media/E0Rj6wZVUAA3N_Y?format=png" width="500" align="center"/>}}
 
-{{<figure src="https://pbs.twimg.com/media/EzWfgekVcAoqD1s?format=png" width="600" align="center"/>}}
+{{<figure src="https://pbs.twimg.com/media/EzWfgekVcAoqD1s?format=png" width="500" align="center"/>}}
 
-{{<figure src="https://media.discordapp.net/attachments/733347369847881838/843585733784371280/gradienthackingtime.png" width="600" align="center"/>}}
+{{<figure src="https://media.discordapp.net/attachments/733347369847881838/843585733784371280/gradienthackingtime.png" width="500" align="center"/>}}
 
 
 We’re not sure we know even today what EleutherAI really is, maybe we’ll figure it out this year.
 
 {{<figure src="https://cdn.discordapp.com/attachments/788870744623939594/862080138216603658/unknown.png" width="600" align="center"/>}}
 
-{{<blockquote author="Connor Leahy (EleutherAI Founder)">}}
+{{<blockquote author="Connor Leahy (EleutherAI Cofounder)">}}
 It’s hard to say, even for me. It’s lightning in a bottle. Right place, right time, right people. Nothing like this could have been planned. Living inside of something special feels remarkably not-special. I don’t know what the legacy of what we have accomplished here will ultimately be. But if EleutherAI has been one thing to me personally, it’s hope. A crack in the pervasive narrative of disempowerment. If a small group of smart, ambitious friends can make this much happen, what else is possible? History has a feeling of inevitability when viewed with the benefit of hindsight, but ultimately history is written by people. I think we’ve earned ourselves at least a curious footnote in history, but the story is far from over. To me, EleutherAI has been purpose, companionship and hope. Hope that the future isn’t yet carved in stone. Let us carve something beautiful.
 {{</blockquote>}}
 
