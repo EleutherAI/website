@@ -47,7 +47,7 @@ And another replied:
 
 And the rest was history!
 
-Quickly, we began to hash out our plans for ~~world domination~~ TPU necromancy. Connor still had access to a generous amount of TPUs through [TFRC](https://sites.research.google/trc/) from his previous GPT-2 misadventures, and so a few dedicated nerds wanted to see how far we could get with that. In all honesty, we didn't actually expect to get very far, but it was the height of a pandemic and we didn't exactly have anything better to do.
+Quickly, we began to hash out our plans for ~~world domination~~ TPU necromancy. Connor still had access to a generous amount of TPUs through [TRC](https://sites.research.google/trc/) from his previous GPT-2 misadventures, and so a few dedicated nerds wanted to see how far we could get with that. In all honesty, we didn't actually expect to get very far, but it was the height of a pandemic and we didn't exactly have anything better to do.
 
 After ~~spamming~~ liberally filling the text-AI related channels of our gracious hosts, we decided that we should strike out on our own. And so, on this very day one year ago, the "LibreAI" discord server was founded. We luckily wised up and picked a much cooler name shortly thereafter.
 
@@ -213,7 +213,7 @@ With the Pile wrapped up, and GPT-NeoX still a while away, we put our TPUs to wo
 
 And then we... promptly forgot about them.
 
-We saw our Neo models more as proofs of concept -- learning experiences on the road to 175B. There were so many problems with the codebase that we were far more focused on figuring out how to deal with those than considering releasing them. But after several months of sitting in storage, we finally got around to releasing Neo 1.3B and 2.7B on 2021-03-21.
+We saw the 1.3B and 2.7B GPT-Neo models as our proofs of concept, learning experiences on the road towards making models orders of magnitude larger. There were so many problems with the codebase that we were more focused on figuring out how to deal with those than releasing our trained models. But after several months of sitting in storage, we finally got around to releasing them on March 21st, 2021.
 
 {{<figure>}}
 {{<discord/thread>}}
@@ -282,9 +282,9 @@ We have created {{<discord/channel "#gpt-j">}} for questions and discussion abou
 ### An Explosion of BioML Research
 
 The {{<discord/channel "#alphafold">}} channel grew quickly, attracting not only machine learning people but also biology and chemistry people interested in integrating new deep learning techniques into their work. By June, the Bio ML group had grown enough that it made sense to spin it off into [its own server](https://discord.com/invite/cU24s3Sc8c). While the main effort of replicating AlphaFold2 is still a work-in progress, several additional projects have flourished:
-- Eric Alcide and Stella Biderman wrote a paper on faster algorithms for protein reconstruction, speeding up a mundane but important function by several OOMs
-- Michael Pieler (MicPie) has been building a CLIP-style model for amino acid sequencing.
-- Stella Biderman is working with the authors of proteinBERT to scale their model and try out autoregressive modeling ("proteinGPT" perhaps)
+- Eric Alcide and Stella Biderman wrote a paper on [faster algorithms for protein reconstruction](https://www.biorxiv.org/content/10.1101/2021.06.08.446214v1), speeding up a mundane but important function by several orders of magnitude.
+- Michael Pieler (MicPie) has been building a [CLIP-style model for amino acid sequences](https://github.com/MicPie/clasp).
+- Stella Biderman is working with the authors of [proteinBERT](https://www.biorxiv.org/content/10.1101/2021.05.24.445464v1) to scale their model and try out autoregressive modeling ("proteinGPT" perhaps).
 
 At this point, it’s most accurate to say that we have a biological ML *research group*, headed up by Phil and Eric.
 
