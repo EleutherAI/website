@@ -1,5 +1,5 @@
 ---
-title: "AlphaFold2"
+title: "AlphaFold2 Replication"
 date: 2021-07-08T20:18:54+03:00
 layout: page
 cover:
@@ -12,21 +12,4 @@ deliverables: ["Code"]
 description: An enhanced version of OpenWebTextCorpus.
 ---
 
-WebText is an internet dataset created by scraping URLs extracted from Reddit submissions with a minimum score of 3 as a proxy for quality. It was collected for training the original GPT-2 and never released to the public, however researchers independently reproduced the pipeline and released the resulting dataset, called [OpenWebTextCorpus (OWT)](https://skylion007.github.io/OpenWebTextCorpus/).
-
-OpenWebText2 is an enhanced version of the original OpenWebTextCorpus covering all Reddit submissions from 2005 up until April 2020, with further months becoming available after the corresponding PushShift dump files are released.
-
-
-## OpenWebText2 is now live! ## {class="text-announcement"}
-[Download now](https://the-eye.eu/public/AI/pile_preliminary_components/openwebtext2.jsonl.zst.tar), or you can [read the docs](https://openwebtext2.readthedocs.io)
-
-
-## Comes pre-cleaned and pre-processed:
-- Deduplicated by URL
-- Filtered by minimum combined reddit score 3
-- Deduplicated at document level with MinHashLSH.
-
-## Stats:
-- 17,103,059 documents
-- 65.86 GB uncompressed text
-- 28 GB compressed including text and metadata
+AlphaFold2 is a deep learning algorithm that leverages techniques originating in natural language processing to do protein structure prediction. It was announced by DeepMind in 2020 at the [CASP 14 competition](https://predictioncenter.org/casp14/) where it stunned the competition with its performance. Although the creators have given several talks and presentations on the algorithm (see, e.g., [here](https://predictioncenter.org/casp14/doc/presentations/2020_12_01_TS_predictor_AlphaFold2.pdf)) the model along with several implementation details have not been publicly disclosed. The AlphaFold2 replication project aims to recreate this model and release it to the public.
