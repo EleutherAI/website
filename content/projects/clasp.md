@@ -1,5 +1,5 @@
 ---
-title: "CLASP"
+title: "CLASP - Contrastive Language-Amino Acid Sequence Pretraining"
 date: 2021-07-08T20:18:54+03:00
 layout: page
 cover:
@@ -9,24 +9,9 @@ hideMeta: True
 status: "Completed"
 domain: ["Bio ML"]
 deliverables: ["Code"]
-description: An enhanced version of OpenWebTextCorpus.
+description: A CLIP-like model for amino acid sequence prediction.
 ---
 
-WebText is an internet dataset created by scraping URLs extracted from Reddit submissions with a minimum score of 3 as a proxy for quality. It was collected for training the original GPT-2 and never released to the public, however researchers independently reproduced the pipeline and released the resulting dataset, called [OpenWebTextCorpus (OWT)](https://skylion007.github.io/OpenWebTextCorpus/).
+Recently multimodal contrastive generative models have had an explosion in power and popularity. Most of these models follow the high-level approach of [OpenAI's CLIP](https://openai.com/blog/clip/), sometimes replacing the images with data from a different modality. In this project we replace them with amino acid sequences and take our training data from the Universal Protein Resource (UnitProt), an annotated protein database. The goal is to create a generative model that takes natural language descriptions of proteins as an input and returns an amino acid sequence that codes for a protein with the requested properties.
 
-OpenWebText2 is an enhanced version of the original OpenWebTextCorpus covering all Reddit submissions from 2005 up until April 2020, with further months becoming available after the corresponding PushShift dump files are released.
-
-
-## OpenWebText2 is now live! ## {class="text-announcement"}
-[Download now](https://the-eye.eu/public/AI/pile_preliminary_components/openwebtext2.jsonl.zst.tar), or you can [read the docs](https://openwebtext2.readthedocs.io)
-
-
-## Comes pre-cleaned and pre-processed:
-- Deduplicated by URL
-- Filtered by minimum combined reddit score 3
-- Deduplicated at document level with MinHashLSH.
-
-## Stats:
-- 17,103,059 documents
-- 65.86 GB uncompressed text
-- 28 GB compressed including text and metadata
+**GitHub Repo:** https://github.com/MicPie/clasp
