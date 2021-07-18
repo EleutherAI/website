@@ -6,12 +6,12 @@ cover:
     image: ../../images/art4.png
     relative: True
 hideMeta: True
-status: "Completed"
+status: "In progress"
 domain: ["Bio ML"]
-deliverables: ["Code"]
+deliverables: ["Code & model weights"]
 description: A CLIP-like model for amino acid sequence prediction.
 ---
 
-Recently multimodal contrastive generative models have had an explosion in power and popularity. Most of these models follow the high-level approach of [OpenAI's CLIP](https://openai.com/blog/clip/), sometimes replacing the images with data from a different modality. In this project we replace them with amino acid sequences and take our training data from the Universal Protein Resource (UnitProt), an annotated protein database. The goal is to create a generative model that takes natural language descriptions of proteins as an input and returns an amino acid sequence that codes for a protein with the requested properties.
+Recently multimodal contrastive models have had an explosion in power and popularity, e.g., [ConVIRT](https://arxiv.org/abs/2010.00747), [CLIP](https://openai.com/blog/clip/), and [ALIGN](https://arxiv.org/abs/2102.05918). In this project we apply a similar setup but use amino acid sequences and their language description as our training data from the Universal Protein Resource ([UniProt](https://www.uniprot.org/)), an annotated protein database. The goal is to create a model that can be used like other CLIP-like models but for amino acid sequences and text.
 
 **GitHub Repo:** https://github.com/MicPie/clasp
