@@ -16,5 +16,5 @@ links:
     github: https://github.com/EleutherAI/gpt-neo
     demo: https://colab.research.google.com/github/EleutherAI/GPTNeo/blob/master/GPTNeo_example_notebook.ipynb
 point of contact: Sid Black (@Sid#2121)
-affiliations: Natural Language Processing
+affiliations: Massive Language Models
 ---
