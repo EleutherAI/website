@@ -6,19 +6,14 @@ cover:
     relative: True
 layout: page
 hideMeta: True
-description:
-modality:
-intended use: Image to Text
-license: MIT
-training data: Microsoft COCO dataset
-metrics: The final model was chosen by CIDEr score on the COCO dev set.
-limitations and biases: Due to the high reliance of CLIP, the model inherits most of its limitations and biases, as described in their model card. COCO captions used for fine-tuning often contain labelling biases, such as annotators attempting to infer unknown attributes from the image context.
+modality: Text
+intended use: Text generation
+license: Apache 2.0
+training data: The Pile
+metrics: GPT-NeoX was trained using validation loss on the Pile.
+limitations and biases: GPT-NeoX was trained as an autoregressive language model. This means that its core functionality is taking a string of text and predicting the next token. While language models are widely used for tasks other than this, there are a lot of unknowns with this work. GPT-NeoX was trained on the Pile, a dataset known to contain profanity, lewd, and otherwise abrasive language. Depending on your usecase GPT-Neo may produce socially unacceptable text. See Sections 5 and 6 of the Pile paper for a more detailed analysis of the biases in the Pile. As with all language models, it is hard to predict in advance how GPT-Neo will respond to particular prompts and offensive content may occur without warning. We recommend having a human curate or filter the outputs before releasing them, both to censor undesirable content and to improve the quality of the results. 
 links: 
-    github: https://github.com/dzryk/antarctic-captions
-    demo: https://colab.research.google.com/drive/1FwGEVKXvmpeMvAYqGr4z7Nt3llaZz-F8
-point of contact: Jamie Kiros (kirosjamie@gmail)
-cite as: J Kiros, antarctic-captions. GitHub repository (2021). https://github.com/dzryk/antarctic-captions
-affiliations: Multimodal
-description: A model that inputs an image and generates multiple captions. It combines CLIP, BART and a cache of text to retrieve from. An input image is mapped into CLIP space and scored against the cache to retrieve a collection of n-grams. The n-grams are passed to BART which generates captions. The candidate captions are then re-scored using CLIP. The layernorm parameters of BART's encoder are fine-tuned on COCO, while all other parameters are kept frozen. A key goal for this project is to be able to generate reasonable captions on a wide distribution of images well beyond what is available in standard captioning datasets.
-what's next: Several extensions are in consideration, proposed by myself as well as other EAI members. This includes (1) building a massive cache and implementing approximate search (2) fine-tuning on other datasets (3) extending the model to other image -> text tasks, such as VQA (4) explore whether there is benefit from harnessing larger LMs.
+    github: https://github.com/EleutherAI/gpt-neox
+point of contact: Sid Black (@Sid#2121)
+affiliations: Massive Language Models
 ---
