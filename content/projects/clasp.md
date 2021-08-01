@@ -8,7 +8,7 @@ cover:
 hideMeta: True
 status: "In progress"
 domain: ["Bio ML"]
-deliverables: ["Code & model weights"]
+deliverables: ["Code","model"]
 description: A CLIP-like model for amino acid sequence prediction.
 ---
 
