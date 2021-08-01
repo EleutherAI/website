@@ -8,7 +8,7 @@ cover:
 hideMeta: True
 status: "In Progress"
 domain: ["Bio ML"]
-deliverables: ["Code","Model","Structures"]
+deliverables: ["Code","Model"]
 description: A replication of AlphaFold2 architecture (very accurate protein structure prediction model) with a free licensing.
 ---
 
