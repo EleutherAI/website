@@ -1,42 +1,7 @@
-@font-face {
-  font-family: 'Eleuther';
-  src: url('../../fonts/eleuther.ttf');
-  font-display: swap
-}
-
-:root {
-  --header-height: 65px;
-  --main-width: 800px;
-}
-
-.logo > a {
-  font-family: 'Eleuther', sans-serif;
-  font-weight: normal;
-}
-
 article.first-entry.home-info > header > h1{
   font-family: 'Eleuther', sans-serif;
   font-weight: normal;
   font-size: 200%;
-}
-
-header.header {
-  background-color: black;
-}
-
-header.header > nav.nav > div.logo a{
-  position: relative;
-  bottom: -5px;
-}
-
-header.header > nav.nav > div.logo > a+span button,header.header > nav.nav a{
-  color: white;
-  line-height: 2.5em;
-}
-
-header.header > nav.nav > div.logo > a > img {
-  position: relative;
-  bottom: -4px;
 }
 
 article.announcement-section > dl > dt > time {
@@ -46,15 +11,6 @@ article.announcement-section > dl > dt > time {
 article.announcement-section > dl > dd > h2 {
   font-size: 1.25rem;
   margin-top: 0;
-}
-
-.post-content code {
-  margin: auto 4px;
-  font-size: inherit;
-  padding: 0.1em;
-  margin: 0;
-  background: var(--code-bg);
-  border-radius: 2px;
 }
 
 figure.entry-cover code,samp,kbd{
@@ -105,11 +61,6 @@ pre {
 
 samp {
   font-family: ui-monospace, "Cascadia Mono", "Segoe UI Mono", "Ubuntu Mono", "Roboto Mono", Menlo, Monaco, Consolas, monospace;
-}
-
-.highlight > pre > code {
-  font-family: ui-monospace, "Cascadia Code", "Segoe UI Mono", "Ubuntu Mono", "Roboto Mono", Menlo, Monaco, Consolas, monospace;
-  font-size: 0.875em;
 }
 
 div.project-grid header.entry-header {
@@ -179,10 +130,6 @@ article.announcements > article.announcement {
 .post-content figure table{
   width: max-content;
   margin: auto;
-}
-
-:root {
-  color-scheme: light dark;
 }
 
 mjx-container {
