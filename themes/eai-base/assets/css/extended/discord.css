@@ -5,6 +5,7 @@ article.discord {
   padding-bottom: 1em;
   margin-top: 0.5em;
   margin-bottom: 0.5em;
+  color-scheme: dark;
 }
 
 div.chat-message {
@@ -121,6 +122,7 @@ div.chat-message > div.contents > div.messageContent a{
 }
 
 .mention{
+  white-space: nowrap;
   font-size: 100%;
   border-radius: 3px;
   padding: 0 2px;
@@ -131,20 +133,10 @@ div.chat-message > div.contents > div.messageContent a{
   color: hsl(235,66.7%,58.8%);
 }
 
-body.dark .mention{
-  font-size: 100%;
-  border-radius: 3px;
-  padding: 0 2px;
-  font-weight: 500;
-  unicode-bidi: plaintext;
-  position: relative;
+body.dark .mention,
+div.chat-message > div.contents > div.messageContent .mention{
   background: hsla(235,85.6%,64.7%,0.3);
   color: hsl(236,83.3%,92.9%);
-}
-
-div.chat-message > div.contents > div.messageContent .mention{
-  background: hsla(235,calc(1*85.6%),64.7%,0.3);
-  color: hsl(236,calc(1*83.3%),92.9%);
 }
 
 div.chat-message > div.contents > div.messageContent blockquote {
