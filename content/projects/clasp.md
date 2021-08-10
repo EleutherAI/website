@@ -1,5 +1,5 @@
 ---
-title: "CLASP - Contrastive Language-Amino Acid Sequence Pretraining"
+title: "CLASP:  Contrastive Language-Amino Acid Sequence Pretraining"
 date: 2021-07-08T20:18:54+03:00
 layout: page
 cover:
@@ -8,7 +8,7 @@ cover:
 hideMeta: True
 status: "In progress"
 domain: ["Bio ML"]
-deliverables: ["Code","model"]
+deliverables: ["code","model"]
 description: A CLIP-like model for amino acid sequence prediction.
 ---
 
