@@ -27,10 +27,6 @@
     .footer {
         padding: calc((var(--footer-height) - var(--gap) - 10px) / 2) var(--gap);
     }
-
-    #menu {
-        margin: auto var(--gap);
-    }
 }
 
 /* footer */
