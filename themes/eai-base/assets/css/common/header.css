@@ -25,6 +25,10 @@ header.header * {
     position: relative;
 }
 
+#menu {
+    margin-left:auto;
+}
+
 .logo {
     flex-wrap: inherit;
     margin: var(--min-keepout) calc(4*var(--min-keepout)) var(--min-keepout) calc(2*var(--min-keepout));
@@ -41,6 +45,11 @@ header.header * {
     vertical-align: middle;
     pointer-events: none;
     margin-inline-end: 8px;
+}
+
+.logo-text {
+    position: relative;
+    bottom: 4px;
 }
 
 #theme-toggle svg {
