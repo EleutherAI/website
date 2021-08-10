@@ -143,14 +143,14 @@ How should I cite your models?
   author={Gao, Leo and Biderman, Stella and Black, Sid and Golding, Laurence and Hoppe, Travis and Foster, Charles and Phang, Jason and He, Horace and Thite, Anish and Nabeshima, Noa and Presser, Shawn and Leahy, Connor},
   journal={arXiv preprint arXiv:2101.00027},
   year={2020}
-  }
-  @software{gpt-neo,
+}
+@software{gpt-neo,
   author = {Black, Sid and Gao, Leo and Wang, Phil and Leahy, Connor and Biderman, Stella},
   title = {{GPT-Neo}: Large Scale Autoregressive Language Modeling with Mesh-Tensorflow},
-      url = {http://github.com/eleutherai/gpt-neo},
-      version = {1.0},
-      year = {2021}
-  }{{< /highlight >}}
+  url = {http://github.com/eleutherai/gpt-neo},
+  version = {1.0},
+  year = {2021}
+}{{< /highlight >}}
 
 ## The Pile
 

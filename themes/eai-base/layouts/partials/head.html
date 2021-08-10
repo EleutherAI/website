@@ -38,7 +38,7 @@
 {{- /* Styles */}}
 {{- $theme_vars := (resources.Get "css/core/theme-vars.css") }}
 {{- $reset := (resources.Get "css/core/normalize.css") }}
-{{- $reset := (resources.Get "css/core/reset.css") }}
+{{- $reset2 := (resources.Get "css/core/reset.css") }}
 {{- $media := (resources.Get "css/core/zmedia.css") }}
 {{- $common := (resources.Match "css/common/*.css") | resources.Concat "assets/css/common.css" }}
 
@@ -47,7 +47,7 @@
 {{- $hljs := (cond ($isHLJSdisabled) (" " | resources.FromString "assets/css/hljs-blank.css") (resources.Get "css/hljs/an-old-hope.min.css")) }}
 
 {{- /* order is important */}}
-{{- $core := (slice $theme_vars $reset $common $hljs $media) | resources.Concat "assets/css/core.css" }}
+{{- $core := (slice $theme_vars $reset $reset2 $common $hljs $media) | resources.Concat "assets/css/core.css" }}
 {{- $extended := (resources.Match "css/extended/*.css") | resources.Concat "assets/css/extended.css" }}
 
 {{- /* bundle all required css */}}
@@ -70,6 +70,7 @@
 {{- with .Site.Params.label.icon }}
 <link rel="preload" href="{{ . }}" as="image">
 {{- end }}
+<link rel="preload" href="/fonts/eleuther.woff2" as="font" type="font/woff2" crossorigin>
 
 {{- /* Search */}}
 {{- if (eq .Layout `search`) -}}
@@ -104,9 +105,11 @@
 <link rel="icon" type="image/png" sizes="32x32" href="{{ .Site.Params.assets.favicon32x32 | default "favicon-32x32.png" | absURL }}">
 <link rel="apple-touch-icon" href="{{ .Site.Params.assets.apple_touch_icon | default "apple-touch-icon.png" | absURL }}">
 <link rel="mask-icon" href="{{ .Site.Params.assets.safari_pinned_tab | default "safari-pinned-tab.svg" | absURL }}">
-<link rel="manifest" href="/favicon/site.webmanifest">
+<link rel="manifest" href="/manifest.webmanifest">
+<meta name="apple-mobile-web-app-capable" content="yes">
 <meta name="theme-color" content="#2e2e33">
 <meta name="msapplication-TileColor" content="#2e2e33">
+<meta name="color-scheme" content="light dark">
 
 {{- /* Generator */}}
 {{ hugo.Generator }}
