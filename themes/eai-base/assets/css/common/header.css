@@ -1,21 +1,28 @@
-.nav {
+@font-face {
+    font-family: 'Eleuther';
+    src: url('/fonts/eleuther.woff2') format('woff2'), 
+         url('/fonts/eleuther.ttf') format('truetype');
+    font-display: swap;
+}
+
+header.header {
+    background-color: black;
+    color-scheme: dark;
+}
+
+header.header * {
+    color: white;
+}
+
+.nav-container {
     display: flex;
     flex-wrap: wrap;
     justify-content: space-between;
-    max-width: calc(var(--main-width) + var(--gap) * 2);
+    max-width: var(--nav-width);
+    overflow-x: auto;
     margin-inline-start: auto;
     margin-inline-end: auto;
-    line-height: var(--header-height);
-}
-
-.nav a {
-    display: block;
-}
-
-.logo,
-#menu {
-    display: flex;
-    margin: auto var(--gap);
+    position: relative;
 }
 
 #menu {
@@ -24,19 +31,19 @@
 
 .logo {
     flex-wrap: inherit;
+    margin: var(--min-keepout) calc(4*var(--min-keepout)) var(--min-keepout) calc(2*var(--min-keepout));
 }
 
-.logo a {
-    font-size: 24px;
-    font-weight: 700;
+.logo {
+    font-size: 26px;
+    font-family: 'Eleuther', sans-serif;
+    font-weight: normal;
 }
 
-.logo a img {
+.logo img {
     display: inline;
     vertical-align: middle;
     pointer-events: none;
-    transform: translate(0, -10%);
-    border-radius: 6px;
     margin-inline-end: 8px;
 }
 
@@ -49,33 +56,44 @@
     height: 18px;
 }
 
-button#theme-toggle {
-    font-size: 26px;
-    margin: auto 4px;
+.nav {
+    display: inline-block;
+    display: flex;
+    margin: auto 0;
+    overflow-x: clip;
+    flex-wrap: wrap;
 }
 
-body.dark #moon {
-    vertical-align: middle;
-    display: none;
+.nav::after {
+    display: inline-block;
+    content: '';
+    width: var(--min-touch);
+    height: 0;
 }
 
-body:not(.dark) #sun {
-    display: none;
+.nav a {
+    line-height: var(--min-touch);
+    display: block;
 }
 
 #menu {
+    display: flex;
     list-style: none;
     word-break: keep-all;
     overflow-x: auto;
     white-space: nowrap;
 }
 
-#menu li + li {
-    margin-inline-start: var(--gap);
+#menu li {
+    margin-inline-start: 1em;
+}
+
+#menu li:last-child {
+    margin-inline-end: 1em;
 }
 
 #menu a {
-    font-size: 16px;
+    font-size: 1em;
 }
 
 #menu .active {
@@ -83,24 +101,11 @@ body:not(.dark) #sun {
     border-bottom: 2px solid currentColor;
 }
 
-.lang-switch li,
-.lang-switch ul,
-.logo-switches {
-    display: inline-flex;
-    margin: auto 4px;
-}
-
-.lang-switch {
-    display: flex;
-    flex-wrap: inherit;
-}
-
-.lang-switch a {
-    margin: auto 3px;
-    font-size: 16px;
-    font-weight: 500;
-}
-
-.logo-switches {
-    flex-wrap: inherit;
+button#theme-toggle {
+    font-size: 24px;
+    position: absolute;
+    height: var(--min-touch);
+    width: var(--min-touch);
+    top: var(--min-keepout);
+    right: var(--min-keepout);
 }

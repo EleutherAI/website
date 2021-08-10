@@ -1,6 +1,0 @@
-<meta name="twitter:title" content="{{ .Title }} | {{ .Site.Title }}" />
-<meta name="twitter:description" content="{{ .Params.description }}" />
-<meta name="twitter:url" content="{{ .Permalink }}" />
-{{ with .Params.image }}<meta name="twitter:image" content="{{ . | absURL }}" />
-<meta name="twitter:image:src" content="{{ . | absURL }}" />{{ else }}<meta name="twitter:image" content="{{ .Site.Params.meta_image | absURL }}" />
-<meta name="twitter:image:src" content="{{ .Site.Params.meta_image | absURL }}" />{{ end }}
