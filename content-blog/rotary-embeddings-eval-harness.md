@@ -1,15 +1,16 @@
 ---
-title: "Downstream Evaluations of Rotary Positional Embeddings"
+title: "Downstream Evaluations of Rotary Position Embeddings"
 categories: ["Research Notes"]
 author: ["Leo Gao"]
-description: "Further evaluations of rotary using eval harness."
-date: 2021-08-06T12:13:00-06:00
+description: "A comparison of Rotary Position Embedding against GPT-style learned position embeddings."
+date: 2021-08-16T12:13:00-06:00
 draft: False
 ---
 
-Both models are 1.3B models trained for 100k steps on the Pile using [mesh-transformer-jax](https://github.com/kingoflolz/mesh-transformer-jax). Absolute is GPT-2 style positional encoding. There isn't a very strong trend, but hopefully someone will find these results useful regardless. 
+A head-to-head comparison of [Rotary Position Embedding](https://arxiv.org/abs/2104.09864) and [GPT-style learned position embeddings](https://s3-us-west-2.amazonaws.com/openai-assets/research-covers/language-unsupervised/language_understanding_paper.pdf). Both 1.3B models were trained for 100k steps on [the Pile](https://pile.eleuther.ai) using [Mesh Transformer JAX](https://github.com/kingoflolz/mesh-transformer-jax). There isn't a very strong trend, but hopefully someone will find these results useful regardless. 
 
-| Task                  | Metric   | Absolute          | Rotary            |
+{{<figure>}}
+| Task                  | Metric   | Learned           | Rotary            |
 |-----------------------|----------|-------------------|-------------------|
 | lambada               | ppl      | 7.940 ± 0.208     | **7.156 ± 0.208** |
 |                       | acc      | 0.556 ± 0.007     | 0.567 ± 0.007     |
@@ -67,3 +68,4 @@ Both models are 1.3B models trained for 100k steps on the Pile using [mesh-trans
 | wnli                  | acc      | 0.437 ± 0.059     | 0.549 ± 0.059     |
 | wsc                   | acc      | 0.365 ± 0.047     | 0.365 ± 0.047     |
 | wsc273                | acc      | 0.722 ± 0.027     | 0.736 ± 0.027     |
+{{</figure>}}
