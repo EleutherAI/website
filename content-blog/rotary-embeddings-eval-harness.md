@@ -7,7 +7,7 @@ date: 2021-08-06T12:13:00-06:00
 draft: False
 ---
 
-Both models are 1.3B models trained for 100k steps on the Pile using [mesh-transformer-jax](https://github.com/kingoflolz/mesh-transformer-jax). Absolute is GPT-2 style positional encoding.
+Both models are 1.3B models trained for 100k steps on the Pile using [mesh-transformer-jax](https://github.com/kingoflolz/mesh-transformer-jax). Absolute is GPT-2 style positional encoding. There isn't a very strong trend, but hopefully someone will find these results useful regardless. 
 
 | Task                  | Metric   | Absolute          | Rotary            |
 |-----------------------|----------|-------------------|-------------------|
