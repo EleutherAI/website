@@ -14,7 +14,7 @@ author:
     "Phil Wang",
   ]
 description: "Rotary Positional Embedding (RoPE) is a new type of position encoding that unifies absolute and relative approaches. We put it to the test."
-categories: ["Article"]
+categories: ["Investigations"]
 mathjax: True
 cover:
   image: "/images/blog/rotary-embeddings/janus.png"
@@ -167,15 +167,17 @@ After reading Jianlin Su's original blog posts [12, 13], we were curious how wel
 A naive implementation of rotary positional embeddings would use the block diagonal matrix form shown earlier. In practice, implementing rotary positional embeddings this way is highly inefficient, and more optimized forms are readily available. The original implementations of RoPE are available in [roformer](https://github.com/ZhuiyiTechnology/roformer) and [bert4keras](https://github.com/bojone/bert4keras).
 
 Additionally, we have implemented rotary positional embeddings in [x-transformers](https://github.com/lucidrains/x-transformers), [GPT-Neo](https://github.com/EleutherAI/gpt-neo), [GPT-NeoX](https://github.com/EleutherAI/gpt-neox), and [Mesh Transformer JAX](https://github.com/kingoflolz/mesh-transformer-jax). Below are implimentations for PyTorch and JAX pulled from these codebases.
+{{<collapse summary="GPT-NeoX (PyTorch)">}}
+{{<figure caption="**N.B:** The layout of the queries and keys in GPT-NeoX, following Megatron, is `[seq, batch, heads, hdim]`, in order to avoid memory-intensive transpose operations. The code will need to be modified to work with the conventional layout of `[batch, seq, heads, hdim]`.">}}
+```python
+import torch
 
-<details><summary>GPT-NeoX (PyTorch)</summary>
-{{< highlight python >}}
+
 class Rotary(torch.nn.Module):
-    
     def __init__(self, dim, base=10000):
         super().__init__()
-        inv_freq = 1. / (base ** (torch.arange(0, dim, 2).float() / dim))
-        self.register_buffer('inv_freq', inv_freq)
+        inv_freq = 1.0 / (base ** (torch.arange(0, dim, 2).float() / dim))
+        self.register_buffer("inv_freq", inv_freq)
         self.seq_len_cached = None
         self.cos_cached = None
         self.sin_cached = None
@@ -185,7 +187,7 @@ class Rotary(torch.nn.Module):
         if seq_len != self.seq_len_cached:
             self.seq_len_cached = seq_len
             t = torch.arange(x.shape[seq_dim], device=x.device).type_as(self.inv_freq)
-            freqs = torch.einsum('i,j->ij', t, self.inv_freq)
+            freqs = torch.einsum("i,j->ij", t, self.inv_freq)
             emb = torch.cat((freqs, freqs), dim=-1).to(x.device)
             self.cos_cached = emb.cos()[:, None, None, :]
             self.sin_cached = emb.sin()[:, None, None, :]
@@ -195,44 +197,50 @@ class Rotary(torch.nn.Module):
 # rotary pos emb helpers:
 
 def rotate_half(x):
-x1, x2 = x[..., :x.shape[-1] // 2], x[..., x.shape[-1] // 2:]
-return torch.cat((-x2, x1), dim=x1.ndim - 1) # dim=-1 triggers a bug in torch < 1.8.0
+    x1, x2 = x[..., : x.shape[-1] // 2], x[..., x.shape[-1] // 2 :]
+    return torch.cat(
+        (-x2, x1), dim=x1.ndim - 1
+    )  # dim=-1 triggers a bug in torch < 1.8.0
+
 
 @torch.jit.script
 def apply_rotary_pos_emb(q, k, cos, sin):
-return (q _ cos) + (rotate_half(q) _ sin), (k _ cos) + (rotate_half(k) _ sin)
-{{</highlight>}}
+    return (q * cos) + (rotate_half(q) * sin), (k * cos) + (rotate_half(k) * sin)
+```
+{{</figure>}}
+{{</collapse>}}
+{{<collapse summary="Mesh Transformer JAX (JAX)">}}
+{{<figure caption="**N.B:** The layout of the queries and keys in Mesh Transformer JAX is `[seq, n_head, d_head]` (no batch dim).">}}
+```python
+import jax.numpy as jnp
+import numpy as np
+from einops import rearrange, repeat
 
-**N.B:** The layout of the queries and keys in GPT-NeoX, following Megatron, is `[seq, batch, heads, hdim]`, in order to avoid memory-intensive transpose operations. The code will need to be modified to work with the conventional layout of `[batch, seq, heads, hdim]`.
 
-</details>
-
-<details><summary>Mesh Transformer JAX (JAX)</summary>
-{{< highlight python >}}
 def fixed_pos_embedding(x, seq_dim=0):
     dim = x.shape[-1]
-    inv_freq = 1. / (10000 ** (np.arange(0, dim, 2) / dim))
+    inv_freq = 1.0 / (10000 ** (np.arange(0, dim, 2) / dim))
 
-    sinusoid_inp = np.einsum('i , j -> i j', np.arange(x.shape[seq_dim]), inv_freq)
+    sinusoid_inp = np.einsum("i , j -> i j", np.arange(x.shape[seq_dim]), inv_freq)
 
     return np.sin(sinusoid_inp), np.cos(sinusoid_inp)
 
+
 def rotate_every_two(x):
-x1 = x[:, :, ::2]
-x2 = x[:, :, 1::2]
+    x1 = x[:, :, ::2]
+    x2 = x[:, :, 1::2]
 
     x = jnp.stack((-x2, x1), axis=-1)
 
-    return rearrange(x, '... d j -> ... (d j)')
+    return rearrange(x, "... d j -> ... (d j)")
+
 
 def apply_rotary_pos_emb(x, sincos):
-sin, cos = map(lambda t: repeat(t, 'b n -> b (n j)', j=2)[:, None, :], sincos)
-return (x _ cos) + (rotate_every_two(x) _ sin)
-{{</highlight>}}
-
-**N.B:** The layout of the queries and keys in Mesh Transformer JAX is `[seq, n_head, d_head]` (no batch dim).
-
-</details>
+    sin, cos = map(lambda t: repeat(t, "b n -> b (n j)", j=2)[:, None, :], sincos)
+    return (x * cos) + (rotate_every_two(x) * sin)
+```
+{{</figure>}}
+{{</collapse>}}
 
 ### Experiments
 
