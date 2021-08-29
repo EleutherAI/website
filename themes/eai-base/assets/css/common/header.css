@@ -25,10 +25,6 @@ header.header * {
     position: relative;
 }
 
-#menu {
-    margin-left:auto;
-}
-
 .logo {
     flex-wrap: inherit;
     margin: var(--min-keepout) calc(4*var(--min-keepout)) var(--min-keepout) calc(2*var(--min-keepout));
@@ -45,11 +41,6 @@ header.header * {
     vertical-align: middle;
     pointer-events: none;
     margin-inline-end: 8px;
-}
-
-.logo-text {
-    position: relative;
-    bottom: 4px;
 }
 
 #theme-toggle svg {
@@ -102,10 +93,18 @@ header.header * {
 }
 
 button#theme-toggle {
-    font-size: 24px;
     position: absolute;
     height: var(--min-touch);
     width: var(--min-touch);
     top: var(--min-keepout);
     right: var(--min-keepout);
+}
+
+button#theme-toggle img {
+    margin: auto;
+    width: 19px;
+}
+
+.dark button#theme-toggle img {
+    transform: rotate(180deg);
 }

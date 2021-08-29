@@ -4,7 +4,7 @@ date: 2021-07-07T20:00:00-04:00
 description: "A look back at the first year of EleutherAI."
 author: ["Connor Leahy", "Eric Hallahan", "Leo Gao", "Stella Biderman"]
 contributor: ["Charles Foster", "Jason Phang", "Shivanshu Purohit", "Leo Gao", "Eric Hallahan", "Connor Leahy", "Horace He", "Laurence Golding"]
-categories: ["Article"]
+categories: ["Meta"]
 cover:
     image: /images/blog/year-one/hackers.png
     alt: The shadowy hacker group Eleuther
