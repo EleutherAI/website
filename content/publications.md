@@ -18,4 +18,4 @@ hideMeta: True
 
 - **Aran Komatsuzaki.** "Current Limitations of Language Models: What You Need is Retrieval." _Preprint_, 2020. [[arXiv]](https://arxiv.org/abs/2009.06857) 
 
-**Bold** indicates EleutherAI-affiliated author. \* indicates equal or alphabetical authorship. 
+**Bold** indicates EleutherAI-affiliated author. \* indicates equal or alphabetical authorship.
