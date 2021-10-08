@@ -2,7 +2,7 @@
 title: "Finetuning Models on Downstream Tasks"
 categories: ["Research Notes"]
 author: ["Leo Gao"]
-description: "We tuned GPT-Neo on eval harness tasks to see how it would change it's performance."
+description: "We tuned GPT-Neo on eval harness tasks to see how it would change its performance."
 date: 2021-05-24T14:00:01-06:00
 draft: False
 ---

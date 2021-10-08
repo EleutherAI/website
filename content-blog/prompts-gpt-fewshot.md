@@ -9,7 +9,7 @@ draft: False
 
 [Adam Shimi](https://www.alignmentforum.org/users/adamshimi) suggested the idea of trying different fewshot prompts on GPT-3, and hopefully observing something that evidenced larger models being able to handle a wider variety of prompting. He also wrote up a bunch of prompts to try on SST.
 
-Unfortunately, the results were kinda mixed: the GPT-2 models all did absolutely terrible and their results were basically useless; the performance wasn't monotonic with model size (2.7B did better than 1.3B, and babbage did better than curie). Also, the variance _increased_ with performance in general.
+Unfortunately, the results were kinda mixed: the GPT-2 models all did absolutely terrible and their results were basically useless; the performance wasn't monotonic with model size (1.3B did better than 2.7B, and babbage did better than curie). Also, the variance _increased_ with performance in general.
 
 {{<figure>}}
 | | Mean Accuracy | Standard Deviation in Accuracy |

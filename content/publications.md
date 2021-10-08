@@ -6,7 +6,9 @@ description: A list of EleutherAI-affiliated publications.
 hideMeta: True
 ---
 
-- **Leo Gao.** "An Empirical Exploration in Quality Filtering of Text Data." _Preprint_, 2021. [[arXiv]](https://arxiv.org/abs/2109.00698)
+- **Shahbuland Matiana**\*, **JR Smith**\*, **Ryan Teehan**\*, **Louis Castricato**\*, **Stella Biderman**\*, **Leo Gao**, and **Spencer Frazier**. "Cut the CARP: Fishing for zero-shot story evaluation." _Preprint_, 2021. [[arXiv]](https://arxiv.org/abs/2110.03111)
+
+- **Leo Gao**. "An Empirical Exploration in Quality Filtering of Text Data." _Preprint_, 2021. [[arXiv]](https://arxiv.org/abs/2109.00698)
 
 - **Eric Alcaide**, **Stella Biderman**, Amalio Telenti, and M. Cyrus Maher. "MP-NeRF: A Massively Parallel Method for Accelerating Protein Structure Reconstruction from Internal Coordinates" _Preprint_, 2021. [[bioRxiv]](https://www.biorxiv.org/content/10.1101/2021.06.08.446214v1) 
 
@@ -16,6 +18,6 @@ hideMeta: True
 
 - **Leo Gao**, **Stella Biderman**, **Sid Black**, **Laurence Golding**, **Travis Hoppe**, **Charles Foster**, **Jason Phang**, **Horace He**, **Anish Thite**, **Noa Nabeshima**, **Shawn Presser**, and **Connor Leahy**. "The Pile: An 800GB Dataset of Diverse Text for Language Modeling." _Preprint_, 2020. [[arXiv]](https://arxiv.org/abs/2101.00027)
 
-- **Aran Komatsuzaki.** "Current Limitations of Language Models: What You Need is Retrieval." _Preprint_, 2020. [[arXiv]](https://arxiv.org/abs/2009.06857) 
+- **Aran Komatsuzaki**. "Current Limitations of Language Models: What You Need is Retrieval." _Preprint_, 2020. [[arXiv]](https://arxiv.org/abs/2009.06857) 
 
 **Bold** indicates EleutherAI-affiliated author. \* indicates equal or alphabetical authorship.
