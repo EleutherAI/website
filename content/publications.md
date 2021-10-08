@@ -10,7 +10,7 @@ hideMeta: True
 
 - **Leo Gao**. "An Empirical Exploration in Quality Filtering of Text Data." _Preprint_, 2021. [[arXiv]](https://arxiv.org/abs/2109.00698)
 
-- **Eric Alcaide**, **Stella Biderman**, Amalio Telenti, and M. Cyrus Maher. "MP-NeRF: A Massively Parallel Method for Accelerating Protein Structure Reconstruction from Internal Coordinates" _Preprint_, 2021. [[bioRxiv]](https://www.biorxiv.org/content/10.1101/2021.06.08.446214)
+- **Eric Alcaide**, **Stella Biderman**, Amalio Telenti, and M. Cyrus Maher. "MP-NeRF: A Massively Parallel Method for Accelerating Protein Structure Reconstruction from Internal Coordinates" _Journal of Computational Chemistry_, 2021. [[bioRxiv]](https://www.biorxiv.org/content/10.1101/2021.06.08.446214)
 
 - **Louis Castricato**\*, **Stella Biderman**\*, Rogelio E. Cardona-Rivera, and David Thue. "Towards a Model-theoretic View of Narratives." _3rd Workshop on Narrative Understanding at NAACL-HLT 2021_, 2021. [[arXiv]](https://arxiv.org/abs/2103.12872)
 
