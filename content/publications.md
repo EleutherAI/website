@@ -6,6 +6,8 @@ description: A list of EleutherAI-affiliated publications.
 hideMeta: True
 ---
 
+- Victor Sanh\*, Albert Webson\*, Colin Raffel\*, Stephen H. Bach\*, and 37 others (incl. **Stella Biderman** and **Leo Gao**). "Multitask Prompted Training Enables Zero-Shot Task Generalization." _Preprint_, 2021. [[arXiv]](https://www.arxiv.org/abs/2110.08207)
+
 - **Shahbuland Matiana**\*, **JR Smith**\*, **Ryan Teehan**\*, **Louis Castricato**\*, **Stella Biderman**\*, **Leo Gao**, and **Spencer Frazier**. "Cut the CARP: Fishing for zero-shot story evaluation." _Preprint_, 2021. [[arXiv]](https://arxiv.org/abs/2110.03111)
 
 - **Leo Gao**. "An Empirical Exploration in Quality Filtering of Text Data." _Preprint_, 2021. [[arXiv]](https://arxiv.org/abs/2109.00698)
