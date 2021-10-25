@@ -142,7 +142,7 @@ And quickly, GPT-Neo took shape. A horrible, horrible shape, but shape nonethele
 
 <!-- {{<figure>}}
 {{<discord/thread channel="gpt-neo">}}
-{{<discord/message handle="Stella Biderman" drole="mathemagician" datetime="2020-08-19T13:33:40.218Z"  img-src="https://cdn.discordapp.com/avatars/193204646687408129/4ab251145bf36bec6f54070e7d465485.png">}}
+{{<discord/message handle="Stella Biderman" drole="mathemagician" datetime="2020-08-19T13:33:40.218Z"  img-src="https://web.archive.org/web/20211004054112im_/https://cdn.discordapp.com/avatars/193204646687408129/4ab251145bf36bec6f54070e7d465485.png">}}
 ![](https://cdn.discordapp.com/attachments/730090096287547444/745636603673968640/image0.jpg)
 {{</discord/message>}}
 {{</discord/thread>}}
@@ -180,7 +180,7 @@ The exciting news was quickly followed up (the next day!) by the announcement of
 
 {{<figure>}}
 {{<discord/thread channel="announcements">}}
-{{<discord/message handle="Stella Biderman" drole="mathemagician" img-src="https://cdn.discordapp.com/avatars/193204646687408129/4ab251145bf36bec6f54070e7d465485.png" datetime="2021-01-02T21:00:09.933Z">}}
+{{<discord/message handle="Stella Biderman" drole="mathemagician" img-src="https://web.archive.org/web/20211004054112im_/https://cdn.discordapp.com/avatars/193204646687408129/4ab251145bf36bec6f54070e7d465485.png" datetime="2021-01-02T21:00:09.933Z">}}
 {{<discord/mention "@everyone">}} We’ve talked a couple times about how we have resources to train a GPT-3, and figured we’d make an official announcement now that we’ve gained so many new members. The organization that’s behind this is called CoreWeave. CoreWeave is a cloud service provider that specializes in high performance ML. They’re part of the NVIDIA Preferred Cloud Services Provider network.  
 The basics of our deal is simple: they’ll provide us the GPUs we need to train a GPT-3-scale language model and in exchange we will 1) say “thank you” to them very loudly 2) distill the model with the goal of making it more feasible to deploy and 3) publish the weights for anyone to use. No money is being exchanged in either direction.  
 2 and 3 were already things we had planned, and they are excited about open source code and breaking Microsoft’s monopoly. So it’s a very good fit for us.  
@@ -191,7 +191,7 @@ The codebase is a work-in-progress as we figure out how to maximize efficiency. 
 
 While we didn’t know it at the time, a second significant development occurred that day: Phil Wang ({{<discord/mention "@lucidrains">}}) and Eric Alcaide ({{<discord/mention "@hypnopump">}}) began collaborating on a replication of AlphaFold2.
 
-{{<figure src="https://cdn.discordapp.com/attachments/788870744623939594/860912676334862396/Captura_de_pantalla_2021-07-03_a_las_17.30.58.png" alt="A unicorn and and Ice Cream join forces."/>}}
+{{<figure src="https://cdn.discordapp.com/attachments/788870744623939594/860912676334862396/Captura_de_pantalla_2021-07-03_a_las_17.30.58.png" alt="A unicorn and Ice Cream join forces."/>}}
 
 With our first real results delivered, outside observers started to take notice. The [first mainstream article](https://venturebeat.com/2021/01/15/ai-weekly-meet-the-people-trying-to-replicate-and-open-source-openais-gpt-3/) about EleutherAI was published by VentureBeat around this time.
 
@@ -231,7 +231,7 @@ This might seem quaint in retrospect, but we really didn't think people would ca
 
 {{<figure>}}
 {{<discord/thread channel="gpt-neo">}}
-{{<discord/message handle="Stella Biderman" drole="mathemagician" img-src="https://cdn.discordapp.com/avatars/193204646687408129/4ab251145bf36bec6f54070e7d465485.png" datetime="2021-03-23T23:52:53.871Z">}}
+{{<discord/message handle="Stella Biderman" drole="mathemagician" img-src="https://web.archive.org/web/20211004054112im_/https://cdn.discordapp.com/avatars/193204646687408129/4ab251145bf36bec6f54070e7d465485.png" datetime="2021-03-23T23:52:53.871Z">}}
 Damn
 ![](https://cdn.discordapp.com/attachments/730090096287547444/824068215578820658/image0.png)
 {{</discord/message>}}
