@@ -214,7 +214,7 @@
 }
 
 .post-content figure > pre {
-    font-size: 0.875em;
+    font-size: 0.925em;
     word-break: normal;
     background-color: var(--code-bg) !important;
     border-radius: var(--radius);
@@ -222,7 +222,7 @@
 }
 
 .post-content figure > pre > b {
-    color: var(--alt-primary);
+    color: var(--primary);
 }
 
 .dark .post-content figure > pre {
