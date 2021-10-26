@@ -199,17 +199,33 @@
     border-radius: 2px;
 }
 
+.post-content figure > pre,
 .post-content pre code {
     display: block;
     margin: auto 0;
     padding: 10px;
-    color: white;
     background: 0 0;
     border-radius: 0;
     overflow-x: auto;
     word-break: break-all;
     font-family: ui-monospace, "Cascadia Code", "Segoe UI Mono", "Ubuntu Mono", "Roboto Mono", Menlo, Monaco, Consolas, monospace;
     font-size: 0.875em;
+    color-scheme: dark;
+}
+
+.post-content figure > pre {
+    font-size: 0.875em;
+    word-break: normal;
+    background-color: var(--code-bg) !important;
+    border-radius: var(--radius);
+    color-scheme: normal;
+}
+
+.post-content figure > pre > b {
+    color: var(--alt-primary);
+}
+
+.dark .post-content figure > pre {
     color-scheme: dark;
 }
 

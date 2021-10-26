@@ -11,6 +11,7 @@
     --theme: #ffffff;
     --entry: #fbfbfb;
     --primary: rgba(0, 0, 0, 0.88);
+    --alt-primary: rgba(0, 0, 0, 0.92);
     --secondary: rgba(0, 0, 0, 0.56);
     --tertiary: rgba(0, 0, 0, 0.16);
     --content: rgba(0, 0, 0, 0.88);
@@ -23,6 +24,7 @@
     --theme: #1d1e20;
     --entry: #2e2e33;
     --primary: rgba(255, 255, 255, 0.84);
+    --alt-primary: rgba(255, 255, 255, 0.9);
     --secondary: rgba(255, 255, 255, 0.56);
     --tertiary: rgba(255, 255, 255, 0.16);
     --content: rgba(255, 255, 255, 0.74);
