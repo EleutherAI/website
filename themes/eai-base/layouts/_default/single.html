@@ -27,7 +27,7 @@
   {{- end }}
   <div class="post-content">
     {{- if not (.Param "disableAnchoredHeadings") }}
-    {{- partial "anchored_headings.html" .Content | replaceRE "<dl>" `<dl class="qa">` | replaceRE "<dt>" `<dt class="question">` | replaceRE "<dd>" `<dd class="answer">` | safeHTML -}}
+    {{- partial "anchored_headings.html" .Content -}}
     {{- else }}{{ .Content }}{{ end }}
   </div>
   <footer class="post-footer">
