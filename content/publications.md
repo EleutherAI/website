@@ -1,12 +1,14 @@
 ---
 title: "Publications"
-date: 2021-05-21T11:45:00-04:00
+lastMod: 2022-02-02T11:00:00-05:00
 layout: page
 description: A list of EleutherAI-affiliated publications.
 hideMeta: True
 ---
 
 - **Stella Biderman** and Edward Raff. "Neural Language Models are Effective Plagiarists." _Preprint_, 2022. [[arXiv]](https://arxiv.org/abs/2201.07406)
+
+- **Stella Biderman**, **Kieran Bicheno**, and **Leo Gao**. "Datasheet for the Pile." _Preprint_, 2022. [[arXiv]](https://arxiv.org/abs/2201.07311)
 
 - Victor Sanh\*, Albert Webson\*, Colin Raffel\*, Stephen H. Bach\*, and 37 others (incl. **Stella Biderman** and **Leo Gao**). "Multitask Prompted Training Enables Zero-Shot Task Generalization." In _the Tenth International Conference on Learning Representations (ICLR)_, 2022. [[arXiv]](https://www.arxiv.org/abs/2110.08207) [[Dataset]](https://huggingface.co/datasets/bigscience/P3) [[Model]](https://huggingface.co/bigscience/T0pp)
 

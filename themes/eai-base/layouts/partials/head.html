@@ -1,6 +1,6 @@
 <meta charset="utf-8">
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
-<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
 {{- if hugo.IsProduction | or (eq .Site.Params.env "production") }}
 <meta name="robots" content="index, follow">
 {{- else }}
@@ -107,8 +107,12 @@
 <link rel="mask-icon" href="{{ .Site.Params.assets.safari_pinned_tab | default "safari-pinned-tab.svg" | absURL }}">
 <link rel="manifest" href="/manifest.webmanifest">
 <meta name="apple-mobile-web-app-capable" content="yes">
-<meta name="theme-color" content="#2e2e33">
-<meta name="msapplication-TileColor" content="#2e2e33">
+<meta name="theme-color" content="#000">
+<meta name="application-name" content="{{ .Site.Params.title }}">
+
+{{- /* Web App Manifest */}}
+{{- $manifest := .Site.Params.assets.manifest | default "manifest.json" | absURL }}
+<meta name="msapplication-TileColor" content="#000">
 <meta name="color-scheme" content="light dark">
 
 {{- /* Generator */}}

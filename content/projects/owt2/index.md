@@ -1,15 +1,15 @@
 ---
 title: "OpenWebText2"
-date: 2019-04-26T20:18:54+03:00
 layout: page
 cover:
-    image: ../../images/art4.png
+    image: owt2.png
     relative: True
 hideMeta: True
 status: "Completed"
 domain: ["Language Modeling"]
 deliverables: ["Dataset"]
 description: An enhanced version of OpenWebTextCorpus.
+aliases: ["/projects/open-web-text2"]
 ---
 
 WebText is an internet dataset created by scraping URLs extracted from Reddit submissions with a minimum score of 3 as a proxy for quality. It was collected for training the original GPT-2 and never released to the public, however researchers independently reproduced the pipeline and released the resulting dataset, called [OpenWebTextCorpus (OWT)](https://skylion007.github.io/OpenWebTextCorpus/).

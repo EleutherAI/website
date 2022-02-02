@@ -8,6 +8,8 @@
 header.header {
     background-color: black;
     color-scheme: dark;
+    padding-left: env(safe-area-inset-left);
+    padding-right: env(safe-area-inset-right);
 }
 
 header.header * {
@@ -30,17 +32,19 @@ header.header * {
     margin: var(--min-keepout) calc(4*var(--min-keepout)) var(--min-keepout) calc(2*var(--min-keepout));
 }
 
-.logo {
-    font-size: 26px;
+.logo .logotype {
+    font-size: 25.9807621px;
     font-family: 'Eleuther', sans-serif;
     font-weight: normal;
+    line-height: 100%;
+    vertical-align: -25%;
 }
 
 .logo img {
     display: inline;
     vertical-align: middle;
     pointer-events: none;
-    margin-inline-end: 8px;
+    margin-inline-end: 8.19937888px;
 }
 
 #theme-toggle svg {

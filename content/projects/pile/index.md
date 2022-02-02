@@ -1,10 +1,9 @@
 ---
 title: "The Pile"
-date: 2019-04-26T20:18:54+03:00
 layout: page
 hideMeta: True
 cover:
-    image: ../../images/art43.png
+    image: pile.png
     relative: True
 status: "Completed"
 domain: ["Language Modeling"]

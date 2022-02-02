@@ -4,6 +4,12 @@ article.first-entry.home-info > header > h1{
   font-size: 200%;
 }
 
+div.announcement-listing {
+  height: 50vh;
+  overflow-y: scroll;
+  overflow-x: hidden;
+} 
+
 article.announcement-section > dl > dt > time {
   font-family: ui-monospace, "Segoe UI Mono", "Ubuntu Mono", "Roboto Mono", Menlo, Monaco, Consolas, monospace;
 }
@@ -40,7 +46,7 @@ dl.qa > dd.answer {
 }
 
 dl.qa > dd.answer:not(:last-of-type),
-article.announcements > article.announcement:not(:last-of-type) {
+article.announcements > div.announcement-listing > article.announcement:not(:last-of-type) {
   border-bottom: 1px solid var(--border);
 }
 
@@ -123,7 +129,7 @@ article.announcement p {
   margin-bottom: 0.5em;
 }
 
-article.announcements > article.announcement {
+article.announcements > div.announcement-listing > article.announcement {
   margin-top: 0.75em;
 }
 

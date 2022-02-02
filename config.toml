@@ -20,7 +20,7 @@ googleAnalytics = "G-9KCLV8BK53"
         email="contact@eleuther.ai"
         sameAs=["https://github.com/EleutherAI","https://wandb.ai/eleutherai","https://huggingface.co/EleutherAI"]
         foundingDate="2020-07-02"
-        logo="https://eleuther.ai/images/EAI_logo2.png"
+        logo="https://eleuther.ai/images/promo.png"
     [params.homeInfoParams]
         Title="EleutherAI"
         Content="A grassroots collective of researchers working to open source AI research."

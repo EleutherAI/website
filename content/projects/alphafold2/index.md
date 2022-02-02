@@ -1,9 +1,8 @@
 ---
 title: "AlphaFold2 Replication"
-date: 2021-07-08T20:18:54+03:00
 layout: page
 cover:
-    image: ../../images/alphafold.jpg
+    image: alphafold2.jpg
     relative: True
 hideMeta: True
 status: "In Progress"
