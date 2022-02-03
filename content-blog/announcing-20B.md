@@ -1,6 +1,7 @@
 ---
 title: "Announcing GPT-NeoX-20B"
 date: 2022-02-02T11:00:00-05:00
+lastmod: 2022-02-03T13:00:00-5:00
 draft: False
 description: "Announcing GPT-NeoX-20B, a 20 billion parameter model trained in collaboration with CoreWeave."
 author: ["Connor Leahy"]
@@ -84,12 +85,12 @@ There will be a {{<discord/channel "#20b">}} channel set up in our Discord for d
 <tr>
 <td style="text-align: left;">WSC</td>
 <td style="text-align: left;">Coreference Resolution</td>
-<td style="text-align: right;">40.38%</td>
-<td style="text-align: right;">54.81%</td>
-<td style="text-align: right;">36.53%</td>
-<td style="text-align: right;">57.69%</td>
-<td style="text-align: right;">53.61%</td>
-<td style="text-align: right;">63.46%</td>
+<td style="text-align: right;">54.54%</td>
+<td style="text-align: right;">49.54%</td>
+<td style="text-align: right;">49.54%</td>
+<td style="text-align: right;">55.44%</td>
+<td style="text-align: right;">49.04%</td>
+<td style="text-align: right;">59.18%</td>
 </tr>
 <tr>
 <td style="text-align: left;">Winogrande</td>
@@ -104,12 +105,12 @@ There will be a {{<discord/channel "#20b">}} channel set up in our Discord for d
 <tr>
 <td style="text-align: left;">HellaSwag</td>
 <td style="text-align: left;">Sentence Completion</td>
-<td style="text-align: right;">54.54%</td>
-<td style="text-align: right;">49.54%</td>
-<td style="text-align: right;">49.54%</td>
-<td style="text-align: right;">55.44%</td>
-<td style="text-align: right;">49.04%</td>
-<td style="text-align: right;">59.18%</td>
+<td style="text-align: right;">40.38%</td>
+<td style="text-align: right;">54.81%</td>
+<td style="text-align: right;">36.53%</td>
+<td style="text-align: right;">57.69%</td>
+<td style="text-align: right;">53.61%</td>
+<td style="text-align: right;">63.46%</td>
 </tr>
 <tr>
 <td style="text-align: left;">Total</td>
