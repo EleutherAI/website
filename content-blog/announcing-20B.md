@@ -9,7 +9,7 @@ categories: ["Announcement"]
 ---
 
 **GPT-NeoX-20B will be publicly downloadable from The Eye on the <date datetime="2022-02-09">9th of February</date>.**
-In the meantime, you can already try out the model using CoreWeave's and Anlatan's new inference service, <a href="https://goose.ai/" title="We're dead serious, that is actually what it is called.">GooseAI</a>!
+In the meantime, you can already try out the model using CoreWeave and Anlatan's new inference service, <a href="https://goose.ai/" title="We're dead serious, that is actually what it is called.">GooseAI</a>!
 
 ---
 
