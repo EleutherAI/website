@@ -1,7 +1,7 @@
 ---
 title: "Announcing GPT-NeoX-20B"
 date: 2022-02-02T11:00:00-05:00
-lastmod: 2022-02-03T13:00:00-5:00
+lastmod: 2022-02-16T11:00:00-5:00
 draft: False
 description: "Announcing GPT-NeoX-20B, a 20 billion parameter model trained in collaboration with CoreWeave."
 author: ["Connor Leahy"]
@@ -9,8 +9,9 @@ contributors: ["EleutherAI"]
 categories: ["Announcement"]
 ---
 
-**GPT-NeoX-20B will be publicly downloadable from The Eye on the <date datetime="2022-02-09">9th of February</date>.**
-In the meantime, you can already try out the model using CoreWeave and Anlatan's new inference service, <a href="https://goose.ai/" title="We're dead serious, that is actually what it is called.">GooseAI</a>!
+**As of <date datetime="2022-02-09">February 9, 2022</date>, GPT-NeoX-20B checkpoints are available for [download from The Eye](https://mystic.the-eye.eu/public/AI/models/GPT-NeoX-20B) under Apache 2.0.** More in-depth information on GPT-NeoX-20B can be found in our [preliminary technical report](http://eaidata.bmk.sh/data/GPT_NeoX_20B.pdf).
+
+Looking for a demo? Try GPT-NeoX-20B via CoreWeave and Anlatan's new inference service, <a href="https://goose.ai/" title="We're dead serious, that is actually what it is called.">GooseAI</a>!
 
 ---
 
@@ -93,7 +94,7 @@ There will be a {{<discord/channel "#20b">}} channel set up in our Discord for d
 <td style="text-align: right;">59.18%</td>
 </tr>
 <tr>
-<td style="text-align: left;">Winogrande</td>
+<td style="text-align: left;">WinoGrande</td>
 <td style="text-align: left;">Coreference Resolution</td>
 <td style="text-align: right;">59.51%</td>
 <td style="text-align: right;">64.56%</td>
@@ -127,7 +128,7 @@ There will be a {{<discord/channel "#20b">}} channel set up in our Discord for d
 
 {{</figure>}}
 
-{{<figure caption="Accuracy of factual knowledge by subject group, as measured by the [HendrycksTest](https://arxiv.org/abs/2009.03300) evaluation.">}}
+{{<figure caption="Zero-shot accuracy of factual knowledge by subject group, as measured by the [HendrycksTest](https://arxiv.org/abs/2009.03300) evaluation.">}}
 
 <table>
 <thead>

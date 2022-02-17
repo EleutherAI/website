@@ -23,7 +23,7 @@ How did this all start?
   To which [Leo Gao](https://github.com/leogao2) replied:
   {{<figure>}}
   {{<discord/thread>}}
-  {{<discord/message handle="bmk" drole="regular" datetime="2020-07-02T16:03:05.471Z" img-src="https://cdn.discordapp.com/avatars/606987544235868219/89c76c2459fb48c8856ecff4f33d4fd7.png">}}{{<discord/mention "@Daj" >}} this but unironically{{</discord/message>}}
+  {{<discord/message handle="bmk" drole="regular" datetime="2020-07-02T16:03:05.471Z" img-src="https://web.archive.org/web/20211004054112im_/https://cdn.discordapp.com/avatars/606987544235868219/89c76c2459fb48c8856ecff4f33d4fd7.png">}}{{<discord/mention "@Daj" >}} this but unironically{{</discord/message>}}
   {{</discord/thread>}}
   {{</figure>}}
 

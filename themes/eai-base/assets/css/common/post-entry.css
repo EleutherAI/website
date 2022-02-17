@@ -97,7 +97,22 @@
 .entry-cover img {
     border-radius: var(--radius);
     pointer-events: none;
+}
+
+.infobox {
+    display: flex;
+    flex-direction: row-reverse;
+    flex-wrap: wrap;
+    justify-content: space-evenly;
+}
+
+.infobox > .entry-cover > img{
     width: 512px;
+}
+
+.infobox .post-tags {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(186px, 1fr));
 }
 
 .entry-cover a {

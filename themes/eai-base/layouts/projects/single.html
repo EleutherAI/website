@@ -16,10 +16,10 @@
     {{- end }}
   </header>
   {{- $isHidden := .Params.cover.hidden | default .Site.Params.cover.hiddenInSingle | default .Site.Params.cover.hidden }}
-  <div style="display: flex; flex-direction: row-reverse; flex-wrap: wrap; justify-content: space-evenly; ">
+  <div class="infobox">
   {{- partial "cover.html" (dict "cxt" . "IsHome" false "isHidden" $isHidden) }}
     
-    <dl class="post-tags" style="display: grid; grid-template-columns: repeat(auto-fit, minmax(186px, 1fr));" >
+    <dl class="post-tags">
       {{- if .Params.domain }}
       <div>
       <dt><h4>Domain</h4></dt>

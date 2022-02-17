@@ -41,7 +41,7 @@ And another replied:
 
 {{<figure>}}
 {{<discord/thread>}}
-{{<discord/message handle="bmk" drole="regular" datetime="2020-07-02T16:03:05.471Z" img-src="https://cdn.discordapp.com/avatars/606987544235868219/89c76c2459fb48c8856ecff4f33d4fd7.png">}}{{<discord/mention "@Daj" >}} this but unironically{{</discord/message>}}
+{{<discord/message handle="bmk" drole="regular" datetime="2020-07-02T16:03:05.471Z" img-src="https://web.archive.org/web/20211004054112im_/https://cdn.discordapp.com/avatars/606987544235868219/89c76c2459fb48c8856ecff4f33d4fd7.png">}}{{<discord/mention "@Daj" >}} this but unironically{{</discord/message>}}
 {{</discord/thread>}}
 {{</figure>}}
 
@@ -167,7 +167,7 @@ But, after months of hard work by many, many contributors at EleutherAI, on New 
 
 {{<figure>}}
 {{<discord/thread>}}
-{{<discord/message handle="bmk" drole="O5" datetime="2021-01-01T22:14:41.803Z" img-src="https://cdn.discordapp.com/avatars/606987544235868219/89c76c2459fb48c8856ecff4f33d4fd7.png">}}{{<discord/mention "@everyone">}} EleutherAI is proud to announce the release of the Pile, a free and publicly available 800GB dataset of diverse English text for language modeling! The creation of this dataset is the first step towards our goal of replicating GPT-3.  
+{{<discord/message handle="bmk" drole="O5" datetime="2021-01-01T22:14:41.803Z" img-src="https://web.archive.org/web/20211004054112im_/https://cdn.discordapp.com/avatars/606987544235868219/89c76c2459fb48c8856ecff4f33d4fd7.png">}}{{<discord/mention "@everyone">}} EleutherAI is proud to announce the release of the Pile, a free and publicly available 800GB dataset of diverse English text for language modeling! The creation of this dataset is the first step towards our goal of replicating GPT-3.  
 Website: https://pile.eleuther.ai/
 Paper: https://pile.eleuther.ai/paper.pdf
 Twitter thread: https://twitter.com/nabla_theta/status/1345130409579794432{{</discord/message>}}
@@ -199,7 +199,7 @@ With the Pile wrapped up, and GPT-NeoX still a while away, we put our TPUs to wo
 
 {{<figure caption="Representative example of what training Neo was like.">}}
 {{<discord/thread channel="level-5">}}
-{{<discord/message handle="bmk" drole="O5" datetime="2021-05-15T03:44:05.182Z" img-src="https://cdn.discordapp.com/avatars/606987544235868219/89c76c2459fb48c8856ecff4f33d4fd7.png">}}![](https://cdn.discordapp.com/attachments/788870744623939594/842970565983862864/unknown.png){{</discord/message>}}
+{{<discord/message handle="bmk" drole="O5" datetime="2021-05-15T03:44:05.182Z" img-src="https://web.archive.org/web/20211004054112im_/https://cdn.discordapp.com/avatars/606987544235868219/89c76c2459fb48c8856ecff4f33d4fd7.png">}}![](https://cdn.discordapp.com/attachments/788870744623939594/842970565983862864/unknown.png){{</discord/message>}}
 {{<discord/message handle="bmk" drole="O5" datetime="2021-05-15T03:44:07.143Z">}}**AAAAAAAAAAAAAAA**{{</discord/message>}}
 {{<discord/message handle="bmk" drole="O5" datetime="2021-05-15T03:44:10.111Z">}}neo is segfaulting{{</discord/message>}}
 {{<discord/message handle="bmk" drole="O5" datetime="2021-05-15T03:46:37.100Z">}}![](https://media.discordapp.net/attachments/788870744623939594/842971204004347934/unknown.png){{</discord/message>}}
@@ -253,7 +253,7 @@ In early April, we announced our exciting new GOOSE project. Information about t
 
 {{<figure>}}
 {{<discord/thread>}}
-{{<discord/message handle="bmk" drole="O5" datetime="2021-04-01T17:49:35.558Z" img-src="https://cdn.discordapp.com/avatars/606987544235868219/89c76c2459fb48c8856ecff4f33d4fd7.png">}}We are proud to announce that EleutherAI is now rebranding as GooseAI. Our new top priority is GOOSE (Goose-Oriented Object Search Engine). GPT-neo (Goose Pretrained Transformer with new engine option) is now deprecated.  
+{{<discord/message handle="bmk" drole="O5" datetime="2021-04-01T17:49:35.558Z" img-src="https://web.archive.org/web/20211004054112im_/https://cdn.discordapp.com/avatars/606987544235868219/89c76c2459fb48c8856ecff4f33d4fd7.png">}}We are proud to announce that EleutherAI is now rebranding as GooseAI. Our new top priority is GOOSE (Goose-Oriented Object Search Engine). GPT-neo (Goose Pretrained Transformer with new engine option) is now deprecated.  
 For more information, please see our explanatory page: https://eleuther.ai/goose.html    
 Honk!
 ![EleutherAI Goose Logo](https://media.discordapp.net/attachments/794042109048651818/827238963307216926/gooseai.png?width=300&height=300)
@@ -356,7 +356,7 @@ EleutherAI has grown into a true collective. We host many different kinds of res
 
 {{<figure>}}
 {{<discord/thread>}}
-{{<discord/message handle="bmk" drole="O5" datetime="2021-03-19T02:36:01.614Z" img-src="https://cdn.discordapp.com/avatars/606987544235868219/89c76c2459fb48c8856ecff4f33d4fd7.png">}}"it's like the manhattan project, except the funding is 5 orders of magnitude less, the people working on it are random nobodies from the internet, atmospheric ignition is the default rather than the unlikely outcome, and there are 5 soviet unions"{{</discord/message>}}
+{{<discord/message handle="bmk" drole="O5" datetime="2021-03-19T02:36:01.614Z" img-src="https://web.archive.org/web/20211004054112im_/https://cdn.discordapp.com/avatars/606987544235868219/89c76c2459fb48c8856ecff4f33d4fd7.png">}}"it's like the manhattan project, except the funding is 5 orders of magnitude less, the people working on it are random nobodies from the internet, atmospheric ignition is the default rather than the unlikely outcome, and there are 5 soviet unions"{{</discord/message>}}
 {{</discord/thread>}}
 {{</figure>}}
 
