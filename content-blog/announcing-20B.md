@@ -50,7 +50,7 @@ There will be a {{<discord/channel "#20b">}} channel set up in our Discord for d
 <td style="text-align: right;">69.51%</td>
 <td style="text-align: right;">68.29%</td>
 <td style="text-align: right;">70.95%</td>
-<td style="text-align: right;">71.98%</td>
+<td style="text-align: right;">72.00%</td>
 <td style="text-align: right;">75.16%</td>
 </tr>
 <tr>
@@ -60,7 +60,7 @@ There will be a {{<discord/channel "#20b">}} channel set up in our Discord for d
 <td style="text-align: right;">32.80%</td>
 <td style="text-align: right;">32.40%</td>
 <td style="text-align: right;">34.00%</td>
-<td style="text-align: right;">33.50%</td>
+<td style="text-align: right;">34.00%</td>
 <td style="text-align: right;">36.30%</td>
 </tr>
 <tr>
@@ -80,7 +80,7 @@ There will be a {{<discord/channel "#20b">}} channel set up in our Discord for d
 <td style="text-align: right;">35.50%</td>
 <td style="text-align: right;">35.50%</td>
 <td style="text-align: right;">34.75%</td>
-<td style="text-align: right;">35.75%</td>
+<td style="text-align: right;">35.40%</td>
 <td style="text-align: right;">36.83%</td>
 </tr>
 <tr>
@@ -90,7 +90,7 @@ There will be a {{<discord/channel "#20b">}} channel set up in our Discord for d
 <td style="text-align: right;">49.54%</td>
 <td style="text-align: right;">49.54%</td>
 <td style="text-align: right;">55.44%</td>
-<td style="text-align: right;">49.04%</td>
+<td style="text-align: right;">50.00%</td>
 <td style="text-align: right;">59.18%</td>
 </tr>
 <tr>
@@ -100,7 +100,7 @@ There will be a {{<discord/channel "#20b">}} channel set up in our Discord for d
 <td style="text-align: right;">64.56%</td>
 <td style="text-align: right;">64.01%</td>
 <td style="text-align: right;">67.40%</td>
-<td style="text-align: right;">65.27%</td>
+<td style="text-align: right;">66.10%</td>
 <td style="text-align: right;">69.93%</td>
 </tr>
 <tr>
@@ -110,18 +110,18 @@ There will be a {{<discord/channel "#20b">}} channel set up in our Discord for d
 <td style="text-align: right;">54.81%</td>
 <td style="text-align: right;">36.53%</td>
 <td style="text-align: right;">57.69%</td>
-<td style="text-align: right;">53.61%</td>
+<td style="text-align: right;">53.50%</td>
 <td style="text-align: right;">63.46%</td>
 </tr>
 <tr>
-<td style="text-align: left;">Total</td>
+<td style="text-align: left;">Average</td>
 <td style="text-align: left;"></td>
-<td style="text-align: right;">39.40%</td>
-<td style="text-align: right;">42.57%</td>
-<td style="text-align: right;">40.28%</td>
-<td style="text-align: right;">44.67%</td>
-<td style="text-align: right;">43.31%</td>
-<td style="text-align: right;">48.40%</td>
+<td style="text-align: right;">44.85%</td>
+<td style="text-align: right;">48.60%</td>
+<td style="text-align: right;">45.75%</td>
+<td style="text-align: right;">50.43%</td>
+<td style="text-align: right;">49.34%</td>
+<td style="text-align: right;">53.98%</td>
 </tr>
 </tbody>
 </table>
@@ -158,7 +158,7 @@ There will be a {{<discord/channel "#20b">}} channel set up in our Discord for d
 <td style="text-align: right;">29.24%</td>
 <td style="text-align: right;">28.73%</td>
 <td style="text-align: right;">27.94%</td>
-<td style="text-align: right;">31.63%</td>
+<td style="text-align: right;">30.80%</td>
 <td style="text-align: right;">35.87%</td>
 </tr>
 <tr>
@@ -167,7 +167,7 @@ There will be a {{<discord/channel "#20b">}} channel set up in our Discord for d
 <td style="text-align: right;">24.25%</td>
 <td style="text-align: right;">25.71%</td>
 <td style="text-align: right;">24.63%</td>
-<td style="text-align: right;">26.27%</td>
+<td style="text-align: right;">27.20%</td>
 <td style="text-align: right;">28.60%</td>
 </tr>
 <tr>
@@ -176,17 +176,17 @@ There will be a {{<discord/channel "#20b">}} channel set up in our Discord for d
 <td style="text-align: right;">28.84%</td>
 <td style="text-align: right;">27.95%</td>
 <td style="text-align: right;">27.33%</td>
-<td style="text-align: right;">29.83%</td>
+<td style="text-align: right;">29.20%</td>
 <td style="text-align: right;">36.85%</td>
 </tr>
 <tr>
-<td style="text-align: left;">Total</td>
-<td style="text-align: right;">26.78%</td>
-<td style="text-align: right;">26.90%</td>
-<td style="text-align: right;">27.38%</td>
-<td style="text-align: right;">26.53%</td>
-<td style="text-align: right;">28.77%</td>
-<td style="text-align: right;">32.86%</td>
+<td style="text-align: left;">Average</td>
+<td style="text-align: right;">26.91%</td>
+<td style="text-align: right;">27.20%</td>
+<td style="text-align: right;">27.62%</td>
+<td style="text-align: right;">26.79%</td>
+<td style="text-align: right;">28.98%</td>
+<td style="text-align: right;">33.41%</td>
 </tr>
 </tbody>
 </table>
