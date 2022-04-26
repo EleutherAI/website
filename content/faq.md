@@ -2,7 +2,7 @@
 title: "Frequently Asked Questions"
 layout: faqpage
 description: "The official EleutherAI FAQ, covering every question you probably have about EleutherAI."
-lastMod: 2022-02-02T11:00:00-05:00
+lastMod: 2022-04-19T04:00:00Z
 hideMeta: true
 ShowToc: true
 ---
@@ -65,9 +65,9 @@ What are GPT-Neo and GPT-NeoX?
 
   All active work is in GPT-NeoX, and GPT-Neo should be considered deprecated. For those looking for code that runs on TPUs, we recommend [Mesh Transformer JAX](https://github.com/kingoflolz/mesh-transformer-jax) instead.
 
-How big is the largest model you have trained?
+What is the largest model you have trained?
 
-: On <date datetime="2022-02-09">February 9, 2022</date>, we will release a 20 billion parameter model trained on the Pile, GPT-NeoX-20B.
+: On <date datetime="2022-02-09">February 9, 2022</date>, we released a 20 billion parameter model trained on the Pile, GPT-NeoX-20B.
 
 Are you serious when you say you are going to train a model comparable to the biggest GPT-3 (175 billion parameters)?
 
@@ -132,7 +132,7 @@ Are the models free software?
 
 How should I cite your models?
 
-: We ask that you cite both the codebase and the dataset together when citing models. Our recommended citation method is as follows.
+: We ask that you cite both the codebase and the dataset together when citing models. For example, our recommended citation method for the GPT-Neo models is as follows.
 
   _In the document body:_
   {{< highlight latex >}}X.XB GPT-Neo \citep{gpt-neo} model trained on the Pile \citep{pile}{{< /highlight >}}

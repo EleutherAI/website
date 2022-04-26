@@ -1,7 +1,7 @@
 ---
 title: "Announcing GPT-NeoX-20B"
 date: 2022-02-02T11:00:00-05:00
-lastmod: 2022-02-16T11:00:00-5:00
+lastmod: 2022-04-19T04:00:00Z
 draft: False
 description: "Announcing GPT-NeoX-20B, a 20 billion parameter model trained in collaboration with CoreWeave."
 author: ["Connor Leahy"]
@@ -9,9 +9,9 @@ contributors: ["EleutherAI"]
 categories: ["Announcement"]
 ---
 
-**As of <date datetime="2022-02-09">February 9, 2022</date>, GPT-NeoX-20B checkpoints are available for [download from The Eye](https://mystic.the-eye.eu/public/AI/models/GPT-NeoX-20B) under Apache 2.0.** More in-depth information on GPT-NeoX-20B can be found in our [preliminary technical report](http://eaidata.bmk.sh/data/GPT_NeoX_20B.pdf).
+**As of <date datetime="2022-02-09">February 9, 2022</date>, GPT-NeoX-20B checkpoints are available for [download from The Eye](https://the-eye.eu/public/AI/models/GPT-NeoX-20B) under Apache 2.0.** More in-depth information on GPT-NeoX-20B can be found in the [associated technical report on arXiv](https://arxiv.org/abs/2204.06745).
 
-Looking for a demo? Try GPT-NeoX-20B via CoreWeave and Anlatan's new inference service, <a href="https://goose.ai/" title="We're dead serious, that is actually what it is called.">GooseAI</a>!
+Looking for a demo? Try GPT-NeoX-20B via CoreWeave and Anlatan's inference service, <a href="https://goose.ai/" title="We're dead serious, that is actually what it is called.">GooseAI</a>!
 
 ---
 

@@ -1,10 +1,14 @@
 ---
 title: "Publications"
-lastMod: 2022-02-02T11:00:00-05:00
+lastMod: 2022-04-20T04:00:00Z
 layout: page
 description: A list of EleutherAI-affiliated publications.
 hideMeta: True
 ---
+
+- **Katherine Crowson**\*, **Stella Biderman**\*, Daniel Kornis, **Dashiell Stander**, **Eric Hallahan**, **Louis Castricato**, and Edward Raff. "VQGAN-CLIP: Open Domain Image Generation and Editing with Natural Language Guidance." _Preprint_, 2022. [[arXiv]](https://arxiv.org/abs/2204.08583)
+
+- **Sid Black**\*, **Stella Biderman**\*, **Eric Hallahan**\*, **Quentin Anthony**, **Leo Gao**, **Laurence Golding**, **Horace He**, **Connor Leahy**, **Kyle McDonell**, **Jason Phang**, **Michael Pieler**, **USVSN Sai Prashanth**, **Shivanshu Purohit**, **Laria Reynolds**, **Jonathan Tow**, **Ben Wang**, and **Samuel Weinbach**. "GPT-NeoX-20B: An Open-Source Autoregressive Language Model." In _Proceedings of the ACL Workshop on Challenges & Perspectives in Creating Large Language Models_, 2022. [[arXiv]](https://arxiv.org/abs/2204.06745) [[OpenReview]](https://openreview.net/forum?id=HL7IhzS8W5)
 
 - **Stella Biderman** and Edward Raff. "Neural Language Models are Effective Plagiarists." _Preprint_, 2022. [[arXiv]](https://arxiv.org/abs/2201.07406)
 
@@ -22,8 +26,8 @@ hideMeta: True
 
 - Isaac Caswell, Julia Kreutzer, and 50 others (incl. **Stella Biderman**). "Quality at a Glance: An Audit of Web-Crawled Multilingual Datasets." _Transactions of the Association for Computational Linguistics 10, 50-72_. 2022. [[arXiv]](https://arxiv.org/abs/2103.12028)
 
-- **Leo Gao**, **Stella Biderman**, **Sid Black**, **Laurence Golding**, **Travis Hoppe**, **Charles Foster**, **Jason Phang**, **Horace He**, **Anish Thite**, **Noa Nabeshima**, **Shawn Presser**, and **Connor Leahy**. "The Pile: An 800GB Dataset of Diverse Text for Language Modeling." _Preprint_, 2020. [[arXiv]](https://arxiv.org/abs/2101.00027) [[Dataset]](https://pile.eleuther.ai/) [[Datasheet]](https://arxiv.org/abs/2201.07311)
+- **Leo Gao**, **Stella Biderman**, **Sid Black**, **Laurence Golding**, **Travis Hoppe**, **Charles Foster**, **Jason Phang**, **Horace He**, **Anish Thite**, **Noa Nabeshima**, **Shawn Presser**, and **Connor Leahy**. "The Pile: An 800GB Dataset of Diverse Text for Language Modeling." _Preprint_, 2020. [[arXiv]](https://arxiv.org/abs/2101.00027) [[Dataset]](https://pile.eleuther.ai/)
 
 - **Aran Komatsuzaki**. "Current Limitations of Language Models: What You Need is Retrieval." _Preprint_, 2020. [[arXiv]](https://arxiv.org/abs/2009.06857)
 
-**Bold** indicates EleutherAI-affiliated author. \* indicates equal or alphabetical authorship.
+**Bold** indicates EleutherAI-affiliated author. \* indicates co-lead authors.
