@@ -11,9 +11,9 @@ googleAnalytics = "G-9KCLV8BK53"
     [params.organization]
         name="EleutherAI"
         baseURL="https://eleuther.ai/"
-        description="A decentralized grassroots collective of volunteer researchers, engineers, and developers focused on AI alignment, scaling, and open source AI research."
+        description="A decentralized grassroots collective of volunteer researchers, engineers, and developers focused on AI alignment, scaling, and open-source AI research."
         email="contact@eleuther.ai"
-        sameAs="https://github.com/EleutherAI"
+        sameAs=["https://github.com/EleutherAI","https://wandb.ai/eleutherai","https://huggingface.co/EleutherAI","https://twitter.com/i/user/1561918448766173185"]
         foundingDate="2020-07-02"
         logo="https://eleuther.ai/images/promo.png"
     ShowAllPagesInArchive = true

@@ -16,20 +16,23 @@ googleAnalytics = "G-9KCLV8BK53"
     [params.organization]
         name="EleutherAI"
         baseURL="https://eleuther.ai/"
-        description="A decentralized grassroots collective of volunteer researchers, engineers, and developers focused on AI alignment, scaling, and open source AI research."
+        description="A decentralized grassroots collective of volunteer researchers, engineers, and developers focused on AI alignment, scaling, and open-source AI research."
         email="contact@eleuther.ai"
-        sameAs=["https://github.com/EleutherAI","https://wandb.ai/eleutherai","https://huggingface.co/EleutherAI"]
+        sameAs=["https://github.com/EleutherAI","https://wandb.ai/eleutherai","https://huggingface.co/EleutherAI","https://twitter.com/i/user/1561918448766173185"]
         foundingDate="2020-07-02"
         logo="https://eleuther.ai/images/promo.png"
     [params.homeInfoParams]
         Title="EleutherAI"
-        Content="A grassroots collective of researchers working to open source AI research."
+        Content="A grassroots collective of researchers working to enable open-source AI research."
     [[params.socialIcons]]
         name="discord"
         url="https://discord.gg/zBGx3azzUn"
     [[params.socialIcons]]
         name="github"
         url="https://github.com/EleutherAI"
+    [[params.socialIcons]]
+        name="twitter"
+        url="https://twitter.com/i/user/1561918448766173185"
     [params.label]
         icon = "/images/libre.svg"
         iconHeight = "48"

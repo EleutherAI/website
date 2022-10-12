@@ -33,7 +33,7 @@ And so he wrote:
 
 {{<figure>}}
 {{<discord/thread>}}
-{{<discord/message handle="Daj" drole="regular" datetime="2020-07-02T07:50:55.844Z" img-src="https://cdn.discordapp.com/avatars/157923989262434304/ea2d9c1e1a063d890a948c48ef962c8d.png">}}https://arxiv.org/abs/2006.16668  
+{{<discord/message handle="Daj" drole="regular" datetime="2020-07-02T07:50:55.844Z" img-src="https://cdn.discordapp.com/attachments/445630505606578212/1029829971952287754/Daj.png">}}https://arxiv.org/abs/2006.16668  
 Hey guys lets give OpenAI a run for their money like the good ol' days{{</discord/message>}}{{</discord/thread>}}
 {{</figure>}}
 
@@ -41,7 +41,7 @@ And another replied:
 
 {{<figure>}}
 {{<discord/thread>}}
-{{<discord/message handle="bmk" drole="regular" datetime="2020-07-02T16:03:05.471Z" img-src="https://web.archive.org/web/20211004054112im_/https://cdn.discordapp.com/avatars/606987544235868219/89c76c2459fb48c8856ecff4f33d4fd7.png">}}{{<discord/mention "@Daj" >}} this but unironically{{</discord/message>}}
+{{<discord/message handle="bmk" drole="regular" datetime="2020-07-02T16:03:05.471Z" img-src="https://cdn.discordapp.com/attachments/445630505606578212/1029829972422037564/bmk.png">}}{{<discord/mention "@Daj" >}} this but unironically{{</discord/message>}}
 {{</discord/thread>}}
 {{</figure>}}
 
@@ -66,7 +66,7 @@ After ~~spamming~~ liberally filling the text-AI related channels of our graciou
 
 {{<figure caption="No, there has never been a space in <q>EleutherAI</q>.">}}
 {{<discord/thread channel="general">}}
-{{<discord/message handle="Connor" drole="O5" datetime="2020-07-28T20:13:13.548Z" img-src="https://cdn.discordapp.com/avatars/157923989262434304/ea2d9c1e1a063d890a948c48ef962c8d.png">}}
+{{<discord/message handle="Connor" drole="O5" datetime="2020-07-28T20:13:13.548Z" img-src="https://cdn.discordapp.com/attachments/445630505606578212/1029829971952287754/Daj.png">}}
 So, seeing as the new name voting got us some great name suggestions but not too much voting, we've decided on our new name:  
 **EleutherAI**  
 "Eleutheria" is ancient greek for "liberty", so I think the name is very appropriate and has a cool ring to it, I hope you agree. Thanks to {{<discord/mention "@goolulusaurs" >}} for suggesting the name! We're in the process of setting up social media/website/etc but it's not a priority atm so don't expect anything too soon, though we might refactor the github a bit.  
@@ -83,7 +83,7 @@ And so, EleutherAI was born!
 
 {{<figure>}}
 {{<discord/thread channel="general">}}
-{{<discord/message handle="Sid" drole="O5" img-src="https://cdn.discordapp.com/avatars/616061740857425920/70f1854c9aebef81a8638b0ef1243b95.png" datetime="2020-07-12T20:14:55.846Z">}}Hey {{<discord/mention "@gwern">}}{{</discord/message>}}
+{{<discord/message handle="Sid" drole="O5" img-src="https://cdn.discordapp.com/attachments/445630505606578212/1029829972745007286/Sid.png" datetime="2020-07-12T20:14:55.846Z">}}Hey {{<discord/mention "@gwern">}}{{</discord/message>}}
 {{<discord/message handle="Sid" drole="O5" datetime="2020-07-12T20:15:08.585Z">}}Welcome to the tensorflow mesh wastelands{{</discord/message>}}
 {{</discord/thread>}}
 {{</figure>}}
@@ -98,7 +98,7 @@ This was... not the easiest of things to do.
 
 {{<figure>}}
 {{<discord/thread channel="general">}}
-{{<discord/message handle="Sid" drole="O5" img-src="https://cdn.discordapp.com/avatars/616061740857425920/70f1854c9aebef81a8638b0ef1243b95.png" datetime="2020-07-15T15:34:53.929Z">}}AGH I HATE THIS LIBRARY{{</discord/message>}}
+{{<discord/message handle="Sid" drole="O5" img-src="https://cdn.discordapp.com/attachments/445630505606578212/1029829972745007286/Sid.png" datetime="2020-07-15T15:34:53.929Z">}}AGH I HATE THIS LIBRARY{{</discord/message>}}
 {{<discord/message handle="Sid" drole="O5" datetime="2020-07-15T15:35:11.229Z">}}mtf.rename_dimension() does a different thing to tensor.shape.rename_dimension(){{</discord/message>}}
 {{</discord/thread>}}
 {{</figure>}}
@@ -111,7 +111,7 @@ But our crack team of elite ML hackers was quickly making progress.
 
 {{<figure>}}
 {{<discord/thread channel="gpt-neo">}}
-{{<discord/message handle="Sid" drole="O5" img-src="https://cdn.discordapp.com/avatars/616061740857425920/70f1854c9aebef81a8638b0ef1243b95.png" datetime="2020-09-02T15:28:21.196Z">}} yes
+{{<discord/message handle="Sid" drole="O5" img-src="https://cdn.discordapp.com/attachments/445630505606578212/1029829972745007286/Sid.png" datetime="2020-09-02T15:28:21.196Z">}} yes
 ![](https://media.discordapp.net/attachments/730095596861521970/750738894953250909/Screenshot_2020-09-02_at_17.27.50.png)
 {{</discord/message>}}
 {{</discord/thread>}}
@@ -121,7 +121,7 @@ And we were sure that we would be able to start training our first models while 
 
 {{<figure>}}
 {{<discord/thread channel="gpt-neo">}}
-{{<discord/message handle="Connor" drole="O5" datetime="2020-12-08T20:42:19.912Z" img-src="https://cdn.discordapp.com/avatars/157923989262434304/ea2d9c1e1a063d890a948c48ef962c8d.png">}}
+{{<discord/message handle="Connor" drole="O5" datetime="2020-12-08T20:42:19.912Z" img-src="https://cdn.discordapp.com/attachments/445630505606578212/1029829971952287754/Daj.png">}}
 Broke: Achieving enlightenment to leave behind this frail mortal coil
 Woke: Achieving enlightenment to do more tensorflow debugging at 2AM
 {{</discord/message>}}
@@ -133,7 +133,7 @@ And quickly, GPT-Neo took shape. A horrible, horrible shape, but shape nonethele
 
 {{<figure>}}
 {{<discord/thread channel="gpt-neo">}}
-{{<discord/message handle="Jason Phang" drole="level5" img-src="https://discord.com/assets/7c8f476123d28d103efe381543274c25.png" datetime="2021-03-24T19:48:05.290Z">}}
+{{<discord/message handle="Jason Phang" drole="level5" img-src="https://cdn.discordapp.com/attachments/445630505606578212/1029837418435723274/default_green.png" datetime="2021-03-24T19:48:05.290Z">}}
 ![](https://cdn.discordapp.com/attachments/788870744623939594/860262360211652618/Screenshot_20210701-145500_Chrome.jpg)
 {{</discord/message>}}
 {{</discord/thread>}}
@@ -154,7 +154,7 @@ What is training code without its data, though? Training large models needs a la
 
 {{<figure>}}
 {{<discord/thread>}}
-{{<discord/message handle="Connor" drole="O5" datetime="2020-07-07" img-src="https://cdn.discordapp.com/avatars/157923989262434304/ea2d9c1e1a063d890a948c48ef962c8d.png">}}The Pile&trade;{{</discord/message>}}
+{{<discord/message handle="Connor" drole="O5" datetime="2020-07-07" img-src="https://cdn.discordapp.com/attachments/445630505606578212/1029829971952287754/Daj.png">}}The Pile&trade;{{</discord/message>}}
 {{<discord/message handle="Connor" drole="O5" datetime="2020-07-07">}}Calling it anything else is a banable offense{{</discord/message>}}
 {{</discord/thread>}}
 {{</figure>}}
@@ -167,7 +167,7 @@ But, after months of hard work by many, many contributors at EleutherAI, on New 
 
 {{<figure>}}
 {{<discord/thread>}}
-{{<discord/message handle="bmk" drole="O5" datetime="2021-01-01T22:14:41.803Z" img-src="https://web.archive.org/web/20211004054112im_/https://cdn.discordapp.com/avatars/606987544235868219/89c76c2459fb48c8856ecff4f33d4fd7.png">}}{{<discord/mention "@everyone">}} EleutherAI is proud to announce the release of the Pile, a free and publicly available 800GB dataset of diverse English text for language modeling! The creation of this dataset is the first step towards our goal of replicating GPT-3.  
+{{<discord/message handle="bmk" drole="O5" datetime="2021-01-01T22:14:41.803Z" img-src="https://cdn.discordapp.com/attachments/445630505606578212/1029829972422037564/bmk.png">}}{{<discord/mention "@everyone">}} EleutherAI is proud to announce the release of the Pile, a free and publicly available 800GB dataset of diverse English text for language modeling! The creation of this dataset is the first step towards our goal of replicating GPT-3.  
 Website: https://pile.eleuther.ai/
 Paper: https://pile.eleuther.ai/paper.pdf
 Twitter thread: https://twitter.com/nabla_theta/status/1345130409579794432{{</discord/message>}}
@@ -180,7 +180,7 @@ The exciting news was quickly followed up (the next day!) by the announcement of
 
 {{<figure>}}
 {{<discord/thread channel="announcements">}}
-{{<discord/message handle="Stella Biderman" drole="mathemagician" img-src="https://web.archive.org/web/20211004054112im_/https://cdn.discordapp.com/avatars/193204646687408129/4ab251145bf36bec6f54070e7d465485.png" datetime="2021-01-02T21:00:09.933Z">}}
+{{<discord/message handle="Stella Biderman" drole="mathemagician" img-src="https://cdn.discordapp.com/attachments/445630505606578212/1029829973109915718/StellaAthena.png" datetime="2021-01-02T21:00:09.933Z">}}
 {{<discord/mention "@everyone">}} We’ve talked a couple times about how we have resources to train a GPT-3, and figured we’d make an official announcement now that we’ve gained so many new members. The organization that’s behind this is called CoreWeave. CoreWeave is a cloud service provider that specializes in high performance ML. They’re part of the NVIDIA Preferred Cloud Services Provider network.  
 The basics of our deal is simple: they’ll provide us the GPUs we need to train a GPT-3-scale language model and in exchange we will 1) say “thank you” to them very loudly 2) distill the model with the goal of making it more feasible to deploy and 3) publish the weights for anyone to use. No money is being exchanged in either direction.  
 2 and 3 were already things we had planned, and they are excited about open source code and breaking Microsoft’s monopoly. So it’s a very good fit for us.  
@@ -199,7 +199,7 @@ With the Pile wrapped up, and GPT-NeoX still a while away, we put our TPUs to wo
 
 {{<figure caption="Representative example of what training Neo was like.">}}
 {{<discord/thread channel="level-5">}}
-{{<discord/message handle="bmk" drole="O5" datetime="2021-05-15T03:44:05.182Z" img-src="https://web.archive.org/web/20211004054112im_/https://cdn.discordapp.com/avatars/606987544235868219/89c76c2459fb48c8856ecff4f33d4fd7.png">}}![](https://cdn.discordapp.com/attachments/788870744623939594/842970565983862864/unknown.png){{</discord/message>}}
+{{<discord/message handle="bmk" drole="O5" datetime="2021-05-15T03:44:05.182Z" img-src="https://cdn.discordapp.com/attachments/445630505606578212/1029829972422037564/bmk.png">}}![](https://cdn.discordapp.com/attachments/788870744623939594/842970565983862864/unknown.png){{</discord/message>}}
 {{<discord/message handle="bmk" drole="O5" datetime="2021-05-15T03:44:07.143Z">}}**AAAAAAAAAAAAAAA**{{</discord/message>}}
 {{<discord/message handle="bmk" drole="O5" datetime="2021-05-15T03:44:10.111Z">}}neo is segfaulting{{</discord/message>}}
 {{<discord/message handle="bmk" drole="O5" datetime="2021-05-15T03:46:37.100Z">}}![](https://media.discordapp.net/attachments/788870744623939594/842971204004347934/unknown.png){{</discord/message>}}
@@ -217,7 +217,7 @@ We saw the 1.3B and 2.7B GPT-Neo models as our proofs of concept, learning exper
 
 {{<figure>}}
 {{<discord/thread>}}
-{{<discord/message handle="Sid" drole="O5" img-src="https://cdn.discordapp.com/avatars/616061740857425920/70f1854c9aebef81a8638b0ef1243b95.png" datetime="2021-03-21T20:08:59.851Z">}}{{<discord/mention "@everyone">}} We've (finally) released the weights for the 1.3B and 2.7B param models trained on The Pile that we've had sitting around on our hard drives for ages over at https://github.com/EleutherAI/gpt-neo/  
+{{<discord/message handle="Sid" drole="O5" img-src="https://cdn.discordapp.com/attachments/445630505606578212/1029829972745007286/Sid.png" datetime="2021-03-21T20:08:59.851Z">}}{{<discord/mention "@everyone">}} We've (finally) released the weights for the 1.3B and 2.7B param models trained on The Pile that we've had sitting around on our hard drives for ages over at https://github.com/EleutherAI/gpt-neo/  
 Using the updated Colab notebook in the repo you should be able to finetune the models on your own data as well as run inference. We'll now be mostly archiving that repo in order to work on GPT-Neox (our GPU model training repo). Feel free to ping me if you have any problems getting the pretrained models / notebook running.  
 The Neo-x project is progressing well, the codebase is mostly stable and we are now pretty much just waiting on the hardware to scale up. We additionally have a Jax-based language modelling repository in the works thanks to {{<discord/mention "@Ben Wang">}} and co, so keep your eyes peeled.{{</discord/message>}}
 {{</discord/thread>}}
@@ -231,11 +231,11 @@ This might seem quaint in retrospect, but we really didn't think people would ca
 
 {{<figure>}}
 {{<discord/thread channel="gpt-neo">}}
-{{<discord/message handle="Stella Biderman" drole="mathemagician" img-src="https://web.archive.org/web/20211004054112im_/https://cdn.discordapp.com/avatars/193204646687408129/4ab251145bf36bec6f54070e7d465485.png" datetime="2021-03-23T23:52:53.871Z">}}
+{{<discord/message handle="Stella Biderman" drole="mathemagician" img-src="https://cdn.discordapp.com/attachments/445630505606578212/1029829973109915718/StellaAthena.png" datetime="2021-03-23T23:52:53.871Z">}}
 Damn
 ![](https://cdn.discordapp.com/attachments/730090096287547444/824068215578820658/image0.png)
 {{</discord/message>}}
-{{<discord/message handle="cfoster0" drole="level5" img-src="https://cdn.discordapp.com/avatars/314125175111286785/d1cea8680203099e65ce4bb9befda469.png" datetime="2021-03-23T23:53:22.445Z">}}
+{{<discord/message handle="cfoster0" drole="level5" img-src="https://cdn.discordapp.com/attachments/445630505606578212/1029829973520945292/cfoster0.png" datetime="2021-03-23T23:53:22.445Z">}}
 Whoa
 {{</discord/message>}}
 {{</discord/thread>}}
@@ -253,7 +253,7 @@ In early April, we announced our exciting new GOOSE project. Information about t
 
 {{<figure>}}
 {{<discord/thread>}}
-{{<discord/message handle="bmk" drole="O5" datetime="2021-04-01T17:49:35.558Z" img-src="https://web.archive.org/web/20211004054112im_/https://cdn.discordapp.com/avatars/606987544235868219/89c76c2459fb48c8856ecff4f33d4fd7.png">}}We are proud to announce that EleutherAI is now rebranding as GooseAI. Our new top priority is GOOSE (Goose-Oriented Object Search Engine). GPT-neo (Goose Pretrained Transformer with new engine option) is now deprecated.  
+{{<discord/message handle="bmk" drole="O5" datetime="2021-04-01T17:49:35.558Z" img-src="https://cdn.discordapp.com/attachments/445630505606578212/1029829972422037564/bmk.png">}}We are proud to announce that EleutherAI is now rebranding as GooseAI. Our new top priority is GOOSE (Goose-Oriented Object Search Engine). GPT-neo (Goose Pretrained Transformer with new engine option) is now deprecated.  
 For more information, please see our explanatory page: https://eleuther.ai/goose.html    
 Honk!
 ![EleutherAI Goose Logo](https://media.discordapp.net/attachments/794042109048651818/827238963307216926/gooseai.png?width=300&height=300)
@@ -268,7 +268,7 @@ While waiting for the code and resources for GPT-NeoX, we decided to put the spa
 
 {{<figure>}}
 {{<discord/thread channel="announcements">}}
-{{<discord/message handle="Ben Wang" drole="level5" img-src="https://cdn.discordapp.com/avatars/475291760210345994/d0c5a5efa9c1f226fc2a887fbe494e69.png" datetime="2021-06-09T02:05:31.059Z">}}
+{{<discord/message handle="Ben Wang" drole="level5" img-src="https://cdn.discordapp.com/attachments/445630505606578212/1029829973957161110/kindiana.png" datetime="2021-06-09T02:05:31.059Z">}}
 {{<discord/mention "@everyone">}} Today we are releasing the weights for GPT-J-6B, a 6 billion parameter model trained on the Pile, for use with a new codebase, Mesh Transformer JAX. This model performs similarly in downstream tasks to both GPT-3 6.7B and the Curie model accessible via the OpenAI API.  
 Mesh Transformer JAX on GitHub: https://github.com/kingoflolz/mesh-transformer-jax/
 Colab Notebook for Inference: http://colab.research.google.com/github/kingoflolz/mesh-transformer-jax/blob/master/colab_demo.ipynb
@@ -314,7 +314,7 @@ Perhaps the most visually compelling development of {{<discord/channel "#art">}}
 
 {{<figure>}}
 {{<discord/thread channel="art">}}
-{{<discord/message handle="jbuster" drole="art" img-src="https://cdn.discordapp.com/avatars/297844775585972235/852f28416750015c1426be34e1ccaace.png" datetime="2021-04-26T23:08:43.278Z">}}if "3d render" work this well{{</discord/message>}}
+{{<discord/message handle="jbuster" drole="art" img-src="https://cdn.discordapp.com/attachments/445630505606578212/1029829974334652487/jbuster.png" datetime="2021-04-26T23:08:43.278Z">}}if "3d render" work this well{{</discord/message>}}
 {{<discord/message handle="jbuster" drole="art" datetime="2021-04-26T23:08:54.125Z">}}"unreal engine" would probably look great{{</discord/message>}}
 {{</discord/thread>}}
 {{</figure>}}
@@ -329,8 +329,8 @@ The bot is hooked up to some of our unused GPUs and now handles a staggering amo
 
 {{<figure>}}
 {{<discord/thread>}}
-{{<discord/message handle="BoneAmputee" drole="art" datetime="2021-07-06T21:10:47.557Z" img-src="https://cdn.discordapp.com/avatars/741368021033025556/f7db73b81a19e0a3f5f92f55765ecc49.png">}}.imagine I love when it rains. So cozy. -w 560 -h 416{{</discord/message>}}
-{{<discord/message handle="BATbot McHorse" drole="none" datetime="2021-07-06T21:11:05.309Z" img-src="https://cdn.discordapp.com/avatars/834116436263436331/7dbea7f514c850e05ab6cf5f8ca047e2.png">}}![I love when it rains. So cozy.](https://media.discordapp.net/attachments/838682121975234571/862080305770266654/1625605847_I_love_when_it_rains._So_cozy..jpg){{</discord/message>}}
+{{<discord/message handle="BoneAmputee" drole="art" datetime="2021-07-06T21:10:47.557Z" img-src="https://cdn.discordapp.com/attachments/445630505606578212/1029829974749884516/BoneAmputee.png">}}.imagine I love when it rains. So cozy. -w 560 -h 416{{</discord/message>}}
+{{<discord/message handle="BATbot McHorse" drole="none" datetime="2021-07-06T21:11:05.309Z" img-src="https://web.archive.org/web/20211004054112im_/https://cdn.discordapp.com/avatars/834116436263436331/7dbea7f514c850e05ab6cf5f8ca047e2.png">}}![I love when it rains. So cozy.](https://media.discordapp.net/attachments/838682121975234571/862080305770266654/1625605847_I_love_when_it_rains._So_cozy..jpg){{</discord/message>}}
 {{<discord/message handle="BATbot McHorse" drole="none" datetime="2021-07-06T21:11:05.448Z">}}
 *I love when it rains. So cozy.*
 `iteration 500/500 (100%) Elapsed: 8m36s`
@@ -344,7 +344,7 @@ The bot is hooked up to some of our unused GPUs and now handles a staggering amo
 
 {{<figure>}}
 {{<discord/thread>}}
-{{<discord/message handle="Zermelane" img-src="https://cdn.discordapp.com/avatars/236145004534300672/4aa7005db717508a2bc21d40a02247b4.png" datetime="2021-04-28T03:11:26.053Z">}}EleutherAI's Discord server is an unexpectedly terrifying place, they're happily talking about practical AI stuff and things they are working on, then maybe a good benchmark result comes out or something and they'll banter just as happily about how the Earth is going to be taken apart by AGI{{</discord/message>}}
+{{<discord/message handle="Zermelane" img-src="https://cdn.discordapp.com/attachments/445630505606578212/1029829975110598666/ari.png" datetime="2021-04-28T03:11:26.053Z">}}EleutherAI's Discord server is an unexpectedly terrifying place, they're happily talking about practical AI stuff and things they are working on, then maybe a good benchmark result comes out or something and they'll banter just as happily about how the Earth is going to be taken apart by AGI{{</discord/message>}}
 {{</discord/thread>}}
 {{</figure>}}
 
@@ -356,7 +356,7 @@ EleutherAI has grown into a true collective. We host many different kinds of res
 
 {{<figure>}}
 {{<discord/thread>}}
-{{<discord/message handle="bmk" drole="O5" datetime="2021-03-19T02:36:01.614Z" img-src="https://web.archive.org/web/20211004054112im_/https://cdn.discordapp.com/avatars/606987544235868219/89c76c2459fb48c8856ecff4f33d4fd7.png">}}"it's like the manhattan project, except the funding is 5 orders of magnitude less, the people working on it are random nobodies from the internet, atmospheric ignition is the default rather than the unlikely outcome, and there are 5 soviet unions"{{</discord/message>}}
+{{<discord/message handle="bmk" drole="O5" datetime="2021-03-19T02:36:01.614Z" img-src="https://cdn.discordapp.com/attachments/445630505606578212/1029829972422037564/bmk.png">}}"it's like the manhattan project, except the funding is 5 orders of magnitude less, the people working on it are random nobodies from the internet, atmospheric ignition is the default rather than the unlikely outcome, and there are 5 soviet unions"{{</discord/message>}}
 {{</discord/thread>}}
 {{</figure>}}
 
@@ -414,10 +414,10 @@ Maybe it is the realization that Schmidhuber has been right all along.
 
 {{<figure>}}
 {{<discord/thread channel="general">}}
-{{<discord/message handle="FractalCycle" drole="none" img-src="https://cdn.discordapp.com/avatars/178610757972393986/40f153df1d6212256b17bcc7e27279e7.png" datetime="2020-10-10T18:14:39.634Z">}}i{{</discord/message>}}
+{{<discord/message handle="FractalCycle" drole="none" img-src="https://cdn.discordapp.com/attachments/445630505606578212/1029829975609708574/FractalCycle.png" datetime="2020-10-10T18:14:39.634Z">}}i{{</discord/message>}}
 {{<discord/message handle="FractalCycle" drole="none" datetime="2020-10-10T18:14:53.001Z">}}wait is Schmidhuber real? i thought that was fake{{</discord/message>}}
 {{<discord/message handle="FractalCycle" drole="none" datetime="2020-10-10T18:15:02.579Z">}}i literally cannot tell rn{{</discord/message>}}
-{{<discord/message handle="FractalCycle" drole="none" img-src="https://cdn.discordapp.com/avatars/178610757972393986/40f153df1d6212256b17bcc7e27279e7.png" datetime="2020-10-10T18:16:31.306Z">}}i thought he was a fake 1800s german philosopher like hegel that we just made up{{</discord/message>}}
+{{<discord/message handle="FractalCycle" drole="none" img-src="https://cdn.discordapp.com/attachments/445630505606578212/1029829975609708574/FractalCycle.png" datetime="2020-10-10T18:16:31.306Z">}}i thought he was a fake 1800s german philosopher like hegel that we just made up{{</discord/message>}}
 {{</discord/thread>}}
 {{</figure>}}
 
