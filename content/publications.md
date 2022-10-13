@@ -6,6 +6,8 @@ description: A list of EleutherAI-affiliated publications.
 hideMeta: True
 ---
 
+- **Jason Phang**, **Herbie Bradley**, **Leo Gao**, **Louis Castricato**, and **Stella Biderman**. "EleutherAI: Going Beyond "Open Science" to "Science in the Open"." _Preprint_, 2022. [[arXiv]](https://arxiv.org/abs/2210.06413)
+
 - **Katherine Crowson**\*, **Stella Biderman**\*, Daniel Kornis, **Dashiell Stander**, **Eric Hallahan**, **Louis Castricato**, and Edward Raff. "VQGAN-CLIP: Open Domain Image Generation and Editing with Natural Language Guidance." _Preprint_, 2022. [[arXiv]](https://arxiv.org/abs/2204.08583)
 
 - **Sid Black**\*, **Stella Biderman**\*, **Eric Hallahan**\*, **Quentin Anthony**, **Leo Gao**, **Laurence Golding**, **Horace He**, **Connor Leahy**, **Kyle McDonell**, **Jason Phang**, **Michael Pieler**, **USVSN Sai Prashanth**, **Shivanshu Purohit**, **Laria Reynolds**, **Jonathan Tow**, **Ben Wang**, and **Samuel Weinbach**. "GPT-NeoX-20B: An Open-Source Autoregressive Language Model." In _Proceedings of the ACL Workshop on Challenges & Perspectives in Creating Large Language Models_, 2022. [[arXiv]](https://arxiv.org/abs/2204.06745) [[OpenReview]](https://openreview.net/forum?id=HL7IhzS8W5)
