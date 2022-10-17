@@ -6,6 +6,8 @@ description: A list of EleutherAI-affiliated publications.
 hideMeta: True
 ---
 
+- **Louis Castricato**\*, **Alexander Havrilla**\*, **Shahbuland Matiana**, **Michael Pieler**, Anbang Ye, Ian Yang, Spencer Frazier, and Mark Riedl. "Robust Preference Learning for Storytelling via Contrastive Reinforcement Learning." _Preprint_, 2022. [[arXiv]](https://arxiv.org/abs/2210.07792)
+
 - **Jason Phang**, **Herbie Bradley**, **Leo Gao**, **Louis Castricato**, and **Stella Biderman**. "EleutherAI: Going Beyond "Open Science" to "Science in the Open"." _Preprint_, 2022. [[arXiv]](https://arxiv.org/abs/2210.06413)
 
 - **Katherine Crowson**\*, **Stella Biderman**\*, Daniel Kornis, **Dashiell Stander**, **Eric Hallahan**, **Louis Castricato**, and Edward Raff. "VQGAN-CLIP: Open Domain Image Generation and Editing with Natural Language Guidance." _Preprint_, 2022. [[arXiv]](https://arxiv.org/abs/2204.08583)
