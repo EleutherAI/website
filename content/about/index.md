@@ -7,28 +7,7 @@ description: "Who we are."
 ---
 
 EleutherAI (/iˈluθər eɪ. aɪ/) is a decentralized collective of volunteer researchers, engineers, and developers focused on AI alignment, scaling, and open source AI research. Founded in <date datetime="2020-07">July of 2020</date>, EleutherAI is most well known for our ongoing efforts to build and open source large language models, but we also do open research in alignment, interpretability, BioML, ML art and many other fields. Our Discord server is open and welcomes contributors!
-<!-- 
-## What we value
 
-Promoting open and accountable research.
-: Provide accessible channels for the dissemination, review, and replication of research. Strive for scientifically rigorous investigations where practical.
-
-Uphold and promote ethical usage and responsible AI practices.
-: Promoting ethical practices, disclosure of limitations, and infohazard management. This also includes the obligatory “Don't do dumb/stupid things” clause—don't do things that are going to diminish the strength and/or trustworthiness of the organization.
-
-Cooperative Orientation
-: Concept pulled from the OpenAI Charter, but modified to better fit the role that the organization is suited to fill. A good start may be “Cooperate with and/or provide suitable assistance to other well-meaning research and policy institutions that align with the organization's strategies.”
-
-> __Minor themes__
-> “Understanding models and their behavior.”
->         Promote research for increasing our understanding of models from a holistic perspective (i.e. through the entire lifecycle). Understand models at both a high and mechanistic level through evaluation and general  
-> 
-> “Promote and support conversations on the potential of intelligent systems and the dangers they may pose to society.”
->         Promote rational discussion on current and potentially transformative systems, as well as research in these areas.
-> 
-> “Promote the usage of models in the arts and the consequences.”
->         Promote the evolution, accessibility of generative art and usage of models for creative purposes (especially in the humanities). Also promote rational conversation on the philosophical consequences such systems have for society.
--->
 ## Supporters
 
 EleutherAI's research would not be possible without the generosity of the following supporters.
