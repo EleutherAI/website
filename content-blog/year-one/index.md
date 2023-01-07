@@ -6,9 +6,10 @@ author: ["Connor Leahy", "Eric Hallahan", "Leo Gao", "Stella Biderman"]
 contributor: ["Charles Foster", "Jason Phang", "Shivanshu Purohit", "Leo Gao", "Eric Hallahan", "Connor Leahy", "Horace He", "Laurence Golding"]
 categories: ["Meta"]
 cover:
-    image: /images/blog/year-one/hackers.png
+    image: hackers.png
     alt: The shadowy hacker group Eleuther
     caption: "<kbd>The shadowy hacker group Eleuther</kbd> as imagined by [Janus](https://generative.ink)"
+    relative: True
 ShowToc: true
 ---
 

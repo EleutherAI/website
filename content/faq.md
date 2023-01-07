@@ -15,7 +15,7 @@ How did this all start?
 
   {{<figure>}}
   {{<discord/thread>}}
-  {{<discord/message handle="Daj" drole="regular" datetime="2020-07-02T07:50:55.844Z" img-src="https://cdn.discordapp.com/avatars/157923989262434304/ea2d9c1e1a063d890a948c48ef962c8d.png">}}https://arxiv.org/abs/2006.16668  
+  {{<discord/message handle="Daj" drole="regular" datetime="2020-07-02T07:50:55.844Z" img-src="https://cdn.discordapp.com/attachments/445630505606578212/1029829971952287754/Daj.png">}}https://arxiv.org/abs/2006.16668  
   Hey guys lets give OpenAI a run for their money like the good ol' days{{</discord/message>}}
   {{</discord/thread>}}
   {{</figure>}}
@@ -23,7 +23,7 @@ How did this all start?
   To which [Leo Gao](https://github.com/leogao2) replied:
   {{<figure>}}
   {{<discord/thread>}}
-  {{<discord/message handle="bmk" drole="regular" datetime="2020-07-02T16:03:05.471Z" img-src="https://web.archive.org/web/20211004054112im_/https://cdn.discordapp.com/avatars/606987544235868219/89c76c2459fb48c8856ecff4f33d4fd7.png">}}{{<discord/mention "@Daj" >}} this but unironically{{</discord/message>}}
+  {{<discord/message handle="bmk" drole="regular" datetime="2020-07-02T16:03:05.471Z" img-src="https://cdn.discordapp.com/attachments/445630505606578212/1029829972422037564/bmk.png">}}{{<discord/mention "@Daj" >}} this but unironically{{</discord/message>}}
   {{</discord/thread>}}
   {{</figure>}}
 
@@ -68,10 +68,6 @@ What are GPT-Neo and GPT-NeoX?
 What is the largest model you have trained?
 
 : On <date datetime="2022-02-09">February 9, 2022</date>, we released a 20 billion parameter model trained on the Pile, GPT-NeoX-20B.
-
-Are you serious when you say you are going to train a model comparable to the biggest GPT-3 (175 billion parameters)?
-
-: Yes, that is the plan. We expect our final model to be somewhere between 150 and 200 billion parameters.
 
 Have you considered the possible risks of creating models like these?
 
@@ -129,28 +125,6 @@ Are the codebases free software?
 Are the models free software?
 
 : EleutherAI is licensing models under Apache 2.0. If you use our models, we would highly appreciate you citing or displaying your usage of them.
-
-How should I cite your models?
-
-: We ask that you cite both the codebase and the dataset together when citing models. For example, our recommended citation method for the GPT-Neo models is as follows.
-
-  _In the document body:_
-  {{< highlight latex >}}X.XB GPT-Neo \citep{gpt-neo} model trained on the Pile \citep{pile}{{< /highlight >}}
-
-  _BibTeX entries:_
-  {{< highlight bibtex >}}@article{pile,
-  title={The {P}ile: An 800GB Dataset of Diverse Text for Language Modeling},
-  author={Gao, Leo and Biderman, Stella and Black, Sid and Golding, Laurence and Hoppe, Travis and Foster, Charles and Phang, Jason and He, Horace and Thite, Anish and Nabeshima, Noa and Presser, Shawn and Leahy, Connor},
-  journal={arXiv preprint arXiv:2101.00027},
-  year={2020}
-}
-@software{gpt-neo,
-  author = {Black, Sid and Gao, Leo and Wang, Phil and Leahy, Connor and Biderman, Stella},
-  title = {{GPT-Neo}: Large Scale Autoregressive Language Modeling with Mesh-Tensorflow},
-  url = {http://github.com/eleutherai/gpt-neo},
-  version = {1.0},
-  year = {2021}
-}{{< /highlight >}}
 
 ## The Pile
 

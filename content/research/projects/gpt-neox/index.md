@@ -6,7 +6,7 @@ cover:
 layout: page
 hideMeta: True
 status: "In Progress"
-domain: "Language Modeling"
+domain: ["Language Modeling"]
 deliverables: ["Code","Model"]
 description: An implementation of 3D-parallel autoregressive language models for distributed GPUs.
 ---

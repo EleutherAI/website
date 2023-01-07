@@ -1,8 +1,5 @@
 {{- define "main" }}
 
-{{- if (and .Site.Params.profileMode.enabled .IsHome) }}
-{{- partial "index_profile.html" . }}
-{{- else }} {{/* if not profileMode */}}
 
 {{- if not .IsHome | and .Title }}
 <header class="page-header">
@@ -14,6 +11,10 @@
   </div>
   {{- end }}
 </header>
+{{- if .Content }}
+<div class="post-content" >
+    {{ .Content }}
+</div>{{end}}
 {{- end }}
 
 {{- $pages := union .RegularPages .Sections }}
@@ -23,10 +24,6 @@
 {{- end }}
 
 {{- $paginator := .Paginate $pages }}
-
-{{- if and .IsHome .Site.Params.homeInfoParams (eq $paginator.PageNumber 1) }}
-{{- partial "home_info.html" . }}
-{{- end }}
 
 {{- $term := .Data.Term }}
 {{- range $index, $page := $paginator.Pages }}
@@ -40,10 +37,18 @@
 {{- $class = "post-entry tag-entry" }}
 {{- end }}
 
+<a class="entry-link" aria-label="{{ .Title | plainify }}" href="{{ .Permalink }}">
 <article class="{{ $class }}">
   {{- $isHidden := (.Site.Params.cover.hidden | default .Site.Params.cover.hiddenInList) }}
-  {{- partial "cover.html" (dict "cxt" . "IsHome" true "isHidden" $isHidden) }}
-  <header class="entry-header">
+  {{- if (and .Params.cover.image (not $isHidden)) }}
+  {{- $alt := (.Params.cover.alt | default .Params.cover.caption | plainify) }}
+  {{- $cover := (.Page.Resources.ByType "image").GetMatch (printf "*%s*" (.Params.cover.image)) }}
+  <figure class="entry-cover">
+  <img loading="lazy" src="{{- printf "%s" (($cover.Resize "128x jpg q100").Permalink) -}}" alt="{{ $alt }}" />
+</figure>
+  {{- end }}
+  <div>
+    <header class="entry-header">
     <h2>
       {{- .Title }}
       {{- if .Draft }}<div class="entry-isdraft"><sup>&nbsp;&nbsp;[draft]</sup></div>{{ end -}}
@@ -51,16 +56,16 @@
   </header>
   {{- if (ne (.Param "hideSummary") true) }}
   <section class="entry-content">
-    <p>{{ .Summary | plainify | htmlUnescape }}{{ if .Truncated }}...{{ end }}</p>
+    <p>{{ .Description | plainify | htmlUnescape }}</p>
   </section>
   {{- end }}
   {{- if not (.Param "hideMeta") }}
   <footer class="entry-footer">
     {{- partial "post_meta.html" . -}}
   </footer>
-  {{- end }}
-  <a class="entry-link" aria-label="post link to {{ .Title | plainify }}" href="{{ .Permalink }}"></a>
+  {{- end }}</div>
 </article>
+</a>
 {{- end }}
 
 {{- if gt $paginator.TotalPages 1 }}
@@ -75,7 +80,5 @@
   </nav>
 </footer>
 {{- end }}
-
-{{- end }}{{/* end profileMode */}}
 
 {{- end }}{{- /* end main */ -}}

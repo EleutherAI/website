@@ -7,6 +7,11 @@
       {{ .Title }}
       {{- if .Draft }}<div class="entry-isdraft"><sup>&nbsp;&nbsp;[draft]</sup></div>{{- end }}
     </h1>
+    {{- if .Description }}
+			<div class="post-description">
+				{{- .Description -}}
+			</div>
+			{{- end }}
     {{- if not (.Param "hideMeta") }}
     <div class="post-meta">
       {{- partial "post_meta.html" . -}}
@@ -16,39 +21,46 @@
     {{- end }}
   </header>
   {{- $isHidden := .Params.cover.hidden | default .Site.Params.cover.hiddenInSingle | default .Site.Params.cover.hidden }}
+  <div>
+  {{- $showInfobox := default .Params.domain nil | default .Params.deliverables | default .Params.status}}
+  {{- if $showInfobox }}
   <div class="infobox">
   {{- partial "cover.html" (dict "cxt" . "IsHome" false "isHidden" $isHidden) }}
     
     <dl class="post-tags">
       {{- if .Params.domain }}
       <div>
-      <dt><h4>Domain</h4></dt>
+      <dt>Domain</dt>
       {{- range ($.GetTerms "domain") }}
-      <dd style="margin-left: 0;"><a href="{{ .Permalink }}">{{ .LinkTitle }}</a></dd>
+      <dd><a href="{{ .Permalink }}">{{ .LinkTitle }}</a></dd>
       {{- end }}</div>
       {{- end }}
       {{- if .Params.deliverables }}
-      <div><dt><h4>Deliverables</h4></dt>
-      {{- range ($.GetTerms "deliverables") }}
-      <dd style="margin-left: 0;"><a href="{{ .Permalink }}">{{ .LinkTitle }}</a></dd>
+      <div>
+          <dt>Deliverables</dt>
+          {{- range ($.GetTerms "deliverables") }}
+          <dd><a href="{{ .Permalink }}">{{ .LinkTitle }}</a></dd>
       {{- end }}</div>
       {{- end }}
       {{- if .Params.status }}
-      <div><dt><h4>Status</h4></dt>
+      <div>
+          <dt>Status</dt>
       {{- range ($.GetTerms "status") }}
-      <dd style="margin-left: 0;"><a href="{{ .Permalink }}">{{ .LinkTitle }}</a></dd>
+          <dd><a href="{{ .Permalink }}">{{ .LinkTitle }}</a></dd>
       {{- end }}</div>
       {{- end }}
     </dl>
   </div>
+  {{- end }}
   
   {{- if (.Param "ShowToc") }}
   {{- partial "toc.html" . }}
   {{- end }}
-  <div class="post-content">
+  <div class="post-content" style="display: inline;">
     {{- if not (.Param "disableAnchoredHeadings") }}
     {{- partial "anchored_headings.html" .Content -}}
     {{- else }}{{ .Content }}{{ end }}
+  </div>
   </div>
   <footer class="post-footer">
     {{- if .Params.tags }}

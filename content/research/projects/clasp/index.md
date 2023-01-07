@@ -5,7 +5,7 @@ cover:
     image: clasp.png
     relative: True
 hideMeta: True
-status: "In progress"
+status: "In Progress"
 domain: ["Bio ML"]
 deliverables: ["Code","Model"]
 description: A CLIP-like model for amino acid sequence prediction.

@@ -39,7 +39,9 @@ dl.qa > dt.question {
 dl.qa > dd.answer {
   display: block;
   margin-top: 0.5em;
-  width: 100%;
+  /*width: 100%;*/
+  margin-left: 0px;
+
   padding-left: 0px;
   padding-right: 0px;
   padding-bottom: 0.5em;
@@ -59,6 +61,30 @@ div.project-grid {
 
 body#top {
   font-size: 16px;
+}
+
+body {
+  position: relative;
+  height: auto;
+  min-height: 100vh;
+}
+
+body > main {
+  height: auto;
+}
+
+body > footer {
+  position: absolute;
+  bottom: 0;
+  width: 100%;
+}
+
+.taxonomy, .term {
+  margin-inline-start: 1em;
+}
+  
+.first-entry .entry-content a {
+  text-decoration: underline;
 }
 
 pre {
@@ -90,34 +116,39 @@ div.project-status {
   text-transform: uppercase;
 }
 
-div.project-grid.small {
-  display: grid;
+.project-grid.small {
   grid-template-columns: repeat(auto-fill, minmax(175px, 1fr));
-  grid-auto-rows: minmax(100px, auto);
+  grid-auto-rows: minmax(256px, auto);
   gap: 10px;
 }
 
-div.project-grid > article.post-entry > figure {
+.project-grid > article.post-entry > figure {
   margin-bottom: 10px;
 }
 
-div.project-grid article.post-entry {
+.project-grid article.post-entry {
   margin: 0;
 }
 
-div.project-grid.small article.post-entry {
-  padding: 14px;
+.project-grid.small article.post-entry {
+  padding: 0.75em;
 }
 
-div.project-grid.small header.entry-header {
-  display: flex;
-  flex-direction: column;
-  justify-content: space-between;
-  align-items: baseline;
+.project-grid.small li {
+  display: block;
 }
 
-div.project-grid.small header.entry-header > div.project-status {
-  margin-top: 5px;
+.covergrid {
+  padding: 0;
+}
+
+.covergrid * {
+  display: inline
+}
+
+.covergrid img {
+  width: 64px;
+  height: 64px;
 }
 
 article.announcement > div {

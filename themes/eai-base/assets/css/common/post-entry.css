@@ -21,12 +21,13 @@
 
 .first-entry .entry-content {
     margin: 14px 0;
-    font-size: 16px;
+    font-size: 2.5em;
+    font-weight: bolder;
     -webkit-line-clamp: 3;
 }
 
 .first-entry .entry-footer {
-    font-size: 14px;
+    font-size: 16px;
 }
 
 .home-info .entry-content {
@@ -40,16 +41,13 @@
     background: var(--entry);
     border-radius: var(--radius);
     transition: transform 0.1s;
-    border: 1px solid var(--border);
+    border: 2px solid var(--border);
 }
 
 .post-entry:active {
     transform: scale(0.96);
 }
 
-.tag-entry .entry-cover {
-    display: none;
-}
 
 .entry-header h2 {
     font-size: 24px;
@@ -71,13 +69,13 @@
     font-size: 13px;
 }
 
-.entry-link {
+/*.entry-link {
     position: absolute;
     left: 0;
     right: 0;
     top: 0;
     bottom: 0;
-}
+}*/
 
 .entry-cover,
 .entry-isdraft {
@@ -94,28 +92,57 @@
     text-align: center;
 }
 
+.list .entry-cover {
+    margin-bottom: initial;
+    margin-right: var(--gap);
+    flex-shrink: 0;
+}
+
+
+
 .entry-cover img {
     border-radius: var(--radius);
     pointer-events: none;
+    width: 100%;
+}
+
+.list .entry-cover img { max-width: calc(var(--gap)* 8 /3 + 64px); }
+
+.post-entry {
+    display: flex;
 }
 
 .infobox {
+    /*float: right;
+    float: inline-end;
     display: flex;
     flex-direction: row-reverse;
     flex-wrap: wrap;
-    justify-content: space-evenly;
+    justify-content: space-evenly;*/
+    width: fit-content;
+    margin-block-end: var(--gap);
+    /*float: right;*/
+    margin-inline-start: var(--gap);
+    padding: var(--content-gap);
+    border: 2px solid var(--border);
+    border-radius: var(--radius);
 }
 
 .infobox > .entry-cover > img{
-    width: 512px;
+    max-width: 256px;
 }
 
-.infobox .post-tags {
-    display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(186px, 1fr));
+.infobox dl {
+    margin: 0;
 }
 
-.entry-cover a {
-    color: var(--secondary);
-    box-shadow: 0 1px 0 var(--primary);
+/*.infobox .post-tags {
+    display: flex;
+    flex-direction: column;
+    flex-wrap: nowrap;
+    justify-content: center;
+}*/
+
+.infobox .post-tags div{
+    margin: 0.5em;
 }

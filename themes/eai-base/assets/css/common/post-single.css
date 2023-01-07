@@ -11,6 +11,7 @@
 .post-description {
     margin-top: 10px;
     margin-bottom: 5px;
+    font-style: oblique;
 }
 
 .post-meta,
@@ -64,7 +65,11 @@
 
 .post-content a,
 .toc a:hover {
-    box-shadow: 0 1px 0;
+    text-decoration: underline;
+}
+
+.list .post-content a {
+    text-decoration: none;
 }
 
 .post-content a code {
@@ -99,24 +104,22 @@
     margin-bottom: 0;
 }
 
-.post-content dl {
+/*.post-content dl {
     display: flex;
     flex-wrap: wrap;
     margin: 0;
-}
+}*/
 
 .post-content dt {
-    width: 25%;
     font-weight: 700;
 }
 
-.post-content dd {
+/*.post-content dd {
     width: 75%;
     margin-inline-start: 0;
     padding-inline-start: 10px;
-}
+}*/
 
-.post-content dd ~ dd,
 .post-content dt ~ dt {
     margin-top: 10px;
 }
@@ -274,7 +277,7 @@
 
 .toc {
     margin: 0 2px 40px 2px;
-    border: 1px solid var(--border);
+    border: 2px solid var(--border);
     background: var(--code-bg);
     border-radius: var(--radius);
     padding: 0.4em;
@@ -315,33 +318,32 @@
     margin-top: 56px;
 }
 
-.post-tags li {
-    display: inline-block;
-    margin-inline-end: 3px;
-    margin-bottom: 5px;
+.post-tags dt {
+    font-weight: bold;
 }
 
 .post-tags a,
 .share-buttons,
 .paginav {
     border-radius: var(--radius);
-    background: var(--code-bg);
     border: 1px solid var(--border);
 }
 
 .post-tags a {
-    display: block;
-    padding-inline-start: 14px;
-    padding-inline-end: 14px;
+    /*display: block;*/
+    padding-block: 0.5em;
+    padding-inline: 1em;
     color: var(--secondary);
     font-size: 14px;
-    line-height: 34px;
-    background: var(--code-bg);
+    line-height: 3em;
+    border-radius: 1.25em;
+    white-space: nowrap;
 }
 
 .post-tags a:hover,
 .paginav a:hover {
-    background: var(--border);
+    background: var(--secondary);
+    color: var(--theme);
 }
 
 .share-buttons {

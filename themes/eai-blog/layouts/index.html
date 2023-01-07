@@ -23,13 +23,14 @@
         {{- range .Pages }}
         {{- if eq .Kind "page" }}
         <div class="archive-entry">
+          <a class="entry-link" aria-label="post link to {{ .Title | plainify }}" href="{{ .Permalink }}">
           <h4 class="archive-entry-title">
             {{- .Title | markdownify -}}
           </h4>
           <div class="archive-meta">
             {{- partial "post_meta.html" . -}}
           </div>
-          <a class="entry-link" aria-label="post link to {{ .Title | plainify }}" href="{{ .Permalink }}"></a>
+          </a>
         </div>
         {{- end }}
         {{- end }}

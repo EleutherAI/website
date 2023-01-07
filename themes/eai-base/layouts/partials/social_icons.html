@@ -1,7 +1,9 @@
-<div class="social-icons">
+<ul class="social-icons">
     {{- range . }}
-    <a href="{{ trim .url " " }}" target="_blank" rel="noopener noreferrer me" title="{{ .name | title }}">
-        {{ partial "svg.html" . }}
-    </a>
+    <li>
+        <a class="arrow-link" href="{{ trim .url " " }}" target="_blank" rel="noopener noreferrer me" title="{{ .name }}">
+        {{ partial "svg.html" . }} <span>{{.action}} {{site.Params.organization.name}} on {{.name}}.</span>
+        </a>
+    </li>
     {{- end }}
-</div>
+</ul>

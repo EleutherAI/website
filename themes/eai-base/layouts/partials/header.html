@@ -78,7 +78,7 @@
 		{{- if .Site.Title }}
 		<a class="logo" href="{{ "" | absLangURL }}" accesskey="h" title="{{ $label_text }} (Alt + H)">
 			{{- if .Site.Params.label.icon }}
-			<img src="{{- .Site.Params.label.icon -}}" alt="logo" aria-label="logo" width="{{- (.Site.Params.label.iconHeight) }}" height="{{- .Site.Params.label.iconHeight -}}">
+			<img src="{{- .Site.Params.label.icon -}}" alt="logo" aria-label="logo" width="{{- (.Site.Params.label.iconHeight) }}" height="{{- .Site.Params.label.iconHeight -}}" />
 			{{- end }}
 			<span class="logotype">{{- $label_text -}}</span>
 		</a>

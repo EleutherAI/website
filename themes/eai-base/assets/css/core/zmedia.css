@@ -20,12 +20,12 @@
     }
 }
 
-/* footer */
+/* footer 
 @media screen and (max-width: 900px) {
     .list .top-link {
         transform: translateY(-5rem);
     }
-}
+}*/
 
 @media (prefers-reduced-motion) {
     /* terms; profile-mode; post-single; post-entry; post-entry; search; search */

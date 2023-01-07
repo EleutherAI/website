@@ -2,6 +2,9 @@
 {{- if .Get "img-src" -}}
 {{- $class = delimit (slice $class "groupStart") " " -}}
 {{- end -}}
+{{- if .Get "mention-highlight" -}}
+{{- $class = delimit (slice $class "mention-highlight") " " -}}
+{{- end -}}
 {{ $img := index (findRE "\\!\\[.*?\\]\\(.*?\\)" .Inner) 0 -}}
 {{ $role := "none" -}}
 {{- if .Get "drole" -}}{{- $role = .Get "drole" -}}{{ end -}}
@@ -14,9 +17,9 @@
         {{- end }}
         <div class="messageContent">{{strings.TrimSuffix "\n" (.Inner | replaceRE "\\!\\[.*?\\]\\(.*?\\)" "" | markdownify | replaceRE "<p>" "" | replaceRE "</p>" "\n" ) | replaceRE "blockquote>\n" "blockquote>" | replaceRE "\n</blockquote>" "</blockquote>" | safeHTML}}</div>
     </div>
-    {{- with $img }}
+    {{- with $img -}}
     <div class="container">
         {{ . | markdownify | replaceRE "<img" `<img loading="lazy"` | safeHTML}}
     </div>
-    {{- end }}
+    {{- end -}}
 </div>

@@ -1,6 +1,6 @@
 .main {
     position: relative;
-    min-height: calc(100vh - var(--header-height) - var(--footer-height));
+    /*min-height: calc(100vh - var(--header-height) - var(--footer-height) - var(--footer-height));*/
     max-width: calc(var(--main-width) + var(--gap) * 2);
     margin: auto;
     padding: var(--gap);
@@ -8,6 +8,7 @@
     padding-left: max(var(--gap),env(safe-area-inset-left));
     padding-right: var(--gap);
     padding-right: max(var(--gap),env(safe-area-inset-left));
+    padding-bottom: calc(var(--footer-height) + var(--gap));
 }
 
 .page-header h1 {
@@ -32,16 +33,47 @@
 }
 
 .social-icons {
-    padding: 12px 0;
+    padding-inline: var(--gap);
 }
 
-.social-icons a:not(:last-of-type) {
-    margin-inline-end: 12px;
+.social-icons li a *:not(:first-child){
+    margin-inline-start: calc(var(--min-touch)/4);
+}
+
+.social-icons li{
+    min-height: var(--min-touch);
+    display: block;
+    width: fit-content;
+}
+
+.social-icons a{
+    min-height: var(--min-touch);
+    width: 100%;
+    display: flex;
+    align-items: center;
+    padding-inline: calc(var(--min-touch)/4);
+    font-weight: bold;
+}
+
+.social-icons a::after{
+    content: "→";
+    margin-inline-start: 1em;
+    font-weight: bold;
 }
 
 .social-icons a svg {
-    height: 26px;
-    width: 26px;
+    height: calc(var(--min-touch)*0.707);
+    width: calc(var(--min-touch)*0.707);
+}
+
+a.arrow-link {
+    font-weight: bold;
+}
+
+a.arrow-link::after {
+    content: "→";
+    margin-inline-start: 1ex;
+    font-weight: bold;
 }
 
 code {

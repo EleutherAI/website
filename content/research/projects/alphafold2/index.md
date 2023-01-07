@@ -8,7 +8,7 @@ hideMeta: True
 status: "In Progress"
 domain: ["Bio ML"]
 deliverables: ["Code","Model"]
-description: A replication of AlphaFold2 architecture (very accurate protein structure prediction model) with a free licensing.
+description: A replication of AlphaFold2 architecture (very accurate protein structure prediction model) with an open license.
 ---
 
 AlphaFold2 is a deep learning algorithm that leverages techniques originating in natural language processing to do protein structure prediction. It was announced by DeepMind in 2020 at the [CASP 14 competition](https://predictioncenter.org/casp14/) where it stunned the competition with its performance. The creators have given several talks and presentations on the algorithm (see, e.g., [here](https://predictioncenter.org/casp14/doc/presentations/2020_12_01_TS_predictor_AlphaFold2.pdf)), the model and codebase has been very recently (Jul 15, 2021) open sourced (under Apache License, Version 2.0 and under Commons Attribution-NonCommercial 4.0 International respectively). 
