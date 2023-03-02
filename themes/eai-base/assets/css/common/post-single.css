@@ -91,6 +91,11 @@
     margin-bottom: var(--content-gap);
 }
 
+.post-content figure {
+    margin-top: calc(var(--content-gap) * 2);
+    margin-bottom: calc(var(--content-gap) * 2);
+}
+
 .post-content ol,
 .post-content ul {
     padding-inline-start: 20px;

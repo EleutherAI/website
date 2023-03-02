@@ -19,7 +19,7 @@ googleAnalytics = "G-9KCLV8BK53"
         email="contact@eleuther.ai"
         sameAs=["https://github.com/EleutherAI","https://wandb.ai/eleutherai","https://huggingface.co/EleutherAI","https://twitter.com/i/user/1561918448766173185"]
         foundingDate="2020-07-02"
-        logo="https://eleuther.ai/images/promo.png"
+        logo="https://blog.eleuther.ai/images/promo.png"
     ShowAllPagesInArchive = true
     [params.label]
         icon = "/images/libre.svg"
@@ -40,23 +40,3 @@ googleAnalytics = "G-9KCLV8BK53"
   category = "categories"
   tags = "tags"
 [menu]
-  [[menu.main]]
-    name = "Home"
-    url = "https://eleuther.ai/"
-    weight = 1
-  [[menu.main]]
-    name = "About"
-    url = "https://eleuther.ai/about/"
-    weight = 2
-  [[menu.main]]
-    name = "Research"
-    url = "https://eleuther.ai/research/"
-    weight = 3
-  [[menu.main]]
-    name = "FAQ"
-    url = "https://eleuther.ai/faq/"
-    weight = 4
-  [[menu.main]]
-    name = "Blog"
-    url = "/"
-    weight = 5

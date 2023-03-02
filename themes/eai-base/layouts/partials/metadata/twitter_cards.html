@@ -1,4 +1,4 @@
-<meta name="twitter:card" content="summary{{- if and .IsPage .Page.Params.author -}}_large_image{{- end -}}" />
+<meta name="twitter:card" content="summary{{- if and .IsPage .Page.Params.author .Page.Params.cover.image -}}_large_image{{- end -}}" />
 {{- $imageUrl := .Site.Params.organization.logo -}}
 {{- if .Params.cover.image -}}
 {{- $imageUrl = .Params.cover.image | absURL -}}

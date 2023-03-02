@@ -29,6 +29,7 @@
 			{{- partial "anchored_headings.html" .Content -}}
 			{{- else }}{{ .Content }}{{ end }}
 		</div>
+		{{- /* if .Params.tags }}
 		<footer class="post-footer">
 			{{- if .Params.tags }}
 			<ul class="post-tags">
@@ -44,7 +45,7 @@
 			{{- partial "share_icons.html" . -}}
 			{{- end }}
 		</footer>
-	
+		{{- end */}}
 		{{- if (.Param "comments") }}
 		{{- partial "comments.html" . }}
 		{{- end }}
