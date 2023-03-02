@@ -48,13 +48,13 @@ EleutherAI members have authored 28 papers, trained dozens of models, and releas
 
 : EleutherAI played a minor role in this paper, mostly supporting the interpretability work, compute, and HPC knowledge. It is a paper we are very excited about though, and a demonstration of both very high-quality interpretability research and the impact that sponsoring relatively small-scale trainings can have.
 
-[A full list of papers, models, and other research output from EleutherAI can be found here.](https://docs.google.com/spreadsheets/d/1VmWOzuVQfF33kh7mZH1ygzyN1HX4SSvvu81quoH3nog)
+A full list of papers, models, and other research output from EleutherAI can be found [on our website](https://docs.google.com/spreadsheets/d/1VmWOzuVQfF33kh7mZH1ygzyN1HX4SSvvu81quoH3nog).
 
 ## New Organizations
 
 While some have started in our first year, during this most recent year we've seen many other similar organizations rise to prominence. For instance, [LAION](https://laion.ai/) has cranked out two massive image datasets and supported the development of the now-famous DALL-E Mini. Another example would be the [OpenBioML](https://openbioml.org/), which started off as a spinoff Discord server building on the AlphaFold2 replication work of Phil Wang ({{<discord/mention "@lucidrains">}}) and Eric Alcaide ({{<discord/mention "@hypnopump">}}) before becoming a hub for interaction between the open-source AI and BioML communities. <!--They recently completed a collaboration with researchers at Harvard and Columbia to put out [a phenomenal paper on the learning dynamics of AlphaFold2](https://www.biorxiv.org/content/10.1101/2022.11.20.517210). -->We've also seen members start a plethora of smaller communities focused on individual projects, such as {{<discord/mention "@BlinkDL">}}'s RWKV and Aran's data collection for work based on [Minerva](https://ai.googleblog.com/2022/06/minerva-solving-quantitative-reasoning.html).
 
-Most notably though, two groups of researchers have left EleutherAI to start their own organizations. EleutherAI founders Connor Leahy and Sid Black are now the founders of a new alignment research organization called [Conjecture](https://www.conjecture.dev/), and Louis Castricato has started a lab called [CarperAI](https://carper.ai/) that focuses on preference learning and <abbr title="Reinforcement Learning from Human Feedback">RLHF</abbr>.
+Most notably though, three groups of researchers have left EleutherAI to start their own organizations. EleutherAI founders Connor Leahy ({{<discord/mention "@Connor">}}) and Sid Black ({{<discord/mention "@sid">}}) are now the founders of a new alignment research organization called [Conjecture](https://www.conjecture.dev/), Louis Castricato has started a lab called [CarperAI](https://carper.ai/) that focuses on preference learning and <abbr title="Reinforcement Learning from Human Feedback">RLHF</abbr>, and Tanishq Abraham ({{<discord/mention "@ilovescience">}}) has started [MedARC](https://www.medarc.ai/), which focuses on biomedical applications of cutting edge AI technologies such as large language models.
 
 Speaking of his leadership departure, Connor had the following to say:
 
