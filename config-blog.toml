@@ -40,3 +40,15 @@ googleAnalytics = "G-9KCLV8BK53"
   category = "categories"
   tags = "tags"
 [menu]
+  [[menu.main]]
+    name = "Home"
+    url = "https://eleuther.ai/"
+    weight = 1
+  [[menu.main]]
+    name = "About"
+    url = "https://eleuther.ai/about/"
+    weight = 2
+  [[menu.main]]
+    name = "Blog"
+    url = "/"
+    weight = 5
