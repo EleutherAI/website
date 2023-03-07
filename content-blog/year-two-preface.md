@@ -48,7 +48,7 @@ EleutherAI members have authored 28 papers, trained dozens of models, and releas
 
 : EleutherAI played a minor role in this paper, mostly supporting the interpretability work, compute, and HPC knowledge. It is a paper we are very excited about though, and a demonstration of both very high-quality interpretability research and the impact that sponsoring relatively small-scale trainings can have.
 
-A full list of papers, models, and other research output from EleutherAI can be found [on our website](https://docs.google.com/spreadsheets/d/1VmWOzuVQfF33kh7mZH1ygzyN1HX4SSvvu81quoH3nog).
+A full list of papers, models, and other research output from EleutherAI can be found [on our website](https://www.eleuther.ai/papers).
 
 ## New Organizations
 
