@@ -1,9 +1,9 @@
 ---
 title: "EleutherAI Second Retrospective: The long version"
-date: 2023-01-07T20:00:00-04:00
+date: 2023-03-19T20:00:00-04:00
 description: "What we've been up to for the past year EleutherAI."
-author: ["Connor Leahy", "Eric Hallahan", "Leo Gao", "Stella Biderman"]
-contributor: ["Charles Foster", "Jason Phang", "Shivanshu Purohit", "Leo Gao", "Eric Hallahan", "Connor Leahy", "Horace He", "Laurence Golding"]
+author: ["Stella Biderman","Shivanshu Purohit", "Curtis Huebner"]
+contributor: ["Jason Phang", "Shivanshu Purohit", "Leo Gao", "Eric Hallahan", "Horace He", "Laurence Golding", "Eric Hallahan"]
 categories: ["Meta"]
 ShowToc: true
 ---
@@ -100,7 +100,7 @@ But, as promised, we were able to complete a draft paper which we released along
 
 We learned a lot from this experience, including just how hard language model evaluation is. Very minor tweaks in language model evaluation protocols that wouldn’t even be noticed by a human can wildly change performance. For example, MMLU benchmark features multiple choice questions with answers labeled “a” through “d.” The recommended way to evaluate models is to compare the log probabilities of the *letter corresponding to the correct answer*. However if you instead compare the actual answers performance shoots up: in our testing the difference is comparable to scaling from 6.7B parameters to 175B parameters.
 
-{{<figure src="/images/blog/year-two/normal.png" caption="Grading the model’s ability to produce “Branch of the thyrocervical trunk” rather than “C” results in much higher accuracy on average."  align="center"/>}}
+{{<figure src="/images/blog/year-two/question.png" caption="Grading the model’s ability to produce “Branch of the thyrocervical trunk” rather than “C” results in much higher accuracy on average."  align="center"/>}}
 
 We also learned just how important it is to get the narrative right the first time. Our blog post originally claimed that GPT-NeoX-20B underperformed FairSeq Dense 13B (then the largest publicly available English LLM) on standard NLP benchmarks like Lambada and HellaSwag. This wasn’t in fact true, the issue was [a bug we discovered in the shard merging code that hurt performance](https://github.com/EleutherAI/gpt-neox/pull/466#issuecomment-997517986). While we eventually found ways around this bug, and all numbers in our paper were reported using the (better) unmerged model, we still get occasional questions from people who think that GPT-NeoX-20B’s performance on NLP tasks was disappointing.
 
@@ -172,7 +172,7 @@ CarperAI is focused on the democratization of RLHF and RLHF adjacent methods. Th
 
 **Stability AI**: Most people who had experience working on text-to-image modeling were scooped up by Stability. While Stability supports them releasing their work open source, and some like Katherine continued to collaborate with people in EleutherAI, this work gradually shifted text-to-image research out of our server.
 
-**OpenAI**: Ben Wang joined OpenAI to work on language model research. Leo Gao joined OpenAI to continue his work on his alignment research agenda. Leo continues to contribute to alignment discussions and the alignment reading group in EleutherAI.
+**OpenAI**: Ben Wang joined OpenAI to work on language model research. Leo Gao joined OpenAI to continue his work on his alignment research agenda. Leo continues to contribute to alignment discussions in EleutherAI.
 
 ### Closing the Book on VQGAN-CLIP
 
