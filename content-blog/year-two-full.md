@@ -1,6 +1,6 @@
 ---
 title: "EleutherAI Second Retrospective: The long version"
-date: 2023-03-16T22:00:00-00:00
+date: 2023-03-26T22:00:00-00:00
 description: "What we've been up to for the past year EleutherAI."
 author: ["Stella Biderman","Shivanshu Purohit", "Curtis Huebner", "Leo Gao", "Connor Leahy", "Eric Hallahan"]
 contributor: ["Jason Phang", "Shivanshu Purohit", "Leo Gao", "Horace He", "Laurence Golding", "Eric Hallahan"]
