@@ -1,7 +1,7 @@
 ---
 title: "Exploratory Analysis of TRLX RLHF Transformers with TransformerLens"
-date: 2023-02-03T11:00:00Z
-lastmod: 2023-02-03T11:00:00Z
+date: 2023-04-02T00:00:00Z
+lastmod: 2023-04-02T00:00:00Z
 draft: False
 description: "A demonstration of interpretabilty for RLHF models"
 author: ["Curt Tigges"]
