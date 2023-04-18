@@ -1,6 +1,6 @@
 ---
 title: "Transformer Math 101"
-date: 2023-04-17T00:00:00+01:00
+date: 2023-04-18T00:00:00+01:00
 draft: False
 author:
   ["Quentin Anthony", "Stella Biderman", "Hailey Schoelkopf"]
@@ -256,4 +256,21 @@ Putting everything together for a typical 3D-parallel ZeRO-1 run with activation
 $$
 \begin{align*}\text{Total Memory}_{\text{Training}}\approx\frac{\text{Model Memory}}{\text{(Pipe-Parallel-Size})\times\text{(Tensor-Parallel-Size)}}+\frac{\text{Optimizer Memory}}{(\text{No. GPUs})}+\frac{\text{Activation Memory}}{\text{(Tensor-Parallel-Size)}}+\frac{\text{Gradient Memory}}{\text{(Pipe-Parallel-Size})}\end{align*}
 $$
+
+# Conclusion
+
+EleutherAI engineers frequently use heuristics like the above to plan efficient model training and to debug distributed runs. We hope to provide some clarity on these often-overlooked implementation details, and would love to hear your feedback at contact@eleuther.ai if you would like to discuss or think we’ve missed anything!
+
+
+To cite this blog post, please use:
+
+```bibtex
+@misc{transformer-math-eleutherai,
+  title = {Transformer Math 101},
+  author = {Anthony, Quentin and Biderman, Stella and Schoelkopf, Hailey},
+  howpublished = \url{blog.eleuther.ai/},
+  note = {[Online; accessed ]},
+  year = {2023}
+}
+```
 
