@@ -54,7 +54,7 @@ Although strictly speaking you can train a transformer for as many tokens as you
 
 **We do not recommend training a LLM for less than 200B tokens.** Although this is “chinchilla optimal” for many models, the resulting models are typically quite poor. We therefore recommend weighting scaling laws or compute optimality, total tokens available, and desired model size for inference when making modeling decisions based on your own use case and available resources.
 
-## Compute-per=-GPU
+## Engineering Takeaways for Compute Costs
 
 Computing costs for transformers are typically listed in GPU-hours or FLOP-seconds.
 
@@ -63,7 +63,7 @@ Computing costs for transformers are typically listed in GPU-hours or FLOP-secon
 - With high-quality interconnect such as InfiniBand, you can achieve linear or sublinear scaling across the data parallel dimension (i.e. increasing the data parallel degree should increase the overall throughput nearly linearly). Shown below is a plot from testing the GPT-NeoX library on Oak Ridge National Lab’s Summit supercomputer. Note that V100s are on the x-axis, while most of the numerical examples in the post are for A100s.
 
 
-{{<figure src="/images/blog/transformer-math/neox-scaling.png" alt="GPT-NeoX scaling" />}}
+{{<figure src="/images/blog/transformer-math/neox-scaling.png" alt="GPT-NeoX scaling" align="center"/>}}
 
 # Memory Requirements
 
@@ -73,7 +73,7 @@ Transformers are typically described in terms of their *size in parameters*. How
 
 ### Model Weights
 
-![https://cdn.discordapp.com/attachments/938462108721483787/1052372619577532467/image.png](https://cdn.discordapp.com/attachments/938462108721483787/1052372619577532467/image.png)
+{{<figure src="https://cdn.discordapp.com/attachments/938462108721483787/1052372619577532467/image.png" alt="Model Weights" align="center"/>}}
 
 Most transformers are trained in **mixed precision**, either fp16 + fp32 or bf16 + fp32. This cuts down on the amount of memory required to train the models, and also the amount of memory required to run inference. We can cast language models from fp32 to fp16 or even int8 without suffering a substantial performance hit. These numbers refer to the size *in bits* a single parameter requires. Since there are 8 bits in a Byte, we divide this number by 8 to see how many Bytes each parameter requires  
 
@@ -137,7 +137,7 @@ Gradients can be stored in fp32 or fp16 (Note that the gradient datatype often m
 
 Modern GPUs are typically bottlenecked by memory, not FLOPs, for LLM training. Therefore activation recomputation/checkpointing is an extremely popular method of trading reduced memory costs for extra compute costs. Activation recomputation/checkpointing works by recomputing activations of certain layers instead of storing them in GPU memory. The reduction in memory depends on how selective we are when deciding which layers to clear, but Megatron’s selective recomputation scheme is depicted in the figure below:
 
-{{<figure src="/images/blog/transformer-math/activations.png" alt="activation memory" />}}
+{{<figure src="/images/blog/transformer-math/activations.png" alt="activation memory" align="center"/>}}
 
 Where the dashed red line indicates the memory capacity of an A100-80GB GPU, and “present work” indicates the memory requirements after applying selective activation recomputation. See [https://arxiv.org/abs/2205.05198](https://arxiv.org/abs/2205.05198) for further details and the derivation of the equations below
 
@@ -187,8 +187,8 @@ $$
 The massive memory overheads for optimizers is the primary motivation for sharded optimizers such as [ZeRO](https://arxiv.org/abs/1910.02054) and [FSDP](https://engineering.fb.com/2021/07/15/open-source/fsdp/). Such sharding strategies reduce the optimizer overhead by a factor of $\text{No. GPUs}$, which is why a given model configuration may fit at large scale but OOM at small scales. If you’re looking to calculate the memory overhead required by training using a sharded optimizer, you will need to include the equations from the figure below. For some sample calculations of sharded optimization, see the following figure from the [ZeRO](https://arxiv.org/abs/1910.02054) paper (Note that $P_{os}$ $P_{os+g}$ and $P_{os+g+p}$ are commonly denoted as ZeRO-1, ZeRO-2, ZeRO-3, respectively. ZeRO-0 commonly means “ZeRO disabled”):
 
 
-{{<figure src="/images/blog/transformer-math/zero_fig.png" alt="ZeRO illustration" />}}
-{{<figure src="/images/blog/transformer-math/zero_legend.png" alt="ZeRO legend" />}}
+{{<figure src="/images/blog/transformer-math/zero_fig.png" alt="ZeRO illustration" align="center"/>}}
+{{<figure src="/images/blog/transformer-math/zero_legend.png" alt="ZeRO legend" align="center"/>}}
 
 In the language of this blog post (assuming mixed-precision and the Adam optimizer):
 
@@ -242,7 +242,7 @@ Note that this equation is approximate due to the facts that (1) pipeline parall
 
 When ZeRO is combined with tensor and/or pipeline parallelism, the resulting parallelism strategy forms a mesh like the following:
 
-{{<figure src="/images/blog/transformer-math/3D.png" alt="3D parallelism" />}}
+{{<figure src="https://i.imgur.com/xMgptTN.png" alt="3D parallelism" align="center"/>}}
 
 As an important aside, the DP degree is vital for use in calculating the global batch size of training. The data-parallel degree depends on the number of complete model replicas:
 
