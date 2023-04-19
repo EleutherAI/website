@@ -177,7 +177,7 @@ $$
 Therefore, a good heuristic answer for “will this model fit for training” is:
 
 $$
-\begin{align*}\text{Total Memory}_{\text{Training}} = \text{memory}_{\text{model}}+\text{memory}_{\text{optimizer}}+\text{memory}_{\text{activations}}+\text{memory}_{\text{gradients}}\end{align*}
+\begin{align*}\text{Total Memory}_{\text{Training}} = \text{Model Memory}+\text{Optimiser Memory}+\text{Activation Memory}+\text{Gradient Memory}\end{align*}
 $$
 
 ## Distributed Training
