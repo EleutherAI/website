@@ -52,7 +52,7 @@ Although strictly speaking you can train a transformer for as many tokens as you
 
 **Let’s start with the elephant in the room: “compute optimal” language models.** Often  referred to as “Chinchilla scaling laws” after the model series in the paper that gave rise to current beliefs about the number of parameters, a compute optimal language model has a **number of parameters** and a **dataset size** that satisfies the approximation $D=20P$. This is optimal in one very specific sense: in a resource regime where using 1,000 GPUs for 1 hour and 1 GPU for 1,000 hours cost you the same amount, if your goal is to maximize performance while minimizing the cost in GPU-hours to train a model you should use the above equation.  
 
-**We do not recommend training a LLM for less than 200B tokens.** Although this is “chinchilla optimal” for many models, the resulting models are typically quite poor. We therefore recommend weighting scaling laws or compute optimality, total tokens available, and desired model size for inference when making modeling decisions based on your own use case and available resources.
+**We do not recommend training a LLM for less than 200B tokens.** Although this is “chinchilla optimal” for many models, the resulting models are typically quite poor. For almost all applications, we recommend determining what inference cost is acceptable for your usecase and training the largest model you can to stay under that inference cost for as many tokens as you can. 
 
 ## Engineering Takeaways for Compute Costs
 
@@ -139,7 +139,7 @@ Modern GPUs are typically bottlenecked by memory, not FLOPs, for LLM training. T
 
 {{<figure src="/images/blog/transformer-math/activations.png" alt="activation memory" align="center"/>}}
 
-Where the dashed red line indicates the memory capacity of an A100-80GB GPU, and “present work” indicates the memory requirements after applying selective activation recomputation. See [https://arxiv.org/abs/2205.05198](https://arxiv.org/abs/2205.05198) for further details and the derivation of the equations below
+Where the dashed red line indicates the memory capacity of an A100-80GB GPU, and “present work” indicates the memory requirements after applying selective activation recomputation. See  [https://arxiv.org/abs/2205.05198](Reducing Activation Recomputation in Large Transformer Models) for further details and the derivation of the equations below
 
 The basic equation giving the memory required to store activations for a transformer model is given by: 
 
@@ -270,7 +270,6 @@ To cite this blog post, please use:
   title = {Transformer Math 101},
   author = {Anthony, Quentin and Biderman, Stella and Schoelkopf, Hailey},
   howpublished = \url{blog.eleuther.ai/},
-  note = {[Online; accessed ]},
   year = {2023}
 }
 ```
