@@ -15,7 +15,7 @@ A lot of basic, important information about transformer language models can be c
 
 **Note:** This post is primarily concerned with training costs, which are dominated by VRAM considerations. For an analogous discussion of inference costs with a focus on latency, check out [this excellent blog post](https://kipp.ly/blog/transformer-inference-arithmetic/) by Kipply.
 
-# Training Costs
+# Compute Requirements
 
 The basic equation giving the cost to train a transformer model is given by: 
 
@@ -46,15 +46,15 @@ One useful distinction to keep in mind is the concept of $\text{Actual FLOPs}$. 
 
 Note that we use the throughput-time version of the cost equation as used in [this wonderful blog post on LLM training costs](https://medium.com/@dzmitrybahdanau/the-flops-calculus-of-language-model-training-3b19c1f025e4).
 
-## Dataset Size
+## Parameter vs Dataset Tradeoffs
 
 Although strictly speaking you can train a transformer for as many tokens as you like, the number of tokens trained can highly impact both the computing costs and the final model performance making striking the right balance important.
 
-**Let’s start with the elephant in the room: “compute optimal” language models.** Often  referred to as “Chinchilla scaling laws” after the model series in the paper that gave rise to current beliefs about the number of parameters, a compute optimal language model has a **number of parameters** and a **dataset size** that satisfies the approximation $D=20P$. This is optimal in one very specific sense: it answers the question **given the ability to arbitrarily exchange compute and wall-clock time** (so you can afford to double the number of GPUs if your training will then half as long), if your goal is to maximize performance while minimizing the cost in GPU-hours to train a model you should use the above equation. 
+**Let’s start with the elephant in the room: “compute optimal” language models.** Often  referred to as “Chinchilla scaling laws” after the model series in the paper that gave rise to current beliefs about the number of parameters, a compute optimal language model has a **number of parameters** and a **dataset size** that satisfies the approximation $D=20P$. This is optimal in one very specific sense: in a resource regime where using 1,000 GPUs for 1 hour and 1 GPU for 1,000 hours cost you the same amount, if your goal is to maximize performance while minimizing the cost in GPU-hours to train a model you should use the above equation.  
 
-**We do not recommend training a LLM for less than 200B tokens.** Although this is “chinchilla optimal” for many models, the resulting models suck. We therefore recommend weighting scaling laws or compute optimality, total tokens available, and desired model size for inference when making modeling decisions based on your own use case and available resources.
+**We do not recommend training a LLM for less than 200B tokens.** Although this is “chinchilla optimal” for many models, the resulting models are typically quite poor. We therefore recommend weighting scaling laws or compute optimality, total tokens available, and desired model size for inference when making modeling decisions based on your own use case and available resources.
 
-## Computing Costs
+## Compute-per=-GPU
 
 Computing costs for transformers are typically listed in GPU-hours or FLOP-seconds.
 
@@ -85,8 +85,9 @@ There is also a small amount of additional overhead, which is typically irreleva
 
 ### Total Inference Memory
 
-Therefore, in our experience, a good heuristic answer for “will this model fit for inference” is often simply:
+In addition to the memory needed to store the model weights, there is also a small amount of additional overhead during the actual forward pass. In our experience this overhead is ≤ 20% and is typically irrelevant to determining the largest model that will fit on your GPU. 
 
+In total, a good heuristic answer for “will this model fit for inference” is:
 
 $\text{Total Memory}_{\text{Inference}}\approx(1.2) \times \text{Model Memory}$
 
