@@ -139,7 +139,7 @@ Modern GPUs are typically bottlenecked by memory, not FLOPs, for LLM training. T
 
 {{<figure src="/images/blog/transformer-math/activations.png" alt="activation memory" align="center"/>}}
 
-Where the dashed red line indicates the memory capacity of an A100-80GB GPU, and “present work” indicates the memory requirements after applying selective activation recomputation. See  [https://arxiv.org/abs/2205.05198](Reducing Activation Recomputation in Large Transformer Models) for further details and the derivation of the equations below
+Where the dashed red line indicates the memory capacity of an A100-80GB GPU, and “present work” indicates the memory requirements after applying selective activation recomputation. See  [Reducing Activation Recomputation in Large Transformer Models](https://arxiv.org/abs/2205.05198) for further details and the derivation of the equations below
 
 The basic equation giving the memory required to store activations for a transformer model is given by: 
 
