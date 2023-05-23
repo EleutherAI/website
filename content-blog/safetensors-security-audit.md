@@ -1,6 +1,6 @@
 ---
 title: "🐶Safetensors audited as really safe and becoming the default"
-date: 2023-05-23T14:00:00+01:00
+date: 2023-05-23T1:00:00+00:00
 draft: False
 description: ""
 author: ["Nicolas Patry", "Stella Biderman", "Garry Jean-Baptiste"]
