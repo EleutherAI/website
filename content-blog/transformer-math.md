@@ -58,8 +58,8 @@ Although strictly speaking you can train a transformer for as many tokens as you
 
 Computing costs for transformers are typically listed in GPU-hours or FLOP-seconds.
 
-- GPT-NeoX achieves 150 TFLOP/s/A100 with normal attention and 180 FLOP/s/A100 with Flash Attention. This is in line with other highly optimized libraries at scale, for example Megatron-DS reports between 137 and 163 TFLOP/s/A100.
-- As a general rule of thumb, you should always be able to achieve approximately 120 FLOP/s/A100. If you are seeing below 115 FLOP/s/A100 there is probably something wrong with your model or hardware configuration.
+- GPT-NeoX achieves 150 TFLOP/s/A100 with normal attention and 180 TFLOP/s/A100 with Flash Attention. This is in line with other highly optimized libraries at scale, for example Megatron-DS reports between 137 and 163 TFLOP/s/A100.
+- As a general rule of thumb, you should always be able to achieve approximately 120 TFLOP/s/A100. If you are seeing below 115 TFLOP/s/A100 there is probably something wrong with your model or hardware configuration.
 - With high-quality interconnect such as InfiniBand, you can achieve linear or sublinear scaling across the data parallel dimension (i.e. increasing the data parallel degree should increase the overall throughput nearly linearly). Shown below is a plot from testing the GPT-NeoX library on Oak Ridge National Lab’s Summit supercomputer. Note that V100s are on the x-axis, while most of the numerical examples in the post are for A100s.
 
 
