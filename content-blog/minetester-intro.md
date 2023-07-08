@@ -1,10 +1,10 @@
 ---
 title: "Minetester: A fully open RL environment built on Minetest"
-date: 2023-04-02T00:00:00Z
-lastmod: 2023-04-02T00:00:00Z
+date: 2023-07-08T00:00:00Z
+lastmod: 2023-07-08T00:00:00Z
 draft: False
 description: "An overview of the minetester and preliminary work"
-author: ["Curtis Huebner", "Robert Klassert", "Edwin Fennell", "Stepan Shabalin"]
+author: ["Curtis Huebner", "Robert Klassert", "Stepan Shabalin", "Edwin Fennell", "Delta Hessler"]
 contributors: ["EleutherAI"]
 categories: ["Announcement"]
 ---
@@ -232,8 +232,8 @@ The Minetester project is large, and the number of different things to work on c
 
 # Links
 
-[Minetester Repo](https://github.com/EleutherAI/minetest/)
-[Minetest Baselines](https://github.com/EleutherAI/minetest-baselines/)
-[Interpretabilty Notebook](https://github.com/EleutherAI/minetest-interpretabilty-notebook)
+ - [Minetester Repo](https://github.com/EleutherAI/minetest/)
+ - [Minetest Baselines](https://github.com/EleutherAI/minetest-baselines/)
+ - [Interpretabilty Notebook](https://github.com/EleutherAI/minetest-interpretabilty-notebook)
 
 
