@@ -250,7 +250,12 @@ $$
 \begin{align*}\text{DP Degree = }\frac{\text{No. GPUs}}{\text{(Pipe-Parallel-Size})\times\text{(Tensor-Parallel-Size)}}\end{align*}
 $$
 
-While pipeline parallelism and tensor parallelism are compatible with all stages of ZeRO (e.g. ZeRO-3 with tensor parallelism would lead to us first slicing the tensors, then applying ZeRO-3 within each tensor-parallel unit), only ZeRO-1 tends to perform well in conjunction with tensor and/or pipeline parallelism. This is due to the conflicting parallelism strategies for gradients (pipeline parallelism and ZeRO-2 both split gradients) (tensor parallelism and ZeRO-3 both split model parameters), which leads to a significant communication overhead. 
+Pipeline parallelism and tensor parallelism are compatible with all stages of ZeRO. However, it's difficult to maintain efficiency when combining pipeline parallelism with ZeRO-2/3's gradient sharding (Because ZeRO-2 shards the gradients, but pipeline parallelism accumulates them. It's possible to carefully define a pipeline schedule and overlap communication to maintain efficiency, but it's difficult to the point that DeepSpeed currently forbids it: https://github.com/microsoft/DeepSpeed/blob/v0.10.1/deepspeed/runtime/pipe/engine.py#L71). Tensor parallelism, however, is complementary to all stages of ZeRO because on each rank:
+
+- ZeRO-3 gathers the full layer **parameters** from other ranks, processes a **full** input on the now-local full layer, then frees the memory that was allocated to hold the remote ranks' parameters.
+- Tensor Parallelism gathers the remote **activations** for the local input from other ranks, processes a **partition** of the input using the local layer partition, then sends the next layer's activations to remote ranks
+
+For the majority of Eleuther's work, we train with pipeline and tensor parallelism along with ZeRO-1. This is because we find ZeRO-3 to be too communication-heavy for our hardware at large scales, and instead use pipeline parallelism across nodes along with tensor parallelism within nodes.
 
 Putting everything together for a typical 3D-parallel ZeRO-1 run with activation partitioning:
 
