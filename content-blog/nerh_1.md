@@ -3,16 +3,14 @@ title: "The first New England RLHF Hackers Hackathon"
 categories: ["Research Notes"]
 author: ["Suraj Anand", "Stephen Casper", "Louis Castricato", "Arjun Khurana", "Alyssa Loo", "Shukai Ni", "Ben Spiegal", "Jiayu Zheng", "Yong Zheng-Xin"]
 # description: "We evaluate different fewshot prompts on GPT-3 to see how it changes performance."
-date: 2023-9-20T14:00:00-06:00
+date: 2023-9-19T14:00:00-06:00
 draft: False
 ---
 
 
 # Introduction
 
-Authors (alphabetized by last name): Suraj Anand, Stephen Casper, Louis Castricato, Arjun Khurana, Alyssa Loo, Shukai Ni, Ben Spiegal, Jiayu Zheng, Yong Zheng-Xin
-
-Acknowledgments: Delta Christine Hessler, Hailey Schoelkopf
+Author list is alphabetical by last name. We would like to extend acknowledgements to Delta Christine Hessler and Hailey Schoelkopf.
 
 On September 10, 2023, New England RLHF Hackers (NERH) held a hackathon at Brown University. For this hackathon we came in with one simple goal: to come up with plans to solve varying open problems in reinforcement learning from human feedback. Most members of NERH were contributors and collaborators at EleutherAI, with some of us actually being directly employed by Eleuther. As such, after the conclusion of the first NERH hackathon, we decided it was in the best interests of the RLHF community at large to release our findings of a few hour-long sprints,regardless of how negative they were.
 
@@ -187,4 +185,15 @@ together, if that's more manageable for you.
 By following this procedure and generating such plans and dialogues, we aim to understand whether RLAIF can effectively restrict a language model's generative capabilities according to predefined guidelines. We are in the process of conducting Implicit Language Q-Learning (ILQL) to reinforce behavior that does not mention Ubuntu. 
 
 
+# How to cite
 
+```
+@online{nerh_hackathon_2023,
+  title = {The first New England RLHF Hackers Hackathon},
+  author = {Suraj Anand and Stephen Casper and Louis Castricato and Arjun Khurana and Alyssa Loo and Shukai Ni and Ben Spiegal and Jiayu Zheng and Yong Zheng-Xin},
+  year = {2023},
+  month = {9},
+  url = {https://blog.eleuther.ai/nerh_1/},
+  note = {Blog post},
+}
+```
