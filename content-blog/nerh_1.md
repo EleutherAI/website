@@ -3,7 +3,7 @@ title: "The first New England RLHF Hackers Hackathon"
 categories: ["Research Notes"]
 author: ["Suraj Anand", "Stephen Casper", "Louis Castricato", "Arjun Khurana", "Alyssa Loo", "Shukai Ni", "Ben Spiegal", "Jiayu Zheng", "Yong Zheng-Xin"]
 # description: "We evaluate different fewshot prompts on GPT-3 to see how it changes performance."
-date: 2023-9-20T14:00:00-06:00
+date: 2023-9-19T14:00:00-06:00
 draft: False
 ---
 
