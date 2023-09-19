@@ -1,7 +1,7 @@
 ---
 title: "The first New England RLHF Hackers Hackathon"
 categories: ["Research Notes"]
-author: ["Suraj Anand", "Stephen Casper", "Louis Castricato", "Arjun Khurana", "Alyssa Loo", "Shukai Ni", "Ben Spiegal", "Jiayu Zheng", "Yong Zheng-Xin"]
+author: ["Suraj Anand", "Stephen Casper", "Louis Castricato", "Arjun Khurana", "Alyssa Loo", "Shukai Ni", "Benjamin Spiegel", "Jiayu Zheng", "Yong Zheng-Xin"]
 # description: "We evaluate different fewshot prompts on GPT-3 to see how it changes performance."
 date: 2023-09-19T14:00:00-06:00
 draft: False
@@ -190,7 +190,7 @@ By following this procedure and generating such plans and dialogues, we aim to u
 ```
 @online{nerh_hackathon_2023,
   title = {The first New England RLHF Hackers Hackathon},
-  author = {Suraj Anand and Stephen Casper and Louis Castricato and Arjun Khurana and Alyssa Loo and Shukai Ni and Ben Spiegal and Jiayu Zheng and Yong Zheng-Xin},
+  author = {Suraj Anand and Stephen Casper and Louis Castricato and Arjun Khurana and Alyssa Loo and Shukai Ni and Benjamin Spiegel and Jiayu Zheng and Yong Zheng-Xin},
   year = {2023},
   month = {9},
   url = {https://blog.eleuther.ai/nerh_1/},
