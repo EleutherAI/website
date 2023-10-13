@@ -1,7 +1,7 @@
 ---
 title: "The second New England RLHF Hackers Hackathon"
 categories: ["Research Notes"]
-author: ['Suraj Anand', 'Chase Blagden', 'Louis Castricato', 'Yeganeh Kordi', 'Kevin Macoroni', 'Francisco Piedrahíta-Vélez', 'Arjun Prakash', 'Logan Riggs', 'Benjamin Spiegel', 'Benjamin Wright', 'Yong Zheng-Xin', 'Max Zuo']
+author: ['Suraj Anand', 'Chase Blagden', 'Louis Castricato', 'Yeganeh Kordi', 'Francisco Piedrahíta-Vélez', 'Arjun Prakash', 'Logan Riggs', 'Benjamin Spiegel', 'Kevin Wang', 'Benjamin Wright', 'Yong Zheng-Xin', 'Max Zuo']
 date: 2023-10-13T14:00:00-06:00
 draft: False
 ---
@@ -124,7 +124,7 @@ Our goal is to leverage RLAIF in order to restrict a language model from generat
 ```
 @online{nerh_hackathon2_2023,
   title = {The second New England RLHF Hackers Hackathon},
-  author = {Suraj Anand and Chase Blagden and Louis Castricato and Yeganeh Kordi and Kevin Macoroni and Francisco Piedrahíta-Vélez and Arjun Prakash and Logan Riggs and Benjamin Spiegel and Benjamin Wright and Yong Zheng-Xin and Max Zuo},
+  author = {Suraj Anand and Chase Blagden and Louis Castricato and Yeganeh Kordi and Francisco Piedrahíta-Vélez and Arjun Prakash and Logan Riggs and Benjamin Spiegel and Kevin Wang and Benjamin Wright and Yong Zheng-Xin and Max Zuo},
   year = {2023},
   month = {10},
   url = {https://blog.eleuther.ai/nerh_2/},
