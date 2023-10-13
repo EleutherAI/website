@@ -1,7 +1,7 @@
 ---
 title: "The second New England RLHF Hackers Hackathon"
 categories: ["Research Notes"]
-author: ['Suraj Anand', 'Chase Blagden', 'Louis Castricato', 'Yeganeh Kordi', 'Francisco Piedrahíta-Vélez', 'Arjun Prakash', 'Logan Riggs', 'Benjamin Spiegel', 'Kevin Wang', 'Benjamin Wright', 'Yong Zheng-Xin', 'Max Zuo']
+author: ['Suraj Anand', 'Chase Blagden', 'Louis Castricato', 'Yeganeh Kordi', 'Francisco Piedrahíta-Vélez', 'Arjun Prakash', 'Logan Riggs', 'Benjamin Spiegel', 'Kevin A. Wang', 'Benjamin Wright', 'Yong Zheng-Xin', 'Max Zuo']
 date: 2023-10-13T14:00:00-06:00
 draft: False
 ---
@@ -59,7 +59,7 @@ This work explores the use of SAEs to identify and understand features in a RM. 
 
 # Synthetic Preference Data using MCTS
 
-Authors: Chase Blagden, Arjun Prakash, Kevin Macoroni
+Authors: Chase Blagden, Arjun Prakash, Kevin A. Wang
 
 ## Introduction
 In RLHF a key part of the process is collecting the preference data used to train the reward model. However, gathering this data can be expensive and time consuming. RLAIF attempts to circumvent this by using a LLM to produce completions and then rank the completions itself. To make a set of diverse, synthetic preference data we decide to use Monte Carlo tree search (MCTS) to generate completions.
@@ -124,7 +124,7 @@ Our goal is to leverage RLAIF in order to restrict a language model from generat
 ```
 @online{nerh_hackathon2_2023,
   title = {The second New England RLHF Hackers Hackathon},
-  author = {Suraj Anand and Chase Blagden and Louis Castricato and Yeganeh Kordi and Francisco Piedrahíta-Vélez and Arjun Prakash and Logan Riggs and Benjamin Spiegel and Kevin Wang and Benjamin Wright and Yong Zheng-Xin and Max Zuo},
+  author = {Suraj Anand and Chase Blagden and Louis Castricato and Yeganeh Kordi and Francisco Piedrahíta-Vélez and Arjun Prakash and Logan Riggs and Benjamin Spiegel and Kevin A. Wang and Benjamin Wright and Yong Zheng-Xin and Max Zuo},
   year = {2023},
   month = {10},
   url = {https://blog.eleuther.ai/nerh_2/},
