@@ -9,7 +9,7 @@ draft: False
 
 
 <p float="left">
-<img src="/images/blog/llemma/llemma.jpg" width="15%"/>
+<img src="/images/blog/llemma/llemma.jpg" width="30%" />
   
 </p>
 
@@ -21,12 +21,12 @@ draft: False
 Today we release *Llemma*: 7 billion and 34 billion parameter language models for mathematics. The Llemma models were initialized with Code Llama weights, then trained on the Proof-Pile II, a 55 billion token dataset of mathematical and scientific documents.
 The resulting models show improved mathematical capabilities, and can be adapted to various tasks through prompting or additional fine-tuning.
 
-<img src="/images/blog/llemma/llemma_diagram.jpeg" width="60%"/>
+<img src="/images/blog/llemma/llemma_diagram.jpeg" width="60%" align="center" />
 
 Llemma models show strong performance on benchmarks that test a model's ability to solve mathematical problems without external tools. 
 For example, here is a Llemma 34B solution to a MATH benchmark problem:
 
-<img src="/images/blog/llemma/llemma_output.png" width="50%"/>
+<img src="/images/blog/llemma/llemma_output.png" width="50%" align="center" />
 
 Additionally, we found that Llemma models can use computational tools to solve problems, such as calculators, computer algebra systems, and formal theorem provers—more on this below.
 
@@ -41,14 +41,14 @@ Because scale reliably produces better generalist models, specialized models oft
 
 ### Dataset : Proof-Pile II
 
-<img src="/images/blog/llemma/proofpile_logo.jpg" width="20%"/>
+<img src="/images/blog/llemma/proofpile_logo.jpg" width="20%" />
 
 
 The first step in developing Llemma was to assemble a large, high-quality dataset of mathematical and scientific content. Minerva used 38 billion unique tokens consisting of arXiv and math web pages. Our dataset, the Proof-Pile II, contains arXiv, web data, and code for a total of 55B unique tokens. 
 
 The Proof-Pile II is a successor to the original [Proof-Pile](https://huggingface.co/datasets/hoskinson-center/proof-pile), a smaller dataset of mathematics documents.
 
-<img src="/images/blog/llemma/dataset.png" width="35%"/>
+<img src="/images/blog/llemma/dataset.png" width="35%" align="center" />
 
 For the arXiv portion of the Proof-Pile-2, we use the RedPajama arXiv subset. Our web and code subsets, on the other hand, are new. We describe them below.
 
@@ -62,11 +62,11 @@ We trained Llemma 7B for 200B tokens and Llemma 34B for 50B tokens. This amounts
 ### Evaluation
 Our first evaluation setting is chain-of-thought mathematical reasoning, measured by benchmarks such as MATH and GSM8k. This is a setting where open source base models have lagged: Llama-2 and Code Llama's MATH scores are in the mid-single digits. Llemma achieves a significant improvement on these tasks, and even surpasses Minerva when controlled for model parameters. 
 
-<img src="/images/blog/llemma/plot.png" width="37%"/>
+<img src="/images/blog/llemma/plot.png" width="37%" align="center" />
 
 Majority voting provides a further boost for Llemma, with Llemma 34B's MATH maj@256 score almost matching Minerva 62B.
 
-<img src="/images/blog/llemma/plot_majk.png" width="37%"/>
+<img src="/images/blog/llemma/plot_majk.png" width="37%" align="center" />
 
 The code subset of the Proof-Pile-2 endows Llemma with capabilities Minerva lacks without additional finetuning. In this blog post, we'll discuss *formal theorem proving*. Our paper contains additional results on a Python-aided problem solving task. 
 
@@ -87,7 +87,7 @@ Up until now, machine learning approaches to formal theorem proving have either 
 ### Memorization
 Language model evaluations are partly a memorization test and partly a generalization test, but it is often unclear in what proportion. We seek to quantify the degree to which our evaluations are explained by memorization by looking for MATH reference solutions in our training set. Surprisingly, Llemma doesn't perform any better on MATH problems that are contained in its training set. In the table below, a "hit" denotes a 30-gram overlap betweeen an MATH reference and the training set. 
 
-<img src="/images/blog/llemma/memorization.png" width="50%">
+<img src="/images/blog/llemma/memorization.png" width="50%" align="center" >
 
 We [open-source the tools](https://github.com/wellecks/overlap) we used for our analysis, and encourage other researchers to investigate other ways to detect and quantify the effects of memorization. 
 
