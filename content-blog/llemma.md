@@ -14,7 +14,7 @@ draft: False
 </p>
 
 
-[ArXiv](#) | [Models](https://huggingface.co/EleutherAI/llemma_34b) | [Data](https://huggingface.co/datasets/EleutherAI/proof-pile-2) | [Code](https://github.com/EleutherAI/math-lm) | [Blog](#) | [Sample Explorer](https://keirp.com/llemma-sample-explorer/)
+[ArXiv](https://arxiv.org/abs/2310.10631) | [Models](https://huggingface.co/EleutherAI/llemma_34b) | [Data](https://huggingface.co/datasets/EleutherAI/proof-pile-2) | [Code](https://github.com/EleutherAI/math-lm) | [Blog](https://blog.eleuther.ai/llemma) | [Sample Explorer](https://llemma-demo.github.io/)
 
 <!-- ![put sample model output here]() -->
 
@@ -99,3 +99,28 @@ Llemma is a pretrained base model; therefore, our evaluations are only a startin
 **Formal theorem proving**. Our in-context learning evaluations are minimal working examples of formal theorem proving with Llemma. What is possible with [some finetuning](https://arxiv.org/abs/2303.04910) and [better algorithms](https://arxiv.org/abs/2202.01344)? Can Llemma models tackle the [IMO Grand Challenge](https://arxiv.org/abs/2305.20050)? 
 
 **Algorithmic Reasoning**. With very careful prompting, language models can [learn to execute algorithms](https://arxiv.org/abs/2211.09066). What would it take to elicit algorithmic reasoning from Llemma more flexibly and reliably?
+
+
+### Citation
+
+To cite Llemma, cite
+
+```bibtex
+@misc{azerbayev2023llemma,
+      title={Llemma: An Open Language Model For Mathematics}, 
+      author={Zhangir Azerbayev and Hailey Schoelkopf and Keiran Paster and Marco Dos Santos and Stephen McAleer and Albert Q. Jiang and Jia Deng and Stella Biderman and Sean Welleck},
+      year={2023},
+      eprint={2310.10631},
+      archivePrefix={arXiv},
+      primaryClass={cs.CL}
+}
+
+@misc{paster2023openwebmath,
+      title={OpenWebMath: An Open Dataset of High-Quality Mathematical Web Text}, 
+      author={Keiran Paster and Marco Dos Santos and Zhangir Azerbayev and Jimmy Ba},
+      year={2023},
+      eprint={2310.06786},
+      archivePrefix={arXiv},
+      primaryClass={cs.AI}
+}
+```
