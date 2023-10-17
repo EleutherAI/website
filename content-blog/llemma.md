@@ -9,7 +9,7 @@ draft: False
 
 
 <p float="left">
-<img src="/images/blog/llemma/llemma.jpg" width="30%" align="center" />
+<img src="/images/blog/llemma/llemma.jpg" width="30%" />
   
 </p>
 
@@ -41,7 +41,7 @@ Because scale reliably produces better generalist models, specialized models oft
 
 ### Dataset : Proof-Pile II
 
-<img src="/images/blog/llemma/proofpile_logo.jpg" width="20%" align="center" />
+<img src="/images/blog/llemma/proofpile_logo.jpg" width="20%" />
 
 
 The first step in developing Llemma was to assemble a large, high-quality dataset of mathematical and scientific content. Minerva used 38 billion unique tokens consisting of arXiv and math web pages. Our dataset, the Proof-Pile II, contains arXiv, web data, and code for a total of 55B unique tokens. 
