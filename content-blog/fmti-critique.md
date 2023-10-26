@@ -8,8 +8,6 @@ draft: False
 mathjax: False
 ---
 
-# How the Foundation Model Transparency Index Distorts Transparency
-
 Stanford’s Center for Research on Foundation Models (CRFM) recently released a new piece of work called the [Foundation Model Transparency Index (FMTI)](https://crfm.stanford.edu/fmti/
 ), which sets out to score all large language models (LLMs) on the different aspects of transparency around building and deploying a model. Work on understanding the transparency of LLMs is crucial to building trust and creating realistic evaluation standards for this extremely powerful technology. **However, the FMTI makes many claims that are misleading concerning both the spirit and facts around transparency of LLMs, and is detrimental to recent progress in transparency.** 
 
@@ -165,6 +163,6 @@ To cite this blog post, please use:
 }
 ```
 
-[^1] The authors wrongly refer to this as a Hugging Face model throughout the paper. In reality it was a multilateral collaboration. While the plurality affiliation was Hugging Face, it was a very narrow plurality at only 4/19 authors and both EleutherAI and Yale University had 3/19 authors affiliated with them. We believe that this further reflects that the authors’ true target is corporate behavior, but they struggle with the fact that Hugging Face’s business model is fundamentally different from the other companies considered and that Hugging Face does not ‘own’ the model in the same way that other companies do.
+[^1]: The authors wrongly refer to this as a Hugging Face model throughout the paper. In reality it was a multilateral collaboration. While the plurality affiliation was Hugging Face, it was a very narrow plurality at only 4/19 authors and both EleutherAI and Yale University had 3/19 authors affiliated with them. We believe that this further reflects that the authors’ true target is corporate behavior, but they struggle with the fact that Hugging Face’s business model is fundamentally different from the other companies considered and that Hugging Face does not ‘own’ the model in the same way that other companies do.
 
-[^2]  In fact, in the release announcement of BLOOM, they declared "Today, we release BLOOM, the first multilingual LLM trained in complete transparency, to change this status quo.""
+[^2]: In fact, in the release announcement of BLOOM, they declared "Today, we release BLOOM, the first multilingual LLM trained in complete transparency, to change this status quo.""
