@@ -3,7 +3,7 @@ title: "How the Foundation Model Transparency Index Distorts Transparency"
 categories: ["Policy"]
 author: ["Nathan Lambert", "SE Gyges", "Stella Biderman", "Aviya Skowron"]
 description: "Evalulating transparency requires precision."
-date: 2023-10-25
+date: 2023-10-26
 draft: False
 mathjax: False
 ---
