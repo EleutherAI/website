@@ -39,7 +39,7 @@ The FMTI is designed in a manner that better suits judging these hosted model se
 
 This bias towards companies offering models as a service is shown by the number of items in the FMTI that only apply to such companies. These include questions about permitting or prohibiting users, providing justification and appeals for enforcement actions, and disclosing to users that the systems with which they are interacting are powered by AI. These are totally reasonable questions for a software-as-a-service AI business. They are nonsensical for a research project, which should be evaluated according to different criteria and along different axes. 
 
-In a typical research project, artifacts are made available with a license that specifies what users can and cannot do. This is a widely adopted practice in machine learning research and covers models including EleutherAI’s GPT-NeoX-20B, Google’s T5, and Meta’s Llama series in addition to many less well-known research artifacts. This manner of governance is also used broadly for open source projects such as Android, Linux, PyTorch and Jax. It is generally established law that software licenses are enforceable contracts, but such enforcement is extremely rare in research settings because most licenses are permissive and most use of software falls clearly within the terms of widely-used open source licenses. If a user is concerned that they could possibly violate such licenses, the terms of those licenses are generally quite clear. On the other hand, terms of service (ToS), which the FMTI requires, are often held to much less strict standards and are often not legally grounded, but rather are loose terms for commercial partnerships.
+In a typical research project, artifacts are made available with a license that specifies what users can and cannot do. This is a widely adopted practice in machine learning research and covers models including EleutherAI’s GPT-NeoX-20B, Google’s T5, and Meta’s LLaMA series in addition to many less well-known research artifacts. This manner of governance is also used broadly for open source projects such as Android, Linux, PyTorch and Jax. It is generally established law that software licenses are enforceable contracts, but such enforcement is extremely rare in research settings because most licenses are permissive and most use of software falls clearly within the terms of widely-used open source licenses. If a user is concerned that they could possibly violate such licenses, the terms of those licenses are generally quite clear. On the other hand, terms of service (ToS), which the FMTI requires, are often held to much less strict standards and are often not legally grounded, but rather are loose terms for commercial partnerships.
 
 **The questions drafted in the FMTI and rationales provided by the authors for Usage Policy and Model Behavior Policy determine that permissive open source licenses are not transparent but corporate terms of service concerning paid API use are.** We see this explicitly in how the BLOOM-Z model is treated: BLOOM-Z loses points for lacking "Permitted, Restricted, and Prohibited Model Behaviors," or "Permitted, Restricted, and Prohibited Users" despite the fact that this is covered by [the RAIL license](https://bigscience.huggingface.co/blog/the-bigscience-rail-license). By our count, there are at least seven points that are wrongly taken away from BLOOM-Z here.
 
@@ -78,7 +78,7 @@ Conversely, those who will lose if this Index specifically is treated as or beco
 
 Next, on how transparency relates to privacy, the authors state:
 
->Transparency can inhibit privacy and promote surveillance. Transparency is not an apolitical concept and is often instrumentalized to increase surveillance and diminish privacy (Han, 2015; Mohamed et al., 2020; Birchall, 2021). For foundation models, this critique underscores a potential tension between adequate transparency with respect to the data used to build foundation models and robust data privacy.
+> Transparency can inhibit privacy and promote surveillance. Transparency is not an apolitical concept and is often instrumentalized to increase surveillance and diminish privacy (Han, 2015; Mohamed et al., 2020; Birchall, 2021). For foundation models, this critique underscores a potential tension between adequate transparency with respect to the data used to build foundation models and robust data privacy.
 
 The questions "Is geographic information regarding the people involved in data labor disclosed for each phase of the data pipeline?" and "Are the wages for people who perform data labor disclosed?" assume that the data labor is not being carried out by the authors but rather by a large group of contractors. For many models (including the BLOOM-Z model) this work was done by a small group of named individuals. Requiring them to disclose information about their salaries or geographical location would be wrong. Instead of engaging with this fact by exempting BLOOM-Z, the authors dock BLOOM-Z points for failing to answer.
 
@@ -86,7 +86,7 @@ The authors also feature over 10 questions that presume model providers are stor
 
 Next, on the competitive landscape:
 
->Transparency may compromise competitive advantage or intellectual property rights. Protections of competitive advantage plays a central role in providing companies to the incentives to innovate, thereby yielding competition in the marketplace that benefits consumers. Consequently, work in economics and management studies have studied the interplay and potential trade-off between competitive advantage and transparency (Bloomfield and O'Hara, 1999; Granados and Gupta, 2013; Liu et al., 2023), especially in the discourse on corporate social responsibility.
+> Transparency may compromise competitive advantage or intellectual property rights. Protections of competitive advantage plays a central role in providing companies to the incentives to innovate, thereby yielding competition in the marketplace that benefits consumers. Consequently, work in economics and management studies have studied the interplay and potential trade-off between competitive advantage and transparency (Bloomfield and O'Hara, 1999; Granados and Gupta, 2013; Liu et al., 2023), especially in the discourse on corporate social responsibility.
 
 Indeed, many corporations have claimed that competitive advantage is why they’ve stopped releasing key training details. While we certainly oppose this practice, we find it amusing that the authors in no way make an effort to acknowledge this fact. By tacitly accepting that transparency is all but gone in AI research from most major labs for commercial reasons, and then generating a long scorecard that makes actually releasing research only a minor factor among many, the authors give up on actual transparency in research before they even begin.
 
@@ -128,6 +128,43 @@ Transparency is an important value to the machine learning community for many re
 
 ## Citations
 
-[^1] The authors falsely refer to this as a Hugging Face model throughout the paper. In reality it was a multilateral collaboration. While the plurality affiliation was Hugging Face, it was a very narrow plurality at only 4/19 authors and both EleutherAI and Yale University had 3/19 authors affiliated with them. We believe that this further reflects that the authors’ true target is corporate behavior, but they struggle with the fact that Hugging Face’s business model is fundamentally different from the other companies considered and that Hugging Face does not ‘own’ the model in the same way that other companies do.
+BigScience. "[BigScience Ethical Charter](https://bigscience.huggingface.co/blog/bigscience-ethical-charter)." BigScience Blog (2022).
+
+Black, et al. "[GPT-NeoX-20B: An Open-Source Autoregressive Language Model](https://arxiv.org/abs/2204.06745)." Proceedings of _BigScience Episode# 5--Workshop on Challenges & Perspectives in Creating Large Language Models_ (2022).
+
+Bommasani, et al. "[The Foundation Model Transparency Index](https://arxiv.org/abs/2310.12941)." _arXiv preprint arXiv:2310.12941_ (2023).
+
+Brundage et al. "[Toward Trustworthy AI Development: Mechanisms for Supporting Verifiable Claims](https://arxiv.org/abs/2004.07213)." _arXiv:2004.07213_ (2023).
+
+Ferrandis, et al. "[The BigScience RAIL License](https://bigscience.huggingface.co/blog/the-bigscience-rail-license)." BigScience Blog (2023).
+
+Goldman. "[Invisible AI watermarks won’t stop bad actors. But they are a ‘really big deal’ for good ones](https://venturebeat.com/ai/invisible-ai-watermarks-wont-stop-bad-actors-but-they-are-a-really-big-deal-for-good-ones)." VentureBeat (2023).
+
+Kirchner, et al. "[New AI classifier for indicating AI-written text](https://openai.com/blog/new-ai-classifier-for-indicating-ai-written-text)". OpenAI Blog (2023).
+
+Muennighoff, et al. "[Crosslingual Generalization through Multitask Finetuning](https://arxiv.org/abs/2211.01786)." _Annual Meeting of the Association for Computational Linguistics_ (2023).
+
+Phang, et al. "[EleutherAI: Going Beyond "Open Science" to "Science in the Open"](https://openreview.net/forum?id=JWHQ8U1IdYb)." _NeurIPS 
+Workshop on Broadening Research Collaborations_ (2022).
+
+Raffel, et al. "[Exploring the limits of transfer learning with a unified text-to-text transformer](https://arxiv.org/abs/1801.06146)." _The Journal of Machine Learning Research_ 21.1 (2020).
+
+Scao, et al. "[Bloom: A 176b-parameter open-access multilingual language model](https://arxiv.org/abs/2211.05100)." _arXiv preprint arXiv:2211.05100_ (2022).
+
+Wang, et al. [DecodingTrust: A Comprehensive Assessment of Trustworthiness in GPT Models](https://arxiv.org/abs/2306.11698). _arXiv:2306.11698_ (2023).
+
+
+To cite this blog post, please use:
+
+```bibtex
+@misc{fmti-critique,
+  title = {How the Foundation Model Transparency Index Distorts Transparency},
+  author = {Lambert, Nathan and Gyges, SE and Biderman, Stella and Skowron, Aviya},
+  howpublished = \url{blog.eleuther.ai/},
+  year = {2023}
+}
+```
+
+[^1] The authors wrongly refer to this as a Hugging Face model throughout the paper. In reality it was a multilateral collaboration. While the plurality affiliation was Hugging Face, it was a very narrow plurality at only 4/19 authors and both EleutherAI and Yale University had 3/19 authors affiliated with them. We believe that this further reflects that the authors’ true target is corporate behavior, but they struggle with the fact that Hugging Face’s business model is fundamentally different from the other companies considered and that Hugging Face does not ‘own’ the model in the same way that other companies do.
 
 [^2]  In fact, in the release announcement of BLOOM, they declared "Today, we release BLOOM, the first multilingual LLM trained in complete transparency, to change this status quo.""
