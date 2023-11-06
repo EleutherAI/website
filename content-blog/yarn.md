@@ -63,7 +63,7 @@ $$
 where the scaling factor $s=L’/L$.
 The method is called **Position Interpolation** (PI). The name is very self-explanatory, and the effect on the coefficients in a given (complex-valued) hidden dimension can be visualized in the following toy case ($s=2$).
 
-{{<figure src="/images/blog/yarn/circle_graph.png" alt="" caption="How the Minetester framework integrates with the Minetest game." align="center" />}}
+{{<figure src="/images/blog/yarn/circle_graph.png" alt="" caption="" align="center" />}}
 
 We simply "squeeze" the new sequence inside the original context window, and it takes orders of magnitude less finetuning to let the model get used to the new position embedding.
 PI still has several limits:
@@ -122,7 +122,7 @@ depending on two extra parameters $\alpha$ and $\beta$. The $\alpha, \beta$ is t
 
 The following chart compares the wavelengths between the RoPE, PI and "NTK-by-parts" in the case where the pretrained context length is 2048 and we use a scale factor of 16.
 
-{{<figure src="/images/blog/yarn/log_wave.png" alt="" caption="How the Minetester framework integrates with the Minetest game." align="center" />}}
+{{<figure src="/images/blog/yarn/log_wave.png" alt="" caption="" align="center" />}}
 
 We can summarize it as follows: taking NTK theory into account, we interpolate the wavelengths from RoPE to PI over different hidden dimensions as $d$ increases. “NTK-aware” refers to the naive linear interpolation (in green), whereas “NTK-by-parts” uses a ramp function in the middle (in red).
 
@@ -141,7 +141,7 @@ by introducing an extra temperature $t$ in the attention logits before the softm
 
 Here we conducted a small experiment between different values of $\dfrac{1}{\sqrt{t}}$ and the perplexity change $\dfrac{\text{ppl}(t) - \text{ppl}(t=1)}{\text{ppl}(t=1)}$ over $56$ $16$k-token documents. This supports our claim that a “sweet spot” of temperature should exist.
 
-{{<figure src="/images/blog/yarn/u_graph.png" alt="" caption="How the Minetester framework integrates with the Minetest game." align="center" />}}
+{{<figure src="/images/blog/yarn/u_graph.png" alt="" caption="" align="center" />}}
 
 When determining the best $t$ for Llama 2 7B, we found that the following equation works well for $t$ regardless of model size and data:
 $$
@@ -187,11 +187,11 @@ We would like to note that the "Dynamic NTK" Interpolation works exceptionally w
 One of the experiments we ran was to compare PI, NTK-aware and YaRN over a sliding window of $256$ tokens across a long context window. For Llama models and their finetunes, we have the following chart.
 
 
-{{<figure src="/images/blog/yarn/loss_line_1.png" alt="" caption="How the Minetester framework integrates with the Minetest game." align="center" />}}
+{{<figure src="/images/blog/yarn/loss_line_1.png" alt="" caption="" align="center" />}}
 
 For the finetunes of Mistral-7b, we have the following chart.
 
-{{<figure src="/images/blog/yarn/loss_line_2.png" alt="" caption="How the Minetester framework integrates with the Minetest game." align="center" />}}
+{{<figure src="/images/blog/yarn/loss_line_2.png" alt="" caption="" align="center" />}}
 
 We direct the interested readers to our [arXiv preprint](https://arxiv.org/abs/2309.00071) for more details and experiment results.
 
