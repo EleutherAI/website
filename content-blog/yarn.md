@@ -13,11 +13,11 @@ ShowToc: true
 mathjax: true
 ---
 
-The Rotary Position Embedding (RoPE) is an effective position encoding technique first introduced in Su et al. (2020) [1] and later popularized in open-source models such as GPT-J, GPT-NeoX, PaLM, LLaMA, etc. We covered the mathematics and the implementation details of RoPE in this [blog post](https://blog.eleuther.ai/rotary-embeddings/) about 2 years ago. Although the RoPE is limited by its pretrained context size, we will summarize a line of research that manages to extend the context length of the RoPE so that a pretrained language model can be easily adapted to fit the increasingly challenging tasks being given to LLM.
+Rotary Position Embedding (RoPE) is an effective position-encoding technique first introduced in Su et al. (2020) [1] and later popularized in open-source models such as GPT-J, GPT-NeoX, PaLM, LLaMA, etc. We covered the mathematics and the implementation details of RoPE in this [blog post](https://blog.eleuther.ai/rotary-embeddings/) about 2 years ago. Although the RoPE is limited by its pretrained context size, we will summarize a line of research that manages to extend the context length of the RoPE so that a pretrained language model can be easily adapted to fit the increasingly challenging tasks being given to LLMs.
 
 # Conventions
 
-Given a sequence of tokens $w_1, w_2, \cdots, w_L$ of length $L$, the token embedding maps them to $x_1, x_2, \cdots, x_L\in \mathbb R^{|D|}$ where $|D|$ is the dimension of the hidden states. At token position $m$, the attention mechanism first produces the query and the key vectors through functions $f_q$ and $f_k$ as follows:
+Given a sequence of tokens $w_1, w_2, \cdots, w_L$ of length $L$, the token embedding maps them to $x_1, x_2, \cdots, x_L\in \mathbb R^{|D|}$, where $|D|$ is the dimension of the hidden states. At token position $m$, the attention mechanism first produces the query and key vectors through functions $f_q$ and $f_k$ as follows:
 $$
 q_m = f_q(x_m, m) \in \mathbb R^{|L|}, k_m = f_k(x_m, m) \in \mathbb R^{|L|}.
 $$
@@ -27,6 +27,7 @@ $$
 $$
 where $q_m, k_n$ are column vectors. The heuristic is that given the pair $m, n$, the attention score indicates how much "attention" should be assigned to the $n$-th token, given the $m$-th token.
 
+
 # Rotary Position Embedding
 
 The idea of the Rotary Position Embedding (RoPE) is very simple: the attention scores should *only* depend on the relative distance $m - n$ between the two tokens. In mathematical forms, we want the functions $f_q, f_k$ to satisfy
@@ -34,6 +35,7 @@ $$
 f_q(x_m, m)^Tf_k(x_n, n) = g(x_m, x_n, m - n),
 $$
 where $g$ is a function only depending on the embedding vectors and the relative distance $m - n$. Our [previous blog](https://blog.eleuther.ai/rotary-embeddings/) explained the details of the deduction, and the conclusion is that $f_q, f_k$ can be constructed in a uniform way as follows:
+
 \begin{align}
 f_W(x_m, m, \theta_d) = \begin{pmatrix}
 \text{cos} m\theta_1 & - \text{sin} m\theta_1 & 0 & 0 & \cdots & 0 & 0 \\
@@ -46,13 +48,14 @@ f_W(x_m, m, \theta_d) = \begin{pmatrix}
 W_q\textbf{x}_m.\\
 f_q = f_{W_q}, ~f_k = f_{W_k},
 \end{align}
-where $\theta_d = b^{-2d/|D|}$ is the angle at $d$-th hidden state with $b$ chosen to be $10000$ in the RoFormer paper ([1]).
+where $\theta_d = b^{-2d/|D|}$, is the angle at the $d$-th hidden state with $b$ chosen to be $10000$ in the RoFormer paper ([1]).
 
-A few methods we introduce below will enhance RoPE by the following format: we modify the function $f$ into $f'$ according to the equation:
+A few methods we introduce below will enhance RoPE by the following format: we modify the function $f$ into $f'$ according to the equation
 $$
-f_W(x_m, m, \theta_d) = f_W(x_m, g(m), h(theta_d))
+f'_W(x_m, m, \theta_d) = f_W(x_m, g(m), h(theta_d))
 $$
 for functions $g, h$ depending on the method being discussed. When such a modification is presented in the following sections, we will simply specify the functions $g$ and $h$ for simplicity.
+
 
 # Position Interpolation
 
@@ -71,13 +74,14 @@ PI still has several limits:
 - After finetuning on longer sequences, the perplexity slightly increases for short sequences compared with the original pretrained model.
 - The way it modifies the RoPE formula did not take advantage of applying better frequencies via $h(\theta_d)$. 
 
+
 # "NTK-aware" Interpolation
 
 Looking at RoPE only from an information-encoding perspective, it was shown in [4] using Neural Tangent Kernel (NTK) theory that deep neural networks have trouble learning high-frequency information if the input dimension is low without the corresponding embeddings having high-frequency components. In our case, the one-dimensional input—the token positions—is expanded by RoPE into an n-dimensional, complex vector embedding. The scaling by PI reduces the frequencies $\theta_d$ uniformly, which may prevent the model from learning high-frequency features.
 
-To take advantage of the observation, the "NTK-aware" Interpolation was proposed in public as [a reddit post](https://www.reddit.com/r/LocalLLaMA/comments/14lz7j5/ntkaware_scaled_rope_allows_llama_models_to_have/). The modification is as follows: instead of scaling the frequencies of every dimension of RoPE by a factor of $1/s$, we spread out the interpolation pressure across multiple dimensions by scaling high frequencies less and low frequencies more.
+To take advantage of the observation, the "NTK-aware" interpolation was proposed in public as [a reddit post](https://www.reddit.com/r/LocalLLaMA/comments/14lz7j5/ntkaware_scaled_rope_allows_llama_models_to_have/). The modification is as follows: instead of scaling the frequencies of every dimension of RoPE by a factor of $1/s$, we spread out the interpolation pressure across multiple dimensions by scaling high frequencies less and low frequencies more.
 
-More precisely, recall that $s = L'/L$ is the ratio between the longer sequence length and the original sequence length, and $\theta_d = b^{-2d/|D|}$. We perform a base change to the angles adjusted by the scale factor $s$ as follows:
+More precisely, recall that $s = L'/L$ is the ratio between the longer sequence length and the original sequence length and that $\theta_d = b^{-2d/|D|}$. We perform a base change to the angles adjusted by the scale factor $s$ as follows:
 $$
 b' = b \cdot s^{\frac{|D|}{|D| - 2}}.
 $$
@@ -86,11 +90,11 @@ $$
 g(m) = m, ~ h(\theta_d) = b'^{-2d/|D|}.
 $$
 
-# digression: Wavelength
+# Digression: Wavelength
 
 A commonly overlooked aspect in rotary embedding is the relationship between the “wavelengths” and the sequence length. Let us start by putting down the definition of wavelength in our context.
 
-Recall that in the [definition of RoPE](#rotary-position-embedding)), trigonometric functions are multiplied to each hidden state of the query and the key vectors. For a fixed $d$-th hidden state, the coefficients $\text{cos} m\theta_d, \text{sin} m\theta_d$ (as functions of $m$) are periodic with the same frequency. The *wavelength* at the $d$-th hidden state is calculated as follows:
+Recall that in the [definition of RoPE](#rotary-position-embedding)), each hidden state of the query and key vectors is multiplied by trigonometric functions. For a fixed $d$-th hidden state, the coefficients $\text{cos} m\theta_d, \text{sin} m\theta_d$ (as functions of $m$) are periodic with the same frequency. The *wavelength* at the $d$-th hidden state is calculated as follows:
 $$
 \lambda_d = 2\pi b’^{\frac{2d}{|D|}}.
 $$
@@ -102,11 +106,11 @@ Wavelength is a notion comparable with the context lengths $L$ and $L’$. From 
 
 The performance comparison between PI and “NTK-aware” interpolation is mixed:
 - When directly modifying the RoPE formula without finetuning, "NTK-aware" interpolation shows better (lower) perplexity than PI on longer sequences.
-- The "NTK-aware" Interpolation performs worse than PI after finetuning on longer context data.
+- The "NTK-aware" interpolation performs worse than PI after finetuning on longer context data.
 
 A fix addressing this issue of “NTK-aware” was first posted in public as a [GitHub pull request](https://github.com/jquesnelle/scaled-rope/pull/1).
 
-We hypothesize that the high frequency has a detrimental effect on the model's ability to understand small and local relationships between embeddings. To smooth out the effect between the original frequency and the interpolated frequency, we compare the wavelength with the original context length $L$ and construct a piecewise-linear function:
+We hypothesize that the high frequency has a detrimental effect on the model's ability to understand small and local relationships between embeddings. To smooth out the effect between the original frequency and the interpolated frequency, we compare the wavelength with the original context length $L$ and construct a piecewise linear function
 $$
 h(\theta_d) = (1 - \gamma)\dfrac{\theta_d}{s} + \gamma\theta_d,
 $$
@@ -118,7 +122,7 @@ $$
     \dfrac{r - \alpha}{\beta - \alpha}, &\text{otherwise}
 \end{cases}
 $$
-depending on two extra parameters $\alpha$ and $\beta$. The $\alpha, \beta$ is tuned on a case-by-case basis, and we found that $\alpha=1, \beta=32$ is ideal for Llama family models. Along with $g(m) = m$, we call this interpolation method the "NTK-by-parts" Interpolation.
+depending on two extra parameters $\alpha$ and $\beta$. The $\alpha, \beta$ is tuned on a case-by-case basis, and we found that $\alpha=1, \beta=32$ is ideal for Llama family models. Along with $g(m) = m$, we call this interpolation method the "NTK-by-parts" interpolation.
 
 The following chart compares the wavelengths between the RoPE, PI and "NTK-by-parts" in the case where the pretrained context length is 2048 and we use a scale factor of 16.
 
@@ -135,11 +139,11 @@ $$
 $$
 to
 $$
-\text{softmax}\(\dfrac{q_m^Tk_n}{t\sqrt{|D|}}\),
+\text{softmax}\(\dfrac{q_m^Tk_n}{t\sqrt{|D|}}\)
 $$
 by introducing an extra temperature $t$ in the attention logits before the softmax. To burn this temperature adjustment into the position embedding, we simply scale the vectors $q = (q_m)$ and $k = (k_n)$ by $\sqrt{\dfrac{1]{t}}$, which can be further simplified by scaling the frequencies in the implementations. 
 
-Here we conducted a small experiment between different values of $\dfrac{1}{\sqrt{t}}$ and the perplexity change $\dfrac{\text{ppl}(t) - \text{ppl}(t=1)}{\text{ppl}(t=1)}$ over $56$ $16$k-token documents. This supports our claim that a “sweet spot” of temperature should exist.
+Here we conducted a small experiment between different values of $\dfrac{1}{\sqrt{t}}$ and the perplexity change $\dfrac{\text{ppl}(t) - \text{ppl}(t=1)}{\text{ppl}(t=1)}$ over $56$ $16$k-token documents. The results support our claim that a temperature “sweet spot” should exist.
 
 {{<figure src="/images/blog/yarn/u_graph.png" alt="" caption="" align="center" />}}
 
@@ -153,22 +157,22 @@ Overall, our YaRN method refers to a combination of this temperature-scaling tec
 
 ## Some notes on how you can use YaRN for your own model
 
-The YaRN parameters for Llama 2 may not work out-of-box for different model classes. YaRN is a combination of NTK-by-parts and the temperature scaling on attention weights. Throughout the implementation of YaRN, there are a few parameters one can tune:
+The YaRN parameters for Llama 2 may not work out-of-box for different model classes. YaRN is a combination of NTK-by-parts and temperature scaling on attention weights. Throughout the implementation of YaRN, there are a few parameters one can tune:
 $\alpha$: deciding the starting point of the ramp function,
 $\beta$: deciding the end point of the ramp function,
 $t$: the temperature scale,
-$L’$: the new maximal context length (which may not necessarily be the actual sample length of your longest sample).
+$L’$: the new maximal context length (which is not necessarily the length of your longest sample).
 It is recommended to start with a comfortable $L’$ given your long-context dataset and try a few smaller finetuning runs to determine the $\alpha$, $\beta$ and $t$. Our experience is that $t$ does roughly follow the parametric form of
 $$
 \sqrt{\frac{1}{t}} = a \ln({s}) + b
 $$
-for certain $a$ and $b$, which are not too far from our Llama parameters for another large language model pretrained on web data. An example would be the [YaRN finetuned 128k context Mistral-7B](https://huggingface.co/NousResearch/Yarn-Mistral-7b-128k) where we determined $a = 0.07, b=1.0$.
+for certain $a$ and $b$, which are not too far from our Llama parameters for another large language model pretrained on web data. An example would be the [YaRN finetuned 128k context Mistral-7B](https://huggingface.co/NousResearch/Yarn-Mistral-7b-128k), where we determined $a = 0.07, b=1.0$.
 
 # Dynamic Scaling
 
-In a lot of use cases, the sequence lengths vary constantly from $1$ to the maximal context size. A typical example is the autoregressive generation where the sequence lengths increment by $1$ after each step. One way to apply an interpolation method mentioned before is to fix the scale factor $s=L’/L$ in the position embedding throughout the process, no matter whether we are running a forward pass on a sequence with $L$ tokens, $L’$ tokens or $L’ + 1$ tokens. A common problem is that the model may experience a performance discount at lengths less than $L$ or an abrupt degradation on longer sequences starting at $L’ + 1$ tokens.
+In a lot of use cases, the sequence lengths vary constantly from $1$ to the maximal context size. A typical example is autoregressive generation, where the sequence lengths increment by $1$ after each step. One way to apply an interpolation method mentioned earlier is to fix the scale factor $s=L’/L$ in the position embedding throughout the process, no matter whether we are running a forward pass on a sequence with $L$ tokens, $L’$ tokens or $L’ + 1$ tokens. A common problem is that the model may experience a flat reduction of performance at lengths less than $L$ or an abrupt degradation on longer sequences starting at $L’ + 1$ tokens.
 
-A solution to this problem was first proposed in [a reddit post] (https://www.reddit.com/r/LocalLLaMA/comments/14mrgpr/dynamically_scaled_rope_further_increases/) to dynamically adjust the scale factor $s$ according to the current sequence length $l’$ as follows:
+A solution to this problem was first proposed in [a reddit post] (https://www.reddit.com/r/LocalLLaMA/comments/14mrgpr/dynamically_scaled_rope_further_increases/), which suggests dynamically adjusting the scale factor $s$ according to the current sequence length $l’$ as follows:
 $$
 \begin{align}
     s &= 
@@ -180,12 +184,11 @@ $$
 $$
 We call this inference-time technique the Dynamic Scaling technique. It applies to all of PI, NTK-by-parts and YaRN, and we call them dynamic PI, dynamic “NTK” and dynamic YaRN, respectively.
 
-We would like to note that the "Dynamic NTK" Interpolation works exceptionally well on models pretrained on $L$ **without any finetuning** ($L’=L$).
+We would like to note that the "dynamic NTK" interpolation works exceptionally well on models pretrained on $L$ **without any finetuning** ($L’=L$).
 
 #Experiments and final words
 
 One of the experiments we ran was to compare PI, NTK-aware and YaRN over a sliding window of $256$ tokens across a long context window. For Llama models and their finetunes, we have the following chart.
-
 
 {{<figure src="/images/blog/yarn/loss_line_1.png" alt="" caption="" align="center" />}}
 
@@ -193,7 +196,7 @@ For the finetunes of Mistral-7b, we have the following chart.
 
 {{<figure src="/images/blog/yarn/loss_line_2.png" alt="" caption="" align="center" />}}
 
-We direct the interested readers to our [arXiv preprint](https://arxiv.org/abs/2309.00071) for more details and experiment results.
+We direct interested readers to our [arXiv preprint](https://arxiv.org/abs/2309.00071) for more details and experiment results.
 
 We would also like to point out that there are other recent works on context length extension, such as [Rectified Rotary Position Embeddings (ReRoPE)](https://github.com/bojone/rerope) and [Positional Skip-wisE (PoSE) training](https://arxiv.org/pdf/2309.10400.pdf), though they are different lines of work and are out-of-scope for this blog post.
 
@@ -218,5 +221,6 @@ github.io/til#extending-context-to-8k
 [3] S. Chen, S. Wong, L. Chen, and Y. Tian. Extending context window of large language models via positional interpolation, 2023. arXiv: 2306.15595.
 
 [4] M. Tancik, P. P. Srinivasan, B. Mildenhall, S. Fridovich-Keil, N. Raghavan, U. Singhal, R. Ra-mamoorthi, J. T. Barron, and R. Ng. Fourier features let networks learn high frequency functions in low dimensional domains. In Proceedings of the 34th International Conference on Neural Information Processing Systems, NIPS’20, Red Hook, NY, USA, 2020. Curran Associates Inc. ISBN 9781713829546.
+
 
 
