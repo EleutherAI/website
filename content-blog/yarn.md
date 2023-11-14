@@ -178,7 +178,7 @@ $$
 \begin{align}
     s &= 
 \begin{cases}
-    \frac{l'}{L},                      & \text{if } \frac{l'}{L} > 1\\
+    \frac{l'}{L},                      & \text{if } \frac{l'}{L} > 1\\\
     1,                                & \text{otherwise}.
 \end{cases}
 \end{align}
