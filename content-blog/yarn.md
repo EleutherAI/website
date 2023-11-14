@@ -45,8 +45,8 @@ f_W(x_m, m, \theta_d) = \begin{pmatrix}
 0 & 0 & 0 & 0 & \cdots & \text{cos} m\theta_l & - \text{sin} m\theta_l  \\\
 0 & 0 & 0 & 0 & \cdots & \text{sin} m\theta_l & \text{cos} m\theta_l \\\
 \end{pmatrix}
-W_q\textbf{x}_m.\\
-f_q = f_{W_q}, ~f_k = f_{W_k},
+W_q\textbf{x}_m.\\\
+f_q = f\_{W_q}, ~f_k = f\_{W_k},
 \end{align}
 where $\theta_d = b^{-2d/|D|}$, is the angle at the $d$-th hidden state with $b$ chosen to be $10000$ in the RoFormer paper ([1]).
 
