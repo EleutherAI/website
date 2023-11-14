@@ -1,6 +1,6 @@
 ---
 title: "Extending the RoPE"
-date: 2023-11-05T22:00:00-00:00
+date: 2023-11-13T22:00:00-00:00
 description: "What we've been up to for the past year EleutherAI."
 author: ["Honglu Fan", "Bowen Peng", "Jeffrey Quesnelle"]
 categories: ["Meta"]
