@@ -38,12 +38,12 @@ where $g$ is a function only depending on the embedding vectors and the relative
 
 \begin{align}
 f_W(x_m, m, \theta_d) = \begin{pmatrix}
-\text{cos} m\theta_1 & - \text{sin} m\theta_1 & 0 & 0 & \cdots & 0 & 0 \\
-\text{sin} m\theta_1 & \text{cos} m\theta_1 & 0 & 0 & \cdots & 0 & 0 \\
-0 & 0 & \text{cos} m\theta_2 & - \text{sin} m\theta_2 & \cdots & 0 & 0 \\
-0 & 0 & \text{sin} m\theta_2 & \text{cos} m\theta_2 & \cdots & 0 & 0 \\
-0 & 0 & 0 & 0 & \cdots & \text{cos} m\theta_l & - \text{sin} m\theta_l  \\
-0 & 0 & 0 & 0 & \cdots & \text{sin} m\theta_l & \text{cos} m\theta_l \\
+\text{cos} m\theta_1 & - \text{sin} m\theta_1 & 0 & 0 & \cdots & 0 & 0 \\\
+\text{sin} m\theta_1 & \text{cos} m\theta_1 & 0 & 0 & \cdots & 0 & 0 \\\
+0 & 0 & \text{cos} m\theta_2 & - \text{sin} m\theta_2 & \cdots & 0 & 0 \\\
+0 & 0 & \text{sin} m\theta_2 & \text{cos} m\theta_2 & \cdots & 0 & 0 \\\
+0 & 0 & 0 & 0 & \cdots & \text{cos} m\theta_l & - \text{sin} m\theta_l  \\\
+0 & 0 & 0 & 0 & \cdots & \text{sin} m\theta_l & \text{cos} m\theta_l \\\
 \end{pmatrix}
 W_q\textbf{x}_m.\\
 f_q = f_{W_q}, ~f_k = f_{W_k},
@@ -117,8 +117,8 @@ $$
 where $\gamma$ is the ramp function
 $$
 \begin{cases}
-    0, &\text{if } r < \alpha\\
-    1, &\text{if } r > \beta\\
+    0, &\text{if } r < \alpha\\\
+    1, &\text{if } r > \beta\\\
     \dfrac{r - \alpha}{\beta - \alpha}, &\text{otherwise}
 \end{cases}
 $$
