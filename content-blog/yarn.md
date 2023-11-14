@@ -52,7 +52,7 @@ where $\theta_d = b^{-2d/|D|}$, is the angle at the $d$-th hidden state with $b$
 
 A few methods we introduce below will enhance RoPE by the following format: we modify the function $f$ into $f'$ according to the equation
 $$
-f'_W(x_m, m, \theta_d) = f_W(x_m, g(m), h(theta_d))
+f'_W(x_m, m, \theta_d) = f_W(x_m, g(m), h( \theta_d))
 $$
 for functions $g, h$ depending on the method being discussed. When such a modification is presented in the following sections, we will simply specify the functions $g$ and $h$ for simplicity.
 
