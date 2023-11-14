@@ -116,6 +116,7 @@ h(\theta_d) = (1 - \gamma)\dfrac{\theta_d}{s} + \gamma\theta_d,
 $$
 where $\gamma$ is the ramp function
 $$
+\gamma(r) = 
 \begin{cases}
     0, &\text{if } r < \alpha\\\
     1, &\text{if } r > \beta\\\
@@ -172,7 +173,7 @@ for certain $a$ and $b$, which are not too far from our Llama parameters for ano
 
 In a lot of use cases, the sequence lengths vary constantly from $1$ to the maximal context size. A typical example is autoregressive generation, where the sequence lengths increment by $1$ after each step. One way to apply an interpolation method mentioned earlier is to fix the scale factor $s=L’/L$ in the position embedding throughout the process, no matter whether we are running a forward pass on a sequence with $L$ tokens, $L’$ tokens or $L’ + 1$ tokens. A common problem is that the model may experience a flat reduction of performance at lengths less than $L$ or an abrupt degradation on longer sequences starting at $L’ + 1$ tokens.
 
-A solution to this problem was first proposed in [a reddit post] (https://www.reddit.com/r/LocalLLaMA/comments/14mrgpr/dynamically_scaled_rope_further_increases/), which suggests dynamically adjusting the scale factor $s$ according to the current sequence length $l’$ as follows:
+A solution to this problem was first proposed in [a reddit post](https://www.reddit.com/r/LocalLLaMA/comments/14mrgpr/dynamically_scaled_rope_further_increases/), which suggests dynamically adjusting the scale factor $s$ according to the current sequence length $l’$ as follows:
 $$
 \begin{align}
     s &= 
@@ -186,7 +187,7 @@ We call this inference-time technique the Dynamic Scaling technique. It applies 
 
 We would like to note that the "dynamic NTK" interpolation works exceptionally well on models pretrained on $L$ **without any finetuning** ($L’=L$).
 
-#Experiments and final words
+# Experiments and final words
 
 One of the experiments we ran was to compare PI, NTK-aware and YaRN over a sliding window of $256$ tokens across a long context window. For Llama models and their finetunes, we have the following chart.
 
