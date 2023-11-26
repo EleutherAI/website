@@ -1,8 +1,8 @@
 ---
 title: "The third New England RLHF Hackers Hackathon"
 categories: ["Research Notes"]
-author: ['Will Beddow', 'Matthew Bernstein', 'Chase Blagden', 'Louis Castricato', 'Jacob Makar-Limanov' 'Arjun Prakash', 'Sid Verma']
-date: 2023-11-26T10:00:00-06:00
+author: ['Will Beddow', 'Matthew Bernstein', 'Chase Blagden', 'Louis Castricato', 'Jacob Makar-Limanov', 'Arjun Prakash', 'Sid Verma']
+date: 2023-11-26T9:00:00-06:00
 draft: False
 ---
 
@@ -61,14 +61,14 @@ Understanding and being able to interpret the reward model is important to inter
 To accomplish this, we decided to modify the [Quality-Diversity through AI Feedback](https://qdaif.github.io/) (QDAIF) technique to visualize the reward function. QDAIF works by having a language model generate solutions along two different axes (e.g. tone and genre for poetry), and then mutates them and replaces the original solution if it is determined to be of higher quality. To ensure diversity of solutions, the model is prompted to generate solutions with the specific qualities of interest. This creates a map showing the quality of solutions along the predefined axes. Instead of prompting a model to get the fitness of a generation, we decide to use a reward model trained on human preference data instead. This gives us a way to visualize the a lower bound of the reward function and see what traits may correspond to a higher or lower reward. 
  
 
-![An explanation of QDAIF](image1.png)
+![An explanation of QDAIF](/images/blog/nerh_3/image1.png)
 
 ## Implementation
 We [modified](https://github.com/ironman5366/OpenELM) the existing implementation of QDAIF by replacing the fitness function with a reward model prompted to rate a poem. We replace the base language model used for random poem generation and mutation with llama-70b, and for the reward model we use a [Deberta](https://huggingface.co/OpenAssistant/reward-model-deberta-v3-large) model finetuned on human preference data.
 
 ## Results
 
-![Some image of results](image2.png)
+![Some image of results](/images/blog/nerh_3/image2.png)
 
 We obtained the above map after running it for 2500 iterations. Interestingly sonnets have the lowest overall rewards and reflective tones seem to have the lowest overall rewards, 
 
