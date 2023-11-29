@@ -94,12 +94,6 @@ On the role of transparency to improve the health of the ML ecosystem, the autho
 
 The authors explicitly overemphasize tracking metrics for transparency at the expense of advocating for good behavior. If instead of writing massive tomes on transparency they worked with open source leaders like EleutherAI, Hugging Face, Stability AI, countless academics, and numerous developers in the space to foster and implement transparency policies they would have a substantially increased chance of making a positive change in the world.
 
-
-
-> Transparency is not a panacea. In isolation, more information about foundation models will not necessarily produce a more just or equitable digital world. But if transparency is implemented through engagement with third-party experts, independent auditors, and communities who are directly affected by digital technologies, it can help ensure that foundation models benefit society.
-
-The authors are not third-party experts, independent auditors, or communities directly affected by this technology. They also explicitly overemphasize tracking metrics for transparency at the expense of advocating for good behavior. If instead of writing massive tomes on transparency they worked with open source leaders like EleutherAI, Hugging Face, Stability AI, countless academics, and numerous developers in the space to foster and implement transparency policies they would have a substantially increased chance of making a positive change in the world.
-
 # Other issues
 Our primary technique has been critiquing the overall approach of this paper. In addition to those problems, the authors make a series of more specific errors that misrepresent the collected information.
 
