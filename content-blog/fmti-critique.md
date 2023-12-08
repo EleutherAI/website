@@ -102,7 +102,7 @@ Central to the transparency of LLMs is whether or not the weights of the model a
 
 In communicating with the authors of the Index, they state that "releasing model weights is rewarded by the FMTI. Developers that make the weights of their models openly available score points on Full External Model Access, External Model Access Protocol, Black Box External Model Access, Versioning Protocol, Change Log, and Deprecation Policy" Upon review of the FMTI scoring it can be seen that all of these points except Full External Model Access are awarded to OpenAI's GPT-4, a model whose lack of transparency was openly and widely decried by researchers around the world. The fact that all but one of these points can be obtained without releasing model weights substantially undervalues model weight release in light of the many benefits it provides. Similar comments apply to data access, for which model developers can earn two points. In total, the two most fundamental questions of transparency in foundation model development are worth 3/100 points.
 
-It is certainly not the case that the release of training data and model weights is the end-all-be-off of transparency, especially for the commercial product users that the FMTI is primarily concerned with. However they allow for massive gains in reproducibility and verifiability for researchers and regulators.
+It is certainly not the case that the release of training data and model weights is the end-all-be-all of transparency, especially for the commercial product users that the FMTI is primarily concerned with. However they allow for massive gains in reproducibility and verifiability for researchers and regulators.
 
 
 ## Bad questions
