@@ -72,7 +72,7 @@ $$
     &= \mathbb{E}_z \big[  \mathbb{E}_{\boldsymbol{x}} \big[\mathcal{L}(\eta(\boldsymbol{x}), z) \big| z \big] \big] \tag{law of total expectation} \\
     &\ge \mathbb{E}_z \big[ \mathcal{L}\Big( \mathbb{E}_{\boldsymbol{x}} \big[ \eta(\boldsymbol{x}) \big| z \big], z \Big) \big] \tag{Jensen's inequality} \\
     &\ge \mathbb{E}_z \big[ \mathcal{L}\Big( \mathbb{E}_{\boldsymbol{x}} \big[ \eta(\boldsymbol{x}) \big], z \Big) \big] \tag{Eq. 4 and Monotonicity of $\mathcal{L}$} \\
-    &\ge \mathcal{L}_{\tau}. \tag{Def.}
+    &\ge \mathcal{L}_{\tau}. \tag{Def. 1}
 \end{align}
 $$
 
