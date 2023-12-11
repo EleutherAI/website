@@ -13,7 +13,7 @@ In our recent paper [LEACE: Perfect linear concept erasure in closed form](https
 
 In this post, we offer a theoretical explanation for these results by showing that interventions on the difference-in-means direction $\boldsymbol \delta$ are **worst-case optimal**, in the following sense. Consider a binary concept $\mathrm{Z} \in \{0, 1\}$ which we hypothesize may be encoded in a model's activations. Assume that we have access to a dataset of model inputs and associated concept labels, but that these labels may be noisy or conceptually misspecified. For example, if we are interested in the concept of truth, our labels may be biased due to human misconceptions, or the model may turn out to rely on a different concept, call it $\mathrm{Z}'$, which is correlated with but not identical to our notion of truth.
 
-We are therefore interested lower-bounding the **worst-case change** to the model's latent concept $\mathrm{Z}'$ that can be achieved by editing the activations. We achieve this worst-case bound by making a very weak assumption about the model's latent concept: the optimal linear predictor $\eta(\mathbf{x}) = \boldsymbol{\beta}^T \mathbf{x} + \alpha$ for $\mathrm{Z}'$ will perform better than any constant predictor for $\mathrm{Z}$. That is, it will be be **admissible** for $\mathrm{Z}$ (Def. 2). Our objective is then to lower bound the worst-case change in $\eta$'s output, even though $\eta$ itself is unknown.
+We are therefore interested lower-bounding the **worst-case change** to the model's latent concept $\mathrm{Z}'$ that can be achieved by editing the activations. We achieve this worst-case bound by making a very weak assumption about the model's latent concept: the optimal linear predictor $\eta(\mathbf{x}) = \boldsymbol{\beta}^T \mathbf{x} + \alpha$ for $\mathrm{Z}'$ will perform better than any trivial, _constant_ predictor for $\mathrm{Z}$. That is, it will be be **admissible** for $\mathrm{Z}$ (Def. 2). Our objective is then to lower bound the worst-case change in $\eta$'s output, even though $\eta$ itself is unknown.
 
 # Definitions
 
@@ -40,7 +40,7 @@ Nearly all classification loss functions used in practice meet this criterion, i
 
 # Theorems
 
-We will now show that the coefficient vectors of **all** admissible predictors must have positive inner product with the difference-in-means direction.
+We will now show that the coefficient vectors of **all** admissible predictors must have positive inner product with the difference-in-means direction (Theorem 1). Conversely, any coefficient vector in the half-space of the difference-in-means direction can be made admissible with suitable Platt scaling parameters (Theorem 2).
 
 **Theorem 1.**
     Let $\boldsymbol{\delta} = \mathbb{E}[\mathrm X | \mathrm Z = 1] - \mathbb{E}[\mathrm X | \mathrm Z = 0]$ be the difference in class centroids. Suppose $\eta(\mathbf{x}) = \boldsymbol{\beta}^T \mathbf{x} + \alpha$ is admissible for $(\mathrm X, \mathrm Z)$ and convex monotonic loss $\mathcal{L}$. Then $\langle \boldsymbol{\beta}, \boldsymbol{\delta} \rangle > 0$.
@@ -85,14 +85,14 @@ If $\mathbb{E}_{(\boldsymbol{x}, z)} \big[\mathcal{L}(\eta(\boldsymbol{x}), z)\b
 **Proof.** If there are any $(\alpha, c)$ that make $\eta$ admissible for $\mathcal L$, the values that _minimize_ $\mathbb E[\mathcal L]$ would be among them. Hence we may assume the first-order optimality condition
 
 $$
-\mathbb E[\mathcal{L}_{\alpha}(\boldsymbol{x}, z)] = \mathbb E [\mathcal{L}_{c}(\boldsymbol{x}, z)] = 0.
+\mathbb E_{\boldsymbol{x}, z}[\mathcal{L}_{\alpha}(\eta(\boldsymbol{x}), z)] = \mathbb E_{\boldsymbol{x}, z} [\mathcal{L}_{c}(\eta(\boldsymbol{x}), z)] = 0.
 $$
 
-Note also that $\mathbb E[\mathcal{L}_{\alpha}(\boldsymbol{x}, z)] = 0$ can be rearranged as
+Note also that $\mathbb E[\mathcal{L}_{\alpha}(\eta(\boldsymbol{x}), z)] = 0$ can be rearranged as
 
 $$
 \begin{equation}
-\mathbb P(\mathrm{Z} = 0) \mathbb E[\mathcal{L}_{\alpha}(\boldsymbol{x}, 0) | \mathrm{Z} = 0] = -\mathbb P(\mathrm{Z} = 1) \mathbb E[\mathcal{L}_{\alpha}(\boldsymbol{x}, 1) | \mathrm{Z} = 1],
+\mathbb P(\mathrm{Z} = 0) \mathbb E_{\boldsymbol{x}}[\mathcal{L}_{\alpha}(\eta(\boldsymbol{x}), 0) | \mathrm{Z} = 0] = -\mathbb P(\mathrm{Z} = 1) \mathbb E_{\boldsymbol{x}}[\mathcal{L}_{\alpha}(\eta(\boldsymbol{x}), 1) | \mathrm{Z} = 1],
 \end{equation}
 $$
 
@@ -152,7 +152,7 @@ where $b$ is a positive scalar by Theorem 1. By Cauchy-Schwartz, the first term 
 
 Since $\boldsymbol{\beta}_{S^\perp}$ is free to take any value in $S^\perp$, we cannot lower bound $\boldsymbol{u}^T \boldsymbol{\beta}_{S^\perp}$ unless $\boldsymbol{u}^T \boldsymbol{v} = 0$ for every $\boldsymbol{v}$ in $S^\perp$. To see this, suppose $\boldsymbol{u}^T \boldsymbol{v} \neq 0$ for some $\boldsymbol{v} \in S^\perp$. Then we can select $\boldsymbol{\beta}$ such that $\boldsymbol{\beta}_{S^\perp} = \lambda \boldsymbol{v}$ for any arbitrarily large $\lambda \in \mathbb{R}$, with the appropriate sign so that $\boldsymbol{u}^T \boldsymbol{\beta}_{S^\perp}$ is an arbitrarily large negative value. Hence the second term is maximized when $\boldsymbol{u} \in (S^\perp)^\perp = S$.
 
-Since the optima for the first term are also optima for the second term, **a fortiori** they are optimal for the original objective. Since we are imposing a unit norm constraint on $\boldsymbol{u}$, we have $\boldsymbol{u}^* = \frac{\boldsymbol{\delta}}{\| \boldsymbol{\delta} \|}$.
+Since the optima for the first term are also optima for the second term, _a fortiori_ they are optimal for the original objective. Since we are imposing a unit norm constraint on $\boldsymbol{u}$, we have $\boldsymbol{u}^* = \frac{\boldsymbol{\delta}}{\| \boldsymbol{\delta} \|}$.
 
 # Conclusion
 
