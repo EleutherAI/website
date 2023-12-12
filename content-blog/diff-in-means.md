@@ -24,7 +24,7 @@ We are therefore interested lower-bounding the _worst-case_ change to the model'
 The **trivially attainable loss** for labels $\mathrm{Z}$ and loss $\mathcal{L}$ is the lowest possible expected loss available to a constant predictor $\eta(\mathbf{x}) = \alpha$:
 
 $$
-    \mathcal{L}_{\tau} = \inf_{\alpha \in \mathbb{R}} \mathbb{E} [\mathcal{L}(\mathbf{\alpha}, \mathrm{Z})]
+\mathcal{L}_{\tau} = \inf_{\alpha \in \mathbb{R}} \mathbb{E} [\mathcal{L}(\mathbf{\alpha}, \mathrm{Z})]
 $$
 
 **Definition 2.**
@@ -34,7 +34,7 @@ An **admissible predictor** for labels $\mathrm{Z}$ and loss $\mathcal{L}$ is a 
 A loss function $\mathcal{L}(\eta, z) : \mathbb{R} \times \{0, 1\} \rightarrow \mathbb{R}$ is **monotonic** if it monotonically decreases in $\eta$ when $z = 1$, and monotonically increases in $\eta$ when $z = 0$. Equivalently, its derivative wrt $\eta$ satisfies
 
 $$
-    \forall \eta \in \mathbb{R} : \mathcal{L}_{\eta}(\eta, 1) \le 0 \le \mathcal{L}_{\eta}(\eta, 0).
+\forall \eta \in \mathbb{R} : \mathcal{L}_{\eta}(\eta, 1) \le 0 \le \mathcal{L}_{\eta}(\eta, 0).
 $$
 
 Nearly all classification loss functions used in practice meet this criterion, including the categorical cross-entropy loss and the support vector machine hinge loss.
@@ -44,7 +44,7 @@ Nearly all classification loss functions used in practice meet this criterion, i
 We will now show that the coefficient vectors of **all** admissible predictors must have positive inner product with the difference-in-means direction (Theorem 1). Conversely, any coefficient vector in the half-space of the difference-in-means direction can be made admissible with suitable Platt scaling parameters (Theorem 2).
 
 **Theorem 1.**
-    Let $\boldsymbol{\delta} = \mathbb{E}[\mathrm X | \mathrm{Z} = 1] - \mathbb{E}[\mathrm X | \mathrm{Z} = 0]$ be the difference in class centroids. Suppose $\eta(\mathbf{x}) = \boldsymbol{\beta}^T \mathbf{x} + \alpha$ is admissible for $(\mathrm X, \mathrm{Z})$ and convex monotonic loss $\mathcal{L}$. Then $\langle \boldsymbol{\beta}, \boldsymbol{\delta} \rangle > 0$.
+Let $\boldsymbol{\delta} = \mathbb{E}[\mathrm X | \mathrm{Z} = 1] - \mathbb{E}[\mathrm X | \mathrm{Z} = 0]$ be the difference in class centroids. Suppose $\eta(\mathbf{x}) = \boldsymbol{\beta}^T \mathbf{x} + \alpha$ is admissible for $(\mathrm X, \mathrm{Z})$ and convex monotonic loss $\mathcal{L}$. Then $\langle \boldsymbol{\beta}, \boldsymbol{\delta} \rangle > 0$.
 
 **Proof.**
 Suppose for the sake of contradiction that $\langle \boldsymbol{\beta}, \boldsymbol{\delta} \rangle \le 0$ and hence
