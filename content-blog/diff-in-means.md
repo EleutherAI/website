@@ -2,7 +2,7 @@
 title: "Diff-in-Means Concept Editing is Worst-Case Optimal"
 date: 2023-12-11T22:00:00-00:00
 description: "Explaining a result by Sam Marks and Max Tegmark"
-author: ["Nora Belrose", "Sam Marks"]
+author: ["Nora Belrose"]
 ShowToc: true
 mathjax: true
 draft: false
@@ -133,7 +133,7 @@ By the Cauchy-Schwartz inequality, $|\tau|$ is maximized when $\boldsymbol{u} \i
 
 **Maximin additive edits.** When $\boldsymbol{\beta}$ is unknown, we can successfully perform additive edits by selecting $\boldsymbol{u}$ to maximize the **worst-case** directional derivative.
 
-**Theorem 2.**
+**Theorem 3.**
 Let $\mathrm X$ and $\mathrm Z$ be random vectors taking values in $\mathbb{R}^d$ and $\{0, 1\}$ respectively. Let $H$ denote the set of all admissible predictors $\eta : \mathbb{R}^d \rightarrow \mathbb{R}$ for $(\mathrm X, \mathrm Z)$ of the form $\eta(\boldsymbol{x}) = \boldsymbol{\beta} \boldsymbol{x} + \alpha$. Then the maximin directional derivative objective
 
 $$
@@ -157,3 +157,5 @@ Since the optima for the first term are also optima for the second term, _a fort
 
 # Future work
 The above results help explain the success of diff-in-means concept edits in particular. But Marks and Tegmark, as well as our recent paper [Eliciting Latent Knowledge from Quirky Language Models](https://arxiv.org/abs/2312.01037), find that the diff-in-means subspace can also be used to _read out_ concepts from a model's activations in ways that are particulary robust to distribution shifts. In the future, we would like to explore theoretical explanations for this phenomenon as well.
+
+_Thank you to Sam Marks for discussion and feedback on this post, especially regarding Theorem 2._
