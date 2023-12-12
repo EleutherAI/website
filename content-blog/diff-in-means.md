@@ -1,5 +1,5 @@
 ---
-title: "Diff-in-Means Concept Editing is Provably Optimal"
+title: "Diff-in-Means Concept Editing is Worst-Case Optimal"
 date: 2023-12-11T22:00:00-00:00
 description: "Explaining a result by Sam Marks and Max Tegmark"
 author: ["Nora Belrose", "Sam Marks"]
@@ -14,7 +14,7 @@ In our recent paper [LEACE: Perfect linear concept erasure in closed form](https
 
 In this post, we offer a theoretical explanation for these results by showing that interventions on the difference-in-means direction $\boldsymbol \delta$ are **worst-case optimal**, in the following sense. Consider a binary concept $\mathrm{Z} \in \{0, 1\}$ which we hypothesize may be encoded in a model's activations. Assume that we have access to a dataset of model inputs and associated concept labels, but that these labels may be noisy or conceptually misspecified. For example, if we are interested in the concept of truth, our labels may be biased due to human misconceptions, or the model may turn out to rely on a different concept, call it $\mathrm{Z}'$, which is correlated with but not identical to our notion of truth.
 
-We are therefore interested lower-bounding the _worst-case change to the model's latent concept $\mathrm{Z}'$ that can be achieved by editing the activations. We achieve this worst-case bound by making a very weak assumption about the model's latent concept: the optimal linear predictor $\eta(\mathbf{x}) = \boldsymbol{\beta}^T \mathbf{x} + \alpha$ for $\mathrm{Z}'$ will perform better than any trivial, _constant_ predictor for $\mathrm{Z}$. That is, it will be be **admissible** for $\mathrm{Z}$ (Def. 2). Our objective is then to lower bound the worst-case change in $\eta$'s output, even though $\eta$ itself is unknown.
+We are therefore interested lower-bounding the _worst-case_ change to the model's latent concept $\mathrm{Z}'$ that can be achieved by editing the activations. We achieve this worst-case bound by making a very weak assumption about the model's latent concept: the optimal linear predictor $\eta(\mathbf{x}) = \boldsymbol{\beta}^T \mathbf{x} + \alpha$ for $\mathrm{Z}'$ will perform better than any trivial, _constant_ predictor for $\mathrm{Z}$. That is, it will be be **admissible** for $\mathrm{Z}$ (Def. 2). Our objective is then to lower bound the worst-case change in $\eta$'s output, even though $\eta$ itself is unknown.
 
 # Definitions
 
@@ -155,6 +155,5 @@ Since $\boldsymbol{\beta}_{S^\perp}$ is free to take any value in $S^\perp$, we 
 
 Since the optima for the first term are also optima for the second term, _a fortiori_ they are optimal for the original objective. Since we are imposing a unit norm constraint on $\boldsymbol{u}$, we have $\boldsymbol{u}^* = \frac{\boldsymbol{\delta}}{\| \boldsymbol{\delta} \|}$.
 
-# Conclusion
-
-Intuitively, the above results show that interventions along the difference-in-means direction for a binary concept are maximally robust to label noise and concept misspecification.
+# Future work
+The above results help explain the success of diff-in-means concept edits in particular. But Marks and Tegmark, as well as our recent paper [Eliciting Latent Knowledge from Quirky Language Models](https://arxiv.org/abs/2312.01037), find that the diff-in-means subspace can also be used to _read out_ concepts from a model's activations in ways that are particulary robust to distribution shifts. In the future, we would like to explore theoretical explanations for this phenomenon as well.
