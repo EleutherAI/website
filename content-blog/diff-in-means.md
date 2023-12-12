@@ -50,11 +50,11 @@ We will now show that the coefficient vectors of **all** admissible predictors m
 Suppose for the sake of contradiction that $\langle \boldsymbol{\beta}, \boldsymbol{\delta} \rangle \le 0$ and hence
 
 $$
-\begin{align}
-    0 &\ge \boldsymbol{\beta}^T \big ( \mathbb{E}[\mathrm X | \mathrm Z = 1] - \mathbb{E}[\mathrm X | \mathrm Z = 0] \big ) \\
-    &= \mathbb{E}_{\boldsymbol{x}} [ \boldsymbol{\beta}^T \boldsymbol{x} | \mathrm Z = 1] - \mathbb{E}_{\boldsymbol{x}} [ \boldsymbol{\beta}^T \boldsymbol{x} | \mathrm Z = 0] \\
+\begin{align*}
+    0 &\ge \boldsymbol{\beta}^T \big ( \mathbb{E}[\mathrm X | \mathrm Z = 1] - \mathbb{E}[\mathrm X | \mathrm Z = 0] \big ) \\\\
+    &= \mathbb{E}_{\boldsymbol{x}} [ \boldsymbol{\beta}^T \boldsymbol{x} | \mathrm Z = 1] - \mathbb{E}_{\boldsymbol{x}} [ \boldsymbol{\beta}^T \boldsymbol{x} | \mathrm Z = 0] \\\\
     &= \mathbb{E}_{\boldsymbol{x}} [ \eta(\boldsymbol{x}) | \mathrm Z = 1] - \mathbb{E}_{\boldsymbol{x}} [ \eta(\boldsymbol{x}) | \mathrm Z = 0]
-\end{align}
+\end{align*}
 $$
 
 and therefore
@@ -68,13 +68,13 @@ $$
 We can now show that the expected loss is lower bounded by the trivially attainable loss $\mathcal{L}_{\tau}$:
 
 $$
-\begin{align}
+\begin{align*}
     \mathbb{E}_{(\boldsymbol{x}, z)} \big[\mathcal{L}(\eta(\boldsymbol{x}), z)\big]
-    &= \mathbb{E}_z \big[  \mathbb{E}_{\boldsymbol{x}} \big[\mathcal{L}(\eta(\boldsymbol{x}), z) \big| z \big] \big] \tag{law of total expectation} \\
-    &\ge \mathbb{E}_z \big[ \mathcal{L}\Big( \mathbb{E}_{\boldsymbol{x}} \big[ \eta(\boldsymbol{x}) \big| z \big], z \Big) \big] \tag{Jensen's inequality} \\
-    &\ge \mathbb{E}_z \big[ \mathcal{L}\Big( \mathbb{E}_{\boldsymbol{x}} \big[ \eta(\boldsymbol{x}) \big], z \Big) \big] \tag{Eq. 4 and Monotonicity of $\mathcal{L}$} \\
+    &= \mathbb{E}_z \big[  \mathbb{E}_{\boldsymbol{x}} \big[\mathcal{L}(\eta(\boldsymbol{x}), z) \big| z \big] \big] \tag{law of total expectation} \\\\
+    &\ge \mathbb{E}_z \big[ \mathcal{L}\Big( \mathbb{E}_{\boldsymbol{x}} \big[ \eta(\boldsymbol{x}) \big| z \big], z \Big) \big] \tag{Jensen's inequality} \\\\
+    &\ge \mathbb{E}_z \big[ \mathcal{L}\Big( \mathbb{E}_{\boldsymbol{x}} \big[ \eta(\boldsymbol{x}) \big], z \Big) \big] \tag{Eq. 1 and Monotonicity of $\mathcal{L}$} \\\\
     &\ge \mathcal{L}_{\tau}. \tag{Def. 1}
-\end{align}
+\end{align*}
 $$
 
 The penultimate step is justified because, by Eq. 1 and the monotonicity of $\mathcal L$, replacing $\mathbb{E}_{\boldsymbol{x}} [\eta(\boldsymbol{x}) | \mathrm Z = 0]$ with $\mathbb{E}_{\boldsymbol{x}} [\eta(\boldsymbol{x})]$ can only decrease the loss on examples where $\mathrm Z = 0$, and replacing $\mathbb{E}[\eta | \mathrm Z = 1]$ with $\mathbb{E}_{\boldsymbol{x}} [\eta(\boldsymbol{x})]$ can only decrease the loss on examples where $\mathrm Z = 1$.
@@ -103,10 +103,10 @@ We will now show $c \neq 0$. Suppose for the sake of contradiction that $c = 0$.
 
 $$
 \begin{align*}
-    0 &= \mathbb E_{\boldsymbol{x}, z}[\mathcal{L}_{c}(\alpha, z)] \\
-    &= \mathbb P(\mathrm{Z} = 1) \cdot \mathbb E_{\boldsymbol{x}}[\mathcal{L}_{\eta}(\alpha, 1) \cdot \eta_{c}(\boldsymbol{x}) | \mathrm{Z} = 1] + \mathbb P(\mathrm{Z} = 0) \cdot \mathbb E_{\boldsymbol{x}}[\mathcal{L}_{\eta}(\alpha, 0) \cdot \eta_{c}(\boldsymbol{x}) | \mathrm{Z} = 0] \\
-    &= \mathbb P(\mathrm{Z} = 1) \cdot \mathcal{L}_{\eta}(\alpha, 1) \cdot \mathbb E_{\boldsymbol{x}}[ \boldsymbol{\beta}^T \boldsymbol{x} | \mathrm{Z} = 1] + \mathbb P(\mathrm{Z} = 0) \cdot \mathcal{L}_{\eta}(\alpha, 0) \cdot \mathbb E_{\boldsymbol{x}}[ \boldsymbol{\beta}^T \boldsymbol{x} | \mathrm{Z} = 0] \\
-    &= \mathbb P(\mathrm{Z} = 1) \cdot \mathcal{L}_{\eta}(\alpha, 1) \cdot \boldsymbol{\beta}^T \big ( \mathbb E[ \boldsymbol{x} | \mathrm{Z} = 1] - \mathbb E[ \boldsymbol{x} | \mathrm{Z} = 0] \big ) \tag{Eq. 5} \\
+    0 &= \mathbb E_{\boldsymbol{x}, z}[\mathcal{L}_{c}(\alpha, z)] \\\\
+    &= \mathbb P(\mathrm{Z} = 1) \cdot \mathbb E_{\boldsymbol{x}}[\mathcal{L}_{\eta}(\alpha, 1) \cdot \eta_{c}(\boldsymbol{x}) | \mathrm{Z} = 1] + \mathbb P(\mathrm{Z} = 0) \cdot \mathbb E_{\boldsymbol{x}}[\mathcal{L}_{\eta}(\alpha, 0) \cdot \eta_{c}(\boldsymbol{x}) | \mathrm{Z} = 0] \\\\
+    &= \mathbb P(\mathrm{Z} = 1) \cdot \mathcal{L}_{\eta}(\alpha, 1) \cdot \mathbb E_{\boldsymbol{x}}[ \boldsymbol{\beta}^T \boldsymbol{x} | \mathrm{Z} = 1] + \mathbb P(\mathrm{Z} = 0) \cdot \mathcal{L}_{\eta}(\alpha, 0) \cdot \mathbb E_{\boldsymbol{x}}[ \boldsymbol{\beta}^T \boldsymbol{x} | \mathrm{Z} = 0] \\\\
+    &= \mathbb P(\mathrm{Z} = 1) \cdot \mathcal{L}_{\eta}(\alpha, 1) \cdot \boldsymbol{\beta}^T \big ( \mathbb E[ \boldsymbol{x} | \mathrm{Z} = 1] - \mathbb E[ \boldsymbol{x} | \mathrm{Z} = 0] \big ) \tag{Eq. 5} \\\\
     &= \boldsymbol{\beta}^T \boldsymbol{\delta},
 \end{align*}
 $$
