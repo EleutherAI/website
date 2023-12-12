@@ -5,6 +5,7 @@ description: "Explaining a result by Sam Marks and Max Tegmark"
 author: ["Nora Belrose", "Sam Marks"]
 ShowToc: true
 mathjax: true
+draft: false
 ---
 
 # Introduction
@@ -13,7 +14,7 @@ In our recent paper [LEACE: Perfect linear concept erasure in closed form](https
 
 In this post, we offer a theoretical explanation for these results by showing that interventions on the difference-in-means direction $\boldsymbol \delta$ are **worst-case optimal**, in the following sense. Consider a binary concept $\mathrm{Z} \in \{0, 1\}$ which we hypothesize may be encoded in a model's activations. Assume that we have access to a dataset of model inputs and associated concept labels, but that these labels may be noisy or conceptually misspecified. For example, if we are interested in the concept of truth, our labels may be biased due to human misconceptions, or the model may turn out to rely on a different concept, call it $\mathrm{Z}'$, which is correlated with but not identical to our notion of truth.
 
-We are therefore interested lower-bounding the **worst-case change** to the model's latent concept $\mathrm{Z}'$ that can be achieved by editing the activations. We achieve this worst-case bound by making a very weak assumption about the model's latent concept: the optimal linear predictor $\eta(\mathbf{x}) = \boldsymbol{\beta}^T \mathbf{x} + \alpha$ for $\mathrm{Z}'$ will perform better than any trivial, _constant_ predictor for $\mathrm{Z}$. That is, it will be be **admissible** for $\mathrm{Z}$ (Def. 2). Our objective is then to lower bound the worst-case change in $\eta$'s output, even though $\eta$ itself is unknown.
+We are therefore interested lower-bounding the _worst-case change to the model's latent concept $\mathrm{Z}'$ that can be achieved by editing the activations. We achieve this worst-case bound by making a very weak assumption about the model's latent concept: the optimal linear predictor $\eta(\mathbf{x}) = \boldsymbol{\beta}^T \mathbf{x} + \alpha$ for $\mathrm{Z}'$ will perform better than any trivial, _constant_ predictor for $\mathrm{Z}$. That is, it will be be **admissible** for $\mathrm{Z}$ (Def. 2). Our objective is then to lower bound the worst-case change in $\eta$'s output, even though $\eta$ itself is unknown.
 
 # Definitions
 
