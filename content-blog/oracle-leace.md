@@ -28,24 +28,30 @@ Prior work has noted that computing an orthogonal projection in a random variabl
 
 **Theorem 1.**
 Let $\mathcal H$ be the Hilbert space of square-integrable real-valued random variables equipped with the inner product $\langle \xi, \zeta \rangle\_{\mathcal H} := \mathbb{E}[\xi \zeta]$. Let $(\mathrm X, \mathrm Z)$ be random vectors in $\mathcal H^d$ and $\mathcal H^k$ respectively. Then for every p.s.d. inner product $\langle \mathbf a, \mathbf b \rangle\_{\mathbf M} = \mathbf a^T \mathbf M \mathbf b$ on $\mathbb{R}^d$, the objective
+
 $$
     \mathop{\mathrm{argmin\:}}\_{\substack{\mathrm X' \in \mathcal H^d}} \mathbb{E} \big\| \mathrm X' - \mathrm X \big\|^2\_{\mathbf M} \quad \mathrm{subject\:to}\:\: \mathrm{Cov}(\mathrm X', \mathrm Z) = \mathbf{0}
 $$
+
 is minimized by the (appropriately shifted) ordinary least squares residuals from regressing $\mathrm X$ on $\mathrm Z$:
+
 $$
     \mathrm X'\_{\mathrm{LEACE}} = \mathrm X + \mathbf{\Sigma}\_{XZ} \mathbf{\Sigma}\_{ZZ}^+ \big( \mathbb{E}[\mathrm Z] - \mathrm Z \big).
 $$
 
 **Proof.**
 Assume w.l.o.g. that $\mathrm X$ and $\mathrm X'$ are represented in a basis diagonalizing $\mathbf{M}$, so we may write
+
 $$
 \begin{equation}
     \mathbb{E} \big\| \mathrm X' - \mathrm X \big\|^2\_{\mathbf M} = \sum\_{i=1}^d m\_i \: \mathbb{E} \big[ (\mathrm X'\_i - \mathrm X\_i)^2 \big],
 \end{equation}
 $$
+
 where $m\_1, \ldots, m\_d \ge 0$ are eigenvalues of $\mathbf{M}$. Crucially, each term in this sum is independent from the others, allowing us to decompose the primal problem into $d$ separate subproblems of the form $\| \mathrm X\_i' - \mathrm X\_i \|^2\_{\mathcal H}$, one for each component $i$ of $(\mathrm X, \mathrm X')$. We may also discard the $m\_i$ terms since they are non-negative constants, and hence do not affect the optimal $\mathrm X\_i'$ for any $i$.
 
 **Factoring out constants.** Now consider the subspace $\mathcal C = \mathrm{span}(1) \subset \mathcal H$ consisting of all constant (i.e. zero variance) random variables. Orthogonally decomposing $\mathrm X\_i$ along $\mathcal C$ yields $\mathrm X\_i = \tilde{\mathrm X}\_i + \mu\_i$, where $\mu\_i = \mathbb{E}[\mathrm X\_i] \in \mathcal C$ and $\tilde{\mathrm X}\_i = \mathrm X - \mathbb{E}[\mathrm X]\_i \in \mathcal C^\perp$, and likewise for $\mathrm X\_i'$. Our objective is now
+
 $$
 \begin{equation}
     \big \| \mathrm X\_i' - \mathrm X\_i \big \|^2\_{\mathcal H} =
@@ -73,11 +79,13 @@ $$
 $$
 
 **Putting it all together.** Plugging Eq. 4 into $\mathrm X\_i' = \tilde{\mathrm X}\_i' + \mathbb{E}[\mathrm X\_i]$ and combining all components into vector form yields
+
 $$
 \begin{equation}
     \mathrm X'\_{\mathrm{LEACE}} = \mathrm X - \mathbf{\Sigma}\_{XZ} \mathbf{\Sigma}\_{ZZ}^+ (\mathrm Z - \mathbb{E}[\mathrm Z]),
 \end{equation}
 $$
+
 which completes the proof.
 
 ## Diff-in-means for binary concepts
@@ -93,31 +101,40 @@ Let $\mathrm X$ and $\mathrm Z$ be random vectors of finite first moment taking 
 
 
 **Proof.**
-Let $\mathbb P(\mathrm Z\_j)$ be the probability that the $j$\textsuperscript{th} entry of $\mathrm Z$ is 1. Then for column $j$ of $\mathbf{\Sigma}\_{XZ}$ we have
+Let $\mathbb P(\mathrm Z\_j)$ be the probability that the $j^{\text{th}}$ entry of $\mathrm Z$ is 1. Then for column $j$ of $\mathbf{\Sigma}\_{XZ}$ we have
+
 $$
 \begin{equation}
     \mathrm{Cov}(\mathrm X, \mathrm Z\_j) = \mathbb{E}[\mathrm X \mathrm Z\_j] - \mathbb{E}[\mathrm X]\mathbb{E}[\mathrm Z\_j] = \mathbb P(\mathrm Z\_j) \big( \mathbb{E}[\mathrm X | \mathrm Z\_j = 1] - \mathbb{E}[\mathrm X] \big),
 \end{equation}
 $$
+
 where we can expand $\mathbb{E}[\mathrm X]$ using the law of total expectation:
+
 $$
 \begin{equation}
     \mathbb{E}[\mathrm X] = (1 - \mathbb P(\mathrm Z\_j)) \mathbb{E}[\mathrm X | \mathrm Z\_j = 0] + \mathbb P(\mathrm Z\_j) \mathbb{E}[\mathrm X | \mathrm Z\_j = 1].
 \end{equation}
 $$
+
 Plugging Eq.~\ref{eq:total-expectation} into Eq.~\ref{eq:sxz-column} and simplifying, we have
+
 $$
 \begin{equation}
     \mathrm{Cov}(\mathrm X, \mathrm Z\_j) = \mathbb P(\mathrm Z\_j)(1 - \mathbb P(\mathrm Z\_j)) \big( \mathbb{E}[\mathrm X | \mathrm Z\_j = 1] - \mathbb{E}[\mathrm X | \mathrm Z\_j = 0] \big).
 \end{equation}
 $$
+
 The leading scalar is the variance of a Bernoulli trial with success probability $\mathbb P(\mathrm Z\_j)$:
+
 $$
 \begin{align*}
     \mathbb P(\mathrm Z\_j)(1 - \mathbb P(\mathrm Z\_j)) = \mathbb P(\mathrm Z\_j) - \mathbb P(\mathrm Z\_j)^2 = \mathbb{E}[\mathrm Z\_j] - \mathbb{E}[\mathrm Z\_j]^2 = \mathbb{E}[(\mathrm Z\_j)^2] - \mathbb{E}[\mathrm Z\_j]^2 = \mathrm{Var}(\mathrm Z\_j),
 \end{align*}
 $$
+
 where the penultimate step is valid since $\mathrm Z\_j \in \{0, 1\}$ and hence $(\mathrm Z\_j)^2 = \mathrm Z\_j$. Therefore we have
+
 $$
 \begin{equation}
     \mathrm{Cov}(\mathrm X, \mathrm Z\_j) = \mathrm{Var}(\mathrm Z\_j) \boldsymbol{\delta}\_j.
@@ -129,12 +146,15 @@ $$
 We now have the tools to simplify Equation 5 in the binary case.
 
 **Theorem 2.** If $\mathrm Z$ is binary, then the least-squares oracle eraser is given by the difference-in-means additive edit
+
 $$
 \begin{equation}
     \mathrm X'\_{\mathrm{LEACE}} = \mathrm X + \big( \mathbb{P}[\mathrm Z] - \mathrm Z \big) \boldsymbol{\delta}.
 \end{equation}
 $$
+
 If the classes are balanced, i.e. $\mathbb{E}[\mathrm Z] = \frac{1}{2}$, then this simplifies to
+
 $$
 \begin{equation}
     \mathrm X'\_{\mathrm{LEACE}} = \mathrm X + \frac{1}{2} \mathbb{1}(\mathrm Z) \boldsymbol{\delta}.
@@ -142,6 +162,7 @@ $$
 $$
 
 **Proof.** By Lemma 1, we can rewrite $\mathbf{\Sigma}\_{XZ} = \mathrm{Var}(\mathrm Z) \boldsymbol{\delta}$. Since $\mathbf{\Sigma}\_{ZZ}$ is a 1 x 1 matrix whose only element is $\mathrm{Var}(\mathrm Z)$, we have $\mathbf{\Sigma}\_{ZZ}^+ = \mathrm{Var}(\mathrm Z)^{-1}$. Plugging these into Eq. 5 yields
+
 $$
 \begin{align*}
     \mathrm X'\_{\mathrm{LEACE}} &= \mathrm X - \cancel{\mathrm{Var}(\mathrm Z) \mathrm{Var}(\mathrm Z)^{-1}} \boldsymbol{\delta} (\mathrm Z - \mathbb{E}[\mathrm Z])\\
