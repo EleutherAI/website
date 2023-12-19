@@ -93,36 +93,36 @@ Let $\mathrm X$ and $\mathrm Z$ be random vectors of finite first moment taking 
 
 
 **Proof.**
-    Let $\mathbb P(\mathrm Z\_j)$ be the probability that the $j$\textsuperscript{th} entry of $\mathrm Z$ is 1. Then for column $j$ of $\mathbf{\Sigma}\_{XZ}$ we have
-    $$
-    \begin{equation}
-        \mathrm{Cov}(\mathrm X, \mathrm Z\_j) = \mathbb{E}[\mathrm X \mathrm Z\_j] - \mathbb{E}[\mathrm X]\mathbb{E}[\mathrm Z\_j] = \mathbb P(\mathrm Z\_j) \big( \mathbb{E}[\mathrm X | \mathrm Z\_j = 1] - \mathbb{E}[\mathrm X] \big),
-    \end{equation}
-    $$
-    where we can expand $\mathbb{E}[\mathrm X]$ using the law of total expectation:
-    $$
-    \begin{equation}
-        \mathbb{E}[\mathrm X] = (1 - \mathbb P(\mathrm Z\_j)) \mathbb{E}[\mathrm X | \mathrm Z\_j = 0] + \mathbb P(\mathrm Z\_j) \mathbb{E}[\mathrm X | \mathrm Z\_j = 1].
-    \end{equation}
-    $$
-    Plugging Eq.~\ref{eq:total-expectation} into Eq.~\ref{eq:sxz-column} and simplifying, we have
-    $$
-    \begin{equation}
-        \mathrm{Cov}(\mathrm X, \mathrm Z\_j) = \mathbb P(\mathrm Z\_j)(1 - \mathbb P(\mathrm Z\_j)) \big( \mathbb{E}[\mathrm X | \mathrm Z\_j = 1] - \mathbb{E}[\mathrm X | \mathrm Z\_j = 0] \big).
-    \end{equation}
-    $$
-    The leading scalar is the variance of a Bernoulli trial with success probability $\mathbb P(\mathrm Z\_j)$:
-    $$
-    \begin{align*}
-        \mathbb P(\mathrm Z\_j)(1 - \mathbb P(\mathrm Z\_j)) = \mathbb P(\mathrm Z\_j) - \mathbb P(\mathrm Z\_j)^2 = \mathbb{E}[\mathrm Z\_j] - \mathbb{E}[\mathrm Z\_j]^2 = \mathbb{E}[(\mathrm Z\_j)^2] - \mathbb{E}[\mathrm Z\_j]^2 = \mathrm{Var}(\mathrm Z\_j),
-    \end{align*}
-    $$
-    where the penultimate step is valid since $\mathrm Z\_j \in \{0, 1\}$ and hence $(\mathrm Z\_j)^2 = \mathrm Z\_j$. Therefore we have
-    $$
-    \begin{equation}
-        \mathrm{Cov}(\mathrm X, \mathrm Z\_j) = \mathrm{Var}(\mathrm Z\_j) \boldsymbol{\delta}\_j.
-    \end{equation}
-    $$
+Let $\mathbb P(\mathrm Z\_j)$ be the probability that the $j$\textsuperscript{th} entry of $\mathrm Z$ is 1. Then for column $j$ of $\mathbf{\Sigma}\_{XZ}$ we have
+$$
+\begin{equation}
+    \mathrm{Cov}(\mathrm X, \mathrm Z\_j) = \mathbb{E}[\mathrm X \mathrm Z\_j] - \mathbb{E}[\mathrm X]\mathbb{E}[\mathrm Z\_j] = \mathbb P(\mathrm Z\_j) \big( \mathbb{E}[\mathrm X | \mathrm Z\_j = 1] - \mathbb{E}[\mathrm X] \big),
+\end{equation}
+$$
+where we can expand $\mathbb{E}[\mathrm X]$ using the law of total expectation:
+$$
+\begin{equation}
+    \mathbb{E}[\mathrm X] = (1 - \mathbb P(\mathrm Z\_j)) \mathbb{E}[\mathrm X | \mathrm Z\_j = 0] + \mathbb P(\mathrm Z\_j) \mathbb{E}[\mathrm X | \mathrm Z\_j = 1].
+\end{equation}
+$$
+Plugging Eq.~\ref{eq:total-expectation} into Eq.~\ref{eq:sxz-column} and simplifying, we have
+$$
+\begin{equation}
+    \mathrm{Cov}(\mathrm X, \mathrm Z\_j) = \mathbb P(\mathrm Z\_j)(1 - \mathbb P(\mathrm Z\_j)) \big( \mathbb{E}[\mathrm X | \mathrm Z\_j = 1] - \mathbb{E}[\mathrm X | \mathrm Z\_j = 0] \big).
+\end{equation}
+$$
+The leading scalar is the variance of a Bernoulli trial with success probability $\mathbb P(\mathrm Z\_j)$:
+$$
+\begin{align*}
+    \mathbb P(\mathrm Z\_j)(1 - \mathbb P(\mathrm Z\_j)) = \mathbb P(\mathrm Z\_j) - \mathbb P(\mathrm Z\_j)^2 = \mathbb{E}[\mathrm Z\_j] - \mathbb{E}[\mathrm Z\_j]^2 = \mathbb{E}[(\mathrm Z\_j)^2] - \mathbb{E}[\mathrm Z\_j]^2 = \mathrm{Var}(\mathrm Z\_j),
+\end{align*}
+$$
+where the penultimate step is valid since $\mathrm Z\_j \in \{0, 1\}$ and hence $(\mathrm Z\_j)^2 = \mathrm Z\_j$. Therefore we have
+$$
+\begin{equation}
+    \mathrm{Cov}(\mathrm X, \mathrm Z\_j) = \mathrm{Var}(\mathrm Z\_j) \boldsymbol{\delta}\_j.
+\end{equation}
+$$
 
 ### Diff-in-means oracle eraser
 
