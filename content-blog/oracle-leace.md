@@ -27,14 +27,14 @@ The resulting $\mathrm X'\_{\mathrm{LEACE}}$ is "nearest" to $\mathrm X$ with re
 Prior work has noted that computing an orthogonal projection in a random variable Hilbert space is equivalent to solving an ordinary least squares regression problem. Our theorem is a natural extension of this work: we find that $\mathrm X'\_{\mathrm{LEACE}}$ is equal to the OLS residual from regressing $\mathrm X$ on $\mathrm Z$, plus a constant shift needed to ensure that erasing $\mathrm Z$ does not change the mean of $\mathrm X$.
 
 **Theorem 1.**
-    Let $\mathcal H$ be the Hilbert space of square-integrable real-valued random variables equipped with the inner product $\langle \xi, \zeta \rangle\_{\mathcal H} := \mathbb{E}[\xi \zeta]$. Let $(\mathrm X, \mathrm Z)$ be random vectors in $\mathcal H^d$ and $\mathcal H^k$ respectively. Then for every p.s.d. inner product $\langle \mathbf a, \mathbf b \rangle\_{\mathbf M} = \mathbf a^T \mathbf M \mathbf b$ on $\mathbb{R}^d$, the objective
-    $$
-        \mathop{\mathrm{argmin\:}}\_{\substack{\mathrm X' \in \mathcal H^d}} \mathbb{E} \big\| \mathrm X' - \mathrm X \big\|^2\_{\mathbf M} \quad \mathrm{subject\:to}\:\: \mathrm{Cov}(\mathrm X', \mathrm Z) = \mathbf{0}
-    $$
-    is minimized by the (appropriately shifted) ordinary least squares residuals from regressing $\mathrm X$ on $\mathrm Z$:
-    $$
-        \mathrm X'\_{\mathrm{LEACE}} = \mathrm X + \mathbf{\Sigma}\_{XZ} \mathbf{\Sigma}\_{ZZ}^+ \big( \mathbb{E}[\mathrm Z] - \mathrm Z \big).
-    $$
+Let $\mathcal H$ be the Hilbert space of square-integrable real-valued random variables equipped with the inner product $\langle \xi, \zeta \rangle\_{\mathcal H} := \mathbb{E}[\xi \zeta]$. Let $(\mathrm X, \mathrm Z)$ be random vectors in $\mathcal H^d$ and $\mathcal H^k$ respectively. Then for every p.s.d. inner product $\langle \mathbf a, \mathbf b \rangle\_{\mathbf M} = \mathbf a^T \mathbf M \mathbf b$ on $\mathbb{R}^d$, the objective
+$$
+    \mathop{\mathrm{argmin\:}}\_{\substack{\mathrm X' \in \mathcal H^d}} \mathbb{E} \big\| \mathrm X' - \mathrm X \big\|^2\_{\mathbf M} \quad \mathrm{subject\:to}\:\: \mathrm{Cov}(\mathrm X', \mathrm Z) = \mathbf{0}
+$$
+is minimized by the (appropriately shifted) ordinary least squares residuals from regressing $\mathrm X$ on $\mathrm Z$:
+$$
+    \mathrm X'\_{\mathrm{LEACE}} = \mathrm X + \mathbf{\Sigma}\_{XZ} \mathbf{\Sigma}\_{ZZ}^+ \big( \mathbb{E}[\mathrm Z] - \mathrm Z \big).
+$$
 
 **Proof.**
 Assume w.l.o.g. that $\mathrm X$ and $\mathrm X'$ are represented in a basis diagonalizing $\mathbf{M}$, so we may write
