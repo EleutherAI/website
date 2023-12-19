@@ -44,7 +44,7 @@ Assume w.l.o.g. that $\mathrm X$ and $\mathrm X'$ are represented in a basis dia
 
 $$
 \begin{equation}
-    \mathbb{E} \big\| \mathrm X' - \mathrm X \big\|^2\_{\mathbf M} = \sum\_{i=1}^d m\_i \: \mathbb{E} \big[ (\mathrm X'\_i - \mathrm X\_i)^2 \big],
+    \mathbb{E} \big\| \mathrm X' - \mathrm X \big\|^2\_{\mathbf M} = \sum\_{i=1}^d m\_i \hspace{0.5em} \mathbb{E} \big[ (\mathrm X'\_i - \mathrm X\_i)^2 \big],
 \end{equation}
 $$
 
