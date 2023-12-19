@@ -117,7 +117,7 @@ $$
 \end{equation}
 $$
 
-Plugging Eq.~\ref{eq:total-expectation} into Eq.~\ref{eq:sxz-column} and simplifying, we have
+Plugging Eq. 7 into Eq. 6 and simplifying, we have
 
 $$
 \begin{equation}
