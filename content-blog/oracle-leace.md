@@ -157,8 +157,15 @@ If the classes are balanced, i.e. $\mathbb{E}[\mathrm Z] = \frac{1}{2}$, then th
 
 $$
 \begin{equation}
-    \mathrm X'\_{\mathrm{LEACE}} = \mathrm X + \frac{1}{2} \mathbb{1}(\mathrm Z) \boldsymbol{\delta}.
+    \mathrm X'\_{\mathrm{LEACE}} = 
 \end{equation}
+$$
+
+$$
+\begin{cases} 
+    expression_1 &\text{if condition_1}, \\
+    expression_2 &\text{if condition_2}, \\
+\end{cases}
 $$
 
 **Proof.** By Lemma 1, we can rewrite $\mathbf{\Sigma}\_{XZ} = \mathrm{Var}(\mathrm Z) \boldsymbol{\delta}$. Since $\mathbf{\Sigma}\_{ZZ}$ is a 1 x 1 matrix whose only element is $\mathrm{Var}(\mathrm Z)$, we have $\mathbf{\Sigma}\_{ZZ}^+ = \mathrm{Var}(\mathrm Z)^{-1}$. Plugging these into Eq. 5 yields
