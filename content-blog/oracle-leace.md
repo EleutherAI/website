@@ -30,7 +30,7 @@ Prior work has noted that computing an orthogonal projection in a random variabl
 Let $\mathcal H$ be the Hilbert space of square-integrable real-valued random variables equipped with the inner product $\langle \xi, \zeta \rangle\_{\mathcal H} := \mathbb{E}[\xi \zeta]$. Let $(\mathrm X, \mathrm Z)$ be random vectors in $\mathcal H^d$ and $\mathcal H^k$ respectively. Then for every p.s.d. inner product $\langle \mathbf a, \mathbf b \rangle\_{\mathbf M} = \mathbf a^T \mathbf M \mathbf b$ on $\mathbb{R}^d$, the objective
 
 $$
-    \mathop{\mathrm{argmin\:}}\_{\substack{\mathrm X' \in \mathcal H^d}} \mathbb{E} \big\| \mathrm X' - \mathrm X \big\|^2\_{\mathbf M} \quad \mathrm{subject\:to}\:\: \mathrm{Cov}(\mathrm X', \mathrm Z) = \mathbf{0}
+    \mathop{\mathrm{argmin}}\_{\substack{\mathrm X' \in \mathcal H^d}} \mathbb{E} \big\| \mathrm X' - \mathrm X \big\|^2\_{\mathbf M} \quad \mathrm{s.t.} \hspace{0.5em} \mathrm{Cov}(\mathrm X', \mathrm Z) = \mathbf{0}
 $$
 
 is minimized by the (appropriately shifted) ordinary least squares residuals from regressing $\mathrm X$ on $\mathrm Z$:
@@ -66,7 +66,7 @@ Since $\mu\_i'$ and $\mu\_i$ are orthogonal to $\tilde{\mathrm X}\_i'$ and $\til
 
 $$
 \begin{equation}
-    \mathop{\mathrm{argmin\:}}\_{\substack{\tilde{\mathrm X}\_i' \in \mathcal H}} \big \| \tilde{\mathrm X}\_i' - \tilde{\mathrm X}\_i \big \|^2\_{\mathcal H} \quad \mathrm{s.t.}\:\: \forall j \in 1\ldots k : \langle \tilde{\mathrm X}\_i', \tilde{\mathrm Z}\_j \rangle\_{\mathcal H} = 0,
+    \mathop{\mathrm{argmin}}\_{\substack{\tilde{\mathrm X}\_i' \in \mathcal H}} \big \| \tilde{\mathrm X}\_i' - \tilde{\mathrm X}\_i \big \|^2\_{\mathcal H} \quad \mathrm{s.t.} \hspace{0.5em} \forall j \in 1\ldots k : \langle \tilde{\mathrm X}\_i', \tilde{\mathrm Z}\_j \rangle\_{\mathcal H} = 0,
 \end{equation}
 $$
 
@@ -153,7 +153,7 @@ $$
 \end{equation}
 $$
 
-If the classes are balanced, i.e. $\mathbb{E}[\mathrm Z] = \frac{1}{2}$, this simplifies to
+If the classes are balanced, i.e. $\mathbb{P}(\mathrm Z = 0) = \mathbb{P}(\mathrm Z = 1) = \frac{1}{2}$, this simplifies to
 
 $$
 \begin{equation}
