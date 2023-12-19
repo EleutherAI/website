@@ -14,7 +14,7 @@ _For a PyTorch implementation of this method, see the `OracleFitter` class in ou
 
 **WARNING**: _Because this erasure transformation depends on the ground truth concept label, it can **increase** the nonlinearly-extractable information about the target concept inside a representation, even though it eliminates the linearly available information. For this reason, optimizing deep neural networks on top of O-LEACE'd representations is not recommended; for those use cases we recommend vanilla LEACE._
 
-In our paper [LEACE: Perfect linear concept erasure in closed form](https://arxiv.org/abs/2306.03819), we derived a concept erasure method that not require access to concept labels at inference time. That is, we can fit an erasure function on a labeled training dataset, then apply the function to unlabeled datapoints. It turns out, however, that we can achieve an even more surgical edit if we have oracle access to the label $\mathbf z$ for each $\mathbf x$. In Theorem 1 below, we derive **Oracle LEACE**, a closed-form formula for the the nearest $\mathrm X'$ to any $\mathrm X$ such that no linear classifier can do better than chance at predicting $\mathrm Z$ from $\mathrm X'$, or equivalently $\mathrm{Cov}(\mathrm X', \mathrm Z) = \textbf{0}$.
+In our paper [LEACE: Perfect linear concept erasure in closed form](https://arxiv.org/abs/2306.03819), we derived a concept erasure method that not require access to concept labels at inference time. That is, we can fit an erasure function on a labeled training dataset, then apply the function to unlabeled datapoints. It turns out, however, that we can achieve an even more surgical edit if we have oracle access to the label $\mathbf z$ for each $\mathbf x$. In Theorem 1 below, we derive **Oracle LEACE** ("O-LEACE"), a closed-form formula for the the nearest $\mathrm X'$ to any $\mathrm X$ such that no linear classifier can do better than chance at predicting $\mathrm Z$ from $\mathrm X'$, or equivalently $\mathrm{Cov}(\mathrm X', \mathrm Z) = \textbf{0}$.
 
 The resulting $\mathrm X'\_{\mathrm{LEACE}}$ is "nearest" to $\mathrm X$ with respect to all p.s.d. inner products $\mathbf a^T \mathbf{Mb}$ defined on $\mathbb{R}^d$ simultaneously. This is because, by expressing $\mathrm X$ in a basis that diagonalizes $\mathbf M$, we can decompose the problem into $d$ independent subproblems, one for each component of $\mathrm X\_i$. Each subproblem can then be viewed as an orthogonal projection, not in $\mathbb{R}^d$, but in an abstract vector space of real-valued random variables. For geometric intuition, see the figure below.
 
@@ -90,7 +90,7 @@ which completes the proof.
 
 ## Diff-in-means for binary concepts
 
-In our last blog post, we showed that the difference-in-means direction $\boldsymbol{\delta} = \mathbb{E}[\mathrm X | \mathrm Z = 1] - \mathbb{E}[\mathrm X | \mathrm Z = 0]$ is worst-case optimal for performing additive edits to binary concepts in neural network representations. We now show that a similar result holds for concept erasure: Equation 5 simplifies to an expression involving $\boldsymbol{\delta}$ when $\mathrm Z$ is binary.
+In our [last blog post](https://blog.eleuther.ai/diff-in-means/), we showed that the difference-in-means direction $\boldsymbol{\delta} = \mathbb{E}[\mathrm X | \mathrm Z = 1] - \mathbb{E}[\mathrm X | \mathrm Z = 0]$ is worst-case optimal for performing additive edits to binary concepts in neural network representations. We now show that a similar result holds for concept erasure: Equation 5 simplifies to an expression involving $\boldsymbol{\delta}$ when $\mathrm Z$ is binary.
 
 ### Equivalence of cross-covariance and diff-in-means
 
@@ -173,6 +173,10 @@ $$
 \end{align*}
 $$
 
+Plugging in $\frac{1}{2}$ for $\mathbb{P}[\mathrm Z]$ yields Equation 11.
+
 ## Conclusion
 
-In many cases in interpretability research, we do have access to concept labels for all inputs we are interested in, so the above method may be applicable.
+In many cases in interpretability research, we do have access to concept labels for all inputs we are interested in, so O-LEACE may be applicable in those contexts. Care must be taken, however, to ensure that the method does not "backfire" and make the target concept _more_ easily extractable. We have observed in preliminary experiments that when when we train a deep neural network from scratch on O-LEACE'd data, the network often performs _better_ at extracting the concept than when trained on the original data. This backfiring phenomenon is due to the fact that the O-LEACE transformation is _dependent_ on $Z$, and therefore transmits Shannon information about $Z$, even though it perfectly removes linearly extractable information about $Z$.
+
+We suspect O-LEACE is most useful in cases where we would like to remove information about $Z$ from the activations of a frozen, pre-trained model, since the model does not have the opportunity to adapt to the subtle artifacts that O-LEACE leaves in the representation. LEACE, by contrast, cannot possibly increase the mutual information between $X$ and $Z$ due to the [data processing inequality](https://en.wikipedia.org/wiki/Data_processing_inequality), and therefore should be safe to use in any context.
