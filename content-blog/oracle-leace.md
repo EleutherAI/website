@@ -20,7 +20,7 @@ The resulting $\mathrm X'\_{\mathrm{LEACE}}$ is "nearest" to $\mathrm X$ with re
 
 ![O-LEACE](/images/oleace.png)
 
-**Orthogonal projection of $i^{\text{th}}$ component of $\mathrm X$, itself a vector in the random variable Hilbert space $\mathcal H$, onto the span of the components of $\mathrm Z$. The residual $\mathrm X\_i - \mathrm{proj}\_{\mathcal Z} \mathrm X\_i$ is the closest vector to $\mathrm X\_i$ orthogonal to, and hence uncorrelated with, $\mathcal Z = \mathrm{span}(\{ \mathrm Z\_1, \mathrm Z\_2 \})$**
+**Orthogonal projection of $i^{\text{th}}$ component of $\mathrm X$, itself a vector in the random variable Hilbert space $\mathcal H$, onto the span of the components of $\mathrm Z$. The residual $\mathrm X\_i - \mathrm{proj}\_{\mathcal Z} \mathrm X\_i$ is the closest vector to $\mathrm X\_i$ orthogonal to, and hence uncorrelated with, $\mathcal Z = \mathrm{span}(\lbrace \mathrm Z\_1, \mathrm Z\_2 \rbrace)$**
 
 ## Derivation
 
@@ -64,7 +64,7 @@ $$
 \mathop{\mathrm{argmin \hspace{0.5em}}}\_{\substack{\tilde{\mathrm X}\_i' \in \mathcal H}} \big \| \tilde{\mathrm X}\_i' - \tilde{\mathrm X}\_i \big \|^2\_{\mathcal H} \quad \mathrm{s.t.} \hspace{0.5em} \forall j \in 1\ldots k : \langle \tilde{\mathrm X}\_i', \tilde{\mathrm Z}\_j \rangle\_{\mathcal H} = 0, \tag{3}
 $$
 
-where $\tilde{\mathrm Z} = \mathrm Z - \mathbb{E}[\mathrm Z]$. In other words, we seek the nearest $\tilde{\mathrm X}\_i'$ to $\tilde{\mathrm X}\_i$ orthogonal to $\mathcal Z = \mathrm{span}(\{ \tilde{\mathrm Z}\_1, \ldots, \tilde{\mathrm Z}\_k \})$, which is simply the orthogonal projection of $\tilde{\mathrm X}\_i$ onto $\mathcal Z^\perp$. This in turn is equal to the ordinary least squares residual from regressing $\tilde{\mathrm X}$ on $\tilde{\mathrm Z}$:
+where $\tilde{\mathrm Z} = \mathrm Z - \mathbb{E}[\mathrm Z]$. In other words, we seek the nearest $\tilde{\mathrm X}\_i'$ to $\tilde{\mathrm X}\_i$ orthogonal to $\mathcal Z = \mathrm{span}(\lbrace \tilde{\mathrm Z}\_1, \ldots, \tilde{\mathrm Z}\_k \rbrace)$, which is simply the orthogonal projection of $\tilde{\mathrm X}\_i$ onto $\mathcal Z^\perp$. This in turn is equal to the ordinary least squares residual from regressing $\tilde{\mathrm X}$ on $\tilde{\mathrm Z}$:
 
 $$
 \tilde{\mathrm X}\_i' = \tilde{\mathrm X}\_i - \mathrm{proj} \big(\tilde{\mathrm X}\_i, \mathcal Z \big) = \mathrm X\_i - (\mathbf{\Sigma}\_{XZ})\_i \mathbf{\Sigma}\_{ZZ}^+ (\mathrm Z - \mathbb{E}[\mathrm Z]) - \mathbb{E}[\mathrm X\_i]. \tag{4}
@@ -87,7 +87,7 @@ In our [last blog post](https://blog.eleuther.ai/diff-in-means/), we showed that
 We first show that the cross-covariance matrix in this case has a very close relationship with the difference-in-means direction vectors $\boldsymbol{\delta}\_j = \mathbb{E}[\mathrm X | \mathrm Z\_j = 1] - \mathbb{E}[\mathrm X | \mathrm Z\_j = 0]$ for each class $j$. This result is general, and holds for the multiclass case as well as the binary one.
 
 **Lemma 1.**
-Let $\mathrm X$ and $\mathrm Z$ be random vectors of finite first moment taking values in $\mathbb{R}^d$ and $\{\mathbf{z} \in \{0, 1\}^k : \mathbf{z}^T \mathbf{z} = 1 \}$ respectively, where $\forall j : \mathrm{Var}(\mathrm Z\_j) > 0$. Then each column $j$ of $\mathbf{\Sigma}\_{XZ}$ is precisely $\mathrm{Var}(\mathrm Z\_j) \boldsymbol{\delta}\_j$.
+Let $\mathrm X$ and $\mathrm Z$ be random vectors of finite first moment taking values in $\mathbb{R}^d$ and $\lbrace\mathbf{z} \in \lbrace0, 1\rbrace^k : \mathbf{z}^T \mathbf{z} = 1 \rbrace$ respectively, where $\forall j : \mathrm{Var}(\mathrm Z\_j) > 0$. Then each column $j$ of $\mathbf{\Sigma}\_{XZ}$ is precisely $\mathrm{Var}(\mathrm Z\_j) \boldsymbol{\delta}\_j$.
 
 
 **Proof.**
@@ -119,7 +119,7 @@ $$
 \end{align*}
 $$
 
-where the penultimate step is valid since $\mathrm Z\_j \in \{0, 1\}$ and hence $(\mathrm Z\_j)^2 = \mathrm Z\_j$. Therefore we have
+where the penultimate step is valid since $\mathrm Z\_j \in \lbrace0, 1\rbrace$ and hence $(\mathrm Z\_j)^2 = \mathrm Z\_j$. Therefore we have
 
 $$
 \mathrm{Cov}(\mathrm X, \mathrm Z\_j) = \mathrm{Var}(\mathrm Z\_j) \boldsymbol{\delta}\_j. \tag{9}
@@ -160,3 +160,5 @@ Plugging in $\frac{1}{2}$ for $\mathbb{P}[\mathrm Z]$ yields Equation 11.
 In many cases in interpretability research, we do have access to concept labels for all inputs we are interested in, so O-LEACE may be applicable in those contexts. Care must be taken, however, to ensure that the method does not "backfire" and make the target concept _more_ easily extractable. We have observed in preliminary experiments that when when we train a deep neural network from scratch on O-LEACE'd data, the network often performs _better_ at extracting the concept than when trained on the original data. This backfiring phenomenon is due to the fact that the O-LEACE transformation is _dependent_ on $Z$, and therefore transmits Shannon information about $Z$, even though it perfectly removes linearly extractable information about $Z$.
 
 We suspect O-LEACE is most useful in cases where we would like to remove information about $Z$ from the activations of a frozen, pre-trained model, since the model does not have the opportunity to adapt to the subtle artifacts that O-LEACE leaves in the representation. LEACE, by contrast, cannot possibly increase the mutual information between $X$ and $Z$ due to the [data processing inequality](https://en.wikipedia.org/wiki/Data_processing_inequality), and therefore should be safe to use in any context.
+
+_Thank you to Alex Mallen and Brennan Dury for helpful feedback on this post._
