@@ -139,8 +139,8 @@ If the classes are balanced, i.e. $\mathbb{P}(\mathrm Z = 0) = \mathbb{P}(\mathr
 
 $$
 \mathrm X'\_{\mathrm{LEACE}} = \begin{cases} 
-    \mathrm X + \frac{1}{2}\boldsymbol{\delta} &\text{if }Z = 0 \\
-    \mathrm X - \frac{1}{2}\boldsymbol{\delta} &\text{if }Z = 1 \\
+    \mathrm X + \frac{1}{2}\boldsymbol{\delta} &\text{if }Z = 0 \\\\
+    \mathrm X - \frac{1}{2}\boldsymbol{\delta} &\text{if }Z = 1 \\\\
 \end{cases} \tag{11}
 $$
 
@@ -148,7 +148,7 @@ $$
 
 $$
 \begin{align*}
-    \mathrm X'\_{\mathrm{LEACE}} &= \mathrm X - \cancel{\mathrm{Var}(\mathrm Z) \mathrm{Var}(\mathrm Z)^{-1}} \boldsymbol{\delta} (\mathrm Z - \mathbb{E}[\mathrm Z])\\
+    \mathrm X'\_{\mathrm{LEACE}} &= \mathrm X - \cancel{\mathrm{Var}(\mathrm Z) \mathrm{Var}(\mathrm Z)^{-1}} \boldsymbol{\delta} (\mathrm Z - \mathbb{E}[\mathrm Z])\\\\
     &= \mathrm X + \big( \mathbb{P}[\mathrm Z] - \mathrm Z \big) \boldsymbol{\delta}.
 \end{align*}
 $$
