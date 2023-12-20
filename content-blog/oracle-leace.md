@@ -18,7 +18,7 @@ In our paper [LEACE: Perfect linear concept erasure in closed form](https://arxi
 
 The resulting $\mathrm X'\_{\mathrm{LEACE}}$ is "nearest" to $\mathrm X$ with respect to all p.s.d. inner products $\mathbf a^T \mathbf{Mb}$ defined on $\mathbb{R}^d$ simultaneously. This is because, by expressing $\mathrm X$ in a basis that diagonalizes $\mathbf M$, we can decompose the problem into $d$ independent subproblems, one for each component $\mathrm X\_i$ of $\mathrm X$. Each subproblem can then be viewed as an orthogonal projection, not in $\mathbb{R}^d$, but in the vector space of scalar, real-valued random variables. For geometric intuition, see the figure below.
 
-![O-LEACE](/static/images/oleace.png)
+![O-LEACE](/images/oleace.png)
 
 **Orthogonal projection of $i^{\text{th}}$ component of $\mathrm X$, itself a vector in the random variable Hilbert space $\mathcal H$, onto the span of the components of $\mathrm Z$. The residual $\mathrm X\_i - \mathrm{proj}\_{\mathcal Z} \mathrm X\_i$ is the closest vector to $\mathrm X\_i$ orthogonal to, and hence uncorrelated with, $\mathcal Z = \mathrm{span}(\{ \mathrm Z\_1, \mathrm Z\_2 \})$**
 
