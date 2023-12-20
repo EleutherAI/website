@@ -43,9 +43,7 @@ $$
 Assume w.l.o.g. that $\mathrm X$ and $\mathrm X'$ are represented in a basis diagonalizing $\mathbf{M}$, so we may write
 
 $$
-\begin{equation}
-    \mathbb{E} \big\| \mathrm X' - \mathrm X \big\|^2\_{\mathbf M} = \sum\_{i=1}^d m\_i \hspace{0.5em} \mathbb{E} \big[ (\mathrm X'\_i - \mathrm X\_i)^2 \big],
-\end{equation}
+\mathbb{E} \big\| \mathrm X' - \mathrm X \big\|^2\_{\mathbf M} = \sum\_{i=1}^d m\_i \hspace{0.5em} \mathbb{E} \big[ (\mathrm X'\_i - \mathrm X\_i)^2 \big],  \tag{1}
 $$
 
 where $m\_1, \ldots, m\_d \ge 0$ are eigenvalues of $\mathbf{M}$. Crucially, each term in this sum is independent from the others, allowing us to decompose the primal problem into $d$ separate subproblems of the form $\| \mathrm X\_i' - \mathrm X\_i \|^2\_{\mathcal H}$, one for each component $i$ of $(\mathrm X, \mathrm X')$. We may also discard the $m\_i$ terms since they are non-negative constants, and hence do not affect the optimal $\mathrm X\_i'$ for any $i$.
@@ -53,11 +51,9 @@ where $m\_1, \ldots, m\_d \ge 0$ are eigenvalues of $\mathbf{M}$. Crucially, eac
 **Factoring out constants.** Now consider the subspace $\mathcal C = \mathrm{span}(1) \subset \mathcal H$ consisting of all constant (i.e. zero variance) random variables. Orthogonally decomposing $\mathrm X\_i$ along $\mathcal C$ yields $\mathrm X\_i = \tilde{\mathrm X}\_i + \mu\_i$, where $\mu\_i = \mathbb{E}[\mathrm X\_i] \in \mathcal C$ and $\tilde{\mathrm X}\_i = \mathrm X - \mathbb{E}[\mathrm X]\_i \in \mathcal C^\perp$, and likewise for $\mathrm X\_i'$. Our objective is now
 
 $$
-\begin{equation}
-    \big \| \mathrm X\_i' - \mathrm X\_i \big \|^2\_{\mathcal H} =
-    \big \| \tilde{\mathrm X}\_i' + \mu\_{\mathrm X\_i}' - \tilde{\mathrm X}\_i - \mu\_i \big \|^2\_{\mathcal H} =
-    \big \| \mu\_i' - \mu\_i \big \|^2\_{\mathcal H} + \big \| \tilde{\mathrm X}\_i' - \tilde{\mathrm X}\_i \big \|^2\_{\mathcal H}.
-\end{equation}
+\big \| \mathrm X\_i' - \mathrm X\_i \big \|^2\_{\mathcal H} =
+\big \| \tilde{\mathrm X}\_i' + \mu\_{\mathrm X\_i}' - \tilde{\mathrm X}\_i - \mu\_i \big \|^2\_{\mathcal H} =
+\big \| \mu\_i' - \mu\_i \big \|^2\_{\mathcal H} + \big \| \tilde{\mathrm X}\_i' - \tilde{\mathrm X}\_i \big \|^2\_{\mathcal H}.  \tag{2}
 $$
 
 Since $\mu\_i'$ and $\mu\_i$ are orthogonal to $\tilde{\mathrm X}\_i'$ and $\tilde{\mathrm X}\_i$, and the constraint $\mathrm{Cov}(\mathrm X', \mathrm Z) = \mathbf{0}$ is invariant to constant shifts, we can optimize the two terms in Eq. 2 independently. The first term is trivial: it is minimized when $\mu\_i' = \mu\_i$, and hence $\mathrm X\_i' = \tilde{\mathrm X}\_i' + \mathbb{E}[\mathrm X\_i]$.
@@ -65,25 +61,19 @@ Since $\mu\_i'$ and $\mu\_i$ are orthogonal to $\tilde{\mathrm X}\_i'$ and $\til
 **Orthogonal projection.** We can now rewrite the zero covariance condition as an orthogonality constraint on $\tilde{\mathrm X}\_i'$. Specifically, for every $i \in 1\ldots d$ we have
 
 $$
-\begin{equation}
-    \mathop{\mathrm{argmin \hspace{0.5em}}}\_{\substack{\tilde{\mathrm X}\_i' \in \mathcal H}} \big \| \tilde{\mathrm X}\_i' - \tilde{\mathrm X}\_i \big \|^2\_{\mathcal H} \quad \mathrm{s.t.} \hspace{0.5em} \forall j \in 1\ldots k : \langle \tilde{\mathrm X}\_i', \tilde{\mathrm Z}\_j \rangle\_{\mathcal H} = 0,
-\end{equation}
+\mathop{\mathrm{argmin \hspace{0.5em}}}\_{\substack{\tilde{\mathrm X}\_i' \in \mathcal H}} \big \| \tilde{\mathrm X}\_i' - \tilde{\mathrm X}\_i \big \|^2\_{\mathcal H} \quad \mathrm{s.t.} \hspace{0.5em} \forall j \in 1\ldots k : \langle \tilde{\mathrm X}\_i', \tilde{\mathrm Z}\_j \rangle\_{\mathcal H} = 0, \tag{3}
 $$
 
 where $\tilde{\mathrm Z} = \mathrm Z - \mathbb{E}[\mathrm Z]$. In other words, we seek the nearest $\tilde{\mathrm X}\_i'$ to $\tilde{\mathrm X}\_i$ orthogonal to $\mathcal Z = \mathrm{span}(\{ \tilde{\mathrm Z}\_1, \ldots, \tilde{\mathrm Z}\_k \})$, which is simply the orthogonal projection of $\tilde{\mathrm X}\_i$ onto $\mathcal Z^\perp$. This in turn is equal to the ordinary least squares residual from regressing $\tilde{\mathrm X}$ on $\tilde{\mathrm Z}$:
 
 $$
-\begin{equation}
-    \tilde{\mathrm X}\_i' = \tilde{\mathrm X}\_i - \mathrm{proj} \big(\tilde{\mathrm X}\_i, \mathcal Z \big) = \mathrm X\_i - (\mathbf{\Sigma}\_{XZ})\_i \mathbf{\Sigma}\_{ZZ}^+ (\mathrm Z - \mathbb{E}[\mathrm Z]) - \mathbb{E}[\mathrm X\_i].
-\end{equation}
+\tilde{\mathrm X}\_i' = \tilde{\mathrm X}\_i - \mathrm{proj} \big(\tilde{\mathrm X}\_i, \mathcal Z \big) = \mathrm X\_i - (\mathbf{\Sigma}\_{XZ})\_i \mathbf{\Sigma}\_{ZZ}^+ (\mathrm Z - \mathbb{E}[\mathrm Z]) - \mathbb{E}[\mathrm X\_i]. \tag{4}
 $$
 
 **Putting it all together.** Plugging Eq. 4 into $\mathrm X\_i' = \tilde{\mathrm X}\_i' + \mathbb{E}[\mathrm X\_i]$ and combining all components into vector form yields
 
 $$
-\begin{equation}
-    \mathrm X'\_{\mathrm{LEACE}} = \mathrm X - \mathbf{\Sigma}\_{XZ} \mathbf{\Sigma}\_{ZZ}^+ (\mathrm Z - \mathbb{E}[\mathrm Z]),
-\end{equation}
+\mathrm X'\_{\mathrm{LEACE}} = \mathrm X - \mathbf{\Sigma}\_{XZ} \mathbf{\Sigma}\_{ZZ}^+ (\mathrm Z - \mathbb{E}[\mathrm Z]), \tag{5}
 $$
 
 which completes the proof.
@@ -104,25 +94,21 @@ Let $\mathrm X$ and $\mathrm Z$ be random vectors of finite first moment taking 
 Let $\mathbb P(\mathrm Z\_j)$ be the probability that the $j^{\text{th}}$ entry of $\mathrm Z$ is 1. Then for column $j$ of $\mathbf{\Sigma}\_{XZ}$ we have
 
 $$
-\begin{equation}
-    \mathrm{Cov}(\mathrm X, \mathrm Z\_j) = \mathbb{E}[\mathrm X \mathrm Z\_j] - \mathbb{E}[\mathrm X]\mathbb{E}[\mathrm Z\_j] = \mathbb P(\mathrm Z\_j) \big( \mathbb{E}[\mathrm X | \mathrm Z\_j = 1] - \mathbb{E}[\mathrm X] \big),
-\end{equation}
+\mathrm{Cov}(\mathrm X, \mathrm Z\_j) = \mathbb{E}[\mathrm X \mathrm Z\_j] - \mathbb{E}[\mathrm X]\mathbb{E}[\mathrm Z\_j] = \mathbb P(\mathrm Z\_j) \big( \mathbb{E}[\mathrm X | \mathrm Z\_j = 1] - \mathbb{E}[\mathrm X] \big), \tag{6}
 $$
 
 where we can expand $\mathbb{E}[\mathrm X]$ using the law of total expectation:
 
 $$
 \begin{equation}
-    \mathbb{E}[\mathrm X] = (1 - \mathbb P(\mathrm Z\_j)) \mathbb{E}[\mathrm X | \mathrm Z\_j = 0] + \mathbb P(\mathrm Z\_j) \mathbb{E}[\mathrm X | \mathrm Z\_j = 1].
+    \mathbb{E}[\mathrm X] = (1 - \mathbb P(\mathrm Z\_j)) \mathbb{E}[\mathrm X | \mathrm Z\_j = 0] + \mathbb P(\mathrm Z\_j) \mathbb{E}[\mathrm X | \mathrm Z\_j = 1]. \tag{7}
 \end{equation}
 $$
 
 Plugging Eq. 7 into Eq. 6 and simplifying, we have
 
 $$
-\begin{equation}
-    \mathrm{Cov}(\mathrm X, \mathrm Z\_j) = \mathbb P(\mathrm Z\_j)(1 - \mathbb P(\mathrm Z\_j)) \big( \mathbb{E}[\mathrm X | \mathrm Z\_j = 1] - \mathbb{E}[\mathrm X | \mathrm Z\_j = 0] \big).
-\end{equation}
+\mathrm{Cov}(\mathrm X, \mathrm Z\_j) = \mathbb P(\mathrm Z\_j)(1 - \mathbb P(\mathrm Z\_j)) \big( \mathbb{E}[\mathrm X | \mathrm Z\_j = 1] - \mathbb{E}[\mathrm X | \mathrm Z\_j = 0] \big). \tag{8}
 $$
 
 The leading scalar is the variance of a Bernoulli trial with success probability $\mathbb P(\mathrm Z\_j)$:
@@ -136,9 +122,7 @@ $$
 where the penultimate step is valid since $\mathrm Z\_j \in \{0, 1\}$ and hence $(\mathrm Z\_j)^2 = \mathrm Z\_j$. Therefore we have
 
 $$
-\begin{equation}
-    \mathrm{Cov}(\mathrm X, \mathrm Z\_j) = \mathrm{Var}(\mathrm Z\_j) \boldsymbol{\delta}\_j.
-\end{equation}
+\mathrm{Cov}(\mathrm X, \mathrm Z\_j) = \mathrm{Var}(\mathrm Z\_j) \boldsymbol{\delta}\_j. \tag{9}
 $$
 
 ### Diff-in-means oracle eraser
@@ -148,20 +132,16 @@ We now have the tools to simplify Equation 5 in the binary case.
 **Theorem 2.** If $\mathrm Z$ is binary, then the least-squares oracle eraser is given by the difference-in-means additive edit
 
 $$
-\begin{equation}
-    \mathrm X'\_{\mathrm{LEACE}} = \mathrm X + \big( \mathbb{P}[\mathrm Z] - \mathrm Z \big) \boldsymbol{\delta}.
-\end{equation}
+\mathrm X'\_{\mathrm{LEACE}} = \mathrm X + \big( \mathbb{P}[\mathrm Z] - \mathrm Z \big) \boldsymbol{\delta}. \tag{10}
 $$
 
 If the classes are balanced, i.e. $\mathbb{P}(\mathrm Z = 0) = \mathbb{P}(\mathrm Z = 1) = \frac{1}{2}$, this simplifies to
 
 $$
-\begin{equation}
 \mathrm X'\_{\mathrm{LEACE}} = \begin{cases} 
     \mathrm X + \frac{1}{2}\boldsymbol{\delta} &\text{if }Z = 0 \\
     \mathrm X - \frac{1}{2}\boldsymbol{\delta} &\text{if }Z = 1 \\
-\end{cases}
-\end{equation}
+\end{cases} \tag{11}
 $$
 
 **Proof.** By Lemma 1, we can rewrite $\mathbf{\Sigma}\_{XZ} = \mathrm{Var}(\mathrm Z) \boldsymbol{\delta}$. Since $\mathbf{\Sigma}\_{ZZ}$ is a 1 x 1 matrix whose only element is $\mathrm{Var}(\mathrm Z)$, we have $\mathbf{\Sigma}\_{ZZ}^+ = \mathrm{Var}(\mathrm Z)^{-1}$. Plugging these into Eq. 5 yields
