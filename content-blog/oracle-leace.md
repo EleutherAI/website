@@ -87,7 +87,7 @@ In our [last blog post](https://blog.eleuther.ai/diff-in-means/), we showed that
 We first show that the cross-covariance matrix in this case has a very close relationship with the difference-in-means direction vectors $\boldsymbol{\delta}\_j = \mathbb{E}[\mathrm X | \mathrm Z\_j = 1] - \mathbb{E}[\mathrm X | \mathrm Z\_j = 0]$ for each class $j$. This result is general, and holds for the multiclass case as well as the binary one.
 
 **Lemma 1.**
-Let $\mathrm X$ and $\mathrm Z$ be random vectors of finite first moment taking values in $\mathbb{R}^d$ and $\{\mathbf{z} \in `\{0, 1\}`^k : \mathbf{z}^T \mathbf{z} = 1 \}$ respectively, where $\forall j : \mathrm{Var}(\mathrm Z\_j) > 0$. Then each column $j$ of $\mathbf{\Sigma}\_{XZ}$ is precisely $\mathrm{Var}(\mathrm Z\_j) \boldsymbol{\delta}\_j$.
+Let $\mathrm X$ and $\mathrm Z$ be random vectors of finite first moment taking values in $\mathbb{R}^d$ and $\{\mathbf{z} \in \{0, 1\}^k : \mathbf{z}^T \mathbf{z} = 1 \}$ respectively, where $\forall j : \mathrm{Var}(\mathrm Z\_j) > 0$. Then each column $j$ of $\mathbf{\Sigma}\_{XZ}$ is precisely $\mathrm{Var}(\mathrm Z\_j) \boldsymbol{\delta}\_j$.
 
 
 **Proof.**
