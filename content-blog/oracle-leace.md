@@ -16,7 +16,7 @@ _For a PyTorch implementation of this method, see the `OracleFitter` class in ou
 
 In our paper [LEACE: Perfect linear concept erasure in closed form](https://arxiv.org/abs/2306.03819), we derived a concept erasure method that not require access to concept labels at inference time. That is, we can fit an erasure function on a labeled training dataset, then apply the function to unlabeled datapoints. It turns out, however, that we can achieve an even more surgical edit if we have oracle access to the label $\mathbf z$ for each $\mathbf x$. In Theorem 1 below, we derive **Oracle LEACE** ("O-LEACE"), a closed-form formula for the the nearest $\mathrm X'$ to any $\mathrm X$ such that no linear classifier can do better than chance at predicting $\mathrm Z$ from $\mathrm X'$, or equivalently $\mathrm{Cov}(\mathrm X', \mathrm Z) = \textbf{0}$.
 
-The resulting $\mathrm X'\_{\mathrm{LEACE}}$ is "nearest" to $\mathrm X$ with respect to all p.s.d. inner products $\mathbf a^T \mathbf{Mb}$ defined on $\mathbb{R}^d$ simultaneously. This is because, by expressing $\mathrm X$ in a basis that diagonalizes $\mathbf M$, we can decompose the problem into $d$ independent subproblems, one for each component of $\mathrm X\_i$. Each subproblem can then be viewed as an orthogonal projection, not in $\mathbb{R}^d$, but in an abstract vector space of real-valued random variables. For geometric intuition, see the figure below.
+The resulting $\mathrm X'\_{\mathrm{LEACE}}$ is "nearest" to $\mathrm X$ with respect to all p.s.d. inner products $\mathbf a^T \mathbf{Mb}$ defined on $\mathbb{R}^d$ simultaneously. This is because, by expressing $\mathrm X$ in a basis that diagonalizes $\mathbf M$, we can decompose the problem into $d$ independent subproblems, one for each component $\mathrm X\_i$ of $\mathrm X$. Each subproblem can then be viewed as an orthogonal projection, not in $\mathbb{R}^d$, but in the vector space of scalar, real-valued random variables. For geometric intuition, see the figure below.
 
 ![O-LEACE](/static/images/oracle-leace.png "Hi whassup")
 
@@ -24,7 +24,7 @@ The resulting $\mathrm X'\_{\mathrm{LEACE}}$ is "nearest" to $\mathrm X$ with re
 
 ## Derivation
 
-Prior work has noted that computing an orthogonal projection in a random variable Hilbert space is equivalent to solving an ordinary least squares regression problem. Our theorem is a natural extension of this work: we find that $\mathrm X'\_{\mathrm{LEACE}}$ is equal to the OLS residual from regressing $\mathrm X$ on $\mathrm Z$, plus a constant shift needed to ensure that erasing $\mathrm Z$ does not change the mean of $\mathrm X$.
+Prior work has noted that computing an orthogonal projection in a random variable Hilbert space is equivalent to solving an ordinary least squares regression problem. Our theorem is a natural extension of this work: we find that $\mathrm X'\_{\mathrm{LEACE}}$ is equal to the OLS residual from regressing $\mathrm X$ on $\mathrm Z$, plus a constant shift needed to ensure that erasing $\mathrm Z$ does not change the mean of $\mathrm X$. Note that the regression problem here is reversed from the usual one: we are predicting $\mathrm X$ from $\mathrm Z$, rather than the other way around.
 
 **Theorem 1.**
 Let $\mathcal H$ be the Hilbert space of square-integrable real-valued random variables equipped with the inner product $\langle \xi, \zeta \rangle\_{\mathcal H} := \mathbb{E}[\xi \zeta]$. Let $(\mathrm X, \mathrm Z)$ be random vectors in $\mathcal H^d$ and $\mathcal H^k$ respectively. Then for every p.s.d. inner product $\langle \mathbf a, \mathbf b \rangle\_{\mathbf M} = \mathbf a^T \mathbf M \mathbf b$ on $\mathbb{R}^d$, the objective
@@ -62,7 +62,7 @@ $$
 
 Since $\mu\_i'$ and $\mu\_i$ are orthogonal to $\tilde{\mathrm X}\_i'$ and $\tilde{\mathrm X}\_i$, and the constraint $\mathrm{Cov}(\mathrm X', \mathrm Z) = \mathbf{0}$ is invariant to constant shifts, we can optimize the two terms in Eq. 2 independently. The first term is trivial: it is minimized when $\mu\_i' = \mu\_i$, and hence $\mathrm X\_i' = \tilde{\mathrm X}\_i' + \mathbb{E}[\mathrm X\_i]$.
 
-**Orthogonal projection.** We can now rewrite the zero covariance condition as an orthogonality constraint on $\tilde{\mathrm X}\_i$. Specifically, for every $i \in 1\ldots d$ we have
+**Orthogonal projection.** We can now rewrite the zero covariance condition as an orthogonality constraint on $\tilde{\mathrm X}\_i'$. Specifically, for every $i \in 1\ldots d$ we have
 
 $$
 \begin{equation}
@@ -94,10 +94,10 @@ In our [last blog post](https://blog.eleuther.ai/diff-in-means/), we showed that
 
 ### Equivalence of cross-covariance and diff-in-means
 
-We first show that the cross-covariance matrix in this case has a very close relationship with the difference-in-means direction vectors $\boldsymbol{\delta}\_j = \mathbb{E}[\mathrm X | \mathrm Z\_j = 1] - \mathbb{E}[\mathrm X | \mathrm Z\_j = 0]$.
+We first show that the cross-covariance matrix in this case has a very close relationship with the difference-in-means direction vectors $\boldsymbol{\delta}\_j = \mathbb{E}[\mathrm X | \mathrm Z\_j = 1] - \mathbb{E}[\mathrm X | \mathrm Z\_j = 0]$ for each class $j$. This result is general, and holds for the multiclass case as well as the binary one.
 
 **Lemma 1.**
-Let $\mathrm X$ and $\mathrm Z$ be random vectors of finite first moment taking values in $\mathbb{R}^d$ and $\{\mathbf{z} \in \{0, 1\}^k : \mathbf{z}^T \mathbf{z} = 1 \}$ respectively, where $\forall j : \mathrm{Var}(\mathrm Z\_j) > 0$. Then each column $j$ of $\mathbf{\Sigma}\_{XZ}$ is precisely $\mathrm{Var}(\mathrm Z\_j) \boldsymbol{\delta}\_j$.
+Let $\mathrm X$ and $\mathrm Z$ be random vectors of finite first moment taking values in $\mathbb{R}^d$ and $\{\mathbf{z} \in `\{0, 1\}`^k : \mathbf{z}^T \mathbf{z} = 1 \}$ respectively, where $\forall j : \mathrm{Var}(\mathrm Z\_j) > 0$. Then each column $j$ of $\mathbf{\Sigma}\_{XZ}$ is precisely $\mathrm{Var}(\mathrm Z\_j) \boldsymbol{\delta}\_j$.
 
 
 **Proof.**
