@@ -131,7 +131,7 @@ Pythia is one of the more interesting suites because of how open it is,
 including a release of many checkpoints throughout training. Below is a
 graph of the following ablations:
 
-![](/images/blog/embeddings-scaling/Pythia_MTEB%20SCIDOCS_ndcg_at_10.png)
+![A graph of the embedding quality of the pythia models with embedding/model size on the x axis and retrieval ndcg score on the y axis](/images/blog/embeddings-scaling/Pythia_MTEB%20SCIDOCS_ndcg_at_10.png)
 
 1.  **Original Embedding Weights**: Take the embeddings as they are from
     the models, unchanged and just how the first layer of the LM would
@@ -208,7 +208,7 @@ The padding in this model is up to 12288 dimensions, the size of the
 embeddings on the largest OPT model, opt-175b. This doesn’t affect the
 embeddings much, though, besides the smallest model.
 
-![](/images/blog/embeddings-scaling/OPT_MTEB%20SCIDOCS_ndcg_at_10.png)
+![A graph of the embedding quality of facebook's OPT models with embedding/model size on the x axis and retrieval ndcg score on the y axis](/images/blog/embeddings-scaling/OPT_MTEB%20SCIDOCS_ndcg_at_10.png)
 
 There are three main things to note here in how this analysis differs
 from the Pythia analysis.
@@ -243,7 +243,7 @@ that went into the graphs in this analysis.
 Considered next to each other, the models form an interesting
 comparison.
 
-![](/images/blog/embeddings-scaling/All%20Model%20Suites%20Combined.png)
+![A graph of the embedding quality of pythia, OPT, t5, BLOOM, and Cerebras models, with embedding/model size on the x axis and retrieval ndcg score on the y axis](/images/blog/embeddings-scaling/All%20Model%20Suites%20Combined.png)
 
 This combined analysis shows how, despite some differences, there is a
 notable pattern that, past a certain point, embedding quality stagnates
@@ -262,7 +262,7 @@ than pythia-70m’s embedding (512 dimensions).
 
 ### Random Baseline (by Tokenizer)
 
-![](/images/blog/embeddings-scaling/Randomly_Initilaized_Tokenizers_ndcg_at_10_seed_42.png)
+![A graph of the embedding quality a random baseline for the tokenizers for BLOOM, Pythia, OPT, t5, and Cerebras with embedding/model size on the x axis and retrieval ndcg score on the y axis](/images/blog/embeddings-scaling/Randomly_Initilaized_Tokenizers_ndcg_at_10_seed_42.png)
 
 Of course, model suites vary in many ways besides just model size, and
 one big change with a potentially large impact is tokenizer choice. I
