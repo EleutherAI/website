@@ -2,7 +2,7 @@
 title: "The Foundation Model Development Cheatsheet"
 date: 2024-02-29T09:00:00
 description: "Announcing a new resource, the FM Dev Cheatsheet."
-author: ["EleutherAI"]
+author: ["Hailey Schoelkopf", "Stella Biderman"]
 draft: false
 ---
 
