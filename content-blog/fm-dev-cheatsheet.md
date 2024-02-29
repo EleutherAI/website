@@ -1,6 +1,6 @@
 ---
 title: "The Foundation Model Development Cheatsheet"
-date: 2024-2-29T09:00:00-00:00
+date: 2024-2-29T00:00:00
 description: "Announcing a new resource, the FM Dev Cheatsheet."
 author: ["EleutherAI"]
 draft: false
