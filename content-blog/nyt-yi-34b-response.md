@@ -1,6 +1,6 @@
 ---
 title: "Yi-34B, LLaMA 2, and common practices in LLM training: a response to the New York Times"
-date: 2024-03-26
+date: 2024-03-25T09:00:00
 description: "Setting the record straight regarding similarities between Yi-34B and LLaMA 2."
 author: ["Hailey Schoelkopf", "Aviya Skowron", "Stella Biderman"]
 draft: false
