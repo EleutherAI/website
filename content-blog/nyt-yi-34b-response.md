@@ -1,3 +1,10 @@
+---
+title: "Yi-34B, LLaMA 2, and industry practices in LLM training: a response to the New York Times"
+date: 2024-03-26
+description: "Setting the record straight regarding similarities between Yi-34B and LLaMA 2."
+author: ["Hailey Schoelkopf", "Aviya Skowron", "Stella Biderman"]
+draft: false
+---
 
 In February 2024, New York Times [published an article](https://www.nytimes.com/2024/02/21/technology/china-united-states-artificial-intelligence.html) about AI competition between China and the US. The authors present Yi-34B, a recent large language model by a Chinese firm 01.AI, as fundamentally indebted to Meta’s LLaMA 2:
 
