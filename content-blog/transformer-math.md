@@ -73,7 +73,7 @@ Transformers are typically described in terms of their *size in parameters*. How
 
 ### Model Weights
 
-{{<figure src="https://cdn.discordapp.com/attachments/938462108721483787/1052372619577532467/image.png" alt="Model Weights" align="center"/>}}
+{{<figure src="/images/blog/transformer-math/dl-precisions.png" alt="Different floating point formats and their relative bits for precision and range" align="center"/>}}
 
 Most transformers are trained in **mixed precision**, either fp16 + fp32 or bf16 + fp32. This cuts down on the amount of memory required to train the models, and also the amount of memory required to run inference. We can cast language models from fp32 to fp16 or even int8 without suffering a substantial performance hit. These numbers refer to the size *in bits* a single parameter requires. Since there are 8 bits in a Byte, we divide this number by 8 to see how many Bytes each parameter requires  
 
