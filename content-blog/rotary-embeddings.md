@@ -143,8 +143,8 @@ With relative ease RoPE can be extended into the multidimensional case. To repre
 
 $$
 \begin{align*}
-    \langle f(\mathbf{q}, m, i),f(\mathbf{k}, n, j) \rangle &= \langle f_1(\mathbf{q}_{:d/2}, m),f_1(\mathbf{k}_{:d/2}, n) \rangle + \langle f_2(\mathbf{q}_{d/2:}, i),f_2(\mathbf{k}_{d/2:}, j) \rangle \\\\
-    &= g_1(\mathbf{q}_{:d/2}, \mathbf{k}_{:d/2}, m - n) + g_2(\mathbf{q}_{d/2:}, \mathbf{k}_{d/2:}, i - j) \\\\
+    \langle f(\mathbf{q}, m, i),f(\mathbf{k}, n, j) \rangle &= \langle f_1(\mathbf{q}\_{:d/2}, m),f_1(\mathbf{k}\_{:d/2}, n) \rangle + \langle f_2(\mathbf{q}\_{d/2:}, i),f_2(\mathbf{k}\_{d/2:}, j) \rangle \\\\
+    &= g_1(\mathbf{q}\_{:d/2}, \mathbf{k}\_{:d/2}, m - n) + g_2(\mathbf{q}\_{d/2:}, \mathbf{k}\_{d/2:}, i - j) \\\\
     &= g(\mathbf{q}, \mathbf{k}, m - n, i - j)
 \end{align*}
 $$
