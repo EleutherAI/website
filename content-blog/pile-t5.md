@@ -1,6 +1,6 @@
 ---
 title: "Pile-T5"
-date: 2024-04-15T09:00:00
+date: 2024-04-15T00:00:00+07:00
 description: "Trained T5 on the Pile"
 author: ["Lintang Sutawika", "Aran Komatsuzaki", "Colin Raffel"]
 draft: false
