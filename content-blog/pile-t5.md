@@ -170,13 +170,3 @@ We observe improvements on finetuned benchmarks such as SuperGLUE, CodeXGLUE, MM
 5. Hendrycks, Dan, Collin Burns, Steven Basart, Andy Zou, Mantas Mazeika, Dawn Song, and Jacob Steinhardt. ‘Measuring Massive Multitask Language Understanding’. arXiv [Cs.CY], 2021. arXiv. http://arxiv.org/abs/2009.03300.
 6. Suzgun, Mirac, Nathan Scales, Nathanael Schärli, Sebastian Gehrmann, Yi Tay, Hyung Won Chung, Aakanksha Chowdhery, et al. ‘Challenging BIG-Bench Tasks and Whether Chain-of-Thought Can Solve Them’. arXiv [Cs.CL], 2022. arXiv. http://arxiv.org/abs/2210.09261.
 7. Gao, Leo, Jonathan Tow, Baber Abbasi, Stella Biderman, Sid Black, Anthony DiPofi, Charles Foster, et al. ‘A Framework for Few-Shot Language Model Evaluation’. Zenodo, 12 2023. https://doi.org/10.5281/zenodo.10256836.
-
-
-## Apendix
-
-### Sanity Checks
-
-To make sure everything is in order, we have also adapted the evaluation from T5x to LM-Eval. There is still some differences to the final score. However we believe this is close enough.
-
-(Draft Table)
-![](https://hackmd.io/_uploads/H1n5zVbZ6.png)
