@@ -38,9 +38,9 @@ To asses performance on SuperGLUE, we finetune the Pile-T5 (Both the 1 trillion 
 |       | Pile-T5 (1T) |   87.11   |   90.46   |    94.3   |   96.43   |   93   |   80.81   |   56.77   |   91.36   |   91.18   |   92.42   |   70.38   |   95.19   |
 |       |  **Pile-T5** | **90.08** | **90.98** | **98.68** | **98.21** | **95** | **89.28** | **67.68** | **93.04** |  **92.7** |  **93.5** | **75.24** | **96.15** |
 
-### Performance on CodeXGlue
+### Performance on CodeXGlUE
 
-Both Pile-T5 and T5v1.1 were finetune on each programming language variant for 10 epochs. We finetune with the same method as detailed in (link to the github repo)
+We evaluated on the Code-to-Text subtask of CodeXGLUE (Su et al, 2021). Both Pile-T5 and T5v1.1 were finetune on each programming language variant for 10 epochs with the same method as detailed in the [original repo](https://github.com/microsoft/CodeXGLUE/tree/main/Code-Text/code-to-text).
 
 |  Size |    Version   |  Average  |   Python  |    PHP    |     Go    |    Java   | JavaScript |    Ruby   |
 |:-----:|:------------:|:---------:|:---------:|:---------:|:---------:|:---------:|:----------:|:---------:|
@@ -160,7 +160,8 @@ We observe improvements on finetuned benchmarks such as SuperGLUE, CodeXGLUE, MM
 1. Biderman, Stella, Hailey Schoelkopf, Quentin Anthony, Herbie Bradley, Kyle O’Brien, Eric Hallahan, Mohammad Aflah Khan, et al. *Pythia: A Suite for Analyzing Large Language Models Across Training and Scaling*. arXiv [Cs.CL], 2023. arXiv. http://arxiv.org/abs/2304.01373.
 2. Chung, Hyung Won, Noah Constant, Xavier Garcia, Adam Roberts, Yi Tay, Sharan Narang, and Orhan Firat. *UniMax: Fairer and More Effective Language Sampling for Large-Scale Multilingual Pretraining*. arXiv [Cs.CL], 2023. arXiv. http://arxiv.org/abs/2304.09151.
 3. Chung, Hyung Won, Le Hou, Shayne Longpre, Barret Zoph, Yi Tay, William Fedus, Yunxuan Li, et al. *Scaling Instruction-Finetuned Language Models*. arXiv [Cs.LG], 2022. arXiv. http://arxiv.org/abs/2210.11416.
-4. Longpre, Shayne, Le Hou, Tu Vu, Albert Webson, Hyung Won Chung, Yi Tay, Denny Zhou, et al. *The Flan Collection: Designing Data and Methods for Effective Instruction Tuning*. arXiv [Cs.AI], 2023. arXiv. http://arxiv.org/abs/2301.13688.
+4. Gao, Leo, Jonathan Tow, Baber Abbasi, Stella Biderman, Sid Black, Anthony DiPofi, Charles Foster, et al. ‘A Framework for Few-Shot Language Model Evaluation’. Zenodo, 12 2023. https://doi.org/10.5281/zenodo.10256836.
 5. Hendrycks, Dan, Collin Burns, Steven Basart, Andy Zou, Mantas Mazeika, Dawn Song, and Jacob Steinhardt. ‘Measuring Massive Multitask Language Understanding’. arXiv [Cs.CY], 2021. arXiv. http://arxiv.org/abs/2009.03300.
-6. Suzgun, Mirac, Nathan Scales, Nathanael Schärli, Sebastian Gehrmann, Yi Tay, Hyung Won Chung, Aakanksha Chowdhery, et al. ‘Challenging BIG-Bench Tasks and Whether Chain-of-Thought Can Solve Them’. arXiv [Cs.CL], 2022. arXiv. http://arxiv.org/abs/2210.09261.
-7. Gao, Leo, Jonathan Tow, Baber Abbasi, Stella Biderman, Sid Black, Anthony DiPofi, Charles Foster, et al. ‘A Framework for Few-Shot Language Model Evaluation’. Zenodo, 12 2023. https://doi.org/10.5281/zenodo.10256836.
+6. Longpre, Shayne, Le Hou, Tu Vu, Albert Webson, Hyung Won Chung, Yi Tay, Denny Zhou, et al. *The Flan Collection: Designing Data and Methods for Effective Instruction Tuning*. arXiv [Cs.AI], 2023. arXiv. http://arxiv.org/abs/2301.13688.
+7. Lu, Shuai, Daya Guo, Shuo Ren, Junjie Huang, Alexey Svyatkovskiy, Ambrosio Blanco, Colin Clement, et al. ‘CodeXGLUE: A Machine Learning Benchmark Dataset for Code Understanding and Generation’. arXiv [Cs.SE], 2021. arXiv. http://arxiv.org/abs/2102.04664.
+8. Suzgun, Mirac, Nathan Scales, Nathanael Schärli, Sebastian Gehrmann, Yi Tay, Hyung Won Chung, Aakanksha Chowdhery, et al. ‘Challenging BIG-Bench Tasks and Whether Chain-of-Thought Can Solve Them’. arXiv [Cs.CL], 2022. arXiv. http://arxiv.org/abs/2210.09261.
