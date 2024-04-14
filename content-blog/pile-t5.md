@@ -1,10 +1,9 @@
 ---
-title: "Pile T5"
+title: "Pile-T5"
 date: 2024-04-15T09:00:00
-categories: ["Research Notes"]
-author: ["Lintang Sutawika", "Aran Komatsuzaki", "Colin Raffel"]
 description: "Trained T5 on the Pile"
-draft: False
+author: ["Lintang Sutawika", "Aran Komatsuzaki", "Colin Raffel"]
+draft: false
 ---
 
 The T5 model (Raffel et al, 2019) has been a widely used model in the NLP community. With downloads of its base model from HF being in the millions, it's no doubt that these models have been a community favorite. In this blogpost, we introduce an alternative version of T5 that we hope would be useful for the community.
@@ -14,7 +13,6 @@ The T5 model (Raffel et al, 2019) has been a widely used model in the NLP commun
 Our alternative version consists of replacing the pretrained dataset with the Pile and switching out the original T5 tokenizer with the LLAMA tokenizer. Pile-T5 was trained to 2 million steps or 2 trillion tokens in total. We train with the original span corruption method and observe that improvements for finetuning on downstream tasks that users would want to for their usecases. On top of that, Pile-T5 performs much better on code tasks which would benefit extension towards code tasks. Our released models were trained on the same hyperparameters as the original T5, utilizing [T5x](https://github.com/google-research/t5x). We release the our experiments scripts [here](https://github.com/EleutherAI/improved-t5).
 
 These models are accessible from EleutherAI's [huggingface page](https://huggingface.co/collections/EleutherAI/pile-t5-65a76a0d0022dd270b385a66). A notable difference from the original T5 is that the Pile-T5 uses the transformer implementation for [UMT5](https://huggingface.co/docs/transformers/model_doc/umt5) (Chung, Constant, Garcia et al, 2023) because it uses the same scalable implementation in T5x. Inspired by Pythia (Biderman and Shoelkopf et al 2023), we release [intermediate checkpoints](https://huggingface.co/collections/EleutherAI/pile-t5-65a76a0d0022dd270b385a66) that span every 10.000 steps. The `main` branch for these models in their resepective huggingface page is the 2 million step version. In addition, we release the T5x versions of the checkpoints [here](https://huggingface.co/collections/EleutherAI/pile-t5-t5x-checkpoints-660aaab3e8c24412c5f69a6a).
-<!-- We also release evaluation outputs of the models.  -->
 
 ## Going Beyond 1 Trillion Tokens
 
@@ -60,10 +58,6 @@ Both Pile-T5 and T5v1.1 were finetune on each programming language variant for 1
 |       |  **Pile-T5** | **18.72** | **19.27** | **24.49** |  **19.6** | **18.96** |  **15.1**  | **14.92** |
 
 Due to both the Pile inlcuding code-based data and the LLAMA tokenizer including characters frequently used in code, we observe improvement when on code-based benchmark, specifically the CodeXGlue Code-to-Text benchmark that comprises of 6 programming languages.
-
-<!-- ## Extending Positional Embeddings -->
-
-
 
 ## Using Flan Instruction Tuning
 
@@ -155,7 +149,7 @@ We observe improvements on finetuned benchmarks such as SuperGLUE, CodeXGLUE, MM
   author  = {Lintang Sutawika and Aran Komatsuzaki and Colin Raffel},
   title   = {Pile-T5},
   year    = {2024},
-  url     = {}
+  url     = {https://blog.eleuther.ai/pile-t5/}
   note    = {Blog post},
 }
 ```
