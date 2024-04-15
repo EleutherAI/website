@@ -61,7 +61,7 @@ Due to both the Pile inlcuding code-based data and the LLAMA tokenizer including
 
 ## Using Flan Instruction Tuning
 
-We continue by finetuning Pile-T5 models on Flan (Chung, Hou, Longpre et all, 2022) with same training hyperparameters and evaluate on MMLU (Hendrycks et al, 2021) and BigBench Hard (Suzgun et al, 2022). We specifically use the 2 trillion tokens versions of Pile-T5. For fair comparison, We also finetune T5-v1.1 checkpoints with the same procedure. While comparison with FLAN models isn't necesarrily a fair comparison given that it was based on LM-Adapted version of T5v1.1, we include the perfromance score for reference. 
+We continue by finetuning Pile-T5 models on Flan (Chung, Hou, Longpre et all, 2022) with same training hyperparameters and evaluate on MMLU (Hendrycks et al, 2021) and BigBench Hard (Suzgun et al, 2022). When comparing to the Flan-T5 model, we found our Pile-T5 falls short by a small but meaningful amount. After following up with the authors we learned that not all of the finetuning data used to produce Flan-T5 was publicly released, which may explain the performance difference. For a more fair comparison, we also finetuned T5-v1.1 checkpoints with the same procedure and data that we used on the Pile-T5 models. We specifically use the 2 trillion tokens versions of Pile-T5, making the comparison with T5-v1.1 reflect both the increased training data scale and the change in data and tokenizer.
 
 ### Performance on Held-In
 
