@@ -38,7 +38,7 @@ To asses performance on SuperGLUE, we finetune the Pile-T5 (Both the 1 trillion 
 |       | Pile-T5 (1T) |   87.11   |   90.46   |    94.3   |   96.43   |   93   |   80.81   |   56.77   |   91.36   |   91.18   |   92.42   |   70.38   |   95.19   |
 |       |  **Pile-T5** | **90.08** | **90.98** | **98.68** | **98.21** | **95** | **89.28** | **67.68** | **93.04** |  **92.7** |  **93.5** | **75.24** | **96.15** |
 
-### Performance on CodeXGlUE
+### Performance on CodeXGLUE
 
 Since one of our major goals is to improve the ability of models to understand code, we also evaluated on the Code-to-Text subtask of CodeXGLUE (Su et al, 2021). All models were finetune on each programming language variant for 10 epochs with the same method as detailed in the [original repo](https://github.com/microsoft/CodeXGLUE/tree/main/Code-Text/code-to-text).
 
