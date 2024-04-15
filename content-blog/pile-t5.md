@@ -108,16 +108,16 @@ A:
 
 We see performance gains when using Pile-T5. For MMLU both likelihood-based and generative-based versions are evaluated on. With loglikelihood benifiting mostly zero-shot prompting. Using loglikelihood tends to help model when prompted with 0-shot while the models can struggle to output a proper response when using 0-shot greedy generation. This is due to using strict evaluation and the model frequently generating outputs such as the full answer instead of only the letters. Performance on greedy generation improves when using 5-shot prompting that provides the models example of the correct way to answer. It should be noted that performance can vary significantly depending on the prompt format. Averaging across all variations show that Pile-T5 improves upon v1.1 and is competitive against Flan T5 variants.
 
-| Size | Variant  | Average | Highest Loglikelihood |        |             |        | Greedy Generation |        |             |        |
-| :--: | :------: | :-----: | :-------------------: | :----: | :---------: | :----: | :---------------: | :----: | :---------: | :----: |
-|      |          |         | Original Prompt       |        | Flan Prompt |        | Original Prompt   |        | Flan Prompt |        |
-|      |          |         | 0-Shot                | 5-Shot | 0-Shot      | 5-Shot | 0-Shot            | 5-Shot | 0-Shot      | 5-Shot |
-| XL   | Flan-T5  | 42\.45  | 47\.37                | 49\.17 | 47\.83      | 49\.43 | 6\.63             | 48\.8  | 40\.98      | 49\.39 |
-|      | T5-v1\.1 | 36\.58  | 38\.59                | 39\.52 | 40\.64      | 39\.79 | 25\.95            | 38\.84 | 29\.66      | 39\.67 |
-|      | Pile-T5  | 40\.82  | 46\.04                | 48\.71 | 47\.13      | 48\.18 | 3\.61             | 48\.58 | 35\.53      | 48\.77 |
-| XXL  | Flan-T5  | 46\.94  | 51\.47                | 54\.28 | 53\.31      | 53\.85 | 2\.69             | 53\.93 | 52\.15      | 53\.85 |
-|      | T5-v1\.1 | 45\.76  | 51\.03                | 51\.15 | 46\.72      | 50\.77 | 31\.00            | 50\.72 | 33\.90      | 50\.78 |
-|      | Pile-T5  | 48\.27  | 50\.88                | 53\.35 | 52\.22      | 53\.06 | 35\.8             | 53\.13 | 33\.85      | 53\.84 |
+| Size | Variant  |   Average   | Highest Loglikelihood |            |             |            | Greedy Generation |            |             |            |
+| :--: | :------: | :---------: | :-------------------: | :--------: | :---------: | :--------: | :---------------: | :--------: | :---------: | :--------: |
+|      |          |             | Original Prompt       |            | Flan Prompt |            | Original Prompt   |            | Flan Prompt |            |
+|      |          |             | 0-Shot                | 5-Shot     | 0-Shot      | 5-Shot     | 0-Shot            | 5-Shot     | 0-Shot      | 5-Shot     |
+| XL   | Flan-T5  | **42\.45**  | **47\.37**            | **49\.17** | **47\.83**  | **49\.43** | 6\.63             | **48\.8**  | **40\.98**  | **49\.39** |
+|      | T5-v1\.1 | 36\.58      | 38\.59                | 39\.52     | 40\.64      | 39\.79     | **25\.95**        | 38\.84     | 29\.66      | 39\.67     |
+|      | Pile-T5  | 40\.82      | 46\.04                | 48\.71     | 47\.13      | 48\.18     | 3\.61             | 48\.58     | 35\.53      | 48\.77     |
+| XXL  | Flan-T5  | 46\.94      | **51\.47**            | **54\.28** | **53\.31**  | **53\.85** | 2\.69             | **53\.93** | **52\.15**  | **53\.85** |
+|      | T5-v1\.1 | 45\.76      | 51\.03                | 51\.15     | 46\.72      | 50\.77     | 31\.00            | 50\.72     | 33\.90      | 50\.78     |
+|      | Pile-T5  | **48\.27**  | 50\.88                | 53\.35     | 52\.22      | 53\.06     | **35\.8**         | 53\.13     | 33\.85      | **53\.84** |
 
 ### Performance on BigBench Hard (BBH)
 
