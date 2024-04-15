@@ -137,6 +137,9 @@ Pile-T5 performs substantially better compared to T5v1.1 on BBH on both Few-shot
 
 We observe improvements on finetuned benchmarks such as SuperGLUE, CodeXGLUE, MMLU and BBH. Althought Pile-T5 when finetuned on the Flan mixture lags behind Flan-T5, it still performs better compared to T5v1.1. We conclude that Pile-T5 would be a better model for future multitask finetuning and other tasks that benefit from the encoder-decoder architecture. With performance on the Pile-T5 Large being unexpectedly lagging in benchmarks such as SuperGLUE and Flan Held-In tasks, we believe that there may have been a bug and advise users to take caution when using it. In addition, we believe that the intermediate checkpoint release would wide benefit the community for research areas such as interpretability.
 
+## Acknowledgments
+
+We are grateful to Stability AI for providing the compute required to train these models, and to the TRC Program for providing compute to finetune some of the models.
 
 ## Citation
 
