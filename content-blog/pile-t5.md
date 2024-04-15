@@ -6,7 +6,7 @@ author: ["Lintang Sutawika", "Aran Komatsuzaki", "Colin Raffel"]
 draft: false
 ---
 
-The T5 model (Raffel et al, 2019) has been a widely used model in the NLP community. With downloads of its base model from HF being in the millions, it's no doubt that these models have been a community favorite. However, T5's tokenizer omits important code tokens and subsequent pretraining datasets have been released with higher quality in its filtering and diverse domain. In this blogpost, we introduce an alternative version of T5; Pile-T5 that uses the Pile (Gao et al, 2020) and LLAMA (Touvron et al, 2023) tokenizer that intends to improve upon those weaknesses.
+The T5 model (Raffel et al, 2019) has been a widely used model in the NLP community. With downloads of its base model from HF being in the millions, it's no doubt that these models have been a community favorite. However, T5's tokenizer omits important code-related tokens and subsequent pretraining datasets have been released with higher quality in its filtering and diverse domain. In this blogpost, we introduce an alternative version of T5; Pile-T5 that uses the Pile (Gao et al, 2020) and LLAMA (Touvron et al, 2023) tokenizer that intends to improve upon those weaknesses.
 
 ## Model Description
 
