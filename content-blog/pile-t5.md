@@ -6,13 +6,13 @@ author: ["Lintang Sutawika", "Aran Komatsuzaki", "Colin Raffel"]
 draft: false
 ---
 
-The T5 model (Raffel et al, 2019) has been a widely used model in the NLP community. With downloads of its base model from HF being in the millions, it's no doubt that these models have been a community favorite. However, T5's tokenizer omits important code-related tokens and subsequent pretraining datasets have been released with higher quality in its filtering and diverse domain. In this blogpost, we introduce an alternative version of T5; Pile-T5 that uses the Pile (Gao et al, 2020) and LLAMA (Touvron et al, 2023) tokenizer that intends to improve upon those weaknesses.
+The T5 model (Raffel et al, 2019) has been a widely used model in the NLP community. With downloads of its base model from HF being in the millions, it's no doubt that these models have been a community favorite. However, T5's tokenizer omits important code-related tokens and subsequent pretraining datasets have been released with higher quality in its filtering and diverse domain. In this blogpost, we introduce a new version of T5; Pile-T5 that is trained on the Pile (Gao et al, 2020) and uses the LLAMA tokenizer (Touvron et al, 2023) that intends to improve upon those weaknesses.
 
 ## Model Description
 
-Our alternative version consists of replacing the pretrained dataset with the Pile and switching out the original T5 tokenizer with the LLAMA tokenizer. Pile-T5 was trained to 2 million steps or 2 trillion tokens in total. We train with the original span corruption method and observe that improvements for finetuning on downstream tasks that users would want to for their usecases. On top of that, Pile-T5 performs much better on code tasks which would benefit extension towards code tasks. Our released models were trained on the same hyperparameters as the original T5, utilizing [T5x](https://github.com/google-research/t5x). We release the our experiments scripts [here](https://github.com/EleutherAI/improved-t5).
+Our alternative version consists of replacing the pretrained dataset with the Pile and switching out the original T5 tokenizer with the LLAMA tokenizer. Pile-T5 was trained to 2 million steps or 2 trillion tokens in total, twice what the original T5 model was trained for. We train with the original span corruption method and observe that improvements for finetuning on downstream tasks that users would want to for their usecases. We find that our models substantially outpreform the widely used T5 models even in token-matched settings. In particular, Pile-T5 performs much better on code tasks which would benefit extension towards code tasks. Our released models were trained on the same hyperparameters as the original T5, utilizing [T5x](https://github.com/google-research/t5x). We release the our experiments scripts [here](https://github.com/EleutherAI/improved-t5).
 
-These models are accessible from EleutherAI's [huggingface page](https://huggingface.co/collections/EleutherAI/pile-t5-65a76a0d0022dd270b385a66). A notable difference from the original T5 is that the Pile-T5 uses the transformer implementation for [UMT5](https://huggingface.co/docs/transformers/model_doc/umt5) (Chung, Constant, Garcia et al, 2023) because it uses the same scalable implementation in T5x. Inspired by Pythia (Biderman and Shoelkopf et al 2023), we release [intermediate checkpoints](https://huggingface.co/collections/EleutherAI/pile-t5-65a76a0d0022dd270b385a66) that span every 10.000 steps. The `main` branch for these models in their resepective huggingface page is the 2 million step version. In addition, we release the T5x versions of the checkpoints [here](https://huggingface.co/collections/EleutherAI/pile-t5-t5x-checkpoints-660aaab3e8c24412c5f69a6a).
+These models are accessible from EleutherAI's [huggingface page](https://huggingface.co/collections/EleutherAI/pile-t5-65a76a0d0022dd270b385a66). A notable difference from the original T5 is that the Pile-T5 uses the transformer implementation for [UMT5](https://huggingface.co/docs/transformers/model_doc/umt5) (Chung, Constant, Garcia et al, 2023) because it uses the same scalable implementation in T5x. Inspired by Pythia (Biderman and Shoelkopf et al 2023), we release [intermediate checkpoints](https://huggingface.co/collections/EleutherAI/pile-t5-65a76a0d0022dd270b385a66) that span every 10,000 steps with the goal of empowering researchers to study the evolution of our models over time. The `main` branch for these models in their resepective huggingface page is the 2 million step version, with other branches containing the partially trained checkpoints. In addition, we release the T5x versions of the checkpoints [here](https://huggingface.co/collections/EleutherAI/pile-t5-t5x-checkpoints-660aaab3e8c24412c5f69a6a).
 
 ## Going Beyond 1 Trillion Tokens
 
@@ -20,47 +20,46 @@ The Pile-T5 models were evaluated on SuperGLUE, CodeXGLUE, as well as MMLU and B
 
 ### Performance on SuperGLUE
 
-To asses performance on SuperGLUE, we finetune the Pile-T5 (Both the 1 trillion tokens version and the final 2 trillion tokens version) and T5v1.1 models for a batch size of 128 for 263k steps matching the original T5 paper. With all models except for Large, we observe substansial performance increase. 
+To asses performance on SuperGLUE, we finetune the Pile-T5 (Both the 1 trillion tokens version and the final 2 trillion tokens version) and T5v1.1 models for a batch size of 128 for 263k steps matching the original T5 paper. With all models except for Large, we observe substansial performance increase. Note that Pile-T5 (1T) already outpreforms T5-v1.1 and that performance is further increased by further training.
 
 |  Size |    Variant   |  Average  |   boolq   |     cb    |           |  copa  |  multirc  |           |   record  |           |    rte    |    wic    |    wsc    |
 |:-----:|:------------:|:---------:|:---------:|:---------:|:---------:|:------:|:---------:|:---------:|:---------:|:---------:|:---------:|:---------:|:---------:|
 |       |              |           |    acc    |     f1    |    acc    |   acc  |     f1    |     em    |     em    |     f1    |    acc    |    acc    |    acc    |
-|  Base |   T5-v1.1    |   71.33   |   79.36   |   83.63   |    87.5   |   63   |   73.45   |   33.26   |    69.7   |   68.75   |   78.34   |   65.83   |   75.96   |
-|       | Pile-T5 (1T) |   74.85   |   81.46   |   93.69   |   94.64   |   65   |   77.75   |    40.5   |   76.97   |   76.49   |   80.86   |   67.39   |   74.03   |
-|       |  **Pile-T5** | **76.13** | **82.45** | **96.07** | **94.64** | **72** | **77.74** | **39.56** | **77.64** | **76.88** | **83.03** | **67.24** | **73.08** |
-| Large | **T5-v1.1** | **81.11** | **85.96** | **93.21** | **96.43** | **82** | **81.71** | **48.37** | **82.18** | **81.71** | **85.92** | **71.47** | **81.73** |
-|       | Pile-T5 (1T) |   79.18   |    83.7   |   91.85   |   94.64   |   79   |   82.36   |   47.85   |   82.72   |   82.14   |   83.03   |    65.2   |   81.73   |
-|       |    Pile-T5   |   79.67   |   85.71   |   88.96   |   94.64   |   74   |    82.6   |   50.47   |    84.1   |    83.7   |   85.19   |   68.49   |   81.73   |
+|  Base |   T5-v1.1    |   71.33   |   79.36   |   83.63   |    87.5   |   63   |   73.45   |   33.26   |    69.7   |   68.75   |   78.34   |   65.83   | **75.96** |
+|       | Pile-T5 (1T) |   74.85   |   81.46   |   93.69   | **94.64** |   65   | **77.75** | **40.50** |   76.97   | **76.49** |   80.86   | **67.39** |   74.03   |
+|       |  **Pile-T5** | **76.13** | **82.45** | **96.07** | **94.64** | **72** | **77.74** |   39.56   | **77.64** | **76.88** | **83.03** | **67.24** |   73.08   |
+| Large | **T5-v1.1**  | **81.11** | **85.96** | **93.21** | **96.43** | **82** |   81.71   |   48.37   |   82.18   |   81.71   | **85.92** | **71.47** | **81.73** |
+|       | Pile-T5 (1T) |   79.18   |   83.70   |   91.85   |   94.64   |   79   |   82.36   |   47.85   |   82.72   |   82.14   |   83.03   |    65.2   | **81.73** |
+|       |    Pile-T5   |   79.67   |   85.71   |   88.96   |   94.64   |   74   | **82.60** | **50.47** |  **84.1** | **83.70** |   85.19   |   68.49   | **81.73** |
 |   XL  |   T5-v1.1    |   81.76   |   86.79   |   81.18   |   91.07   |   84   |   84.03   |   52.89   |   83.92   |    83.5   |   90.25   |   73.04   |   81.73   |
-|       | Pile-T5 (1T) |   86.09   |   89.76   |    90.6   |   94.64   |   96   |   88.17   |    63.9   |   91.58   |   91.36   |    93.5   |   72.73   |   86.54   |
-|       |  **Pile-T5** | **89.00** |  **90.4** |  **93.1** | **96.43** | **96** | **88.63** | **65.16** | **92.21** | **91.96** | **92.78** | **75.24** | **96.15** |
-|  XXL  |   T5-v1.1    |   82.43   |   88.29   |   93.61   |   94.64   |   86   |   75.22   |     51    |   84.67   |   84.55   |   89.17   |   72.41   |   81.73   |
+|       | Pile-T5 (1T) |   86.09   |   89.76   |    90.6   |   94.64   | **96** |   88.17   |   63.90   |   91.58   |   91.36   | **93.50** |   72.73   |   86.54   |
+|       |  **Pile-T5** | **89.00** |  **90.4** |  **93.1** | **96.43** | **96** | **88.63** | **65.16** | **92.21** | **91.96** |   92.78   | **75.24** | **96.15** |
+|  XXL  |   T5-v1.1    |   82.43   |   88.29   |   93.61   |   94.64   |   86   |   75.22   |   51.00   |   84.67   |   84.55   |   89.17   |   72.41   |   81.73   |
 |       | Pile-T5 (1T) |   87.11   |   90.46   |    94.3   |   96.43   |   93   |   80.81   |   56.77   |   91.36   |   91.18   |   92.42   |   70.38   |   95.19   |
 |       |  **Pile-T5** | **90.08** | **90.98** | **98.68** | **98.21** | **95** | **89.28** | **67.68** | **93.04** |  **92.7** |  **93.5** | **75.24** | **96.15** |
 
 ### Performance on CodeXGlUE
 
-We evaluated on the Code-to-Text subtask of CodeXGLUE (Su et al, 2021). Both Pile-T5 and T5v1.1 were finetune on each programming language variant for 10 epochs with the same method as detailed in the [original repo](https://github.com/microsoft/CodeXGLUE/tree/main/Code-Text/code-to-text).
+Since one of our major goals is to improve the ability of models to understand code, we also evaluated on the Code-to-Text subtask of CodeXGLUE (Su et al, 2021). All models were finetune on each programming language variant for 10 epochs with the same method as detailed in the [original repo](https://github.com/microsoft/CodeXGLUE/tree/main/Code-Text/code-to-text).
 
 |  Size |    Version   |  Average  |   Python  |    PHP    |     Go    |    Java   | JavaScript |    Ruby   |
 |:-----:|:------------:|:---------:|:---------:|:---------:|:---------:|:---------:|:----------:|:---------:|
-|  Base |   T5-v1.1    |   14.34   |   15.55   |   21.72   |   14.71   |   14.89   |    9.25    |    9.9    |
-|       | Pile-T5 (1T) |   15.90   |    17.2   |    22.9   |   16.75   |   16.24   |    11.23   |    11.1   |
-|       |  **Pile-T5** | **16.37** | **17.78** | **23.12** |  **16.7** | **16.68** |  **11.89** | **12.06** |
-| Large |   T5-v1.1    |   11.53   |   12.18   |   14.17   |   12.37   |    12.3   |    8.85    |    9.32   |
-|       | Pile-T5 (1T) |   15.74   |   17.09   |    22.8   |   17.16   |   16.33   |    10.75   |   10.31   |
-|       |  **Pile-T5** | **16.28** | **17.72** | **22.95** | **17.07** | **16.41** |  **12.05** | **11.45** |
+|  Base |   T5-v1.1    |   14.34   |   15.55   |   21.72   |   14.71   |   14.89   |     9.25   |   9.90    |
+|       | Pile-T5 (1T) |   15.90   |   17.20   |   22.90   | **16.75** |   16.24   |    11.23   |   11.10   |
+|       |  **Pile-T5** | **16.37** | **17.78** | **23.12** | **16.70** | **16.68** |  **11.89** | **12.06** |
+| Large |   T5-v1.1    |   11.53   |   12.18   |   14.17   |   12.37   |   12.30   |    8.85    |    9.32   |
+|       | Pile-T5 (1T) |   15.74   |   17.09   |   22.80   | **17.16** |   16.33   |    10.75   |   10.31   |
+|       |  **Pile-T5** | **16.28** | **17.72** | **22.95** |   17.07   | **16.41** |  **12.05** | **11.45** |
 |   XL  |   T5-v1.1    |   16.17   |   17.36   |   21.91   |   16.69   |   17.74   |    11.08   |   12.25   |
 |       | Pile-T5 (1T) |   18.01   |   18.61   |   23.75   |   19.04   |   18.43   |    14.27   |   13.93   |
 |       |  **Pile-T5** | **18.68** | **19.25** | **24.37** | **19.42** | **19.15** |  **15.1**  | **14.81** |
 |  XXL  |   T5-v1.1    |   17.67   |   17.89   |   23.21   |   18.54   |   19.17   |    13.85   |   13.33   |
-|       | Pile-T5 (1T) |   18.55   |   19.53   |   24.11   |   19.27   |   18.52   |    15.11   |   14.75   |
-|       |  **Pile-T5** | **18.72** | **19.27** | **24.49** |  **19.6** | **18.96** |  **15.1**  | **14.92** |
+|       | Pile-T5 (1T) |   18.55   |   19.53   |   24.11   |   19.27   |   18.52   |  **15.11** |   14.75   |
+|       |  **Pile-T5** | **18.72** | **19.27** | **24.49** | **19.60** | **18.96** |  **15.10** | **14.92** |
 
-Due to both the Pile inlcuding code-based data and the LLAMA tokenizer including characters frequently used in code, we observe improvement when on code-based benchmark, specifically the CodeXGlue Code-to-Text benchmark that comprises of 6 programming languages.
+Due to both the Pile inlcuding code-based data and the LLAMA tokenizer including characters frequently used in code, we observe a sharp improvement in performance. Note that even though Pile-T5-large performs worse than T5-v1.1 in general, it substantially outpreforms it on these coding benchmarks. This appears to be primarily driven by the very poor performance of T5-v1.1-large, which substantially underperforms T5-v1.1-base! By contrast, Pile-T5-large performs similarly to Pile-T5-base.
 
 ## Using Flan Instruction Tuning
-
 
 We continue by finetuning Pile-T5 models on Flan (Chung, Hou, Longpre et all, 2022) with same training hyperparameters and evaluate on MMLU (Hendrycks et al, 2021) and BigBench Hard (Suzgun et al, 2022). We specifically use the 2 trillion tokens versions of Pile-T5. For fair comparison, We also finetune T5-v1.1 checkpoints with the same procedure. While comparison with FLAN models isn't necesarrily a fair comparison given that it was based on LM-Adapted version of T5v1.1, we include the perfromance score for reference. 
 
@@ -70,12 +69,12 @@ We observe competitive performance over held-in tasks (tasks that were included 
 
 | Size  | Version  | Average | ANLI R1 | ANLI R2 | ANLI R3 | Arc Easy | Arc Challange | BoolQ  | RTE    |
 | :---: | :------: | :-----: | :-----: | :-----: | :-----: | :------: | :-----------: | :----: | :----: |
-| Base  | T5-v1\.1 | 46\.50  | 39\.9   | 34\.96  | 37\.33  | 38\.12   | 28\.23        | 70\.26 | 76\.73 |
+| Base  | T5-v1\.1 | 46\.50  | 39\.90  | 34\.96  | 37\.33  | 38\.12   | 28\.23        | 70\.26 | 76\.73 |
 |       | Pile-T5  | 46\.37  | 39\.32  | 35\.28  | 37\.53  | 36\.61   | 30\.67        | 71\.87 | 73\.28 |
-| Large | T5-v1\.1 | 54\.90  | 52\.46  | 39\.67  | 42\.53  | 50\.6    | 39\.99        | 78\.56 | 80\.5  |
-|       | Pile-T5  | 36\.97  | 33      | 33\.03  | 32\.98  | 29\.27   | 21\.21        | 56\.36 | 52\.95 |
+| Large | T5-v1\.1 | 54\.90  | 52\.46  | 39\.67  | 42\.53  | 50\.60   | 39\.99        | 78\.56 | 80\.50 |
+|       | Pile-T5  | 36\.97  | 33\.00  | 33\.03  | 32\.98  | 29\.27   | 21\.21        | 56\.36 | 52\.95 |
 | XL    | T5-v1\.1 | 56\.40  | 53\.82  | 40\.22  | 41\.01  | 56\.31   | 39\.08        | 80\.66 | 83\.71 |
-|       | Pile-T5  | 64\.41  | 64\.36  | 48\.02  | 49\.18  | 66\.56   | 58\.28        | 85\.16 | 79\.3  |
+|       | Pile-T5  | 64\.41  | 64\.36  | 48\.02  | 49\.18  | 66\.56   | 58\.28        | 85\.16 | 79\.30 |
 | XXL   | T5-v1\.1 | 69\.99  | 71\.63  | 55\.81  | 57\.41  | 75\.56   | 62\.30        | 86\.53 | 80\.71 |
 |       | Pile-T5  | 69\.21  | 71\.16  | 55\.92  | 55\.19  | 70\.85   | 59\.82        | 87\.55 | 83\.96 |
 
@@ -124,18 +123,15 @@ We see performance gains when using Pile-T5. For MMLU both likelihood-based and 
 
 Pile-T5 performs substantially better compared to T5v1.1 on BBH on both Few-shot and Zero-shot settings and comparatively well even against Flan-T5.
 
-| Size | Variant  | Average | Greedy Generation |          |
-| :--: | :------: | :-----: | :---------------: | :------: |
-|      |          |         | Zero-Shot         | Few-Shot |
-| XL   | Flan-T5  | 32\.54  | 24\.71            | 40\.36   |
-|      | T5-v1\.1 | 30\.87  | 28\.67            | 33\.06   |
-|      | Pile-T5  | 35\.74  | 29\.98            | 41\.49   |
-| XXL  | Flan-T5  | 43\.89  | 43\.06            | 44\.72   |
-|      | T5-v1\.1 | 37\.49  | 35\.14            | 39\.84   |
-|      | Pile-T5  | 44\.16  | 41\.61            | 46\.71   |
-
-
-
+| Size | Variant  | Greedy Generation |            |
+| :--: | :------: | :---------------: | :--------: |
+|      |          | Zero-Shot         | Few-Shot   |
+| XL   | Flan-T5  | 24\.71            | 40\.36     |
+|      | T5-v1\.1 | 28\.67            | 33\.06     |
+|      | Pile-T5  | **29\.98**        | **41\.49** |
+| XXL  | Flan-T5  | **43\.06**        | 44\.72     |
+|      | T5-v1\.1 | 35\.14            | 39\.84     |
+|      | Pile-T5  | 41\.61            | **46\.71** |
 
 ## Conclusion
 
