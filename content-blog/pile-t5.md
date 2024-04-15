@@ -149,7 +149,7 @@ We observe improvements on finetuned benchmarks such as SuperGLUE, CodeXGLUE, MM
   author  = {Lintang Sutawika and Aran Komatsuzaki and Colin Raffel},
   title   = {Pile-T5},
   year    = {2024},
-  url     = {https://blog.eleuther.ai/pile-t5/}
+  url     = {https://blog.eleuther.ai/pile-t5/},
   note    = {Blog post},
 }
 ```
