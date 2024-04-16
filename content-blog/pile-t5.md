@@ -61,7 +61,7 @@ Due to both the Pile inlcuding code-based data and the LLAMA tokenizer including
 
 ## Using Flan Instruction Tuning
 
-We continue by finetuning Pile-T5 models on Flan (Chung, Hou, Longpre et all, 2022) with same training hyperparameters and evaluate on MMLU (Hendrycks et al, 2021) and BigBench Hard (Suzgun et al, 2022). We specifically use the 2 trillion tokens versions of Pile-T5. For fair comparison, We also finetune T5-v1.1 checkpoints with the same procedure. While comparison with FLAN models isn't necesarrily a fair comparison given that it was based on LM-Adapted version of T5v1.1, we include the perfromance score for reference. 
+We continue by finetuning Pile-T5 models on Flan (Longpre et al, 2023a) specifically from the [Data Provenance Initiative](https://huggingface.co/DataProvenanceInitiative) (Longpre et al, 2023b) with same training hyperparameters and evaluate on MMLU (Hendrycks et al, 2021) and BigBench Hard (Suzgun et al, 2022). We specifically use the 2 trillion tokens versions of Pile-T5. For fair comparison, We also finetune T5-v1.1 checkpoints with the same procedure. While comparison with FLAN models isn't necesarrily a fair comparison given that it was based on LM-Adapted version of T5v1.1, we include the perfromance score for reference. 
 
 ### Performance on Held-In
 
@@ -160,6 +160,7 @@ We observe improvements on finetuned benchmarks such as SuperGLUE, CodeXGLUE, MM
 5. Gao, Leo, Jonathan Tow, Baber Abbasi, Stella Biderman, Sid Black, Anthony DiPofi, Charles Foster, et al. ‘A Framework for Few-Shot Language Model Evaluation’. Zenodo, 12 2023. https://doi.org/10.5281/zenodo.10256836.
 6. Hendrycks, Dan, Collin Burns, Steven Basart, Andy Zou, Mantas Mazeika, Dawn Song, and Jacob Steinhardt. ‘Measuring Massive Multitask Language Understanding’. arXiv [Cs.CY], 2021. arXiv. http://arxiv.org/abs/2009.03300.
 7. Longpre, Shayne, Le Hou, Tu Vu, Albert Webson, Hyung Won Chung, Yi Tay, Denny Zhou, et al. *The Flan Collection: Designing Data and Methods for Effective Instruction Tuning*. arXiv [Cs.AI], 2023. arXiv. http://arxiv.org/abs/2301.13688.
-8. Lu, Shuai, Daya Guo, Shuo Ren, Junjie Huang, Alexey Svyatkovskiy, Ambrosio Blanco, Colin Clement, et al. ‘CodeXGLUE: A Machine Learning Benchmark Dataset for Code Understanding and Generation’. arXiv [Cs.SE], 2021. arXiv. http://arxiv.org/abs/2102.04664.
-9. Suzgun, Mirac, Nathan Scales, Nathanael Schärli, Sebastian Gehrmann, Yi Tay, Hyung Won Chung, Aakanksha Chowdhery, et al. ‘Challenging BIG-Bench Tasks and Whether Chain-of-Thought Can Solve Them’. arXiv [Cs.CL], 2022. arXiv. http://arxiv.org/abs/2210.09261.
-10. Touvron, Hugo, Thibaut Lavril, Gautier Izacard, Xavier Martinet, Marie-Anne Lachaux, Timothée Lacroix, Baptiste Rozière, et al. ‘LLaMA: Open and Efficient Foundation Language Models’. arXiv [Cs.CL], 2023. arXiv. http://arxiv.org/abs/2302.13971.
+8. Longpre, Shayne, Robert Mahari, Anthony Chen, Naana Obeng-Marnu, Damien Sileo, William Brannon, Niklas Muennighoff, et al. ‘The Data Provenance Initiative: A Large Scale Audit of Dataset Licensing & Attribution in AI’. arXiv [Cs.CL], 2023. arXiv. http://arxiv.org/abs/2310.16787.
+9. Lu, Shuai, Daya Guo, Shuo Ren, Junjie Huang, Alexey Svyatkovskiy, Ambrosio Blanco, Colin Clement, et al. ‘CodeXGLUE: A Machine Learning Benchmark Dataset for Code Understanding and Generation’. arXiv [Cs.SE], 2021. arXiv. http://arxiv.org/abs/2102.04664.
+10. Suzgun, Mirac, Nathan Scales, Nathanael Schärli, Sebastian Gehrmann, Yi Tay, Hyung Won Chung, Aakanksha Chowdhery, et al. ‘Challenging BIG-Bench Tasks and Whether Chain-of-Thought Can Solve Them’. arXiv [Cs.CL], 2022. arXiv. http://arxiv.org/abs/2210.09261.
+11. Touvron, Hugo, Thibaut Lavril, Gautier Izacard, Xavier Martinet, Marie-Anne Lachaux, Timothée Lacroix, Baptiste Rozière, et al. ‘LLaMA: Open and Efficient Foundation Language Models’. arXiv [Cs.CL], 2023. arXiv. http://arxiv.org/abs/2302.13971.
