@@ -146,6 +146,7 @@ We observe improvements on finetuned benchmarks such as SuperGLUE, CodeXGLUE, MM
 ## Acknowledgments
 
 We are grateful to Stability AI for providing the compute required to train these models, and to the TRC Program for providing compute to finetune some of the models.
+Thanks to Stella Biderman and @philpax for making adjustments to the blog post.
 
 ## Citation
 
