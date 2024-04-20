@@ -6,21 +6,21 @@ author: ["Lintang Sutawika", "Aran Komatsuzaki", "Colin Raffel"]
 draft: false
 ---
 
-The T5 model (Raffel et al, 2019) has been a widely used model in the NLP community. With downloads of its base model from HF being in the millions, it's no doubt that these models have been a community favorite. However, T5's tokenizer omits important code-related tokens and subsequent pretraining datasets have been released with higher quality in its filtering and diverse domain. In this blogpost, we introduce a new version of T5; Pile-T5 that is trained on the Pile (Gao et al, 2020) and uses the LLAMA tokenizer (Touvron et al, 2023) that intends to improve upon those weaknesses.
+The T5 model (Raffel et al, 2019) is widely used in the NLP community. Its base model has been downloaded from Hugging Face millions of times, leaving no doubt that these models are a favorite of the community. However, T5's tokenizer omits important code-related tokens and subsequent pretraining datasets have been released with higher quality filtering and more diverse domains. In this blog post, we introduce a new version of T5 intended to address those weaknesses: **Pile-T5**, trained on the Pile (Gao et al, 2020) and using the LLaMA tokenizer (Touvron et al, 2023).
 
 ## Model Description
 
-Our alternative version consists of replacing the pretrained dataset with the Pile and switching out the original T5 tokenizer with the LLAMA tokenizer. Pile-T5 was trained to 2 million steps or 2 trillion tokens in total, twice what the original T5 model was trained for. We train with the original span corruption method and observe that improvements for finetuning on downstream tasks that users would want to for their usecases. We find that our models substantially outperform the most widely used T5 models (called T5-v1.1) even in token-matched settings. In particular, Pile-T5 performs much better on code tasks which would benefit extension towards code tasks. Our released models were trained on the same hyperparameters as the original T5, utilizing [T5x](https://github.com/google-research/t5x). We release the our experiments scripts [here](https://github.com/EleutherAI/improved-t5).
+Our alternative version replaces the pretraining dataset with the Pile and switches the original T5 tokenizer for the LLaMA tokenizer. Pile-T5 was trained to 2 million steps or 2 trillion tokens in total - twice what the original T5 model was trained for. We train with the original span corruption method and observe improvements for finetuning on downstream tasks applicable to users. We find that our models substantially outperform the most widely used T5 models (called T5-v1.1) even in token-matched settings. In particular, Pile-T5 performs much better on code tasks. Our released models were trained on the same hyperparameters as the original T5, utilizing [T5x](https://github.com/google-research/t5x). We release our experiment scripts [here](https://github.com/EleutherAI/improved-t5).
 
-These models are accessible from EleutherAI's [huggingface page](https://huggingface.co/collections/EleutherAI/pile-t5-65a76a0d0022dd270b385a66). A notable difference from the original T5 is that the Pile-T5 uses the transformer implementation for [UMT5](https://huggingface.co/docs/transformers/model_doc/umt5) (Chung, Constant, Garcia et al, 2023) because it uses the same scalable implementation in T5x. Inspired by Pythia (Biderman and Shoelkopf et al 2023), we release [intermediate checkpoints](https://huggingface.co/collections/EleutherAI/pile-t5-65a76a0d0022dd270b385a66) that span every 10,000 steps with the goal of empowering researchers to study the evolution of our models over time. The `main` branch for these models in their resepective huggingface page is the 2 million step version, with other branches containing the partially trained checkpoints. In addition, we release the T5x versions of the checkpoints [here](https://huggingface.co/collections/EleutherAI/pile-t5-t5x-checkpoints-660aaab3e8c24412c5f69a6a).
+These models are accessible from EleutherAI's [Hugging Face page](https://huggingface.co/collections/EleutherAI/pile-t5-65a76a0d0022dd270b385a66). A notable difference from the original T5 is the use of the transformer implementation from [umT5](https://huggingface.co/docs/transformers/model_doc/umt5) (Chung, Constant, Garcia et al, 2023) due to the use of the scalable implementation in T5x. Inspired by Pythia (Biderman and Schoelkopf et al 2023), we release [intermediate checkpoints](https://huggingface.co/collections/EleutherAI/pile-t5-65a76a0d0022dd270b385a66) that span every 10,000 steps with the goal of empowering researchers who wish to study the evolution of our models over time. The `main` branch for these models in their respective Hugging Face page contains the 2 million step version, and the the partially trained checkpoints can be found in the other branches. In addition, we release the T5x versions of the checkpoints [here](https://huggingface.co/collections/EleutherAI/pile-t5-t5x-checkpoints-660aaab3e8c24412c5f69a6a).
 
 ## Going Beyond 1 Trillion Tokens
 
-The Pile-T5 models were evaluated on SuperGLUE, CodeXGLUE, as well as MMLU and Bigbench Hard. The Pile-T5 models are compared with the [T5v1.1](https://github.com/google-research/text-to-text-transfer-transformer/blob/main/released_checkpoints.md) where both were finetuned over the same amount of tokens. We also compare Pile-T5 models againts the Flan-T5 models for MMLU and BBH as a loose comparison. All evaluations were done with the [LM-Evaluation Harness](https://github.com/EleutherAI/lm-evaluation-harness) (Gao et al, 2023) to report model performance over the benchmarks we present here. We release the finetuned checkpoints for [Base](https://huggingface.co/collections/lintang/pile-t5-base-finetuned-models-65d307353ecda975d828ebb8), [Large](https://huggingface.co/collections/lintang/pile-t5-large-finetuned-models-65d307ec0545ab7c1153b804), [XL](https://huggingface.co/collections/lintang/pile-t5-xl-finetuned-models-65d30bbcf5a15aa421099b4e), and [XXL](https://huggingface.co/collections/lintang/pile-t5-xxl-finetuned-models-65a76bbc4908b2676c6b8a94).
+The Pile-T5 models were evaluated on SuperGLUE, CodeXGLUE, as well as MMLU and Bigbench Hard. The Pile-T5 models were compared with [T5v1.1](https://github.com/google-research/text-to-text-transfer-transformer/blob/main/released_checkpoints.md) where both were finetuned over the same amount of tokens. We also compare Pile-T5 models against the Flan-T5 models for MMLU and BBH as a loose comparison. All evaluations were done with the [LM-Evaluation Harness](https://github.com/EleutherAI/lm-evaluation-harness) (Gao et al, 2023) to report model performance over the benchmarks presented here. We release the finetuned checkpoints for [Base](https://huggingface.co/collections/lintang/pile-t5-base-finetuned-models-65d307353ecda975d828ebb8), [Large](https://huggingface.co/collections/lintang/pile-t5-large-finetuned-models-65d307ec0545ab7c1153b804), [XL](https://huggingface.co/collections/lintang/pile-t5-xl-finetuned-models-65d30bbcf5a15aa421099b4e), and [XXL](https://huggingface.co/collections/lintang/pile-t5-xxl-finetuned-models-65a76bbc4908b2676c6b8a94).
 
 ### Performance on SuperGLUE
 
-To asses performance on SuperGLUE, we finetune the Pile-T5 (Both the 1 trillion tokens version and the final 2 trillion tokens version) and T5v1.1 models for a batch size of 128 for 263k steps matching the original T5 paper. With all models except for Large, we observe substansial performance increase. Note that Pile-T5 (1T) already outpreforms T5-v1.1 and that performance is further increased by further training.
+To assess performance on SuperGLUE, we finetune the Pile-T5 (both the 1 trillion token version and the final 2 trillion token version) and T5v1.1 models with a batch size of 128 for 263K steps, matching the original T5 paper. With all models except for Large, we observe a substantial performance increase. Note that Pile-T5 (1T) already outperforms T5-v1.1 and that performance is further increased by further training.
 
 |  Size |    Variant   |  Average  |   boolq   |     cb    |           |  copa  |  multirc  |           |   record  |           |    rte    |    wic    |    wsc    |
 |:-----:|:------------:|:---------:|:---------:|:---------:|:---------:|:------:|:---------:|:---------:|:---------:|:---------:|:---------:|:---------:|:---------:|
@@ -40,7 +40,7 @@ To asses performance on SuperGLUE, we finetune the Pile-T5 (Both the 1 trillion 
 
 ### Performance on CodeXGLUE
 
-Since one of our major goals is to improve the ability of models to understand code, we also evaluated on the Code-to-Text subtask of CodeXGLUE (Su et al, 2021). All models were finetune on each programming language variant for 10 epochs with the same method as detailed in the [original repo](https://github.com/microsoft/CodeXGLUE/tree/main/Code-Text/code-to-text).
+As one of our major goals is to improve the ability of the models to understand code, we ran evaluations on the Code-to-Text subtask of CodeXGLUE (Su et al, 2021). All models were finetuned on each programming language variant for 10 epochs with the same method as the [original repository](https://github.com/microsoft/CodeXGLUE/tree/main/Code-Text/code-to-text).
 
 |  Size |    Version   |  Average  |   Python  |    PHP    |     Go    |    Java   | JavaScript |    Ruby   |
 |:-----:|:------------:|:---------:|:---------:|:---------:|:---------:|:---------:|:----------:|:---------:|
@@ -57,17 +57,21 @@ Since one of our major goals is to improve the ability of models to understand c
 |       | Pile-T5 (1T) |   18.55   |   19.53   |   24.11   |   19.27   |   18.52   |  **15.11** |   14.75   |
 |       |  **Pile-T5** | **18.72** | **19.27** | **24.49** | **19.60** | **18.96** |  **15.10** | **14.92** |
 
-Due to both the Pile inlcuding code-based data and the LLAMA tokenizer including characters frequently used in code, we observe a sharp improvement in performance. Note that even though Pile-T5-large performs worse than T5-v1.1 in general, it substantially outpreforms it on these coding benchmarks. This appears to be primarily driven by the very poor performance of T5-v1.1-large, which substantially underperforms T5-v1.1-base! By contrast, Pile-T5-large performs similarly to Pile-T5-base.
+As a result of both the Pile including code-based data and the LLaMA tokenizer including characters frequently used in code, we observe a sharp improvement in performance. Note that even though Pile-T5-Large performs worse than T5-v1.1 in general, it substantially outperforms it on these coding benchmarks. This appears to be primarily driven by the very poor performance of T5-v1.1-Large, which substantially underperforms T5-v1.1-base! By contrast, Pile-T5-Large performs similarly to Pile-T5-base.
 
 ## Using Flan Instruction Tuning
 
-We continue by finetuning Pile-T5 models on Flan (Chung, Hou, Longpre et all, 2022) with same training hyperparameters and evaluate on MMLU (Hendrycks et al, 2021) and BigBench Hard (Suzgun et al, 2022). When comparing to the Flan-T5 model, we found our Pile-T5 falls short by a small but meaningful amount. After following up with the authors we learned that not all of the finetuning data used to produce Flan-T5 was publicly released, which may explain the performance difference. For a more fair comparison, we also finetuned T5-v1.1 checkpoints with the same procedure and data that we used on the Pile-T5 models. We specifically use the 2 trillion tokens versions of Pile-T5, making the comparison with T5-v1.1 reflect both the increased training data scale and the change in data and tokenizer.
+We continue by finetuning Pile-T5 models on Flan (Chung, Hou, Longpre et all, 2022) with the same training hyperparameters and evaluating on MMLU (Hendrycks et al, 2021) and BigBench Hard (Suzgun et al, 2022). 
+
+When compared to the Flan-T5 model, we found that Pile-T5 falls short by a small but meaningful amount. After following up with the authors, we learned that not all of the finetuning data used to produce Flan-T5 was publicly released, which may account for the difference in performance. 
+
+For a fairer comparison, we also finetuned T5-v1.1 checkpoints with the same procedure and data used on the Pile-T5 models. We specifically use the 2 trillion token version of Pile-T5 so that the comparison with T5-v1.1 reflects both the increased scale of the training data and the change in data and tokenizer.
 
 ### Performance on Held-In
 
-We observe competitive performance over held-in tasks (tasks that were included in the Flan Instruction Tuning dataset) with a dip in performance at the Large variant similar to SuperGLUE.
+We observe competitive performance over held-in tasks (tasks that were included in the Flan Instruction Tuning dataset) with a dip in performance in the Large variant, similar to the behaviour observed with SuperGLUE.
 
-| Size  | Version  |   Average   |   ANLI R1   |   ANLI R2   |   ANLI R3   |   Arc Easy   | Arc Challange |    BoolQ   |    RTE     |
+| Size  | Version  |   Average   |   ANLI R1   |   ANLI R2   |   ANLI R3   |   Arc Easy   | Arc Challenge |    BoolQ   |    RTE     |
 | :---: | :------: | :---------: | :---------: | :---------: | :---------: | :----------: | :-----------: | :--------: | :--------: |
 | Base  | T5-v1\.1 | **46\.50**  | **39\.90**  | 34\.96      | 37\.33      | **38\.12**   | 28\.23        | 70\.26     | **76\.73** |
 |       | Pile-T5  | 46\.37      | 39\.32      | **35\.28**  | **37\.53**  | 36\.61       | **30\.67**    | **71\.87** | 73\.28     |
@@ -82,9 +86,9 @@ We observe competitive performance over held-in tasks (tasks that were included 
 
 ### Performance on MMLU
 
-Models are evaluated on 2 prompts versions; the original prompt (Hendrycks et al, 2021) and (Chung, Hou, Longpre et all, 2022). In addition, evaluation is not only done in a greedy generation format but also by taking the highest loglikelihood of the available answer choices.
+The models are evaluated with two different versions of the prompt: the original prompt (Hendrycks et al, 2021) and the Flan prompt (Chung, Hou, Longpre et all, 2022).
 
-MMLU Prompt
+MMLU Prompt:
 ```
 The following are multiple choice questions (with answers) about abstract algebra.
 
@@ -96,7 +100,7 @@ D. 6
 Answer:
 ```
 
-Flan Prompt
+Flan Prompt:
 
 ```
 The following are multiple choice questions (with answers) about abstract algebra.
@@ -106,9 +110,11 @@ Q: Find the degree for the given field extension Q(sqrt(2), sqrt(3), sqrt(18)) o
 A:
 ```
 
-We see performance gains when using Pile-T5. For MMLU both likelihood-based and generative-based versions are evaluated on. With loglikelihood benifiting mostly zero-shot prompting. Using loglikelihood tends to help model when prompted with 0-shot while the models can struggle to output a proper response when using 0-shot greedy generation. This is due to using strict evaluation and the model frequently generating outputs such as the full answer instead of only the letters. Performance on greedy generation improves when using 5-shot prompting that provides the models example of the correct way to answer. It should be noted that performance can vary significantly depending on the prompt format. Averaging across all variations show that Pile-T5 improves upon v1.1 and is competitive against Flan T5 variants.
+We observed performance gains when using Pile-T5. For MMLU, both the highest log-likelihood and generative generation were used for evaluation. We observed that log-likelihood evaluation primarily benefitted zero-shot prompting; greedy generation often struggled with outputting a well-structured response, including generating complete answers instead of a single letter that would be rejected by the strict evaluator.
 
-| Size | Variant  |   Average   | Highest Loglikelihood |            |             |            | Greedy Generation |            |             |            |
+Performance on greedy generation is improved by the use of five-shot prompting, which provide the models with examples of the correct response format. It should be noted that performance can vary significantly depending on the prompt format. Averaging across all variations show that Pile-T5 improves upon v1.1 and is competitive against Flan-T5 variants.
+
+| Size | Variant  |   Average   | Highest Log-likelihood |            |             |            | Greedy Generation |            |             |            |
 | :--: | :------: | :---------: | :-------------------: | :--------: | :---------: | :--------: | :---------------: | :--------: | :---------: | :--------: |
 |      |          |             | Original Prompt       |            | Flan Prompt |            | Original Prompt   |            | Flan Prompt |            |
 |      |          |             | 0-Shot                | 5-Shot     | 0-Shot      | 5-Shot     | 0-Shot            | 5-Shot     | 0-Shot      | 5-Shot     |
@@ -121,7 +127,7 @@ We see performance gains when using Pile-T5. For MMLU both likelihood-based and 
 
 ### Performance on BigBench Hard (BBH)
 
-Pile-T5 performs substantially better compared to T5v1.1 on BBH on both Few-shot and Zero-shot settings and comparatively well even against Flan-T5.
+Pile-T5 performs substantially better than T5v1.1 on BBH on both few-shot and zero-shot settings, and is competitive with Flan-T5.
 
 | Size | Variant  | Greedy Generation |            |
 | :--: | :------: | :---------------: | :--------: |
@@ -135,11 +141,12 @@ Pile-T5 performs substantially better compared to T5v1.1 on BBH on both Few-shot
 
 ## Conclusion
 
-We observe improvements on finetuned benchmarks such as SuperGLUE, CodeXGLUE, MMLU and BBH. Althought Pile-T5 when finetuned on the Flan mixture lags behind Flan-T5, it still performs better compared to T5v1.1. We conclude that Pile-T5 would be a better model for future multitask finetuning and other tasks that benefit from the encoder-decoder architecture. With performance on the Pile-T5 Large being unexpectedly lagging in benchmarks such as SuperGLUE and Flan Held-In tasks, we believe that there may have been a bug and advise users to take caution when using it. In addition, we believe that the intermediate checkpoint release would wide benefit the community for research areas such as interpretability.
+We observe improvements on finetuned benchmarks such as SuperGLUE, CodeXGLUE, MMLU and BBH. Pile-T5 outperforms T5v1.1, with the caveat that Pile-T5 finetuned on the Flan mixture is still outpeformed by Flan-T5. We conclude that Pile-T5 would be well-suited for future multitask finetuning and other tasks that benefit from the encoder-decoder architecture. As Pile-T5 Large underperforms in benchmarks, including SuperGLUE and Flan Held-In, we believe that there may have been a bug during training and advise caution in its use. Finally, we hope that the release of the intermediate checkpoints will be of benefit to the research community in interpretability and other endeavours.
 
 ## Acknowledgments
 
 We are grateful to Stability AI for providing the compute required to train these models, and to the TRC Program for providing compute to finetune some of the models.
+Thanks to Stella Biderman and @philpax for making adjustments to the blog post.
 
 ## Citation
 
