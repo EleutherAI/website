@@ -51,20 +51,20 @@ At first CRC-TPC may appear theoretically unmotivated, since there is no obvious
 Here we show that CRC-TPC is better motivated than it first appears. Recall that the top principal component $\mathbf{w^*}$ of a data matrix $X \in \mathbb{R}^{n \times d}$ is the direction of maximal variance in $X$. Formally, it is the solution to the constrained optimization problem:
 $$
 \begin{equation}
-    \mathbf{w^*} = \mathop{\mathrm{argmax\:}}\_{\substack{\\[1pt]||\mathbf{w}||\_2\,=\,1}}\:\mathbf{w}^{T}\mathrm{Cov}(X) \mathbf{w},
+    \mathbf{w^*} = \mathop{\mathrm{argmax }}\_{\substack{\\[1pt]||\mathbf{w}||\_2\,=\,1}} \mathbf{w}^{T}\mathrm{Cov}(X) \mathbf{w},
 \end{equation}
 $$
 where $\mathrm{Cov}(X)$ is the covariance matrix of $X$. By Equation 1, we can view $X$ as the *difference* between two data matrices, $X^{+}$ and $X^{-}$, corresponding to the positive and negative elements of the contrast pairs respectively. Now recall the familiar identity that, for scalar random variables $A$ and $B$,
 $$
 \begin{equation}
-    \mathrm{Var}(A - B) = \mathrm{Var}(A) + \mathrm{Var}(B)\:-\:2\:\mathrm{Cov}(A, B).
+    \mathrm{Var}(A - B) = \mathrm{Var}(A) + \mathrm{Var}(B) - 2 \mathrm{Cov}(A, B).
 \end{equation}
 $$
 We can apply the vector analogue of this identity to rewrite Equation 2 as
 $$
 \begin{equation}
 \begin{aligned}
-    \mathbf{w^*} = \mathop{\mathrm{argmax\:}}\_{\substack{\\[1pt]||\mathbf{w}||\_2\,=\,1}} &\mathbf{w}^{T} [\mathrm{Cov}(X^{+}) + \mathrm{Cov}(X^{-})] \mathbf{w} &&- \mathbf{w}^{T} [\mathrm{Cov}(X^{+}, X^{-}) + \mathrm{Cov}(X^{-}, X^{+})] \mathbf{w}\\
+    \mathbf{w^*} = \mathop{\mathrm{argmax }}\_{\substack{\\[1pt]||\mathbf{w}||\_2\,=\,1}} &\mathbf{w}^{T} [\mathrm{Cov}(X^{+}) + \mathrm{Cov}(X^{-})] \mathbf{w} &&- \mathbf{w}^{T} [\mathrm{Cov}(X^{+}, X^{-}) + \mathrm{Cov}(X^{-}, X^{+})] \mathbf{w}\\
     &=\mathbf{w}^{T} A\_{\mathrm{confidence}} \mathbf{w} &&- \mathbf{w}^{T} A\_{\mathrm{consistency}} \mathbf{w}
 \end{aligned}
 \end{equation}
@@ -124,12 +124,12 @@ We apply the CRC-TPC loss function from Equation 4 to the centroids and add $\ma
 $$
 \begin{equation}
 \begin{aligned}
-    \mathcal{L}\_{\mathrm{VINCS}}(\mathbf{w}) &= \alpha\:\mathbf{w}^{T} A\_{\mathrm{conf}} \mathbf{w} &&+
-    \beta\:\mathbf{w}^{T} A\_{\mathrm{inv}} \mathbf{w} &&&+\:
-    \gamma\:\mathbf{w}^{T} A\_{\mathrm{cons}} \mathbf{w} &&&&+\: \sigma\:\mathbf{w}^{T} A\_{\mathrm{sup}} \mathbf{w}\\
-    &= \mathbf{w}^{T} \Big [ \alpha\:A\_{\mathrm{conf}} &&+
-    \beta\:A\_{\mathrm{inv}} &&&+\:
-    \gamma\:A\_{\mathrm{cons}} &&&&+\: \sigma\:A\_{\mathrm{sup}}\Big ] \mathbf{w}\\
+    \mathcal{L}\_{\mathrm{VINCS}}(\mathbf{w}) &= \alpha \mathbf{w}^{T} A\_{\mathrm{conf}} \mathbf{w} &&+
+    \beta \mathbf{w}^{T} A\_{\mathrm{inv}} \mathbf{w} &&&+ 
+    \gamma \mathbf{w}^{T} A\_{\mathrm{cons}} \mathbf{w} &&&&+  \sigma \mathbf{w}^{T} A\_{\mathrm{sup}} \mathbf{w}\\
+    &= \mathbf{w}^{T} \Big [ \alpha A\_{\mathrm{conf}} &&+
+    \beta A\_{\mathrm{inv}} &&&+ 
+    \gamma A\_{\mathrm{cons}} &&&&+  \sigma A\_{\mathrm{sup}}\Big ] \mathbf{w}\\
     &= \mathbf{w}^{T} A\_{\mathrm{VINCS}} \mathbf{w},
 \end{aligned}
 \end{equation}
@@ -148,7 +148,7 @@ The global optimum of the $\mathcal{L}\_{\mathrm{VINCS}}$ objective is the domin
 *Proof.* Our proof mirrors the maximal variance derivation of principal component analysis found in [standard textbooks](https://www.microsoft.com/en-us/research/uploads/prod/2006/01/Bishop-Pattern-Recognition-and-Machine-Learning-2006.pdf).
 $$
 \begin{align*}
-\text{Primal problem:} && \mathbf{w^*} &= \mathop{\mathrm{argmax\:}}\_{\substack{\\[1pt]||\mathbf{w}||\_2^2\,=\,1}} \mathbf{w}^T \mathbf{A}\_{\mathrm{VINCS}} \mathbf{w} \\
+\text{Primal problem:} && \mathbf{w^*} &= \mathop{\mathrm{argmax }}\_{\substack{\\[1pt]||\mathbf{w}||\_2^2\,=\,1}} \mathbf{w}^T \mathbf{A}\_{\mathrm{VINCS}} \mathbf{w} \\
 \text{Define the Lagrangian:} && \mathcal{L}(\mathbf{w}, \lambda) &= \mathbf{w}^T \mathbf{A}\_{\mathrm{VINCS}} \mathbf{w} - \lambda (\mathbf{w}^T \mathbf{w} - 1) \\
 \text{Differentiate and set to zero:} && 0 &= 2\mathbf{A}\_{\mathrm{VINCS}}\mathbf{w^*} - 2\lambda\mathbf{w^*} \\
 \text{Rearrange:} && \lambda\mathbf{w^*} &= \mathbf{A}\_{\mathrm{VINCS}}\mathbf{w^*}
