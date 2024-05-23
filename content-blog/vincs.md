@@ -38,20 +38,20 @@ We start with the Contrastive Representation Clustering&mdash;Top Principal Comp
 
 $$
 \begin{equation}
-    \mathbf{w^*} = \mathrm{TPC}(\{\mathcal{M}(s\_i^+) - \mathcal{M}(s\_i^-)\})
+    \mathbf{w^\*} = \mathrm{TPC}(\{\mathcal{M}(s\_i^+) - \mathcal{M}(s\_i^-)\})
 \end{equation}
 $$
 
-We then use the dot product $\langle\mathcal{M}(s\_i), \mathbf{w^*}\rangle$ to generate a score for a statement $s\_i$. We can use labels to resolve the sign ambiguity of PCA, choosing the orientation of $\mathbf{w^*}$ which maximizes accuracy on the training set.
+We then use the dot product $\langle\mathcal{M}(s\_i), \mathbf{w^\*}\rangle$ to generate a score for a statement $s\_i$. We can use labels to resolve the sign ambiguity of PCA, choosing the orientation of $\mathbf{w^\*}$ which maximizes accuracy on the training set.
 
 ## PCA on contrast pairs implies negation-consistency
 
 At first CRC-TPC may appear theoretically unmotivated, since there is no obvious reason why the top principal component of the contrastive representations should track truth. For this reason, [Burns et al., 2022](https://arxiv.org/abs/2212.03827) recommend a different algorithm, Contrast Consistent Search (CCS), which explicitly optimizes a linear probe to minimize a logical consistency loss.
 
-Here we show that CRC-TPC is better motivated than it first appears. Recall that the top principal component $\mathbf{w^*}$ of a data matrix $X \in \mathbb{R}^{n \times d}$ is the direction of maximal variance in $X$. Formally, it is the solution to the constrained optimization problem:
+Here we show that CRC-TPC is better motivated than it first appears. Recall that the top principal component $\mathbf{w^\*}$ of a data matrix $X \in \mathbb{R}^{n \times d}$ is the direction of maximal variance in $X$. Formally, it is the solution to the constrained optimization problem:
 $$
 \begin{equation}
-    \mathbf{w^*} = \mathop{\mathrm{argmax }}\_{\substack{\\[1pt]||\mathbf{w}||\_2\,=\,1}} \mathbf{w}^{T}\mathrm{Cov}(X) \mathbf{w},
+    \mathbf{w^\*} = \mathop{\mathrm{argmax }}\_{\substack{\\[1pt]||\mathbf{w}||\_2\,=\,1}} \mathbf{w}^{T}\mathrm{Cov}(X) \mathbf{w},
 \end{equation}
 $$
 where $\mathrm{Cov}(X)$ is the covariance matrix of $X$. By Equation 1, we can view $X$ as the *difference* between two data matrices, $X^{+}$ and $X^{-}$, corresponding to the positive and negative elements of the contrast pairs respectively. Now recall the familiar identity that, for scalar random variables $A$ and $B$,
@@ -64,7 +64,7 @@ We can apply the vector analogue of this identity to rewrite Equation 2 as
 $$
 \begin{equation}
 \begin{aligned}
-    \mathbf{w^*} = \mathop{\mathrm{argmax }}\_{\substack{\\[1pt]||\mathbf{w}||\_2\,=\,1}} &\mathbf{w}^{T} [\mathrm{Cov}(X^{+}) + \mathrm{Cov}(X^{-})] \mathbf{w} &&- \mathbf{w}^{T} [\mathrm{Cov}(X^{+}, X^{-}) + \mathrm{Cov}(X^{-}, X^{+})] \mathbf{w}\\
+    \mathbf{w^\*} = \mathop{\mathrm{argmax }}\_{\substack{\\[1pt]||\mathbf{w}||\_2\,=\,1}} &\mathbf{w}^{T} [\mathrm{Cov}(X^{+}) + \mathrm{Cov}(X^{-})] \mathbf{w} &&- \mathbf{w}^{T} [\mathrm{Cov}(X^{+}, X^{-}) + \mathrm{Cov}(X^{-}, X^{+})] \mathbf{w}\\
     &=\mathbf{w}^{T} A\_{\mathrm{confidence}} \mathbf{w} &&- \mathbf{w}^{T} A\_{\mathrm{consistency}} \mathbf{w}
 \end{aligned}
 \end{equation}
@@ -148,19 +148,19 @@ The global optimum of the $\mathcal{L}\_{\mathrm{VINCS}}$ objective is the domin
 *Proof.* Our proof mirrors the maximal variance derivation of principal component analysis found in [standard textbooks](https://www.microsoft.com/en-us/research/uploads/prod/2006/01/Bishop-Pattern-Recognition-and-Machine-Learning-2006.pdf).
 $$
 \begin{align*}
-\text{Primal problem:} && \mathbf{w^*} &= \mathop{\mathrm{argmax }}\_{\substack{\\[1pt]||\mathbf{w}||\_2^2\,=\,1}} \mathbf{w}^T \mathbf{A}\_{\mathrm{VINCS}} \mathbf{w} \\
+\text{Primal problem:} && \mathbf{w^\*} &= \mathop{\mathrm{argmax }}\_{\substack{\\[1pt]||\mathbf{w}||\_2^2\,=\,1}} \mathbf{w}^T \mathbf{A}\_{\mathrm{VINCS}} \mathbf{w} \\
 \text{Define the Lagrangian:} && \mathcal{L}(\mathbf{w}, \lambda) &= \mathbf{w}^T \mathbf{A}\_{\mathrm{VINCS}} \mathbf{w} - \lambda (\mathbf{w}^T \mathbf{w} - 1) \\
-\text{Differentiate and set to zero:} && 0 &= 2\mathbf{A}\_{\mathrm{VINCS}}\mathbf{w^*} - 2\lambda\mathbf{w^*} \\
-\text{Rearrange:} && \lambda\mathbf{w^*} &= \mathbf{A}\_{\mathrm{VINCS}}\mathbf{w^*}
+\text{Differentiate and set to zero:} && 0 &= 2\mathbf{A}\_{\mathrm{VINCS}}\mathbf{w^\*} - 2\lambda\mathbf{w^\*} \\
+\text{Rearrange:} && \lambda\mathbf{w^\*} &= \mathbf{A}\_{\mathrm{VINCS}}\mathbf{w^\*}
 \end{align*}
 $$
 
-This is the eigenvalue equation for $\mathbf{A}\_{\mathrm{VINCS}}$, where $\lambda$ is an eigenvalue and $\mathbf{w^*}$ is the corresponding eigenvector. We've shown that the stationary points of the Lagrangian are precisely the eigenvectors of $\mathbf{A}\_{\mathrm{VINCS}}$ and their associated eigenvalues. Note that since our primal problem is equivalent to maximizing the Rayleigh quotient $R(\mathbf{A}\_{\mathrm{VINCS}}, \mathbf{w})$, this also follows from the Rayleigh-Ritz theorem. It follows that the global maximum is the eigenvector corresponding to the algebraically largest eigenvalue. Note that unlike a covariance matrix, $\mathbf{A}\_{\mathrm{VINCS}}$ need not be positive semi-definite, and the leading eigenvalue may be negative. 
+This is the eigenvalue equation for $\mathbf{A}\_{\mathrm{VINCS}}$, where $\lambda$ is an eigenvalue and $\mathbf{w^\*}$ is the corresponding eigenvector. We've shown that the stationary points of the Lagrangian are precisely the eigenvectors of $\mathbf{A}\_{\mathrm{VINCS}}$ and their associated eigenvalues. Note that since our primal problem is equivalent to maximizing the Rayleigh quotient $R(\mathbf{A}\_{\mathrm{VINCS}}, \mathbf{w})$, this also follows from the Rayleigh-Ritz theorem. It follows that the global maximum is the eigenvector corresponding to the algebraically largest eigenvalue. Note that unlike a covariance matrix, $\mathbf{A}\_{\mathrm{VINCS}}$ need not be positive semi-definite, and the leading eigenvalue may be negative. 
 
 $\blacksquare$
 
 
-Importantly, eigenvectors are only defined up to an arbitrary choice of sign. This means that without an additional constraint, we don't know how to *orient* $\mathbf{w^*}$ so that positive values of $\langle \mathbf{w^*}, \cdot \rangle$ correspond to true statements and negative values correspond to false statements.
+Importantly, eigenvectors are only defined up to an arbitrary choice of sign. This means that without an additional constraint, we don't know how to *orient* $\mathbf{w^\*}$ so that positive values of $\langle \mathbf{w^\*}, \cdot \rangle$ correspond to true statements and negative values correspond to false statements.
 
 ### Implementation
 Since we are only interested in the dominant eigenvector, we can use an algorithm like Lanczos iteration to find it efficiently without computing the full eigendecomposition of $\mathbf{A}\_{\mathrm{VINCS}}$.
