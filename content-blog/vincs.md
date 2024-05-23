@@ -2,12 +2,12 @@
 title: "VINC-S: Closed-form Optionally-supervised Knowledge Elicitation with Paraphrase Invariance"
 date: 2024-05-23T00:00:00+07:00
 description: "Writing up results from a project from Spring 2023"
-author: ["TODO"]
+author: ["Nora Belrose*", "Alex Mallen*", "Dhruba Ghosh", "Walter Laurito", "Kyle O'Brien", "Alexander Wan", "Ben Wright", "Akari Asai", "Yanai Elazar"]
 ShowToc: true
 mathjax: true
 draft: false
 ---
-
+$^\*$Equal contribution
 
 In Spring 2023, a team at EleutherAI and elsewhere worked on a follow-up to [CCS](https://arxiv.org/abs/2212.03827) that aimed to improve its robustness, among other goals. We think the empirical side of the project was largely unsuccessful, failing to provide evidence that any method had predictably better generalization properties. In the spirit of transparency, we are sharing our proposed method and some results on the [Quirky Models benchmark](https://arxiv.org/abs/2312.01037).
 
