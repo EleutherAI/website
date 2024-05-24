@@ -24,7 +24,7 @@ Motivated by these concerns, [Christiano et al. 2021](https://docs.google.com/do
 Initially, a language model $\mathcal{M}$ computes contextualized embeddings ${(\mathcal{M}(s\_i^+), \mathcal{M}(s\_i^-))}$ for a dataset containing textual contrast pairs ${(s\_i^+, s\_i^-)}\_{i=1}^{n}$. Subsequently, a linear probe is trained to output probabilities for given embeddings. The probe serves to determine the probabilities ${p^+}$ and ${p^-}$, which represent the truth values of ${s\_i^+}$ and ${s\_i^-}$. The training objective for the probe is formulated as follows:
 
 $$
-L\_{\text{CCS}}(\theta,b;q\_{i}):=\left[p\_{\theta,b}(s\_{i}^{+})-(1-p\_{\theta,b}(s\_{i}^{-}))\right]^{2} + \min\{p\_{\theta,b}(s\_{i}^{+}),p\_{\theta,b}(s\_{i}^{-})\}^{2} 
+L\_{\text{CCS}}(\theta,b;q\_{i}):=\left[p\_{\theta,b}(s\_{i}^{+})-(1-p\_{\theta,b}(s\_{i}^{-}))\right]^{2} + \min\left(\{p\_{\theta,b}(s\_{i}^{+}),\ p\_{\theta,b}(s\_{i}^{-})\}^{2} \right)
 $$
 
 The first term is motivated by the consistency structure of truth, specifically by the fact that the probabilities of a statement and its negation sum up to one. The second term aims to prevent a degenerate solution where the probabilities of both true and false are equal, $p(s^{+})=p(s^{-})=0.5$. The second term therefore increases the confidence of the model.
@@ -38,7 +38,7 @@ We start with the Contrastive Representation Clustering&mdash;Top Principal Comp
 
 $$
 \begin{equation}
-    \mathbf{w^\*} = \mathrm{TPC}(\{\mathcal{M}(s\_i^+) - \mathcal{M}(s\_i^-)\})
+    \mathbf{w^\*} = \mathrm{TPC}(\{\mathcal{M}(s\_i^+) - \mathcal{M}(s\_i^-)\}) \tag{1}
 \end{equation}
 $$
 
@@ -51,22 +51,22 @@ At first CRC-TPC may appear theoretically unmotivated, since there is no obvious
 Here we show that CRC-TPC is better motivated than it first appears. Recall that the top principal component $\mathbf{w^\*}$ of a data matrix $X \in \mathbb{R}^{n \times d}$ is the direction of maximal variance in $X$. Formally, it is the solution to the constrained optimization problem:
 $$
 \begin{equation}
-    \mathbf{w^\*} = \mathop{\mathrm{argmax }}\_{\substack{\\\\[1pt]||\mathbf{w}||\_2\=1}} \mathbf{w}^{T}\mathrm{Cov}(X) \mathbf{w},
+    \mathbf{w^\*} = \mathop{\mathrm{argmax }}\_{\substack{\\\\[1pt]||\mathbf{w}||\_2\=1}} \mathbf{w}^{T}\mathrm{Cov}(X) \mathbf{w}, \tag{2}
 \end{equation}
 $$
 where $\mathrm{Cov}(X)$ is the covariance matrix of $X$. By Equation 1, we can view $X$ as the *difference* between two data matrices, $X^{+}$ and $X^{-}$, corresponding to the activations of the positive and negative elements of the contrast pairs respectively. Now recall the familiar identity that, for scalar random variables $A$ and $B$,
 $$
 \begin{equation}
-    \mathrm{Var}(A - B) = \mathrm{Var}(A) + \mathrm{Var}(B) - 2 \mathrm{Cov}(A, B).
+    \mathrm{Var}(A - B) = \mathrm{Var}(A) + \mathrm{Var}(B) - 2 \mathrm{Cov}(A, B). \tag{3}
 \end{equation}
 $$
 We can apply the vector analogue of this identity to rewrite Equation 2 as
 $$
 \begin{equation}
 \begin{aligned}
-    \mathbf{w^\*} = \mathop{\mathrm{argmax }}\_{\substack{\\\\[1pt]||\mathbf{w}||\_2\,=\,1}} &\mathbf{w}^{T} [\mathrm{Cov}(X^{+}) + \mathrm{Cov}(X^{-})] \mathbf{w} &&- \mathbf{w}^{T} [\mathrm{Cov}(X^{+}, X^{-}) + \mathrm{Cov}(X^{-}, X^{+})] \mathbf{w}\\\\
+    \mathbf{w^\*} = \mathop{\mathrm{argmax }}\_{\substack{\\\\[1pt]||\mathbf{w}||\_2\,=\,1}}\  &\mathbf{w}^{T} [\mathrm{Cov}(X^{+}) + \mathrm{Cov}(X^{-})] \mathbf{w} &&- \mathbf{w}^{T} [\mathrm{Cov}(X^{+}, X^{-}) + \mathrm{Cov}(X^{-}, X^{+})] \mathbf{w}\\\\
     &=\mathbf{w}^{T} A\_{\mathrm{confidence}} \mathbf{w} &&- \mathbf{w}^{T} A\_{\mathrm{consistency}} \mathbf{w}
-\end{aligned}
+\end{aligned} \tag{4}
 \end{equation}
 $$
 where $\mathrm{Cov}(X^{+}, X^{-})$ denotes the cross-covariance matrix of $X^{+}$ and $X^{-}$.
@@ -83,10 +83,10 @@ We'll call a set of statements with nearly identical meanings a *cluster*. Consi
 $$
 \begin{equation}
 \begin{aligned}
-    \mathcal{L}\_{\mathrm{invariance}}(\mathbf{w}) &= -\frac{1}{n} \sum\_{i=1}^{n} \mathbf{w}^T \mathrm{Cov}(X\_{i}^+)\mathbf{w} - \frac{1}{n} \sum\_{i=1}^{n} \mathbf{w}^T \mathrm{Cov}(X\_{i}^-)\mathbf{w}\\\\
-    &= \mathbf{w}^T \Big [ -\frac{1}{n} \sum\_{i=1}^{n} \mathrm{Cov}(X\_{i}^+) - \frac{1}{n} \sum\_{i=1}^{n} \mathrm{Cov}(X\_{i}^-) \Big ] \mathbf{w}\\\\
+    \mathcal{L}\_{\mathrm{invariance}}(\mathbf{w}) &= \frac{1}{n} \sum\_{i=1}^{n} \mathbf{w}^T \mathrm{Cov}(X\_{i}^+)\mathbf{w} + \frac{1}{n} \sum\_{i=1}^{n} \mathbf{w}^T \mathrm{Cov}(X\_{i}^-)\mathbf{w}\\\\
+    &= \mathbf{w}^T \Big [ \frac{1}{n} \sum\_{i=1}^{n} \mathrm{Cov}(X\_{i}^+) + \frac{1}{n} \sum\_{i=1}^{n} \mathrm{Cov}(X\_{i}^-) \Big ] \mathbf{w}\\\\
     &= \mathbf{w}^T A\_{\mathrm{invariance}} \mathbf{w}.
-\end{aligned}
+\end{aligned} \tag{5}
 \end{equation}
 $$
 
@@ -96,26 +96,36 @@ This loss function is minimized when for each cluster $i$, credences are identic
 In order to adapt the confidence and consistency terms to this new framework, we'll need to introduce the concept of a cluster *centroid*, or the average representation of the statements in a given cluster:
 $$
 \begin{equation}
-    \boldsymbol{\bar x}\_{i}^+ = \frac{1}{k} \sum\_{j=1}^k \mathcal{M}({s}\_{ij}^+), \quad \boldsymbol{\bar x}\_{i}^- = \frac{1}{k} \sum\_{j=1}^k \mathcal{M}({s}^-\_{ij})
+    \boldsymbol{\bar x}\_{i}^+ = \frac{1}{k} \sum\_{j=1}^k \mathcal{M}({s}\_{ij}^+), \quad \boldsymbol{\bar x}\_{i}^- = \frac{1}{k} \sum\_{j=1}^k \mathcal{M}({s}^-\_{ij}) \tag{6}
 \end{equation}
 $$
-We'll stack all the centroids for the positive and negative statements in a dataset into data matrices $\bar X^{+}, \bar X^{-} \in \mathbb R^{n \times d}$ respectively. Then we define $A\_{\mathrm{variance}}$ and $A\_{\mathrm{covariance}}$ as in Equation 4, using $\bar X^{+}$ and $\bar X^{-}$ in place of $X^{+}$ and $X^{-}$.
+We'll stack all the centroids for the positive and negative statements in a dataset into data matrices $\bar X^{+}, \bar X^{-} \in \mathbb R^{n \times d}$ respectively. Then we define
+
+$$
+\begin{equation}
+\begin{aligned}
+    A\_{\mathrm{confidence}} &= \mathrm{Cov}(\bar X^{+}) + \mathrm{Cov}(\bar X^{-})\\\\
+    A\_{\mathrm{consistency}} &= \mathrm{Cov}(\bar X^{+}, \bar X^{-}) + \mathrm{Cov}(\bar X^{-}, \bar X^{+}).
+\end{aligned}
+\end{equation}
+$$
 
 ### Incorporating supervision
-We can modify the objective to incorporate supervision by encouraging variance between the mean hidden state of true and false examples.
+In ELK settings where we have access to labels on some trusted set of examples, we can modify the objective to incorporate this supervision.
+We can do this by encouraging variance between the mean hidden state of true and false examples.
 $$
 \begin{align}
    \mathcal{L\_\text{supervised}} = \mathbf{w}^T \mathrm{Cov}(\begin{bmatrix} \boldsymbol{\bar x}\_T & \boldsymbol{\bar x}\_F\end{bmatrix}) \mathbf{w} &= \mathbf{w}^T A\_\text{supervised} \mathbf{w}
-\end{align}
+\end{align} \tag{7}
 $$
 where
 $$
 \begin{align*}
     \boldsymbol{\bar x}\_T &= \mathbb{E}[\mathcal{M}(s)|s\text{ is true}]\\\\
     \boldsymbol{\bar x}\_F &= \mathbb{E}[\mathcal{M}(s)|s\text{ is false}].
-\end{align*}
+\end{align*} 
 $$
-$A\_\text{supervision}$ is a rank-1 covariance matrix of this data matrix containing only two samples. Its top eigenvector is proportional to the difference-in-class-conditional-means direction, which prior work has found to have desirable generalization properties ([Marks et al., 2023](https://arxiv.org/abs/2310.06824); [Mallen et al., 2023](https://arxiv.org/abs/2312.01037); [Zou et al., 2023](https://arxiv.org/abs/2310.01405); [Belrose, 2023](https://blog.eleuther.ai/diff-in-means/)).
+$A\_\text{supervision}$ is a rank-1 covariance matrix of this data matrix containing only two samples. The vector that maximizes this is difference-in-class-conditional-means direction, which prior work has found to have desirable generalization properties ([Marks et al., 2023](https://arxiv.org/abs/2310.06824); [Mallen et al., 2023](https://arxiv.org/abs/2312.01037); [Zou et al., 2023](https://arxiv.org/abs/2310.01405); [Belrose, 2023](https://blog.eleuther.ai/diff-in-means/)).
 
 
 ### Putting it together
@@ -131,11 +141,11 @@ $$
     \beta A\_{\mathrm{inv}} &&&+ 
     \gamma A\_{\mathrm{cons}} &&&&+  \sigma A\_{\mathrm{sup}}\Big ] \mathbf{w}\\\\
     &= \mathbf{w}^{T} A\_{\mathrm{VINCS}} \mathbf{w},
-\end{aligned}
+\end{aligned} \tag{8}
 \end{equation}
 $$
 
-where $\alpha$, $\beta$, $\gamma$, and $\sigma$ are scalar hyperparameters.
+where $\alpha$, $\beta$, $\gamma$, and $\sigma$ are nonnegative scalar hyperparameters.
 
 ## Algorithm
 
@@ -155,7 +165,7 @@ $$
 \end{align*}
 $$
 
-This is the eigenvalue equation for $\mathbf{A}\_{\mathrm{VINCS}}$, where $\lambda$ is an eigenvalue and $\mathbf{w^\*}$ is the corresponding eigenvector. We've shown that the stationary points of the Lagrangian are precisely the eigenvectors of $\mathbf{A}\_{\mathrm{VINCS}}$ and their associated eigenvalues. Note that since our primal problem is equivalent to maximizing the Rayleigh quotient $R(\mathbf{A}\_{\mathrm{VINCS}}, \mathbf{w})$, this also follows from the Rayleigh-Ritz theorem. It follows that the global maximum is the eigenvector corresponding to the algebraically largest eigenvalue. Note that unlike a covariance matrix, $\mathbf{A}\_{\mathrm{VINCS}}$ need not be positive semi-definite, and the leading eigenvalue may be negative. 
+This is the eigenvalue equation for $\mathbf{A}\_{\mathrm{VINCS}}$, where $\lambda$ is an eigenvalue and $\mathbf{w^\*}$ is the corresponding eigenvector. We've shown that the stationary points of the Lagrangian are precisely the eigenvectors of $\mathbf{A}\_{\mathrm{VINCS}}$ and their associated eigenvalues. Note that since our primal problem is equivalent to maximizing the Rayleigh quotient $R(\mathbf{A}\_{\mathrm{VINCS}}, \mathbf{w})$, this also follows from the Rayleigh-Ritz theorem. It follows that the global maximum is the eigenvector corresponding to the most positive eigenvalue. Note that unlike a covariance matrix, $\mathbf{A}\_{\mathrm{VINCS}}$ need not be positive semi-definite, and the largest magnitude eigenvalue may not be the most positive eigenvalue. 
 
 Importantly, eigenvectors are only defined up to an arbitrary choice of sign. This means that without an additional constraint, we don't know how to *orient* $\mathbf{w^\*}$ so that positive values of $\langle \mathbf{w^\*}, \cdot \rangle$ correspond to true statements and negative values correspond to false statements.
 
@@ -206,7 +216,7 @@ The two rows correspond to a different way of producing the paraphrases, with "s
 
 - Variance is an important criterion in this setup! We had originally suspected that variance wasn't useful because it's unprincipled.
 
-- At EIL things are pretty overdetermined - all the ELK probe hyperparameters work well, as long as $w\_{var}=1$.
+- At EIL things are fairly overdetermined - all the ELK probe hyperparameters work well, as long as $w\_{var}=1$.
 
 - When looking at all layers, we can see that the negation consistency term is harmful, though having a variance term helps guide the probe back in the right direction.
 
