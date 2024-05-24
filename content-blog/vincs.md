@@ -51,7 +51,7 @@ At first CRC-TPC may appear theoretically unmotivated, since there is no obvious
 Here we show that CRC-TPC is better motivated than it first appears. Recall that the top principal component $\mathbf{w^\*}$ of a data matrix $X \in \mathbb{R}^{n \times d}$ is the direction of maximal variance in $X$. Formally, it is the solution to the constrained optimization problem:
 $$
 \begin{equation}
-    \mathbf{w^\*} = \mathop{\mathrm{argmax }}\_{\substack{\\\\[1pt]||\mathbf{w}||\_2\,=\,1}} \mathbf{w}^{T}\mathrm{Cov}(X) \mathbf{w},
+    \mathbf{w^\*} = \mathop{\mathrm{argmax }}\_{\substack{\\\\[1pt]||\mathbf{w}||\_2\=1}} \mathbf{w}^{T}\mathrm{Cov}(X) \mathbf{w},
 \end{equation}
 $$
 where $\mathrm{Cov}(X)$ is the covariance matrix of $X$. By Equation 1, we can view $X$ as the *difference* between two data matrices, $X^{+}$ and $X^{-}$, corresponding to the positive and negative elements of the contrast pairs respectively. Now recall the familiar identity that, for scalar random variables $A$ and $B$,
@@ -157,9 +157,6 @@ $$
 
 This is the eigenvalue equation for $\mathbf{A}\_{\mathrm{VINCS}}$, where $\lambda$ is an eigenvalue and $\mathbf{w^\*}$ is the corresponding eigenvector. We've shown that the stationary points of the Lagrangian are precisely the eigenvectors of $\mathbf{A}\_{\mathrm{VINCS}}$ and their associated eigenvalues. Note that since our primal problem is equivalent to maximizing the Rayleigh quotient $R(\mathbf{A}\_{\mathrm{VINCS}}, \mathbf{w})$, this also follows from the Rayleigh-Ritz theorem. It follows that the global maximum is the eigenvector corresponding to the algebraically largest eigenvalue. Note that unlike a covariance matrix, $\mathbf{A}\_{\mathrm{VINCS}}$ need not be positive semi-definite, and the leading eigenvalue may be negative. 
 
-$\blacksquare$
-
-
 Importantly, eigenvectors are only defined up to an arbitrary choice of sign. This means that without an additional constraint, we don't know how to *orient* $\mathbf{w^\*}$ so that positive values of $\langle \mathbf{w^\*}, \cdot \rangle$ correspond to true statements and negative values correspond to false statements.
 
 #### Implementation
@@ -167,7 +164,7 @@ Since we are only interested in the dominant eigenvector, we can use an algorith
 
 Furthermore, since $\mathbf{A}\_{\mathrm{VINCS}}$ only depends on covariance statistics, it can be computed incrementally over a large dataset with $O(d^2)$ memory usage. We can also compute $\mathbf{A}\_{\mathrm{VINCS}}$ over a data stream with covariance statistics that change over time, using exponential moving averages of sample covariance matrices. While we don't compute $\mathbf A\_\text{VINCS}$ incrementally here, this would make it efficient for use during neural network training.
 
-We also use [LEACE](https://arxiv.org/abs/2306.03819) to erase linear information about which element of the contrast pair an activation comes from, and information about which paraphrase was used.
+We also use [LEACE](https://arxiv.org/abs/2306.03819) to erase linear information about which element of the contrast pair an activation comes from, and information about which paraphrase was used. The sign ambiguity is resolved using the AUROC on a set of labeled examples. We always evaluate the probe with "full" ensembling, meaning we take the difference in scores for contrast pairs and average over paraphrases. Note that ensembling has a large effect on probe performance, and at least taking the difference in scores is often necessary for good performance.
 
 ## Results
 
@@ -188,35 +185,41 @@ Each row corresponds to a different way of producing the paraphrases, with "stan
 #### At the earliest informative layer (EIL)
 | ![Image 1](/images/blog/vincs/ternary_AE_BH_wvar_0_standardize_templates_False_eil.png) | ![Image 2](/images/blog/vincs/ternary_AE_BH_wvar_1_standardize_templates_False_eil.png) |
 |:------------------------------------------:|:------------------------------------------:|
-| Without variance term, standardized templates | With variance term, standardized templates |
+| Without variance term, random templates | With variance term, random templates |
 
 | ![Image 3](/images/blog/vincs/ternary_AE_BH_wvar_0_standardize_templates_True_eil.png) | ![Image 4](/images/blog/vincs/ternary_AE_BH_wvar_1_standardize_templates_True_eil.png) |
 |:------------------------------------------:| :------------------------------------------:|
-| Without variance term, random templates | With variance term, random templates |
+| Without variance term, standardized templates | With variance term, standardized templates |
 
 #### At all layers
-| ![Image 5](/images/blog/vincs/ternary_AE_BH_wvar_0_standardize_templates_True.png) | ![Image 6](/images/blog/vincs/ternary_AE_BH_wvar_1_standardize_templates_True.png) |
+| ![Image 5](/images/blog/vincs/ternary_AE_BH_wvar_0_standardize_templates_False.png) | ![Image 6](/images/blog/vincs/ternary_AE_BH_wvar_1_standardize_templates_False.png) |
 |:------------------------------------------:|:------------------------------------------:|
-| Without variance term, standardized templates | With variance term, standardized templates |
+| Without variance term, random templates | With variance term, random templates |
 
 | ![Image 7](/images/blog/vincs/ternary_AE_BH_wvar_0_standardize_templates_True.png) | ![Image 8](/images/blog/vincs/ternary_AE_BH_wvar_1_standardize_templates_True.png)
 |:------------------------------------------:| :------------------------------------------:|
-| Without variance term, random templates | With variance term, random templates |
+| Without variance term, standardized templates | With variance term, standardized templates |
 
 ### Analysis
 
-- All of the effect sizes are small and noisy
+- All of the effect sizes are small and noisy.
 
 - Variance is an important criterion in this setup! We had originally suspected that variance wasn't useful because it's unprincipled.
 
-- At EIL things are pretty overdetermined - all the ELK probe hyperparameters work well, as long as $w\_{var}=1$
+- At EIL things are pretty overdetermined - all the ELK probe hyperparameters work well, as long as $w\_{var}=1$.
 
 - When looking at all layers, we can see that the negation consistency term is harmful, though having a variance term helps guide the probe back in the right direction.
 
-- Paraphrase invariance is useful
+- Paraphrase invariance might be slightly useful.
 
 - The supervision term is somewhat useful, though it seems to be no better than, or perhaps marginally worse than, a variance term (comparing methods with only a paraphrase invariance term and a variance/supervision term).
 
-- (Looking at standardized templates averaged over all layers) The best hyperparameter settings (all the ones involving variance and no negation consistency; 0.648) only marginally outperform the difference-in-means reporter ($w\_{sup}=1$, everthing else 0 $\rightarrow$ 0.63 transfer AUROC) and the CRC reporter ($w\_{cov}=w\_{var}=0.5$ and everything else 0 $\rightarrow$ 0.611 transfer AUROC).
+- (Looking at standardized templates averaged over all layers) The best hyperparameter settings (all the ones involving variance and no negation consistency; 0.648) only marginally outperform the difference-in-means reporter ($w\_{sup}=1$, everthing else 0 $\rightarrow$ 0.63 transfer AUROC) and the CRC reporter ($w\_{cov}=w\_{var}=1$ and everything else 0 $\rightarrow$ 0.611 transfer AUROC).
 
-- [Burns et al. 2023](https://arxiv.org/abs/2312.09390) found paraphrase invariance to be unhelpful for eliciting latent knowledge in the weak-to-strong generalization setting, which is in conflict with our weak results. Additionally, the reason to expect paraphrase invariance to work better seems more likely to be true for future, more capable models, making it worth reinvestigating in the future.
+## Conclusion
+
+We have introduced VINC-S, a method for eliciting latent knowledge from language models that generalizes CRC-TPC to include paraphrase invariance and supervision. We have shown that VINC-S can be robustly and efficiently learned using eigendecomposition. However, our empirical results fail to convincingly show appreciable improvements over the difference-in-means reporter and the CRC reporter on the Quirky Models benchmark when leveraging these additional terms.
+
+[Burns et al. 2023](https://arxiv.org/abs/2312.09390) found paraphrase invariance to be unhelpful for eliciting latent knowledge in the weak-to-strong generalization setting, which is some evidence that it won't be useful in general. However, the reason to expect paraphrase invariance to work better seems more likely to be true for future, more capable models, making it worth reinvestigating in the future.
+
+Our code can be found [here](https://github.com/EleutherAI/elk-generalization/tree/81d98938267e209264830eb5c4796487787c6e2b).
