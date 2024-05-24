@@ -54,7 +54,7 @@ $$
     \mathbf{w^\*} = \mathop{\mathrm{argmax }}\_{\substack{\\\\[1pt]||\mathbf{w}||\_2\=1}} \mathbf{w}^{T}\mathrm{Cov}(X) \mathbf{w},
 \end{equation}
 $$
-where $\mathrm{Cov}(X)$ is the covariance matrix of $X$. By Equation 1, we can view $X$ as the *difference* between two data matrices, $X^{+}$ and $X^{-}$, corresponding to the positive and negative elements of the contrast pairs respectively. Now recall the familiar identity that, for scalar random variables $A$ and $B$,
+where $\mathrm{Cov}(X)$ is the covariance matrix of $X$. By Equation 1, we can view $X$ as the *difference* between two data matrices, $X^{+}$ and $X^{-}$, corresponding to the activations of the positive and negative elements of the contrast pairs respectively. Now recall the familiar identity that, for scalar random variables $A$ and $B$,
 $$
 \begin{equation}
     \mathrm{Var}(A - B) = \mathrm{Var}(A) + \mathrm{Var}(B) - 2 \mathrm{Cov}(A, B).
@@ -71,7 +71,7 @@ $$
 $$
 where $\mathrm{Cov}(X^{+}, X^{-})$ denotes the cross-covariance matrix of $X^{+}$ and $X^{-}$.
 
-From Equation 4, we see that CRC-TPC implicitly searches for a direction along which $\mathcal{M}(s\_i^+)$ and $\mathcal{M}(s\_i^-)$ are *negatively correlated* (and high variance): if the credence assigned to $x\_i^+$ is high, the credence assigned to $x\_i^-$ should be low, and vice versa. Intuitively, negation consistency is a kind of negative correlation: a logically consistent person who confidently asserts a proposition $P$ should be unlikely to confidently assert $\neg P$, and vice versa. So the negative covariance term in Equation 4 can be viewed as encouraging negation consistency.
+From Equation 4, we see that CRC-TPC implicitly searches for a direction along which $\mathcal{M}(s\_i^+)$ and $\mathcal{M}(s\_i^-)$ are *negatively correlated* (and high variance): if the credence assigned to $s\_i^+$ is high, the credence assigned to $s\_i^-$ should be low, and vice versa. Intuitively, negation consistency is a kind of negative correlation: a logically consistent person who confidently asserts a proposition $P$ should be unlikely to confidently assert $\neg P$, and vice versa. So the negative covariance term in Equation 4 can be viewed as encouraging negation consistency.
 
 ### Paraphrase Invariance
 
@@ -90,7 +90,7 @@ $$
 \end{equation}
 $$
 
-This loss function is zero just in case for each cluster $i$, credences are identical for all paraphrases in $i$.
+This loss function is minimized when for each cluster $i$, credences are identical for all paraphrases in $i$.
 
 ##### Centroids
 In order to adapt the confidence and consistency terms to this new framework, we'll need to introduce the concept of a cluster *centroid*, or the average representation of the statements in a given cluster:
@@ -170,18 +170,18 @@ We also use [LEACE](https://arxiv.org/abs/2306.03819) to erase linear informatio
 
 Previous results have only been on standard QA benchmarks, which are not designed to test the ability of ELK methods to generalize to contexts where the model is untruthful, and to questions too difficult for our labelers to verify.
 
-We present results on the [Quirky Models benchmark](https://arxiv.org/abs/2312.01037), which contains a set of 12 tasks and corresponding models which have been finetuned to make systematic errors conditional on the keyword "Bob", but answer truthfully conditional on the keyword "Alice". We then train probes on Alice's (truthful) contexts and evaluate the AUROC of the probes in Bob's (untruthful) contexts, for questions harder than those used for training. This "Alice-easy to Bob-hard" (AE $\to$ BH) transfer AUROC is our primary metric for evaluating the performance of an ELK method. One notable limitation of this benchmark is that the activations used in the contrast pairs for training the probes are out of distribution with respect to finetuning distribution of the model (they are the answer tokens of the model, not the final prompt input tokens). 
+We present results on the [Quirky Models benchmark](https://arxiv.org/abs/2312.01037), which contains a set of 12 tasks and corresponding models which have been finetuned to make systematic errors conditional on the keyword "Bob", but answer truthfully conditional on the keyword "Alice". We then train probes on Alice's (truthful) contexts and evaluate the AUROC of the probes in Bob's (untruthful) contexts, for questions harder than those used for training. This "Alice-easy to Bob-hard" (AE $\to$ BH) transfer AUROC is our primary metric for evaluating the performance of an ELK method. One notable limitation of evaluating VINC-S on this benchmark is that the activations in the contrast pairs used for training the probes are out of distribution with respect to finetuning distribution of the model (they are at the answer token position of the model, not the final prompt token position). 
 
 We first show results for probes trained on activations at the earliest informative layer (EIL), which is a heuristic proposed in [Mallen et al., 2023](https://arxiv.org/abs/2312.01037) for selecting the layer at which to probe. It is the earliest layer at which the in-distribution validation AUROC minus 0.5 is at 95% of its maximum. However, because there is not much variation in performance here, we also show aggregate results over all layers to better compare methods. 
 
 Our baselines are the difference-in-means reporter and the CRC reporter, which are special cases of VINC-S corresponding to using only the supervision term, and using a 50/50 mix of variance and negation consistency terms, respectively.
 
 ### Hyperparameter sweep
-Results of a hyperparameter sweep shown in a ternary plot. Points marked with a heavy plus (+) are averaged results over all datasets, while the smaller points are results on individual datasets, whose position has been jittered slightly for visibility.
+Results of a hyperparameter sweep shown in a ternary plot. Points are averaged results over all datasets.
 
 $w\_{var}$ corresponds to $\alpha$ (confidence), $w\_{inv}$ to $\beta$ (paraphrase invariance), $w\_{cov}$ to $\gamma$ (negation consistency), and $w\_{sup}$ to $\sigma$ (supervision).
 
-Each row corresponds to a different way of producing the paraphrases, with "standardized" templates providing a uniform meta-template surrounding the diverse paraphrases.
+The two rows correspond to a different way of producing the paraphrases, with "standardized" templates providing a uniform meta-template surrounding the diverse paraphrases.
 #### At the earliest informative layer (EIL)
 | ![Image 1](/images/blog/vincs/ternary_AE_BH_wvar_0_standardize_templates_False_eil.png) | ![Image 2](/images/blog/vincs/ternary_AE_BH_wvar_1_standardize_templates_False_eil.png) |
 |:------------------------------------------:|:------------------------------------------:|
@@ -202,7 +202,7 @@ Each row corresponds to a different way of producing the paraphrases, with "stan
 
 ### Analysis
 
-- All of the effect sizes are small and noisy.
+- All of the effect sizes are small.
 
 - Variance is an important criterion in this setup! We had originally suspected that variance wasn't useful because it's unprincipled.
 
