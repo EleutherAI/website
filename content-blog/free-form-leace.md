@@ -5,7 +5,7 @@ description: "Achieving even more surgical edits than LEACE without concept labe
 author: ["Brennan Dury"]
 ShowToc: true
 mathjax: true
-draft: true
+draft: false
 ---
 
 _This post assumes some familiarity with the idea of concept erasure and our LEACE concept erasure method. We encourage the reader to consult our [arXiv paper](https://arxiv.org/abs/2306.03819) for background._
