@@ -64,8 +64,7 @@ We can apply the vector analogue of this identity to rewrite Equation 2 as
 $$
 \begin{equation}
 \begin{aligned}
-    \mathbf{w^\*} = \mathop{\mathrm{argmax }}\_{\substack{\\\\[1pt]||\mathbf{w}||\_2\,=\,1}}\  &\mathbf{w}^{T} [\mathrm{Cov}(X^{+}) + \mathrm{Cov}(X^{-})] \mathbf{w} &&- \mathbf{w}^{T} [\mathrm{Cov}(X^{+}, X^{-}) + \mathrm{Cov}(X^{-}, X^{+})] \mathbf{w}\\\\
-    &=\mathbf{w}^{T} A\_{\mathrm{confidence}} \mathbf{w} &&- \mathbf{w}^{T} A\_{\mathrm{consistency}} \mathbf{w}
+    \mathbf{w^\*} = \mathop{\mathrm{argmax }}\_{\substack{\\\\[1pt]||\mathbf{w}||\_2=1}}\  &\mathbf{w}^{T} [\mathrm{Cov}(X^{+}) + \mathrm{Cov}(X^{-})] \mathbf{w} - \mathbf{w}^{T} [\mathrm{Cov}(X^{+}, X^{-}) + \mathrm{Cov}(X^{-}, X^{+})] \mathbf{w}
 \end{aligned} \tag{4}
 \end{equation}
 $$
@@ -85,7 +84,7 @@ $$
 \begin{aligned}
     \mathcal{L}\_{\mathrm{invariance}}(\mathbf{w}) &= \frac{1}{n} \sum\_{i=1}^{n} \mathbf{w}^T \mathrm{Cov}(X\_{i}^+)\mathbf{w} + \frac{1}{n} \sum\_{i=1}^{n} \mathbf{w}^T \mathrm{Cov}(X\_{i}^-)\mathbf{w}\\\\
     &= \mathbf{w}^T \Big [ \frac{1}{n} \sum\_{i=1}^{n} \mathrm{Cov}(X\_{i}^+) + \frac{1}{n} \sum\_{i=1}^{n} \mathrm{Cov}(X\_{i}^-) \Big ] \mathbf{w}\\\\
-    &= \mathbf{w}^T A\_{\mathrm{invariance}} \mathbf{w}.
+    &= -\mathbf{w}^T A\_{\mathrm{invariance}} \mathbf{w}.
 \end{aligned} \tag{5}
 \end{equation}
 $$
@@ -105,7 +104,7 @@ $$
 \begin{equation}
 \begin{aligned}
     A\_{\mathrm{confidence}} &= \mathrm{Cov}(\bar X^{+}) + \mathrm{Cov}(\bar X^{-})\\\\
-    A\_{\mathrm{consistency}} &= \mathrm{Cov}(\bar X^{+}, \bar X^{-}) + \mathrm{Cov}(\bar X^{-}, \bar X^{+}).
+    A\_{\mathrm{consistency}} &= -\mathrm{Cov}(\bar X^{+}, \bar X^{-}) - \mathrm{Cov}(\bar X^{-}, \bar X^{+}).
 \end{aligned}
 \end{equation}
 $$
@@ -115,7 +114,7 @@ In ELK settings where we have access to labels on some trusted set of examples, 
 We can do this by encouraging variance between the mean hidden state of true and false examples.
 $$
 \begin{align}
-   \mathcal{L\_\text{supervised}} = \mathbf{w}^T \mathrm{Cov}(\begin{bmatrix} \boldsymbol{\bar x}\_T & \boldsymbol{\bar x}\_F\end{bmatrix}) \mathbf{w} &= \mathbf{w}^T A\_\text{supervised} \mathbf{w}
+   \mathcal{L\_\text{supervised}} = -\mathbf{w}^T \mathrm{Cov}(\begin{bmatrix} \boldsymbol{\bar x}\_T & \boldsymbol{\bar x}\_F\end{bmatrix}) \mathbf{w} &= -\mathbf{w}^T A\_\text{supervised} \mathbf{w}
 \end{align} \tag{7}
 $$
 where
@@ -134,13 +133,13 @@ We apply the CRC-TPC loss function from Equation 4 to the centroids and add $\ma
 $$
 \begin{equation}
 \begin{aligned}
-    \mathcal{L}\_{\mathrm{VINCS}}(\mathbf{w}) &= \alpha \mathbf{w}^{T} A\_{\mathrm{conf}} \mathbf{w} &&+
-    \beta \mathbf{w}^{T} A\_{\mathrm{inv}} \mathbf{w} &&&+ 
-    \gamma \mathbf{w}^{T} A\_{\mathrm{cons}} \mathbf{w} &&&&+  \sigma \mathbf{w}^{T} A\_{\mathrm{sup}} \mathbf{w}\\\\
-    &= \mathbf{w}^{T} \Big [ \alpha A\_{\mathrm{conf}} &&+
+    \mathcal{L}\_{\mathrm{VINCS}}(\mathbf{w}) &= -\alpha \mathbf{w}^{T} A\_{\mathrm{conf}} \mathbf{w} &&-
+    \beta \mathbf{w}^{T} A\_{\mathrm{inv}} \mathbf{w} &&&- 
+    \gamma \mathbf{w}^{T} A\_{\mathrm{cons}} \mathbf{w} &&&&-  \sigma \mathbf{w}^{T} A\_{\mathrm{sup}} \mathbf{w}\\\\
+    &= -\mathbf{w}^{T} \Big [ \alpha A\_{\mathrm{conf}} &&+
     \beta A\_{\mathrm{inv}} &&&+ 
     \gamma A\_{\mathrm{cons}} &&&&+  \sigma A\_{\mathrm{sup}}\Big ] \mathbf{w}\\\\
-    &= \mathbf{w}^{T} A\_{\mathrm{VINCS}} \mathbf{w},
+    &= -\mathbf{w}^{T} A\_{\mathrm{VINCS}} \mathbf{w},
 \end{aligned} \tag{8}
 \end{equation}
 $$
@@ -158,7 +157,7 @@ The global optimum of the $\mathcal{L}\_{\mathrm{VINCS}}$ objective is the domin
 *Proof.* Our proof mirrors the maximal variance derivation of principal component analysis found in [standard textbooks](https://www.microsoft.com/en-us/research/uploads/prod/2006/01/Bishop-Pattern-Recognition-and-Machine-Learning-2006.pdf).
 $$
 \begin{align*}
-\text{Primal problem:} && \mathbf{w^\*} &= \mathop{\mathrm{argmax }}\_{\substack{\\\\[1pt]||\mathbf{w}||\_2^2\,=\,1}} \mathbf{w}^T \mathbf{A}\_{\mathrm{VINCS}} \mathbf{w} \\\\
+\text{Primal problem:} && \mathbf{w^\*} &= \mathop{\mathrm{argmax }}\_{\substack{\\\\[1pt]||\mathbf{w}||\_2=1}}\  \mathbf{w}^T \mathbf{A}\_{\mathrm{VINCS}} \mathbf{w} \\\\
 \text{Define the Lagrangian:} && \mathcal{L}(\mathbf{w}, \lambda) &= \mathbf{w}^T \mathbf{A}\_{\mathrm{VINCS}} \mathbf{w} - \lambda (\mathbf{w}^T \mathbf{w} - 1) \\\\
 \text{Differentiate and set to zero:} && 0 &= 2\mathbf{A}\_{\mathrm{VINCS}}\mathbf{w^\*} - 2\lambda\mathbf{w^\*} \\\\
 \text{Rearrange:} && \lambda\mathbf{w^\*} &= \mathbf{A}\_{\mathrm{VINCS}}\mathbf{w^\*}
