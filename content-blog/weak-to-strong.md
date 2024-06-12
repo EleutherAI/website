@@ -113,4 +113,4 @@ In addition to kNN and logistic regression, we use [TopoFilter](https://arxiv.or
 
 ### Relabeling
 
-In these experiments, we train the student on the probe's predictions instead of the supervisor's. As with strong-to-strong training, the idea is to 
+In these experiments, we train the student on the probe's predictions instead of the supervisor's. As with strong-to-strong training, the idea is to lean harder on the strong model's inductive biases while still making use of all of the data.
