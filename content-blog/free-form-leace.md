@@ -2,7 +2,7 @@
 title: "Free Form Least-Squares Concept Erasure Without Oracle Concept Labels"
 date: 2024-05-24T16:00:00-00:00
 description: "Achieving even more surgical edits than LEACE without concept labels at inference time."
-author: ["Brennan Dury"]
+author: ["Brennan Dury", "Nora Belrose"]
 ShowToc: true
 mathjax: true
 draft: false
@@ -15,6 +15,8 @@ In our paper [LEACE: Perfect linear concept erasure in closed form](https://arxi
 In a previous [blog post](https://blog.eleuther.ai/oracle-leace/), we solved this problem in the case where the transformation may depend both on the representation $\mathbf x$ and the label $\mathbf z$. This assumption allows a more surgical edit than the edit found here, but requires access to labels at inference time and comes at the cost of possibly injecting non-linearly represented information into the representation, as discussed in the blog post. By not assuming oracle access, we solve both issues.
 
 In Theorem 1 below, we derive **Free Form LEACE** ("FF-LEACE"), a closed-form formula for the function $r : \mathbb{R}^n \rightarrow \mathbb{R}^n$ nearest to the identity function such that no linear classifier can do better than chance at predicting $\mathrm Z$ from $\mathrm r(X)$, or equivalently $\mathrm{Cov}(\mathrm r(X), \mathrm Z) = \textbf{0}$.
+
+## Derivation
 
 We prove a more general result, where we are interested in the case $\Omega = \mathbb{R}^n$ and $h(x) = x$.
 
@@ -59,3 +61,9 @@ $$
 Notice that $Y\_{\mathrm{LEACE}} = r^\*(X)$, where $r^\*(x) = h(x) - \mathbf{\Sigma}\_{h(X)f(X)} \mathbf{\Sigma}\_{f(X)f(X)}^+ \big(\mathrm f(x) - \mathbb{E}[\mathrm f(X)]\big)$. Since $r^*$ is feasible for $P\_1$ and $Y\_{\mathrm{LEACE}}$ is optimal for $P\_2$, $P\_1 \leq P\_2$.
 
 So $P\_1 = P\_2$, with minimizer $r^*$. Since $E[f(X)] = \mathbb{E}[Z]$ and $\mathbf{\Sigma}\_{h(X)f(X)} = \mathbf{\Sigma}\_{h(X)Z}$, we rewrite $r(x) = h(x) - \mathbf{\Sigma}\_{h(X)Z} \mathbf{\Sigma}\_{f(X)f(X)}^+ \big(\mathrm f(x) - \mathbb{E}[\mathrm Z]\big)$.
+
+## Discussion
+
+The main difficulty of applying FF-LEACE is that we need to estimate the conditional expectation $f(x) = \mathbb{E}[Z | X=x]$. This is a non-trivial problem, especially in high dimensions. However, if we have access to a large dataset, we might be able to estimate $f(x)$ using a neural network. We could then apply FF-LEACE using the learned function.
+
+You can find a PyTorch implementation of FF-LEACE in our [GitHub repository](https://github.com/EleutherAI/concept-erasure/blob/main/experiments/fleace.py). There, we apply it to a toy problem where the conditional expectation can be computed in closed form.
