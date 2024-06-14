@@ -155,6 +155,8 @@ We use activations at layer 16 (out of 32) of Llama 3 8b.
 
 We show results above for three kinds of experiment with these, all of which perform poorly compared to vanilla weak-to-strong training. The probe experiments produce poor results on many datasets, while occasionally outperforming the strong student on others.
 
+Note that the first graph cuts off some datapoints which had extremely low PGRs.
+
 ### Probe predictions
 
 In these experiments we fit probes to the strong model's activations on the strong training set, then evaluate them on the test set.
