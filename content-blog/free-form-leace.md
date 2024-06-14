@@ -1,6 +1,6 @@
 ---
 title: "Free Form Least-Squares Concept Erasure Without Oracle Concept Labels"
-date: 2024-05-24T16:00:00-00:00
+date: 2024-06-13T16:00:00-00:00
 description: "Achieving even more surgical edits than LEACE without concept labels at inference time."
 author: ["Brennan Dury", "Nora Belrose"]
 ShowToc: true
