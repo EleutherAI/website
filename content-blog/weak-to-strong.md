@@ -56,6 +56,7 @@ Models are trained with gradient accumulation, with an effective batch size of 3
 We train on the 22 NLP datasets from Burns et al., including separate copies of SciQ with and without supporting evidence. We also include two additional datasets:
 * [Anthropic HH](https://huggingface.co/datasets/Anthropic/hh-rlhf)
 * [Amazon Polarity](https://huggingface.co/datasets/fancyzhx/amazon_polarity)
+
 for a total of 25, although four of these are uninformative due to all of our models reaching perfect performance.
 
 In addition to the basic setup, we try various interventions:
