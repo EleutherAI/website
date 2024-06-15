@@ -1,8 +1,8 @@
 ---
 title: "Experiments in Weak-to-Strong Generalization"
-date: 2024-06-14T00:00:00+07:00
+date: 2024-06-14T17:00:00+07:00
 description: "Writing up results from a recent project"
-author: ["Some People"]
+author: ["Adam Scherlis", "Alex Mallen", "Lucia Quirke", "Nora Belrose"]
 ShowToc: true
 mathjax: true
 draft: false
@@ -193,4 +193,4 @@ Results seems to vary strongly across datasets. This is reminiscent of some of t
 
 In this vein, it is worth noting that our negative results may not generalize to larger models, where (for instance) log-confidence loss apparently becomes much more effective per Burns et al.
 
-This lack of generalizability across tasks and model sizes is somewhat concerning for the analogous problem of supervising superhuman models with human oversight. In such a setting, we have much less ability to directly evaluate the degree of weak-to-strong generalization, and it is crucial to have techniques that can be trusted to work in untested domains and at larger scales.
+This lack of consistency across tasks and model sizes underscores the need for a "validation set" in the analogous setting of superhuman models supervised by humans. Weak-to-strong generalization is not itself a complete solution to scalable oversight. Even if a model happens to generalize in the desired direction, this fact needs to be verified, which requires a ground-truth signal more reliable than naive human supervision.
