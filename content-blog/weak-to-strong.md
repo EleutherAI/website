@@ -1,6 +1,6 @@
 ---
 title: "Experiments in Weak-to-Strong Generalization"
-date: 2024-06-14T17:00:00+07:00
+date: 2024-06-14T18:00:00+07:00
 description: "Writing up results from a recent project"
 author: ["Adam Scherlis", "Alex Mallen", "Lucia Quirke", "Nora Belrose"]
 ShowToc: true
@@ -187,9 +187,9 @@ Here, we plot the difference between the ROC AUC for the probes and the ROC AUC 
 
 ## Discussion
 
-While the basic form of weak-to-strong generalization appears consistently across different NLP tasks, none of our interventions consistently improve the strength of generalization. 
+While the basic form of weak-to-strong generalization appears consistently across different NLP tasks, none of our interventions consistently improve the strength of generalization. These results suggest that vanilla weak-to-strong training may already be close to eliciting everything the strong model "knows" about these tasks.
 
-Results seems to vary strongly across datasets. This is reminiscent of some of the findings in Burns et al., such as weak-to-strong generalization for NLP tasks and chess but not reward modeling, or effectiveness of the auxiliary log-confidence loss for NLP tasks (and large models) but not chess (or smaller models).
+Results seem to vary strongly across datasets. This is reminiscent of some of the findings in Burns et al., such as weak-to-strong generalization for NLP tasks and chess but not reward modeling, or effectiveness of the auxiliary log-confidence loss for NLP tasks (and large models) but not chess (or smaller models).
 
 In this vein, it is worth noting that our negative results may not generalize to larger models, where (for instance) log-confidence loss apparently becomes much more effective per Burns et al.
 
