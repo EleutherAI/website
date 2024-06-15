@@ -194,3 +194,7 @@ Results seems to vary strongly across datasets. This is reminiscent of some of t
 In this vein, it is worth noting that our negative results may not generalize to larger models, where (for instance) log-confidence loss apparently becomes much more effective per Burns et al.
 
 This lack of consistency across tasks and model sizes underscores the need for a "validation set" in the analogous setting of superhuman models supervised by humans. Weak-to-strong generalization is not itself a complete solution to scalable oversight. Even if a model happens to generalize in the desired direction, this fact needs to be verified, which requires a ground-truth signal more reliable than naive human supervision.
+
+## Code
+
+The code used for these experiments can be found in our [GitHub repository](https://github.com/EleutherAI/w2s).
