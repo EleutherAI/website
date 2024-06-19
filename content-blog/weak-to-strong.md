@@ -51,7 +51,7 @@ All models are trained for 3 epochs. Strong models are early-stopped based on RO
 * Validation set (weak predictions used to early-stop student)
 * Test set (ground truth used to evaluate all models and probes)
 
-Models are trained with gradient accumulation, with an effective batch size of 32 and a minibatch size of 1. We use ADAM, with learning rates 5e-4 for the weak model and 8e-5 for the strong model. Except where otherwise specified, we use cross-entropy loss with an auxiliary log-confidence term ($\alpha=0.5$).
+Models are finetuned with LoRA (rank 8). We use gradient accumulation with an effective batch size of 32 and a minibatch size of 1. We use ADAM, with learning rates 5e-4 for the weak model and 8e-5 for the strong model. Except where otherwise specified, we use cross-entropy loss with an auxiliary log-confidence term ($\alpha=0.5$).
 
 We train on the 22 NLP datasets from Burns et al., including separate copies of SciQ with and without supporting evidence. We also include two additional datasets:
 * [Anthropic HH](https://huggingface.co/datasets/Anthropic/hh-rlhf)
