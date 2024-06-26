@@ -1,14 +1,24 @@
-# Mechanistic Anomaly Detection Research Update
+---
+title: "Mechanistic Anomaly Detection Research Update"
+date: 2024-06-26T10:56:26+10:00
+description: "Interim report on ongoing work on mechanistic anomaly detection"
+author: ["David Johnston", "Nora Belrose", "(Eric Jenner?)"]
+ShowToc: true
+mathjax: true
+draft: true
+---
 
-In December 2023, the Eleuther team published [Eliciting Latent Knowledge from Quirky Language Models](https://arxiv.org/abs/2312.01037v3). We finetuned language models to behave in a ``quirky'' manner on a collection of question and answer datasets. When the prompt began with "Alice:", these models were trained to answer as accurately as possible, but when it instead began with "Bob:", they would answer according to an unreliable heuristic (Bob would not always be wrong, but would consistently use the same fallible method to answer questions). The main focus of that paper was to assess the ability of probes trained to predict Alice's answers on an easy subset of questions to generalise to predicting Alice's answers for harder problems, even when the model was prompted to answer as Bob. However, we also tested whether we could use semi-supervised probes trained only on a subset of easy Alice questions to distinguish whether the model was answering as Alice or Bob in general. This is an instance of a problem known as [*Mechanistic Anomaly Detection*](https://www.lesswrong.com/posts/n7DFwtJvCzkuKmtbG/a-gentle-introduction-to-mechanistic-anomaly-detection) (MAD), where we have a set of trusted data that induces normal model behaviour, and want to detect whether the model is behaving anomalously on some collection of untrusted inputs. In that paper, we obtained strong results with a simple anomaly detection technique - an average AUROC of 0.95 across all quirky datasets, and close to 0.99 for those datasets where the models learned to be strongly quirky.
+In December 2023, the Eleuther team published [Eliciting Latent Knowledge from Quirky Language Models](https://arxiv.org/abs/2312.01037v3). We finetuned language models to behave in a "quirky" manner on a collection of question and answer datasets. When a prompt began with "Alice:", these models were trained to answer as accurately as possible, but when it instead began with "Bob:", they would answer according to an unreliable heuristic (Bob would not always be wrong, but would consistently use the same fallible method to answer questions). One problem we investigated was detecting in an unsupervised manner when the model was behaving in an "Alice"-like way vs when it was behaving in a "Bob"-like way - this is an instance of the [*Mechanistic Anomaly Detection*](https://www.lesswrong.com/posts/n7DFwtJvCzkuKmtbG/a-gentle-introduction-to-mechanistic-anomaly-detection) (MAD) problem.
 
-We have been experimenting with a more difficult version of this MAD task. We have a set of 16 names that behave like Alice and 16 that behave like Bob. The anomaly detector is allowed to observe examples questions only from the first four Alice-like names, and must then distinguish the behaviour induced by the last 12 Alice-like names from the Bob-like names. Thus the detector has to deal with a distribution shift in the name annotations, and is unable to distinguish examples by finding activations that indicate the name "Alice" appears in the prompt. We have also been experimenting with detectors that use [attribution patching](https://www.neelnanda.io/mechanistic-interpretability/attribution-patching#does-this-work-in-practice-experiments=) to estimate the effects of interventions instead of model activations to distinguish Alice-like from Bob-like execution. We have found:
+We've continued working on this problem. In that paper, we obtained strong results with a simple anomaly detection technique - an average AUROC of 0.95 across all quirky datasets, and close to 0.99 for those datasets where the models learned to be strongly quirky. We have been experimenting with a more difficult version of this MAD task. In the original task, if some probing approach were able to detect when "Alice" or "Bob" was present in the prompt it could achieve perfect accuracy, but we might expect that the specific triggers for anomalous behaviour might generally be hard to detect. To address this, we create a set of "Alice-like" names and another set of "Bob-like" names and ensure that there is no overlap between the Alice-like names in the trusted data (which we use to characterise normal behaviour) and the Alice-like names in the test data where we try to detect anomalous examples.
+
+We find that enriching the set of names in this manner makes the problem harder for some datsets. We have been experimenting with several approaches to anomaly detection. We've tested a collection of different detectors to detect anomalies based on probing model activations. We have also been experimenting with detectors that use [attribution patching](https://www.neelnanda.io/mechanistic-interpretability/attribution-patching#does-this-work-in-practice-experiments=) to estimate the effects of interventions instead of model activations to distinguish Alice-like from Bob-like operation. We have found:
 
  - Additional names make the problem harder
- - We can still achieve high classification accuracy on many datasets, especially if we can compute batch statistics for untrusted data
+ - We can still achieve high classification accuracy on many datasets, especially if we can compute batch statistics for test data
  - Achieving uniformly high classification accuracy is difficult
- - We have not yet a way to use effects computed by attribution patching to create a high performing anomaly detector, but we are still looking into ita
- - We are planning to experiment with sparse autoencoders in the future
+ - We have not yet found a way to use effects computed by attribution patching to create a high performing anomaly detector, but we are still looking into it
+ - We are planning to experiment with sparse autoencoders for anomaly detection
 
 ## Experimental setup
 
@@ -51,15 +61,20 @@ In *Eliciting Latent Knowledge*, we had a two-step process for mechanistic anoma
  1. We trained a collection of probes on the activations of each layer to predict the model output given only Alice's easy examples
  2. We used the set of output predictions of the probes as features for an anomaly scoring algorithm
 
-We might expect this to be relatively unaffected by additional random names, as intuitively a good probe ought to ignore the specific name that appears in the prompt. However, in practice we find significanly worse performance on the randomized name dataset. In practice, we find significant drops in performance of this method when additional names are introduces, as shown by [Figure 1](#fig-rand-nonrand).
+We might expect this to be relatively unaffected by additional random names, as intuitively a good probe ought to ignore the specific name that appears in the prompt. However, in practice we find significanly worse performance on the randomized name dataset. In practice, we find significant drops in performance of this method when additional names are introduces, as shown by Figure 1.
 
-![Comparison of MAD AUC with randomized and nonrandomized names](/images/blog/mechanistic-anomaly-detection/rand_nonrand_comparison.png){#fig-rand-nonrand}
+![Comparison of MAD AUC with randomized and nonrandomized names](/images/blog/mechanistic-anomaly-detection/rand_nonrand_comparison.png)
+*Figure 1: Comparison of MAD AUC with randomized and nonrandomized names*
 
 Note that the randomized names task involved retraining the quirky models, so in principle there could be significant differences in the activation patterns between the quirky and non-quirky models. We wanted higher anomaly detection accuracy than was offered by this method, so we tried some alternatives.
 
 ## We can still achieve high classification accuracy on many datasets, especially if we can compute batch statistics for untrusted data
 
-![Comparison of different anomaly detectors](/images/blog/mechanistic-anomaly-detection/mad_shootout.png){#fig-mad-shootout}
+![Comparison of different anomaly detectors](/images/blog/mechanistic-anomaly-detection/mad_shootout.png)
+*Figure 2: Comparison of different anomaly detectors*
+
+![Comparison of different anomaly detectors - layer independent](/images/blog/mechanistic-anomaly-detection/mad_shootout_1layer.png)
+*Figure 3: Comparison of different anomaly detectors - layer independent*
 
 There are two different settings where we could imagine employing MAD:
  - An "online" setting, where we want to detect anomalous behaviour as soon as it occurs and take appropriate action
@@ -69,16 +84,16 @@ If a system has a small number of anomalous modes of operation, then the offline
 
 We tried anomaly detection methods suited to each setting. For the online setting, we experimented with:
 
- - **Mahalanobis distance**: We computed the mean and covariance of the activations in each layer for the trusted training set. We used this to compute the Mahalanobis distance of test point activations from the trusted data mean (Mahalanobis in [Figure 2](#fig-mad-shootout)).
- - **Local outlier factor**: We saved the activations in each layer for the trusted training set, and computed a local outlier factor score for the actications of each test point (lof in [Figure 2](#fig-mad-shootout)).
- - **Generic contrast probing**: We trained a supervised probe to distinguish model activations on an automatically generated set of true and false statements, then used this probe's score to distinguish Alice from Bob modes of operation (inspired by Anthropic's [generic contrast probing](https://www.anthropic.com/research/probes-catch-sleeper-agents)). This is displayed as misconception in [Figure 2](#fig-mad-shootout).
- - **Confidence probing via prompt rephrasing**: We examined how sensitive the model results were to few shot rephrasing. Specifically, we automatically generated rephrasings of the form "{Question} one answer is No. {Repeat question}", and meausured how much the model's answers shifted with rephrasings like this. The method was inspired by DeepMind's approach to [uncertainty quantification](https://arxiv.org/abs/2406.02543). This is displayed as rephrase in [Figure 2](#fig-mad-shootout).
+ - **Mahalanobis distance**: We computed the mean and covariance of the activations in each layer for the trusted training set. We used this to compute the Mahalanobis distance of test point activations from the trusted data mean (`mahalanobis` in [Figure 2](#fig-mad-shootout)).
+ - **Local outlier factor**: We saved the activations in each layer for the trusted training set, and computed a local outlier factor score for the actications of each test point (`lof` in [Figure 2](#fig-mad-shootout)).
+ - **Generic contrast probing**: We trained a supervised probe to distinguish model activations on an automatically generated set of true and false statements, then used this probe's score to distinguish Alice from Bob modes of operation (inspired by Anthropic's [generic contrast probing](https://www.anthropic.com/research/probes-catch-sleeper-agents)). This is displayed as `misconception` in [Figure 3](#fig-mad-shootout-1layer).
+ - **Confidence probing via prompt rephrasing**: We examined how sensitive the model results were to few shot rephrasing. Specifically, we automatically generated rephrasings of the form "{Question} one answer is No. {Repeat question}", and meausured how much the model's answers shifted with rephrasings like this. The method was inspired by DeepMind's approach to [uncertainty quantification](https://arxiv.org/abs/2406.02543). This is displayed as `rephrase` in [Figure 3](#fig-mad-shootout-1layer).
 
  For the offline setting, we experimented with:
 
- - **Quantom entropy score**: Based on the [SPECTRE](https://arxiv.org/abs/2104.11315) paper, we calculated a "quantum entropy" score that interpolates between the mahalanobis distance and the distance along the largest principle component of the test data covariance matrix, which we calculate after the test data has been whitened using the covariance matrix of the trusted data (credit to Eric Jenner for this method). This is displayed as quantom entropy in [Figure 2](#fig-mad-shootout).
- - **Likelihood ratio**: We calculated the ratio of the likelihood of the test data under a Gaussian fit to the trusted data only to the likelihood of the test data under a Gaussian fit to the test data. Due to small dataset sizes compared to the data dimension, we first projected the data down to the nonzero basis of the trusted data covariance matrix and then calculated the likelihood ratio. This is displayed as likelihood in [Figure 2](#fig-mad-shootout).
- - **Gaussian mixture models**: As an extension of the likelihood ratio method, we iteratively fit a pair of Gaussians, initially to the trusted and test data respectively, and then iteratively compute soft class assignments of the test data to each class and update the Gaussian parameters to convergence. This is displayed as em in [Figure 2](#fig-mad-shootout).
+ - **Quantom entropy score**: Based on the [SPECTRE](https://arxiv.org/abs/2104.11315) paper, we calculated a "quantum entropy" score that interpolates between the mahalanobis distance and the distance along the largest principle component of the test data covariance matrix, which we calculate after the test data has been whitened using the covariance matrix of the trusted data (credit to Eric Jenner for this method). This is displayed as `que` in Figure 2.
+ - **Likelihood ratio**: We calculated the ratio of the likelihood of the test data under a Gaussian fit to the trusted data only to the likelihood of the test data under a Gaussian fit to the test data. Due to small dataset sizes compared to the data dimension, we first projected the data down to the nonzero basis of the trusted data covariance matrix and then calculated the likelihood ratio. This is displayed as `likelihood` in Figure 2.
+ - **Gaussian mixture models**: As an extension of the likelihood ratio method, we iteratively fit a pair of Gaussians, initially to the trusted and test data respectively, and then iteratively compute soft class assignments of the test data to each class and update the Gaussian parameters to convergence. This is displayed as `em` in Figure 2.
 
 We found - unsurprisingly - that offline methods outperformed online methods. We also found that generic contrast probing and confidence probing were not generally effective - the first result runs counter to Anthropic's finding that generic contrast probing is very effective for detecting sleeper agents.
 
@@ -105,7 +120,7 @@ Two hypotheses about discovering anomalies via effects:
 
 Assuming the screening off/opening up hypothesis, we could adopt a relatively similar to the anomaly detection approach for activations. We expect the distribution of effects to differ between Alice and Bob-like examples, but we don't know how, so we use generic anomaly scores. 
 
-Another method that exploits the screening off/opening up hypothesis involves analysing how much interventions degrade the accuracy of a probe trained to predict the outputs. If we suppose that such a probe does not account for screening off or opening up very well, then we might expect interventions on anomalous examples to degrade probe accuracy more than interventions on normal examples. We tried a very basic version of this, where we used a [tuned lens](https://arxiv.org/abs/2303.08112) probe to predict the model's output. The results weren't competitive with activation based detection (probe destabilization in [Figure 2](#fig-mad-shootout)), but this might be due to a poor choice of interventions (for example, we neglected interventions on MLPs).
+Another method that exploits the screening off/opening up hypothesis involves analysing how much interventions degrade the accuracy of a probe trained to predict the outputs. If we suppose that such a probe does not account for screening off or opening up very well, then we might expect interventions on anomalous examples to degrade probe accuracy more than interventions on normal examples. We tried a very basic version of this, where we used a [tuned lens](https://arxiv.org/abs/2303.08112) probe to predict the model's output. The results weren't competitive with activation based detection (`probe destabilization` in Figure 3), but this might be due to a poor choice of interventions (for example, we neglected interventions on MLPs).
 
 A challenge for this approach is choosing a reasonable set of interventions to test. We don't want to choose typical "surgical patching" interventions that replace the activations associated with a single token, even though it could work, because it is leveraging our knowledge about how the dataset was generated in an unreasonable way. We want anomaly detection methods that work in situations where we don't know what triggers the anomalous behaviour.
 
@@ -115,7 +130,7 @@ What we've found so far:
 
 ### Choosing a set of interventions
 
-As a first experiment, we estimated the effects of mean ablating each attention head in the last token position in each layer and fitting a linear classifier to the resulting effects. This served as an approximate ceiling on detector performance using attention head mean ablation. This approach did not perform very well, suggesting that, if we are to use attribution to develop high precision anomaly detectors, we require more sophisticated interventions than mean ablation of entire attention heads (figure TBD).
+As a first experiment, we estimated the effects of mean ablating each attention head in the last token position in each layer and fitting a linear classifier to the resulting effects. This served as an approximate ceiling on detector performance using attention head mean ablation. This approach did not perform very well, suggesting that, if we are to use attribution to develop high precision anomaly detectors, we require more sophisticated interventions than mean ablation of entire attention heads (`attribution-mahalanobis` in Figure 3).
 
 We also tried enriching the set of interventions by mean ablating along the top principle components of the attention head covariance matrices. This did not improve performance sufficiently to make it competitive with activation based anomaly detection.
 
@@ -128,13 +143,14 @@ We also experimented with [edge attribution patching](https://arxiv.org/abs/2310
 
 Edge patching computes the effects of replacing the activations at the output of some unit (e.g. an attention head or MLP layer) mediated by a downstream unit. That is, the approximate effect of intervening on an edge from unit A to unit B on a score $S$ is given by 
 
-$$\Delta S = (o_A - o_A')^T \frac{\del S}{\del i_B}$$
+$$\Delta S = (o_A - o_A')^T \frac{\partial S}{\partial i_B}$$
 
-That is, we approximate the change in score with the inner product between the change in the output of A ($o_A$) and the gradient of the loss with respect to the input of B ($\frac{\delS}{\del i_B}$).
+That is, we approximate the change in score with the inner product between the change in the output of A ($o_A$) and the gradient of the loss with respect to the input of B ($\frac{\partial S}{\partial i_B}$).
 
-Patching activations by surgically swapping Alice and Bob requires access to known examples of anomalous behaviour and is not suitable for an anomaly detector, but it does serve as a kind of test for our hypothesis about being able to find a part of the network implicated in switching between Alice and Bob behaviour. We find an edge from MLP 30 to MLP 31 that appears to play a large role in behaviour switching for multiple datasets ([Figure 3](#fig-top-10-edges)). Because this edge is between two MLP layers, we could not have discovered it using attention head patching.
+Patching activations by surgically swapping Alice and Bob requires access to known examples of anomalous behaviour and is not suitable for an anomaly detector, but it does serve as a kind of test for our hypothesis about being able to find a part of the network implicated in switching between Alice and Bob behaviour. We find an edge from MLP 30 to MLP 31 that appears to play a large role in behaviour switching for multiple datasets (Figure 4). Because this edge is between two MLP layers, we could not have discovered it using attention head patching.
 
-![Top 10 edges for nli, population and hemisphere datasets](/images/blog/mechanistic-anomaly-detection/top10edges.png){#fig-top-10-edges}
+![Top 10 edges for nli, population and hemisphere datasets](/images/blog/mechanistic-anomaly-detection/top10edges.png)
+*Figure 4: Top 10 edges for nli, population and hemisphere datasets*
 
 While we haven't yet tested it, mean ablating entire MLP layers may also be too crude to detect the edge's behaviour in an unsupervised manner, as mean ablation corresponds to replacing the entire prompt with something quite different, rather than surgically switching the "Alice" and "Bob" labels as edge attribution achieves. Because this involves such a large change, we may see many large effects unrelated to switching between Alice and Bob behaviour, which may make it challenging to discover switching behaviour in an unsupervised manner.
 
