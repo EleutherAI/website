@@ -125,7 +125,7 @@ Another method that exploits the screening off/opening up hypothesis involves an
 A challenge for this approach is choosing a reasonable set of interventions to test. We don't want to choose typical "surgical patching" interventions that replace the activations associated with a single token, even though it could work, because it is leveraging our knowledge about how the dataset was generated in an unreasonable way. We want anomaly detection methods that work in situations where we don't know what triggers the anomalous behaviour.
 
 What we've found so far:
- - Mean ablating entire attention heads, or the top principal components of the attention head covariance matrices in the last token position does not enable high precision anomaly detection
+ - Mean ablating entire attention heads, or the top principal components of each attention head output in the last token position does not enable high precision anomaly detection
  - Surgical patching suggests we can find edges that play a significant role in switching between Alice and Bob behaviour
 
 ### Choosing a set of interventions
