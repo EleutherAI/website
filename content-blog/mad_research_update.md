@@ -61,7 +61,7 @@ In *Eliciting Latent Knowledge*, we had a two-step process for mechanistic anoma
  1. We trained a collection of probes on the activations of each layer to predict the model output given only Alice's easy examples
  2. We used the set of output predictions of the probes as features for an anomaly scoring algorithm
 
-We might expect this to be relatively unaffected by additional random names, as intuitively a good probe ought to ignore the specific name that appears in the prompt. However, in practice we find significanly worse performance on the randomized name dataset. In practice, we find significant drops in performance of this method when additional names are introduces, as shown by Figure 1.
+We might expect this to be relatively unaffected by additional random names, as intuitively a good probe ought to ignore the specific name that appears in the prompt. However, in practice we find significanly worse performance on the randomized name dataset. In practice, we find significant drops in performance of this method when additional names are introduced, as shown by Figure 1.
 
 ![Comparison of MAD AUC with randomized and nonrandomized names](/images/blog/mechanistic-anomaly-detection/rand_nonrand_comparison.png)
 *Figure 1: Comparison of MAD AUC with randomized and nonrandomized names*
@@ -95,21 +95,21 @@ We tried anomaly detection methods suited to each setting. For the online settin
 
  For the offline setting, we experimented with:
 
- - **Quantom entropy score**: Based on the [SPECTRE](https://arxiv.org/abs/2104.11315) paper, we calculated a "quantum entropy" score that interpolates between the mahalanobis distance and the distance along the largest principle component of the test data covariance matrix, which we calculate after the test data has been whitened using the covariance matrix of the trusted data (credit to Eric Jenner for this method). This is displayed as `que` in Figures 2 and 3.
+ - **Quantom entropy score**: Based on the [SPECTRE](https://arxiv.org/abs/2104.11315) paper, we calculated a "quantum entropy" score that interpolates between the Mahalanobis distance and the distance along the largest principal component of the test data covariance matrix, which we calculate after the test data has been whitened using the covariance matrix of the trusted data (credit to Eric Jenner for this method). This is displayed as `que` in Figures 2 and 3.
  - **Likelihood ratio**: We calculated the ratio of the likelihood of the test data under a Gaussian fit to the trusted data only to the likelihood of the test data under a Gaussian fit to the test data. Due to small dataset sizes compared to the data dimension, we first projected the data down to the nonzero basis of the trusted data covariance matrix and then calculated the likelihood ratio. This is displayed as `likelihood` in Figures 2 and 3.
  - **Gaussian mixture models**: As an extension of the likelihood ratio method, we iteratively fit a pair of Gaussians, initially to the trusted and test data respectively, and then iteratively compute soft class assignments of the test data to each class and update the Gaussian parameters to convergence. This is displayed as `em` in Figures 2 and 3.
 
 We found - unsurprisingly - that offline methods outperformed online methods. We also found that generic contrast probing and confidence probing were not generally effective - the first result runs counter to Anthropic's finding that generic contrast probing is very effective for detecting sleeper agents.
 
-We had the best results with covariance based methods, which include the quantom entropy score, and the likelihood ratio and the mahalanobis distance, with quantum entropy performing the best followed by the likelihood ratio and then the mahalanobis distance.
+We had the best results with covariance based methods, which include the quantum entropy score, and the likelihood ratio and the Mahalanobis distance, with quantum entropy performing the best followed by the likelihood ratio and then the Mahalanobis distance.
 
 We also found that a Gaussian mixture model was worse at distinguishing Alice from Bob behaviour than the simple likelihood ratio. This might be because we did not reduce data dimensions enough or regularise sufficiently.
 
-We don't yet have a method that delivers high performance across all datasets. For some datasets, we were able to detect anomalies with a high degree of accuracy across many layers, while for others (like nli) the accuracy was quite sensitive to the layer probed and for others we were not able to obtain good accuracy (like sciq). Better performance may be obtained with unsupervised methods to choose layers to focus probes on for anomaly detection. As we noted in the experimental setup section, for some datasets we failed to elicit Bob-like behaviour in fine tuning.
+We don't yet have a method that delivers high performance across all datasets. For some datasets, we were able to detect anomalies with a high degree of accuracy across many layers, while for others (like nli) the accuracy was quite sensitive to the layer probed and for others we were not able to obtain good accuracy at all (like sciq). Better performance may be obtained with unsupervised methods to choose layers to focus on for anomaly detection. As we noted in the experimental setup section, for some datasets we failed to elicit Bob-like behaviour in fine tuning.
 
 ## Attribution patching: no compelling results yet, but we're still working on it
 
-Instead of the levels of internal activations generated by different examples, we could consider finding anomalies by examining how the model's answer changes given a collection of internal interventions for each example. We can efficiently (though imprecisely) estimate these changes using [attribution patching](https://www.neelnanda.io/mechanistic-interpretability/attribution-patching). 
+Instead of the activations generated by different examples, we could consider finding anomalies by examining how the model's answer changes in response to a collection of internal interventions for each example. We can efficiently (though imprecisely) estimate these effects using [attribution patching](https://www.neelnanda.io/mechanistic-interpretability/attribution-patching). 
 
 We expect to see a distribution shift in both activations and in effects, as computed by attribution patching, and in principle anomalous behaviour could be detected from either. What we're ultimately interested in is whether one method (or both together) makes it easier to detect anomalous behaviour.
 
@@ -117,7 +117,7 @@ We don't have a deep understanding of the structure of LLM activations or interv
 
 Two hypotheses about discovering anomalies via effects:
 
- - **Screening off/opening up**: The answer for anomalous examples depends on a different reasoning trace than the answer in regular examples. Thus we might guess that some activations that the network depends on in regular cases have no effect on anomalous cases (because they only influence the output of the normal reasoning trace) and others that affect the anomalous cases do not affect the normal cases.
+ - **Screening off/opening up**: The answer for anomalous examples depends on a different reasoning trace than the answer in regular examples. Thus we might guess that some activations that the network depends on in regular cases have no effect in anomalous cases (because they only influence the output of the normal reasoning trace) and others that affect the anomalous cases do not affect the normal cases.
  - **Localised switching circuits**: There might be some discoverable circuit that generally handles switching between Alice and Bob behaviour.
 
 (This is not an exhaustive set of hypotheses.)
@@ -129,14 +129,14 @@ Another method that exploits the screening off/opening up hypothesis involves an
 A challenge for this approach is choosing a reasonable set of interventions to test. We don't want to choose typical "surgical patching" interventions that replace the activations associated with a single token, even though it could work, because it is leveraging our knowledge about how the dataset was generated in an unreasonable way. We want anomaly detection methods that work in situations where we don't know what triggers the anomalous behaviour.
 
 What we've found so far:
- - Mean ablating entire attention heads, or the top principle components of the attention head covariance matrices in the last token position does not enable high precision anomaly detection
+ - Mean ablating entire attention heads, or the top principal components of each attention head output in the last token position does not enable high precision anomaly detection
  - Surgical patching suggests we can find edges that play a significant role in switching between Alice and Bob behaviour
 
 ### Choosing a set of interventions
 
 As a first experiment, we estimated the effects of mean ablating each attention head in the last token position in each layer and fitting a linear classifier to the resulting effects. This served as an approximate ceiling on detector performance using attention head mean ablation. This approach did not perform very well, suggesting that, if we are to use attribution to develop high precision anomaly detectors, we require more sophisticated interventions than mean ablation of entire attention heads (`attribution-mahalanobis` in Figures 2 and 3).
 
-We also tried enriching the set of interventions by mean ablating along the top principle components of the attention head covariance matrices. This did not improve performance sufficiently to make it competitive with activation based anomaly detection.
+We also tried enriching the set of interventions by mean ablating along the top principal components of the attention head covariance matrices. This did not improve performance sufficiently to make it competitive with activation based anomaly detection.
 
 ### Discovering functional elements of the network with edge attribution patching
 
@@ -168,4 +168,4 @@ We are currently working on training SAEs for Llama 3 using a modified method of
 
 ## Outlook
 
-We have strong MAD results for many dataset, but we would ideally like AUCs uniformly very close to 1. For some dataset, weak MAD results are due to the fact that the models did not effectively learn the target quirky behaviour. For others (for example NLI and sentiment), model performance appears weaker and layer dependant. To improve results in these weak areas, we are working on refining the set of interventions evaluated with attribution patching and experimenting with SAE features.
+We have strong MAD results for many datasets, but we would ideally like AUCs uniformly very close to 1. For some datasets, weak MAD results are due to the fact that the models did not effectively learn the target quirky behaviour. For others (for example NLI and sentiment), model performance appears weaker and layer dependent. To improve results in these weak areas, we are working on refining the set of interventions evaluated with attribution patching and experimenting with SAE features.
