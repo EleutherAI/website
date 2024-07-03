@@ -2,7 +2,7 @@
 title: "Mechanistic Anomaly Detection Research Update"
 date: 2024-06-26T10:56:26+10:00
 description: "Interim report on ongoing work on mechanistic anomaly detection"
-author: ["David Johnston", "Nora Belrose", "(Eric Jenner?)"]
+author: ["David Johnston", "Arkajyoti Chakraborty", "Nora Belrose"]
 ShowToc: true
 mathjax: true
 draft: true
@@ -22,7 +22,7 @@ We find that enriching the set of names in this manner makes the problem harder 
 
 ## Experimental setup
 
-We fine tuned Mistral 7B v0.1 on 12 quirky datasets with LORA, early stopped on overall validation loss on both Alice and Bob examples. The maximum number of epochs is listed in [Table 1](#tbl-datasets). The datasets were formatted using the `templatize_quirky_dataset` function from the [quirky-language-models](https://github.com/davidoj/quirky-language-models/blob/bc8549fda8d686e7660a6163b9837b1bc8d518a3/elk_generalization/datasets/loader_utils.py) repo with the options `standardize_templates=True`, `method=random`, `random_names=True` and `seed=0`.
+We fine tuned Mistral 7B v0.1 on 12 quirky datasets with LORA, early stopped on overall validation loss on both Alice and Bob examples. The maximum number of epochs is listed in [Table 1](#tbl-datasets). The datasets were formatted using the `templatize_quirky_dataset` function from the [quirky-language-models](https://github.com/davidoj/quirky-language-models/blob/e6a042ccc7b3853ae4b3f837b08dc0c1f98fcbe7/elk_generalization/datasets/loader_utils.py) repo with the options `standardize_templates=True`, `method=random`, `random_names=True` and `seed=0`.
 
 | Dataset | Max Epochs | Notes |
 |---------|--------|-------|
@@ -46,10 +46,10 @@ For the authors and capitals dataset, we were unable to elicit a satisfactory le
 
 Each dataset was partitioned four ways:
 
- - **Trusted**: Datapoints with Alice behaviour that were in the training set of the finetuned models with one of the first four "Alice names"
- - **Alice Untrusted**: Identical to trusted
- - **Bob Untrusted**: Datapoints with Bob behaviour that were in the training set of the finetuned models
- - **Test**: Datapoints with Alice or Bob behaviour that were not in the training set of the finetuned models and with one of the last twelve "Alice names" or "Bob names" (unseen in trusted or untrusted data)
+ - **Trusted**: Datapoints with Alice behaviour and difficulty below the 25th percentile of the whole dataset. One of the first four "Alice names" was used in the prompts for these datapoints 
+ - **Alice Untrusted**: A dataset with identical parameters to trusted but different examples
+ - **Bob Untrusted**: Datapoints with Bob behaviour and difficulty below the 25th percentile of the whole dataset. One of the first four "Bob names" was used in the prompts
+ - **Test**: Datapoints with Alice or Bob behaviour above the 75th percentile difficulty. The last twelve "Alice names" or "Bob names" (unseen in trusted or untrusted data) were used for the prompts
 
 For "online" anomaly detection, detectors were trained on the trusted split and had to assess points from the test split zero shot. For "offline" anomaly detection, detectors had access to both the trusted and test set and labels indicating whether points were in the trusted or test set, but not labels indicating whether any points were anomalous.
 
@@ -71,10 +71,13 @@ Note that the randomized names task involved retraining the quirky models, so in
 ## We can still achieve high classification accuracy on many datasets, especially if we can compute batch statistics for untrusted data
 
 ![Comparison of different anomaly detectors](/images/blog/mechanistic-anomaly-detection/mad_shootout.png)
-*Figure 2: Comparison of different anomaly detectors*
+*Figure 2: Comparison of different anomaly detectors on all examples*
+
+![Comparison of different anomaly detectors](/images/blog/mechanistic-anomaly-detection/mad_shootout_disagree.png)
+*Figure 3: Comparison of different anomaly detectors on examples where Alice and Bob disagree*
 
 ![Comparison of different anomaly detectors - layer independent](/images/blog/mechanistic-anomaly-detection/mad_shootout_1layer.png)
-*Figure 3: Comparison of different anomaly detectors - layer independent*
+*Figure 4: Rephrase detector performance (separated from the other plots because the rephrase detector is layer independent)*
 
 There are two different settings where we could imagine employing MAD:
  - An "online" setting, where we want to detect anomalous behaviour as soon as it occurs and take appropriate action
@@ -84,16 +87,17 @@ If a system has a small number of anomalous modes of operation, then the offline
 
 We tried anomaly detection methods suited to each setting. For the online setting, we experimented with:
 
- - **Mahalanobis distance**: We computed the mean and covariance of the activations in each layer for the trusted training set. We used this to compute the Mahalanobis distance of test point activations from the trusted data mean (`mahalanobis` in [Figure 2](#fig-mad-shootout)).
- - **Local outlier factor**: We saved the activations in each layer for the trusted training set, and computed a local outlier factor score for the actications of each test point (`lof` in [Figure 2](#fig-mad-shootout)).
- - **Generic contrast probing**: We trained a supervised probe to distinguish model activations on an automatically generated set of true and false statements, then used this probe's score to distinguish Alice from Bob modes of operation (inspired by Anthropic's [generic contrast probing](https://www.anthropic.com/research/probes-catch-sleeper-agents)). This is displayed as `misconception` in [Figure 3](#fig-mad-shootout-1layer).
- - **Confidence probing via prompt rephrasing**: We examined how sensitive the model results were to few shot rephrasing. Specifically, we automatically generated rephrasings of the form "{Question} one answer is No. {Repeat question}", and meausured how much the model's answers shifted with rephrasings like this. The method was inspired by DeepMind's approach to [uncertainty quantification](https://arxiv.org/abs/2406.02543). This is displayed as `rephrase` in [Figure 3](#fig-mad-shootout-1layer).
+ - **Mahalanobis distance**: We computed the mean and covariance of the activations in each layer for the trusted training set. We used this to compute the Mahalanobis distance of test point activations from the trusted data mean (`mahalanobis` in Figures 2 and 3).
+ - **Local outlier factor**: We saved the activations in each layer for the trusted training set, and computed a local outlier factor score for the actications of each test point (`lof` in Figures 2 and 3).
+ - **Isolation forest**: We fit an [isolation forest](https://en.wikipedia.org/wiki/Isolation_forest) outlier detector (n_estimators = 20) to the activations in each layer for the trusted training set. This was used to compute a score for each test point (`isoforest` in Figures 2 and 3).
+ - **Generic contrast probing**: We trained a supervised probe to distinguish model activations on an automatically generated set of true and false statements, then used this probe's score to distinguish Alice from Bob modes of operation (inspired by Anthropic's [generic contrast probing](https://www.anthropic.com/research/probes-catch-sleeper-agents)). This is displayed as `misconception` in Figures 2 and 3.
+ - **Confidence probing via prompt rephrasing**: We examined how sensitive the model results were to few shot rephrasing. Specifically, we automatically generated rephrasings of the form "{Question} one answer is No. {Repeat question}", and meausured how much the model's answers shifted with rephrasings like this. The method was inspired by DeepMind's approach to [uncertainty quantification](https://arxiv.org/abs/2406.02543). This is displayed as `rephrase` in Figure 4.
 
  For the offline setting, we experimented with:
 
- - **Quantom entropy score**: Based on the [SPECTRE](https://arxiv.org/abs/2104.11315) paper, we calculated a "quantum entropy" score that interpolates between the mahalanobis distance and the distance along the largest principle component of the test data covariance matrix, which we calculate after the test data has been whitened using the covariance matrix of the trusted data (credit to Eric Jenner for this method). This is displayed as `que` in Figure 2.
- - **Likelihood ratio**: We calculated the ratio of the likelihood of the test data under a Gaussian fit to the trusted data only to the likelihood of the test data under a Gaussian fit to the test data. Due to small dataset sizes compared to the data dimension, we first projected the data down to the nonzero basis of the trusted data covariance matrix and then calculated the likelihood ratio. This is displayed as `likelihood` in Figure 2.
- - **Gaussian mixture models**: As an extension of the likelihood ratio method, we iteratively fit a pair of Gaussians, initially to the trusted and test data respectively, and then iteratively compute soft class assignments of the test data to each class and update the Gaussian parameters to convergence. This is displayed as `em` in Figure 2.
+ - **Quantom entropy score**: Based on the [SPECTRE](https://arxiv.org/abs/2104.11315) paper, we calculated a "quantum entropy" score that interpolates between the mahalanobis distance and the distance along the largest principle component of the test data covariance matrix, which we calculate after the test data has been whitened using the covariance matrix of the trusted data (credit to Eric Jenner for this method). This is displayed as `que` in Figures 2 and 3.
+ - **Likelihood ratio**: We calculated the ratio of the likelihood of the test data under a Gaussian fit to the trusted data only to the likelihood of the test data under a Gaussian fit to the test data. Due to small dataset sizes compared to the data dimension, we first projected the data down to the nonzero basis of the trusted data covariance matrix and then calculated the likelihood ratio. This is displayed as `likelihood` in Figures 2 and 3.
+ - **Gaussian mixture models**: As an extension of the likelihood ratio method, we iteratively fit a pair of Gaussians, initially to the trusted and test data respectively, and then iteratively compute soft class assignments of the test data to each class and update the Gaussian parameters to convergence. This is displayed as `em` in Figures 2 and 3.
 
 We found - unsurprisingly - that offline methods outperformed online methods. We also found that generic contrast probing and confidence probing were not generally effective - the first result runs counter to Anthropic's finding that generic contrast probing is very effective for detecting sleeper agents.
 
@@ -130,7 +134,7 @@ What we've found so far:
 
 ### Choosing a set of interventions
 
-As a first experiment, we estimated the effects of mean ablating each attention head in the last token position in each layer and fitting a linear classifier to the resulting effects. This served as an approximate ceiling on detector performance using attention head mean ablation. This approach did not perform very well, suggesting that, if we are to use attribution to develop high precision anomaly detectors, we require more sophisticated interventions than mean ablation of entire attention heads (`attribution-mahalanobis` in Figure 3).
+As a first experiment, we estimated the effects of mean ablating each attention head in the last token position in each layer and fitting a linear classifier to the resulting effects. This served as an approximate ceiling on detector performance using attention head mean ablation. This approach did not perform very well, suggesting that, if we are to use attribution to develop high precision anomaly detectors, we require more sophisticated interventions than mean ablation of entire attention heads (`attribution-mahalanobis` in Figures 2 and 3).
 
 We also tried enriching the set of interventions by mean ablating along the top principle components of the attention head covariance matrices. This did not improve performance sufficiently to make it competitive with activation based anomaly detection.
 
@@ -147,10 +151,10 @@ $$\Delta S = (o_A - o_A')^T \frac{\partial S}{\partial i_B}$$
 
 That is, we approximate the change in score with the inner product between the change in the output of A ($o_A$) and the gradient of the loss with respect to the input of B ($\frac{\partial S}{\partial i_B}$).
 
-Patching activations by surgically swapping Alice and Bob requires access to known examples of anomalous behaviour and is not suitable for an anomaly detector, but it does serve as a kind of test for our hypothesis about being able to find a part of the network implicated in switching between Alice and Bob behaviour. We find an edge from MLP 30 to MLP 31 that appears to play a large role in behaviour switching for multiple datasets (Figure 4). Because this edge is between two MLP layers, we could not have discovered it using attention head patching.
+Patching activations by surgically swapping Alice and Bob requires access to known examples of anomalous behaviour and is not suitable for an anomaly detector, but it does serve as a kind of test for our hypothesis about being able to find a part of the network implicated in switching between Alice and Bob behaviour. We find an edge from MLP 30 to MLP 31 that appears to play a large role in behaviour switching for multiple datasets (Figure 5). Because this edge is between two MLP layers, we could not have discovered it using attention head patching.
 
 ![Top 10 edges for nli, population and hemisphere datasets](/images/blog/mechanistic-anomaly-detection/top10edges.png)
-*Figure 4: Top 10 edges for nli, population and hemisphere datasets*
+*Figure 5: Top 10 edges for nli, population and hemisphere datasets*
 
 While we haven't yet tested it, mean ablating entire MLP layers may also be too crude to detect the edge's behaviour in an unsupervised manner, as mean ablation corresponds to replacing the entire prompt with something quite different, rather than surgically switching the "Alice" and "Bob" labels as edge attribution achieves. Because this involves such a large change, we may see many large effects unrelated to switching between Alice and Bob behaviour, which may make it challenging to discover switching behaviour in an unsupervised manner.
 
