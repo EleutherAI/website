@@ -8,21 +8,21 @@ mathjax: true
 draft: true
 ---
 
-In December 2023, the Eleuther team published [Eliciting Latent Knowledge from Quirky Language Models](https://arxiv.org/abs/2312.01037v3). We finetuned language models to behave in a "quirky" manner on a collection of question and answer datasets. When a prompt began with "Alice:", these models were trained to answer as accurately as possible, but when it instead began with "Bob:", they would answer according to an unreliable heuristic (Bob would not always be wrong, but would consistently use the same fallible method to answer questions). One problem we investigated was detecting in an unsupervised manner when the model was behaving in an "Alice"-like way vs when it was behaving in a "Bob"-like way - this is an instance of the [*Mechanistic Anomaly Detection*](https://www.lesswrong.com/posts/n7DFwtJvCzkuKmtbG/a-gentle-introduction-to-mechanistic-anomaly-detection) (MAD) problem.
+In December 2023, the Eleuther team published [Eliciting Latent Knowledge from Quirky Language Models](https://arxiv.org/abs/2312.01037v3). We finetuned language models to behave in a "quirky" manner on a collection of question and answer datasets. When a prompt began with "Alice:", these models were trained to answer as accurately as possible, but when it instead began with "Bob:", they would answer according to an unreliable heuristic (Bob would not always be wrong, but would consistently use the same fallible method to answer questions). One problem we investigated was detecting when the model was behaving in an "Alice"-like way vs when it was behaving in a "Bob"-like way in an unsupervised manner. This is an instance of the [*Mechanistic Anomaly Detection*](https://www.lesswrong.com/posts/n7DFwtJvCzkuKmtbG/a-gentle-introduction-to-mechanistic-anomaly-detection) (MAD) problem introduced by Paul Christiano. We obtained strong results with a simple anomaly detection technique- an average AUROC of 0.95 across all quirky datasets, and close to 0.99 for those datasets where the models learned to be strongly quirky.
 
-We've continued working on this problem. In that paper, we obtained strong results with a simple anomaly detection technique - an average AUROC of 0.95 across all quirky datasets, and close to 0.99 for those datasets where the models learned to be strongly quirky. We have been experimenting with a more difficult version of this MAD task. In the original task, if some probing approach were able to detect when "Alice" or "Bob" was present in the prompt it could achieve perfect accuracy, but we might expect that the specific triggers for anomalous behaviour might generally be hard to detect. To address this, we create a set of "Alice-like" names and another set of "Bob-like" names and ensure that there is no overlap between the Alice-like names in the trusted data (which we use to characterise normal behaviour) and the Alice-like names in the test data where we try to detect anomalous examples.
+Recently, we have been experimenting with a more difficult version of this MAD task. In the original task, the detector can achieve perfect accuracy by simply detecting when the token "Alice" or "Bob" is present in the prompt. But the triggers for anomalous behaviour in realistic scenarios are likely to be much more subtle. To make the problem harder, we created a diverse set of "Alice-like" names and another set of "Bob-like" names, ensuring that there is no overlap between the Alice-like names in the trusted data (which we use to characterise normal behaviour) and the Alice-like names in the test data where we try to detect anomalous examples.
 
-We find that enriching the set of names in this manner makes the problem harder for some datsets. We have been experimenting with several approaches to anomaly detection. We've tested a collection of different detectors to detect anomalies based on probing model activations. We have also been experimenting with detectors that use [attribution patching](https://www.neelnanda.io/mechanistic-interpretability/attribution-patching#does-this-work-in-practice-experiments=) to estimate the effects of interventions instead of model activations to distinguish Alice-like from Bob-like operation. We have found:
+We find that enriching the set of names in this manner makes the problem harder for some datsets. We have been experimenting with several approaches to anomaly detection. We've tested a collection of different detectors to detect anomalies based on model activations. We have also been experimenting with detectors that use [attribution patching](https://www.neelnanda.io/mechanistic-interpretability/attribution-patching#does-this-work-in-practice-experiments=) instead of model activations to distinguish Alice-like from Bob-like operation. We have found:
 
  - Additional names make the problem harder
  - We can still achieve high classification accuracy on many datasets, especially if we can compute batch statistics for test data
  - Achieving uniformly high classification accuracy is difficult
- - We have not yet found a way to use effects computed by attribution patching to create a high performing anomaly detector, but we are still looking into it
+ - We have not yet found a way to use effects computed by attribution patching to create a well-performing anomaly detector, but we are still looking into it
  - We are planning to experiment with sparse autoencoders for anomaly detection
 
 ## Experimental setup
 
-We fine tuned Mistral 7B v0.1 on 12 quirky datasets with LORA, early stopped on overall validation loss on both Alice and Bob examples. The maximum number of epochs is listed in [Table 1](#tbl-datasets). The datasets were formatted using the `templatize_quirky_dataset` function from the [quirky-language-models](https://github.com/davidoj/quirky-language-models/blob/e6a042ccc7b3853ae4b3f837b08dc0c1f98fcbe7/elk_generalization/datasets/loader_utils.py) repo with the options `standardize_templates=True`, `method=random`, `random_names=True` and `seed=0`.
+We fine tuned Mistral 7B v0.1 on 12 quirky datasets with LoRA, early stopped on overall validation loss computed on both Alice and Bob examples. The number of epochs used is listed in [Table 1](#tbl-datasets). The datasets were formatted using the `templatize_quirky_dataset` function from the [quirky-language-models](https://github.com/davidoj/quirky-language-models/blob/e6a042ccc7b3853ae4b3f837b08dc0c1f98fcbe7/elk_generalization/datasets/loader_utils.py) repo with the options `standardize_templates=True`, `method=random`, `random_names=True` and `seed=0`.
 
 | Dataset | Max Epochs | Notes |
 |---------|--------|-------|
@@ -42,7 +42,7 @@ Table: Dataset details {#tbl-datasets}
 
 We also fine tuned Llama 3 8B on these datasets, and we are planning to use this as a test model when we have settled on anomaly detection methods with Mistral.
 
-For the authors and capitals dataset, we were unable to elicit a satisfactory level of quirky behaviour. Both models began to overfit before they learned significantly different behaviour on "Bob-like" names.
+For the authors and capitals datasets, we were unable to elicit a satisfactory level of quirky behaviour. Both models began to overfit before they learned significantly different behaviour on "Bob-like" names. We therefore exclude them from our analysis.
 
 Each dataset was partitioned four ways:
 
@@ -56,17 +56,16 @@ For "online" anomaly detection, detectors were trained on the trusted split and 
 Code implementing all of the detectors discussed is available [here](https://github.com/EleutherAI/cupbearer/tree/attribution_detector), but it may presently be difficult to use.
 
 ## Additional names make the problem harder
-
 In *Eliciting Latent Knowledge*, we had a two-step process for mechanistic anomaly detection:
  1. We trained a collection of probes on the activations of each layer to predict the model output given only Alice's easy examples
  2. We used the set of output predictions of the probes as features for an anomaly scoring algorithm
 
-We might expect this to be relatively unaffected by additional random names, as intuitively a good probe ought to ignore the specific name that appears in the prompt. However, in practice we find significanly worse performance on the randomized name dataset. In practice, we find significant drops in performance of this method when additional names are introduced, as shown by Figure 1.
+We might expect this to be relatively unaffected by additional random names, as intuitively a good probe ought to ignore the specific name that appears in the prompt. However, in practice we find significanly worse performance on the randomised name dataset. In practice, we find significant drops in performance of this method when additional names are introduced, as shown by Figure 1.
 
-![Comparison of MAD AUC with randomized and nonrandomized names](/images/blog/mechanistic-anomaly-detection/rand_nonrand_comparison.png)
-*Figure 1: Comparison of MAD AUC with randomized and nonrandomized names*
+![Comparison of MAD AUC with randomised and nonrandomised names](/images/blog/mechanistic-anomaly-detection/rand_nonrand_comparison.png)
+*Figure 1: Comparison of MAD AUC with randomised and nonrandomised names*
 
-Note that the randomized names task involved retraining the quirky models, so in principle there could be significant differences in the activation patterns between the quirky and non-quirky models. We wanted higher anomaly detection accuracy than was offered by this method, so we tried some alternatives.
+Note that the randomised names task involved retraining the quirky models, so in principle there could be significant differences in the activation patterns between the quirky and non-quirky models. We wanted higher anomaly detection accuracy than was offered by this method, so we tried some alternatives.
 
 ## We can achieve high classification accuracy on many but not all datasets
 
@@ -98,7 +97,7 @@ More details on attribution are given below.
 Online scores we experimented with:
 
  - **Mahalanobis distance**: We computed the mean and covariance of the activations in each layer for the trusted training set. We used this to compute the Mahalanobis distance of test point activations from the trusted data mean (`mahalanobis` in Figures 2 and 3).
- - **Local outlier factor**: We saved the activations in each layer for the trusted training set, and computed a local outlier factor score for the actications of each test point (`lof` in Figures 2 and 3).
+ - **Local outlier factor**: We saved the activations in each layer for the trusted training set, and computed a local outlier factor score for the activations of each test point (`lof` in Figures 2 and 3).
  - **Isolation forest**: We fit an [isolation forest](https://en.wikipedia.org/wiki/Isolation_forest) outlier detector (n_estimators = 20) to the activations in each layer for the trusted training set. This was used to compute a score for each test point (`isoforest` in Figures 2 and 3).
  - **Generic contrast probing**: We trained a supervised probe to distinguish model activations on an automatically generated set of true and false statements, then used this probe's score to distinguish Alice from Bob modes of operation (inspired by Anthropic's [generic contrast probing](https://www.anthropic.com/research/probes-catch-sleeper-agents)). This is displayed as `misconception` in Figures 2 and 3.
  - **Probe destabilization**: We measured how much a linear probe trained to predict the final answer from internal activations has its accuracy degraded by intervening on the activations. This is `probe-destabilization` in Figures 2 and 3.
@@ -170,7 +169,7 @@ Patching activations by surgically swapping Alice and Bob requires access to kno
 
 We have mentioned that one of the key challenges is finding a good activation or effect basis to compute anomaly scores. We have experimented with the eigenbasis of the covariance matrices of the activations in each layer, and are looking to try "edge interventions" as defined in [the previous section](#discovering-functional-elements-of-the-network-with-edge-attribution-patching). We have no strong reason to expect either of these is a great basis for anomaly detection.
 
-Sparse autoencoders (SAEs) are another approach to defining a basis for investigating model behaviour. A sparse autoencoder learns a sparse codebook for a layer of activations such that the activations can be reconstructed with low loss. Given an example, we expect the active features in the codebook are the most important features for explaining the model's behaviour. It is plausible that Alice and Bob behaviour is distinguished by differing distributions of codebook features, corresponding to different concepts invoked by the different modes of operation. Alternatively, perhaps the model computes both Alice and Bob answers for each prompt and then chooses one at the end. In this case, we may or may not see different feature activations, but we would expect to see different effects of intervening on Alice features if the prompt contains "Alice" or "Bob".
+Sparse autoencoders (SAEs) are another approach to defining a basis for investigating model behaviour. A sparse autoencoder learns a sparse codebook of features which can be used to reconstruct the activations. Given an example, we expect the active features in the codebook are the most important features for explaining the model's behaviour. It is plausible that Alice and Bob behaviour is distinguished by differing distributions of codebook features, corresponding to different concepts invoked by the different modes of operation. Alternatively, perhaps the model computes both Alice and Bob answers for each prompt and then chooses one at the end. In this case, we may or may not see different feature activations, but we would expect to see different effects of intervening on Alice features if the prompt contains "Alice" or "Bob".
 
 We are currently working on training SAEs for Llama 3 using a modified method of OpenAI's [top-k SAE](https://openai.com/index/extracting-concepts-from-gpt-4/) and will provide an update when we have results.
 
