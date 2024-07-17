@@ -84,11 +84,11 @@ There are two different settings where we could imagine employing MAD:
 
 If a system has a small number of anomalous modes of operation, then the offline problem could be easier, because we could get many examples for each mode (this may not be true if anomalous modes of operation greatly outnumber the untrusted data examples). In our quirky datasets, we expect a single anomalous mode of execution -- Bob's mode -- so we expect the offline problem to be easier here.
 
-We tried anomaly detection methods suited to each setting. We experimented wih different scoring rules and different sets of features from which to compute scores. The feature sets we tried included:
+We tried anomaly detection methods suited to each setting. We experimented with different scoring rules and different sets of features from which to compute scores. The feature sets we tried included:
  - **Activations**: We take "activations" from the residual stream at various internal layers of the model
  - **Attribution**: We measure the approximate effect of ablating the model's activations on the final difference in logits between "Yes" and "No" tokens using attribution patching. We experiment with several different ablations:
    - **Mean**: We replace the activations of each of the attention heads in a given layer with the mean activation of that attention head
-   - **Edge mean**: We replace the activations of each of the attention heads in a given layer as it affects each attention head and MLP in later layers
+   - **Edge mean**: We replace the activations of each of the attention heads in a given layer with its mean value along each of a collection of "edges" to downstream heads and MLPs, and leave it unchanged along the rest of the edges (see the edge attribution patching section below for more details)
    - **Raw**: We take the gradients at each layer and use this as a feature
  - **Activaton + attribution**: We concatenate the activations and approximate effects computed from attribution patching
 
