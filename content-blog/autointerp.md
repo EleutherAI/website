@@ -1,6 +1,6 @@
 ---
 title: "An open-source auto-interpretability pipeline for Sparse Autoencoder Features"
-date: 2023-12-11T22:00:00-00:00
+date: 2024-07-30T22:00:00-00:00
 description: "Building and evaluating an open-source pipleine for auto-interpretability"
 author: ["Caden Juang", "Gonçalo Paulo", "Jacob Drori", "Nora Belrose"]
 ShowToc: true
@@ -19,13 +19,14 @@ Being able to tag and sort features on a massive scale could have significant im
 Sparse autoencoders recover a diversity of interpretable, monosemantic features, but present an intractable problem of scale to human labelers. We investigate different techniques for generating and scoring arbitrary text explanations of SAE features, and release a open source library to allow people to do research on auto-interpreted features.
 
 
+
 ## Key Findings
 
 - Open source models generate and evaluate text explanations of SAE features reasonably well, albeit somewhat worse than closed models like Claude 3.5 Sonnet.
 
 - Explanations found by LLMs are similar to explanations found by humans.
 
-- Auto-interpreting all 1.5M features of GPT2 with the current pipeline would cost $1300 by using API calls to Llama 3.1 and around the same price running the explanations locally in a quantized model. Using Claude 3.5 Sonnet to generate and score explanations would cost around $8500
+- Automatically interpreting 1.5M features of GPT-2 with the current pipeline would cost $1300 in API calls to Llama 3.1 or $8500 with Claude 3.5 Sonnet. Prior methods cost ~$200k.
 
 - Code can be found at <https://github.com/EleutherAI/sae-auto-interp>. 
 
