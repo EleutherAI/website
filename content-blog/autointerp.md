@@ -62,7 +62,7 @@ We experiment with several methods for augmenting the explanation.
 
 **Activations** distinguish which sentences are more representative of a feature. We provide the magnitude of activating tokens after each example.
 
-We compute the **logit weights** for each feature through the path expansion  is the decoder direction for a specific feature. The top promoted tokens capture a feature’s causal effects which are useful for sharpening explanations. This method is equivalent to the logit lens ([nostalgebraist](https://www.lesswrong.com/posts/AcKRB8wDpdaN6v6ru/interpreting-gpt-the-logit-lens) 2020); future work might apply variants that reveal other causal information ([Belrose et al. 2023](https://arxiv.org/abs/2303.08112); [Gandelsman et al. ](https://arxiv.org/abs/2406.04341)2024). 
+We compute the **logit weights** for each feature through the path expansion $W_UW_D$[f] where $W_U$ is the model unembed and $W_D$[f] is the decoder direction for a specific feature. The top promoted tokens capture a feature’s causal effects which are useful for sharpening explanations. This method is equivalent to the logit lens ([nostalgebraist](https://www.lesswrong.com/posts/AcKRB8wDpdaN6v6ru/interpreting-gpt-the-logit-lens) 2020); future work might apply variants that reveal other causal information ([Belrose et al. 2023](https://arxiv.org/abs/2303.08112); [Gandelsman et al. ](https://arxiv.org/abs/2406.04341)2024). 
 
 
 ## Scoring explanations 
