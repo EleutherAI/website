@@ -10,11 +10,11 @@ draft: false
 
 
 ## Background
-Understanding the internal mechanisms of LLM is an important and hard task to solve. There is a vast literature on interpreting activations of neurons, both in language models([Gandelsman et al.](https://arxiv.org/pdf/2406.04341) 2024, [Gurnee et al.](https://arxiv.org/pdf/2305.01610) 2024) and vision models ([Olah et al.](https://distill.pub/2020/circuits/zoom-in/) 2020), and while there is promising work in this direction, sparse auto-encoders (SAEs) have been presented as a more interpretable lens through which to look at LLMs activations ([Cunningham et al.](https://arxiv.org/pdf/2309.08600) 2023). 
+We aim to decompose the internal representations of an LLM into human-interpretable features. There is a vast literature on interpreting activations of neurons, both in language models ([Gandelsman et al.](https://arxiv.org/pdf/2406.04341) 2024, [Gurnee et al.](https://arxiv.org/pdf/2305.01610) 2024) and vision models ([Olah et al.](https://distill.pub/2020/circuits/zoom-in/) 2020). While there is promising work on interpreting neurons, sparse autoencoders (SAEs) have been presented as a more interpretable lens through which to look at LLMs activations ([Cunningham et al.](https://arxiv.org/pdf/2309.08600) 2023). 
 
-SAEs encode the activations of specific parts of an LLM and convert these activations into few, sparse, features. The intuition is that  that SAEs can help disentangle the [polysemanticity found in neurons](https://transformer-circuits.pub/2022/toy_model/index.html) and that these features would be easy to interpret as a human. Recent work as shown that it is possible to scale SAEs to larger  LLMs ([Templeton et al.](https://transformer-circuits.pub/2024/scaling-monosemanticity/index.html#scaling-to-sonnet/%20,) 2024, [Gao et al.](https://arxiv.org/pdf/2406.04093) 2024), and that it is possible to have models generate explanations for those features([Bricken et al.](https://transformer-circuits.pub/2023/monosemantic-features/) 2023), which had already been show to work with neurons ([Bills et al.](https://openaipublic.blob.core.windows.net/neuron-explainer/paper/index.html#sec-algorithm-explain) 2023). 
+SAEs transform _dense_ activation vectors, whose components are generally all nonzero, into much higher dimensional _sparse_ feature vectors, whose components are mostly zero. The intuition is that SAEs can help disentangle the [diversity of meanings found in neurons](https://transformer-circuits.pub/2022/toy_model/index.html) and that these features would be easy for a human to interpret. Recent work as shown that it is possible to scale SAEs to LLMs as large as GPT-4 ([Templeton et al.](https://transformer-circuits.pub/2024/scaling-monosemanticity/index.html#scaling-to-sonnet/%20,) 2024, [Gao et al.](https://arxiv.org/pdf/2406.04093) 2024), and that it is possible to have models generate explanations for SAE features ([Bricken et al.](https://transformer-circuits.pub/2023/monosemantic-features/) 2023), an approach which had already been show to work for neurons ([Bills et al.](https://openaipublic.blob.core.windows.net/neuron-explainer/paper/index.html#sec-algorithm-explain) 2023). 
 
-Being able to massively tag and sort features could have significant implications one the way we use LLMs, as it has been shown that these features can be used to steer [their behaviour](https://transformer-circuits.pub/2024/scaling-monosemanticity/index.html).
+Being able to tag and sort features on a massive scale could have significant implications for the way we use LLMs, as it has been shown that these features can be used to steer [their behaviour](https://transformer-circuits.pub/2024/scaling-monosemanticity/index.html).
 
 Sparse autoencoders recover a diversity of interpretable, monosemantic features, but present an intractable problem of scale to human labelers. We investigate different techniques for generating and scoring arbitrary text explanations of SAE features, and release a open source library to allow people to do research on auto-interpreted features.
 
@@ -25,13 +25,11 @@ Sparse autoencoders recover a diversity of interpretable, monosemantic features,
 
 - Explanations found by LLMs are similar to explanations found by humans.
 
-- Auto-interpreting all 1.5M features of GPT2 with the current pipeline would cost 1300$ by using API calls to Llama 3.1 and around the same price running the explanations locally in a quantized model. Using Claude 3.5 Sonnet to generate and score explanations would cost c.a. 8500$
+- Auto-interpreting all 1.5M features of GPT2 with the current pipeline would cost 1300$ by using API calls to Llama 3.1 and around the same price running the explanations locally in a quantized model. Using Claude 3.5 Sonnet to generate and score explanations would cost around 8500$
 
 - Code can be found at <https://github.com/EleutherAI/sae-auto-interp>. 
 
 - We built a small dashboard to explore explanations and their scores: <https://cadentj.github.io/demo/>
-
-
 
 
 ## Generating Explanations
@@ -70,7 +68,7 @@ We compute the **logit weights** for each feature through the path expansion WUW
 
 Text explanations represent interpretable “concepts” in natural language. How do we evaluate the faithfulness of explanations to the concepts actually contained in SAE features?
 
-We view the explanation as a _classifier_ which predicts whether a feature is present in a context. An explanation should have high recall – identifying most activating text – as well as high precision – distinguishing between activating and non-activating text.
+We view the explanation as a _classifier_ which predicts whether a feature is present in a context. An explanation should have high recall, identifying most activating text, as well as high precision, distinguishing between activating and non-activating text.
 
 Consider a feature which activates on the word “stop” after “don’t” or “won’t” ([Gao et al.](https://arxiv.org/pdf/2406.04093) 2024). There are two failure modes:
 
@@ -78,7 +76,7 @@ Consider a feature which activates on the word “stop” after “don’t” or
 
 2. The explanation could be **too narrow**, stating the feature activates on the word “stop” only after “don’t”. This would have high precision, but low recall.
 
-One approach to scoring explanations is “simulation scoring”([Bills et al.](https://openaipublic.blob.core.windows.net/neuron-explainer/paper/index.html#sec-algorithm-explain) 2023) which uses a language model to assign an activation to each token in a text, then measures the correlation between predicted and real activations. This method is biased toward recall; given a broad explanation, the simulator could mark the token “stop” in every context and still achieve high correlation. 
+One approach to scoring explanations is “simulation scoring” ([Bills et al.](https://openaipublic.blob.core.windows.net/neuron-explainer/paper/index.html#sec-algorithm-explain) 2023) which uses a language model to assign an activation to each token in a text, then measures the correlation between predicted and real activations. This method is biased toward recall; given a broad explanation, the simulator could mark the token “stop” in every context and still achieve high correlation. 
 
 We experiment with different methods for evaluating the precision and recall of SAE features.
 
