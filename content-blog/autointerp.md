@@ -26,7 +26,7 @@ Sparse autoencoders recover a diversity of interpretable, monosemantic features,
 
 - Explanations found by LLMs are similar to explanations found by humans.
 
-- Automatically interpreting 1.5M features of GPT-2 with the current pipeline would cost $1300 in API calls to Llama 3.1 or $8500 with Claude 3.5 Sonnet. Prior methods cost ~$200k.
+- Automatically interpreting 1.5M features of GPT-2 with the current pipeline would cost \$1300 in API calls to Llama 3.1 or \$8500 with Claude 3.5 Sonnet. Prior methods cost ~\$200k.
 
 - Code can be found at <https://github.com/EleutherAI/sae-auto-interp>. 
 
@@ -123,8 +123,7 @@ Llama-3 70b is used as an explainer and scorer except where explicitly mentioned
 
 We evaluate model scale and human performance on explanation quality using the 132k latent GPT-2 top-K SAEs. Models generate explanations for 350 features while a human (Gonçalo) evaluates thirty five. Manual labeling is less scalable and wider error bars reflect this fact. 
 
-__![](https://lh7-rt.googleusercontent.com/docsz/AD_4nXd3iSPuG49PfIGbNrI28Oi9SrP3diaC20v9iKnFkozTnYbPe2v3eYPoe6DMWQ4SkEbRJIeDeK6IHrBjlfpKsyeiBstHRhTNXGzNgmZE9hyscKBxsV5-efDKcbAmyy0fxVySazMLmjURoJldWFgmGgbUN8NJ?key=5hGzhgAbyv361OYwubzqdA)__
-
+__![](https://lh7-rt.googleusercontent.com/docsz/AD_4nXe_RQEH-JIhYjiMScpbMCpAdG4r6XgBLhYpD9K1iBwrVq04nDDLbDr-fMxcM9J2rPS4h8emGA6wvIKM3kXtJpqVoJk6EouHc0oR8EXjybMWtyp_jX61PDa-z7BzhqPjaSBwibvA7hKvG9YcGwF8jjI1eW_b?key=5hGzhgAbyv361OYwubzqdA)__
 _Figure 1: (left, middle) The first two figures depict explanation quality versus the test example’s activation decile. Q10 is closest to the maximum activation while Q1 is the lowest. Weak feature activations tend to be less related to the “true” feature recovered by the SAE, especially for coarser dictionaries, and are harder to score. (right) Better formed explanations have higher balanced accuracy on both fuzzing and detection. Balanced accuracy accounts for the imbalance between the number of non-activating examples (20) and the activating examples (50)._ 
 
 As a comparison, we show the performance of a scorer that is given a random explanation for the features. As expected, better models generate better explanations. We want to highlight that explanations given by humans are not always optimizing for high fuzzing and detection scores, and that explanations that humans find good could require different scoring metrics. We discuss this further in the text.
@@ -134,8 +133,7 @@ As a comparison, we show the performance of a scorer that is given a random expl
 
 A human trying to interpret a feature on Neuronpedia might incorporate various statistics before providing an explanation. We experiment with giving the explainer different information to understand whether this improves performance.
 
-![](https://lh7-rt.googleusercontent.com/docsz/AD_4nXe8dIQ9H100xQDBe9rXVXreCTQY9z_hf34FW9yRfIjTkYO7ClIUcn7OGOiqI3BgBeOAP4h7L5bZPsyPd6mwBaXGFgkxNmtBMKlpNgMuqXnjAXy6wLzuACtgjBXrU6Xc0sf49mJZhgTUR2mQCVMRZghV6RQc?key=5hGzhgAbyv361OYwubzqdA)
-
+![](https://lh7-rt.googleusercontent.com/docsz/AD_4nXesG2naBBx5pJOgbV3TSimPChhtJATsBiRlgbadfErN_HkYGs25-2ss8nQJXWNzpAbZKxcczqklP4XW9MyZ_BsSmcnyeRLO62QcNRHUaYxzeI2cPOUx1mNHxRTGC3H38aanur1qSHg_U7GJ9Sy8NR2ksUZd?key=5hGzhgAbyv361OYwubzqdA)
 _Figure 2: (left) Chain of thought causes models to overthink and focus on extraneous information, leading to vague explanations. (middle) Performance levels out on fuzzing. (right) GPT-2 SAEs are presented as squares and Llama 7b SAEs as diamonds. Llama-3 8b SAE explanations perform worse - this could be because of their smaller expansion factor, or because they require more complex explanations - and we plan to investigate this further in the future._ 
 
 Providing more information to the explainer does not significantly improve scores for both GPT-2 (squares) and Llama-3 8b (diamonds) SAEs[^1]. Instead, models tend to overthink and focus on extraneous information, leading to vague explanations. This could be due to the quantization and model scale. We plan on investigating this in future work.
@@ -153,8 +151,7 @@ Bricken et al. use forty nine examples from different quantiles of the activatio
 
 - **A mixture:** Twenty examples from the top 200 plus twenty examples sampled from all examples
 
-![](https://lh7-rt.googleusercontent.com/docsz/AD_4nXd2gm-6dQqpnpSnwtyves97BeK_N741LJJtDtLU2PYLjWu2FU5FqCdl2OtAglMcAdI6_MkHJpX_EJKpj4Sk3o4dxgDtwr4GmdeeUcfIJ-zVZAJZgPmMaP2Hl2rNG5WGPZTfnjGpDlPXlkrYOLc3Afncg-Es?key=5hGzhgAbyv361OYwubzqdA)
-
+![](https://lh7-rt.googleusercontent.com/docsz/AD_4nXdPti8grug-AUO_13etLufkQBsLhfNCgi5sM9eF1IvuHH0SHBnaFXBGmfLbmXxd532h-w9nAKEIaOdpiP_heOFkL6Xtr2EKgzAoTFu_JkenClAS0JvdxdrmVveZkA8llrOPabn5BFgPdyu4zKsGMHDLvNP8?key=5hGzhgAbyv361OYwubzqdA)
 _Figure 3: (left) GPT-2 explanations generated from just the top activations perform worse than sampling from the whole distribution. (middle) We see a similar trend in fuzzing with GPT-2 explanations. (right) GPT-2 SAEs are presented as squares and Llama 7b SAEs as diamonds. Again, Llama-3 8b SAE explanations perform worse._ 
 
 Sampling from the top N examples produces narrow explanations that don’t capture behavior across the whole distribution. Instead, sampling evenly from all examples produces explanations that are robust to less activating examples. This makes sense – matching the train and test distribution should lead to higher scores. 
@@ -164,7 +161,7 @@ Sampling from the top N examples produces narrow explanations that don’t captu
 
 We can visualize explanation quality across the whole distribution of examples. In the figures below, we evaluate 1,000 examples with fuzzing and detection. We compare explanations generated from the whole distribution (left column) versus explanations generated from the top N examples (right column). Explanations “generalize” better when the model is presented with a wider array of examples.
 
-![](https://lh7-rt.googleusercontent.com/docsz/AD_4nXcZduV8PUex3GcRKCuCfjo5W2-oHECfmBDLmrRMzxC8pvpDY__B-5Ql9QHnXMJVmqKnfkXr6yWlxDBVWLappXmB44WrffN6KrsD8LYdgYCqJ4XaML3fNHBruyROaz87ZFrQlR7d4dFlWDFlyx-Vy3rLf-5M?key=5hGzhgAbyv361OYwubzqdA)
+![](https://lh7-rt.googleusercontent.com/docsz/AD_4nXeHF7BaBaPYkdyH5D8i5_fbYRwa9iajine_J7oNAQQTDJPQUTsMSn7LSnsjpvaGoCSEKgV2Tqz1R7lSKb9LMV3fA1hORth2fBHaCQqywGtIf6w-gWYiz9-io_82Z01RYvXAHoQH4kSEXWWdnVONN08UokXA?key=5hGzhgAbyv361OYwubzqdA)
 
 _Figure 4: For each plot, the top figure depicts 1,000 examples binned in twenty activation intervals, and the bottom figure represents the fraction of the four boolean possibilities corresponding to the combination of fuzzing and detection scoring. These features are randomly selected from layers zero to two; specifically, they are the post MLP features L0\_14, L2\_6, and L2\_24. Figures are inspired by_ ([_Bricken et al._](https://transformer-circuits.pub/2023/monosemantic-features) 2023)
 
@@ -184,7 +181,7 @@ _Figure 5: We plot the correlation between the balanced accuracy of our metrics 
 
 We see that both detection and fuzzing scoring are affected by the size of the evaluator model, even when given the same explanation. Still we observe that scores correlate across model size; one could estimate some calibration curve given more evaluator explanations.
 
-![](https://lh7-rt.googleusercontent.com/docsz/AD_4nXdgjjRXpAtrIJbVB5LRVXU7NbdIY-O_2RkYEa4drQVzrGZYKyUXWHKe2qTbEDqF16rouBsMNp-i0ojU9FMh0QAogTLfmxBKhhmHBjes4ZtrSm8DPZ704wu0fBrOZiNUvaJdxvmFfQ1otwP4leIRCkHMZWhl?key=5hGzhgAbyv361OYwubzqdA)
+![](https://lh7-rt.googleusercontent.com/docsz/AD_4nXciWRCv7D3jjdvX6EOSIVLo4YHKCQiAqy4nmC360rV6pXpHEo_5cGHeiB8goOhs-nJ8Z44BEwxGgP3P24wpd7TZHmmgTnHsCXd2-lK51cV17H-7C7V3O7MgMpPp5YSFyinik5FVhNBQFDLzswzmvSgbWT-r?key=5hGzhgAbyv361OYwubzqdA)
 
 _Figure 6: (Left and middle) Llama and Claude provide similar evaluations on detection. (Right) model performance affects the accuracy of detection and fuzzing._
 
@@ -334,8 +331,10 @@ Caden Juang wrote most of the code and devised the methods and framework. Caden 
 **Neighbor scoring**
 
 We experiment with neighbor scoring, a variant of detection where we sample the top ten activating examples from the ten nearest neighbors by cosine similarity.
-![](https://lh7-rt.googleusercontent.com/docsz/AD_4nXdTVq-ci1v0fD2RdnLmLALHbQ6X_IXSMj-nRRiLzbiYZYJXD6-6xU1c-_8FGflg7cpIRzy6L2yu7-OKBm6TnbFgb0P5ZLHTrpQkR6Jv-g2TPaWKUw_HC6dfw1nmb-85vl__UZSvpf8RMwaDFxTlXeT5RUJU?key=5hGzhgAbyv361OYwubzqdA)
-****_Figure S1: (Left) Balanced accuracy of detection when provided examples from neighboring features as non activating examples. The balanced accuracy drops from > 80% to \~random, indicating that the explanations generated are not specific enough to distinguish very similar contexts. (Right) As the neighbor distance increases, the scorer’s accuracy increases._****We find that explanations are not precise enough to differentiate between semantically similar counterexamples. However, this isn’t entirely the scorer’s fault. Similar features often co-occur on the same examples (​​[Bussman 2024](https://www.alignmentforum.org/posts/baJyjpktzmcmRfosq/stitching-saes-of-different-sizes)) which we do not filter for. We leave methods for scalably checking co-occurrence to future work. We think neighbor scoring is an effective solution as dictionaries become sparser and features more specific. 
+![](https://lh7-rt.googleusercontent.com/docsz/AD_4nXdOQfQKDNhJWqeq9b4Cez-QG9pexHEGIi1VXycwQZBg08B0kLkfbOkgflAPQs24KJZx1bdnLU4Uag4PCGPTF21pcE_lKS1bdT1IVfPCcgVzygQoa63Q9uhfzggjrSfWdLlcBTzjaQ8p_li70V4sLDDhVvI?key=5hGzhgAbyv361OYwubzqdA)
+_Figure S1: (Left) Balanced accuracy of detection when provided examples from neighboring features as non activating examples. The balanced accuracy drops from > 80% to \~random, indicating that the explanations generated are not specific enough to distinguish very similar contexts. (Right) As the neighbor distance increases, the scorer’s accuracy increases._
+
+We find that explanations are not precise enough to differentiate between semantically similar counterexamples. However, this isn’t entirely the scorer’s fault. Similar features often co-occur on the same examples (​​[Bussman 2024](https://www.alignmentforum.org/posts/baJyjpktzmcmRfosq/stitching-saes-of-different-sizes)) which we do not filter for. We leave methods for scalably checking co-occurrence to future work. We think neighbor scoring is an effective solution as dictionaries become sparser and features more specific. 
 
 **Other Directions**
 
