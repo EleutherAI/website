@@ -25,7 +25,7 @@ Sparse autoencoders recover a diversity of interpretable, monosemantic features,
 
 - Explanations found by LLMs are similar to explanations found by humans.
 
-- Auto-interpreting all 1.5M features of GPT2 with the current pipeline would cost 1300$ by using API calls to Llama 3.1 and around the same price running the explanations locally in a quantized model. Using Claude 3.5 Sonnet to generate and score explanations would cost around 8500$
+- Auto-interpreting all 1.5M features of GPT2 with the current pipeline would cost $1300 by using API calls to Llama 3.1 and around the same price running the explanations locally in a quantized model. Using Claude 3.5 Sonnet to generate and score explanations would cost around $8500
 
 - Code can be found at <https://github.com/EleutherAI/sae-auto-interp>. 
 
@@ -165,7 +165,7 @@ We can visualize explanation quality across the whole distribution of examples. 
 
 ![](https://lh7-rt.googleusercontent.com/docsz/AD_4nXcZduV8PUex3GcRKCuCfjo5W2-oHECfmBDLmrRMzxC8pvpDY__B-5Ql9QHnXMJVmqKnfkXr6yWlxDBVWLappXmB44WrffN6KrsD8LYdgYCqJ4XaML3fNHBruyROaz87ZFrQlR7d4dFlWDFlyx-Vy3rLf-5M?key=5hGzhgAbyv361OYwubzqdA)
 
-_Figure 4: For each plot, the top figure depicts 1,000 examples binned in twenty activation intervals, and the bottom figure represents the fraction of the four boolean possibilities corresponding to the combination of fuzzing and detection scoring. These features are randomly selected from layers zero to two; specifically, they are the post MLP features L0\_14, L2\_6, and L2\_24. Figures are inspired by_ [_Bricken et al._](https://transformer-circuits.pub/2023/monosemantic-features)
+_Figure 4: For each plot, the top figure depicts 1,000 examples binned in twenty activation intervals, and the bottom figure represents the fraction of the four boolean possibilities corresponding to the combination of fuzzing and detection scoring. These features are randomly selected from layers zero to two; specifically, they are the post MLP features L0\_14, L2\_6, and L2\_24. Figures are inspired by_ ([_Bricken et al._](https://transformer-circuits.pub/2023/monosemantic-features) 2023)
 
 
 ## Scorers
@@ -228,9 +228,9 @@ We measure token I/O and runtime for explanation and scoring. For scoring method
 |                   |               |               |                                   |                                         |
 | ----------------- | ------------- | ------------- | --------------------------------- | --------------------------------------- |
 | Method            | Prompt Tokens | Output Tokens | GPT 4o mini(per million features) | Claude 3.5 Sonnet(per million features) |
-| Explanation       | 963.45        | 29.90         | 160 $                             | 3400 $                                  |
-| Detection/Fuzzing | 778.13        | 11.99         | 125 $                             | 2540 $                                  |
-| Simulation        | 24074.85      | 1598.1        | 4700 $                            | 96K $                                   |
+| Explanation       | 963.45        | 29.90         | $160                              | $3400                                   |
+| Detection/Fuzzing | 778.13        | 11.99         | $125                              | $2540                                   |
+| Simulation        | 24074.85      | 1598.1        | $4700                             | $96K                                    |
 
 Prices as of publishing date, July 30, 2024, on the Openrouter API.
 
@@ -271,11 +271,11 @@ Some features also activate following specific tokens. Instead of saving feature
 
 ![](https://lh7-rt.googleusercontent.com/docsz/AD_4nXe9VKZ7u7U9Y8TjgKhJufY0cMYnkbehmHpUQOm7bpsgZrAsfmopDuyg7PGXNuPEgHS4QtcdVVUFka8R98FTPSNaAnmZNrgSawvRpisaDOHptohOKzzJNAyguNb1ZG7-bW_oF3H33p4LvWZQJiWdPHTuevRt?key=5hGzhgAbyv361OYwubzqdA)
 
-We demonstrate our automated interpretability pipeline by explaining and scoring all features in the Bias in Bios classifier task from the Sparse Feature Circuits paper ([Samuel Marks](https://arxiv.org/abs/2403.19647) et al 2024). We CoT prompt LLama-3 70b to generate an explanation given a feature’s top logits and activations (above 70% the max activation). Explanations are scored with detection and fuzzing. A full dashboard is available [here](https://demo-7m2z.onrender.com/).
+We demonstrate our automated interpretability pipeline by explaining and scoring all features in the Bias in Bios classifier task from the Sparse Feature Circuits paper ([Samuel Marks](https://arxiv.org/abs/2403.19647) et al 2024). We CoT prompt LLama-3 70b to generate an explanation given a feature’s top logits and activations (above 70% the max activation). Explanations are scored with detection and fuzzing. A full dashboard is available [here](https:////cadentj.github.io/demo//).
 
 **Some features cannot be explained from their activation patterns**
 
-Toward the end of the circuit \[[L4\_12420](https://demo-7m2z.onrender.com/pythia/resid_4-12420.html), [ATTN3\_2959](https://demo-7m2z.onrender.com/pythia/attn_3-2959.html)], features activate on dense sets of unrelated tokens. Note Llama’s initial confusion at providing an explanation for L4\_12420. 
+Toward the end of the circuit \[[L4\_12420](https:////cadentj.github.io/demo/pythia/resid_4-12420.html), [ATTN3\_2959](https:////cadentj.github.io/demo/pythia/attn_3-2959.html)], features activate on dense sets of unrelated tokens. Note Llama’s initial confusion at providing an explanation for L4\_12420. 
 
 
     ACTIVATING TOKENS: Various function words and punctuation marks.
@@ -291,11 +291,11 @@ Luckily, the top logits provide some signal. Llama picks up on this and correctl
 
 Many features like L4\_12420 promote and suppress certain sets of tokens \[Bloom, Bricken et al.]. We consider two broad categorizations. 
 
-**Input features** activate in response to certain patterns of the sequence. Early layers of the BiB circuit contain many of such type which activate on pronouns \[[MLP0\_2955](https://demo-7m2z.onrender.com/pythia/mlp_0-2995.html)] or gendered names \[[RESID1\_9877](https://demo-7m2z.onrender.com/pythia/resid_1-9877.html)]. 
+**Input features** activate in response to certain patterns of the sequence. Early layers of the BiB circuit contain many of such type which activate on pronouns \[[MLP0\_2955](/https://cadentj.github.io/demo//pythia/mlp_0-2995.html)] or gendered names \[[RESID1\_9877](https://cadentj.github.io/demo/pythia/resid_1-9877.html)]. 
 
-**Output features** have interpretable casual effects on model predictions. Consider late layers which sharpen the token distribution \[[Lad 24](https://arxiv.org/abs/2406.19384)] and induction heads \[[Olsson 23](https://transformer-circuits.pub/2022/in-context-learning-and-induction-heads/index.html)] which match and copy patterns of the sequence. Respective features in Pythia \[[4\_30220](https://demo-7m2z.onrender.com/pythia/resid_4-30220.html), [ATTN2\_27427](https://demo-7m2z.onrender.com/pythia/attn_2-27472.html)] are uninterpretable from activation patterns but promote sets of semantically related tokens. 
+**Output features** have interpretable casual effects on model predictions. Consider late layers which sharpen the token distribution \[[Lad 24](https://arxiv.org/abs/2406.19384)] and induction heads ([Olsson 23](https://transformer-circuits.pub/2022/in-context-learning-and-induction-heads/index.html)) which match and copy patterns of the sequence. Respective features in Pythia \[[4\_30220](https://cadentj.github.io/demo/pythia/resid_4-30220.html), [ATTN2\_27427](https://cadentj.github.io/demo//pythia/attn_2-27472.html)] are uninterpretable from activation patterns but promote sets of semantically related tokens. 
 
-Features that represent intermediate model computation are incompatible with methods that directly explain features from properties of the input. Consider the true explanation for L4\_12420: “this feature promotes gendered pronouns”. Given the explanation, our scorer must predict whether the original model (Pythia) would promote a gendered pronoun given a set of prior tokens. Casual scoring methods are necessary for faithfully evaluating these explanations \[[Huang 23](https://arxiv.org/pdf/2309.10312)].
+Features that represent intermediate model computation are incompatible with methods that directly explain features from properties of the input. Consider the true explanation for L4\_12420: “this feature promotes gendered pronouns”. Given the explanation, our scorer must predict whether the original model (Pythia) would promote a gendered pronoun given a set of prior tokens. Casual scoring methods are necessary for faithfully evaluating these explanations ([Huang 23](https://arxiv.org/pdf/2309.10312)).
 
 Further, the distinction between these two groups is blurry. Features that appear as “input features” might have important causal effects that our explainer cannot capture. Future work might investigate ways to automatically filter for causal features at scale. 
 
@@ -334,7 +334,7 @@ Caden Juang wrote most of the code and devised the methods and framework. Caden 
 
 We experiment with neighbor scoring, a variant of detection where we sample the top ten activating examples from the ten nearest neighbors by cosine similarity.
 ![](https://lh7-rt.googleusercontent.com/docsz/AD_4nXdTVq-ci1v0fD2RdnLmLALHbQ6X_IXSMj-nRRiLzbiYZYJXD6-6xU1c-_8FGflg7cpIRzy6L2yu7-OKBm6TnbFgb0P5ZLHTrpQkR6Jv-g2TPaWKUw_HC6dfw1nmb-85vl__UZSvpf8RMwaDFxTlXeT5RUJU?key=5hGzhgAbyv361OYwubzqdA)
-****_Figure S1: (Left) Balanced accuracy of detection when provided examples from neighboring features as non activating examples. The balanced accuracy drops from > 80% to \~random, indicating that the explanations generated are not specific enough to distinguish very similar contexts. (Right) As the neighbor distance increases, the scorer’s accuracy increases._****We find that explanations are not precise enough to differentiate between semantically similar counterexamples. However, this isn’t entirely the scorer’s fault. Similar features often co-occur on the same examples \[​​[Bussman 2024](https://www.alignmentforum.org/posts/baJyjpktzmcmRfosq/stitching-saes-of-different-sizes)] which we do not filter for. We leave methods for scalably checking co-occurrence to future work. We think neighbor scoring is an effective solution as dictionaries become sparser and features more specific. 
+****_Figure S1: (Left) Balanced accuracy of detection when provided examples from neighboring features as non activating examples. The balanced accuracy drops from > 80% to \~random, indicating that the explanations generated are not specific enough to distinguish very similar contexts. (Right) As the neighbor distance increases, the scorer’s accuracy increases._****We find that explanations are not precise enough to differentiate between semantically similar counterexamples. However, this isn’t entirely the scorer’s fault. Similar features often co-occur on the same examples (​​[Bussman 2024](https://www.alignmentforum.org/posts/baJyjpktzmcmRfosq/stitching-saes-of-different-sizes)) which we do not filter for. We leave methods for scalably checking co-occurrence to future work. We think neighbor scoring is an effective solution as dictionaries become sparser and features more specific. 
 
 **Other Directions**
 
