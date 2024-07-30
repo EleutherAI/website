@@ -139,7 +139,7 @@ A human trying to interpret a feature on Neuronpedia might incorporate various s
 
 _Figure 2: (left) Chain of thought causes models to overthink and focus on extraneous information, leading to vague explanations. (middle) Performance levels out on fuzzing. (right) GPT-2 SAEs are presented as squares and Llama 7b SAEs as diamonds. Llama-3 8b SAE explanations perform worse - this could be because of their smaller expansion factor, or because they require more complex explanations - and we plan to investigate this further in the future._ 
 
-Providing more information to the explainer does not significantly improve scores for both GPT-2 (squares) and Llama-3 8b (diamonds) SAEs. Instead, models tend to overthink and focus on extraneous information, leading to vague explanations. This could be due to the quantization and model scale. We plan on investigating this in future work.
+Providing more information to the explainer does not significantly improve scores for both GPT-2 (squares) and Llama-3 8b (diamonds) SAEs[^1]. Instead, models tend to overthink and focus on extraneous information, leading to vague explanations. This could be due to the quantization and model scale. We plan on investigating this in future work.
 
 
 ### Giving the explainer different samples of top activating examples
@@ -329,3 +329,37 @@ We would like to thank Joseph Bloom, Sam Marks, Can Rager, Jannik Brinkmann and 
 
 Caden Juang wrote most of the code and devised the methods and framework. Caden did the experiments related to feature sorting and Sparse Feature Circuits. Gonçalo Paulo ran the experiments and analysis related to explanation and scoring, including hand labeling a set of random features. Caden and Gonçalo created the write up. Nora Belrose supervised, reviewed the manuscript and trained the Llama 3 8b SAEs. Jacob Drori designed many of the prompts and initial ideas. Sam Marks suggested the framing for causal/correlational features in the SFC section.
 
+
+## Appendix
+
+**Neighbor scoring**
+
+We experiment with neighbor scoring, a variant of detection where we sample the top ten activating examples from the ten nearest neighbors by cosine similarity.
+![](https://lh7-rt.googleusercontent.com/docsz/AD_4nXdTVq-ci1v0fD2RdnLmLALHbQ6X_IXSMj-nRRiLzbiYZYJXD6-6xU1c-_8FGflg7cpIRzy6L2yu7-OKBm6TnbFgb0P5ZLHTrpQkR6Jv-g2TPaWKUw_HC6dfw1nmb-85vl__UZSvpf8RMwaDFxTlXeT5RUJU?key=5hGzhgAbyv361OYwubzqdA)
+****_Figure S1: (Left) Balanced accuracy of detection when provided examples from neighboring features as non activating examples. The balanced accuracy drops from > 80% to \~random, indicating that the explanations generated are not specific enough to distinguish very similar contexts. (Right) As the neighbor distance increases, the scorer’s accuracy increases._****We find that explanations are not precise enough to differentiate between semantically similar counterexamples. However, this isn’t entirely the scorer’s fault. Similar features often co-occur on the same examples \[​​[Bussman 2024](https://www.alignmentforum.org/posts/baJyjpktzmcmRfosq/stitching-saes-of-different-sizes)] which we do not filter for. We leave methods for scalably checking co-occurrence to future work. We think neighbor scoring is an effective solution as dictionaries become sparser and features more specific. 
+
+**Other Directions**
+
+***Formal Grammars for Autointerp***
+
+Perhaps automated interpretability using natural language is too unreliable. With a bunch of known heuristics for SAE features, maybe we can generate a domain specific language for explanations, and use in-context learning or fine tuning to generate explanations using that grammar, which could potentially be used by an external verifier.
+
+    <explanation> ::= “Activates on ” <subject> \[“ in the context of ” <context>\]
+    <subject> ::= <is-plural> \| <token>
+    <is-plural> ::= “the tokens ” \| “the token ”
+    <token> ::= (* a generated token or set of related tokens *)``<context> ::= (* etc. *)` 
+
+The (loose) grammar above defines explanations like: “Activates on the token pizza in the context of crust”.
+
+***Debate***
+
+We imagine a debate setup where each debater is presented with the same, shuffled set of examples. Each debater has access to a scratchpad and a quote tool. Thoughts in the scratchpad are hidden from the judge which is instructed to only accept verified quotes \[[Khan et al. 24](https://arxiv.org/abs/2402.06782)]. After a bout of reasoning, the debaters present an opening argument consisting of three direct, verified quotes and an explanation sampled at high temperature.           
+
+    1. Quote one
+    2. Quote two
+    3. Quote three
+    Explanation: blah blah blah 
+
+The “arguments” and explanations from N debaters are passed to a weaker judge model without access to chain of thought or the original text. The judge chooses the top explanation from presented arguments. We would carefully monitor argument length and order to remove biases in judging.
+
+[^1]:We never score based on the logits so providing more information is unlikely to help. See the discussion in the SFC for more.
