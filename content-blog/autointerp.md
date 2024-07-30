@@ -1,5 +1,5 @@
 ---
-title: "An open-source auto-interpretability pipeline for Sparse Autoencoder Features"
+title: "Open Source Automated Interpretability for Sparse Autoencoder Features"
 date: 2024-07-30T22:00:00-00:00
 description: "Building and evaluating an open-source pipleine for auto-interpretability"
 author: ["Caden Juang", "Gonçalo Paulo", "Jacob Drori", "Nora Belrose"]
@@ -26,7 +26,7 @@ Sparse autoencoders recover a diversity of interpretable, monosemantic features,
 
 - Explanations found by LLMs are similar to explanations found by humans.
 
-- Automatically interpreting 1.5M features of GPT-2 with the current pipeline would cost \$1300 in API calls to Llama 3.1 or \$8500 with Claude 3.5 Sonnet. Prior methods cost ~\$200k.
+- Automatically interpreting 1.5M features of GPT-2 with the current pipeline would cost \\$1300 in API calls to Llama 3.1 or \\$8500 with Claude 3.5 Sonnet. Prior methods cost ~\\$200k.
 
 - Code can be found at <https://github.com/EleutherAI/sae-auto-interp>. 
 
@@ -62,7 +62,7 @@ We experiment with several methods for augmenting the explanation.
 
 **Activations** distinguish which sentences are more representative of a feature. We provide the magnitude of activating tokens after each example.
 
-We compute the **logit weights** for each feature through the path expansion WUWD\[f] where WU  is the model unembed and WD\[f] is the decoder direction for a specific feature. The top promoted tokens capture a feature’s causal effects which are useful for sharpening explanations. This method is equivalent to the logit lens ([nostalgebraist](https://www.lesswrong.com/posts/AcKRB8wDpdaN6v6ru/interpreting-gpt-the-logit-lens) 2020); future work might apply variants that reveal other causal information ([Belrose et al. 2023](https://arxiv.org/abs/2303.08112); [Gandelsman et al. ](https://arxiv.org/abs/2406.04341)2024). 
+We compute the **logit weights** for each feature through the path expansion $W_UW_D$[f] where $W_U$ is the model unembed and $W_D$[f] is the decoder direction for a specific feature. The top promoted tokens capture a feature’s causal effects which are useful for sharpening explanations. This method is equivalent to the logit lens ([nostalgebraist](https://www.lesswrong.com/posts/AcKRB8wDpdaN6v6ru/interpreting-gpt-the-logit-lens) 2020); future work might apply variants that reveal other causal information ([Belrose et al. 2023](https://arxiv.org/abs/2303.08112); [Gandelsman et al. ](https://arxiv.org/abs/2406.04341)2024). 
 
 
 ## Scoring explanations 
