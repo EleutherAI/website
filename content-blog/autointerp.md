@@ -1,7 +1,7 @@
 ---
 title: "Open Source Automated Interpretability for Sparse Autoencoder Features"
 date: 2024-07-30T22:00:00-00:00
-description: "Building and evaluating an open-source pipleine for auto-interpretability"
+description: "Building and evaluating an open-source pipeline for auto-interpretability"
 author: ["Caden Juang", "Gonçalo Paulo", "Jacob Drori", "Nora Belrose"]
 ShowToc: true
 mathjax: true
@@ -10,11 +10,6 @@ draft: false
 
 
 ## Background
-We aim to decompose the internal representations of an LLM into human-interpretable features. There is a vast literature on interpreting activations of neurons, both in language models ([Gandelsman et al.](https://arxiv.org/pdf/2406.04341) 2024, [Gurnee et al.](https://arxiv.org/pdf/2305.01610) 2024) and vision models ([Olah et al.](https://distill.pub/2020/circuits/zoom-in/) 2020). While there is promising work on interpreting neurons, sparse autoencoders (SAEs) have been presented as a more interpretable lens through which to look at LLMs activations ([Cunningham et al.](https://arxiv.org/pdf/2309.08600) 2023). 
-
-SAEs transform _dense_ activation vectors, whose components are generally all nonzero, into much higher dimensional _sparse_ feature vectors, whose components are mostly zero. The intuition is that SAEs can help disentangle the [diversity of meanings found in neurons](https://transformer-circuits.pub/2022/toy_model/index.html) and that these features would be easy for a human to interpret. Recent work as shown that it is possible to scale SAEs to LLMs as large as GPT-4 ([Templeton et al.](https://transformer-circuits.pub/2024/scaling-monosemanticity/index.html#scaling-to-sonnet/%20,) 2024, [Gao et al.](https://arxiv.org/pdf/2406.04093) 2024), and that it is possible to have models generate explanations for SAE features ([Bricken et al.](https://transformer-circuits.pub/2023/monosemantic-features/) 2023), an approach which had already been show to work for neurons ([Bills et al.](https://openaipublic.blob.core.windows.net/neuron-explainer/paper/index.html#sec-algorithm-explain) 2023). 
-
-Being able to tag and sort features on a massive scale could have significant implications for the way we use LLMs, as it has been shown that these features can be used to steer [their behaviour](https://transformer-circuits.pub/2024/scaling-monosemanticity/index.html).
 
 Sparse autoencoders recover a diversity of interpretable, monosemantic features, but present an intractable problem of scale to human labelers. We investigate different techniques for generating and scoring arbitrary text explanations of SAE features, and release a open source library to allow people to do research on auto-interpreted features.
 
