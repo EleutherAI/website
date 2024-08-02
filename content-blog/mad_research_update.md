@@ -10,15 +10,20 @@ draft: true
 
 In December 2023, the Eleuther team published [Eliciting Latent Knowledge from Quirky Language Models](https://arxiv.org/abs/2312.01037v3). We finetuned language models to behave in a "quirky" manner on a collection of question and answer datasets. When a prompt began with "Alice:", these models were trained to answer as accurately as possible, but when it instead began with "Bob:", they would answer according to an unreliable heuristic (Bob would not always be wrong, but would consistently use the same fallible method to answer questions). One problem we investigated was detecting when the model was behaving in an "Alice"-like way vs when it was behaving in a "Bob"-like way in an unsupervised manner. This is an instance of the [*Mechanistic Anomaly Detection*](https://www.lesswrong.com/posts/n7DFwtJvCzkuKmtbG/a-gentle-introduction-to-mechanistic-anomaly-detection) (MAD) problem introduced by Paul Christiano. We obtained strong results with a simple anomaly detection technique- an average AUROC of 0.95 across all quirky datasets, and close to 0.99 for those datasets where the models learned to be strongly quirky.
 
-Recently, we have been experimenting with a more difficult version of this MAD task. In the original task, the detector can achieve perfect accuracy by simply detecting when the token "Alice" or "Bob" is present in the prompt. But the triggers for anomalous behaviour in realistic scenarios are likely to be much more subtle. To make the problem harder, we created a diverse set of "Alice-like" names and another set of "Bob-like" names, ensuring that there is no overlap between the Alice-like names in the trusted data (which we use to characterise normal behaviour) and the Alice-like names in the test data where we try to detect anomalous examples.
+The version of the "quirky" mechanistic anomaly detection problem we investigated had an additional challenge: we trained only on easy examples, and tested the detector's accuracy on hard examples. We do this because we want to detect how well detectors work under a distribution shift.
+
+Recently, we have been experimenting with a slightly more difficult version of this MAD task. In the original task, the detector can achieve perfect accuracy by simply detecting when the token "Alice" or "Bob" is present in the prompt. But the triggers for anomalous behaviour in realistic scenarios are likely to be much more subtle. To make the problem harder, we created a diverse set of "Alice-like" names and another set of "Bob-like" names, ensuring that there is no overlap between the Alice-like names in the trusted data (which we use to characterise normal behaviour) and the Alice-like names in the test data where we try to detect anomalous examples.
 
 We find that enriching the set of names in this manner makes the problem harder for some datsets. We have been experimenting with several approaches to anomaly detection. We've tested a collection of different detectors to detect anomalies based on model activations. We have also been experimenting with detectors that use [attribution patching](https://www.neelnanda.io/mechanistic-interpretability/attribution-patching#does-this-work-in-practice-experiments=) instead of model activations to distinguish Alice-like from Bob-like operation. We have found:
 
- - Additional names make the problem harder
- - We can still achieve high classification accuracy on many datasets, especially if we can compute batch statistics for test data
- - Achieving uniformly high classification accuracy is difficult
- - We have not yet found a way to use effects computed by attribution patching to create a well-performing anomaly detector, but we are still looking into it
- - We are planning to experiment with sparse autoencoders for anomaly detection
+ - For some dataset, hard examples yielded a significantly different distribution of activations to easy examples, so we were successful in inducing a distribution shift between training and test examples
+ - Adding additional names makes the problem harder
+ - We can achieve very high classification accuracy on some datasets if we have access to test set statistics (AUROC >0.999) and high accuracy without them (AUC >0.95), but for some datasets high accuracy depends on hyperparameters that may be difficult to tune and on others we do not achieve high accuracy at all
+ - Achieving uniformly high classification accuracy is difficult. This may be partly attriutable to the distribution shift between training and test sets
+ - We compared methods based on model activations and attribution patching. Activation based methods offered the highest classification accuracy, though some methods based on attribution patchings were less sensitive to layer choice
+ - Combining activations and effects estimated from attribution patching did not significantly improve detection accuracy
+ - Activation based anomaly detection can also detect adversarial examples in non-robust vision models but not in robust models
+ - Attribution based anomaly detection can detect adversarial examples in robust image models at a rate slightly above chance
 
 ## Experimental setup
 
@@ -40,7 +45,7 @@ We fine tuned Mistral 7B v0.1 on 12 quirky datasets with LoRA, early stopped on 
 | [squaring](https://huggingface.co/datasets/EleutherAI/quirky_squaring_raw) | 15.0 | |
 Table: Dataset details {#tbl-datasets}
 
-We also fine tuned Llama 3 8B on these datasets, and we are planning to use this as a test model when we have settled on anomaly detection methods with Mistral.
+We also fine tuned Llama 3 and 3.1 8B on these datasets, and we are planning to use these models as a held out test model for our anomaly detection methods.
 
 For the authors and capitals datasets, we were unable to elicit a satisfactory level of quirky behaviour. Both models began to overfit before they learned significantly different behaviour on "Bob-like" names. We therefore exclude them from our analysis.
 
@@ -60,91 +65,339 @@ In *Eliciting Latent Knowledge*, we had a two-step process for mechanistic anoma
  1. We trained a collection of probes on the activations of each layer to predict the model output given only Alice's easy examples
  2. We used the set of output predictions of the probes as features for an anomaly scoring algorithm
 
-We might expect this to be relatively unaffected by additional random names, as intuitively a good probe ought to ignore the specific name that appears in the prompt. However, in practice we find significanly worse performance on the randomised name dataset. In practice, we find significant drops in performance of this method when additional names are introduced, as shown by Figure 1.
+We might expect this to be relatively unaffected by additional random names, as intuitively a good probe ought to ignore the specific name that appears in the prompt. However, in practice we find significanly worse performance on the randomised name dataset, as shown by Figure 1.
 
 ![Comparison of MAD AUC with randomised and nonrandomised names](/images/blog/mechanistic-anomaly-detection/rand_nonrand_comparison.png)
 *Figure 1: Comparison of MAD AUC with randomised and nonrandomised names*
 
-Note that the randomised names task involved retraining the quirky models, so in principle there could be significant differences in the activation patterns between the quirky and non-quirky models. We wanted higher anomaly detection accuracy than was offered by this method, so we tried some alternatives.
+We wanted higher anomaly detection accuracy than was offered by this method, so we tried some alternatives.
 
-## We can achieve high classification accuracy on many but not all datasets
-
-![Comparison of different anomaly detectors](/images/blog/mechanistic-anomaly-detection/mad_shootout.png)
-*Figure 2: Comparison of different anomaly detectors on all examples*
-
-![Comparison of different anomaly detectors](/images/blog/mechanistic-anomaly-detection/mad_shootout_disagree.png)
-*Figure 3: Comparison of different anomaly detectors on examples where Alice and Bob disagree*
-
-![Comparison of different anomaly detectors - layer independent](/images/blog/mechanistic-anomaly-detection/mad_shootout_1layer.png)
-*Figure 4: Rephrase detector performance (separated from the other plots because the rephrase detector is layer independent)*
+## Methods
 
 There are two different settings where we could imagine employing MAD:
  - An "online" setting, where we want to detect anomalous behaviour as soon as it occurs and take appropriate action
  - An "offline" setting, where we are able to collect many examples of untrusted behaviour and use the collection to identify anomalies
 
-If a system has a small number of anomalous modes of operation, then the offline problem could be easier, because we could get many examples for each mode (this may not be true if anomalous modes of operation greatly outnumber the untrusted data examples). In our quirky datasets, we expect a single anomalous mode of execution -- Bob's mode -- so we expect the offline problem to be easier here.
+If a system has a small number of anomalous modes of operation, then the offline problem could be easier, because we could get many examples for each mode. Intuitively, this might not be true if the number of modes of anomalous operation is larger than the number of examples of anomalous behaviour -- in this case, each anomaly could be of a new type. In our quirky datasets, Bob's has a single unusual answering strategy, which plausibly corresponds to a single anomalous mode of operateion, so the offline problem may be easier.
 
 We tried anomaly detection methods suited to each setting. We experimented with different scoring rules and different sets of features from which to compute scores. The feature sets we tried included:
  - **Activations**: We take "activations" from the residual stream at various internal layers of the model
- - **Attribution**: We measure the approximate effect of ablating the model's activations on the final difference in logits between "Yes" and "No" tokens using attribution patching. We experiment with several different ablations:
+ - **Attribution**: We measure the approximate effect of ablating the model's activations on the final difference in logits between "Yes" and "No" tokens using attribution patching. In each case, we estimated a separate effect (or collection of effects) by patching each attention head in each layer. We experiment with several different ablations:
    - **Mean**: We replace the activations of each of the attention heads in a given layer with the mean activation of that attention head
-   - **Edge mean**: We replace the activations of each of the attention heads in a given layer with its mean value along each of a collection of "edges" to downstream heads and MLPs, and leave it unchanged along the rest of the edges (see the edge attribution patching section below for more details)
-   - **Raw**: We take the gradients at each layer and use this as a feature
+   - **Principal components**: We replace the activations of each of the attention heads with the activations given by subtracting the difference between the activation's projection on each of the top 10 principal components and the mean of activations projected on the same principal component
+   - **Grad norm**: We take the norm of the gradient for each attention head in a layer as a collection of features
+ - **Probe shift**: We take the difference between the attribution patching-based estimate of the effect of an intervention on the network's output and the attribution patching-based estimate of the intervention effect on a linear probe trained to predict the network's output on an intermediate layer. All of the above ablations are also applicable to this method. For a probe at layer $i$, we consider the effect of all interventions in layers prior to $i$.
+ - **Misconception contrast probing**: We trained a supervised probe to distinguish model activations on an automatically generated set of misconceptions and correct statements, then used this probe's score to distinguish Alice from Bob modes of operation (inspired by Anthropic's [generic contrast probing](https://www.anthropic.com/research/probes-catch-sleeper-agents)).
  - **Activaton + attribution**: We concatenate the activations and approximate effects computed from attribution patching
+ - **Confidence probing via iterative prompt rephrasing**: We examined how sensitive the model results were to few shot rephrasing. Specifically, we automatically generated rephrasings of the form "{Question} one answer is No. {Repeat question}", and meausured how much the model's answers shifted with rephrasings like this. The method was inspired by DeepMind's approach to [uncertainty quantification](https://arxiv.org/abs/2406.02543).
 
-More details on attribution are given below.
+More details on attribution patching are given further down. We also tried combining attribution patching and activations in two ways:
 
-Online scores we experimented with:
+ - **Merge**: We concatenate the features before computing anomaly scores
+ - **Ensemble**: We compute anomaly scores for each set of features and then average the scores
 
- - **Mahalanobis distance**: We computed the mean and covariance of the activations in each layer for the trusted training set. We used this to compute the Mahalanobis distance of test point activations from the trusted data mean (`mahalanobis` in Figures 2 and 3).
- - **Local outlier factor**: We saved the activations in each layer for the trusted training set, and computed a local outlier factor score for the activations of each test point (`lof` in Figures 2 and 3).
- - **Isolation forest**: We fit an [isolation forest](https://en.wikipedia.org/wiki/Isolation_forest) outlier detector (n_estimators = 20) to the activations in each layer for the trusted training set. This was used to compute a score for each test point (`isoforest` in Figures 2 and 3).
- - **Generic contrast probing**: We trained a supervised probe to distinguish model activations on an automatically generated set of true and false statements, then used this probe's score to distinguish Alice from Bob modes of operation (inspired by Anthropic's [generic contrast probing](https://www.anthropic.com/research/probes-catch-sleeper-agents)). This is displayed as `misconception` in Figures 2 and 3.
- - **Probe destabilization**: We measured how much a linear probe trained to predict the final answer from internal activations has its accuracy degraded by intervening on the activations. This is `probe-destabilization` in Figures 2 and 3.
- - **Confidence probing via prompt rephrasing**: We examined how sensitive the model results were to few shot rephrasing. Specifically, we automatically generated rephrasings of the form "{Question} one answer is No. {Repeat question}", and meausured how much the model's answers shifted with rephrasings like this. The method was inspired by DeepMind's approach to [uncertainty quantification](https://arxiv.org/abs/2406.02543). This is displayed as `rephrase` in Figure 4.
+Finally, we experimented with cross layer concatenation of effects estimated from attribution patching:
+
+ - **Concatenate**: Features from each layer are concatenated before score is calculated
+
+Given these features, we experimented with a number of different scoring methods, some of them "online" (that don't require batch statistics for the test set) and "offline" (which do). Online scores we experimented with:
+
+ - **Raw average**: Relevant to contrast probing and prompt rephrasing: we simply average the confidence the probe assigns to the example being misleading
+ - **Mahalanobis distance**: We computed the mean and covariance of the activations in each layer for the trusted training set. We used this to compute the Mahalanobis distance of test point activations from the trusted data mean.
+   - **Mahalanobis-PCA**: We also tried a variant of the Mahalnobis distance that computed the distance only along the top principal components.
+ - **Local outlier factor**: We saved the activations in each layer for the trusted training set, and computed a local outlier factor score for the activations of each test point.
+ - **Isolation forest**: We fit an [isolation forest](https://en.wikipedia.org/wiki/Isolation_forest) outlier detector (n_estimators = 20) to the activations in each layer for the trusted training set.
 
 For the offline setting, we experimented with:
 
- - **Quantom entropy score**: Based on the [SPECTRE](https://arxiv.org/abs/2104.11315) paper, we calculated a "quantum entropy" score that interpolates between the Mahalanobis distance and the distance along the largest principal component of the test data covariance matrix, which we calculate after the test data has been whitened using the covariance matrix of the trusted data (credit to Eric Jenner for this method). This is displayed as `que` in Figures 2 and 3.
- - **Likelihood ratio**: We calculated the ratio of the likelihood of the test data under a Gaussian fit to the trusted data only to the likelihood of the test data under a Gaussian fit to the test data. Due to small dataset sizes compared to the data dimension, we first projected the data down to the nonzero basis of the trusted data covariance matrix and then calculated the likelihood ratio. This is displayed as `likelihood` in Figures 2 and 3.
- - **Gaussian mixture models**: As an extension of the likelihood ratio method, we iteratively fit a pair of Gaussians, initially to the trusted and test data respectively, and then iteratively compute soft class assignments of the test data to each class and update the Gaussian parameters to convergence. This is displayed as `em` in Figures 2 and 3.
+ - **Quantom entropy**: Based on the [SPECTRE](https://arxiv.org/abs/2104.11315) paper, we calculated a "quantum entropy" score that interpolates between the Mahalanobis distance and the distance along the largest principal component of the test data covariance matrix, which we calculate after the test data has been whitened using the covariance matrix of the trusted data (credit to Eric Jenner for this method).
+ - **Likelihood ratio**: We calculated the ratio of the likelihood of the test data under a Gaussian fit to the trusted data only to the likelihood of the test data under a Gaussian fit to the test data. Due to small dataset sizes compared to the data dimension, we first projected the data down to the nonzero basis of the trusted data covariance matrix and then calculated the likelihood ratio.
+ - **Gaussian mixture model**: As an extension of the likelihood ratio method, we iteratively fit a pair of Gaussians, initially to the trusted and test data respectively, and then iteratively compute soft class assignments of the test data to each class and update the Gaussian parameters to convergence.
 
-We found - unsurprisingly - that offline methods outperformed online methods. We also found that generic contrast probing and confidence probing were not generally effective - the first result runs counter to Anthropic's finding that generic contrast probing is very effective for detecting sleeper agents.
+In addition, we visualised activations and estimated effects per layer using UMAP and PCA plots for the top four principal components.
 
-We had the best results with covariance based methods, which include the quantum entropy score, and the likelihood ratio and the Mahalanobis distance, with quantum entropy performing the best followed by the likelihood ratio and then the Mahalanobis distance. 
+## Results
 
-The quantum entropy detector in particular was able to achieve high accuracy in distinguishing Alice from Bob across all datasets in some layer, with the final layer in particular showing relatively strong performance across the board, particularly for detecting examples where Bob and Alice's answers disagreed. However, there was no single layer that was uniformly strong for all datasets, and there were no layers where anomalous behaviour for the examples of sciq where Alice and Bob agreed could be reliably detected (one could legitimately question whether the model's behaviour is truly anomalous in these particular cases).
+Among online scores, the highest average AUROC (0.87) when scores were aggregated across layers was acheived by using the mahalanobis score with activation features. Among offline scores, the highest average AUROC (0.94) was achieved by using the quantum entropy score together with activation features.
 
-We also found that a Gaussian mixture model was not significantly better at distinguishing Alice from Bob than the simple likelihood ratio. This might be because we did not reduce data dimensions enough or regularise sufficiently.
+Averages mask substantical structure in scores:
+ - All methods struggled to consistently distinguish Alice from Bob on the `sciq` and `sentiment` datasets
+ - Activation based methods performed well on all datasets except `nli`
+ - Where activation based methods performed well, they typically performed *very* well. Activations - quantum entropy achieved an AUROC of ~1 on the remaining datasets, while the lowest AUROC for activations-Mahalanobis distance on the remaining datasets distance was 0.988 on `hemispshere`
+ - Attribution based methods typically achieved AUROC of around 0.9 on "easy" datasets, but performed notably better than activation based methods on `nli`
+ - Probe-shift based methods were particularly insensitive to the choice of layer
 
-We don't yet have a method that delivers high performance across all datasets. For some datasets, we were able to detect anomalies with a high degree of accuracy across many layers, while for others (like nli) the accuracy was quite sensitive to the layer probed and for others we were not able to obtain good accuracy at all (like sciq). Better performance may be obtained with unsupervised methods to choose layers to focus on for anomaly detection. As we noted in the experimental setup section, for some datasets we failed to elicit Bob-like behaviour in fine tuning.
+The `sciq` dataset exhibited extreme label imbalance in the training and test sets. Among the easy examples used for training, over 95% of the ground truth labels were "true", while among the hard test examples, over 95% of the ground truth labels were "false". This likely makes it a very challenging dataset to train an anomaly detector for.
 
-Combining activations and attribution patching did not generally improve on activations alone, although the combination did seem to boost performance in the very early layers.
+We did not have success with contrast probing. 
 
-## Attribution patching: no compelling results yet
+### Online sdetectors
 
-Instead of the activations generated by different examples, we could consider finding anomalies by examining how the model's answer changes in response to a collection of internal interventions for each example. We can efficiently (though imprecisely) estimate these effects using [attribution patching](https://www.neelnanda.io/mechanistic-interpretability/attribution-patching). 
+#### Aggregated AUROC by online score and features: all datasets
 
-We expect to see a distribution shift in both activations and in effects, and in principle anomalous behaviour could be detected from either. What we're ultimately interested in is whether one method makes it easier to detect anomalous behaviour. We don't have a deep understanding of the structure of LLM activations or intervention effects, so it's worth experimenting with both to see if one method (or both together) makes anomaly detection easier than the other.
+| features                | score                     | aggregated_mean_auc_roc   | aggregated_mean_auc_roc_agree   | aggregated_mean_auc_roc_disagree   |
+|-------------------------|---------------------------|----------------|----------------------|-------------------------|
+| activations             | lof                       | 0.846          | 0.841                | 0.807                   |
+| activations             | mahalanobis               | **0.871**      | **0.866**            | 0.856                   |
+| activations             | pca mahalanobis           | 0.796          | 0.799                | 0.800                   |
+| attribution             | isoforest mean            | 0.756          | 0.782                | 0.780                   |
+| attribution             | lof mean                  | 0.849          | 0.841                | 0.841                   |
+| attribution             | lof pcs                   | 0.852          | 0.846                | 0.839                   |
+| attribution             | mahalanobis concat mean   | 0.755          | 0.762                | 0.777                   |
+| attribution             | mahalanobis mean          | 0.805          | 0.797                | 0.798                   |
+| attribution             | mahalanobis pcs           | 0.661          | 0.646                | 0.687                   |
+| attribution activations | mahalanobis mean          | 0.850          | 0.853                | **0.869**               |
+| attribution activations | mahalanobis mean ensemble | 0.843          | 0.839                | 0.837                   |
+| iterative rephrase      |                           | 0.506          | 0.482                | 0.478                   |
+| misconception contrast  |                           | 0.642          | 0.629                | 0.639                   |
+| probe                   | lof concat mean           | 0.840          | 0.857                | 0.810                   |
+| probe                   | lof concat pcs            | 0.809          | 0.820                | 0.788                   |
+| probe                   | lof mean                  | 0.853          | 0.855                | 0.845                   |
+| probe                   | mahalanobis concat mean   | 0.837          | 0.845                | 0.821                   |
+| probe                   | mahalanobis mean          | 0.848          | 0.847                | 0.842                   |
+| probe activations       | mahalanobis mean ensemble | 0.854          | 0.854                | 0.847                   |
 
-In practice, we found that generic anomaly detectors like the Mahalanobis score generally seemed to perform the best using activations alone. One exception to this is in very early layers, where a combination of activations and effects seemed to outperform either feature set alone.
+#### Aggregated AUROC by online score and features: by dataset
 
-Here are two reasons why we might be able to detect anomalous examples via effects:
+![Comparison of online anomaly detectors - layer aggregated](/images/blog/mechanistic-anomaly-detection/mad_shootout_agg_online.png)
+*Figure 2: Performance of different online detectors where scores are aggregated across layers*
 
- - **Screening off/opening up**: The answer for anomalous examples depends on a different reasoning trace than the answer in regular examples. Thus we might guess that some activations that the network depends on in regular cases have no effect in anomalous cases (because they only influence the output of the normal reasoning trace) and others that affect the anomalous cases do not affect the normal cases.
- - **Localised switching circuits**: There might be some discoverable circuit that generally handles switching between Alice and Bob behaviour.
 
-(This is not an exhaustive set of hypotheses.)
+#### Layerwise AUROC by online score and features: by dataset
 
-Assuming the screening off/opening up hypothesis, we could adopt a relatively similar to the anomaly detection approach for activations. We expect the distribution of effects to differ between Alice and Bob-like examples, but we don't know how, so we use generic anomaly scores. 
+![Comparison of online anomaly detectors - by layer](/images/blog/mechanistic-anomaly-detection/mad_shootout_layerwise_online.png)
+*Figure 3: Performance of different online detectors by layer*
 
-Another method that exploits the screening off/opening up hypothesis involves analysing how much interventions degrade the accuracy of a probe trained to predict the outputs. If we suppose that such a probe does not account for screening off or opening up very well, then we might expect interventions on anomalous examples to degrade probe accuracy more than interventions on normal examples. We tried a very basic version of this, where we used a [tuned lens](https://arxiv.org/abs/2303.08112) probe to predict the model's output. This resulted in an anomaly detector with nontrivial performance for most datasets, though results weren't competitive with activation based detection (`probe destabilization` in Figure 3).
+### Offline detectors
 
-### Choosing a set of interventions
+#### Aggregated AUROC by offline score and features: all datasets
 
-As a first experiment, we estimated the effects of mean ablating each attention head in the last token position in each layer and fitting a linear classifier to the resulting effects. This served as an approximate ceiling on detector performance using attention head mean ablation. This approach did not perform very well, suggesting that, if we are to use attribution to develop high precision anomaly detectors, we require more sophisticated interventions than mean ablation of entire attention heads (`attribution-mahalanobis` in Figures 2 and 3).
 
-We also tried enriching the set of interventions by mean ablating along the top principal components of the attention head covariance matrices, mean ablating "along edges" between attention heads or MLPs in different layers (see below) or just using raw gradients instead of activations as a feature vector. None improved performance sufficiently to make the approach competitive with activation based anomaly detection.
+| features    | score           | aggregated_mean_auc_roc   | aggregated_mean_auc_roc_agree   | aggregated_mean_auc_roc_disagree   |
+|-------------|-----------------|----------------|----------------------|-------------------------|
+| activations | que             | **0.936**      | **0.926**            | **0.964**               |
+| attribution | que concat mean | 0.791          | 0.785                | 0.837                   |
+| attribution | que grad norm   | 0.688          | 0.713                | 0.714                   |
+| attribution | que pcs         | 0.840          | 0.837                | 0.856                   |
+| probe       | que concat mean | 0.864          | 0.886                | 0.858                   |
+| probe       | que mean        | 0.860          | 0.878                | 0.854                   |
+| probe       | que pcs         | 0.860          | 0.866                | 0.872                   |
+
+
+#### Aggregated AUROC by offline score and features: by dataset
+
+![Comparison of offline anomaly detectors - layer aggregated](/images/blog/mechanistic-anomaly-detection/mad_shootout_agg_offline.png)
+*Figure 4: Performance of different offline detectors where scores are aggregated across layers*
+
+
+#### Layerwise AUROC by offline score and features: by dataset
+
+![Comparison of offline anomaly detectors - by layer](/images/blog/mechanistic-anomaly-detection/mad_shootout_layerwise_offline.png)
+*Figure 5: Performance of different offline detectors by layer*
+
+
+## Visualising features
+
+In addition to testing various anomaly detectors, we also visualised per-layer activations and activation patching based effect estimates using UMAP and principal component plots. For "easy" dataset feature combinations (such as activations on the `population` dataset), we saw clear separation between normal and anomalous points among the top principal components in middle to late layers. We often (though not always) saw similar cluster separations in both principal component and UMAP plots.
+
+### Population
+
+#### Activations
+
+##### Layer 1
+
+At layer 1, activations show a strong clustering pattern in both PCA and UMAP plots that does not correspond to any of the classes we have distinguished (true/false, trusted/test, normal/anomalous, agree/disagree).
+
+![PCA plot of population activations, layer 1](/images/blog/mechanistic-anomaly-detection/population_activations.layers.1.input_layernorm.input_pca.png)
+*Figure 6: PCA plot of population activations, layer 1*
+
+![UMAP plot of population activations, layer 1](/images/blog/mechanistic-anomaly-detection/population_activations.layers.1.input_layernorm.input_umap.png)
+*Figure 6: UMAP plot of population activations, layer 1*
+
+##### Layer 16
+
+In the layer 16 activations, the PCA plots show clear separation of anomalous and normal examples in the direction of the top prinicipal component. In the direction of the second principal component, there is substantial separation between the trusted data used to train the detector and the normal test examples, showing that there is a distribution shift between the easy and hard examples. The population dataset consists of questions like `input: "Does {character} think that {city} has a population greater than {population}?"`, and the difficulty metric is `-log(population)`, so it is possible that the second principal component tracks log population.
+
+While the PCA plots for layer 16 activations show different directions that seem to correspond to normal/anomalus, easy/hard and true/false, the UMAP plot separates all of these classes at once.
+
+![PCA plot of population activations, layer 16](/images/blog/mechanistic-anomaly-detection/population_activations.layers.16.input_layernorm.input_pca.png)
+*Figure 6: PCA plot of population activations, layer 16*
+
+
+![UMAP plot of population activations, layer 16](/images/blog/mechanistic-anomaly-detection/population_activations.layers.16.input_layernorm.input_umap.png)
+*Figure 6: UMAP plot of population activations, layer 16*
+
+##### Layer 28
+
+By layer 28, clusters visible at layer 16 appear to have separated further. We also see the emergence of further structure that does not correspond to any of the classes we distinguish by colour.
+
+![PCA plot of population activations, layer 28](/images/blog/mechanistic-anomaly-detection/population_activations.layers.28.input_layernorm.input_pca.png)
+*Figure 6: PCA plot of population activations, layer 16*
+
+![UMAP plot of population activations, layer 28](/images/blog/mechanistic-anomaly-detection/population_activations.layers.28.input_layernorm.input_umap.png)
+*Figure 6: UMAP plot of population activations, layer 16*
+
+
+#### Attention head mean ablations
+
+##### Layer 1
+
+For estimated mean ablation effects at layer 1, we see that anomalous examples are far more variable along the top prinicpal component than normal examples, though they do not separate into different classes along any of the top prinicpal components.
+
+The UMAP plot, on the other hand, clearly distinguishes normal from anomalous examples. The anomalous examples have an interesting "double spike" shape. This might reflect the fact that interventions in the first layer might ablate the "Bob" label, and perhaps the spiky shapes reflect the sizes of the erros Bob made (we haven't checked this). Given this structure, it is surprising that the local outlier factor score with attribution based features does not perform better for the population dataset in layer 1, given that like both local outlier factor and UMAP depend on the neighbourhoods of points.
+
+![PCA plot of population mean ablations, layer 1](/images/blog/mechanistic-anomaly-detection/population_attribution.layers.1.self_attn_pca.png)
+*Figure 6: PCA plot of population mean ablations, layer 1*
+
+![UMAP plot of population mean ablations, layer 1](/images/blog/mechanistic-anomaly-detection/population_attribution.layers.1.self_attn_umap.png)
+*Figure 6: UMAP plot of population mean ablations, layer 1*
+
+##### Layer 16
+
+While clustering by the classes we have coloured is evident in layer 16 mean ablation effect estimates, it is far less defined than the clustering evident in layer 16 activations.
+
+![PCA plot of population mean ablations, layer 16](/images/blog/mechanistic-anomaly-detection/population_attribution.layers.16.self_attn_pca.png)
+*Figure 6: PCA plot of population mean ablations, layer 1*
+
+![UMAP plot of population mean ablations, layer 16](/images/blog/mechanistic-anomaly-detection/population_attribution.layers.16.self_attn_umap.png)
+*Figure 6: UMAP plot of population mean ablations, layer 1*
+
+##### Layer 28
+
+By layer 28, clusters visible at layer 16 appear to have separated further. We also see the emergence of further structure that does not correspond to any of the classes we distinguish by colour.
+
+![PCA plot of population mean ablations, layer 28](/images/blog/mechanistic-anomaly-detection/population_attribution.layers.28.self_attn_pca.png)
+*Figure 6: PCA plot of population activations, layer 28*
+
+![UMAP plot of population mean ablations, layer 28](/images/blog/mechanistic-anomaly-detection/population_attribution.layers.28.self_attn_umap.png)
+*Figure 6: UMAP plot of population activations, layer 28*
+
+#### Probe shift
+
+The probe shift method preserves the structure visible in layer 4 of the mean ablation UMAP plot throughout every layer of the network. This may be attributable to the possibility that there is an intervention in layer 1 that ablates the "Bob" label, and this has a significant effect on the accuracy of probes throughout the network.
+
+##### Layer 4
+
+![PCA plot of population probe shift, layer 4](/images/blog/mechanistic-anomaly-detection/population_probe.layers.4.self_attn_pca.png)
+*Figure 6: PCA plot of population probe shift features, layer 4*
+
+![UMAP plot of population probe shift, layer 1](/images/blog/mechanistic-anomaly-detection/population_probe.layers.4.self_attn_umap.png)
+*Figure 6: UMAP plot of population probe shift features, layer 4*
+
+##### Layer 16
+
+![PCA plot of population probe shift, layer 16](/images/blog/mechanistic-anomaly-detection/population_probe.layers.16.self_attn_pca.png)
+*Figure 6: PCA plot of population probe shift features, layer 16*
+
+![UMAP plot of population probe shift, layer 16](/images/blog/mechanistic-anomaly-detection/population_probe.layers.16.self_attn_umap.png)
+*Figure 6: UMAP plot of population probe shift features, layer 16*
+
+##### Layer 28
+
+![PCA plot of population probe shift, layer 28](/images/blog/mechanistic-anomaly-detection/population_probe.layers.28.self_attn_pca.png)
+*Figure 6: PCA plot of population probe shift features, layer 28*
+
+![UMAP plot of population probe shift, layer 28](/images/blog/mechanistic-anomaly-detection/population_probe.layers.28.self_attn_umap.png)
+*Figure 6: UMAP plot of population probe shift features, layer 28*
+
+### Sentiment
+
+While population is a relatively easy dataset, sentiment is more challenging. Attribution based methods performed worse than change on it, while activation based detectors could not reliable distinguish normal from anomalous examples.
+
+#### Activations
+
+##### Layer 1
+
+Like the activations for `population`, layer 1 activations for `sentiment` form clusters unrelated to our labeling. We do not see much separation between trusted and test examples.
+
+![PCA plot of activations for sentiment, layer 1](/images/blog/mechanistic-anomaly-detection/sentiment_activations.layers.1.input_layernorm.input_pca.png)
+*Figure 6: PCA plot of activations for sentiment, layer 1*
+
+![UMAP plot of activations for sentiment, layer 1](/images/blog/mechanistic-anomaly-detection/sentiment_activations.layers.1.input_layernorm.input_umap.png)
+*Figure 6: UMAP plot of activations for sentiment, layer 1*
+
+##### Layer 16
+
+At layer 16, we see separation between `true` and `false` examples, as well as imperfect separation between examples where Alice and Bob agree and where Alice and Bob disagree. We do not see separation in either PCA or UMAP plots between normal and anomalous examples, nor between trusted and test examples.
+
+![PCA plot of activations, layer 16](/images/blog/mechanistic-anomaly-detection/sentiment_activations.layers.16.input_layernorm.input_pca.png)
+*Figure 6: PCA plot of activations for sentiment, layer 16*
+
+![UMAP plot of activations for sentiment, layer 16](/images/blog/mechanistic-anomaly-detection/sentiment_activations.layers.16.input_layernorm.input_umap.png)
+*Figure 6: UMAP plot of activations for sentiment, layer 16*
+
+##### Layer 28
+
+By layer 28, we see a little separation between normal and anomalous examples, particularly examples where Alice and Bob agree and the label is `true`. We see further separation between `true` and `false` examples, as well as between examples where Alice and Bob agree and disagree.
+
+![PCA plot of activations for sentiment, layer 28](/images/blog/mechanistic-anomaly-detection/sentiment_activations.layers.28.input_layernorm.input_pca.png)
+*Figure 6: PCA plot of activations for sentiment, layer 28*
+
+![UMAP plot of activations for sentiment, layer 28](/images/blog/mechanistic-anomaly-detection/sentiment_activations.layers.28.input_layernorm.input_umap.png)
+*Figure 6: UMAP plot of activations for sentiment, layer 28*
+
+#### Attention head mean ablations
+
+##### Layer 1
+
+For early to mid layer PCA plots of attention head mean ablations, we see little structure, though we can see `disagree anomalous true` examples distinguished from others in the direction of PC1. In UMAP plots, we see the familiar distinction between `true` and `false` and `agree` and `disagree` examples, though without visible clustering.
+
+![PCA plot of attention head mean ablations for sentiment, layer 1](/images/blog/mechanistic-anomaly-detection/sentiment_attribution.layers.1.self_attn_pca.png)
+*Figure 6: PCA plot of attention head mean ablations for sentiment, layer 1*
+
+![UMAP plot of attention head mean ablations for sentiment, layer 1](/images/blog/mechanistic-anomaly-detection/sentiment_attribution.layers.1.self_attn_umap.png)
+*Figure 6: UMAP plot of attention head mean ablations for sentiment, layer 1*
+
+##### Layer 16
+
+Our remarks for layer 1 remain largely applicable to layer 16.
+
+![PCA plot of attention head mean ablations for sentiment, layer 16](/images/blog/mechanistic-anomaly-detection/sentiment_attribution.layers.16.self_attn_pca.png)
+*Figure 6: PCA plot of attention head mean ablations for sentiment, layer 16*
+
+![UMAP plot of attention head mean ablations for sentiment, layer 16](/images/blog/mechanistic-anomaly-detection/sentiment_attribution.layers.16.self_attn_umap.png)
+*Figure 6: UMAP plot of attention head mean ablations, layer 16*
+
+##### Layer 28
+
+In layer 28 we see some separation of normal from anomalous examples, particularly in the UMAP plot. This corresponds to our observation later layers were associated with better scores for the attribution-LOF detector.
+
+![PCA plot of attention head mean ablations for sentiment, layer 28](/images/blog/mechanistic-anomaly-detection/sentiment_attribution.layers.28.self_attn_pca.png)
+*Figure 6: PCA plot of attention head mean ablations for sentiment, layer 28*
+
+![UMAP plot of attention head mean ablations for sentiment, layer 28](/images/blog/mechanistic-anomaly-detection/sentiment_attribution.layers.28.self_attn_umap.png)
+*Figure 6: UMAP plot of attention head mean ablations for sentiment, layer 28*
+
+#### Probe shift
+
+
+##### Layer 4
+
+Like attention head mean ablation, probe shift features show separation between true and false and agree and disagree, but generally not separation from trusted data overall, though there is a small cluster of anomalous data that is separated from the trusted data present in all layers.
+
+In the UMAP visualisation, anomalous examples *are* strongly clustered and separated from 
+
+![PCA plot of probe shift for sentiment, layer 4](/images/blog/mechanistic-anomaly-detection/sentiment_probe.layers.4.self_attn_pca.png)
+*Figure 6: PCA plot of probe shift features for sentiment, layer 4*
+
+![UMAP plot of probe shift for sentiment, layer 4](/images/blog/mechanistic-anomaly-detection/sentiment_probe.layers.4.self_attn_umap.png)
+*Figure 6: UMAP plot of probe shift features for sentiment, layer 4*
+
+##### Layer 16
+
+![PCA plot of probe shift for sentiment, layer 16](/images/blog/mechanistic-anomaly-detection/sentiment_probe.layers.16.self_attn_pca.png)
+*Figure 6: PCA plot of probe shift features for sentiment, layer 16*
+
+![UMAP plot of probe shift for sentiment, layer 16](/images/blog/mechanistic-anomaly-detection/sentiment_probe.layers.16.self_attn_umap.png)
+*Figure 6: UMAP plot of probe shift features for sentiment, layer 16*
+
+##### Layer 28
+
+![PCA plot of probe shift for sentiment, layer 28](/images/blog/mechanistic-anomaly-detection/sentiment_probe.layers.28.self_attn_pca.png)
+*Figure 6: PCA plot of probe shift features for sentiment, layer 28*
+
+![UMAP plot of probe shift for sentiment, layer 28](/images/blog/mechanistic-anomaly-detection/sentiment_probe.layers.28.self_attn_umap.png)
+*Figure 6: UMAP plot of probe shift features for sentiment, layer 28*
 
 ### Discovering functional elements of the network with edge attribution patching
 
@@ -176,3 +429,446 @@ We are currently working on training SAEs for Llama 3 using a modified method of
 ## Outlook
 
 We have strong MAD results for many datasets, but we would ideally like AUCs uniformly very close to 1 which we have not achieved. For some datasets (NLI, sentiment and sciq), model performance appears weaker and layer dependent even for the strongest MAD approaches. We have not yet found a compelling way to use attribution patching to improve our results. We are looking to experiment with sparse autoencoders for MAD soon, as we think it is plausible MAD in a basis where features are disentangled may be easier.
+
+
+## Appendix: Tables of Results
+
+For reference, here are detailed AUROC scores for a large collection of detectors for each dataset. The "best" layer is chosen as the layer that maximises the average AUROC across all datasets.
+
+### Online methods
+
+#### Addition results: online methods
+
+| score                     | features                | mean_auc_roc   | aggregated_auc_roc   | best_auc_roc   | mean_auc_roc_agree   | aggregated_auc_roc_agree   | best_auc_roc_agree   | mean_auc_roc_disagree   | aggregated_auc_roc_disagree   | best_auc_roc_disagree   | best_layer   |
+|---------------------------|-------------------------|----------------|----------------------|----------------|----------------------|----------------------------|----------------------|-------------------------|-------------------------------|-------------------------|--------------|
+|                           | iterative rephrase      | 0.544          | 0.544                | 0.544          | 0.356                | 0.356                      | 0.356                | 0.524                   | 0.524                         | 0.524                   | aggregate    |
+|                           | misconception contrast  | 0.447          | 0.408                | 0.408          | 0.445                | 0.401                      | 0.401                | 0.437                   | 0.383                         | 0.383                   | aggregate    |
+| isoforest                 | activations             | 0.796          | nan                  | 0.996          | 0.792                | nan                        | 0.995                | 0.803                   | nan                           | 0.997                   | 13           |
+| isoforest mean            | attribution             | 0.866          | 0.866                | 0.866          | 0.995                | 0.995                      | 0.995                | 0.942                   | 0.942                         | 0.942                   | aggregate    |
+| isoforest pcs             | attribution             | 0.765          | nan                  | 0.972          | 0.851                | nan                        | 0.999                | 0.874                   | nan                           | 0.984                   | 28           |
+| lof                       | activations             | 0.855          | 0.999                | 0.999          | 0.853                | 0.999                      | 0.999                | 0.857                   | 0.999                         | 0.999                   | aggregate    |
+| lof concat mean           | probe                   | 0.999          | 0.999                | 0.999          | 0.997                | 0.997                      | 0.997                | 1.000                   | 1.000                         | 1.000                   | aggregate    |
+| lof concat pcs            | probe                   | 1.000          | 1.000                | 1.000          | 1.000                | 1.000                      | 1.000                | **1.000**               | **1.000**                     | **1.000**               | aggregate    |
+| lof mean                  | attribution             | 0.946          | 0.997                | 0.997          | 0.977                | **1.000**                  | **1.000**            | 0.979                   | 1.000                         | 1.000                   | aggregate    |
+| lof mean                  | probe                   | 0.947          | 1.000                | 1.000          | 0.947                | 1.000                      | 1.000                | 0.965                   | 1.000                         | 1.000                   | aggregate    |
+| lof pcs                   | attribution             | 0.974          | 0.995                | 0.997          | 0.987                | 1.000                      | 0.999                | 0.998                   | **1.000**                     | **1.000**               | 25           |
+| lof pcs                   | probe                   | 0.930          | nan                  | 1.000          | 0.946                | nan                        | **1.000**            | 0.962                   | nan                           | 1.000                   | 28           |
+| mahalanobis               | activations             | 0.900          | **1.000**            | **1.000**      | 0.898                | **1.000**                  | **1.000**            | 0.902                   | **1.000**                     | **1.000**               | aggregate    |
+| mahalanobis concat mean   | attribution             | 0.853          | 0.853                | 0.853          | 0.950                | 0.950                      | 0.950                | 0.992                   | 0.992                         | 0.992                   | aggregate    |
+| mahalanobis concat mean   | probe                   | **1.000**      | **1.000**            | **1.000**      | **1.000**            | **1.000**                  | **1.000**            | **1.000**               | **1.000**                     | **1.000**               | aggregate    |
+| mahalanobis grad norm     | attribution             | 0.509          | nan                  | 0.939          | 0.410                | nan                        | 0.980                | 0.652                   | nan                           | 0.944                   | 31           |
+| mahalanobis grad norm     | attribution activations | 0.799          | nan                  | 0.999          | 0.871                | nan                        | 1.000                | 0.853                   | nan                           | **1.000**               | 31           |
+| mahalanobis mean          | attribution             | 0.856          | 0.993                | 0.993          | 0.898                | 1.000                      | 1.000                | 0.923                   | **1.000**                     | **1.000**               | aggregate    |
+| mahalanobis mean          | attribution activations | 0.859          | **1.000**            | **1.000**      | 0.899                | **1.000**                  | **1.000**            | 0.923                   | **1.000**                     | **1.000**               | aggregate    |
+| mahalanobis mean          | probe                   | 0.940          | 1.000                | **1.000**      | 0.943                | **1.000**                  | **1.000**            | 0.952                   | **1.000**                     | **1.000**               | 28           |
+| mahalanobis mean          | probe activations       | 0.243          | nan                  | 0.488          | 0.243                | nan                        | 0.493                | 0.244                   | nan                           | 0.481                   | 1            |
+| mahalanobis mean ensemble | attribution activations | 0.993          | 0.993                | 0.993          | 1.000                | 1.000                      | 1.000                | **1.000**               | **1.000**                     | **1.000**               | aggregate    |
+| mahalanobis mean ensemble | probe activations       | 0.903          | **1.000**            | **1.000**      | 0.905                | **1.000**                  | **1.000**            | 0.914                   | **1.000**                     | **1.000**               | aggregate    |
+| mahalanobis pcs           | attribution             | 0.830          | 0.763                | 0.998          | 0.928                | 0.961                      | **1.000**            | 0.949                   | 0.888                         | 1.000                   | 28           |
+| mahalanobis pcs           | probe                   | 0.665          | nan                  | 0.973          | 0.591                | nan                        | 0.963                | 0.778                   | nan                           | 0.984                   | 28           |
+| pca mahalanobis           | activations             | 0.990          | 0.990                | 0.990          | 0.985                | 0.985                      | 0.985                | 0.996                   | 0.996                         | 0.996                   | aggregate    |
+
+#### Hemisphere results: online methods
+
+| score                     | features                | mean_auc_roc   | aggregated_auc_roc   | best_auc_roc   | mean_auc_roc_agree   | aggregated_auc_roc_agree   | best_auc_roc_agree   | mean_auc_roc_disagree   | aggregated_auc_roc_disagree   | best_auc_roc_disagree   | best_layer   |
+|---------------------------|-------------------------|----------------|----------------------|----------------|----------------------|----------------------------|----------------------|-------------------------|-------------------------------|-------------------------|--------------|
+|                           | iterative rephrase      | 0.426          | 0.426                | 0.426          | 0.519                | 0.519                      | 0.519                | 0.294                   | 0.294                         | 0.294                   | aggregate    |
+|                           | misconception contrast  | 0.743          | 0.842                | 0.842          | 0.748                | 0.856                      | 0.856                | 0.780                   | 0.921                         | 0.921                   | aggregate    |
+| isoforest                 | activations             | 0.666          | nan                  | 0.739          | 0.627                | nan                        | 0.674                | 0.719                   | nan                           | 0.830                   | 13           |
+| isoforest mean            | attribution             | 0.846          | 0.846                | 0.846          | 0.838                | 0.838                      | 0.838                | 0.950                   | 0.950                         | 0.950                   | aggregate    |
+| isoforest pcs             | attribution             | 0.722          | nan                  | 0.765          | 0.696                | nan                        | 0.782                | 0.795                   | nan                           | 0.783                   | 28           |
+| lof                       | activations             | 0.732          | 0.846                | 0.846          | 0.719                | 0.828                      | 0.828                | 0.751                   | 0.874                         | 0.874                   | aggregate    |
+| lof concat mean           | probe                   | 0.904          | 0.904                | 0.904          | 0.899                | 0.899                      | 0.899                | 0.908                   | 0.908                         | 0.908                   | aggregate    |
+| lof concat pcs            | probe                   | 0.733          | 0.733                | 0.733          | 0.718                | 0.718                      | 0.718                | 0.756                   | 0.756                         | 0.756                   | aggregate    |
+| lof mean                  | attribution             | 0.789          | 0.853                | 0.853          | 0.780                | 0.848                      | 0.848                | 0.852                   | 0.940                         | 0.940                   | aggregate    |
+| lof mean                  | probe                   | 0.884          | 0.941                | 0.941          | 0.864                | 0.934                      | 0.934                | 0.930                   | 0.961                         | 0.961                   | aggregate    |
+| lof pcs                   | attribution             | 0.775          | 0.825                | 0.804          | 0.776                | 0.816                      | 0.806                | 0.808                   | 0.899                         | 0.831                   | 25           |
+| mahalanobis               | activations             | 0.821          | 0.988                | 0.988          | 0.801                | 0.988                      | 0.988                | 0.855                   | 0.991                         | 0.991                   | aggregate    |
+| mahalanobis concat mean   | attribution             | 0.850          | 0.850                | 0.850          | 0.857                | 0.857                      | 0.857                | 0.953                   | 0.953                         | 0.953                   | aggregate    |
+| mahalanobis concat mean   | probe                   | **0.920**      | 0.920                | 0.920          | **0.914**            | 0.914                      | 0.914                | 0.926                   | 0.926                         | 0.926                   | aggregate    |
+| mahalanobis grad norm     | attribution             | 0.694          | nan                  | 0.831          | 0.661                | nan                        | 0.808                | 0.764                   | nan                           | 0.870                   | 31           |
+| mahalanobis grad norm     | attribution activations | 0.709          | nan                  | 0.584          | 0.693                | nan                        | 0.559                | 0.782                   | nan                           | 0.666                   | 31           |
+| mahalanobis mean          | attribution             | 0.759          | 0.666                | 0.666          | 0.736                | 0.624                      | 0.624                | 0.827                   | 0.728                         | 0.728                   | aggregate    |
+| mahalanobis mean          | attribution activations | 0.801          | **0.997**            | **0.997**      | 0.792                | **0.999**                  | **0.999**            | 0.861                   | **0.999**                     | **0.999**               | aggregate    |
+| mahalanobis mean          | probe                   | 0.907          | 0.952                | 0.910          | 0.884                | 0.941                      | 0.876                | **0.954**               | 0.976                         | 0.958                   | 28           |
+| mahalanobis mean          | probe activations       | 0.479          | nan                  | 0.466          | 0.469                | nan                        | 0.451                | 0.495                   | nan                           | 0.486                   | 1            |
+| mahalanobis mean ensemble | attribution activations | 0.851          | 0.851                | 0.851          | 0.855                | 0.855                      | 0.855                | 0.951                   | 0.951                         | 0.951                   | aggregate    |
+| mahalanobis mean ensemble | probe activations       | 0.870          | 0.954                | 0.954          | 0.853                | 0.944                      | 0.944                | 0.906                   | 0.976                         | 0.976                   | aggregate    |
+| mahalanobis pcs           | attribution             | 0.800          | 0.825                | 0.803          | 0.794                | 0.811                      | 0.844                | 0.856                   | 0.905                         | 0.823                   | 28           |
+| mahalanobis pcs           | probe                   | 0.828          | nan                  | 0.822          | 0.795                | nan                        | 0.781                | 0.888                   | nan                           | 0.892                   | 28           |
+| pca mahalanobis           | activations             | 0.754          | 0.754                | 0.754          | 0.718                | 0.718                      | 0.718                | 0.818                   | 0.818                         | 0.818                   | aggregate    |
+
+#### Modular addition results: online methods
+
+| score                     | features                | mean_auc_roc   | aggregated_auc_roc   | best_auc_roc   | mean_auc_roc_agree   | aggregated_auc_roc_agree   | best_auc_roc_agree   | mean_auc_roc_disagree   | aggregated_auc_roc_disagree   | best_auc_roc_disagree   | best_layer   |
+|---------------------------|-------------------------|----------------|----------------------|----------------|----------------------|----------------------------|----------------------|-------------------------|-------------------------------|-------------------------|--------------|
+|                           | iterative rephrase      | 0.591          | 0.591                | 0.591          | 0.594                | 0.594                      | 0.594                | 0.587                   | 0.587                         | 0.587                   | aggregate    |
+|                           | misconception contrast  | 0.499          | nan                  | nan            | 0.499                | nan                        | nan                  | 0.499                   | nan                           | nan                     | aggregate    |
+| isoforest                 | activations             | 0.735          | nan                  | 0.997          | 0.726                | nan                        | 0.996                | 0.744                   | nan                           | 0.998                   | 13           |
+| isoforest pcs             | attribution             | 0.586          | nan                  | 0.487          | 0.586                | nan                        | 0.498                | 0.585                   | nan                           | 0.473                   | 28           |
+| lof                       | activations             | 0.864          | 0.999                | 0.999          | 0.863                | 0.999                      | 0.999                | 0.865                   | 0.999                         | 0.999                   | aggregate    |
+| lof concat mean           | probe                   | 0.915          | 0.915                | 0.915          | 0.909                | 0.909                      | 0.909                | 0.922                   | 0.922                         | 0.922                   | aggregate    |
+| lof concat pcs            | probe                   | **0.951**      | 0.951                | 0.951          | **0.949**            | 0.949                      | 0.949                | **0.953**               | 0.953                         | 0.953                   | aggregate    |
+| lof mean                  | attribution             | 0.791          | 0.885                | 0.885          | 0.785                | 0.872                      | 0.872                | 0.796                   | 0.900                         | 0.900                   | aggregate    |
+| lof mean                  | probe                   | 0.888          | 0.960                | 0.960          | 0.877                | 0.942                      | 0.942                | 0.900                   | 0.979                         | 0.979                   | aggregate    |
+| lof pcs                   | attribution             | 0.792          | 0.869                | 0.744          | 0.793                | 0.872                      | 0.743                | 0.791                   | 0.866                         | 0.744                   | 25           |
+| lof pcs                   | probe                   | 0.897          | nan                  | 0.905          | 0.893                | nan                        | 0.895                | 0.900                   | nan                           | 0.916                   | 28           |
+| mahalanobis               | activations             | 0.885          | **1.000**            | **1.000**      | 0.881                | **1.000**                  | **1.000**            | 0.889                   | **1.000**                     | **1.000**               | aggregate    |
+| mahalanobis concat mean   | attribution             | 0.483          | 0.483                | 0.483          | 0.497                | 0.497                      | 0.497                | 0.469                   | 0.469                         | 0.469                   | aggregate    |
+| mahalanobis concat mean   | probe                   | 0.779          | 0.779                | 0.779          | 0.765                | 0.765                      | 0.765                | 0.794                   | 0.794                         | 0.794                   | aggregate    |
+| mahalanobis grad norm     | attribution             | 0.580          | nan                  | 0.552          | 0.572                | nan                        | 0.559                | 0.590                   | nan                           | 0.542                   | 31           |
+| mahalanobis grad norm     | attribution activations | 0.803          | nan                  | 0.676          | 0.797                | nan                        | 0.685                | 0.810                   | nan                           | 0.667                   | 31           |
+| mahalanobis mean          | attribution             | 0.677          | 0.815                | 0.815          | 0.675                | 0.807                      | 0.807                | 0.679                   | 0.823                         | 0.823                   | aggregate    |
+| mahalanobis mean          | attribution activations | 0.700          | 1.000                | 1.000          | 0.699                | **1.000**                  | **1.000**            | 0.703                   | **1.000**                     | **1.000**               | aggregate    |
+| mahalanobis mean          | probe                   | 0.878          | 0.960                | 0.946          | 0.860                | 0.936                      | 0.922                | 0.896                   | 0.987                         | 0.973                   | 28           |
+| mahalanobis mean          | probe activations       | 0.385          | nan                  | 0.493          | 0.395                | nan                        | 0.500                | 0.375                   | nan                           | 0.484                   | 1            |
+| mahalanobis mean ensemble | attribution activations | 0.918          | 0.918                | 0.918          | 0.897                | 0.897                      | 0.897                | 0.941                   | 0.941                         | 0.941                   | aggregate    |
+| mahalanobis mean ensemble | probe activations       | 0.795          | 0.961                | 0.961          | 0.783                | 0.937                      | 0.937                | 0.809                   | 0.988                         | 0.988                   | aggregate    |
+| mahalanobis pcs           | attribution             | 0.684          | 0.607                | 0.587          | 0.681                | 0.612                      | 0.593                | 0.689                   | 0.602                         | 0.583                   | 28           |
+| mahalanobis pcs           | probe                   | 0.683          | nan                  | 0.760          | 0.677                | nan                        | 0.749                | 0.690                   | nan                           | 0.772                   | 28           |
+| pca mahalanobis           | activations             | 0.934          | 0.934                | 0.934          | 0.920                | 0.920                      | 0.920                | 0.949                   | 0.949                         | 0.949                   | aggregate    |
+
+#### Multiplication results: online methods
+
+| score                     | features                | mean_auc_roc   | aggregated_auc_roc   | best_auc_roc   | mean_auc_roc_agree   | aggregated_auc_roc_agree   | best_auc_roc_agree   | mean_auc_roc_disagree   | aggregated_auc_roc_disagree   | best_auc_roc_disagree   | best_layer   |
+|---------------------------|-------------------------|----------------|----------------------|----------------|----------------------|----------------------------|----------------------|-------------------------|-------------------------------|-------------------------|--------------|
+|                           | iterative rephrase      | 0.576          | 0.576                | 0.576          | 0.630                | 0.630                      | 0.630                | 0.529                   | 0.529                         | 0.529                   | aggregate    |
+|                           | misconception contrast  | 0.497          | nan                  | nan            | 0.492                | nan                        | nan                  | 0.500                   | nan                           | nan                     | aggregate    |
+| isoforest                 | activations             | 0.821          | nan                  | 0.976          | 0.814                | nan                        | 0.977                | 0.829                   | nan                           | 0.976                   | 13           |
+| isoforest mean            | attribution             | 0.806          | 0.806                | 0.806          | 0.799                | 0.799                      | 0.799                | 0.850                   | 0.850                         | 0.850                   | aggregate    |
+| isoforest pcs             | attribution             | 0.603          | nan                  | 0.758          | 0.590                | nan                        | 0.749                | 0.644                   | nan                           | 0.810                   | 28           |
+| lof                       | activations             | 0.848          | 0.993                | 0.993          | 0.846                | 0.992                      | 0.992                | 0.849                   | 0.994                         | 0.994                   | aggregate    |
+| lof concat mean           | probe                   | 0.966          | 0.966                | 0.966          | 0.962                | 0.962                      | 0.962                | 0.971                   | 0.971                         | 0.971                   | aggregate    |
+| lof concat pcs            | probe                   | 0.912          | 0.912                | 0.912          | 0.887                | 0.887                      | 0.887                | 0.940                   | 0.940                         | 0.940                   | aggregate    |
+| lof mean                  | attribution             | 0.818          | 0.900                | 0.900          | 0.797                | 0.887                      | 0.887                | 0.850                   | 0.922                         | 0.922                   | aggregate    |
+| lof mean                  | probe                   | 0.876          | 0.932                | 0.932          | 0.859                | 0.923                      | 0.923                | 0.900                   | 0.945                         | 0.945                   | aggregate    |
+| lof pcs                   | attribution             | 0.875          | 0.903                | 0.897          | 0.838                | 0.871                      | 0.856                | 0.916                   | 0.937                         | 0.940                   | 25           |
+| lof pcs                   | probe                   | 0.878          | nan                  | 0.919          | 0.845                | nan                        | 0.911                | 0.917                   | nan                           | 0.931                   | 28           |
+| mahalanobis               | activations             | 0.869          | **1.000**            | **1.000**      | 0.870                | **1.000**                  | **1.000**            | 0.868                   | **1.000**                     | **1.000**               | aggregate    |
+| mahalanobis concat mean   | attribution             | 0.766          | 0.766                | 0.766          | 0.735                | 0.735                      | 0.735                | 0.885                   | 0.885                         | 0.885                   | aggregate    |
+| mahalanobis concat mean   | probe                   | 0.959          | 0.959                | 0.959          | 0.954                | 0.954                      | 0.954                | 0.966                   | 0.966                         | 0.966                   | aggregate    |
+| mahalanobis grad norm     | attribution             | 0.644          | nan                  | 0.727          | 0.616                | nan                        | 0.681                | 0.684                   | nan                           | 0.826                   | 31           |
+| mahalanobis grad norm     | attribution activations | 0.566          | nan                  | 0.861          | 0.531                | nan                        | 0.842                | 0.626                   | nan                           | 0.976                   | 31           |
+| mahalanobis mean          | attribution             | 0.746          | 0.876                | 0.876          | 0.722                | 0.865                      | 0.865                | 0.795                   | 0.919                         | 0.919                   | aggregate    |
+| mahalanobis mean          | attribution activations | 0.756          | **1.000**            | **1.000**      | 0.734                | **1.000**                  | **1.000**            | 0.801                   | **1.000**                     | **1.000**               | aggregate    |
+| mahalanobis mean          | probe                   | 0.777          | 0.877                | 0.930          | 0.761                | 0.873                      | 0.930                | 0.810                   | 0.898                         | 0.937                   | 28           |
+| mahalanobis mean          | probe activations       | 0.286          | nan                  | 0.520          | 0.283                | nan                        | 0.496                | 0.289                   | nan                           | 0.546                   | 1            |
+| mahalanobis mean ensemble | attribution activations | 0.896          | 0.896                | 0.896          | 0.888                | 0.888                      | 0.888                | 0.929                   | 0.929                         | 0.929                   | aggregate    |
+| mahalanobis mean ensemble | probe activations       | 0.764          | 0.897                | 0.897          | 0.750                | 0.895                      | 0.895                | 0.791                   | 0.913                         | 0.913                   | aggregate    |
+| mahalanobis pcs           | attribution             | 0.745          | 0.502                | 0.831          | 0.728                | 0.444                      | 0.820                | 0.807                   | 0.574                         | 0.892                   | 28           |
+| mahalanobis pcs           | probe                   | 0.671          | nan                  | 0.763          | 0.661                | nan                        | 0.795                | 0.713                   | nan                           | 0.759                   | 28           |
+| pca mahalanobis           | activations             | **1.000**      | **1.000**            | **1.000**      | **1.000**            | **1.000**                  | **1.000**            | **1.000**               | **1.000**                     | **1.000**               | aggregate    |
+
+#### NLI results: online methods
+
+| score                     | features                | mean_auc_roc   | aggregated_auc_roc   | best_auc_roc   | mean_auc_roc_agree   | aggregated_auc_roc_agree   | best_auc_roc_agree   | mean_auc_roc_disagree   | aggregated_auc_roc_disagree   | best_auc_roc_disagree   | best_layer   |
+|---------------------------|-------------------------|----------------|----------------------|----------------|----------------------|----------------------------|----------------------|-------------------------|-------------------------------|-------------------------|--------------|
+|                           | iterative rephrase      | 0.532          | 0.532                | 0.532          | 0.382                | 0.382                      | 0.382                | 0.899                   | 0.899                         | 0.899                   | aggregate    |
+|                           | misconception contrast  | 0.526          | 0.562                | 0.562          | 0.538                | 0.595                      | 0.595                | 0.504                   | 0.532                         | 0.532                   | aggregate    |
+| isoforest                 | activations             | 0.504          | nan                  | 0.523          | 0.508                | nan                        | 0.514                | 0.495                   | nan                           | 0.549                   | 13           |
+| isoforest mean            | attribution             | 0.880          | 0.880                | 0.880          | 0.879                | 0.879                      | 0.879                | 0.971                   | 0.971                         | 0.971                   | aggregate    |
+| isoforest pcs             | attribution             | 0.815          | nan                  | 0.784          | 0.806                | nan                        | 0.781                | 0.923                   | nan                           | 0.854                   | 28           |
+| lof                       | activations             | 0.522          | 0.513                | 0.513          | 0.531                | 0.525                      | 0.525                | 0.505                   | 0.494                         | 0.494                   | aggregate    |
+| lof concat mean           | probe                   | 0.880          | 0.880                | 0.880          | 0.870                | 0.870                      | 0.870                | 0.978                   | 0.978                         | 0.978                   | aggregate    |
+| lof concat pcs            | probe                   | 0.901          | 0.901                | 0.901          | 0.904                | 0.904                      | 0.904                | **0.988**               | 0.988                         | 0.988                   | aggregate    |
+| lof mean                  | attribution             | 0.844          | 0.925                | 0.925          | 0.836                | 0.930                      | 0.930                | 0.941                   | 0.989                         | 0.989                   | aggregate    |
+| lof mean                  | probe                   | 0.834          | 0.889                | 0.889          | 0.818                | 0.887                      | 0.887                | 0.946                   | 0.974                         | 0.974                   | aggregate    |
+| lof pcs                   | attribution             | 0.890          | **0.939**            | **0.978**      | 0.893                | **0.947**                  | **0.977**            | 0.966                   | **0.992**                     | **0.990**               | 25           |
+| lof pcs                   | probe                   | 0.876          | nan                  | 0.923          | 0.877                | nan                        | 0.940                | 0.975                   | nan                           | 0.983                   | 28           |
+| mahalanobis               | activations             | 0.546          | 0.568                | 0.568          | 0.548                | 0.565                      | 0.565                | 0.545                   | 0.575                         | 0.575                   | aggregate    |
+| mahalanobis concat mean   | attribution             | 0.880          | 0.880                | 0.880          | 0.888                | 0.888                      | 0.888                | 0.958                   | 0.958                         | 0.958                   | aggregate    |
+| mahalanobis concat mean   | probe                   | 0.871          | 0.871                | 0.871          | 0.847                | 0.847                      | 0.847                | 0.972                   | 0.972                         | 0.972                   | aggregate    |
+| mahalanobis grad norm     | attribution             | 0.819          | nan                  | 0.936          | 0.800                | nan                        | 0.938                | 0.949                   | nan                           | 0.950                   | 31           |
+| mahalanobis grad norm     | attribution activations | 0.793          | nan                  | 0.847          | 0.779                | nan                        | 0.821                | 0.922                   | nan                           | 0.923                   | 31           |
+| mahalanobis mean          | attribution             | 0.828          | 0.908                | 0.908          | 0.821                | 0.916                      | 0.916                | 0.930                   | 0.975                         | 0.975                   | aggregate    |
+| mahalanobis mean          | attribution activations | 0.794          | 0.468                | 0.468          | 0.785                | 0.451                      | 0.451                | 0.892                   | 0.520                         | 0.520                   | aggregate    |
+| mahalanobis mean          | probe                   | 0.838          | 0.893                | 0.888          | 0.818                | 0.882                      | 0.877                | 0.950                   | 0.974                         | 0.953                   | 28           |
+| mahalanobis mean          | probe activations       | 0.487          | nan                  | 0.507          | 0.489                | nan                        | 0.509                | 0.484                   | nan                           | 0.501                   | 1            |
+| mahalanobis mean ensemble | attribution activations | 0.909          | 0.909                | 0.909          | 0.916                | 0.916                      | 0.916                | 0.975                   | 0.975                         | 0.975                   | aggregate    |
+| mahalanobis mean ensemble | probe activations       | 0.809          | 0.893                | 0.893          | 0.790                | 0.883                      | 0.883                | 0.913                   | 0.974                         | 0.974                   | aggregate    |
+| mahalanobis pcs           | attribution             | **0.925**      | 0.930                | 0.931          | **0.928**            | 0.933                      | 0.930                | 0.979                   | 0.985                         | 0.980                   | 28           |
+| mahalanobis pcs           | probe                   | 0.892          | nan                  | 0.909          | 0.890                | nan                        | 0.904                | 0.972                   | nan                           | 0.970                   | 28           |
+| pca mahalanobis           | activations             | 0.673          | 0.673                | 0.673          | 0.652                | 0.652                      | 0.652                | 0.737                   | 0.737                         | 0.737                   | aggregate    |
+
+#### Population results: online methods
+
+| score                     | features                | mean_auc_roc   | aggregated_auc_roc   | best_auc_roc   | mean_auc_roc_agree   | aggregated_auc_roc_agree   | best_auc_roc_agree   | mean_auc_roc_disagree   | aggregated_auc_roc_disagree   | best_auc_roc_disagree   | best_layer   |
+|---------------------------|-------------------------|----------------|----------------------|----------------|----------------------|----------------------------|----------------------|-------------------------|-------------------------------|-------------------------|--------------|
+|                           | iterative rephrase      | 0.681          | 0.681                | 0.681          | 0.784                | 0.784                      | 0.784                | 0.513                   | 0.513                         | 0.513                   | aggregate    |
+|                           | misconception contrast  | 0.751          | 0.912                | 0.912          | 0.738                | 0.899                      | 0.899                | 0.793                   | 0.949                         | 0.949                   | aggregate    |
+| isoforest                 | activations             | 0.697          | nan                  | 0.971          | 0.702                | nan                        | 0.957                | 0.690                   | nan                           | 0.990                   | 13           |
+| isoforest mean            | attribution             | 0.912          | 0.912                | 0.912          | 0.877                | 0.877                      | 0.877                | 0.964                   | 0.964                         | 0.964                   | aggregate    |
+| isoforest pcs             | attribution             | 0.670          | nan                  | 0.614          | 0.636                | nan                        | 0.535                | 0.725                   | nan                           | 0.752                   | 28           |
+| lof                       | activations             | 0.864          | 0.987                | 0.987          | 0.845                | 0.980                      | 0.980                | 0.889                   | 0.997                         | 0.997                   | aggregate    |
+| lof concat mean           | probe                   | 0.879          | 0.879                | 0.879          | 0.835                | 0.835                      | 0.835                | 0.940                   | 0.940                         | 0.940                   | aggregate    |
+| lof concat pcs            | probe                   | 0.769          | 0.769                | 0.769          | 0.681                | 0.681                      | 0.681                | 0.881                   | 0.881                         | 0.881                   | aggregate    |
+| lof mean                  | attribution             | 0.776          | 0.909                | 0.909          | 0.724                | 0.859                      | 0.859                | 0.856                   | 0.970                         | 0.970                   | aggregate    |
+| lof mean                  | probe                   | 0.885          | 0.930                | 0.930          | 0.841                | 0.895                      | 0.895                | 0.944                   | 0.974                         | 0.974                   | aggregate    |
+| lof pcs                   | attribution             | 0.737          | 0.797                | 0.853          | 0.681                | 0.728                      | 0.823                | 0.826                   | 0.891                         | 0.903                   | 25           |
+| mahalanobis               | activations             | 0.635          | **1.000**            | **1.000**      | 0.637                | **1.000**                  | **1.000**            | 0.630                   | **1.000**                     | **1.000**               | aggregate    |
+| mahalanobis concat mean   | attribution             | 0.878          | 0.878                | 0.878          | 0.831                | 0.831                      | 0.831                | 0.941                   | 0.941                         | 0.941                   | aggregate    |
+| mahalanobis concat mean   | probe                   | 0.923          | 0.923                | 0.923          | 0.888                | 0.888                      | 0.888                | 0.968                   | 0.968                         | 0.968                   | aggregate    |
+| mahalanobis grad norm     | attribution             | 0.727          | nan                  | 0.789          | 0.669                | nan                        | 0.727                | 0.818                   | nan                           | 0.877                   | 31           |
+| mahalanobis grad norm     | attribution activations | 0.710          | nan                  | 0.957          | 0.656                | nan                        | 0.948                | 0.790                   | nan                           | 0.970                   | 31           |
+| mahalanobis mean          | attribution             | 0.786          | 0.927                | 0.927          | 0.741                | 0.892                      | 0.892                | 0.857                   | 0.971                         | 0.971                   | aggregate    |
+| mahalanobis mean          | attribution activations | 0.794          | 1.000                | 1.000          | 0.751                | **1.000**                  | **1.000**            | 0.862                   | **1.000**                     | **1.000**               | aggregate    |
+| mahalanobis mean          | probe                   | 0.932          | 0.948                | 0.942          | 0.901                | 0.921                      | 0.916                | 0.971                   | 0.983                         | 0.978                   | 28           |
+| mahalanobis mean          | probe activations       | 0.561          | nan                  | 0.530          | 0.527                | nan                        | 0.521                | 0.615                   | nan                           | 0.546                   | 1            |
+| mahalanobis mean ensemble | attribution activations | 0.939          | 0.939                | 0.939          | 0.906                | 0.906                      | 0.906                | 0.979                   | 0.979                         | 0.979                   | aggregate    |
+| mahalanobis mean ensemble | probe activations       | 0.877          | 0.953                | 0.953          | 0.845                | 0.927                      | 0.927                | 0.919                   | 0.986                         | 0.986                   | aggregate    |
+| mahalanobis pcs           | attribution             | 0.824          | 0.839                | 0.864          | 0.782                | 0.789                      | 0.833                | 0.896                   | 0.917                         | 0.908                   | 28           |
+| mahalanobis pcs           | probe                   | 0.793          | nan                  | 0.795          | 0.715                | nan                        | 0.719                | 0.899                   | nan                           | 0.900                   | 28           |
+| pca mahalanobis           | activations             | **0.978**      | 0.978                | 0.978          | **0.970**            | 0.970                      | 0.970                | **0.989**               | 0.989                         | 0.989                   | aggregate    |
+
+### Sciq results: online methods
+
+| score                     | features                | mean_auc_roc   | aggregated_auc_roc   | best_auc_roc   | mean_auc_roc_agree   | aggregated_auc_roc_agree   | best_auc_roc_agree   | mean_auc_roc_disagree   | aggregated_auc_roc_disagree   | best_auc_roc_disagree   | best_layer   |
+|---------------------------|-------------------------|----------------|----------------------|----------------|----------------------|----------------------------|----------------------|-------------------------|-------------------------------|-------------------------|--------------|
+|                           | iterative rephrase      | 0.405          | 0.405                | 0.405          | 0.300                | 0.300                      | 0.300                | 0.199                   | 0.199                         | 0.199                   | aggregate    |
+|                           | misconception contrast  | 0.571          | 0.605                | 0.605          | 0.510                | 0.492                      | 0.492                | **0.576**               | 0.543                         | 0.543                   | aggregate    |
+| isoforest                 | activations             | 0.437          | nan                  | 0.487          | 0.502                | nan                        | 0.526                | 0.441                   | nan                           | 0.504                   | 13           |
+| isoforest mean            | attribution             | 0.469          | 0.469                | 0.469          | 0.410                | 0.410                      | 0.410                | 0.348                   | 0.348                         | 0.348                   | aggregate    |
+| isoforest pcs             | attribution             | 0.506          | nan                  | 0.622          | 0.497                | nan                        | 0.532                | 0.413                   | nan                           | 0.446                   | 28           |
+| lof                       | activations             | 0.547          | 0.619                | 0.619          | 0.514                | 0.520                      | 0.520                | 0.398                   | 0.296                         | 0.296                   | aggregate    |
+| lof concat mean           | probe                   | 0.444          | 0.444                | 0.444          | 0.551                | 0.551                      | 0.551                | 0.123                   | 0.123                         | 0.123                   | aggregate    |
+| lof concat pcs            | probe                   | 0.441          | 0.441                | 0.441          | 0.587                | 0.587                      | 0.587                | 0.079                   | 0.079                         | 0.079                   | aggregate    |
+| lof mean                  | attribution             | 0.575          | 0.642                | 0.642          | 0.520                | 0.552                      | 0.552                | 0.500                   | 0.381                         | 0.381                   | aggregate    |
+| lof mean                  | probe                   | 0.474          | 0.493                | 0.493          | 0.509                | 0.511                      | 0.511                | 0.281                   | 0.340                         | 0.340                   | aggregate    |
+| lof pcs                   | attribution             | **0.664**      | **0.733**            | **0.702**      | **0.590**            | **0.681**                  | **0.645**            | 0.462                   | 0.374                         | 0.437                   | 25           |
+| lof pcs                   | probe                   | 0.506          | nan                  | 0.468          | 0.526                | nan                        | 0.504                | 0.263                   | nan                           | 0.240                   | 28           |
+| mahalanobis               | activations             | 0.477          | 0.595                | 0.595          | 0.514                | 0.519                      | 0.519                | 0.424                   | 0.419                         | 0.419                   | aggregate    |
+| mahalanobis concat mean   | attribution             | 0.548          | 0.548                | 0.548          | 0.431                | 0.431                      | 0.431                | 0.346                   | 0.346                         | 0.346                   | aggregate    |
+| mahalanobis concat mean   | probe                   | 0.476          | 0.476                | 0.476          | 0.504                | 0.504                      | 0.504                | 0.295                   | 0.295                         | 0.295                   | aggregate    |
+| mahalanobis grad norm     | attribution             | 0.446          | nan                  | 0.368          | 0.442                | nan                        | 0.488                | 0.292                   | nan                           | 0.265                   | 31           |
+| mahalanobis grad norm     | attribution activations | 0.528          | nan                  | 0.698          | 0.508                | nan                        | 0.615                | 0.379                   | nan                           | **0.931**               | 31           |
+| mahalanobis mean          | attribution             | 0.513          | 0.548                | 0.548          | 0.469                | 0.427                      | 0.427                | 0.407                   | 0.348                         | 0.348                   | aggregate    |
+| mahalanobis mean          | attribution activations | 0.518          | 0.599                | 0.599          | 0.477                | 0.490                      | 0.490                | 0.438                   | **0.757**                     | 0.757                   | aggregate    |
+| mahalanobis mean          | probe                   | 0.494          | 0.494                | 0.548          | 0.490                | 0.494                      | 0.458                | 0.381                   | 0.333                         | 0.447                   | 28           |
+| mahalanobis mean          | probe activations       | 0.454          | nan                  | 0.456          | 0.486                | nan                        | 0.504                | 0.256                   | nan                           | 0.144                   | 1            |
+| mahalanobis mean ensemble | attribution activations | 0.549          | 0.549                | 0.549          | 0.427                | 0.427                      | 0.427                | 0.348                   | 0.348                         | 0.348                   | aggregate    |
+| mahalanobis mean ensemble | probe activations       | 0.478          | 0.490                | 0.490          | 0.492                | 0.492                      | 0.492                | 0.372                   | 0.331                         | 0.331                   | aggregate    |
+| mahalanobis pcs           | attribution             | 0.624          | 0.589                | 0.698          | 0.531                | 0.496                      | 0.630                | 0.371                   | 0.343                         | 0.435                   | 28           |
+| mahalanobis pcs           | probe                   | 0.561          | nan                  | 0.557          | 0.505                | nan                        | 0.464                | 0.483                   | nan                           | 0.433                   | 28           |
+| pca mahalanobis           | activations             | 0.367          | 0.367                | 0.367          | 0.496                | 0.496                      | 0.496                | 0.195                   | 0.195                         | 0.195                   | aggregate    |
+
+### Sentiment results: online methods
+| score                     | features                | mean_auc_roc   | aggregated_auc_roc   | best_auc_roc   | mean_auc_roc_agree   | aggregated_auc_roc_agree   | best_auc_roc_agree   | mean_auc_roc_disagree   | aggregated_auc_roc_disagree   | best_auc_roc_disagree   | best_layer   |
+|---------------------------|-------------------------|----------------|----------------------|----------------|----------------------|----------------------------|----------------------|-------------------------|-------------------------------|-------------------------|--------------|
+|                           | iterative rephrase      | 0.298          | 0.298                | 0.298          | 0.299                | 0.299                      | 0.299                | 0.246                   | 0.246                         | 0.246                   | aggregate    |
+|                           | misconception contrast  | 0.526          | 0.523                | 0.523          | 0.531                | 0.532                      | 0.532                | 0.532                   | 0.506                         | 0.506                   | aggregate    |
+| isoforest                 | activations             | 0.521          | nan                  | 0.496          | 0.522                | nan                        | 0.505                | 0.526                   | nan                           | 0.484                   | 13           |
+| isoforest mean            | attribution             | 0.377          | 0.377                | 0.377          | 0.508                | 0.508                      | 0.508                | 0.238                   | 0.238                         | 0.238                   | aggregate    |
+| isoforest pcs             | attribution             | 0.411          | nan                  | 0.438          | 0.483                | nan                        | 0.543                | 0.296                   | nan                           | 0.205                   | 28           |
+| lof                       | activations             | 0.619          | 0.658                | 0.658          | 0.659                | 0.725                      | 0.725                | 0.581                   | 0.614                         | 0.614                   | aggregate    |
+| lof concat mean           | probe                   | 0.426          | 0.426                | 0.426          | 0.566                | 0.566                      | 0.566                | 0.266                   | 0.266                         | 0.266                   | aggregate    |
+| lof concat pcs            | probe                   | 0.412          | 0.412                | 0.412          | 0.518                | 0.518                      | 0.518                | 0.294                   | 0.294                         | 0.294                   | aggregate    |
+| lof mean                  | attribution             | 0.448          | 0.434                | 0.434          | 0.535                | 0.534                      | 0.534                | 0.351                   | 0.318                         | 0.318                   | aggregate    |
+| lof mean                  | probe                   | 0.419          | 0.409                | 0.409          | 0.506                | 0.495                      | 0.495                | 0.301                   | 0.287                         | 0.287                   | aggregate    |
+| lof pcs                   | attribution             | 0.531          | 0.552                | **0.817**      | 0.603                | 0.636                      | 0.755                | 0.455                   | 0.446                         | **0.936**               | 25           |
+| lof pcs                   | probe                   | 0.420          | nan                  | 0.464          | 0.518                | nan                        | 0.535                | 0.309                   | nan                           | 0.378                   | 28           |
+| mahalanobis               | activations             | 0.607          | 0.687                | 0.687          | 0.633                | 0.721                      | 0.721                | 0.604                   | 0.721                         | 0.721                   | aggregate    |
+| mahalanobis concat mean   | attribution             | 0.424          | 0.424                | 0.424          | 0.573                | 0.573                      | 0.573                | 0.243                   | 0.243                         | 0.243                   | aggregate    |
+| mahalanobis concat mean   | probe                   | 0.450          | 0.450                | 0.450          | 0.590                | 0.590                      | 0.590                | 0.292                   | 0.292                         | 0.292                   | aggregate    |
+| mahalanobis grad norm     | attribution             | 0.491          | nan                  | 0.539          | 0.488                | nan                        | 0.577                | 0.488                   | nan                           | 0.499                   | 31           |
+| mahalanobis grad norm     | attribution activations | 0.406          | nan                  | 0.713          | 0.479                | nan                        | **0.859**            | 0.305                   | nan                           | 0.768                   | 31           |
+| mahalanobis mean          | attribution             | 0.424          | 0.404                | 0.404          | 0.518                | 0.549                      | 0.549                | 0.288                   | 0.240                         | 0.240                   | aggregate    |
+| mahalanobis mean          | attribution activations | 0.439          | 0.586                | 0.586          | 0.533                | 0.736                      | 0.736                | 0.313                   | 0.545                         | 0.545                   | aggregate    |
+| mahalanobis mean          | probe                   | 0.404          | 0.397                | 0.442          | 0.477                | 0.478                      | 0.520                | 0.301                   | 0.283                         | 0.339                   | 28           |
+| mahalanobis mean          | probe activations       | 0.460          | nan                  | 0.512          | 0.457                | nan                        | 0.512                | 0.465                   | nan                           | 0.515                   | 1            |
+| mahalanobis mean ensemble | attribution activations | 0.435          | 0.435                | 0.435          | 0.574                | 0.574                      | 0.574                | 0.264                   | 0.264                         | 0.264                   | aggregate    |
+| mahalanobis mean ensemble | probe activations       | 0.414          | 0.426                | 0.426          | 0.482                | 0.507                      | 0.507                | 0.317                   | 0.319                         | 0.319                   | aggregate    |
+| mahalanobis pcs           | attribution             | 0.386          | 0.372                | 0.528          | 0.449                | 0.442                      | 0.513                | 0.272                   | 0.246                         | 0.562                   | 28           |
+| mahalanobis pcs           | probe                   | 0.372          | nan                  | 0.388          | 0.424                | nan                        | 0.434                | 0.280                   | nan                           | 0.308                   | 28           |
+| pca mahalanobis           | activations             | **0.760**      | **0.760**            | 0.760          | **0.738**            | **0.738**                  | 0.738                | **0.827**               | **0.827**                     | 0.827                   | aggregate    |
+
+### Squaring results: online methods
+| score                     | features                | mean_auc_roc   | aggregated_auc_roc   | best_auc_roc   | mean_auc_roc_agree   | aggregated_auc_roc_agree   | best_auc_roc_agree   | mean_auc_roc_disagree   | aggregated_auc_roc_disagree   | best_auc_roc_disagree   | best_layer   |
+|---------------------------|-------------------------|----------------|----------------------|----------------|----------------------|----------------------------|----------------------|-------------------------|-------------------------------|-------------------------|--------------|
+| isoforest pcs             | attribution             | 0.691          | nan                  | 0.735          | 0.620                | nan                        | 0.662                | 0.777                   | nan                           | 0.829                   | 28           |
+| lof concat mean           | probe                   | 0.990          | 0.990                | 0.990          | **0.986**            | **0.986**                  | 0.986                | **0.997**               | **0.997**                     | 0.997                   | aggregate    |
+| lof concat pcs            | probe                   | 0.969          | 0.969                | 0.969          | 0.954                | 0.954                      | 0.954                | 0.986                   | 0.986                         | 0.986                   | aggregate    |
+| lof mean                  | attribution             | 0.931          | 0.966                | 0.966          | 0.905                | 0.947                      | 0.947                | 0.966                   | 0.990                         | 0.990                   | aggregate    |
+| lof mean                  | probe                   | 0.953          | 0.976                | 0.976          | 0.937                | 0.967                      | 0.967                | 0.975                   | 0.988                         | 0.988                   | aggregate    |
+| lof pcs                   | attribution             | 0.956          | 0.969                | 0.951          | 0.933                | 0.950                      | 0.922                | 0.981                   | 0.991                         | 0.980                   | 25           |
+| lof pcs                   | probe                   | 0.953          | nan                  | 0.953          | 0.928                | nan                        | 0.943                | 0.981                   | nan                           | 0.964                   | 28           |
+| mahalanobis concat mean   | attribution             | 0.935          | 0.935                | 0.935          | 0.901                | 0.901                      | 0.901                | 0.987                   | 0.987                         | 0.987                   | aggregate    |
+| mahalanobis concat mean   | probe                   | **0.990**      | **0.990**            | 0.990          | 0.985                | 0.985                      | 0.985                | 0.996                   | 0.996                         | 0.996                   | aggregate    |
+| mahalanobis grad norm     | attribution             | 0.680          | nan                  | 0.842          | 0.590                | nan                        | 0.742                | 0.786                   | nan                           | 0.996                   | 31           |
+| mahalanobis mean          | attribution             | 0.891          | 0.942                | 0.942          | 0.851                | 0.915                      | 0.915                | 0.946                   | 0.984                         | 0.984                   | aggregate    |
+| mahalanobis mean          | probe                   | 0.905          | 0.965                | **0.994**      | 0.874                | 0.951                      | **0.990**            | 0.949                   | 0.984                         | **0.998**               | 28           |
+| mahalanobis mean          | probe activations       | 0.369          | nan                  | 0.478          | 0.357                | nan                        | 0.470                | 0.381                   | nan                           | 0.487                   | 1            |
+| mahalanobis mean ensemble | attribution activations | 0.961          | 0.961                | 0.961          | 0.945                | 0.945                      | 0.945                | 0.986                   | 0.986                         | 0.986                   | aggregate    |
+| mahalanobis mean ensemble | probe activations       | 0.876          | 0.972                | 0.972          | 0.848                | 0.961                      | 0.961                | 0.915                   | 0.986                         | 0.986                   | aggregate    |
+| mahalanobis pcs           | attribution             | 0.799          | 0.673                | 0.815          | 0.728                | 0.571                      | 0.741                | 0.900                   | 0.784                         | 0.922                   | 28           |
+| mahalanobis pcs           | probe                   | 0.699          | nan                  | 0.779          | 0.616                | nan                        | 0.731                | 0.797                   | nan                           | 0.845                   | 28           |
+
+
+### Subtraction results: online methods
+| score                     | features                | mean_auc_roc   | aggregated_auc_roc   | best_auc_roc   | mean_auc_roc_agree   | aggregated_auc_roc_agree   | best_auc_roc_agree   | mean_auc_roc_disagree   | aggregated_auc_roc_disagree   | best_auc_roc_disagree   | best_layer   |
+|---------------------------|-------------------------|----------------|----------------------|----------------|----------------------|----------------------------|----------------------|-------------------------|-------------------------------|-------------------------|--------------|
+|                           | iterative rephrase      | 0.496          | 0.496                | 0.496          | 0.477                | 0.477                      | 0.477                | 0.512                   | 0.512                         | 0.512                   | aggregate    |
+|                           | misconception contrast  | 0.411          | nan                  | nan            | 0.392                | nan                        | nan                  | 0.412                   | nan                           | nan                     | aggregate    |
+| isoforest                 | activations             | 0.872          | nan                  | **1.000**      | 0.871                | nan                        | **1.000**            | 0.873                   | nan                           | **1.000**               | 13           |
+| isoforest mean            | attribution             | 0.896          | 0.896                | 0.896          | 0.949                | 0.949                      | 0.949                | 0.978                   | 0.978                         | 0.978                   | aggregate    |
+| isoforest pcs             | attribution             | 0.626          | nan                  | 0.908          | 0.656                | nan                        | 0.939                | 0.682                   | nan                           | 0.949                   | 28           |
+| lof                       | activations             | 0.889          | 0.999                | 0.999          | 0.888                | 0.999                      | 0.999                | 0.891                   | 1.000                         | 1.000                   | aggregate    |
+| lof concat mean           | probe                   | 0.996          | 0.996                | 0.996          | 0.993                | 0.993                      | 0.993                | 1.000                   | 1.000                         | 1.000                   | aggregate    |
+| lof concat pcs            | probe                   | 1.000          | 1.000                | 1.000          | 1.000                | 1.000                      | 1.000                | **1.000**               | **1.000**                     | **1.000**               | aggregate    |
+| lof mean                  | attribution             | 0.893          | 0.975                | 0.975          | 0.893                | 0.981                      | 0.981                | 0.936                   | 0.998                         | 0.998                   | aggregate    |
+| lof mean                  | probe                   | 0.928          | 0.998                | 0.998          | 0.924                | 0.995                      | 0.995                | 0.954                   | 1.000                         | 1.000                   | aggregate    |
+| lof pcs                   | attribution             | 0.880          | 0.937                | 0.852          | 0.909                | 0.962                      | 0.895                | 0.955                   | 0.991                         | 0.958                   | 25           |
+| lof pcs                   | probe                   | 0.893          | nan                  | 0.973          | 0.940                | nan                        | 0.978                | 0.922                   | nan                           | 0.980                   | 28           |
+| mahalanobis               | activations             | 0.908          | **1.000**            | **1.000**      | 0.906                | **1.000**                  | **1.000**            | 0.909                   | **1.000**                     | **1.000**               | aggregate    |
+| mahalanobis concat mean   | attribution             | 0.934          | 0.934                | 0.934          | 0.959                | 0.959                      | 0.959                | 0.998                   | 0.998                         | 0.998                   | aggregate    |
+| mahalanobis concat mean   | probe                   | **1.000**      | **1.000**            | **1.000**      | **1.000**            | **1.000**                  | **1.000**            | **1.000**               | **1.000**                     | **1.000**               | aggregate    |
+| mahalanobis grad norm     | attribution             | 0.543          | nan                  | 0.947          | 0.515                | nan                        | 0.964                | 0.602                   | nan                           | 0.992                   | 31           |
+| mahalanobis grad norm     | attribution activations | 0.663          | nan                  | 1.000          | 0.688                | nan                        | 0.999                | 0.670                   | nan                           | **1.000**               | 31           |
+| mahalanobis mean          | attribution             | 0.821          | 0.969                | 0.969          | 0.807                | 0.976                      | 0.976                | 0.872                   | 0.997                         | 0.997                   | aggregate    |
+| mahalanobis mean          | attribution activations | 0.822          | **1.000**            | **1.000**      | 0.807                | **1.000**                  | **1.000**            | 0.872                   | **1.000**                     | **1.000**               | aggregate    |
+| mahalanobis mean          | probe                   | 0.886          | 0.998                | 0.993          | 0.866                | 0.996                      | 0.992                | 0.903                   | 0.999                         | 0.998                   | 28           |
+| mahalanobis mean          | probe activations       | 0.298          | nan                  | 0.495          | 0.295                | nan                        | 0.493                | 0.300                   | nan                           | 0.496                   | 1            |
+| mahalanobis mean ensemble | attribution activations | 0.976          | 0.976                | 0.976          | 0.978                | 0.978                      | 0.978                | 0.997                   | 0.997                         | 0.997                   | aggregate    |
+| mahalanobis mean ensemble | probe activations       | 0.855          | 0.998                | 0.998          | 0.835                | 0.996                      | 0.996                | 0.871                   | 1.000                         | 1.000                   | aggregate    |
+| mahalanobis pcs           | attribution             | 0.824          | 0.505                | 0.991          | 0.864                | 0.395                      | 0.991                | 0.923                   | 0.622                         | 0.997                   | 28           |
+| mahalanobis pcs           | probe                   | 0.830          | nan                  | 0.933          | 0.872                | nan                        | 0.963                | 0.880                   | nan                           | 0.949                   | 28           |
+| pca mahalanobis           | activations             | 1.000          | 1.000                | 1.000          | 1.000                | 1.000                      | 1.000                | **1.000**               | **1.000**                     | **1.000**               | aggregate    |
+
+### Offline results
+
+#### Addition: offline results
+| score           | features    | mean_auc_roc   | aggregated_auc_roc   | best_auc_roc   | mean_auc_roc_agree   | aggregated_auc_roc_agree   | best_auc_roc_agree   | mean_auc_roc_disagree   | aggregated_auc_roc_disagree   | best_auc_roc_disagree   | best_layer   |
+|-----------------|-------------|----------------|----------------------|----------------|----------------------|----------------------------|----------------------|-------------------------|-------------------------------|-------------------------|--------------|
+| em              | activations | 0.874          | nan                  | 1.000          | 0.878                | nan                        | 1.000                | 0.870                   | nan                           | **1.000**               | 19           |
+| likelihood      | activations | 0.879          | nan                  | 1.000          | 0.882                | nan                        | 1.000                | 0.875                   | nan                           | **1.000**               | 19           |
+| que             | activations | 0.919          | **1.000**            | **1.000**      | 0.918                | **1.000**                  | **1.000**            | 0.919                   | **1.000**                     | **1.000**               | aggregate    |
+| que concat mean | attribution | 0.850          | 0.850                | 0.850          | 0.862                | 0.862                      | 0.862                | 0.974                   | 0.974                         | 0.974                   | aggregate    |
+| que concat mean | probe       | **1.000**      | 1.000                | 1.000          | **1.000**            | **1.000**                  | **1.000**            | **1.000**               | **1.000**                     | **1.000**               | aggregate    |
+| que grad norm   | attribution | 0.573          | 0.874                | 0.973          | 0.452                | 0.984                      | 0.987                | 0.694                   | 0.866                         | 0.974                   | 31           |
+| que mean        | attribution | 0.856          | nan                  | 0.937          | 0.883                | nan                        | 0.953                | 0.907                   | nan                           | 0.953                   | 25           |
+| que mean        | probe       | 0.951          | **1.000**            | **1.000**      | 0.954                | **1.000**                  | **1.000**            | 0.960                   | **1.000**                     | **1.000**               | 28           |
+| que pcs         | attribution | 0.873          | 0.949                | 0.943          | 0.904                | 0.998                      | 0.970                | 0.938                   | 0.988                         | 0.988                   | 25           |
+| que pcs         | probe       | 0.905          | **1.000**            | **1.000**      | 0.903                | **1.000**                  | **1.000**            | 0.938                   | **1.000**                     | **1.000**               | 28           |
+
+#### Hemisphere: offline results
+| score           | features    | mean_auc_roc   | aggregated_auc_roc   | best_auc_roc   | mean_auc_roc_agree   | aggregated_auc_roc_agree   | best_auc_roc_agree   | mean_auc_roc_disagree   | aggregated_auc_roc_disagree   | best_auc_roc_disagree   | best_layer   |
+|-----------------|-------------|----------------|----------------------|----------------|----------------------|----------------------------|----------------------|-------------------------|-------------------------------|-------------------------|--------------|
+| em              | activations | 0.838          | nan                  | 0.980          | 0.841                | nan                        | 0.983                | 0.837                   | nan                           | 0.976                   | 19           |
+| likelihood      | activations | 0.838          | nan                  | 0.980          | 0.841                | nan                        | 0.983                | 0.838                   | nan                           | 0.976                   | 19           |
+| que             | activations | 0.892          | **1.000**            | **1.000**      | 0.885                | **1.000**                  | **1.000**            | 0.911                   | **1.000**                     | **1.000**               | aggregate    |
+| que concat mean | attribution | 0.912          | 0.912                | 0.912          | 0.911                | 0.911                      | 0.911                | 0.991                   | 0.991                         | 0.991                   | aggregate    |
+| que concat mean | probe       | **0.989**      | 0.989                | 0.989          | **0.986**            | 0.986                      | 0.986                | **0.996**               | 0.996                         | 0.996                   | aggregate    |
+| que grad norm   | attribution | 0.710          | 0.817                | 0.862          | 0.643                | 0.805                      | 0.811                | 0.833                   | 0.909                         | 0.927                   | 31           |
+| que mean        | attribution | 0.634          | nan                  | 0.769          | 0.628                | nan                        | 0.782                | 0.643                   | nan                           | 0.752                   | 25           |
+| que mean        | probe       | 0.941          | 0.989                | 0.958          | 0.919                | 0.985                      | 0.932                | 0.979                   | 0.998                         | 0.988                   | 28           |
+| que pcs         | attribution | 0.893          | 0.943                | 0.894          | 0.885                | 0.951                      | 0.898                | 0.958                   | 0.988                         | 0.959                   | 25           |
+| que pcs         | probe       | 0.930          | 0.978                | 0.950          | 0.906                | 0.974                      | 0.923                | 0.978                   | 0.992                         | 0.987                   | 28           |
+
+#### Modular addition: offline results
+| score           | features    | mean_auc_roc   | aggregated_auc_roc   | best_auc_roc   | mean_auc_roc_agree   | aggregated_auc_roc_agree   | best_auc_roc_agree   | mean_auc_roc_disagree   | aggregated_auc_roc_disagree   | best_auc_roc_disagree   | best_layer   |
+|-----------------|-------------|----------------|----------------------|----------------|----------------------|----------------------------|----------------------|-------------------------|-------------------------------|-------------------------|--------------|
+| likelihood      | activations | 0.887          | nan                  | 1.000          | 0.884                | nan                        | 1.000                | 0.891                   | nan                           | 1.000                   | 19           |
+| que             | activations | **0.915**      | **1.000**            | **1.000**      | **0.912**            | **1.000**                  | **1.000**            | **0.918**               | **1.000**                     | **1.000**               | aggregate    |
+| que concat mean | attribution | 0.464          | 0.464                | 0.464          | 0.480                | 0.480                      | 0.480                | 0.448                   | 0.448                         | 0.448                   | aggregate    |
+| que concat mean | probe       | 0.815          | 0.815                | 0.815          | 0.797                | 0.797                      | 0.797                | 0.834                   | 0.834                         | 0.834                   | aggregate    |
+| que grad norm   | attribution | 0.520          | 0.501                | 0.483          | 0.528                | 0.508                      | 0.486                | 0.513                   | 0.496                         | 0.480                   | 31           |
+| que mean        | attribution | 0.638          | nan                  | 0.616          | 0.640                | nan                        | 0.623                | 0.637                   | nan                           | 0.610                   | 25           |
+| que mean        | probe       | 0.837          | 0.996                | 0.927          | 0.826                | 0.993                      | 0.905                | 0.849                   | **1.000**                     | 0.951                   | 28           |
+| que pcs         | attribution | 0.616          | 0.639                | 0.644          | 0.622                | 0.643                      | 0.645                | 0.611                   | 0.635                         | 0.644                   | 25           |
+| que pcs         | probe       | 0.793          | 0.975                | 0.911          | 0.788                | 0.954                      | 0.891                | 0.798                   | 0.997                         | 0.934                   | 28           |
+
+#### Multiplication: offline results
+| score           | features    | mean_auc_roc   | aggregated_auc_roc   | best_auc_roc   | mean_auc_roc_agree   | aggregated_auc_roc_agree   | best_auc_roc_agree   | mean_auc_roc_disagree   | aggregated_auc_roc_disagree   | best_auc_roc_disagree   | best_layer   |
+|-----------------|-------------|----------------|----------------------|----------------|----------------------|----------------------------|----------------------|-------------------------|-------------------------------|-------------------------|--------------|
+| likelihood      | activations | 0.861          | nan                  | **1.000**      | 0.861                | nan                        | **1.000**            | 0.860                   | nan                           | **1.000**               | 19           |
+| que             | activations | 0.883          | **1.000**            | **1.000**      | 0.885                | **1.000**                  | **1.000**            | 0.882                   | **1.000**                     | **1.000**               | aggregate    |
+| que concat mean | attribution | 0.850          | 0.850                | 0.850          | 0.805                | 0.805                      | 0.805                | 0.961                   | 0.961                         | 0.961                   | aggregate    |
+| que concat mean | probe       | **0.991**      | 0.991                | 0.991          | **0.992**            | 0.992                      | 0.992                | **0.990**               | 0.990                         | 0.990                   | aggregate    |
+| que grad norm   | attribution | 0.713          | 0.826                | 0.823          | 0.678                | 0.816                      | 0.790                | 0.754                   | 0.875                         | 0.899                   | 31           |
+| que mean        | attribution | 0.776          | nan                  | 0.816          | 0.747                | nan                        | 0.774                | 0.825                   | nan                           | 0.896                   | 25           |
+| que mean        | probe       | 0.844          | 0.963                | 0.981          | 0.829                | 0.960                      | 0.983                | 0.870                   | 0.970                         | 0.981                   | 28           |
+| que pcs         | attribution | 0.859          | 0.894                | 0.912          | 0.838                | 0.873                      | 0.887                | 0.912                   | 0.952                         | 0.970                   | 25           |
+| que pcs         | probe       | 0.909          | 0.969                | 0.996          | 0.900                | 0.967                      | 0.996                | 0.932                   | 0.973                         | 0.996                   | 28           |
+
+#### NLI: offline results
+| score           | features    | mean_auc_roc   | aggregated_auc_roc   | best_auc_roc   | mean_auc_roc_agree   | aggregated_auc_roc_agree   | best_auc_roc_agree   | mean_auc_roc_disagree   | aggregated_auc_roc_disagree   | best_auc_roc_disagree   | best_layer   |
+|-----------------|-------------|----------------|----------------------|----------------|----------------------|----------------------------|----------------------|-------------------------|-------------------------------|-------------------------|--------------|
+| em              | activations | 0.534          | nan                  | 0.500          | 0.548                | nan                        | 0.507                | 0.511                   | nan                           | 0.488                   | 19           |
+| likelihood      | activations | 0.534          | nan                  | 0.501          | 0.548                | nan                        | 0.508                | 0.511                   | nan                           | 0.488                   | 19           |
+| que             | activations | 0.630          | 0.814                | 0.814          | 0.637                | 0.818                      | 0.818                | 0.611                   | 0.805                         | 0.805                   | aggregate    |
+| que concat mean | attribution | 0.905          | 0.905                | 0.905          | 0.906                | 0.906                      | 0.906                | 0.968                   | 0.968                         | 0.968                   | aggregate    |
+| que concat mean | probe       | 0.916          | 0.916                | 0.916          | 0.894                | 0.894                      | 0.894                | 0.970                   | 0.970                         | 0.970                   | aggregate    |
+| que grad norm   | attribution | 0.727          | 0.889                | 0.918          | 0.657                | 0.867                      | 0.886                | 0.932                   | 0.985                         | **0.999**               | 31           |
+| que mean        | attribution | 0.822          | nan                  | 0.954          | 0.805                | nan                        | 0.949                | 0.928                   | nan                           | 0.978                   | 25           |
+| que mean        | probe       | 0.848          | 0.920                | 0.917          | 0.823                | 0.900                      | 0.904                | 0.944                   | 0.982                         | 0.958                   | 28           |
+| que pcs         | attribution | 0.926          | 0.960                | **0.988**      | 0.924                | 0.955                      | **0.986**            | 0.969                   | **0.993**                     | 0.994                   | 25           |
+| que pcs         | probe       | **0.938**      | **0.961**            | 0.959          | **0.933**            | **0.956**                  | 0.951                | **0.984**               | 0.990                         | 0.984                   | 28           |
+
+#### Population: offline results
+| score           | features    | mean_auc_roc   | aggregated_auc_roc   | best_auc_roc   | mean_auc_roc_agree   | aggregated_auc_roc_agree   | best_auc_roc_agree   | mean_auc_roc_disagree   | aggregated_auc_roc_disagree   | best_auc_roc_disagree   | best_layer   |
+|-----------------|-------------|----------------|----------------------|----------------|----------------------|----------------------------|----------------------|-------------------------|-------------------------------|-------------------------|--------------|
+| em              | activations | 0.746          | nan                  | 0.956          | 0.764                | nan                        | 0.951                | 0.713                   | nan                           | 0.968                   | 19           |
+| likelihood      | activations | 0.746          | nan                  | 0.955          | 0.764                | nan                        | 0.950                | 0.712                   | nan                           | 0.968                   | 19           |
+| que             | activations | 0.875          | **1.000**            | **1.000**      | 0.877                | **1.000**                  | **1.000**            | 0.876                   | **1.000**                     | **1.000**               | aggregate    |
+| que concat mean | attribution | 0.969          | 0.969                | 0.969          | 0.952                | 0.952                      | 0.952                | 0.990                   | 0.990                         | 0.990                   | aggregate    |
+| que concat mean | probe       | **0.980**      | 0.980                | 0.980          | **0.966**            | 0.966                      | 0.966                | **0.994**               | 0.994                         | 0.994                   | aggregate    |
+| que grad norm   | attribution | 0.569          | 0.798                | 0.694          | 0.550                | 0.742                      | 0.572                | 0.603                   | 0.896                         | 0.847                   | 31           |
+| que mean        | attribution | 0.789          | nan                  | 0.778          | 0.748                | nan                        | 0.723                | 0.851                   | nan                           | 0.860                   | 25           |
+| que mean        | probe       | 0.967          | 0.988                | 0.974          | 0.950                | 0.979                      | 0.958                | 0.987                   | 0.997                         | 0.992                   | 28           |
+| que pcs         | attribution | 0.869          | 0.955                | 0.884          | 0.825                | 0.943                      | 0.854                | 0.935                   | 0.982                         | 0.938                   | 25           |
+| que pcs         | probe       | 0.939          | 0.948                | 0.936          | 0.901                | 0.915                      | 0.897                | 0.981                   | 0.984                         | 0.981                   | 28           |
+
+#### Sciq: offline results
+| score           | features    | mean_auc_roc   | aggregated_auc_roc   | best_auc_roc   | mean_auc_roc_agree   | aggregated_auc_roc_agree   | best_auc_roc_agree   | mean_auc_roc_disagree   | aggregated_auc_roc_disagree   | best_auc_roc_disagree   | best_layer   |
+|-----------------|-------------|----------------|----------------------|----------------|----------------------|----------------------------|----------------------|-------------------------|-------------------------------|-------------------------|--------------|
+| em              | activations | 0.463          | nan                  | 0.396          | 0.527                | nan                        | 0.539                | 0.412                   | nan                           | 0.135                   | 19           |
+| likelihood      | activations | 0.465          | nan                  | 0.396          | **0.531**            | nan                        | 0.538                | 0.400                   | nan                           | 0.110                   | 19           |
+| que             | activations | 0.481          | **0.637**            | **0.637**      | 0.530                | **0.539**                  | 0.539                | 0.472                   | **0.881**                     | **0.881**               | aggregate    |
+| que concat mean | attribution | 0.500          | 0.500                | 0.500          | 0.365                | 0.365                      | 0.365                | **0.550**               | 0.550                         | 0.550                   | aggregate    |
+| que concat mean | probe       | 0.406          | 0.406                | 0.406          | 0.514                | 0.514                      | 0.514                | 0.459                   | 0.459                         | 0.459                   | aggregate    |
+| que grad norm   | attribution | 0.436          | 0.341                | 0.346          | 0.452                | 0.437                      | 0.456                | 0.271                   | 0.270                         | 0.232                   | 31           |
+| que mean        | attribution | 0.496          | nan                  | 0.622          | 0.479                | nan                        | 0.537                | 0.444                   | nan                           | 0.670                   | 25           |
+| que mean        | probe       | 0.409          | 0.369                | 0.444          | 0.482                | 0.473                      | 0.473                | 0.391                   | 0.327                         | 0.695                   | 28           |
+| que pcs         | attribution | **0.548**      | 0.572                | 0.623          | 0.474                | 0.463                      | **0.551**            | 0.527                   | 0.450                         | 0.551                   | 25           |
+| que pcs         | probe       | 0.453          | 0.388                | 0.435          | 0.477                | 0.468                      | 0.475                | 0.488                   | 0.481                         | 0.760                   | 28           |
+
+#### Sentiment: offline results
+| score           | features    | mean_auc_roc   | aggregated_auc_roc   | best_auc_roc   | mean_auc_roc_agree   | aggregated_auc_roc_agree   | best_auc_roc_agree   | mean_auc_roc_disagree   | aggregated_auc_roc_disagree   | best_auc_roc_disagree   | best_layer   |
+|-----------------|-------------|----------------|----------------------|----------------|----------------------|----------------------------|----------------------|-------------------------|-------------------------------|-------------------------|--------------|
+| em              | activations | 0.636          | nan                  | 0.790          | 0.674                | nan                        | 0.825                | 0.609                   | nan                           | 0.741                   | 19           |
+| likelihood      | activations | 0.642          | nan                  | 0.806          | 0.684                | nan                        | 0.847                | 0.611                   | nan                           | 0.750                   | 19           |
+| que             | activations | **0.746**      | **0.975**            | **0.975**      | **0.771**            | **0.974**                  | **0.974**            | **0.736**               | **0.993**                     | **0.993**               | aggregate    |
+| que concat mean | attribution | 0.586          | 0.586                | 0.586          | 0.706                | 0.706                      | 0.706                | 0.496                   | 0.496                         | 0.496                   | aggregate    |
+| que concat mean | probe       | 0.547          | 0.547                | 0.547          | 0.718                | 0.718                      | 0.718                | 0.340                   | 0.340                         | 0.340                   | aggregate    |
+| que grad norm   | attribution | 0.548          | 0.486                | 0.800          | 0.538                | 0.556                      | 0.814                | 0.568                   | 0.391                         | 0.783                   | 31           |
+| que mean        | attribution | 0.448          | nan                  | 0.417          | 0.540                | nan                        | 0.625                | 0.323                   | nan                           | 0.191                   | 25           |
+| que mean        | probe       | 0.414          | 0.382                | 0.455          | 0.486                | 0.496                      | 0.526                | 0.312                   | 0.264                         | 0.361                   | 28           |
+| que pcs         | attribution | 0.547          | 0.645                | 0.851          | 0.605                | 0.687                      | 0.793                | 0.467                   | 0.591                         | 0.926                   | 25           |
+| que pcs         | probe       | 0.410          | 0.408                | 0.454          | 0.471                | 0.470                      | 0.498                | 0.316                   | 0.307                         | 0.389                   | 28           |
+
+
+#### Squaring: offline results
+
+| score           | features    | mean_auc_roc   | aggregated_auc_roc   | best_auc_roc   | mean_auc_roc_agree   | aggregated_auc_roc_agree   | best_auc_roc_agree   | mean_auc_roc_disagree   | aggregated_auc_roc_disagree   | best_auc_roc_disagree   | best_layer   |
+|-----------------|-------------|----------------|----------------------|----------------|----------------------|----------------------------|----------------------|-------------------------|-------------------------------|-------------------------|--------------|
+| que concat mean | attribution | 0.953          | 0.953                | 0.953          | 0.926                | 0.926                      | 0.926                | 0.995                   | 0.995                         | 0.995                   | aggregate    |
+| que concat mean | probe       | **0.998**      | **0.998**            | 0.998          | **0.997**            | **0.997**                  | 0.997                | **1.000**               | **1.000**                     | 1.000                   | aggregate    |
+| que grad norm   | attribution | 0.705          | 0.761                | 0.715          | 0.678                | 0.719                      | 0.637                | 0.730                   | 0.805                         | 0.791                   | 31           |
+| que mean        | attribution | 0.910          | nan                  | 0.989          | 0.874                | nan                        | 0.984                | 0.956                   | nan                           | 0.996                   | 25           |
+| que mean        | probe       | 0.937          | 0.995                | **1.000**      | 0.915                | 0.991                      | **0.999**            | 0.967                   | 0.999                         | **1.000**               | 28           |
+| que pcs         | attribution | 0.908          | 0.926                | 0.859          | 0.856                | 0.883                      | 0.790                | 0.981                   | 0.990                         | 0.961                   | 25           |
+| que pcs         | probe       | 0.931          | 0.973                | 0.995          | 0.894                | 0.959                      | 0.992                | 0.984                   | 0.991                         | 0.998                   | 28           |
+
+#### Subtraction: offline results
+
+| score           | features    | mean_auc_roc   | aggregated_auc_roc   | best_auc_roc   | mean_auc_roc_agree   | aggregated_auc_roc_agree   | best_auc_roc_agree   | mean_auc_roc_disagree   | aggregated_auc_roc_disagree   | best_auc_roc_disagree   | best_layer   |
+|-----------------|-------------|----------------|----------------------|----------------|----------------------|----------------------------|----------------------|-------------------------|-------------------------------|-------------------------|--------------|
+| em              | activations | 0.898          | nan                  | **1.000**      | 0.896                | nan                        | **1.000**            | 0.899                   | nan                           | **1.000**               | 19           |
+| likelihood      | activations | 0.902          | nan                  | **1.000**      | 0.901                | nan                        | **1.000**            | 0.904                   | nan                           | **1.000**               | 19           |
+| que             | activations | 0.915          | **1.000**            | **1.000**      | 0.914                | **1.000**                  | **1.000**            | 0.917                   | **1.000**                     | **1.000**               | aggregate    |
+| que concat mean | attribution | 0.924          | 0.924                | 0.924          | 0.938                | 0.938                      | 0.938                | 0.999                   | 0.999                         | 0.999                   | aggregate    |
+| que concat mean | probe       | **1.000**      | **1.000**            | **1.000**      | **1.000**            | **1.000**                  | **1.000**            | **1.000**               | **1.000**                     | **1.000**               | aggregate    |
+| que grad norm   | attribution | 0.534          | 0.592                | 0.663          | 0.572                | 0.695                      | 0.640                | 0.536                   | 0.646                         | 0.744                   | 31           |
+| que mean        | attribution | 0.816          | nan                  | 0.982          | 0.792                | nan                        | 0.980                | 0.876                   | nan                           | 0.994                   | 25           |
+| que mean        | probe       | 0.905          | **1.000**            | 1.000          | 0.887                | **1.000**                  | 1.000                | 0.923                   | **1.000**                     | **1.000**               | 28           |
+| que pcs         | attribution | 0.866          | 0.922                | 0.956          | 0.916                | 0.971                      | 0.973                | 0.973                   | 0.994                         | 0.983                   | 25           |
+| que pcs         | probe       | 0.963          | 1.000                | 0.999          | 0.978                | 1.000                      | 1.000                | 0.996                   | **1.000**                     | 0.998                   | 28           |
