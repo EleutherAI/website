@@ -132,7 +132,7 @@ The `sciq` dataset exhibited extreme label imbalance in the training and test se
 
 We did not have success with contrast probing. 
 
-### Online sdetectors
+### Online detectors
 
 #### Aggregated AUROC by online score and features: all datasets
 
@@ -197,6 +197,14 @@ We did not have success with contrast probing.
 *Figure 5: Performance of different offline detectors by layer*
 
 
+## Adversarial image detection
+
+We conducted an exploratory experiment applying the same detectors to the task of detecting adversarial images for image classifiers. We focused on the mahalanobis distance, because it worked well in comparison to other detectors for the quirky models task and because it is quite simple. We found that an activation-mahalanobis detector was able to detect adversarial images with an AUC of around 0.8 (layer-dependant) in a standard image classifier. It could not perform above chance for a robust classifier, however. Using attribution patching to approximate mean ablation along top principle components, on the other hand, had highly layer-dependant accuracy for a standard classifier. Interestingly, exactly the same approach performed marginally better than chance in a relatively layer independent manner for the tested robust detector. We did not test how robust the detectors themselves were to adversarial attack.
+
+![Comparison of adversarial image detectors by layer](/images/blog/mechanistic-anomaly-detection/adversarial_image.png)
+*Figure 6: Performance of different adversarial image detectors by layer and image model. Standard is a non-robust classifier, while [Carmon2019Unlabeled](https://arxiv.org/abs/1905.13736) is a robust model*
+
+
 ## Visualising features
 
 In addition to testing various anomaly detectors, we also visualised per-layer activations and activation patching based effect estimates using UMAP and principal component plots. For "easy" dataset feature combinations (such as activations on the `population` dataset), we saw clear separation between normal and anomalous points among the top principal components in middle to late layers. We often (though not always) saw similar cluster separations in both principal component and UMAP plots.
@@ -210,10 +218,10 @@ In addition to testing various anomaly detectors, we also visualised per-layer a
 At layer 1, activations show a strong clustering pattern in both PCA and UMAP plots that does not correspond to any of the classes we have distinguished (true/false, trusted/test, normal/anomalous, agree/disagree).
 
 ![PCA plot of population activations, layer 1](/images/blog/mechanistic-anomaly-detection/population_activations.layers.1.input_layernorm.input_pca.png)
-*Figure 6: PCA plot of population activations, layer 1*
+*Figure 7: PCA plot of population activations, layer 1*
 
 ![UMAP plot of population activations, layer 1](/images/blog/mechanistic-anomaly-detection/population_activations.layers.1.input_layernorm.input_umap.png)
-*Figure 6: UMAP plot of population activations, layer 1*
+*Figure 8: UMAP plot of population activations, layer 1*
 
 ##### Layer 16
 
@@ -222,21 +230,21 @@ In the layer 16 activations, the PCA plots show clear separation of anomalous an
 While the PCA plots for layer 16 activations show different directions that seem to correspond to normal/anomalus, easy/hard and true/false, the UMAP plot separates all of these classes at once.
 
 ![PCA plot of population activations, layer 16](/images/blog/mechanistic-anomaly-detection/population_activations.layers.16.input_layernorm.input_pca.png)
-*Figure 6: PCA plot of population activations, layer 16*
+*Figure 9: PCA plot of population activations, layer 16*
 
 
 ![UMAP plot of population activations, layer 16](/images/blog/mechanistic-anomaly-detection/population_activations.layers.16.input_layernorm.input_umap.png)
-*Figure 6: UMAP plot of population activations, layer 16*
+*Figure 10: UMAP plot of population activations, layer 16*
 
 ##### Layer 28
 
 By layer 28, clusters visible at layer 16 appear to have separated further. We also see the emergence of further structure that does not correspond to any of the classes we distinguish by colour.
 
 ![PCA plot of population activations, layer 28](/images/blog/mechanistic-anomaly-detection/population_activations.layers.28.input_layernorm.input_pca.png)
-*Figure 6: PCA plot of population activations, layer 16*
+*Figure 11: PCA plot of population activations, layer 16*
 
 ![UMAP plot of population activations, layer 28](/images/blog/mechanistic-anomaly-detection/population_activations.layers.28.input_layernorm.input_umap.png)
-*Figure 6: UMAP plot of population activations, layer 16*
+*Figure 12: UMAP plot of population activations, layer 16*
 
 
 #### Attention head mean ablations
@@ -248,30 +256,30 @@ For estimated mean ablation effects at layer 1, we see that anomalous examples a
 The UMAP plot, on the other hand, clearly distinguishes normal from anomalous examples. The anomalous examples have an interesting "double spike" shape. This might reflect the fact that interventions in the first layer might ablate the "Bob" label, and perhaps the spiky shapes reflect the sizes of the erros Bob made (we haven't checked this). Given this structure, it is surprising that the local outlier factor score with attribution based features does not perform better for the population dataset in layer 1, given that like both local outlier factor and UMAP depend on the neighbourhoods of points.
 
 ![PCA plot of population mean ablations, layer 1](/images/blog/mechanistic-anomaly-detection/population_attribution.layers.1.self_attn_pca.png)
-*Figure 6: PCA plot of population mean ablations, layer 1*
+*Figure 13: PCA plot of population mean ablations, layer 1*
 
 ![UMAP plot of population mean ablations, layer 1](/images/blog/mechanistic-anomaly-detection/population_attribution.layers.1.self_attn_umap.png)
-*Figure 6: UMAP plot of population mean ablations, layer 1*
+*Figure 14: UMAP plot of population mean ablations, layer 1*
 
 ##### Layer 16
 
 While clustering by the classes we have coloured is evident in layer 16 mean ablation effect estimates, it is far less defined than the clustering evident in layer 16 activations.
 
 ![PCA plot of population mean ablations, layer 16](/images/blog/mechanistic-anomaly-detection/population_attribution.layers.16.self_attn_pca.png)
-*Figure 6: PCA plot of population mean ablations, layer 1*
+*Figure 15: PCA plot of population mean ablations, layer 1*
 
 ![UMAP plot of population mean ablations, layer 16](/images/blog/mechanistic-anomaly-detection/population_attribution.layers.16.self_attn_umap.png)
-*Figure 6: UMAP plot of population mean ablations, layer 1*
+*Figure 16: UMAP plot of population mean ablations, layer 1*
 
 ##### Layer 28
 
 By layer 28, clusters visible at layer 16 appear to have separated further. We also see the emergence of further structure that does not correspond to any of the classes we distinguish by colour.
 
 ![PCA plot of population mean ablations, layer 28](/images/blog/mechanistic-anomaly-detection/population_attribution.layers.28.self_attn_pca.png)
-*Figure 6: PCA plot of population activations, layer 28*
+*Figure 17: PCA plot of population activations, layer 28*
 
 ![UMAP plot of population mean ablations, layer 28](/images/blog/mechanistic-anomaly-detection/population_attribution.layers.28.self_attn_umap.png)
-*Figure 6: UMAP plot of population activations, layer 28*
+*Figure 18: UMAP plot of population activations, layer 28*
 
 #### Probe shift
 
@@ -280,26 +288,26 @@ The probe shift method preserves the structure visible in layer 4 of the mean ab
 ##### Layer 4
 
 ![PCA plot of population probe shift, layer 4](/images/blog/mechanistic-anomaly-detection/population_probe.layers.4.self_attn_pca.png)
-*Figure 6: PCA plot of population probe shift features, layer 4*
+*Figure 19: PCA plot of population probe shift features, layer 4*
 
 ![UMAP plot of population probe shift, layer 1](/images/blog/mechanistic-anomaly-detection/population_probe.layers.4.self_attn_umap.png)
-*Figure 6: UMAP plot of population probe shift features, layer 4*
+*Figure 20: UMAP plot of population probe shift features, layer 4*
 
 ##### Layer 16
 
 ![PCA plot of population probe shift, layer 16](/images/blog/mechanistic-anomaly-detection/population_probe.layers.16.self_attn_pca.png)
-*Figure 6: PCA plot of population probe shift features, layer 16*
+*Figure 21: PCA plot of population probe shift features, layer 16*
 
 ![UMAP plot of population probe shift, layer 16](/images/blog/mechanistic-anomaly-detection/population_probe.layers.16.self_attn_umap.png)
-*Figure 6: UMAP plot of population probe shift features, layer 16*
+*Figure 22: UMAP plot of population probe shift features, layer 16*
 
 ##### Layer 28
 
 ![PCA plot of population probe shift, layer 28](/images/blog/mechanistic-anomaly-detection/population_probe.layers.28.self_attn_pca.png)
-*Figure 6: PCA plot of population probe shift features, layer 28*
+*Figure 23: PCA plot of population probe shift features, layer 28*
 
 ![UMAP plot of population probe shift, layer 28](/images/blog/mechanistic-anomaly-detection/population_probe.layers.28.self_attn_umap.png)
-*Figure 6: UMAP plot of population probe shift features, layer 28*
+*Figure 24: UMAP plot of population probe shift features, layer 28*
 
 ### Sentiment
 
@@ -312,30 +320,30 @@ While population is a relatively easy dataset, sentiment is more challenging. At
 Like the activations for `population`, layer 1 activations for `sentiment` form clusters unrelated to our labeling. We do not see much separation between trusted and test examples.
 
 ![PCA plot of activations for sentiment, layer 1](/images/blog/mechanistic-anomaly-detection/sentiment_activations.layers.1.input_layernorm.input_pca.png)
-*Figure 6: PCA plot of activations for sentiment, layer 1*
+*Figure 25: PCA plot of activations for sentiment, layer 1*
 
 ![UMAP plot of activations for sentiment, layer 1](/images/blog/mechanistic-anomaly-detection/sentiment_activations.layers.1.input_layernorm.input_umap.png)
-*Figure 6: UMAP plot of activations for sentiment, layer 1*
+*Figure 26: UMAP plot of activations for sentiment, layer 1*
 
 ##### Layer 16
 
 At layer 16, we see separation between `true` and `false` examples, as well as imperfect separation between examples where Alice and Bob agree and where Alice and Bob disagree. We do not see separation in either PCA or UMAP plots between normal and anomalous examples, nor between trusted and test examples.
 
 ![PCA plot of activations, layer 16](/images/blog/mechanistic-anomaly-detection/sentiment_activations.layers.16.input_layernorm.input_pca.png)
-*Figure 6: PCA plot of activations for sentiment, layer 16*
+*Figure 27: PCA plot of activations for sentiment, layer 16*
 
 ![UMAP plot of activations for sentiment, layer 16](/images/blog/mechanistic-anomaly-detection/sentiment_activations.layers.16.input_layernorm.input_umap.png)
-*Figure 6: UMAP plot of activations for sentiment, layer 16*
+*Figure 28: UMAP plot of activations for sentiment, layer 16*
 
 ##### Layer 28
 
 By layer 28, we see a little separation between normal and anomalous examples, particularly examples where Alice and Bob agree and the label is `true`. We see further separation between `true` and `false` examples, as well as between examples where Alice and Bob agree and disagree.
 
 ![PCA plot of activations for sentiment, layer 28](/images/blog/mechanistic-anomaly-detection/sentiment_activations.layers.28.input_layernorm.input_pca.png)
-*Figure 6: PCA plot of activations for sentiment, layer 28*
+*Figure 29: PCA plot of activations for sentiment, layer 28*
 
 ![UMAP plot of activations for sentiment, layer 28](/images/blog/mechanistic-anomaly-detection/sentiment_activations.layers.28.input_layernorm.input_umap.png)
-*Figure 6: UMAP plot of activations for sentiment, layer 28*
+*Figure 30: UMAP plot of activations for sentiment, layer 28*
 
 #### Attention head mean ablations
 
@@ -344,30 +352,30 @@ By layer 28, we see a little separation between normal and anomalous examples, p
 For early to mid layer PCA plots of attention head mean ablations, we see little structure, though we can see `disagree anomalous true` examples distinguished from others in the direction of PC1. In UMAP plots, we see the familiar distinction between `true` and `false` and `agree` and `disagree` examples, though without visible clustering.
 
 ![PCA plot of attention head mean ablations for sentiment, layer 1](/images/blog/mechanistic-anomaly-detection/sentiment_attribution.layers.1.self_attn_pca.png)
-*Figure 6: PCA plot of attention head mean ablations for sentiment, layer 1*
+*Figure 31: PCA plot of attention head mean ablations for sentiment, layer 1*
 
 ![UMAP plot of attention head mean ablations for sentiment, layer 1](/images/blog/mechanistic-anomaly-detection/sentiment_attribution.layers.1.self_attn_umap.png)
-*Figure 6: UMAP plot of attention head mean ablations for sentiment, layer 1*
+*Figure 32: UMAP plot of attention head mean ablations for sentiment, layer 1*
 
 ##### Layer 16
 
 Our remarks for layer 1 remain largely applicable to layer 16.
 
 ![PCA plot of attention head mean ablations for sentiment, layer 16](/images/blog/mechanistic-anomaly-detection/sentiment_attribution.layers.16.self_attn_pca.png)
-*Figure 6: PCA plot of attention head mean ablations for sentiment, layer 16*
+*Figure 33: PCA plot of attention head mean ablations for sentiment, layer 16*
 
 ![UMAP plot of attention head mean ablations for sentiment, layer 16](/images/blog/mechanistic-anomaly-detection/sentiment_attribution.layers.16.self_attn_umap.png)
-*Figure 6: UMAP plot of attention head mean ablations, layer 16*
+*Figure 34: UMAP plot of attention head mean ablations, layer 16*
 
 ##### Layer 28
 
 In layer 28 we see some separation of normal from anomalous examples, particularly in the UMAP plot. This corresponds to our observation later layers were associated with better scores for the attribution-LOF detector.
 
 ![PCA plot of attention head mean ablations for sentiment, layer 28](/images/blog/mechanistic-anomaly-detection/sentiment_attribution.layers.28.self_attn_pca.png)
-*Figure 6: PCA plot of attention head mean ablations for sentiment, layer 28*
+*Figure 35: PCA plot of attention head mean ablations for sentiment, layer 28*
 
 ![UMAP plot of attention head mean ablations for sentiment, layer 28](/images/blog/mechanistic-anomaly-detection/sentiment_attribution.layers.28.self_attn_umap.png)
-*Figure 6: UMAP plot of attention head mean ablations for sentiment, layer 28*
+*Figure 36: UMAP plot of attention head mean ablations for sentiment, layer 28*
 
 #### Probe shift
 
@@ -379,26 +387,26 @@ Like attention head mean ablation, probe shift features show separation between 
 In the UMAP visualisation, anomalous examples *are* strongly clustered and separated from 
 
 ![PCA plot of probe shift for sentiment, layer 4](/images/blog/mechanistic-anomaly-detection/sentiment_probe.layers.4.self_attn_pca.png)
-*Figure 6: PCA plot of probe shift features for sentiment, layer 4*
+*Figure 37: PCA plot of probe shift features for sentiment, layer 4*
 
 ![UMAP plot of probe shift for sentiment, layer 4](/images/blog/mechanistic-anomaly-detection/sentiment_probe.layers.4.self_attn_umap.png)
-*Figure 6: UMAP plot of probe shift features for sentiment, layer 4*
+*Figure 38: UMAP plot of probe shift features for sentiment, layer 4*
 
 ##### Layer 16
 
 ![PCA plot of probe shift for sentiment, layer 16](/images/blog/mechanistic-anomaly-detection/sentiment_probe.layers.16.self_attn_pca.png)
-*Figure 6: PCA plot of probe shift features for sentiment, layer 16*
+*Figure 39: PCA plot of probe shift features for sentiment, layer 16*
 
 ![UMAP plot of probe shift for sentiment, layer 16](/images/blog/mechanistic-anomaly-detection/sentiment_probe.layers.16.self_attn_umap.png)
-*Figure 6: UMAP plot of probe shift features for sentiment, layer 16*
+*Figure 40: UMAP plot of probe shift features for sentiment, layer 16*
 
 ##### Layer 28
 
 ![PCA plot of probe shift for sentiment, layer 28](/images/blog/mechanistic-anomaly-detection/sentiment_probe.layers.28.self_attn_pca.png)
-*Figure 6: PCA plot of probe shift features for sentiment, layer 28*
+*Figure 41: PCA plot of probe shift features for sentiment, layer 28*
 
 ![UMAP plot of probe shift for sentiment, layer 28](/images/blog/mechanistic-anomaly-detection/sentiment_probe.layers.28.self_attn_umap.png)
-*Figure 6: UMAP plot of probe shift features for sentiment, layer 28*
+*Figure 42: UMAP plot of probe shift features for sentiment, layer 28*
 
 ### Discovering functional elements of the network with edge attribution patching
 
@@ -416,7 +424,7 @@ That is, we approximate the change in score with the inner product between the c
 Patching activations by surgically swapping Alice and Bob requires access to known examples of anomalous behaviour and is not suitable for an anomaly detector, but it does serve as a kind of test for our hypothesis about being able to find a part of the network implicated in switching between Alice and Bob behaviour. In face, from testing on a few datasets, we find an edge from MLP 30 to MLP 31 that appears to play a large role in behaviour switching for multiple datasets (Figure 5). Because this edge is between two MLP layers, we could not have discovered it using attention head patching.
 
 ![Top 10 edges for nli, population and hemisphere datasets](/images/blog/mechanistic-anomaly-detection/top10edges.png)
-*Figure 5: Top 10 edges for nli, population and hemisphere datasets*
+*Figure 43: Top 10 edges for nli, population and hemisphere datasets*
 
 
 ## We are planning to experiment with sparse autoencoders
