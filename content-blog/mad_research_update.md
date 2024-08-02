@@ -22,6 +22,7 @@ We find that enriching the set of names in this manner makes the problem harder 
  - Achieving uniformly high classification accuracy is difficult. This may be partly attriutable to the distribution shift between training and test sets
  - We compared methods based on model activations and attribution patching. Activation based methods offered the highest classification accuracy, though some methods based on attribution patchings were less sensitive to layer choice
  - Combining activations and effects estimated from attribution patching did not significantly improve detection accuracy
+ - Visualisations suggest that attribution patching may benefit from more sophisticated scoring methods
  - Activation based anomaly detection can also detect adversarial examples in non-robust vision models but not in robust models
  - Attribution based anomaly detection can detect adversarial examples in robust image models at a rate slightly above chance
 
