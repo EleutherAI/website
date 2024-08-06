@@ -14,7 +14,7 @@ The version of the "quirky" mechanistic anomaly detection problem we investigate
 
 Recently, we have been experimenting with a slightly more difficult version of this MAD task. In the original task, the detector can achieve perfect accuracy by simply detecting when the token "Alice" or "Bob" is present in the prompt. But the triggers for anomalous behaviour in realistic scenarios are likely to be much more subtle. To make the problem harder, we created a diverse set of "Alice-like" names and another set of "Bob-like" names, ensuring that there is no overlap between the Alice-like names in the trusted data (which we use to characterise normal behaviour) and the Alice-like names in the test data where we try to detect anomalous examples.
 
-We find that enriching the set of names in this manner makes the problem harder for some datsets. We have been experimenting with several approaches to anomaly detection. We've tested a collection of different detectors to detect anomalies based on model activations. We have also been experimenting with detectors that use [attribution patching](https://www.neelnanda.io/mechanistic-interpretability/attribution-patching#does-this-work-in-practice-experiments=) instead of model activations to distinguish Alice-like from Bob-like operation. We have found:
+We find that enriching the set of names in this manner makes the problem harder for some datasets. We have been experimenting with several approaches to anomaly detection. We've tested a collection of different detectors to detect anomalies based on model activations. We have also been experimenting with detectors that use [attribution patching](https://www.neelnanda.io/mechanistic-interpretability/attribution-patching#does-this-work-in-practice-experiments=) instead of model activations to distinguish Alice-like from Bob-like operation. We have found:
 
  - For some datasets, hard examples yielded a significantly different distribution of activations to easy examples, so we were successful in inducing a distribution shift between training and test examples
  - Adding additional names makes the problem harder
@@ -66,7 +66,7 @@ In *Eliciting Latent Knowledge*, we had a two-step process for mechanistic anoma
  1. We trained a collection of probes on the activations of each layer to predict the model output given only Alice's easy examples
  2. We used the set of output predictions of the probes as features for an anomaly scoring algorithm
 
-We might expect this to be relatively unaffected by additional random names, as intuitively a good probe ought to ignore the specific name that appears in the prompt. However, in practice we find significanly worse performance on the randomised name dataset, as shown by Figure 1.
+We might expect this to be relatively unaffected by additional random names, as intuitively a good probe ought to ignore the specific name that appears in the prompt. However, in practice we find significantly worse performance on the randomised name dataset, as shown by Figure 1.
 
 ![Comparison of MAD AUC with randomised and nonrandomised names](/images/blog/mechanistic-anomaly-detection/rand_nonrand_comparison.png)
 *Figure 1: Comparison of MAD AUC with randomised and nonrandomised names*
@@ -79,7 +79,7 @@ There are two different settings where we could imagine employing MAD:
  - An "online" setting, where we want to detect anomalous behaviour as soon as it occurs and take appropriate action
  - An "offline" setting, where we are able to collect many examples of untrusted behaviour and use the collection to identify anomalies
 
-If a system has a small number of anomalous modes of operation, then the offline problem could be easier, because we could get many examples for each mode. Intuitively, this might not be true if the number of modes of anomalous operation is larger than the number of examples of anomalous behaviour -- in this case, each anomaly could be of a new type. In our quirky datasets, Bob has a single unusual answering strategy, which plausibly corresponds to a single anomalous mode of operateion, so the offline problem may be easier.
+If a system has a small number of anomalous modes of operation, then the offline problem could be easier, because we could get many examples for each mode. Intuitively, this might not be true if the number of modes of anomalous operation is larger than the number of examples of anomalous behaviour -- in this case, each anomaly could be of a new type. In our quirky datasets, Bob has a single unusual answering strategy, which plausibly corresponds to a single anomalous mode of operation, so the offline problem may be easier.
 
 We tried anomaly detection methods suited to each setting. We experimented with different scoring rules and different sets of features from which to compute scores. The feature sets we tried included:
  - **Activations**: We take "activations" from the residual stream at various internal layers of the model
@@ -90,7 +90,7 @@ We tried anomaly detection methods suited to each setting. We experimented with 
    - **Grad norm**: We take the norm of the gradient for each attention head in a layer as a collection of features
  - **Probe shift**: Using attribution patching, we take the difference between the estimated effect of an intervention on the network's output, and the estimated effect on the output of a linear probe trained to predict the network's output on an intermediate layer. All of the above ablations are also applicable to this method. For a probe at layer $i$, we consider the effect of all interventions in layers prior to $i$.
  - **Misconception contrast probing**: We trained a supervised probe to distinguish model activations on an automatically generated set of misconceptions and correct statements, then used this probe's score to distinguish Alice from Bob modes of operation (inspired by Anthropic's [generic contrast probing](https://www.anthropic.com/research/probes-catch-sleeper-agents)).
- - **Activaton + attribution**: We concatenate the activations and approximate effects computed from attribution patching
+ - **Activation + attribution**: We concatenate the activations and approximate effects computed from attribution patching
  - **Confidence probing via iterative prompt rephrasing**: We examined how sensitive the model results were to few shot rephrasing. Specifically, we automatically generated rephrasings of the form "{Question} one answer is No. {Repeat question}", and measured how much the model's answers shifted with rephrasings like this. The method was inspired by DeepMind's approach to [uncertainty quantification](https://arxiv.org/abs/2406.02543).
 
 More details on attribution patching are given further down. We also tried combining attribution patching and activations in two ways:
@@ -106,13 +106,13 @@ Given these features, we experimented with a number of different scoring methods
 
  - **Raw average**: Relevant to contrast probing and prompt rephrasing: we simply average the confidence the probe assigns to the example being misleading
  - **Mahalanobis distance**: We computed the mean and covariance of the activations in each layer for the trusted training set. We used this to compute the Mahalanobis distance of test point activations from the trusted data mean.
-   - **Mahalanobis-PCA**: We also tried a variant of the Mahalnobis distance that computed the distance only along the top principal components.
+   - **Mahalanobis-PCA**: We also tried a variant of the Mahalanobis distance that computed the distance only along the top principal components.
  - **Local outlier factor**: We saved the activations in each layer for the trusted training set, and computed a local outlier factor score for the activations of each test point.
  - **Isolation forest**: We fit an [isolation forest](https://en.wikipedia.org/wiki/Isolation_forest) outlier detector (n_estimators = 20) to the activations in each layer for the trusted training set.
 
 For the offline setting, we experimented with:
 
- - **Quantom entropy**: Based on the [SPECTRE](https://arxiv.org/abs/2104.11315) paper, we calculated a "quantum entropy" score that interpolates between the Mahalanobis distance and the distance along the largest principal component of the test data covariance matrix, which we calculate after the test data has been whitened using the covariance matrix of the trusted data (credit to Eric Jenner for this method).
+ - **Quantum entropy**: Based on the [SPECTRE](https://arxiv.org/abs/2104.11315) paper, we calculated a "quantum entropy" score that interpolates between the Mahalanobis distance and the distance along the largest principal component of the test data covariance matrix, which we calculate after the test data has been whitened using the covariance matrix of the trusted data (credit to Eric Jenner for this method).
  - **Likelihood ratio**: We calculated the ratio of the likelihood of the test data under a Gaussian fit to the trusted data only to the likelihood of the test data under a Gaussian fit to the test data. Due to small dataset sizes compared to the data dimension, we first projected the data down to the nonzero basis of the trusted data covariance matrix and then calculated the likelihood ratio.
  - **Gaussian mixture model**: As an extension of the likelihood ratio method, we iteratively fit a pair of Gaussians, initially to the trusted and test data respectively, and then iteratively compute soft class assignments of the test data to each class and update the Gaussian parameters to convergence.
 
@@ -120,7 +120,7 @@ In addition, we visualised activations and estimated effects per layer using UMA
 
 ## Results
 
-Among online scores, the highest average AUROC (0.87) when scores were aggregated across layers was acheived by using the mahalanobis score with activation features. Among offline scores, the highest average AUROC (0.94) was achieved by using the quantum entropy score together with activation features.
+Among online scores, the highest average AUROC (0.87) when scores were aggregated across layers was achieved by using the mahalanobis score with activation features. Among offline scores, the highest average AUROC (0.94) was achieved by using the quantum entropy score together with activation features.
 
 Averages mask substantial structure in scores:
  - All methods struggled to consistently distinguish Alice from Bob on the `sciq` and `sentiment` datasets
@@ -226,7 +226,7 @@ At layer 1, activations show a strong clustering pattern in both PCA and UMAP pl
 
 ##### Layer 16
 
-In the layer 16 activations, the PCA plots show clear separation of anomalous and normal examples in the direction of the top prinicipal component. In the direction of the second principal component, there is substantial separation between the trusted data used to train the detector and the normal test examples, showing that there is a distribution shift between the easy and hard examples. The population dataset consists of questions like `input: "Does {character} think that {city} has a population greater than {population}?"`, and the difficulty metric is `-log(population)`, so it is possible that the second principal component tracks log population.
+In the layer 16 activations, the PCA plots show clear separation of anomalous and normal examples in the direction of the top principal component. In the direction of the second principal component, there is substantial separation between the trusted data used to train the detector and the normal test examples, showing that there is a distribution shift between the easy and hard examples. The population dataset consists of questions like `input: "Does {character} think that {city} has a population greater than {population}?"`, and the difficulty metric is `-log(population)`, so it is possible that the second principal component tracks log population.
 
 While the PCA plots for layer 16 activations show different directions that seem to correspond to normal/anomalus, easy/hard and true/false, the UMAP plot separates all of these classes at once.
 
@@ -252,9 +252,9 @@ By layer 28, clusters visible at layer 16 appear to have separated further. We a
 
 ##### Layer 1
 
-For estimated mean ablation effects at layer 1, we see that anomalous examples are far more variable along the top prinicpal component than normal examples, though they do not separate into different classes along any of the top prinicpal components.
+For estimated mean ablation effects at layer 1, we see that anomalous examples are far more variable along the top principal component than normal examples, though they do not separate into different classes along any of the top principal components.
 
-The UMAP plot, on the other hand, clearly distinguishes normal from anomalous examples. The anomalous examples have an interesting "double spike" shape. This might reflect the fact that interventions in the first layer might ablate the "Bob" label, and perhaps the spiky shapes reflect the sizes of the erros Bob made (we haven't checked this). Given this structure, it is surprising that the local outlier factor score with attribution based features does not perform better for the population dataset in layer 1, given that like both local outlier factor and UMAP depend on the neighbourhoods of points.
+The UMAP plot, on the other hand, clearly distinguishes normal from anomalous examples. The anomalous examples have an interesting "double spike" shape. This might reflect the fact that interventions in the first layer might ablate the "Bob" label, and perhaps the spiky shapes reflect the sizes of the errors Bob made (we haven't checked this). Given this structure, it is surprising that the local outlier factor score with attribution based features does not perform better for the population dataset in layer 1, given that both local outlier factor and UMAP depend on the neighbourhoods of points.
 
 ![PCA plot of population mean ablations, layer 1](/images/blog/mechanistic-anomaly-detection/population_attribution.layers.1.self_attn_pca.png)
 *Figure 13: PCA plot of population mean ablations, layer 1*
@@ -312,13 +312,13 @@ The probe shift method preserves the structure visible in layer 4 of the mean ab
 
 ### Sentiment
 
-While population is a relatively easy dataset, sentiment is more challenging. Attribution based methods performed worse than change on it, while activation based detectors could not reliable distinguish normal from anomalous examples.
+While population is a relatively easy dataset, sentiment is more challenging. Attribution based methods performed worse than change on it, while activation based detectors could not reliably distinguish normal from anomalous examples.
 
 #### Activations
 
 ##### Layer 1
 
-Like the activations for `population`, layer 1 activations for `sentiment` form clusters unrelated to our labeling. We do not see much separation between trusted and test examples.
+Like the activations for `population`, layer 1 activations for `sentiment` form clusters unrelated to our labelling. We do not see much separation between trusted and test examples.
 
 ![PCA plot of activations for sentiment, layer 1](/images/blog/mechanistic-anomaly-detection/sentiment_activations.layers.1.input_layernorm.input_pca.png)
 *Figure 25: PCA plot of activations for sentiment, layer 1*
@@ -370,7 +370,7 @@ Our remarks for layer 1 remain largely applicable to layer 16.
 
 ##### Layer 28
 
-In layer 28 we see some separation of normal from anomalous examples, particularly in the UMAP plot. This corresponds to our observation later layers were associated with better scores for the attribution-LOF detector.
+In layer 28 we see some separation of normal from anomalous examples, particularly in the UMAP plot. This corresponds to our observation that later layers were associated with better scores for the attribution-LOF detector.
 
 ![PCA plot of attention head mean ablations for sentiment, layer 28](/images/blog/mechanistic-anomaly-detection/sentiment_attribution.layers.28.self_attn_pca.png)
 *Figure 35: PCA plot of attention head mean ablations for sentiment, layer 28*
@@ -422,7 +422,7 @@ $$\Delta S = (o_A - o_A')^T \frac{\partial S}{\partial i_B}$$
 
 That is, we approximate the change in score with the inner product between the change in the output of A ($o_A$) and the gradient of the loss with respect to the input of B ($\frac{\partial S}{\partial i_B}$).
 
-Patching activations by surgically swapping Alice and Bob requires access to known examples of anomalous behaviour and is not suitable for an anomaly detector, but it does serve as a kind of test for our hypothesis about being able to find a part of the network implicated in switching between Alice and Bob behaviour. In face, from testing on a few datasets, we find an edge from MLP 30 to MLP 31 that appears to play a large role in behaviour switching for multiple datasets (Figure 5). Because this edge is between two MLP layers, we could not have discovered it using attention head patching.
+Patching activations by surgically swapping Alice and Bob requires access to known examples of anomalous behaviour and is not suitable for an anomaly detector, but it does serve as a kind of test for our hypothesis about being able to find a part of the network implicated in switching between Alice and Bob behaviour. In fact, from testing on a few datasets, we find an edge from MLP 30 to MLP 31 that appears to play a large role in behaviour switching for multiple datasets (Figure 5). Because this edge is between two MLP layers, we could not have discovered it using attention head patching.
 
 ![Top 10 edges for nli, population and hemisphere datasets](/images/blog/mechanistic-anomaly-detection/top10edges.png)
 *Figure 43: Top 10 edges for nli, population and hemisphere datasets*
