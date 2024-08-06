@@ -1,6 +1,6 @@
 ---
 title: "Mechanistic Anomaly Detection Research Update"
-date: 2024-08-06T16:00:00-00:00
+date: 2024-08-05T16:00:00-00:00
 description: "Interim report on ongoing work on mechanistic anomaly detection"
 author: ["David Johnston", "Arkajyoti Chakraborty", "Nora Belrose"]
 ShowToc: true
@@ -16,19 +16,20 @@ Recently, we have been experimenting with a slightly more difficult version of t
 
 We find that enriching the set of names in this manner makes the problem harder for some datsets. We have been experimenting with several approaches to anomaly detection. We've tested a collection of different detectors to detect anomalies based on model activations. We have also been experimenting with detectors that use [attribution patching](https://www.neelnanda.io/mechanistic-interpretability/attribution-patching#does-this-work-in-practice-experiments=) instead of model activations to distinguish Alice-like from Bob-like operation. We have found:
 
- - For some datasets, hard examples yielded a significantly different distribution of activations to easy examples, so we were successful in inducing a distribution shift between training and test examples
- - Adding additional names makes the problem harder
- - We can achieve very high classification accuracy on some datasets if we have access to test set statistics (AUROC >0.999) and high accuracy without them (AUC >0.95), but for some datasets high accuracy depends on hyperparameters that may be difficult to tune and on others we do not achieve high accuracy at all
- - Achieving uniformly high classification accuracy is difficult. This may be partly attributable to the distribution shift between training and test sets
- - We compared methods based on model activations and attribution patching. Activation based methods offered the highest classification accuracy, though some methods based on attribution patchings were less sensitive to layer choice
- - Combining activations and effects estimated from attribution patching did not significantly improve detection accuracy
- - Visualisations suggest that attribution patching may benefit from more sophisticated scoring methods
- - Activation based anomaly detection can also detect adversarial examples in non-robust vision models but not in robust models
- - Attribution based anomaly detection can detect adversarial examples in robust image models at a rate slightly above chance
+1. For some datasets, hard examples yielded a significantly different distribution of activations to easy examples, so we were successful in inducing a distribution shift between training and test examples.
+2. Adding additional names makes the problem harder.
+3. We can achieve very high classification accuracy on some datasets if we have access to test set statistics (AUROC >0.999) and moderately high accuracy without them (AUC >0.95).
+4. For some datasets high accuracy depends on hyperparameters that may be difficult to tune and on others we do not achieve high accuracy at all.
+5. Achieving uniformly high classification accuracy is difficult. This may be partly attributable to the distribution shift between training and test sets.
+6. We compared methods based on model activations and attribution patching. Activation based methods offered the highest classification accuracy, though some methods based on attribution patchings were less sensitive to layer choice.
+7. Combining activations and effects estimated from attribution patching did not significantly improve detection accuracy.
+8. Visualisations suggest that attribution patching may benefit from more sophisticated scoring methods.
+9. Activation based anomaly detection can also detect adversarial examples in non-robust vision models but not in robust models.
+10. Attribution based anomaly detection can detect adversarial examples in robust image models at a rate slightly above chance.
 
 ## Experimental setup
 
-We fine tuned Mistral 7B v0.1 on 12 quirky datasets with LoRA, early stopped on overall validation loss computed on both Alice and Bob examples. The number of epochs used is listed in [Table 1](#tbl-datasets). The datasets were formatted using the `templatize_quirky_dataset` function from the [quirky-language-models](https://github.com/davidoj/quirky-language-models/blob/e6a042ccc7b3853ae4b3f837b08dc0c1f98fcbe7/elk_generalization/datasets/loader_utils.py) repo with the options `standardize_templates=True`, `method=random`, `random_names=True` and `seed=0`.
+We fine tuned Mistral 7B v0.1 on 12 quirky datasets with LoRA, early stopped on overall validation loss computed on both Alice and Bob examples. The number of epochs used is listed in the table below. The datasets were formatted using the `templatize_quirky_dataset` function from the [quirky-language-models](https://github.com/davidoj/quirky-language-models/blob/e6a042ccc7b3853ae4b3f837b08dc0c1f98fcbe7/elk_generalization/datasets/loader_utils.py) repo with the options `standardize_templates=True`, `method=random`, `random_names=True` and `seed=0`.
 
 | Dataset | Max Epochs | Notes |
 |---------|--------|-------|
@@ -44,7 +45,6 @@ We fine tuned Mistral 7B v0.1 on 12 quirky datasets with LoRA, early stopped on 
 | [multiplication](https://huggingface.co/datasets/EleutherAI/quirky_multiplication_raw) | 15.0 | |
 | [modularaddition](https://huggingface.co/datasets/EleutherAI/quirky_modularaddition_raw) | 30.0 | |
 | [squaring](https://huggingface.co/datasets/EleutherAI/quirky_squaring_raw) | 15.0 | |
-Table: Dataset details {#tbl-datasets}
 
 We also fine tuned Llama 3 and 3.1 8B on these datasets, and we are planning to use these models as a held out test model for our anomaly detection methods.
 
