@@ -1,6 +1,6 @@
 ---
 title: "Mechanistic Anomaly Detection Research Update"
-date: 2024-06-26T10:56:26+10:00
+date: 2024-08-06T09:44:26+1:00
 description: "Interim report on ongoing work on mechanistic anomaly detection"
 author: ["David Johnston", "Arkajyoti Chakraborty", "Nora Belrose"]
 ShowToc: true
