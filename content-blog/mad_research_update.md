@@ -83,6 +83,7 @@ If a system has a small number of anomalous modes of operation, then the offline
 
 We tried anomaly detection methods suited to each setting. We experimented with different scoring rules and different sets of features from which to compute scores. The feature sets we tried included:
  - **Activations**: We take "activations" from the residual stream at various internal layers of the model
+   - **MLP activations**: For a subset of scores, we experimented with taking activations from the MLP outputs rather than the residual stream
  - **Attribution**: We measure the approximate effect of ablating the model's activations on the final difference in logits between "Yes" and "No" tokens using attribution patching. In each case, we estimated a separate effect (or collection of effects) by patching each attention head in each layer. We experiment with several different ablations:
    - **Mean**: We replace the activations of each of the attention heads in a given layer with the mean activation of that attention head
    - **Principal components**: We replace the activations of each of the attention heads with the activations given by subtracting the difference between the activation's projection on each of the top 10 principal components and the mean of activations projected on the same principal component
