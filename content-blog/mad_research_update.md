@@ -5,7 +5,7 @@ description: "Interim report on ongoing work on mechanistic anomaly detection"
 author: ["David Johnston", "Arkajyoti Chakraborty", "Nora Belrose"]
 ShowToc: true
 mathjax: true
-draft: true
+draft: false
 ---
 
 In December 2023, the Eleuther team published [Eliciting Latent Knowledge from Quirky Language Models](https://arxiv.org/abs/2312.01037v3). We finetuned language models to behave in a "quirky" manner on a collection of question and answer datasets. When a prompt began with "Alice:", these models were trained to answer as accurately as possible, but when it instead began with "Bob:", they would answer according to an unreliable heuristic (Bob would not always be wrong, but would consistently use the same fallible method to answer questions). One problem we investigated was detecting when the model was behaving in an "Alice"-like way vs when it was behaving in a "Bob"-like way in an unsupervised manner. This is an instance of the [*Mechanistic Anomaly Detection*](https://www.lesswrong.com/posts/n7DFwtJvCzkuKmtbG/a-gentle-introduction-to-mechanistic-anomaly-detection) (MAD) problem introduced by Paul Christiano. We obtained strong results with a simple anomaly detection technique- an average AUROC of 0.95 across all quirky datasets, and close to 0.99 for those datasets where the models learned to be strongly quirky.
