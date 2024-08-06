@@ -16,10 +16,10 @@ Recently, we have been experimenting with a slightly more difficult version of t
 
 We find that enriching the set of names in this manner makes the problem harder for some datsets. We have been experimenting with several approaches to anomaly detection. We've tested a collection of different detectors to detect anomalies based on model activations. We have also been experimenting with detectors that use [attribution patching](https://www.neelnanda.io/mechanistic-interpretability/attribution-patching#does-this-work-in-practice-experiments=) instead of model activations to distinguish Alice-like from Bob-like operation. We have found:
 
- - For some dataset, hard examples yielded a significantly different distribution of activations to easy examples, so we were successful in inducing a distribution shift between training and test examples
+ - For some datasets, hard examples yielded a significantly different distribution of activations to easy examples, so we were successful in inducing a distribution shift between training and test examples
  - Adding additional names makes the problem harder
  - We can achieve very high classification accuracy on some datasets if we have access to test set statistics (AUROC >0.999) and high accuracy without them (AUC >0.95), but for some datasets high accuracy depends on hyperparameters that may be difficult to tune and on others we do not achieve high accuracy at all
- - Achieving uniformly high classification accuracy is difficult. This may be partly attriutable to the distribution shift between training and test sets
+ - Achieving uniformly high classification accuracy is difficult. This may be partly attributable to the distribution shift between training and test sets
  - We compared methods based on model activations and attribution patching. Activation based methods offered the highest classification accuracy, though some methods based on attribution patchings were less sensitive to layer choice
  - Combining activations and effects estimated from attribution patching did not significantly improve detection accuracy
  - Visualisations suggest that attribution patching may benefit from more sophisticated scoring methods
@@ -79,7 +79,7 @@ There are two different settings where we could imagine employing MAD:
  - An "online" setting, where we want to detect anomalous behaviour as soon as it occurs and take appropriate action
  - An "offline" setting, where we are able to collect many examples of untrusted behaviour and use the collection to identify anomalies
 
-If a system has a small number of anomalous modes of operation, then the offline problem could be easier, because we could get many examples for each mode. Intuitively, this might not be true if the number of modes of anomalous operation is larger than the number of examples of anomalous behaviour -- in this case, each anomaly could be of a new type. In our quirky datasets, Bob's has a single unusual answering strategy, which plausibly corresponds to a single anomalous mode of operateion, so the offline problem may be easier.
+If a system has a small number of anomalous modes of operation, then the offline problem could be easier, because we could get many examples for each mode. Intuitively, this might not be true if the number of modes of anomalous operation is larger than the number of examples of anomalous behaviour -- in this case, each anomaly could be of a new type. In our quirky datasets, Bob has a single unusual answering strategy, which plausibly corresponds to a single anomalous mode of operateion, so the offline problem may be easier.
 
 We tried anomaly detection methods suited to each setting. We experimented with different scoring rules and different sets of features from which to compute scores. The feature sets we tried included:
  - **Activations**: We take "activations" from the residual stream at various internal layers of the model
@@ -88,10 +88,10 @@ We tried anomaly detection methods suited to each setting. We experimented with 
    - **Mean**: We replace the activations of each of the attention heads in a given layer with the mean activation of that attention head
    - **Principal components**: We replace the activations of each of the attention heads with the activations given by subtracting the difference between the activation's projection on each of the top 10 principal components and the mean of activations projected on the same principal component
    - **Grad norm**: We take the norm of the gradient for each attention head in a layer as a collection of features
- - **Probe shift**: We take the difference between the attribution patching-based estimate of the effect of an intervention on the network's output and the attribution patching-based estimate of the intervention effect on a linear probe trained to predict the network's output on an intermediate layer. All of the above ablations are also applicable to this method. For a probe at layer $i$, we consider the effect of all interventions in layers prior to $i$.
+ - **Probe shift**: Using attribution patching, we take the difference between the estimated effect of an intervention on the network's output, and the estimated effect on the output of a linear probe trained to predict the network's output on an intermediate layer. All of the above ablations are also applicable to this method. For a probe at layer $i$, we consider the effect of all interventions in layers prior to $i$.
  - **Misconception contrast probing**: We trained a supervised probe to distinguish model activations on an automatically generated set of misconceptions and correct statements, then used this probe's score to distinguish Alice from Bob modes of operation (inspired by Anthropic's [generic contrast probing](https://www.anthropic.com/research/probes-catch-sleeper-agents)).
  - **Activaton + attribution**: We concatenate the activations and approximate effects computed from attribution patching
- - **Confidence probing via iterative prompt rephrasing**: We examined how sensitive the model results were to few shot rephrasing. Specifically, we automatically generated rephrasings of the form "{Question} one answer is No. {Repeat question}", and meausured how much the model's answers shifted with rephrasings like this. The method was inspired by DeepMind's approach to [uncertainty quantification](https://arxiv.org/abs/2406.02543).
+ - **Confidence probing via iterative prompt rephrasing**: We examined how sensitive the model results were to few shot rephrasing. Specifically, we automatically generated rephrasings of the form "{Question} one answer is No. {Repeat question}", and measured how much the model's answers shifted with rephrasings like this. The method was inspired by DeepMind's approach to [uncertainty quantification](https://arxiv.org/abs/2406.02543).
 
 More details on attribution patching are given further down. We also tried combining attribution patching and activations in two ways:
 
@@ -122,10 +122,10 @@ In addition, we visualised activations and estimated effects per layer using UMA
 
 Among online scores, the highest average AUROC (0.87) when scores were aggregated across layers was acheived by using the mahalanobis score with activation features. Among offline scores, the highest average AUROC (0.94) was achieved by using the quantum entropy score together with activation features.
 
-Averages mask substantical structure in scores:
+Averages mask substantial structure in scores:
  - All methods struggled to consistently distinguish Alice from Bob on the `sciq` and `sentiment` datasets
  - Activation based methods performed well on all datasets except `nli`
- - Where activation based methods performed well, they typically performed *very* well. Activations - quantum entropy achieved an AUROC of ~1 on the remaining datasets, while the lowest AUROC for activations-Mahalanobis distance on the remaining datasets distance was 0.988 on `hemispshere`
+ - Where activation based methods performed well, they typically performed *very* well. Activations-quantum entropy achieved an AUROC of ~1 on the remaining datasets, while the lowest AUROC for activations-Mahalanobis distance on the remaining datasets distance was 0.988 on `hemispshere`
  - Attribution based methods typically achieved AUROC of around 0.9 on "easy" datasets, but performed notably better than activation based methods on `nli`
  - Probe-shift based methods were particularly insensitive to the choice of layer
 
@@ -200,7 +200,7 @@ We did not have success with contrast probing.
 
 ## Adversarial image detection
 
-We conducted an exploratory experiment applying the same detectors to the task of detecting adversarial images for image classifiers. We focused on the mahalanobis distance, because it worked well in comparison to other detectors for the quirky models task and because it is quite simple. We found that an activation-mahalanobis detector was able to detect adversarial images with an AUC of around 0.8 (layer-dependant) in a standard image classifier. It could not perform above chance for a robust classifier, however. Using attribution patching to approximate mean ablation along top principle components, on the other hand, had highly layer-dependant accuracy for a standard classifier. Interestingly, exactly the same approach performed marginally better than chance in a relatively layer independent manner for the tested robust detector. We did not test how robust the detectors themselves were to adversarial attack.
+We conducted an exploratory experiment applying the same detectors to the task of detecting adversarial images for image classifiers. We focused on the Mahalanobis distance, because it worked well in comparison to other detectors for the quirky models task and because it is quite simple. We found that an activation-mahalanobis detector was able to detect adversarial images with an AUC of around 0.8 (layer-dependant) in a standard image classifier. It could not perform above chance for a robust classifier, however. Using attribution patching to approximate mean ablation along top principal components, on the other hand, had highly layer-dependent accuracy for a standard classifier. Interestingly, exactly the same approach performed marginally better than chance in a relatively layer independent manner for the tested robust detector. We did not test how robust the detectors themselves were to adversarial attack.
 
 ![Comparison of adversarial image detectors by layer](/images/blog/mechanistic-anomaly-detection/adversarial_image.png)
 *Figure 6: Performance of different adversarial image detectors by layer and image model. Standard is a non-robust classifier, while [Carmon2019Unlabeled](https://arxiv.org/abs/1905.13736) is a robust model*
@@ -427,19 +427,15 @@ Patching activations by surgically swapping Alice and Bob requires access to kno
 ![Top 10 edges for nli, population and hemisphere datasets](/images/blog/mechanistic-anomaly-detection/top10edges.png)
 *Figure 43: Top 10 edges for nli, population and hemisphere datasets*
 
-
 ## We are planning to experiment with sparse autoencoders
 
 We have mentioned that one of the key challenges is finding a good activation or effect basis to compute anomaly scores. We have experimented with the eigenbasis of the covariance matrices of the activations in each layer, and are looking to try "edge interventions" as defined in [the previous section](#discovering-functional-elements-of-the-network-with-edge-attribution-patching). We have no strong reason to expect either of these is a great basis for anomaly detection.
 
 Sparse autoencoders (SAEs) are another approach to defining a basis for investigating model behaviour. A sparse autoencoder learns a sparse codebook of features which can be used to reconstruct the activations. Given an example, we expect the active features in the codebook are the most important features for explaining the model's behaviour. It is plausible that Alice and Bob behaviour is distinguished by differing distributions of codebook features, corresponding to different concepts invoked by the different modes of operation. Alternatively, perhaps the model computes both Alice and Bob answers for each prompt and then chooses one at the end. In this case, we may or may not see different feature activations, but we would expect to see different effects of intervening on Alice features if the prompt contains "Alice" or "Bob".
 
-We are currently working on training SAEs for Llama 3 using a modified method of OpenAI's [top-k SAE](https://openai.com/index/extracting-concepts-from-gpt-4/) and will provide an update when we have results.
-
 ## Outlook
 
 We have strong MAD results for many datasets, but we would ideally like AUCs uniformly very close to 1 which we have not achieved. For some datasets (NLI, sentiment and sciq), model performance appears weaker and layer dependent even for the strongest MAD approaches. We have not yet found a compelling way to use attribution patching to improve our results. We are looking to experiment with sparse autoencoders for MAD soon, as we think it is plausible MAD in a basis where features are disentangled may be easier.
-
 
 ## Appendix: Tables of Results
 
