@@ -7,7 +7,8 @@ date: 2024-09-17T00:00:00-00:00
 draft: False
 ---
 
-[SynthLabs](https://www.synthlabs.ai/) and EleutherAI bring large scale post training and preference learning to [GPT-NeoX](https://github.com/EleutherAI/gpt-neox), one of the most widespread and adopted pretraining frameworks for large scale language models. This effort represents a partnership towards improving accessibility of preference learning research at scale. 
+Today [SynthLabs](https://www.synthlabs.ai/) and EleutherAI are excited to announce large scale post training and preference learning in [GPT-NeoX](https://github.com/EleutherAI/gpt-neox), one of the most widespread and adopted pretraining frameworks for large scale language models. This effort represents a partnership towards improving accessibility of preference learning research at scale. 
+
 
 Currently large scale preference learning research is bottlenecked by a lack of easily scalable and robust frameworks. Pushing the boundary of what models are easily trainable and what training methodologies are easily accessible will enable a new wave of research developments and breakthroughs in the space of preference learning as well as a new set of previously unknown applications, much likeas did the introduction of many of EleutherAI’s own prior open source models did.
 
