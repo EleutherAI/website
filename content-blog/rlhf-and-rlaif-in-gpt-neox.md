@@ -1,13 +1,11 @@
 ---
 title: "RLHF and RLAIF in GPT-NeoX"
 categories: ["Release"]
-author: ["Dakot Mahan, Quentin Anthony, Louis Castricato, Nathan Lile, Stella Biderman"]
+author: ["Dakota Mahan, Quentin Anthony, Louis Castricato, Nathan Lile, Stella Biderman"]
 description: "GPT-NeoX now supports post-training thanks to a collaboration with SynthLabs."
 date: 2024-09-17T00:00:00-00:00
-draft: False
+draft: True
 ---
-
-{{<figure src="/images/blog/rlhf-and-rlaif-in-gpt-neox/cover.webp" alt="Comparison between GPT-NeoX and trl" align="center"/>}}
 
 Today [SynthLabs](https://www.synthlabs.ai/) and EleutherAI are excited to announce large scale post training and preference learning in [GPT-NeoX](https://github.com/EleutherAI/gpt-neox), one of the most widespread and adopted pretraining frameworks for large scale language models. This effort represents a partnership towards improving accessibility of preference learning research at scale. 
 
