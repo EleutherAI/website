@@ -1,11 +1,13 @@
 ---
 title: "RLHF and RLAIF in GPT-NeoX"
 categories: ["Release"]
-author: ["Mohammad Aflah Khan"]
+author: ["Dakota, Quentin Anthony, Louis Castricato, Nathan Lile, Stella Biderman"]
 description: "GPT-NeoX now supports post-training thanks to a collaboration with SynthLabs."
 date: 2024-09-17T00:00:00-00:00
 draft: False
 ---
+
+{{<figure src="/images/blog/rlhf-and-rlaif-in-gpt-neox/cover.webp" alt="Comparison between GPT-NeoX and trl" align="center"/>}}
 
 Today [SynthLabs](https://www.synthlabs.ai/) and EleutherAI are excited to announce large scale post training and preference learning in [GPT-NeoX](https://github.com/EleutherAI/gpt-neox), one of the most widespread and adopted pretraining frameworks for large scale language models. This effort represents a partnership towards improving accessibility of preference learning research at scale. 
 
@@ -30,7 +32,7 @@ GPT-NeoX builds on leading core technologies for large scale optimization includ
 
 By adding support for preference learning (SFT, DPO, KTO) into GPT-NeoX, we are able to exploit pretraining optimizations (both scale-up and scale-out) during the post-training process. This alleviates the efficiency bottleneck inherent to existing post-training libraries like TRL.
 
-{{<figure src="/images/blog/rlhf-and-rlaif-in-gpt-neox/scaling.png" alt="Comparison between GPT-NeoX and trl" align="center"/>}}
+{{<figure src="/images/blog/rlhf-and-rlaif-in-gpt-neox/scaling.svg" alt="Comparison between GPT-NeoX and trl" align="center"/>}}
 
 <sub><sup>We use HuggingFace's hyperparameters from the alignment handbook repo for zephyr-7b-beta. 13B Seconds per iteration for TRL using 8 Gradient Accumulation Steps, batch size per device of 2, zero3, and gradient checkpointing enabled</sup></sub>
 
@@ -43,7 +45,7 @@ To verify our implementation, we've recreated the [HuggingFaceH4/zephyr-7b-beta 
 
 To evaluate our model, we utilized the latest [lm-evaluation-harness](https://github.com/EleutherAI/lm-evaluation-harness) with vLLM:
 
-{{<figure src="/images/blog/rlhf-and-rlaif-in-gpt-neox/evals.png" alt="Comparison between GPT-NeoX and trl" align="center"/>}}
+{{<figure src="/images/blog/rlhf-and-rlaif-in-gpt-neox/evals.svg" alt="Comparison between GPT-NeoX and trl" align="center"/>}}
 
 |                            | Average | GSM8k 5 shot  flexible-extract | Mmlu 5 shot acc | ARC-Challenge 25 shot acc_norm | HellaSwag 10 shot acc_norm | WinoGrande 5 shot acc | TruthfulQA 0 shot Mc2 acc |
 |----------------------------|:-------:|:------------------------------:|:---------------:|:------------------------------:|:--------------------------:|:---------------------:|:-------------------------:|
