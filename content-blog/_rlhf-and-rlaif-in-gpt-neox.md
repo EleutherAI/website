@@ -4,7 +4,7 @@ categories: ["Release"]
 author: ["Dakota Mahan, Quentin Anthony, Louis Castricato, Nathan Lile, Stella Biderman"]
 description: "GPT-NeoX now supports post-training thanks to a collaboration with SynthLabs."
 date: 2024-09-17T00:00:00-00:00
-draft: True
+draft: False
 ---
 
 Today [SynthLabs](https://www.synthlabs.ai/) and EleutherAI are excited to announce large scale post training and preference learning in [GPT-NeoX](https://github.com/EleutherAI/gpt-neox), one of the most widespread and adopted pretraining frameworks for large scale language models. This effort represents a partnership towards improving accessibility of preference learning research at scale. 
