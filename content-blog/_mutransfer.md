@@ -29,7 +29,7 @@ In Figure 1, [Yang et al.](https://proceedings.mlr.press/v139/yang21c.html) show
 
 **Figure 1:** With μP, optimal hyperparameters are stable as width is varied (Figure 1 from [Yang et al.](https://proceedings.mlr.press/v139/yang21c.html) with permission).
 
-As a result of the HP shift when training models with SP, prior works have tested and found empirically that learning rates change as model size increases. Figure 2 shows the tuned max learning rate plotted against model width for a range of popular SP-trained large language models [[GPT-3](https://arxiv.org/abs/2005.14165), [LLaMA](https://arxiv.org/abs/2302.13971), [Gopher](https://arxiv.org/abs/2112.11446), [Chinchilla](https://openreview.net/pdf?id=iBBcRUlOAPR), [Turing-NLG](https://arxiv.org/abs/2201.11990)]. Here, the community has used very expensive manual tuning and testing to find that maximum learning rates roughly follow a $\eta_{\text{optimal}} \propto \eta_{\text{base}} / \text{width}$ trend (similar to the μP trend!). Interestingly, the larger scale models slightly diverge from the trend. This could be indicative of sub-optimal learning rate tuning due to the prohibitively expensive tuning cost and attempts to avoid instability. By adopting μP, one can automate much of the tuning required with SP models for free.
+As a result of the HP shift when training models with SP, prior works have tested and found empirically that learning rates change as model size increases. Figure 2 shows the tuned max learning rate plotted against model width for a range of popular SP-trained large language models [[GPT-3](https://arxiv.org/abs/2005.14165), [LLaMA](https://arxiv.org/abs/2302.13971), [Gopher](https://arxiv.org/abs/2112.11446), [Chinchilla](https://openreview.net/pdf?id=iBBcRUlOAPR), [Turing-NLG](https://arxiv.org/abs/2201.11990)]. Here, the community has used very expensive manual tuning and testing to find that maximum learning rates roughly follow a ($\eta_{\text{optimal}} \propto \eta_{\text{base}} / \text{width}$) trend (similar to the μP trend!). Interestingly, the larger scale models slightly diverge from the trend. This could be indicative of sub-optimal learning rate tuning due to the prohibitively expensive tuning cost and attempts to avoid instability. By adopting μP, one can automate much of the tuning required with SP models for free.
 
 {{<figure src="/images/blog/mutransfer/240911_lr_width_sp.png" alt="Figure 2: Learning rates for SP models have been roughly following the μP guidelines" align="center"/>}}
 
@@ -45,7 +45,7 @@ As model size grows it becomes more expensive to perform an extensive HP search,
 
 LLM training is notoriously prone to instability (see OPT logbook for SP training challenges [Zhang et al.](https://arxiv.org/abs/2205.01068)). Instability can present itself in the form of NaN loss, loss spikes, and/or loss divergences. When encountering instability, simple workarounds include resuming training with a lower learning rate [Zhang et al.](https://arxiv.org/abs/2205.01068) and/or skipping the data batches around where the instability occurred [Chowdhery et al.](https://arxiv.org/abs/2204.02311).
 
-While adopting μP does not completely solve the problem of instability, it certainly does eliminate HP selection as a major source of instability. Practitioners will still need to be mindful of precision, numerical stability, hardware failures, outlier data, etc. Anecdotally, since adopting μP at Cerebras, we seldom encounter training instability.
+While adopting μP does not completely solve the problem of instability, it certainly does eliminate HP selection as a major source of instability. Practitioners will still need to be mindful of precision, numerical stability, hardware failures, outlier data, etc.
 
 ## 4. More predictable scaling due to μTransfer
 
@@ -91,7 +91,7 @@ As we scale model width by multiplier m_d in a linear layer (i.e., F is a fully-
 2. **Backward pass:** $∇_x$ $\mathcal{L}$ = ($∇_y$ $\mathcal{L}$)($W$)$^{\top}$
 3. **Effect of weight update on activations:** Δ$y$ = $x$ Δ$W$
 
-More formally, we want the norm of activations $||y||_ F$, gradients $||∇_x \mathcal{L}||_F$, and the effect of the weight update on activations $||Δy||_ F$ to each be invariant to width multiplier $m_d$. We can ensure this by controlling the mean and variance of each.
+More formally, we want the norm of activations $||y||_ F$, gradients $||∇_x \mathcal{L}||_ F$, and the effect of the weight update on activations $||Δy||_ F$ to each be invariant to width multiplier $m_d$. We can ensure this by controlling the mean and variance of each.
 
 To control the forward pass, we can return to our earlier example but rather than making the scale of $y$ invariant to **width** $d$, let's make it invariant to the **change in width** $m_d = d_{in} / d_{in,base}$. Then we can write $y \sim N(0,m_d · d_{in,base}·σ²_x·σ²_W)$ and we can choose $σ_W = 1 / \sqrt{m_d}$ to ensure $y \sim N(0,d_{in,base}·σ²_x)$. Phrasing things in terms of $m_d$ rather than $d$ allows us to mimic the training dynamics of some baseline model as we scale up.
 
@@ -103,7 +103,7 @@ $$
 y_2 = x_2 W_1 = x_2(W_0 + ΔW_0) = x_2(W_0 + \eta · \text{opt}({∇_{W_0}} \mathcal{L})) = x_2 W_0  + \eta · x_2 \text{opt}(x_1 {∇_{y_1}} \mathcal{L}^\top) \tag{1}
 $$
 
-Since we have already controlled $x_2 W_0$ with the initialization above, we only need to consider the change due to the weight update; $η· x_2 \text{opt}(x_1 {∇_{y_1}} \mathcal{L}^\top)$ must scale independently of the model's width. Here again, this calculation is structured analogously to the matrix multiply example in Figure 3. Unlike the simple example, however, the weight update and the forward activations on the second training step are no longer independent. They will have covariance, because $x_1$ and $x_2$ are drawn from the same distribution. Thus, the expectation of their dot-product ( $ \mathop{E}[\eta\cdot x_2 \text{opt}(x_1 \nabla_{y_1}\mathcal{L}^\top)] $ ) is likely to be non-zero. In fact, by the Law of Large Numbers, this dot-product can be shown to grow proportionally to the change in width $E[\eta \cdot x_2\text{opt}(x_1 \nabla_{y_1}\mathcal{L}^\top)] \propto \eta m_d$. Thus, to control the weight update in expectation, we can[$^1$](#footnotes) set $η = 1 / m_d$. This derivation applies to both Stochastic Gradient Descent (SGD) and Adam optimizers, but note that accounting for optimizer transformations can be tricky, so we spare the reader from the complexity here[$^2$](#footnotes).
+Since we have already controlled $x_2 W_0$ with the initialization above, we only need to consider the change due to the weight update; $η· x_2 \text{opt}(x_1 {∇_{y_1}} \mathcal{L}^\top)$ must scale independently of the model's width. Here again, this calculation is structured analogously to the matrix multiply example in Figure 3. Unlike the simple example, however, the weight update and the forward activations on the second training step are no longer independent. They will have covariance, because $x_1$ and $x_2$ are drawn from the same distribution. Thus, the expectation of their dot-product ( $ \mathbb{E}[\eta\cdot x_2 \text{opt}(x_1 \nabla_{y_1}\mathcal{L}^\top)] $ ) is likely to be non-zero. In fact, by the Law of Large Numbers, this dot-product can be shown to grow proportionally to the change in width $\mathbb{E}[\eta \cdot x_2\text{opt}(x_1 \nabla_{y_1}\mathcal{L}^\top)] \propto \eta m_d$. Thus, to control the weight update in expectation, we can[$^1$](#footnotes) set $η = 1 / m_d$. This derivation applies to both Stochastic Gradient Descent (SGD) and Adam optimizers, but note that accounting for optimizer transformations can be tricky, so we spare the reader from the complexity here[$^2$](#footnotes).
 
 **Summary:** For training, μP controls the forward and backward pass operations with weight initialization, and it controls the weight update using learning rate scaling.
 
@@ -118,15 +118,15 @@ In this section we will explain how to implement, verify, and use μP for a tran
 
 The implementation is actually quite straightforward. Table 1 summarizes the necessary adjustments to implement μP for a Transformer with tied embeddings. It is common for research groups to work off of complex training codebases (e.g. Megatron-LM, GPT-NeoX, DeepSpeed, timm) which makes it difficult to adopt the original [μP library](https://github.com/microsoft/mup). Internally, we found it simple to integrate μP into our existing code bases by making targeted changes to our code following Table 1. Here $m_d = d / d_{base}$ is the width multiplier and $d_{\text{head}}$ is the dimension of each attention head (typically 64 or 128). No additional corrections are needed for biases or layer-norm layers.
 
-| Parameterization | SP | μP |
+| Parameterization | SP | **μP** |
 |------------------|----|----|
 | Embedding Init. Var. | $σ_{base}^2$ | $σ_{base}^2$ |
 | Embedding LR | $η_{base}$ | $η_{base}$ |
-| Embedding Fwd. | $x W_{\text{emb}}$ | $α_{input} · x W_{\text{emb}}$ |
-| Hidden Init. Var. | $σ_{base}^2$ | $σ_{base}^2 / m_d$ |
-| Hidden LR (Adam) | $η_{base}$ | $η_{base} / m_d$ |
-| Output Logit Fwd. | $x W_{\text{emb}}^\top$ | $α_{output} · x W_{\text{emb}}^\top / m_d$ |
-| Attention logits | $Q^\top K / \sqrt{d_{\text{head}}}$ | $Q^\top K / d_{\text{head}}$ |
+| Embedding Fwd. | $x W_{\text{emb}}$ | $\mathbf{α_{input}} · x W_{\text{emb}}$ |
+| Hidden Init. Var. | $σ_{base}^2$ | $σ_{base}^2 / \mathbf{m_d}$ |
+| Hidden LR (Adam) | $η_{base}$ | $η_{base} / \mathbf{m_d}$ |
+| Output Logit Fwd. | $x W_{\text{emb}}^\top$ | $\mathbf{α_{output}} · x W_{\text{emb}}^\top / \mathbf{m_d}$ |
+| Attention logits | $Q^\top K / \sqrt{d_{\text{head}}}$ | $Q^\top K / \mathbf{d_{\text{head}}}$ |
 
 Table 1: Summary of SP and μP differences for a decoder-only transformer trained with Adam.
 
@@ -246,7 +246,7 @@ Our goal is to ensure $| Y |_ F$ is invariant to changes in width $m_d$. To achi
 **Mean:** As expectation is linear and $X$ and $W$ are independent at initialization:
 
 $$
-\mathbb{E}[Y_{ij}] = \mathbb{E}[ \sum{k=1}^{d_\text{in}} X_{ik} W_{kj} ] = \sum_{k=1}^{d_\text{in}} \mathbb{E}[ X_{ik} W_{kj} ] = \sum_{k=1}^{d_\text{in}} \mathbb{E}[ X_{ik}] \mathbb{E}[ W_{kj} ] = \sum_{k=1}^{d_\text{in}} \mathbb{E}[ X_{ik}] (0) = 0 \tag{3}
+\mathbb{E}[Y_{ij}] = \mathbb{E}[ \sum_{k=1}^{d_\text{in}} X_{ik} W_{kj} ] = \sum_{k=1}^{d_\text{in}} \mathbb{E}[ X_{ik} W_{kj} ] = \sum_{k=1}^{d_\text{in}} \mathbb{E}[ X_{ik}] \mathbb{E}[ W_{kj} ] = \sum_{k=1}^{d_\text{in}} \mathbb{E}[ X_{ik}] (0) = 0 \tag{3}
 $$
 
 Therefore, since at initialization $\mathbb{E}[W_{ij}]=0$, $\mathbb{E}[Y_{ij}] = 0$ and the mean is controlled.
@@ -254,25 +254,25 @@ Therefore, since at initialization $\mathbb{E}[W_{ij}]=0$, $\mathbb{E}[Y_{ij}] =
 **Variance:** As expectation is linear and each weight element is IID:
 
 $$
-\text{Var}(Y_{ij}) = \text{Var}(\sum{k=1}^{d_\text{in}} X_{ik} W_{kj}) = \sum_{k=1}^{d_\text{in}} \text{Var}(X_{ik} W_{kj}) \tag{4}
+\text{Var}(Y_{ij}) = \text{Var}(\sum_{k=1}^{d_\text{in}} X_{ik} W_{kj}) = \sum_{k=1}^{d_\text{in}} \text{Var}(X_{ik} W_{kj}) \tag{4}
 $$
 
 Then, since $X$ and $W$ are independent at initialization:
 
 $$
-\text{Var}(Y_{ij}) = \sum{k=1}^{d_\text{in}} (\text{Var}(X_{ik}) + \mathbb{E}[X_{ik}]^2)(\text{Var}(W_{kj}) + \mathbb{E}[W_{kj}]^2) - (\mathbb{E}[X_{ik}]\mathbb{E}[W_{kj}])^2 \tag{5}
+\text{Var}(Y_{ij}) = \sum_{k=1}^{d_\text{in}} (\text{Var}(X_{ik}) + \mathbb{E}[X_{ik}]^2)(\text{Var}(W_{kj}) + \mathbb{E}[W_{kj}]^2) - (\mathbb{E}[X_{ik}]\mathbb{E}[W_{kj}])^2 \tag{5}
 $$
 
 Finally, since at initialization $E[W_{kj}]=0$ and redefining $\text{Var}(W_{kj}) = \sigma^2_{W}$:
 
 $$
-\text{Var}(Y_{ij}) = \sum{k=1}^{d_\text{in}} \sigma^2_{W}(\text{Var}(X_{ik}) + \mathbb{E}[X_{ik}]^2) = d_\text{in} \sigma^2_{W} (\text{Var}(X) +  \mathbb{E}[X]^2) \tag{6}
+\text{Var}(Y_{ij}) = \sum_{k=1}^{d_\text{in}} \sigma^2_{W}(\text{Var}(X_{ik}) + \mathbb{E}[X_{ik}]^2) = d_\text{in} \sigma^2_{W} (\text{Var}(X) +  \mathbb{E}[X]^2) \tag{6}
 $$
 
 Rewriting in terms of width multiplier $m_d = \frac{d_\text{in}}{d_\text{in,base}}$:
 
 $$
-\text{Var}(Y_{ij}) = m_d d\text{in,base} \sigma^2_{W} (\text{Var}(X) + \mathbb{E}[X]^2) \tag{7}
+\text{Var}(Y_{ij}) = m_d d_\text{in,base} \sigma^2_{W} (\text{Var}(X) + \mathbb{E}[X]^2) \tag{7}
 $$
 
 **Solution:** To ensure $\text{Var}(Y_{ij})$ scales independently of $m_d$, we choose to set $\sigma^2{W} = \frac{\sigma_{W,base}^2}{m_d}$. This ensures that $| Y |_ F$ is invariant to changes in width $m_d$.
@@ -364,7 +364,7 @@ $$
 Rewriting in terms of width multiplier $m_d = \frac{d_\text{in}}{d_\text{in,base}}$.
 
 $$
-\mathbb{E}[\Delta Y_{ij}] \to \eta m_d d\text{in,base} \mathbb{E}[X_{ik} [ \frac{\sum^T_t \gamma_t \sum_b^B X^{l,t}{bk} (\nabla_{Y} \mathcal{L})^t_{bj} }{\sqrt{\sum_t^T \omega_t \sum_b^B (X^t_{bk} (\nabla_{Y} \mathcal{L})^t_{bj})^2}} ]_ {kj}], \text{ as } d\text{in} \to \infty \tag{19}
+\mathbb{E}[\Delta Y_{ij}] \to \eta m_d d_\text{in,base} \mathbb{E}[X_{ik} [ \frac{\sum^T_t \gamma_t \sum_b^B X^{l,t}{bk} (\nabla_{Y} \mathcal{L})^t_{bj} }{\sqrt{\sum_t^T \omega_t \sum_b^B (X^t_{bk} (\nabla_{Y} \mathcal{L})^t_{bj})^2}} ]_ {kj}], \text{ as } d\text{in} \to \infty \tag{19}
 $$
 
 **Solution:** To ensure $\Delta Y_{ij}$ and $|\Delta Y|F$ are scale invariant to $m_d$, we choose $\eta = \frac{\eta_{\text{base}}}{m_d}$.
