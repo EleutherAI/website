@@ -4,16 +4,17 @@ categories: ["Release"]
 author: ["Nolan Dey, Quentin Anthony, Joel Hestness"]
 description: "Exploring the implementation details of mutransfer"
 date: 2024-09-19T00:00:00-00:00
+mathjax: true
 draft: False
 ---
 
-EleutherAI is proud to introduce a joint project with [Cerebras](https://cerebras.ai/) on spreading the implementation details of [muTransfer](https://github.com/microsoft/mup) with the wider model training community! 
+**EleutherAI is proud to introduce a joint project with [Cerebras](https://cerebras.ai/) on spreading the implementation details of [muTransfer](https://github.com/microsoft/mup) with the wider model training community!**
+
+**We provide a simple port of μP to the popular nanoGPT library at https://github.com/EleutherAI/nanoGPT-mup, and encourage readers to refer to this implementation throughout this blog.**
 
 ## Introduction
 
 Maximal Update Parameterization (μP) offers significant advantages for neural network training, but its adoption has been limited due to the complexity of the underlying math and the challenges in implementation. This guide aims to lower those barriers by providing a clear and practical overview of μP. By using μP, you can achieve stable hyperparameters across model scales, reduce the need for costly tuning, and improve training stability at large scale. This guide will walk you through the core concepts and practical steps needed to implement μP effectively, enabling you to take full advantage of its benefits without the usual hurdles.
-
-We provide a simple port of μP to the popular nanoGPT library at https://github.com/EleutherAI/nanoGPT-mup, and encourage readers to refer to this implementation throughout this blog.
 
 ## Why you should use μP
 
@@ -25,13 +26,13 @@ In Figure 1, [Yang et al.](https://proceedings.mlr.press/v139/yang21c.html) show
 
 {{<figure src="/images/blog/mutransfer/tp5_mutransfer.png" alt="Figure 1: With μP, optimal hyperparameters are stable as width is varied" align="center"/>}}
 
-Figure 1: With μP, optimal hyperparameters are stable as width is varied (Figure 1 from [Yang et al.](https://proceedings.mlr.press/v139/yang21c.html) with permission).
+**Figure 1:** With μP, optimal hyperparameters are stable as width is varied (Figure 1 from [Yang et al.](https://proceedings.mlr.press/v139/yang21c.html) with permission).
 
-As a result of the HP shift when training models with SP, prior works have tested and found empirically that learning rates change as model size increases. Figure 2 shows the tuned max learning rate plotted against model width for a range of popular SP-trained large language models [GPT-3, LLaMA, Gopher, Chinchilla, Turing-NLG]. Here, the community has used very expensive manual tuning and testing to find that maximum learning rates roughly follow a η_optimal ∝ η_base / width trend (similar to the μP trend!). Interestingly, the larger scale models slightly diverge from the trend. This could be indicative of sub-optimal learning rate tuning due to the prohibitively expensive tuning cost and attempts to avoid instability. By adopting μP, one can automate much of the tuning required with SP models for free.
+As a result of the HP shift when training models with SP, prior works have tested and found empirically that learning rates change as model size increases. Figure 2 shows the tuned max learning rate plotted against model width for a range of popular SP-trained large language models [[GPT-3](https://arxiv.org/abs/2005.14165), [LLaMA](https://arxiv.org/abs/2302.13971), [Gopher](https://arxiv.org/abs/2112.11446), [Chinchilla](https://openreview.net/pdf?id=iBBcRUlOAPR), [Turing-NLG](https://arxiv.org/abs/2201.11990)]. Here, the community has used very expensive manual tuning and testing to find that maximum learning rates roughly follow a $\eta_{\text{optimal}} \propto \eta_{\text{base}} / \text{width}$ trend (similar to the μP trend!). Interestingly, the larger scale models slightly diverge from the trend. This could be indicative of sub-optimal learning rate tuning due to the prohibitively expensive tuning cost and attempts to avoid instability. By adopting μP, one can automate much of the tuning required with SP models for free.
 
 {{<figure src="/images/blog/mutransfer/240911_lr_width_sp.png" alt="Figure 2: Learning rates for SP models have been roughly following the μP guidelines" align="center"/>}}
 
-Figure 2: Learning rates for SP models have been roughly following the μP guidelines.
+**Figure 2:** Learning rates for SP models have been roughly following the μP guidelines.
 
 Since the first set of SP large language model (LLM) families, it has been commonplace to reuse the HPs of predecessors corresponding to the model size being trained. This approach inherits the poor tuning of larger scale models. Furthermore, this approach can't be used for new architectures or optimizers, so researchers must take on the burden of manual tuning themselves. The prohibitive cost of tuning makes it artificially harder for new techniques to disrupt the existing training recipes (Parameterization Lottery).
 
@@ -53,7 +54,7 @@ For projects involving large-scale training, it is useful to fit scaling laws an
 
 The benefits of μP add up to enable better research:
 
-**μP Alleviates the "Parameterization Lottery".** The techniques we develop are subject to the "Parameterization Lottery" where research ideas can win because they are suited to existing hyperparameters and not because the idea is superior to alternative research directions (Analogous to the "Hardware Lottery" [Hooker](https://arxiv.org/abs/2009.06489)). Standard Parameterization (SP) studies run the risk of inconclusive or unpublished negative results due to the confounding variable of HP tuning. Research using μP can more robustly compare baselines with new methods, because optimal HPs are stable across model widths.
+**μP Alleviates the "Parameterization Lottery".** The techniques we develop are subject to the "Parameterization Lottery" where research ideas can win because they are suited to existing hyperparameters and not because the idea is superior to alternative research directions (Analogous to the "Hardware Lottery" ([Hooker](https://arxiv.org/abs/2009.06489))). Standard Parameterization (SP) studies run the risk of inconclusive or unpublished negative results due to the confounding variable of HP tuning. Research using μP can more robustly compare baselines with new methods, because optimal HPs are stable across model widths.
 
 **Simple and effective large-scale training.** Large-scale training runs using μP enjoy better and more predictable performance with less worry of instability wasting compute time. Furthermore, μTransfer allows HP tuning budgets to be mostly reallocated towards training something new instead.
 
@@ -67,7 +68,7 @@ For each function we apply to a set of activations, we would like to ensure that
 
 {{<figure src="/images/blog/mutransfer/parameterization-fig-03.jpg" alt="Simple matrix multiply example" align="center"/>}}
 
-Figure 3: Simple matrix multiply example
+**Figure 3:** Simple matrix multiply example
 
 Figure 3 diagrams the matrix multiplication, where the vector $x$ is multiplied by the weights matrix $W$ to produce vector $y$. In the matrix multiply, $x$ is dot-product multiplied by each column of $W$, so in those dot-products, each element of $x$ is first multiplied by the corresponding element in the column from $W$, and then the resulting values are reduced along $W$'s column dimension.
 
@@ -81,7 +82,7 @@ The example above applies to activations. However, during training we also need 
 
 {{<figure src="/images/blog/mutransfer/parameterization-fig-04.jpg" alt="Figure 4: The three operations associated with training an individual layer with weights that perform the function, F: Forward activation calculation, backward gradient propagation, and the updates to the weights." align="center"/>}}
 
-Figure 4: The three operations associated with training an individual layer with weights that perform the function, F: Forward activation calculation, backward gradient propagation, and the updates to the weights.
+**Figure 4:** The three operations associated with training an individual layer with weights that perform the function, F: Forward activation calculation, backward gradient propagation, and the updates to the weights.
 
 As we scale model width by multiplier m_d in a linear layer (i.e., F is a fully-connected layer), our aim is to control:
 
@@ -144,52 +145,52 @@ First we perform the coordinate check for an SP model. Figure 1 shows that at ea
 
 {{<figure src="/images/blog/mutransfer/parameterization-fig-05-scaled.jpg" alt="Coordinate check for SP" align="center"/>}}
 
-Figure 5: Coordinate check for SP
+**Figure 5:** Coordinate check for SP
 
 Next we modify our parameterization to include the μP adjustments for hidden weight initialization variance: $σ^2_{μP} = σ^2_{base} / m_d$. Figure 2 shows this adjustment controls the size of hidden activations at initialization but after each weight update, activation size grows proportional to model width.
 
 {{<figure src="/images/blog/mutransfer/parameterization-fig-06-1-scaled.jpg" alt="Coordinate check for SP with μP hidden init. var." align="center"/>}}
 
-Figure 6: Coordinate check for SP with μP hidden init. var. ($\sigma_{\mu P}^2 = \sigma_{base}^2 / m_d$)
+**Figure 6:** Coordinate check for SP with μP hidden init. var. ($\sigma_{\mu P}^2 = \sigma_{base}^2 / m_d$)
 
 Next we modify our parameterization to include the μP adjustments for hidden learning rate: $η_{μP} = η_{base} / m_d$. Figure 3 shows these adjustments now ensure the size of hidden activations do not scale proportional to model width, but the output logit scale still grows.
 
 {{<figure src="/images/blog/mutransfer/parameterization-fig-07-scaled.jpg" alt="Coordinate check for SP with μP hidden init. var." align="center"/>}}
 
-Figure 7: Coordinate check for SP with μP hidden init. var. ($\sigma_{\mu P}^2 = \sigma_{base}^2 / m_d$) and $\mu P$ hidden LR ($\eta_{\mu P} = \eta_{base} / m_d$)
+**Figure 7:** Coordinate check for SP with μP hidden init. var. ($\sigma_{\mu P}^2 = \sigma_{base}^2 / m_d$) and $\mu P$ hidden LR ($\eta_{\mu P} = \eta_{base} / m_d$)
 
 Next we modify our parameterization to include a **partial** μP adjustment for output logits: $y_{logits} = x W_{\text{emb}}^\top / \sqrt{m_d}$. Figure 4 shows these adjustments control the output logit scale at initialization, but there is still growth after a few steps.
 
 {{<figure src="/images/blog/mutransfer/parameterization-fig-08-scaled.jpg" alt="Coordinate check for SP with μP hidden init. var." align="center"/>}}
 
-Figure 8: Coordinate check for SP with μP hidden init. var. ($\sigma_{\mu P}^2 = \sigma_{base}^2 / m_d$) and $\mu P$ hidden LR ($\eta_{\mu P} = \eta_{base} / m_d$) and a partial $\mu P$ adjustment for output logits ($y_{logits} = x W_{\text{emb}}^\top / m_d$)
+**Figure 8:** Coordinate check for SP with μP hidden init. var. ($\sigma_{\mu P}^2 = \sigma_{base}^2 / m_d$) and $\mu P$ hidden LR ($\eta_{\mu P} = \eta_{base} / m_d$) and a partial $\mu P$ adjustment for output logits ($y_{logits} = x W_{\text{emb}}^\top / m_d$)
 
 The $1/\sqrt{m_d}$ output logit multiplier is only suitable for the beginning of training where activations aren't correlated yet. During later training, activations will correlate with weights, so a 1/m_d output logit multiplier is required, and we use this multiplier throughout training. Next we modify our parameterization to include the full μP adjustment for output logits: $y_{logits} = x W_{\text{emb}}^\top / m_d$. Figure 5 shows these adjustments now pass the coordinate check test - the size of activations does not scale proportional to model width!
 
 {{<figure src="/images/blog/mutransfer/parameterization-fig-09-scaled.jpg" alt="Coordinate check for SP with μP hidden init. var." align="center"/>}}
 
-Figure 9: Coordinate check for SP with μP hidden init. var. ($\sigma_{\mu P}^2 = \sigma_{base}^2 / m_d$) and $\mu P$ hidden LR ($\eta_{\mu P} = \eta_{base} / m_d$) and the $\mu P$ adjustment for output logits ($y_{logits} = x W_{\text{emb}}^\top / m_d$)
+**Figure 9:** Coordinate check for SP with μP hidden init. var. ($\sigma_{\mu P}^2 = \sigma_{base}^2 / m_d$) and $\mu P$ hidden LR ($\eta_{\mu P} = \eta_{base} / m_d$) and the $\mu P$ adjustment for output logits ($y_{logits} = x W_{\text{emb}}^\top / m_d$)
 
 Finally, there is one more modification prescribed by μP: $y_{\text{attn logits}} = Q^\top K / d_{\text{head}}$. The reasoning for this change is similar to the output logits multiplier: The keys and queries in the model are likely to rotate to align later in training. We modify our parameterization to include this and show that in Figure 6 that is has minimal effect. This is because this attention logit adjustment is meant to counteract the correlation of Q and K that emerges later into training.
 
 {{<figure src="/images/blog/mutransfer/parameterization-fig-03.jpg" alt="Simple matrix multiply example" align="center"/>}}
 
-Figure 10: Coordinate check for $\mu P$
+**Figure 10:** Coordinate check for $\mu P$
 
 μTransfer test
 The μTransfer test examines whether optimum HPs are stable when model width is varied (Figure 1). Once your coordinate check tests are looking good, we recommend running a μTransfer test as a final integration test. Our NanoGPT reference implementation includes a working example of the μTransfer test5 which produces Figures 12 and 11.
 
-We test learning rate transfer on the openwebtext dataset. We again use two-layer GPT-2 models trained on 33M tokens with four different model widths and three seeds each using NVIDIA A10 GPU instances. Figure 11 shows the optimal learning rate remains stable as we vary model width for μP, unlike the SP models.
+We test learning rate transfer on the openwebtext dataset. We again use two-layer GPT-2 models trained on 33M tokens with four different model widths and three seeds each using NVIDIA A100 GPU instances. Figure 11 shows the optimal learning rate remains stable as we vary model width for μP, unlike the SP models.
 
 {{<figure src="/images/blog/mutransfer/parameterization-fig-11-2-scaled-uai-1440x488.jpg" alt="μTransfer learning rate test on 33M tokens from the openwebtext dataset" align="center"/>}}
 
-Figure 11: μTransfer learning rate test on 33M tokens from the openwebtext dataset.
+**Figure 11:** μTransfer learning rate test on 33M tokens from the openwebtext dataset.
 
 We also include an even smaller scale test that can run on an Apple M1 Pro chip overnight. We train two-layer GPT-2 models for 1 epoch of the shakespeare_char dataset (1M tokens) with four different model widths and three seeds each. Figure 12 shows the optimal learning rate remains stable as we vary model width for μP, unlike the SP models.
 
 {{<figure src="/images/blog/mutransfer/parameterization-fig-12-1-scaled-uai-1440x501.jpg" alt="μTransfer learning rate test on 1M tokens from the shakespeare_char dataset" align="center"/>}}
 
-Figure 12: μTransfer learning rate test on 1M tokens from the shakespeare_char dataset.
+**Figure 12:** μTransfer learning rate test on 1M tokens from the shakespeare_char dataset.
 
 ## Transferring optimal HPs from a small scale to a large scale
 
@@ -197,7 +198,7 @@ Once you have validated your μP implementation through coordinate check and μT
 
 ## Conclusion
 
-We hope this post has convinced you that μP is worth implementing and reduced the barriers for you to adopt it! We believe wider adoption and study of μP can raise the bar for deep learning research by helping to alleviate the Parameterization Lottery.[^1]
+We hope this post has convinced you that μP is worth implementing and reduced the barriers for you to adopt it! We believe wider adoption and study of μP can raise the bar for deep learning research by helping to alleviate the Parameterization Lottery.
 
 
 ## Citation
@@ -303,7 +304,7 @@ $\mathbb{E}[\Delta \mathbf{Y}_{ij}] \to \eta d\text{in} \mathbb{E}[\mathbf{X}_{i
 
 ### SGD learning rate adjustment
 
-Following the formulation in Yang et al. (2021), SGD weight updates take the form:
+Following the formulation in [Yang et al.](https://proceedings.mlr.press/v139/yang21c.html), SGD weight updates take the form:
 
 $\Delta WB^l_{kj} = [\frac{(\mathbf{X})^\top (\nabla_{\mathbf{Y}} \mathcal{L})}{d_\text{in}} ]_{kj} = \frac{1}{d\text{in}} \sum_{b=1}^B \mathbf{X}{bk} (\nabla{\mathbf{Y}} \mathcal{L})_{bj}$ (Eqn.15)
 
@@ -315,7 +316,7 @@ $\mathbb{E}[\Delta \mathbf{Y}_{ij}] \to \eta \frac{d\text{in}}{d_\text{in}} \mat
 
 ### Adam learning rate adjustment
 
-Following the formulation in Yang et al. (2021), Adam weight updates take the form:
+Following the formulation in [Yang et al.](https://proceedings.mlr.press/v139/yang21c.html), Adam weight updates take the form:
 
 $\Delta \mathbf{W}_{kj} = \frac{\sum^T_t \gamma_t \sum_b^B \mathbf{X}^{l,t}{bk} (\nabla_{\mathbf{Y}} \mathcal{L})^t_{bj} }{\sqrt{\sum_t^T \omega_t \sum_b^B (\mathbf{X}^t_{bk} (\nabla_{\mathbf{Y}} \mathcal{L})^t_{bj})^2}}$ (Eqn.17)
 
