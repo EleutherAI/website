@@ -239,7 +239,7 @@ Throughout this section, we add a batch dimension $b$ to $x$ and $y$ such that $
 The first stage where we would like to control training dynamics is in the layer's forward function. We can write the forward pass as:
 
 $$
-Y_{ij} = [ XW ]_{ij} = \sum_{k=1}^{d_\text{in}} X_{ik} W_{kj} \tag{2}
+Y_{ij} = [ XW ]_ {ij} = \sum_{k=1}^{d_\text{in}} X_{ik} W_{kj} \tag{2}
 $$
 
 
