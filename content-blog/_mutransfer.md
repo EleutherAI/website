@@ -95,7 +95,7 @@ More formally, we want the norm of activations $||y||_F$, gradients $||∇_x \ma
 
 To control the forward pass, we can return to our earlier example but rather than making the scale of $y$ invariant to **width** $d$, let's make it invariant to the **change in width** $m_d = d_{in} / d_{in,base}$. Then we can write $y \sim N(0,m_d · d_{in,base}·σ²_x·σ²_W)$ and we can choose $σ_W = 1 / \sqrt{m_d}$ to ensure $y \sim N(0,d_{in,base}·σ²_x)$. Phrasing things in terms of $m_d$ rather than $d$ allows us to mimic the training dynamics of some baseline model as we scale up.
 
-Conveniently, the backward pass calculation is analogous to the forward pass, so the calculation of the gradient, $\nabla_x \mathcal{L} \sim N(0, m_d \cdot d_{out,base} \cdot \sigma^2_x \cdot \sigma^2_W)$, follows the same math as the forward pass (e.g., for matmul from Figure 3). For the gradient to a matrix multiplication, the only difference from the forward pass is that the reduction dimension is the output dimension of the forward layer $d_{out}$. We can make $\| \nabla_{x}$ $\mathcal{L}$ $\|$ $~_{F}$ invariant to $m_d$ by setting $\sigma_W = 1 / \sqrt{m_d}$ to ensure $y \sim N(0,d_{out,base} \cdot \sigma^2_x)$. Typically when model width is scaled, each dimension of a hidden weight matrix is scaled equally: $m_d = d_{in} / d_{in,base} = d_{out} / d_{out,base}$. 
+Conveniently, the backward pass calculation is analogous to the forward pass, so the calculation of the gradient, $\nabla_x \mathcal{L} \sim N(0, m_d \cdot d_{out,base} \cdot \sigma^2_x \cdot \sigma^2_W)$, follows the same math as the forward pass (e.g., for matmul from Figure 3). For the gradient to a matrix multiplication, the only difference from the forward pass is that the reduction dimension is the output dimension of the forward layer $d_{out}$. We can make $\|\| \nabla_{x}$ $\mathcal{L}$ $\|\|$ $~_{F}$ invariant to $m_d$ by setting $\sigma_W = 1 / \sqrt{m_d}$ to ensure $y \sim N(0,d_{out,base} \cdot \sigma^2_x)$. Typically when model width is scaled, each dimension of a hidden weight matrix is scaled equally: $m_d = d_{in} / d_{in,base} = d_{out} / d_{out,base}$. 
 
 This assumption of equal scaling allows the same initialization $\sigma_W = 1 / \sqrt{m_d}$ to control both the forward and backward passes, even for a rectangular weight matrix.
 
@@ -277,7 +277,7 @@ $$
 \text{Var}(\mathbf{Y}_{ij}) = m_d d\text{in,base} \sigma^2_{\mathbf{W}} (\text{Var}(\mathbf{X}) + \mathbb{E}[\mathbf{X}]^2) \tag{7}
 $$
 
-**Solution:** To ensure $\text{Var}(\mathbf{Y}_{ij})$ scales independently of $m_d$, we choose to set $\sigma^2{\mathbf{W}} = \frac{\sigma_{\mathbf{W},base}^2}{m_d}$. This ensures that $| \mathbf{Y} |_F$ is invariant to changes in width $m_d$.
+**Solution:** To ensure $\text{Var}(Y_{ij})$ scales independently of $m_d$, we choose to set $\sigma^2{W} = \frac{\sigma_{W,base}^2}{m_d}$. This ensures that $| Y |_F$ is invariant to changes in width $m_d$.
 
 ## Backward gradient pass at initialization
 
@@ -308,7 +308,7 @@ $$
 \text{Var}(\nabla_{\mathbf{X}} \mathcal{L}_{ij}) = m_d d{\text{out,base}} \sigma^2_{\mathbf{W}}\text{Var}(\nabla_{\mathbf{Y}} \mathcal{L}) \tag{11}
 $$
 
-**Solution:** To ensure $\text{Var}(\nabla_{\mathbf{X}} \mathcal{L}_{ij})$ scales independently of $m_d$, we choose to set $\sigma^2{\mathbf{W}} = \frac{\sigma_{\mathbf{W},base}^2}{m_d}$. This ensures that $| \nabla_{\mathbf{X}} \mathcal{L}_{ij} |F$ is invariant to changes in width $m_d$. Typically when model width is scaled, each dimension of a hidden weight matrix is scaled equally: $m{d} = \frac{d\text{in}}{d_\text{in,base}} = \frac{d_\text{out}}{d_\text{out,base}}$. This assumption of equal scaling allows the same initialization $\sigma_W = 1 / \sqrt{m_d}$ to control both the forward and backward passes, even for a rectangular weight matrix.
+**Solution:** To ensure $\text{Var}(\nabla_{X} \mathcal{L}_{ij})$ scales independently of $m_d$, we choose to set $\sigma^2{W} = \frac{\sigma_{W,base}^2}{m_d}$. This ensures that $| \nabla_{X} \mathcal{L}_{ij} |F$ is invariant to changes in width $m_d$. Typically when model width is scaled, each dimension of a hidden weight matrix is scaled equally: $m{d} = \frac{d\text{in}}{d_\text{in,base}} = \frac{d_\text{out}}{d_\text{out,base}}$. This assumption of equal scaling allows the same initialization $\sigma_W = 1 / \sqrt{m_d}$ to control both the forward and backward passes, even for a rectangular weight matrix.
 
 ## Effect of weight update on activations
 
