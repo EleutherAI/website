@@ -79,7 +79,7 @@ Suppose elements of $x$ are drawn from the normal distribution, $N(0,\sigma^2_x)
 
 ## Operations in a training step
 
-The example above applies to activations. However, during training we also need to ensure the same controlled behavior for gradients *and* weight updates. Figure 4 diagrams these three components—the forward pass, backward pass, and weight update—for a single layer in a model, where $\mathbf{x} \in \mathbb{R}^{d_{in}}$, $\mathbf{y} \in \mathbb{R}^{d_{out}}$, $\mathbf{W} \in \mathbb{R}^{d_{in} \times d_{out}}$ and width multiplier $m_d = d_{in} / d_{in,base} = d_{out} / d_{out,base}$. The terms $d_{in,base}$, $d_{out,base}$ refer to the dimensions of the small "proxy model" whose HPs we would like to transfer to a large model.
+The example above applies to activations. However, during training we also need to ensure the same controlled behavior for gradients *and* weight updates. Figure 4 diagrams these three components—the forward pass, backward pass, and weight update—for a single layer in a model, where $x \in \mathbb{R}^{d_{in}}$, $y \in \mathbb{R}^{d_{out}}$, $W \in \mathbb{R}^{d_{in} \times d_{out}}$ and width multiplier $m_d = d_{in} / d_{in,base} = d_{out} / d_{out,base}$. The terms $d_{in,base}$, $d_{out,base}$ refer to the dimensions of the small "proxy model" whose HPs we would like to transfer to a large model.
 
 {{<figure src="/images/blog/mutransfer/parameterization-fig-04.jpg" alt="Figure 4: The three operations associated with training an individual layer with weights that perform the function, F: Forward activation calculation, backward gradient propagation, and the updates to the weights." align="center"/>}}
 
@@ -222,7 +222,7 @@ url = \url{https://www.cerebras.ai/blog/the-practitioners-guide-to-the-maximal-u
 
 # Footnotes
 
-1. If $ \mathbb{E}[\eta\cdot \mathbf{x}_2 \text{opt}(\mathbf{x}_1 \nabla_{\mathbf{y}_1}\mathcal{L}^\top)]=0 $ and we instead had to control the variance, then $\eta=1/\sqrt{m_d}$ would be the appropriate scaling. See Section 2.4 from [Everett et al.](https://openreview.net/pdf/579c102a8c067102c85e27612c36d7a356ea9b0b.pdf) for a good discussion on this.
+1. If $ \mathbb{E}[\eta\cdot x_2 \text{opt}(x_1 \nabla_{y_1}\mathcal{L}^\top)]=0 $ and we instead had to control the variance, then $\eta=1/\sqrt{m_d}$ would be the appropriate scaling. See Section 2.4 from [Everett et al.](https://openreview.net/pdf/579c102a8c067102c85e27612c36d7a356ea9b0b.pdf) for a good discussion on this.
 
 2. Sometimes, SGD optimizers will formulate the weight update to divide the gradient by the hidden size. By dividing out hidden size here, the learning rate correction for SGD will not need to contain a hidden size term. In particular, [Yang et al.](https://arxiv.org/abs/2203.03466) use this formulation for their derivation.
 
@@ -232,49 +232,49 @@ url = \url{https://www.cerebras.ai/blog/the-practitioners-guide-to-the-maximal-u
 # Appendix
 
 ## A more thorough math explanation
-Throughout this section, we add a batch dimension $b$ to $\mathbf{x}$ and $\mathbf{y}$ such that $\mathbf{X} \in \mathbb{R}^{b \times d_\text{in}}$ and $\mathbf{Y} \in \mathbb{R}^{b \times d_\text{out}}$.
+Throughout this section, we add a batch dimension $b$ to $x$ and $y$ such that $X \in \mathbb{R}^{b \times d_\text{in}}$ and $Y \in \mathbb{R}^{b \times d_\text{out}}$.
 
 ## Forward pass at initialization
 
 The first stage where we would like to control training dynamics is in the layer's forward function. We can write the forward pass as:
 
 $$
-\mathbf{Y}_{ij} = [ \mathbf{X}\mathbf{W} ]_{ij} = \sum_{k=1}^{d_\text{in}} \mathbf{X}_{ik} \mathbf{W}_{kj} \tag{2}
+Y_{ij} = [ XW ]_{ij} = \sum_{k=1}^{d_\text{in}} X_{ik} W_{kj} \tag{2}
 $$
 
 
-Our goal is to ensure $| \mathbf{Y} |_F$ is invariant to changes in width $m_d$. To achieve this we can ensure the expected mean and variance of elements of $\mathbf{Y}$ are invariant to $m_d$.
+Our goal is to ensure $| Y |_F$ is invariant to changes in width $m_d$. To achieve this we can ensure the expected mean and variance of elements of $Y$ are invariant to $m_d$.
 
-**Mean:** As expectation is linear and $\mathbf{X}$ and $\mathbf{W}$ are independent at initialization:
+**Mean:** As expectation is linear and $X$ and $W$ are independent at initialization:
 
 $$
-\mathbb{E}[\mathbf{Y}_{ij}] = \mathbb{E}[ \sum{k=1}^{d_\text{in}} \mathbf{X}_{ik} \mathbf{W}_{kj} ] = \sum_{k=1}^{d_\text{in}} \mathbb{E}[ \mathbf{X}_{ik} \mathbf{W}_{kj} ] = \sum_{k=1}^{d_\text{in}} \mathbb{E}[ \mathbf{X}_{ik}] \mathbb{E}[ \mathbf{W}_{kj} ] = \sum_{k=1}^{d_\text{in}} \mathbb{E}[ \mathbf{X}_{ik}] (0) = 0 \tag{3}
+\mathbb{E}[Y_{ij}] = \mathbb{E}[ \sum{k=1}^{d_\text{in}} X_{ik} W_{kj} ] = \sum_{k=1}^{d_\text{in}} \mathbb{E}[ X_{ik} W_{kj} ] = \sum_{k=1}^{d_\text{in}} \mathbb{E}[ X_{ik}] \mathbb{E}[ W_{kj} ] = \sum_{k=1}^{d_\text{in}} \mathbb{E}[ X_{ik}] (0) = 0 \tag{3}
 $$
 
-Therefore, since at initialization $\mathbb{E}[\mathbf{W}_{ij}]=0$, $\mathbb{E}[\mathbf{Y}_{ij}] = 0$ and the mean is controlled.
+Therefore, since at initialization $\mathbb{E}[W_{ij}]=0$, $\mathbb{E}[Y_{ij}] = 0$ and the mean is controlled.
 
 **Variance:** As expectation is linear and each weight element is IID:
 
 $$
-\text{Var}(\mathbf{Y}_{ij}) = \text{Var}(\sum{k=1}^{d_\text{in}} \mathbf{X}_{ik} \mathbf{W}_{kj}) = \sum_{k=1}^{d_\text{in}} \text{Var}(\mathbf{X}_{ik} \mathbf{W}_{kj}) \tag{4}
+\text{Var}(Y_{ij}) = \text{Var}(\sum{k=1}^{d_\text{in}} X_{ik} W_{kj}) = \sum_{k=1}^{d_\text{in}} \text{Var}(X_{ik} W_{kj}) \tag{4}
 $$
 
-Then, since $\mathbf{X}$ and $\mathbf{W}$ are independent at initialization:
+Then, since $X$ and $W$ are independent at initialization:
 
 $$
-\text{Var}(\mathbf{Y}_{ij}) = \sum{k=1}^{d_\text{in}} (\text{Var}(\mathbf{X}_{ik}) + \mathbb{E}[\mathbf{X}_{ik}]^2)(\text{Var}(\mathbf{W}_{kj}) + \mathbb{E}[\mathbf{W}_{kj}]^2) - (\mathbb{E}[\mathbf{X}_{ik}]\mathbb{E}[\mathbf{W}_{kj}])^2 \tag{5}
+\text{Var}(Y_{ij}) = \sum{k=1}^{d_\text{in}} (\text{Var}(X_{ik}) + \mathbb{E}[X_{ik}]^2)(\text{Var}(W_{kj}) + \mathbb{E}[W_{kj}]^2) - (\mathbb{E}[X_{ik}]\mathbb{E}[W_{kj}])^2 \tag{5}
 $$
 
 Finally, since at initialization $E[W_{kj}]=0$ and redefining $\text{Var}(W_{kj}) = \sigma^2_{W}$:
 
 $$
-\text{Var}(\mathbf{Y}_{ij}) = \sum{k=1}^{d_\text{in}} \sigma^2_{\mathbf{W}}(\text{Var}(\mathbf{X}_{ik}) + \mathbb{E}[\mathbf{X}_{ik}]^2) = d_\text{in} \sigma^2_{\mathbf{W}} (\text{Var}(\mathbf{X}) +  \mathbb{E}[\mathbf{X}]^2) \tag{6}
+\text{Var}(Y_{ij}) = \sum{k=1}^{d_\text{in}} \sigma^2_{W}(\text{Var}(X_{ik}) + \mathbb{E}[X_{ik}]^2) = d_\text{in} \sigma^2_{W} (\text{Var}(X) +  \mathbb{E}[X]^2) \tag{6}
 $$
 
 Rewriting in terms of width multiplier $m_d = \frac{d_\text{in}}{d_\text{in,base}}$:
 
 $$
-\text{Var}(\mathbf{Y}_{ij}) = m_d d\text{in,base} \sigma^2_{\mathbf{W}} (\text{Var}(\mathbf{X}) + \mathbb{E}[\mathbf{X}]^2) \tag{7}
+\text{Var}(Y_{ij}) = m_d d\text{in,base} \sigma^2_{W} (\text{Var}(X) + \mathbb{E}[X]^2) \tag{7}
 $$
 
 **Solution:** To ensure $\text{Var}(Y_{ij})$ scales independently of $m_d$, we choose to set $\sigma^2{W} = \frac{\sigma_{W,base}^2}{m_d}$. This ensures that $| Y |_F$ is invariant to changes in width $m_d$.
@@ -284,52 +284,52 @@ $$
 The next stage we would like to control training dynamics is in the layer's backward pass. We can rewrite the backward pass as:
 
 $$
-[ \nabla_{\mathbf{X}} \mathcal{L}]_{ij} = [( \nabla{\mathbf{Y}} \mathcal{L}) (\mathbf{W})^\top ]_{ij} = \sum{k=1}^{d_\text{out}} \nabla_{\mathbf{Y}} \mathcal{L}_{ik} \mathbf{W}{jk} \tag{8}
+[ \nabla_{X} \mathcal{L}]_{ij} = [( \nabla{Y} \mathcal{L}) (W)^\top ]_{ij} = \sum{k=1}^{d_\text{out}} \nabla_{Y} \mathcal{L}_{ik} W{jk} \tag{8}
 $$
 
-Our goal is to ensure $| \nabla_{\mathbf{X}} \mathcal{L} |F$ is invariant to changes in width $m_d$. To achieve this, we can ensure the expected mean and variance of elements of $\nabla{\mathbf{X}} \mathcal{L}$ are invariant to $m_d$.
+Our goal is to ensure $| \nabla_{X} \mathcal{L} |F$ is invariant to changes in width $m_d$. To achieve this, we can ensure the expected mean and variance of elements of $\nabla{X} \mathcal{L}$ are invariant to $m_d$.
 
-**Mean:** As expectation is linear and $\mathbf{X}$ and $\mathbf{W}$ are (roughly) independent at initialization:
+**Mean:** As expectation is linear and $X$ and $W$ are (roughly) independent at initialization:
 
-$$\mathbb{E}[\nabla_{\mathbf{X}} \mathcal{L}_{ij}] = \mathbb{E}[\sum{k=1}^{d_\text{out}} \nabla_{\mathbf{Y}} \mathcal{L}_{ik} \mathbf{W}{jk}] = \sum_{k=1}^{d_\text{out}} \mathbb{E}[\nabla_{\mathbf{Y}} \mathcal{L}_{ik}\mathbf{W}{jk}] = \sum_{k=1}^{d_\text{out}} \mathbb{E}[\nabla_{\mathbf{Y}} \mathcal{L}_{ik}] \mathbb{E}[\mathbf{W}{jk}] \tag{9}
+$$\mathbb{E}[\nabla_{X} \mathcal{L}_{ij}] = \mathbb{E}[\sum{k=1}^{d_\text{out}} \nabla_{Y} \mathcal{L}_{ik} W{jk}] = \sum_{k=1}^{d_\text{out}} \mathbb{E}[\nabla_{Y} \mathcal{L}_{ik}W{jk}] = \sum_{k=1}^{d_\text{out}} \mathbb{E}[\nabla_{Y} \mathcal{L}_{ik}] \mathbb{E}[W{jk}] \tag{9}
 $$
 
-Therefore, since at initialization $\mathbb{E}[\mathbf{W}{jk}]=0$, $\mathbb{E}[\nabla{\mathbf{X}} \mathcal{L}_{ij}] = 0$, the mean is controlled.
+Therefore, since at initialization $\mathbb{E}[W{jk}]=0$, $\mathbb{E}[\nabla{X} \mathcal{L}_{ij}] = 0$, the mean is controlled.
 
 **Variance:** As expectation is linear and each weight element is IID:
 
 $$
-\text{Var}(\nabla_{\mathbf{X}} \mathcal{L}_{ij}) = \text{Var}(\sum{k=1}^{d_\text{out}} \nabla_{\mathbf{Y}} \mathcal{L}_{ik} \mathbf{W}{jk}) = \sum_{k=1}^{d_\text{out}} \text{Var}(\nabla_{\mathbf{Y}} \mathcal{L}_{ik} \mathbf{W}{jk}) \tag{10}
+\text{Var}(\nabla_{X} \mathcal{L}_{ij}) = \text{Var}(\sum{k=1}^{d_\text{out}} \nabla_{Y} \mathcal{L}_{ik} W{jk}) = \sum_{k=1}^{d_\text{out}} \text{Var}(\nabla_{Y} \mathcal{L}_{ik} W{jk}) \tag{10}
 $$
 
-From the backward pass mean derivation, we know $\mathbb{E}[\nabla_{\mathbf{Y}} \mathcal{L}_{ij}]=0$. Then, similar to the forward pass variance derivation, we can simplify using the facts that at initialization, $\nabla{\mathbf{Y}} \mathcal{L}$ and $\mathbf{W}$ are (roughly) independent and $\mathbb{E}[\mathbf{W}]=0$. Similarly we can also define $\text{Var}(\mathbf{W}_{kj}^l) = \sigma^2{\mathbf{W}}$ and rewrite in terms of width multiplier $m_d = \frac{d_\text{out}}{d_\text{out,base}}$:
+From the backward pass mean derivation, we know $\mathbb{E}[\nabla_{Y} \mathcal{L}_{ij}]=0$. Then, similar to the forward pass variance derivation, we can simplify using the facts that at initialization, $\nabla{Y} \mathcal{L}$ and $W$ are (roughly) independent and $\mathbb{E}[W]=0$. Similarly we can also define $\text{Var}(W_{kj}^l) = \sigma^2{W}$ and rewrite in terms of width multiplier $m_d = \frac{d_\text{out}}{d_\text{out,base}}$:
 
 $$
-\text{Var}(\nabla_{\mathbf{X}} \mathcal{L}_{ij}) = m_d d{\text{out,base}} \sigma^2_{\mathbf{W}}\text{Var}(\nabla_{\mathbf{Y}} \mathcal{L}) \tag{11}
+\text{Var}(\nabla_{X} \mathcal{L}_{ij}) = m_d d{\text{out,base}} \sigma^2_{W}\text{Var}(\nabla_{Y} \mathcal{L}) \tag{11}
 $$
 
 **Solution:** To ensure $\text{Var}(\nabla_{X} \mathcal{L}_{ij})$ scales independently of $m_d$, we choose to set $\sigma^2{W} = \frac{\sigma_{W,base}^2}{m_d}$. This ensures that $| \nabla_{X} \mathcal{L}_{ij} |F$ is invariant to changes in width $m_d$. Typically when model width is scaled, each dimension of a hidden weight matrix is scaled equally: $m{d} = \frac{d\text{in}}{d_\text{in,base}} = \frac{d_\text{out}}{d_\text{out,base}}$. This assumption of equal scaling allows the same initialization $\sigma_W = 1 / \sqrt{m_d}$ to control both the forward and backward passes, even for a rectangular weight matrix.
 
 ## Effect of weight update on activations
 
-We desire that the Frobenius norm of the effect of the weight update on activations, $|\Delta \mathbf{Y}|_F$, is invariant to changes in width $m_d$. To achieve this we examine the expected size of each element. Here, $\eta$ is the learning rate.
+We desire that the Frobenius norm of the effect of the weight update on activations, $|\Delta Y|_F$, is invariant to changes in width $m_d$. To achieve this we examine the expected size of each element. Here, $\eta$ is the learning rate.
 
 $$
-\Delta \mathbf{Y}_{ij} = [\eta \mathbf{X} \Delta \mathbf{W} ]_{ij} = \eta \sum_{k=1}^{d_\text{in}} \mathbf{X}_{ik} \Delta \mathbf{W}_{kj} \tag{12}
+\Delta Y_{ij} = [\eta X \Delta W ]_{ij} = \eta \sum_{k=1}^{d_\text{in}} X_{ik} \Delta W_{kj} \tag{12}
 $$
 
 **Mean:** As expectation is linear.
 
 $$
-\mathbb{E}[\Delta \mathbf{Y}_{ij}] = \mathbb{E} [ \eta \sum{k=1}^{d_\text{in}} \mathbf{X}_{ik} \Delta \mathbf{W}_{kj} ] = \eta \sum_{k=1}^{d_\text{in}} \mathbb{E}[\mathbf{X}_{ik} \Delta \mathbf{W}_{kj}] \tag{13}
+\mathbb{E}[\Delta Y_{ij}] = \mathbb{E} [ \eta \sum{k=1}^{d_\text{in}} X_{ik} \Delta W_{kj} ] = \eta \sum_{k=1}^{d_\text{in}} \mathbb{E}[X_{ik} \Delta W_{kj}] \tag{13}
 $$
 
-Since $\Delta \mathbf{W}$ was derived from $\mathbf{X}$, there is covariance between these variables and $\mathbb{E}[\mathbf{X}_{ik} \Delta \mathbf{W}_{kj}]$ is non-zero.
+Since $\Delta W$ was derived from $X$, there is covariance between these variables and $\mathbb{E}[X_{ik} \Delta W_{kj}]$ is non-zero.
 
 By the Law of Large Numbers:
 
 $$
-\mathbb{E}[\Delta \mathbf{Y}_{ij}] \to \eta d\text{in} \mathbb{E}[\mathbf{X}_{ik} \Delta \mathbf{W}_{kj}], \text{ as } d_\text{in} \to \infty \tag{14}
+\mathbb{E}[\Delta Y_{ij}] \to \eta d\text{in} \mathbb{E}[X_{ik} \Delta W_{kj}], \text{ as } d_\text{in} \to \infty \tag{14}
 $$
 
 ## SGD learning rate adjustment
@@ -337,23 +337,23 @@ $$
 Following the formulation in [Yang et al.](https://proceedings.mlr.press/v139/yang21c.html), SGD weight updates take the form:
 
 $$
-\Delta WB^l_{kj} = [\frac{(\mathbf{X})^\top (\nabla_{\mathbf{Y}} \mathcal{L})}{d_\text{in}} ]_{kj} = \frac{1}{d\text{in}} \sum_{b=1}^B \mathbf{X}{bk} (\nabla{\mathbf{Y}} \mathcal{L})_{bj} \tag{15}
+\Delta WB^l_{kj} = [\frac{(X)^\top (\nabla_{Y} \mathcal{L})}{d_\text{in}} ]_{kj} = \frac{1}{d\text{in}} \sum_{b=1}^B X{bk} (\nabla{Y} \mathcal{L})_{bj} \tag{15}
 $$
 
 so we can rewrite Equation 14 as:
 
 $$
-\mathbb{E}[\Delta \mathbf{Y}_{ij}] \to \eta \frac{d\text{in}}{d_\text{in}} \mathbb{E}[\mathbf{X}_{ik} [ \sum{b=1}^B \mathbf{X}{bk} (\nabla{\mathbf{Y}} \mathcal{L}){bj} ]_{kj}], \text{ as } d_\text{in} \to \infty \tag{16}
+\mathbb{E}[\Delta Y_{ij}] \to \eta \frac{d\text{in}}{d_\text{in}} \mathbb{E}[X_{ik} [ \sum{b=1}^B X{bk} (\nabla{Y} \mathcal{L}){bj} ]_{kj}], \text{ as } d_\text{in} \to \infty \tag{16}
 $$
 
-**Solution:** To ensure $\Delta \mathbf{Y}_{ij}$ and $|\Delta \mathbf{Y}|F$ are scale invariant to $m_d$, we choose $\eta = \eta{\text{base}}$.
+**Solution:** To ensure $\Delta Y_{ij}$ and $|\Delta Y|F$ are scale invariant to $m_d$, we choose $\eta = \eta{\text{base}}$.
 
 ## Adam learning rate adjustment
 
 Following the formulation in [Yang et al.](https://proceedings.mlr.press/v139/yang21c.html), Adam weight updates take the form:
 
 $$
-\Delta \mathbf{W}_{kj} = \frac{\sum^T_t \gamma_t \sum_b^B \mathbf{X}^{l,t}{bk} (\nabla_{\mathbf{Y}} \mathcal{L})^t_{bj} }{\sqrt{\sum_t^T \omega_t \sum_b^B (\mathbf{X}^t_{bk} (\nabla_{\mathbf{Y}} \mathcal{L})^t_{bj})^2}} \tag{17}
+\Delta W_{kj} = \frac{\sum^T_t \gamma_t \sum_b^B X^{l,t}{bk} (\nabla_{Y} \mathcal{L})^t_{bj} }{\sqrt{\sum_t^T \omega_t \sum_b^B (X^t_{bk} (\nabla_{Y} \mathcal{L})^t_{bj})^2}} \tag{17}
 $$
 
 where $T$ is the current training step and $\gamma_t,\omega_t$ are the moving average weights at each training step. We can
