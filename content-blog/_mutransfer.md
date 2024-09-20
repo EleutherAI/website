@@ -360,7 +360,7 @@ where $T$ is the current training step and $\gamma_t,\omega_t$ are the moving av
 rewrite Equation 14 as:
 
 $$
-\mathbb{E}[\Delta \mathbf{Y}_{ij}] \to \eta d\text{in} \mathbb{E}[\mathbf{X}_{ik} [ \frac{\sum^T_t \gamma_t \sum_b^B \mathbf{X}^{l,t}{bk} (\nabla_{\mathbf{Y}} \mathcal{L})^t_{bj} }{\sqrt{\sum_t^T \omega_t \sum_b^B (\mathbf{X}^t_{bk} (\nabla_{\mathbf{Y}} \mathcal{L})^t_{bj})^2}} ]_{kj}], \text{ as } d\text{in} \to \infty \tag{18}
+\mathbb{E}[\Delta Y_{ij}] \to \eta d\text{in} \mathbb{E}[X_{ik} [ \frac{\sum^T_t \gamma_t \sum_b^B X^{l,t}{bk} (\nabla_{Y} \mathcal{L})^t_{bj} }{\sqrt{\sum_t^T \omega_t \sum_b^B (X^t_{bk} (\nabla_{Y} \mathcal{L})^t_{bj})^2}} ]_{kj}], \text{ as } d\text{in} \to \infty \tag{18}
 $$
 
 Rewriting in terms of width multiplier $m_d = \frac{d_\text{in}}{d_\text{in,base}}$.
@@ -369,4 +369,4 @@ $$
 \mathbb{E}[\Delta Y_{ij}] \to \eta m_d d\text{in,base} \mathbb{E}[X_{ik} [ \frac{\sum^T_t \gamma_t \sum_b^B X^{l,t}{bk} (\nabla_{Y} \mathcal{L})^t_{bj} }{\sqrt{\sum_t^T \omega_t \sum_b^B (X^t_{bk} (\nabla_{Y} \mathcal{L})^t_{bj})^2}} ]_{kj}], \text{ as } d\text{in} \to \infty \tag{19}
 $$
 
-**Solution:** To ensure $\Delta \mathbf{Y}_{ij}$ and $|\Delta \mathbf{Y}|F$ are scale invariant to $m_d$, we choose $\eta = \frac{\eta_{\text{base}}}{m_d}$.
+**Solution:** To ensure $\Delta Y_{ij}$ and $|\Delta Y|F$ are scale invariant to $m_d$, we choose $\eta = \frac{\eta_{\text{base}}}{m_d}$.
