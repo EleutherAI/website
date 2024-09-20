@@ -13,15 +13,15 @@ draft: False
 
 **We provide a simple port of μP to the popular nanoGPT library at https://github.com/EleutherAI/nanoGPT-mup, and encourage readers to refer to this implementation throughout this blog.**
 
-## Introduction
+# Introduction
 
 Maximal Update Parameterization (μP) offers significant advantages for neural network training, but its adoption has been limited due to the complexity of the underlying math and the challenges in implementation. This guide aims to lower those barriers by providing a clear and practical overview of μP. By using μP, you can achieve stable hyperparameters across model scales, reduce the need for costly tuning, and improve training stability at large scale. This guide will walk you through the core concepts and practical steps needed to implement μP effectively, enabling you to take full advantage of its benefits without the usual hurdles.
 
-## Why you should use μP
+# Why you should use μP
 
 First we will explain why you should be using μP. There are four main benefits compared to standard parameterization (SP) models.
 
-### 1. Stable optimum HPs across scale (μTransfer)
+## 1. Stable optimum HPs across scale (μTransfer)
 
 In Figure 1, [Yang et al.](https://proceedings.mlr.press/v139/yang21c.html) showed that when using the standard parameterization (SP), optimal HPs vary with model width. μP reparameterizes a network such that the optimal HPs remain stable.
 
@@ -37,21 +37,21 @@ As a result of the HP shift when training models with SP, prior works have teste
 
 Since the first set of SP large language model (LLM) families, it has been commonplace to reuse the HPs of predecessors corresponding to the model size being trained. This approach inherits the poor tuning of larger scale models. Furthermore, this approach can't be used for new architectures or optimizers, so researchers must take on the burden of manual tuning themselves. The prohibitive cost of tuning makes it artificially harder for new techniques to disrupt the existing training recipes (Parameterization Lottery).
 
-### 2. Improved loss at large scale due to improved HP tuning
+## 2. Improved loss at large scale due to improved HP tuning
 
 As model size grows it becomes more expensive to perform an extensive HP search, resulting in sub-optimally tuned large models. [Yang et al.](https://arxiv.org/abs/2203.03466) showed that by performing a 200 sample random HP search with a 40M parameter model, they could use the optimal HPs on a GPT-3 6.7B run and achieve comparable performance to GPT3-13B [Brown et al.](https://arxiv.org/abs/2005.14165). In other words, that roughly translates to a 2x compute savings to reach the same performance! Additionally, [Dey et al.](https://arxiv.org/abs/2309.11568) performed training recipe ablations with a 111M parameter model, then transferred their findings to a 3B parameter model and achieved performance comparable to contemporary 7B parameter models, while using 3.3x less training FLOPs!
 
-### 3. Stable training - significantly decreased danger of instability at large scale
+## 3. Stable training - significantly decreased danger of instability at large scale
 
 LLM training is notoriously prone to instability (see OPT logbook for SP training challenges [Zhang et al.](https://arxiv.org/abs/2205.01068)). Instability can present itself in the form of NaN loss, loss spikes, and/or loss divergences. When encountering instability, simple workarounds include resuming training with a lower learning rate [Zhang et al.](https://arxiv.org/abs/2205.01068) and/or skipping the data batches around where the instability occurred [Chowdhery et al.](https://arxiv.org/abs/2204.02311).
 
 While adopting μP does not completely solve the problem of instability, it certainly does eliminate HP selection as a major source of instability. Practitioners will still need to be mindful of precision, numerical stability, hardware failures, outlier data, etc. Anecdotally, since adopting μP at Cerebras, we seldom encounter training instability.
 
-### 4. More predictable scaling due to μTransfer
+## 4. More predictable scaling due to μTransfer
 
 For projects involving large-scale training, it is useful to fit scaling laws and be able to accurately extrapolate the performance a model will achieve given a compute budget. [Dey et al.](https://arxiv.org/abs/2304.03208) and [Yao et al.](https://arxiv.org/abs/2304.06875) showed that μP models can achieve much tighter scaling law fits than SP models due to having consistent training dynamics and HP tuning across model scales. More accurate model performance extrapolation at large scales can help projects more reliably achieve their performance targets.
 
-### μP enables better research
+## μP enables better research
 
 The benefits of μP add up to enable better research:
 
@@ -59,11 +59,11 @@ The benefits of μP add up to enable better research:
 
 **Simple and effective large-scale training.** Large-scale training runs using μP enjoy better and more predictable performance with less worry of instability wasting compute time. Furthermore, μTransfer allows HP tuning budgets to be mostly reallocated towards training something new instead.
 
-## A Simple Approach to the μP Math
+# A Simple Approach to the μP Math
 
 At a high-level, training neural networks is similar to simulating a partial differential equation that is developing over time. We would like that "simulation" to proceed smoothly and quickly, without any instabilities. To achieve stable and compute-efficient training, we can enforce certain invariants that keep each layer stable. Here we discuss the basic building blocks for these invariants, and then how they fit into layers and full models.
 
-### Basic Building Block: Controlled Activation Magnitudes
+## Basic Building Block: Controlled Activation Magnitudes
 
 For each function we apply to a set of activations, we would like to ensure that, in expectation, the function does not cause the distribution of those activations to scale (change magnitude) with any model architecture hyperparameters, such as hidden size. Let's start with a simple example: a fully-connected layer where input activations $x$ are multiplied by the weight matrix $W$ to produce output activations $y$.
 
@@ -77,7 +77,7 @@ Suppose elements of $x$ are drawn from the normal distribution, $N(0,\sigma^2_x)
 
 **Abstracting this a bit...** If you understand the simple example above, then you're ready to abstract it toward controlling full training dynamics. The first thing to note is that if *every operation* in a model is controlled such that the outputs do not scale with model width, then we can change the model width without changing overall training dynamics. The "proof" of this is inductive: If a first operation controls its outputs to have consistent scale as its inputs, then when it passes its outputs to the next operation, that second operation will see well-controlled inputs, and so on. Thus, to achieve scalable training dynamics, it is sufficient to step through each operation in the model and verify that the scale of its output activations does not change with respect to changes in model width. In short: **If we control the dynamics of each operation, we control the full model's training dynamics.**
 
-### Operations in a training step
+## Operations in a training step
 
 The example above applies to activations. However, during training we also need to ensure the same controlled behavior for gradients *and* weight updates. Figure 4 diagrams these three components—the forward pass, backward pass, and weight update—for a single layer in a model, where $\mathbf{x} \in \mathbb{R}^{d_{in}}$, $\mathbf{y} \in \mathbb{R}^{d_{out}}$, $\mathbf{W} \in \mathbb{R}^{d_{in} \times d_{out}}$ and width multiplier $m_d = d_{in} / d_{in,base} = d_{out} / d_{out,base}$. The terms $d_{in,base}$, $d_{out,base}$ refer to the dimensions of the small "proxy model" whose HPs we would like to transfer to a large model.
 
@@ -95,7 +95,7 @@ More formally, we want the norm of activations $||y||_F$, gradients $||∇_x \ma
 
 To control the forward pass, we can return to our earlier example but rather than making the scale of $y$ invariant to **width** $d$, let's make it invariant to the **change in width** $m_d = d_{in} / d_{in,base}$. Then we can write $y \sim N(0,m_d · d_{in,base}·σ²_x·σ²_W)$ and we can choose $σ_W = 1 / \sqrt{m_d}$ to ensure $y \sim N(0,d_{in,base}·σ²_x)$. Phrasing things in terms of $m_d$ rather than $d$ allows us to mimic the training dynamics of some baseline model as we scale up.
 
-Conveniently, the backward pass calculation is analogous to the forward pass, so the calculation of the gradient, $$\nabla_x \mathcal{L} \sim N(0, m_d \cdot d_{out,base} \cdot \sigma^2_x \cdot \sigma^2_W)$$, follows the same math as the forward pass (e.g., for matmul from Figure 3). For the gradient to a matrix multiplication, the only difference from the forward pass is that the reduction dimension is the output dimension of the forward layer $$d_{out}$$. We can make $$\| \nabla_\mathbf{x} \mathcal{L} \|_F$$ invariant to $$m_d$$ by setting $$\sigma_W = 1 / \sqrt{m_d}$$ to ensure $$y \sim N(0,d_{out,base} \cdot \sigma^2_x)$$. Typically when model width is scaled, each dimension of a hidden weight matrix is scaled equally: $$m_d = d_{in} / d_{in,base} = d_{out} / d_{out,base}$$. This assumption of equal scaling allows the same initialization $$\sigma_W = 1 / \sqrt{m_d}$$ to control both the forward and backward passes, even for a rectangular weight matrix.
+Conveniently, the backward pass calculation is analogous to the forward pass, so the calculation of the gradient, $\nabla_x \mathcal{L} \sim N(0, m_d \cdot d_{out,base} \cdot \sigma^2_x \cdot \sigma^2_W)$, follows the same math as the forward pass (e.g., for matmul from Figure 3). For the gradient to a matrix multiplication, the only difference from the forward pass is that the reduction dimension is the output dimension of the forward layer $d_{out}$. We can make $\| \nabla_{x} \mathcal{L} \|_F$ invariant to $m_d$ by setting $\sigma_W = 1 / \sqrt{m_d}$ to ensure $y \sim N(0,d_{out,base} \cdot \sigma^2_x)$. Typically when model width is scaled, each dimension of a hidden weight matrix is scaled equally: $m_d = d_{in} / d_{in,base} = d_{out} / d_{out,base}$. This assumption of equal scaling allows the same initialization $\sigma_W = 1 / \sqrt{m_d}$ to control both the forward and backward passes, even for a rectangular weight matrix.
 
 The last part of a layer that needs to be controlled is the weight update. The optimizer takes the gradient, the forward activations, and uses its internal state to calculate the weight update. The magnitude of the weight update is controlled by the learning rate, which we will use to ensure we maximally update the weights in expectation throughout training while maintaining stability. Calculating the correct learning rate for the weight update is a little trickier than the activation and gradient, because we need to estimate the scale of activations, $y$, *on the next training step*. Namely, we want to choose the learning rate η on training step $t = 1$, so that the output activations on the second training step ($y_2$) have well-controlled size. Once again, assuming F is a simple matrix multiplication:
 
@@ -109,7 +109,7 @@ Since we have already controlled $x_2 W_0$ with the initialization above, we onl
 
 For a more detailed derivation, refer to the Appendix.
 
-## Practitioner's guide to μP
+# Practitioner's guide to μP
 
 In this section we will explain how to implement, verify, and use μP for a transformer language model.
 
@@ -199,12 +199,12 @@ We also include an even smaller scale test that can run on an Apple M1 Pro chip 
 
 Once you have validated your μP implementation through coordinate check and μTransfer tests, you are finally ready to use μP to improve large scale training runs. You can perform a random HP search over a small “proxy model”. Following [Yang et al.](https://proceedings.mlr.press/v139/yang21c.html), we choose a hidden size of 256 to ensure a large-enough scale for the law of large numbers and central limit theorem to converge. We choose depth roughly equivalent to the large scale to mitigate the effect of depth shifting the optimum HPs [Yang et al.](https://arxiv.org/abs/2310.02244). We train our small proxy model for 20 tokens per parameter (following [Hoffmann et al.](https://openreview.net/pdf?id=iBBcRUlOAPR)) and perform a random search over four HPs: base initialization standard deviation \sigma_\text{base}, base learning rate \eta_\text{base}, embedding multiplier \alpha_{\text{input}}, and output logit multiplier \alpha_{\text{output}}. Note that one could also define additional tunable scalar multiple hyperparameters. We find that if the proxy model is trained with a batch size smaller than the critical batch size ([McCandlish et al.](https://arxiv.org/abs/1812.06162)), learning rate transfer to a large model trained at or above the critical batch size will be sub-optimal. Therefore it is important to train your proxy model with a large enough batch size. Anecdotally, at Cerebras we have observed excellent transfer across datasets, echoing the dataset transfer results of [Yang et al.](https://proceedings.mlr.press/v139/yang21c.html). Finally we recommend re-tuning your HPs whenever you make a change to your model architecture (e.g. attention algorithm, nonlinearity, position embeddings, vocabulary size) or training procedure (e.g. learning rate schedule).
 
-## Conclusion
+# Conclusion
 
 We hope this post has convinced you that μP is worth implementing and reduced the barriers for you to adopt it! We believe wider adoption and study of μP can raise the bar for deep learning research by helping to alleviate the Parameterization Lottery.
 
 
-## Citation
+# Citation
 To cite our work, please use:
 
 ```
@@ -218,7 +218,7 @@ url = \url{https://www.cerebras.ai/blog/the-practitioners-guide-to-the-maximal-u
 }
 ```
 
-## Footnotes
+# Footnotes
 
 1. If $ \mathbb{E}[\eta\cdot \mathbf{x}_2 \text{opt}(\mathbf{x}_1 \nabla_{\mathbf{y}_1}\mathcal{L}^\top)]=0 $ and we instead had to control the variance, then $\eta=1/\sqrt{m_d}$ would be the appropriate scaling. See Section 2.4 from [Everett et al.](https://openreview.net/pdf/579c102a8c067102c85e27612c36d7a356ea9b0b.pdf) for a good discussion on this.
 
@@ -227,12 +227,12 @@ url = \url{https://www.cerebras.ai/blog/the-practitioners-guide-to-the-maximal-u
 
 
 
-## Appendix
+# Appendix
 
-### A more thorough math explanation
+## A more thorough math explanation
 Throughout this section, we add a batch dimension $b$ to $\mathbf{x}$ and $\mathbf{y}$ such that $\mathbf{X} \in \mathbb{R}^{b \times d_\text{in}}$ and $\mathbf{Y} \in \mathbb{R}^{b \times d_\text{out}}$.
 
-### Forward pass at initialization
+## Forward pass at initialization
 
 The first stage where we would like to control training dynamics is in the layer's forward function. We can write the forward pass as:
 
@@ -263,7 +263,7 @@ $$
 \text{Var}(\mathbf{Y}_{ij}) = \sum{k=1}^{d_\text{in}} (\text{Var}(\mathbf{X}_{ik}) + \mathbb{E}[\mathbf{X}_{ik}]^2)(\text{Var}(\mathbf{W}_{kj}) + \mathbb{E}[\mathbf{W}_{kj}]^2) - (\mathbb{E}[\mathbf{X}_{ik}]\mathbb{E}[\mathbf{W}_{kj}])^2 \tag{5}
 $$
 
-Finally, since at initialization $\mathbb{E}[\mathbf{W}_{kj}]=0$ and redefining $\text{Var}(\mathbf{W}_{kj}) = \sigma^2_{\mathbf{W}}$:
+Finally, since at initialization $E[W_{kj}]=0$ and redefining $\text{Var}(W_{kj}) = \sigma^2_{W}$:
 
 $$
 \text{Var}(\mathbf{Y}_{ij}) = \sum{k=1}^{d_\text{in}} \sigma^2_{\mathbf{W}}(\text{Var}(\mathbf{X}_{ik}) + \mathbb{E}[\mathbf{X}_{ik}]^2) = d_\text{in} \sigma^2_{\mathbf{W}} (\text{Var}(\mathbf{X}) +  \mathbb{E}[\mathbf{X}]^2) \tag{6}
@@ -277,7 +277,7 @@ $$
 
 **Solution:** To ensure $\text{Var}(\mathbf{Y}_{ij})$ scales independently of $m_d$, we choose to set $\sigma^2{\mathbf{W}} = \frac{\sigma_{\mathbf{W},base}^2}{m_d}$. This ensures that $| \mathbf{Y} |_F$ is invariant to changes in width $m_d$.
 
-### Backward gradient pass at initialization
+## Backward gradient pass at initialization
 
 The next stage we would like to control training dynamics is in the layer's backward pass. We can rewrite the backward pass as:
 
@@ -308,7 +308,7 @@ $$
 
 **Solution:** To ensure $\text{Var}(\nabla_{\mathbf{X}} \mathcal{L}_{ij})$ scales independently of $m_d$, we choose to set $\sigma^2{\mathbf{W}} = \frac{\sigma_{\mathbf{W},base}^2}{m_d}$. This ensures that $| \nabla_{\mathbf{X}} \mathcal{L}_{ij} |F$ is invariant to changes in width $m_d$. Typically when model width is scaled, each dimension of a hidden weight matrix is scaled equally: $m{d} = \frac{d\text{in}}{d_\text{in,base}} = \frac{d_\text{out}}{d_\text{out,base}}$. This assumption of equal scaling allows the same initialization $\sigma_W = 1 / \sqrt{m_d}$ to control both the forward and backward passes, even for a rectangular weight matrix.
 
-### Effect of weight update on activations
+## Effect of weight update on activations
 
 We desire that the Frobenius norm of the effect of the weight update on activations, $|\Delta \mathbf{Y}|_F$, is invariant to changes in width $m_d$. To achieve this we examine the expected size of each element. Here, $\eta$ is the learning rate.
 
@@ -330,7 +330,7 @@ $$
 \mathbb{E}[\Delta \mathbf{Y}_{ij}] \to \eta d\text{in} \mathbb{E}[\mathbf{X}_{ik} \Delta \mathbf{W}_{kj}], \text{ as } d_\text{in} \to \infty \tag{14}
 $$
 
-### SGD learning rate adjustment
+## SGD learning rate adjustment
 
 Following the formulation in [Yang et al.](https://proceedings.mlr.press/v139/yang21c.html), SGD weight updates take the form:
 
@@ -346,7 +346,7 @@ $$
 
 **Solution:** To ensure $\Delta \mathbf{Y}_{ij}$ and $|\Delta \mathbf{Y}|F$ are scale invariant to $m_d$, we choose $\eta = \eta{\text{base}}$.
 
-### Adam learning rate adjustment
+## Adam learning rate adjustment
 
 Following the formulation in [Yang et al.](https://proceedings.mlr.press/v139/yang21c.html), Adam weight updates take the form:
 
