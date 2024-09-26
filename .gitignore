@@ -1,4 +1,5 @@
 .vscode
 /public/
+/public-blog/
 resources*
 .hugo_build.lock
