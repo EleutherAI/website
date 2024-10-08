@@ -217,7 +217,7 @@ Note that ZeRO-3 introduces a set of live parameters. This is because ZeRO-3 int
 Note that ZeRO can also partition activations over data parallel ranks via **ZeRO-R**. This would also bring the $\text{memory}_\text{activations}$ above the tensor parallelism degree $t$. For more details, read the associated [ZeRO paper](https://arxiv.org/abs/1910.02054) and [config options](https://www.deepspeed.ai/docs/config-json/#activation-checkpointing) (note in GPT-NeoX, this is the `partition_activations` flag). If you are training a huge model, you would like to trade some memory overhead for additional communication cost, and activations become a bottleneck. As an example of using ZeRO-R along with ZeRO-1:
 
 $$
-\begin{align*}\text{Total Memory}_{\text{Training}}\approx\text{Model Memory}+\frac{\text{Optimizer Memory}}{(\text{No. GPUs})}+\frac{\text{Activation Memory}}{\text{(Tensor-Parallel-Size)}}+\text{Gradient Memory}\end{align*}
+\begin{align*}\text{Total Memory}_{\text{Training}}\approx\text{Model Memory}+\frac{\text{Optimizer Memory}}{(\text{No. GPUs})}+\text{Activation Memory}+\text{Gradient Memory}\end{align*}
 $$
 
 ### 3D Parallelism
