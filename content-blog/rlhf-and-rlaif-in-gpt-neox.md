@@ -3,7 +3,7 @@ title: "RLHF and RLAIF in GPT-NeoX"
 categories: ["Release"]
 author: ["Dakota Mahan, Quentin Anthony, Louis Castricato, Nathan Lile, Stella Biderman"]
 description: "GPT-NeoX now supports post-training thanks to a collaboration with SynthLabs."
-date: 2024-09-17T00:00:00-00:00
+date: 2024-10-10T00:00:00-00:00
 draft: False
 ---
 
