@@ -12,14 +12,14 @@ draft: false
 
  - We found anomaly detection performance was much worse for Llama 3.1 8B trained in the same way as Mistral 7B v0.1, the model that we were using previously.
  - We found that Llama was somewhat less quirky than Mistral, but it still exhibited the desired quirky behaviour and achieved lower loss on average across the tasks.
- - We found that the ratio of between-context variance to total variance of the hidden state activations at a given layer explained MAD performance well, and that Llama had lower variance in hidden state activations than Mistral.
- - We found a weak correlation between hidden state variance and the total variance of output logits.
+ - We found that the distance between the centroids of Alice and Bob contexts in the hidden state space at a given layer explained MAD performance well, and that Llama had less Alice-Bob separation than Mistral.
 
 Overall, these results are discouraging for our MAD approaches. While Llama was less quirky than Mistral on the datasets where we found anomaly detection hard, it was still unambiguously quirky. This suggests that it's possible for models to develop practically important anomalous behaviour without our MAD methods being able to reliably detect it.
 
 We also tested two more approaches to anomaly detection:
  - Using the outputs of a normalising flow trained on activations of hidden layers of Llama 3.1 base.
  - Using the latent activations of a sparse autoencoder trained on the activations of hidden layers of Llama 3.1 base.
+
 Both approaches yielded a performance profile remarkably close to the performance of the Mahalanobis distance on raw activations.
 
 ## Anomaly detection on Llama 3.1 8B
@@ -70,27 +70,27 @@ Figures 7 and 8 compare the average loss of both models against both the correct
 ![Loss on Bob's labels on Alice's prompts](/images/blog/mechanistic-anomaly-detection/alice_loss_on_bob_by_base.png)
 *Figure 8: Average loss on Alice's labels on Bob's prompts and Bob's labels on Alice's prompts for each model and dataset; **higher is better**. Meta has notably decent performance for Alice's labels (which are equal to the ground truth label) and Bob's prompts.*
 
-#### Comparing activation variance for Llama and Mistral
+#### Comparing activation separation for Llama and Mistral
 
-A hypothesis arising from Figures 3 and 4 is that perhaps the lower variance in logits observed in Llama on non-arithmetic tasks corresponds to lower variance in the hidden state activations, which might explain the poor performance of anomaly detection methods on Llama. We found that the ratio of between-context variance to total variance of the hidden state activations explained MAD performance using the Mahalanobis distance very well (figure 9), and that Llama exhibited a lower variance ratio than Mistral. We found only a very weak correlation between the hidden state variance ratio and the same variance ratio for output logits. We found a slightly stronger (but still weak) correlation between hidden state variance ratio and the total variance of output logits (which, unlike between-context variance, could be estimated without access to quirky labels), and a similarly strong correlation between the hidden state variance ratio and the between-context variance of the output logits. The lack of correlation between the logit variance ratio and the hidden state variance ratio is explained by the correlations between both total and between-context variance of the output logits with the hidden state variance canceling each other out.
+A hypothesis arising from Figures 3 and 4 is that perhaps the lower separation in logits observed in Llama on non-arithmetic tasks corresponds to lower separation in the hidden states, which might explain the poor performance of anomaly detection methods on Llama. We found that the ratio of the distance between Alice's and Bob's centroids to the total variance of the hidden states explained MAD performance using the Mahalanobis distance very well (figure 9), and that Llama exhibited a lower separation than Mistral. We found only a very weak correlation between the hidden state separation and the same separation measure computed on output logits. We found a slightly stronger (but still weak) correlation between hidden state separation and the total variance of output logits (which, unlike Alice-Bob separation, could be estimated without access to quirky labels), and a similarly strong correlation between the hidden state separation and the Alice-Bob separation of the output logits.
 
-![AUC ROC vs hidden state variance ratio](/images/blog/mechanistic-anomaly-detection/aucroc_vs_variance_ration_by_layer.png)
-*Figure 9: AUC ROC vs hidden state variance ratio for each model, dataset and layer. The hidden state variance ratio is the ratio of the  to total variance of the hidden state activations. There is a clear s-shaped relationship between the two, with three notable exceptions that achieve relatively high AUC ROC despite having a relatively low hidden state variance ratio (those exceptions being particular layers of Mistral on the population, subtraction and addition datasets).*
+![AUC ROC vs hidden state separation](/images/blog/mechanistic-anomaly-detection/aucroc_vs_variance_ration_by_layer.png)
+*Figure 9: AUC ROC vs hidden state separation for each model, dataset and layer. The hidden state separation is the ratio of the squared distance between the Alice and Bob centroids to total variance of the hidden states. There is a clear s-shaped relationship between the two, with three notable exceptions that achieve relatively high AUC ROC despite having a relatively low hidden state separation (those exceptions being particular layers of Mistral on the population, subtraction and addition datasets).*
 
-![Logit variance ratio vs hidden state variance ratio](/images/blog/mechanistic-anomaly-detection/act_var_ratio_vs_logit_var_ratio.png)
-*Figure 10: Logit variance ratio vs hidden state variance ratio for each model, dataset and layer. There is only a weak correlation between the two, $R^2 = 0.09$.*
+![Logit separation vs hidden state separation](/images/blog/mechanistic-anomaly-detection/act_var_ratio_vs_logit_var_ratio.png)
+*Figure 10: Logit separation vs hidden state separation for each model, dataset and layer. There is only a weak correlation between the two, $R^2 = 0.09$.*
 
-![Logit variance vs hidden state variance ratio](/images/blog/mechanistic-anomaly-detection/logit_var_vs_act_var_ratio.png)
-*Figure 11: Logit variance vs hidden state variance ratio (averaged across layers) for each model and dataset. There is a modest correlation between the two, $R^2 = 0.21$.*
+![Logit variance vs hidden state separation](/images/blog/mechanistic-anomaly-detection/logit_var_vs_act_var_ratio.png)
+*Figure 11: Logit variance vs hidden state separation (averaged across layers) for each model and dataset. There is a modest correlation between the two, $R^2 = 0.21$.*
 
-![Between-context variance vs hidden state variance ratio](/images/blog/mechanistic-anomaly-detection/bet_logit_var_vs_act_var_ratio.png)
-*Figure 12: Between-context variance vs hidden state variance ratio (averaged across layers) for each model and dataset. There is a modest correlation between the two, $R^2 = 0.18$.*
+![Alice-Bob separation vs hidden state separation](/images/blog/mechanistic-anomaly-detection/bet_logit_var_vs_act_var_ratio.png)
+*Figure 12: Alice-Bob separation vs hidden state separation (averaged across layers) for each model and dataset. There is a modest correlation between the two, $R^2 = 0.18$.*
 
 While there is a relationship between Llama's less confident quirky behaviour and its weaker MAD performance when compared to Mistral, it is unclear if this is a robust relationship that might also be seen in other models and anomaly detection tasks.
 
 ### Anomaly detection with normalising flows
 
-We tested anomaly detection using a trained normalising flow. A normalising flow is a trainiable function that learns an invertible mapping from a complex distribution to a simpler prior distribution (in this case, a Laplace distribution with independent dimensions). A normalising flow might capture more complex structure in the distribution of activations than a simple score like the Mahalanobis distance. Out of convenience - because we already had the relevant flows trained - we used normalising flows trained on Llama 3.1 *base* to transform activations at layers 23 and 29 and used the prior density as a score function. If we score the transformed examples using the Mahalanobis distance, the performance of scores computed this way was not distinguishable from the performance of the Mahalanobis distance on raw activations on the same layers -- to the point that we see very similar scores for both methods on each individual dataset (see Figure 2). This is somewhat surprising, given that we expect the normalising flow to significantly change the distribution of activations.
+We tested anomaly detection using a trained normalising flow. A normalising flow is a trainable function that learns an invertible mapping from a complex distribution to a simpler prior distribution (in this case, a Laplace distribution with independent dimensions). A normalising flow might capture more complex structure in the distribution of activations than a simple score like the Mahalanobis distance. Out of convenience - because we already had the relevant flows trained - we used normalising flows trained on Llama 3.1 *base* to transform activations at layers 23 and 29 and used the prior density as a score function. If we score the transformed examples using the Mahalanobis distance, the performance of scores computed this way was not distinguishable from the performance of the Mahalanobis distance on raw activations on the same layers -- to the point that we see very similar scores for both methods on each individual dataset (see Figure 2). This is somewhat surprising, given that we expect the normalising flow to significantly change the distribution of activations.
 
 Results are in Figures 1 and 2.
 
