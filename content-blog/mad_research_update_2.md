@@ -5,7 +5,7 @@ description: "Interim report on ongoing work on mechanistic anomaly detection"
 author: ["David Johnston", "Nora Belrose"]
 ShowToc: true
 mathjax: true
-draft: true
+draft: false
 ---
 
 [Previously](/mechanistic-anomaly-detection-research-update/) we discussed our progress in testing some approaches to mechanistic anomaly detection (MAD). This is a short update on progress since then.
