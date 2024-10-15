@@ -20,7 +20,7 @@ We also tested two more approaches to anomaly detection:
  - Using the outputs of a normalising flow trained on activations of hidden layers of Llama 3.1 base.
  - Using the latent activations of a sparse autoencoder trained on the activations of hidden layers of Llama 3.1 base.
 
-Both approaches yielded a performance profile remarkably close to the performance of the Mahalanobis distance on raw activations.
+Both approaches yielded a performance profile close to the performance of the Mahalanobis distance on raw activations, and normalising flows in particular offered performance that matched the Mahalanobis distance on raw activations to a high level of precision.
 
 ## Anomaly detection on Llama 3.1 8B
 
