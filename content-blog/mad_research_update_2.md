@@ -10,8 +10,8 @@ draft: false
 
 [Previously](/mechanistic-anomaly-detection-research-update/) we discussed our progress in testing some approaches to mechanistic anomaly detection (MAD). This is a short update on progress since then.
 
- - We found anomaly detection performance was much worse for Llama 3.1 8B trained in the same way as Mistral 7B v0.1, the model that we were using previously.
- - We found that Llama was somewhat less quirky than Mistral, but it still exhibited the desired quirky behaviour and achieved lower loss on average across the tasks.
+ - We found anomaly detection performance on non-arithmetic tasks was much worse for Llama 3.1 8B trained in the same way as Mistral 7B v0.1, the model that we were using previously.
+ - When anomaly detection did not work well, we found Llama was somewhat less quirky than Mistral, but it still exhibited the desired quirky behaviour and achieved lower loss on average across the tasks.
  - We found that the distance between the centroids of Alice and Bob contexts in the hidden state space at a given layer explained MAD performance well, and that Llama had less Alice-Bob separation than Mistral.
 
 Overall, these results are discouraging for our MAD approaches. While Llama was less quirky than Mistral on the datasets where we found anomaly detection hard, it was still unambiguously quirky. This suggests that it's possible for models to develop practically important anomalous behaviour without our MAD methods being able to reliably detect it.
@@ -60,7 +60,7 @@ We did observe that attribution based methods (particularly the `probe` score) s
 
 We quantify the degree of quirkiness of a model by the shift (in logits) induced by switching labels from Alice to Bob on questions where Alice and Bob have opposing labels. We observed a significant correlation between the quirkiness of a model and the performance of the MAD methods for Llama, but less of a correlation for Mistral. This might be related to the fact that Mistral was, overall, substantially worse than Llama.
 
-Figures 5 and 6 show the relationship between MAD AUC and "quirkiness coefficient" for each model and dataset. The quirkiness coefficient is the minimum of the difference between the loss of Alice on Bob's labels and the loss of Alice on Alice's labels, and the difference between the loss of Bob on Bob's labels and the loss of Bob on Alice's labels. If the coefficient is below 0, then at least one character does not exhibit the desired behaviour at all - note that this applied to Llama on `sciq`, `nli` and `hemisphere`.
+Figures 7 and 8 show the relationship between MAD AUC and "quirkiness coefficient" for each model and dataset. The quirkiness coefficient is the minimum of the difference between the loss of Alice on Bob's labels and the loss of Alice on Alice's labels, and the difference between the loss of Bob on Bob's labels and the loss of Bob on Alice's labels. If the coefficient is below 0, then at least one character does not exhibit the desired behaviour at all - note that this applied to Llama on `sciq`, `nli` and `hemisphere`.
 
 ![Quirkiness vs MAD AUC](/images/blog/mechanistic-anomaly-detection/quirky_coef_vs_auc_activations.png)
 *Figure 7: MAD AUC using activations and the Mahalanobis distance vs quirkiness coefficient for each model and dataset*
@@ -68,7 +68,7 @@ Figures 5 and 6 show the relationship between MAD AUC and "quirkiness coefficien
 ![Quirkiness vs MAD AUC attribution](/images/blog/mechanistic-anomaly-detection/quirky_coef_vs_auc.png)
 *Figure 8: MAD AUC using attribution patching and the Mahalanobis distance vs quirkiness coefficient for each model and dataset*
 
-Figures 7 and 8 compare the average loss of both models against both the correct labels (i.e. Alice's labels for Alice's prompts) and the incorrect labels (i.e. Bob's labels for Alice's prompts). Llama clearly achieves lower loss on average across most datasets. Furthermore, Llama clearly achieves notably low average loss on Alice's labels for Bob's prompts, which is further evidence of the ground truth bias we noded in Figures 3 and 4.
+Figures 9 and 10 compare the average loss of both models against both the correct labels (i.e. Alice's labels for Alice's prompts) and the incorrect labels (i.e. Bob's labels for Alice's prompts). Llama clearly achieves lower loss on average across most datasets. Furthermore, Llama clearly achieves notably low average loss on Alice's labels for Bob's prompts, which is further evidence of the ground truth bias we noded in Figures 5 and 6.
 
 ![Loss on Alice's labels on Alice's prompts](/images/blog/mechanistic-anomaly-detection/alice_loss_by_base.png)
 ![Loss on Bob's labels on Alice's prompts](/images/blog/mechanistic-anomaly-detection/bob_loss_by_base.png)
@@ -80,12 +80,12 @@ Figures 7 and 8 compare the average loss of both models against both the correct
 
 #### Comparing activation separation for Llama and Mistral
 
-A hypothesis arising from Figures 3 and 4 is that perhaps the lower separation in logits observed in Llama on non-arithmetic tasks corresponds to lower separation in the hidden states, which might explain the poor performance of anomaly detection methods on Llama. We measured separation by taking the squared distance between class centroids and dividing by the total variance of the hidden states. Let $\mu^{\mathrm{Alice}}_i$ and $\mu^{\mathrm{Bob}}_i$ be the hidden state centroids at layer $i$ for all test datapoints in the Alice and Bob contexts respectively and $\Sigma^{\mathrm{Alice}, \mathrm{Bob}}_i$ be the covariance matrix of the hidden states for all test datapoints (both Alice and Bob contexts combined) at layer $i$. 
+A hypothesis arising from Figures 5 and 6 is that perhaps the lower separation in logits observed in Llama on non-arithmetic tasks corresponds to lower separation in the hidden states, which might explain the poor performance of anomaly detection methods on Llama. We measured separation by taking the squared distance between class centroids and dividing by the total variance of the hidden states. Let $\mu^{\mathrm{Alice}}_i$ and $\mu^{\mathrm{Bob}}_i$ be the hidden state centroids at layer $i$ for all test datapoints in the Alice and Bob contexts respectively and $\Sigma^{\mathrm{Alice}, \mathrm{Bob}}_i$ be the covariance matrix of the hidden states for all test datapoints (both Alice and Bob contexts combined) at layer $i$. 
 Then we compute the hidden state separation at layer $i$ as
 
 $S_i = \frac{(\mu^{\mathrm{Alice}}_{i}-\mu^{\mathrm{Bob}}_i)^2}{\mathrm{Tr}(\Sigma_i^{\mathrm{Alice}, \mathrm{Bob}})}$
 
-We found that the hidden state separation explained MAD performance using the Mahalanobis distance very well (figure 9), and that Llama exhibited a lower separation than Mistral. We found only a very weak correlation between the hidden state separation and the same separation measure computed on output logits. We found a slightly stronger (but still weak) correlation between hidden state separation and the total variance of output logits (which, unlike Alice-Bob separation, could be estimated without access to quirky labels), and a similarly strong correlation between the hidden state separation and the Alice-Bob separation of the output logits.
+We found that the hidden state separation explained MAD performance using the Mahalanobis distance very well (Figure 11), and that Llama exhibited a lower separation than Mistral. We found only a very weak correlation between the hidden state separation and the same separation measure computed on output logits. We found a slightly stronger (but still weak) correlation between hidden state separation and the total variance of output logits (which, unlike Alice-Bob separation, could be estimated without access to quirky labels), and a similarly strong correlation between the hidden state separation and the Alice-Bob separation of the output logits.
 
 ![AUC ROC vs hidden state separation](/images/blog/mechanistic-anomaly-detection/aucroc_vs_variance_ration_by_layer.png)
 *Figure 11: AUC ROC vs hidden state separation for each model, dataset and layer. The hidden state separation is the ratio of the squared distance between the Alice and Bob centroids to total variance of the hidden states. There is a clear s-shaped relationship between the two, with three notable exceptions that achieve relatively high AUC ROC despite having a relatively low hidden state separation (those exceptions being particular layers of Mistral on the population, subtraction and addition datasets).*
