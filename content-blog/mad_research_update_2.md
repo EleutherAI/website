@@ -10,7 +10,7 @@ draft: false
 
 [Previously](/mechanistic-anomaly-detection-research-update/) we discussed our progress in testing some approaches to mechanistic anomaly detection (MAD). This is a short update on progress since then.
 
- - We found anomaly detection performance on non-arithmetic datasets was much worse for Llama 3.1 8B trained in the same way as Mistral 7B v0.1, the model that we were using previously.
+ - We found anomaly detection performance on non-arithmetic tasks was much worse for Llama 3.1 8B trained in the same way as Mistral 7B v0.1, the model that we were using previously.
  - When anomaly detection did not work well, we found Llama was somewhat less quirky than Mistral, but it still exhibited the desired quirky behaviour and achieved lower loss on average across the tasks.
  - We found that the distance between the centroids of Alice and Bob contexts in the hidden state space at a given layer explained MAD performance well, and that Llama had less Alice-Bob separation than Mistral.
 
@@ -107,7 +107,7 @@ We tested anomaly detection using a trained normalising flow. A normalising flow
 
 We tested two score functions. First, we used the prior density of the normalising flow to score the transformed activation. Second, we used the Mahalanobis distance on the transformed activations. The Mahalanobis distance can be thought of as scoring according to a Laplace density with the mean and covariance estimated from the training data instead of fixed to the prior distribution. Scoring examples according to the prior yielded generally poor results, while scoring the transformed examples using the Mahalanobis distance yielded performance that was not distinguishable from the performance of the Mahalanobis distance on raw activations on the same layers -- to the point that we see very similar scores for both methods on each individual dataset (see Figure 2). The correspondence between Mahalanobis scoring on raw and transformed activations is somewhat surprising, given that we expect the normalising flow to significantly change the distribution of activations. Our results also suggest that either the fine tuning process or the quirky dataset prompts shifted the distribution of the transformed activations from the prior, such that scoring according to the prior was not a good measure of "anomalousness" of an example activation.
 
-Results are in Figures 1 and 2..
+Results are in Figures 1 and 2.
 
 ### Anomaly detection with sparse autoencoders
 
