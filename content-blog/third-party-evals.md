@@ -83,5 +83,5 @@ The project concluded with the evaluator inspecting the LLM’s training data fo
 
 Thus, this project demonstrates that the infrastructure and governance approach provided by PySyft can enable novel forms of AI safety evaluations. Our hope is that this will facilitate mutually-beneficial collaborations and partnerships between third-party evaluators and AI developers throughout the model development life cycle.
 
-We are sincerely grateful to all of our collaborators from EleutherAI for their pioneering efforts and significant contributions to this work. We also thank the UK AI Safety Institute for providing early advice and introductions to make the project possible, as well as providing the proxy dataset used in the evaluation.
+We are sincerely grateful to all of our collaborators from OpenMined for their pioneering efforts and significant contributions to this work. We also thank the UK AI Safety Institute for providing early advice and introductions to make the project possible, as well as providing the proxy dataset used in the evaluation.
 
