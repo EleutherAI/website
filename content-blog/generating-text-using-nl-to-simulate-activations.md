@@ -89,12 +89,12 @@ In this task we ask the model to give a number, from 0 to 9, on how much the sel
 
 As we have been discribing the, current explanations are better at identifying non-active latents than active latents. Still, because there are so many more non-active latents than active latents, their precision is low. To put things into perpective, around 50 latents are active at any given time for the chosen SAE, and because the SAE has 131k latents, identifying non-active latents curretly 90% of the time means that we it incorrectly identifies 13k latents as active, several orders of magnitude more than the number of active latents. This means that one needs to identify 99.9 to 99.99\% of non-active latents to not "overload" the reconstructions with false positives. If we calibrate the probability, such that we only consider the expected number of active latents to be 50, we find most of the times, we would not be able to identify any active latents, for instance, the expected number of active latents with assigned probability greater than 90% is 9, while the expected number of non active latents with proability greater than 90\% is 3600. If the calibration probability is 99.94\%, the 49.6 times out of the 50 times, a non-active latent would be identified as active, while only 0.3 times out of the 50 times, an active latent would be identified as active.
 
-## Should there be a figure here or something else?
+**Should there be a figure here or something else?**
 
 
 Finally, we find that the pre-computed scores - fuzzing and detection - are predictive of whether a latent is correctly identified as either active or non-active, see Figure 6, although the relation is not linear. This is a good verifications that these simple scores are able to capture how good explanations are, although the fact that these scores seems to saturate at both low and high values makes us think that there is still significant room for improvement.
 
 
-![scores predictiveness](/images/blog/generating-text-using-nl-to-simulate-activations/scores_accuracy.png)
+![scores predictiveness](/static/images/blog/generating-text-using-nl-to-simulate-activations/scores_accuracy.png)
 _Figure 6: Accuracy of the model to identify non-active and active latents as a function of the fuzzing and detection scores. The scores are rounded to 1 decimal place and averaged. Error bars correspond to 95\% confidence intervals._
 
