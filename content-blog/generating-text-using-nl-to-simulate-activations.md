@@ -25,7 +25,9 @@ In this blog post we will explore how far away we are from this goal, by adressi
 - Our SAE latents interpretations can only identify less than 50\% of active latents in arbitrary contexts. This fraction can however be enough to generate "coherent" text, because most of the high active latents are correctly identified.
 - (We still have not done this but should) We find that explanations can/can't be used to effectively simulate the value of the activations of the model when calibrated.
 - Although explanations correctly identify 90% of non-active latents, a value closer to 99.9% is needed to generate "coherent" text if one requires that the model correctly labels all the latents.
-- We find that the pre-generated scores for the interpretations are predictive of how frequently the model identifies the latents, and find that the scores can be used by the model to calibrate its predictions.
+- We find that the pre-generated scores for the interpretations are predictive of how frequently the model correctly identifies the latents, and find that the scores can be used by the model to calibrate its predictions.
+- The code used to reproduce these results is available [here](https://github.com/EleutherAI/sae-auto-interp/tree/nl_simulations), with scripts to run the experiments and generate the figures in the blog post.    
+
 
 
 # How many latents are needed to recover the model behaviour?
@@ -77,10 +79,20 @@ Due to the fact that, even at this easier task, we are not able to have a satisf
 
 The standard way people evaluate interpretations of latents is by doing [simulation](https://openaipublic.blob.core.windows.net/neuron-explainer/paper/index.html), where the moder is tasked to predict the activations of the latent at different token positions and then the correlation between those values and the ground truth activations is used as a proxy for how good the interpretation is. We know from these results that models have a hard time predicting the activation values. Here we focus on the activation value at the last token of a sequence, and evaluate only the latents that are active. Once again this is "cheating", because we are only using latents that we know are active, but at this point we are just focusing on the feasability of this simpler task than that of the real word scenario. 
 
-In this task we ask the model to give a number, from 0 to 9, on how much the select token is activated, given the explanation of the latent. We explicitly tell the model that the latent is active, but we show an example where the value is 0, due to rounding down. We compare the number predicted by the model for each latent with 3 different distributions: it's activation value, unormalized, it's activation bin in the activation distribution of that same latent and with the quantiles of the activation distribution. We find that the model predicts 0,8,9 and with more frequency than the other values. We also use the "logprobs trick", where we compute the probability of each of the 10 values and compute the expected value of the prediction, and find that this distribution is very similar to the distribution of the predicted values. Despite the fact that the model predicts high activation values more frequently that it should, we find that there is a monotonic relationship between the predicted binarized value and the average activation value of the bin, with higher predicted values corresponding to higher activation values.  The same is true for the average quantile and average activation bin, but the spread is so large that it does not seem possible to reliably predict the activation value of a latent using the explanations. 
+In this task we ask the model to give a number, from 0 to 9, on how much the select token is activated, given the explanation of the latent. We explicitly tell the model that the latent is active, but we show an example where the value is 0, due to rounding down. We compare the number predicted by the model for each latent with 3 different distributions: it's activation value, unormalized, it's activation bin in the activation distribution of that same latent and with the quantiles of the activation distribution. We find that the model predicts low and high values more frequently than the other values. We also use the "logprobs trick", where we compute the probability of each of the 10 values and compute the expected value of the prediction, and find that this distribution is very similar to the distribution of the predicted values. The distribution of the predicted values is shown in the left panel of Figure 4, and compared with the distribution of activation values used, and the distribution of the quantiles of the activation distribution the examples were generated from. We observe that higher predicted values correspond to higher activation values and activation quantiles, see right panel of Figure 4, but the spread is so large that it does not seem possible to reliably predict the activation value of a latent using the explanations, see table 2, where we show that correlation between the predicted value and the activation value of the latent and the activation quantile is low for all the methods.
 
 
-![activation value prediction](/images/blog/generating-text-using-nl-to-simulate-activations/image-4.png)
+![activation value prediction](/static/images/blog/generating-text-using-nl-to-simulate-activations/activation_prediction.png)
+_Figure 4: Left panel: Distribution of the predicted activation values for each latent, compared with the activation value of the latent. Right panel: Average activation bin and average quantile of the predicted activation values for each predicted value, for the top explanations, which have the highest correlation._
+
+| Method | Correlation with activation bin | Correlation with distribution quantile |
+|---------------|---------------------------|---------------------------|----------------|
+| Quantile explanations| 0.16 | 0.09 | 
+| Top explanations | 0.21 | 0.11 | 
+| With Fuzzing Score | 0.18 | 0.08 | 
+| With Detection Score | 0.17 | 0.08 | 
+_Table 2: Pearson correlation between the predicted activation value and the activation value of the latent and the activation quantile of the latent._
+
 
 
 
@@ -96,5 +108,5 @@ Finally, we find that the pre-computed scores - fuzzing and detection - are pred
 
 
 ![scores predictiveness](/static/images/blog/generating-text-using-nl-to-simulate-activations/scores_accuracy.png)
-_Figure 6: Accuracy of the model to identify non-active and active latents as a function of the fuzzing and detection scores. The scores are rounded to 1 decimal place and averaged. Error bars correspond to 95\% confidence intervals._
+_Figure 5: Accuracy of the model to identify non-active and active latents as a function of the fuzzing and detection scores. The scores are rounded to 1 decimal place and averaged. Error bars correspond to 95\% confidence intervals._
 
