@@ -10,7 +10,7 @@ draft: false
 
 # Generating text by simulating the model using natural language
 
-<iframe src="/images/blog/generating-text-using-nl-to-simulate-activations/interactives.html" style="width: 100%; height: 800px; border: none;"></iframe>
+<iframe src="/images/blog/generating-text-using-nl-to-simulate-activations/interactive.html" style="width: 100%; height: 800px; border: none;"></iframe>
 
 Our most recent work on using sparse autoencoders (SAEs) focused on automatically generating interpretations for their latents and evaluating how good they are. A potential draw of SAEs is that they could be used to "white-box" the language models they were trained on. If all the latents were interpretable one could track the latents active at any token and follow the internal machinery of the model at work. Not only that, we could potentially use the natural language interpretations to simulate the activations of the model, making all computations pass through a natural language interface. 
 
