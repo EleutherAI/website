@@ -87,7 +87,7 @@
             grid-template-areas: 
                 "text text slider"
                 "nav progress slider"
-                "explanation explanation slider";
+                "explanation explanation colorbar";
             grid-template-rows: 60px 50px 50px;
             grid-template-columns: 250px auto 100px;
             gap: 20px;
@@ -193,7 +193,7 @@
             border-radius: 4px;
             width: 150px;
             cursor: pointer;
-            margin-bottom: 10px;
+            margin-bottom: 0px;
         }
 
         .mode-select option {
@@ -214,7 +214,7 @@
         }
 
         .fraction-value {
-            margin-top: 20px;
+            margin-top: 0px;
             white-space: nowrap;
             position: static;
             transform: none;
@@ -302,6 +302,32 @@
             padding: 1px;
             border-radius: 3px;
             color: #fff;
+        }
+
+        .colorbar-container {
+            grid-area: colorbar;
+            margin-top: 25px;  /* Position below the slider */
+            width: 90%;
+            align-self: center;
+        }
+
+        .colorbar {
+            height: 8px;
+            width: 100%;
+            border-radius: 2px;
+            margin-bottom: 4px;
+            background: linear-gradient(to right, 
+                rgba(0, 255, 0, 0.5) 0%,    /* Green */
+                rgba(125, 125, 0, 0.5) 50%,    /* Yellow */
+                rgba(255, 0, 0, 0.5) 100%     /* Red */
+            );
+        }
+
+        .colorbar-labels {
+            display: flex;
+            justify-content: space-between;
+            font-size: 12px;
+            color: rgba(255, 255, 255, 0.7);
         }
     </style>
 </head>
@@ -501,6 +527,13 @@
                             <div class="position-slider">
                                 <div class="slider-handle"></div>
                             </div>
+                            <div class="colorbar-container">
+                                <div class="colorbar"></div>
+                                <div class="colorbar-labels">
+                                    <span>Low KL</span>
+                                    <span>High KL</span>
+                                </div>
+                            </div>
                             <div class="navigation-controls">
                                 <button class="nav-arrow left">←</button>
                                 <div class="nav-arrow-text">
@@ -511,9 +544,9 @@
                             <div class="explanation-text">
                                 Top line shows generations by Gemma 2 9b. Bottom line shows generations by selecting certain SAE latents to be active.
                                 <br>
-                                 Quantile and Top indicate different explanations to select the latents, while Percentage controls the percentage of correct latents.
+                                Quantile and Top indicate different explanations to select the latents, while Percentage controls the percentage of correct latents.
                                 <br>
-                                Color indicates KL divergence from the original text. Correct latents are highlighted in green, in the box below.
+                                Correct latents are highlighted in green in the box below.
                             </div>
                             <div class="fraction-slider">
                                 <div class="fraction-controls">
