@@ -12,7 +12,7 @@
         .demo-container {
             font-family: Arial, sans-serif;
             width: 100%;
-            max-width: 700px;
+            max-width: 770px;
             margin: 0 auto;
             padding: 20px;
             color: #fff;
@@ -20,106 +20,204 @@
             height: 800px;
             display: flex;
             flex-direction: column;
-            gap: 20px;
-        }
-
-        .main-content {
-            display: flex;
-            gap: 20px;
-        }
-
-        .left-panel {
-            flex: 1;
-        }
-
-        .text-display {
-            padding: 10px;
-            margin-bottom: 20px;
-            background: transparent;
-            border-radius: 2px;
-            display: flex;
-            flex-direction: column;
-            gap: 5px;
+            gap: 0px;
         }
 
         .text-line {
             display: flex;
             align-items: center;
-            min-height: 60px;
-            padding: 10px 0;
+            min-height: 20px;
+            margin-right: 20px;
+            margin-top: 20px;
+            margin-bottom: 0px;
         }
 
-        .word-container {
-            text-align: center;
-            padding: 0;
+        .static-text {
+            color: white;
+            padding: 4px 0;
         }
 
-        .unaltered-line {
-            color: #fff;
+        .split-word {
+            display: inline-block;
+            position: relative;
+            min-height: 80px;
+            min-width: 40px;
         }
 
-        .unaltered-line .word {
+        .original-word {
+            position: absolute;
+            left: 0;
+            padding: 4px 8px;
+            top: 0%;
+            transform: translateY(105%);
+        }
+
+        .altered-word {
+            position: absolute;
+            left: 0;
+            padding: 4px 8px;
+            border-radius: 3px;
+            border: 1px solid rgba(255, 255, 255, 0.3);
+            white-space: nowrap;
+            transform: translateY(-100%);
+            cursor: pointer;
+            background: rgba(0, 255, 0, 0.1);
+            color: white;
+            top: 100%;
+        }
+
+        .clickable-word {
             cursor: pointer;
             color: white;
             padding: 2px 4px;
-            margin: 0;
+            margin: 0 2px;
             border-radius: 3px;
             border: 1px solid rgba(255, 255, 255, 0.3);
             background: rgba(255, 255, 255, 0.1);
+            display: inline-block;
         }
 
-        .altered-line .word {
-            cursor: default;
-            color: black;
-            padding: 2px 4px;
-            margin: 0;
-            border-radius: 3px;
+        .top-section {
+            position: relative;
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            border-radius: 4px;
+            padding: 20px;
+            margin-bottom: 20px;
+            display: grid;
+            grid-template-areas: 
+                "text text slider"
+                "nav progress slider"
+                "explanation explanation slider";
+            grid-template-rows: 60px 50px 50px;
+            grid-template-columns: 250px auto 100px;
+            gap: 20px;
+            height: 200px;
         }
 
-        .initial-text {
-            color: #fff;
+        .navigation-controls {
+            grid-area: nav;
+            display: flex;
+            gap: 10px;
+            padding-top: 10px;
+            align-items: center;
+            height: 40px;
         }
 
-        .word {
+        .explanation-text{
+            grid-area: explanation;
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+            padding-top: 20px;
+            font-size: 10px;
+        }
+
+        .nav-arrow {
+            background: rgba(255, 255, 255, 0.1);
+            border: 1px solid rgba(255, 255, 255, 0.3);
+            color: white;
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
             cursor: pointer;
-            padding: 2px 4px;
-            border-radius: 3px;
-            transition: background-color 0.2s;
-            color: black;
         }
 
-        .word:hover {
-            filter: brightness(0.9);
+        .nav-arrow:hover {
+            background: rgba(255, 255, 255, 0.2);
+        }
+
+        .nav-arrow-text {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            height: 100%;
+        }
+
+        .text-section {
+            grid-area: text;
+            display: flex;
+            align-items: flex-start;
+            flex-direction: column-reverse;
+            justify-content: center;
+            padding-bottom: 30px;
+        }
+
+        .position-slider {
+            grid-area: progress;
+            position: relative;
+            display: flex;
+            height: 4px;
+            background: rgba(255, 255, 255, 0.1);
+            margin: 20px 0;
+            width: 90%;
+            align-self: center;
+        }
+
+        .slider-handle {
+            position: absolute;
+            width: 12px;
+            height: 12px;
+            background: white;
+            border-radius: 50%;
+            top: 50%;
+            transform: translate(-50%, -50%);
+            cursor: pointer;
         }
 
         .fraction-slider {
-            position: absolute;
-            right: 10px;
-            top: 0;
-            bottom: 0;
-            width: 60px;
+            grid-area: slider;
+            padding-right: 20px;
             display: flex;
-            flex-direction: column-reverse;
+            flex-direction: column;
             align-items: center;
-            justify-content: center;
+            justify-content: flex-start;
+            height: 100%;
+        }
+
+        .fraction-controls {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .mode-select {
+            background: rgba(255, 255, 255, 0.1);
+            color: white;
+            padding: 5px 10px;
+            border: 1px solid rgba(255, 255, 255, 0.3);
+            border-radius: 4px;
+            width: 150px;
+            cursor: pointer;
+            margin-bottom: 10px;
+        }
+
+        .mode-select option {
+            background: black;
+            color: white;
         }
 
         .slider {
             writing-mode: bt-lr;
             -webkit-appearance: slider-vertical;
             width: 8px;
-            height: 150px;
-            margin-left: 20px;
+            height: 100px;
+            margin: 0px auto;
+        }
+
+        .slider.hidden {
+            display: none;
         }
 
         .fraction-value {
-            color: #fff;
-            transform: none;
-            position: absolute;
-            right: 40px;
-            top: 50%;
-            transform: translateY(-50%);
+            margin-top: 20px;
             white-space: nowrap;
+            position: static;
+            transform: none;
         }
 
         .info-panel {
@@ -129,24 +227,24 @@
             padding: 20px;
             border: 1px solid rgba(255, 255, 255, 0.2);
             border-radius: 4px;
+            height: 460px;
+            overflow: hidden;
         }
 
         .panel-container {
             border: 1px solid rgba(255, 255, 255, 0.2);
             padding: 20px;
             border-radius: 4px;
+            height: 100%;
+            display: flex;
+            flex-direction: column;
+            overflow: hidden;
         }
 
-        .latent-info {
+        .panel-content {
             flex: 1;
-            padding: 20px;
-            background: transparent;
-            border-radius: 4px;
-        }
-
-        .latent-list {
-            max-height: 300px;
             overflow-y: auto;
+            padding-right: 10px;
         }
 
         .latent-item {
@@ -186,19 +284,6 @@
             border-color: rgba(255, 0, 0, 0.3);
         }
 
-        .dashboard {
-            flex: 1;
-            padding: 20px;
-            background: transparent;
-            border-radius: 4px;
-            overflow-y: auto;
-        }
-
-        .dashboard h3 {
-            color: #fff;
-            margin-top: 0;
-        }
-
         .context-row {
             border: 1px solid rgba(255, 255, 255, 0.2);
             display: flex;
@@ -217,250 +302,6 @@
             padding: 1px;
             border-radius: 3px;
             color: #fff;
-        }
-
-        .activation-value {
-            min-width: 60px;
-            text-align: right;
-            color: #fff;
-        }
-
-        .hidden {
-            display: none;
-        }
-
-        .test-selector {
-            margin-bottom: 20px;
-            display: flex;
-            align-items: center;
-            gap: 10px;
-        }
-
-        .test-selector select {
-            background: rgb(252, 250, 250);
-            color: rgb(9, 9, 9);
-            padding: 5px 10px;
-            border: 1px solid rgba(255, 255, 255, 0.3);
-            border-radius: 4px;
-            cursor: pointer;
-            width: 200px;
-            -webkit-appearance: none;
-            -moz-appearance: none;
-            appearance: none;
-        }
-
-        .test-selector select:hover {
-            background: rgba(255, 255, 255, 0.2);
-        }
-
-        .test-selector select:focus {
-            outline: none;
-            background: rgba(255, 255, 255, 0.2);
-        }
-
-        .navigation-controls {
-            position: absolute;
-            left: 10px;
-            top: 10px;
-            display: flex;
-            gap: 5px;
-        }
-
-        .nav-arrow {
-            background: rgba(255, 255, 255, 0.1);
-            border: 1px solid rgba(255, 255, 255, 0.3);
-            color: white;
-            width: 40px;
-            height: 40px;
-            border-radius: 50%;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            cursor: pointer;
-        }
-
-        .nav-arrow:hover {
-            background: rgba(255, 255, 255, 0.2);
-        }
-
-        .text-line {
-            display: flex;
-            align-items: center;
-            min-height: 60px;
-            margin-right: 100px; /* Space for vertical slider */
-        }
-
-        .static-text {
-            color: white;
-            padding: 4px 0;
-        }
-
-        .split-word {
-            display: inline-block;
-            position: relative;
-            min-height: 80px;
-            min-width: 40px;
-            cursor: pointer;
-            margin: 20px 0;
-        }
-
-        .original-word, .altered-word {
-            position: absolute;
-            left: 0;
-            padding: 4px 8px;
-            border-radius: 3px;
-            border: 1px solid rgba(255, 255, 255, 0.3);
-            white-space: nowrap;
-            transform: translateY(-50%);
-        }
-
-        .original-word {
-            background: rgba(255, 255, 255, 0.1);
-            color: white;
-            top: 25%;
-        }
-
-        .altered-word {
-            background: rgba(0, 255, 0, 0.1);
-            color: white;
-            top: 75%;
-        }
-
-        .future-text {
-            color: rgba(255, 255, 255, 0.5);
-            padding: 4px 0;
-        }
-
-        .position-slider {
-            position: relative;
-            height: 2px;
-            background: rgba(255, 255, 255, 0.1);
-            margin-top: 40px;
-            margin-bottom: 20px;
-        }
-
-        .slider-handle {
-            position: absolute;
-            width: 12px;
-            height: 12px;
-            background: white;
-            border-radius: 50%;
-            top: 50%;
-            transform: translate(-50%, -50%);
-            cursor: pointer;
-        }
-
-        .clickable-word {
-            cursor: pointer;
-            color: white;
-            padding: 2px 4px;
-            margin: 0 2px;
-            border-radius: 3px;
-            border: 1px solid rgba(255, 255, 255, 0.3);
-            background: rgba(255, 255, 255, 0.1);
-            display: inline-block;
-        }
-
-        .top-section {
-            position: relative;
-            border: 1px solid rgba(255, 255, 255, 0.2);
-            border-radius: 4px;
-            padding: 20px;
-            margin-bottom: 20px;
-            display: grid;
-            grid-template-areas: 
-                "nav nav slider"
-                "text text slider"
-                "progress progress slider";
-            gap: 20px;
-            height: 200px;
-        }
-
-        .navigation-controls {
-            grid-area: nav;
-            display: flex;
-            gap: 10px;
-            align-self: start;
-        }
-
-        .text-section {
-            grid-area: text;
-            display: flex;
-            flex-direction: column;
-            justify-content: center;
-            padding-left: 0px;
-        }
-
-        .position-slider {
-            grid-area: progress;
-            position: relative;
-            height: 2px;
-            background: rgba(255, 255, 255, 0.1);
-            margin: 0px 20px;
-            width: calc(100% - 150px); 
-        }
-
-        .fraction-slider {
-            grid-area: slider;
-            padding-right: 40px;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            justify-content: flex-start;
-            height: 100%;
-            margin-right: -10px;
-        }
-
-        .text-line {
-            display: flex;
-            align-items: center;
-            min-height: 20px;
-            margin-right: 20px;
-            margin-top: 20px;
-            margin-bottom: 0px;
-        }
-
-        /* Adjust the vertical slider appearance */
-        .slider {
-            writing-mode: bt-lr;
-            -webkit-appearance: slider-vertical;
-            width: 8px;
-            height: 100px;
-            margin: 0;
-        }
-
-        .fraction-value {
-            margin-top: 20px;
-            white-space: nowrap;
-            position: static;
-            transform: none;
-        }
-
-        .fraction-controls {
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            gap: 10px;
-        }
-
-        .mode-select {
-            background: rgba(255, 255, 255, 0.1);
-            color: white;
-            padding: 5px 10px;  /* Increased padding */
-            border: 1px solid rgba(255, 255, 255, 0.3);
-            border-radius: 4px;
-            width: 150px;  /* Fixed width */
-            cursor: pointer;
-            margin-bottom: 10px;  /* Added margin */
-        }
-
-        .mode-select option {
-            background: black;
-            color: white;
-        }
-
-        .slider.hidden {
-            display: none;
         }
     </style>
 </head>
@@ -514,6 +355,10 @@
                             "top_help": {
                                 tokens: helpOutputs.simulated_outputs_top[index] || [],
                                 divergences: helpKL.kl_div_simulated_top[index] || []
+                            },
+                            "random": {
+                                tokens: helpOutputs.random_outputs[index] || [],
+                                divergences: helpKL.kl_div_random[index] || []
                             }
                         },
                         correctLatents: {},
@@ -530,7 +375,7 @@
                     const allWords = [ ...helpOutputs.normal_outputs[index]];
                     allWords.forEach((word, wordIndex) => {
                     
-                        result[key].correctLatents[wordIndex] = {"top_help": [], "quantile_help": []};
+                        result[key].correctLatents[wordIndex] = {"top_help": [], "quantile_help": [], "random": []};
                         const active_latents = percentageCorrectActiveFeatures.all_active_features[index]?.[wordIndex] || [];
                         // Loop through all the active latents
                         active_latents.forEach(latentNum => {
@@ -552,8 +397,14 @@
                                 });
                             }
 
+                            result[key].correctLatents[wordIndex]["random"].push({
+                                number: latentNum,
+                                explanation: topExplanations[latentNum],
+                                isCorrect: false,
+                            });
+
                             // Check latents for each percentage
-                            Object.entries(percentageCorrectActiveFeatures.active_features_sample[index] || {}).forEach(([percentage, allLatents]) => {
+                            Object.entries(percentageCorrectActiveFeatures.active_features_top[index] || {}).forEach(([percentage, allLatents]) => {
                                 if (allLatents[wordIndex]) {
                                     // check if result[key].correctLatents[word][percentage] exists, if not create it
                                     if (!result[key].correctLatents[wordIndex][percentage]) {
@@ -584,10 +435,10 @@
             // Convert KL divergence to a color scale
             // Lower KL = more green (better), Higher KL = more red (worse)
             // Use a log scale to make the difference more pronounced
-            // log(kl) will be between 1 and -4. 1 is the worst, -4 is the best
-            const normalized = -(Math.log(kl_div)-1)/6; 
+            // log(kl) will be between -2 and -4. Everything else should be clipped to -2
+            const normalized = (Math.max(Math.min(Math.log(kl_div), -2), -4)+4)/2; 
             console.log(kl_div,Math.log(kl_div), normalized);
-            return `rgba(${255 * (1-normalized)}, ${255 * (normalized)}, 0, 0.5)`;
+            return `rgba(${255 * (normalized)}, ${255 * (1-normalized)}, 0, 0.5)`;
         }
         
         function getActivationColor(activation) {
@@ -637,10 +488,7 @@
                 this.container.innerHTML = `
                     <div class="demo-container">
                         <div class="top-section">
-                            <div class="navigation-controls">
-                                <button class="nav-arrow left">←</button>
-                                <button class="nav-arrow right">→</button>
-                            </div>
+                            
                             <div class="text-section">
                                 <div class="text-line">
                                     <div class="static-text">Loading...</div>
@@ -653,6 +501,20 @@
                             <div class="position-slider">
                                 <div class="slider-handle"></div>
                             </div>
+                            <div class="navigation-controls">
+                                <button class="nav-arrow left">←</button>
+                                <div class="nav-arrow-text">
+                                    Change sentence
+                                </div>
+                                <button class="nav-arrow right">→</button>
+                            </div>
+                            <div class="explanation-text">
+                                Top line shows generations by Gemma 2 9b. Bottom line shows generations by selecting certain SAE latents to be active.
+                                <br>
+                                 Quantile and Top indicate different explanations to select the latents, while Percentage controls the percentage of correct latents.
+                                <br>
+                                Color indicates KL divergence from the original text. Correct latents are highlighted in green, in the box below.
+                            </div>
                             <div class="fraction-slider">
                                 <div class="fraction-controls">
                                     <select class="mode-select">
@@ -660,7 +522,7 @@
                                         <option value="percentage">Percentage</option>
                                         <option value="top">Top</option>
                                     </select>
-                                    <input type="range" min="0" max="0.99" value="0.6" step="0.1" class="slider hidden" id="fractionSlider">
+                                    <input type="range" min="0" max="1" value="0.6" step="0.01" class="slider hidden" id="fractionSlider">
                                     <span class="fraction-value"</span>
                                 </div>
                             </div>
@@ -741,6 +603,7 @@
 
                     elements.fractionSlider.addEventListener('input', (e) => {
                         this.currentFraction = Number(e.target.value);
+                        
                         this.render();
                     });
                 }
@@ -794,6 +657,7 @@
                     minPosition,
                     Math.min(maxPosition, Math.floor(percentage * (maxPosition - minPosition) + minPosition))
                 );
+                
                 this.render();
             }
 
@@ -801,43 +665,37 @@
                 return [...this.mockData.initial.split(' '), ...this.mockData.unalteredCompletion];
             }
 
-            updateCompletions() {
-                const fraction = this.currentFraction.toFixed(2);
-                const nearestFraction = Object.keys(this.mockData.alteredCompletions)
-                    .reduce((a, b) => {
-                        return Math.abs(b - fraction) < Math.abs(a - fraction) ? b : a;
-                    });
-
-                const completion = this.mockData.alteredCompletions[nearestFraction];
-                const alteredLine = this.container.querySelector('.altered-line');
-                
-                // Clear existing completion but keep initial words
-                const initialWordCount = this.mockData.initial.split(' ').length;
-                while (alteredLine.children.length > initialWordCount) {
-                    alteredLine.removeChild(alteredLine.lastChild);
-                }
-
-                // Add each word in its own container with the same grid position
-                completion.tokens.slice(0, 10).forEach((word, i) => {
-                    const container = document.createElement('span');
-                    container.className = 'word-container';
-                    container.style.gridColumn = (initialWordCount + i + 1).toString(); // Align with grid
-                    container.innerHTML = `
-                        <span class="word" style="background-color: ${getDivergenceColor(completion.divergences[i])}">
-                            ${word}
-                        </span>
-                    `;
-                    alteredLine.appendChild(container);
+            getClosestFraction(wordIndex) {
+                // find nearest percentage
+                const availablePercentages = Object.keys(this.mockData.correctLatents[wordIndex]).map(Number).filter(Number).sort((a, b) => a - b);
+                const nearestPercentage = availablePercentages.reduce((prev, curr) => {
+                    return Math.abs(curr - this.currentFraction) < Math.abs(prev - this.currentFraction) ? curr : prev;
                 });
+                return nearestPercentage;
             }
 
             showLatentInfo(wordIndex) {
                 const latentInfo = this.container.querySelector('.latent-info .panel-content');
+                const latentTitle = this.container.querySelector('.latent-info h3');
+                
                 if (this.mockData.correctLatents[wordIndex]) {
+                    const currentWord = this.getAllTokens()[this.currentPosition-1];
+                    latentTitle.textContent = `Active Latents (${currentWord})`;
+                    
                     let latents;
                     if (this.mode === 'percentage') {
-                        const fraction = this.currentFraction.toFixed(1);
-                        latents = this.mockData.correctLatents[wordIndex][fraction] || [];
+                        if (this.currentFraction === 0) {
+                            latents = this.mockData.correctLatents[wordIndex].random || [];
+                        } else if (this.currentFraction === 1) {
+                            // For full_sae, all latents are considered correct
+                            latents = this.mockData.correctLatents[wordIndex].random.map(l => ({
+                                ...l,
+                                isCorrect: true
+                            }));
+                        } else {
+                            const closestFraction = this.getClosestFraction(wordIndex);
+                            latents = this.mockData.correctLatents[wordIndex][closestFraction] || [];
+                        }
                     } else {
                         latents = this.mockData.correctLatents[wordIndex][`${this.mode}_help`] || [];
                     }
@@ -851,6 +709,7 @@
                         `).join('');
                     this.showLatentDashboard(latents[0].number);
                 } else {
+                    latentTitle.textContent = 'Active Latents';
                     latentInfo.innerHTML = 'Select token to see active features';
                 }
             }
@@ -858,6 +717,9 @@
             showLatentDashboard(latentNumber) {
                 const dashboard = this.container.querySelector('.dashboard');
                 const contextList = dashboard.querySelector('.context-list');
+                const dashboardTitle = dashboard.querySelector('h3');
+                
+                dashboardTitle.textContent = `Latent Contexts (${latentNumber})`;
                 
                 const contexts = this.mockData.contexts[latentNumber] || [];
                 
@@ -882,11 +744,19 @@
 
             getCompletion = () => {
                 if (this.mode === 'percentage') {
-                    const fraction = this.currentFraction.toFixed(2);
-                    const nearestFraction = Object.keys(this.mockData.alteredCompletions)
-                        .filter(k => !isNaN(k))
-                        .reduce((a, b) => Math.abs(b - fraction) < Math.abs(a - fraction) ? b : a);
-                    return this.mockData.alteredCompletions[nearestFraction];
+                    const fraction = this.currentFraction;
+                    
+                    // Handle special cases at the extremes
+                    if (fraction === 0) {
+                        return this.mockData.alteredCompletions.random;
+                    }
+                    if (fraction === 1) {
+                        return this.mockData.alteredCompletions.full_sae;
+                    }
+                    
+                    const closestFraction = this.getClosestFraction(this.currentPosition-1);
+                    console.log(closestFraction,this.mockData.alteredCompletions);
+                    return this.mockData.alteredCompletions[closestFraction];
                 } else if (this.mode === 'top') {
                     return this.mockData.alteredCompletions.top_help;
                 } else {
@@ -912,7 +782,6 @@
                 
                 // Get completion based on current mode
                 const completion = this.getCompletion();
-                
                 this.showLatentInfo(this.currentPosition-promptLength);
 
                 // Show only up to 6 tokens after the prompt, with KL divergence colors
@@ -921,6 +790,7 @@
                 const endIdx = Math.min(this.currentPosition, maxVisibleTokens);
                 
                 const additionalTokens = tokens.slice(startIdx, endIdx);
+                console.log(completion);
                 const additionalHtml = additionalTokens.map((token, index) => {
                     const absoluteIndex = startIdx - promptLength + index;
                     const divergence = completion.divergences[absoluteIndex];
@@ -943,7 +813,6 @@
                 if (currentToken) {
                     splitWord.style.display = 'inline-block';
                     originalWord.textContent = currentToken;
-                    console.log(currentToken);
                     const alteredToken = completion.tokens[this.currentPosition - promptLength];
                     const divergence = completion.divergences[this.currentPosition - promptLength];
                     
@@ -962,8 +831,16 @@
 
                 // Update fraction display
                 if (this.mode === 'percentage') {
+                    let closestFraction;
+                    if (this.currentFraction === 0) {
+                        closestFraction = 0;
+                    } else if (this.currentFraction === 1) {
+                        closestFraction = 1;
+                    } else {
+                        closestFraction = this.getClosestFraction(this.currentPosition-1);
+                    }
                     this.container.querySelector('.fraction-value').textContent = 
-                        `${Math.round(this.currentFraction * 100)}% correct`;
+                        `${Math.round(closestFraction * 100)}% correct`;
                 } else {
                     this.container.querySelector('.fraction-value').textContent = 
                         this.mode === 'top' ? '' : '';
