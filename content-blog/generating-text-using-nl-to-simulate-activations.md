@@ -1,7 +1,7 @@
 ---
 title: "Partially rewriting an LLM in natural language"
 date: 2024-11-10T16:00:00-00:00
-description: "Using interpretations of SAE latents to do inference on a language model."
+description: Using interpretations of SAE latents to simulate activations.
 author: ["Gonçalo Paulo", "Nora Belrose"]
 ShowToc: true
 mathjax: true
