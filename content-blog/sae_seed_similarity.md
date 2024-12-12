@@ -1,5 +1,5 @@
 ---
-title: "Sparse auto-encoders trained on the same data don’t learn the same features"
+title: "SAEs trained on the same data don’t learn the same features"
 date: 2024-12-12T16:00:00-00:00
 description: 
 author: ["Gonçalo Paulo", "Nora Belrose"]
@@ -8,13 +8,11 @@ mathjax: true
 draft: false
 ---
 
-In this post, we train sparse auto-encoders of different sizes on the same data using different initial seeds and find that they fail to find the same features. Furthermore, the features that are present in only one of the seeds are often interpretable.
+In this post, we show that when two TopK SAEs are trained **on the same data, with the same batch order** but with **different random initializations**, there are many latents in the first SAE that don't have a close counterpart in the second, and vice versa. Furthermore, many of these unshared latents are interpretable. We find that narrower SAEs have a higher feature overlap across random seeds, and as the size of the SAE increases, the overlap decreases.
 
-Some evidence that this was the case was already in the literature. The fact that the learned features found by SAEs are not atomic, and that meta SAEs can decompose them, already indicates that the features learned by SAEs can be somewhat arbitrary [(Anonymous 2024)](https://openreview.net/pdf?id=9ca9eHNrdH). Not only that, as SAEs are trained with larger sizes, feature splitting is accompanied by feature absorption [(Chanin et al 2024)](https://arxiv.org/abs/2409.14507), where some latents gain an “implicit” meaning along with its “explicit” feature interpretation. In the cases where multiple different “absorptions” lead to similar losses, models can learn disjoint representations.
+This is consistent with evidence from the feature splitting and absorption literature. The fact that the learned features found by SAEs are not atomic, and that meta SAEs can decompose them, already indicates that the features learned by SAEs can be somewhat arbitrary [(Anonymous 2024)](https://openreview.net/pdf?id=9ca9eHNrdH). Not only that, as SAEs are trained at larger sizes, feature splitting is accompanied by feature absorption [(Chanin et al 2024)](https://arxiv.org/abs/2409.14507), where some latents gain an “implicit” meaning along with an “explicit” feature interpretation. In the cases where multiple different “absorptions” lead to similar losses, models can learn disjoint representations.
 
-Previous work had found that “standard” SAEs, trained with L1 penalty, were very stable under different seeds [(Anonymous 2024)](https://openreview.net/pdf?id=9ca9eHNrdH). Another paper found that TopK SAEs could be improved by training two different seeds and forcing them to be “aligned” [(Marks et al 2024)](https://arxiv.org/abs/2411.01220). A recent benchmark of feature splitting [(Karvonen et al 2024)](https://www.neuronpedia.org/sae-bench) showed a similar result, where JumpReLU and TopK latents had a higher feature splitting rate than L1 SAEs. 
-
-In this post, we show that TopK SAEs trained **on the same data, in the same order** but with **different initializations** have many “orphan” latents— latents that don’t have high alignment with any other latent on an SAE trained with a different init— and that these latents can be interpretable. We find that narrower SAEs have a higher alignment across different inits, and as the size of the SAE increases, the alignment decreases, consistent with what has been proposed by the feature splitting and absorption literature.
+This phenomenon may depend on the SAE architecture. Prior work using a somewhat different methodology to ours found that ReLU SAEs trained with an L1 penalty are quite stable under different seeds [(Anonymous 2024)](https://openreview.net/pdf?id=9ca9eHNrdH). Another paper found that TopK SAEs could be improved by training two different seeds and forcing them to be “aligned” [(Marks et al 2024)](https://arxiv.org/abs/2411.01220). A recent benchmark of feature splitting [(Karvonen et al 2024)](https://www.neuronpedia.org/sae-bench) showed a similar result, where JumpReLU and TopK latents had a higher feature splitting rate than L1 SAEs.
 
 # Aligning SAEs with different seeds
 
@@ -27,7 +25,7 @@ Looking at the distribution of cosine similarities after matching, we observe th
 ![alignment](/images/blog/sae_seed_similarity/equal.jpg)
 _Fig.1 Alignment of a 32k latent SAE trained on the MLP of Pythia 160m. Each latent is colored by whether the Hungarian algorithm finds the same pair when using the decoder and encoder directions. The average alignment of points with equal decoder and encoder indices is 0.72 and of the ones that have different indices is 0.33._
 
-**Latent sharing.** We consider a latent **X** in SAE **A** to be “shared” in SAE **B** if and only if **X** is matched to a latent **Y** in **B** with which it has cosine similarity greater than 0.7 according to both the encoder and decoder weights. We chose this threshold because it excludes over 99% of latents where encoder and decoder matchings disagree (Figure 1). By this definition, only **53%** of latents are shared across our two independently trained SAEs.
+We consider a latent **X** in SAE **A** to be “shared” in SAE **B** if and only if **X** is matched to a latent **Y** in **B** with which it has cosine similarity greater than 0.7 according to both the encoder and decoder weights. We chose this threshold because it excludes over 99% of latents where encoder and decoder matchings disagree (Figure 1). By this definition, only **53%** of latents are shared across our two independently trained SAEs.
 
 We now consider a third SAE with the same data order, but a seed different from the other two. We find that the majority of latents shared between SAE 1 and SAE 2 are also shared between SAE 1 and SAE 3. The number of latents of SAE 1 that are not shared with any other SAE goes down from 47% to 35%, see Figure 2.
 
@@ -44,11 +42,11 @@ _Fig 3. Similarity vs. frequency. We plot the cosine similarity between matched 
 We find that larger SAEs have larger fractions of unshared latents. Even if we use a more forgiving metric for considering features to be shared— namely, that the indices of the encoder match the indices of the decoder— there are still >30% “different” features when we consider a SAE with 131k latents. Unfortunately, we can’t really go to larger sizes with our current setup, as the SciPy implementation of the Hungarian algorithm on SAEs with 131k latents takes 8h and uses 300+ GB of RAM, with the algorithmic complexity being O(N^3). 
 
 ![size](/images/blog/sae_seed_similarity/sae_overlap_fraction.png)
-_Fig.4 - Fraction of aligned latents for SAEs of different sizes. Here, we report both the fraction of shared latents as having both encoder and decoder cosine-similarity > 0.8 (shared) and the fractions of latents that have the same pairs of latents in both the encoder and decoder, irrespective of the cosine-similarity value._
+_Fig.4 - Fraction of aligned latents for SAEs of different sizes. Here, we report the fraction of latents where with both encoder and decoder cosine-similarity > 0.7 (labeled "Aligned" above) as well as the fraction of latents where the encoder and decoder matchings are the same, irrespective of the cosine-similarity value._
 
-# Are “missing” latents interpretable?
+# Are unshared latents interpretable?
 
-We are interested in finding out whether the “missing” latents are interpretable or not, to look for “interesting” latents that can be found in one seed but not another. We use [auto-interp](https://github.com/EleutherAI/sae-auto-interp) to find an interpretation for 7,000+ latents of the two 32,768 latent SAEs. We use detection scoring [(Paulo et al. 2024)](https://arxiv.org/abs/2410.13928), evaluating the explanation over 100 active sequences and 100 non-active sequences. The average score of the explanations of the 32k SAEs is 0.72, with only 25% of explanations having a score lower than 0.62, and only 25% having a score better than 0.8. 
+We are interested in finding out whether the unshared latents are interpretable or not, to look for “interesting” latents that can be found in one seed but not another. We use [auto-interp](https://github.com/EleutherAI/sae-auto-interp) to find an interpretation for 7,000+ latents of the two 32,768 latent SAEs. We use detection scoring [(Paulo et al. 2024)](https://arxiv.org/abs/2410.13928), evaluating the explanation over 100 active sequences and 100 non-active sequences. The average score of the explanations of the 32k SAEs is 0.72, with only 25% of explanations having a score lower than 0.62, and only 25% having a score better than 0.8.
 
 ![scores](/images/blog/sae_seed_similarity/sae_scores.png)
 _Fig.5 Scores of 8k latents of the 32k latent SAE. Points without interpretability  scores are omitted. Latents with low scores fire more frequently, both when the alignment is high and when it is low. There are a significant number of latents with high interpretability scores but with alignment < 0.7.  The alignment of each latent is computed as the average of the cosine similarities of the encoder and decoder vectors. The histograms in this figure are stacked. Latent occurrences were collected over 10M tokens of the Pile, the same dataset that the SAEs were trained on._
