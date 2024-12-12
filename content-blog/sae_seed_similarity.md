@@ -8,7 +8,7 @@ mathjax: true
 draft: false
 ---
 
-In this post, we show that when two TopK SAEs are trained **on the same data, with the same batch order** but with **different random initializations**, there are many latents in the first SAE that don't have a close counterpart in the second, and vice versa. Furthermore, many of these unshared latents are interpretable. We find that narrower SAEs have a higher feature overlap across random seeds, and as the size of the SAE increases, the overlap decreases.
+In this post, we show that when two TopK SAEs are trained **on the same data, with the same batch order** but with **different random initializations**, there are many latents in the first SAE that don't have a close counterpart in the second, and vice versa. Indeed, when training  only about 53% of the features are shared Furthermore, many of these unshared latents are interpretable. We find that narrower SAEs have a higher feature overlap across random seeds, and as the size of the SAE increases, the overlap decreases.
 
 This is consistent with evidence from the feature splitting and absorption literature. The fact that the learned features found by SAEs are not atomic, and that meta SAEs can decompose them, already indicates that the features learned by SAEs can be somewhat arbitrary [(Anonymous 2024)](https://openreview.net/pdf?id=9ca9eHNrdH). Not only that, as SAEs are trained at larger sizes, feature splitting is accompanied by feature absorption [(Chanin et al 2024)](https://arxiv.org/abs/2409.14507), where some latents gain an “implicit” meaning along with an “explicit” feature interpretation. In the cases where multiple different “absorptions” lead to similar losses, models can learn disjoint representations.
 
@@ -16,14 +16,14 @@ This phenomenon may depend on the SAE architecture. Prior work using a somewhat 
 
 # Aligning SAEs with different seeds
 
-We train SAEs of different sizes on the residual stream of Pythia-160m. For all SAEs we use the same data order, and for each size we train 2 SAEs with different random seeds. The SAEs are trained for 8B tokens of the Pile.
+We train SAEs of different sizes on the MLP at layer 6 of Pythia-160m. For all SAEs we use the same data order, and for each size we train 2 SAEs with different random seeds. The SAEs are trained for 8B tokens of the Pile.
 
 In order to measure the degree of alignment between independently trained SAEs, we use the [Hungarian algorithm](https://en.wikipedia.org/wiki/Hungarian_algorithm) to efficiently compute the matching between their latents which maximizes the average cosine similarity between the matched encoder/decoder vectors. This average cosine similarity after matching can be used as an overall alignment score. Whether to use encoder or decoder vectors for matching is a hyperparameter in this approach, although we find that the two options usually yield the same matchings (Figure 1).
 
 Looking at the distribution of cosine similarities after matching, we observe that there are two modes in the distribution, one of high similarity and another of low similarity. Overall, cosine similarities for encoder and decoder vectors are strongly correlated. We observe in cases where encoder and decoder matchings disagree (colored in orange), the cosine similarity is usually low, whereas similarities are higher when the encoder and decoder matchings agree (colored in blue).
 
 ![alignment](/images/blog/sae_seed_similarity/equal.jpg)
-_Fig.1 Alignment of a 32k latent SAE trained on the MLP of Pythia 160m. Each latent is colored by whether the Hungarian algorithm finds the same pair when using the decoder and encoder directions. The average alignment of points with equal decoder and encoder indices is 0.72 and of the ones that have different indices is 0.33._
+_Fig.1 Alignment of a 32k latent SAE trained on the sixth MLP of Pythia 160m. Each latent is colored by whether the Hungarian algorithm finds the same pair when using the decoder and encoder directions. The average alignment of points with equal decoder and encoder indices is 0.72 and of the ones that have different indices is 0.33._
 
 We consider a latent **X** in SAE **A** to be “shared” in SAE **B** if and only if **X** is matched to a latent **Y** in **B** with which it has cosine similarity greater than 0.7 according to both the encoder and decoder weights. We chose this threshold because it excludes over 99% of latents where encoder and decoder matchings disagree (Figure 1). By this definition, only **53%** of latents are shared across our two independently trained SAEs.
 
