@@ -24,14 +24,14 @@ In order to measure the degree of alignment between independently trained SAEs, 
 
 Looking at the distribution of cosine similarities after matching, we observe that there are two modes in the distribution, one of high similarity and another of low similarity. Overall, cosine similarities for encoder and decoder vectors are strongly correlated. We observe in cases where encoder and decoder matchings disagree (colored in orange), the cosine similarity is usually low, whereas similarities are higher when the encoder and decoder matchings agree (colored in blue).
 
-![alignment](/images/blog/sae_seed_similarity/equal.png)
+![alignment](/images/blog/sae_seed_similarity/equal.jpg)
 _Fig.1 Alignment of a 32k latent SAE trained on the MLP of Pythia 160m. Each latent is colored by whether the Hungarian algorithm finds the same pair when using the decoder and encoder directions. The average alignment of points with equal decoder and encoder indices is 0.72 and of the ones that have different indices is 0.33._
 
 **Latent sharing.** We consider a latent **X** in SAE **A** to be “shared” in SAE **B** if and only if **X** is matched to a latent **Y** in **B** with which it has cosine similarity greater than 0.7 according to both the encoder and decoder weights. We chose this threshold because it excludes over 99% of latents where encoder and decoder matchings disagree (Figure 1). By this definition, only **53%** of latents are shared across our two independently trained SAEs.
 
 We now consider a third SAE with the same data order, but a seed different from the other two. We find that the majority of latents shared between SAE 1 and SAE 2 are also shared between SAE 1 and SAE 3. The number of latents of SAE 1 that are not shared with any other SAE goes down from 47% to 35%, see Figure 2.
 
-![overlap](/images/blog/sae_seed_similarity/donut.jpg)
+![overlap](/images/blog/sae_seed_similarity/donut.png)
 _Fig.2 Overlap between 3 SAEs. We consider a latent **X** in SAE **A** to be “shared” in SAE **B** if and only if **X** is matched to a latent **Y** in **B** with which it has cosine similarity greater than 0.7 according to both the encoder and decoder weights._
 
 We find that the latents that most frequently fire in SAE 1 are the ones that are shared in SAE 2 and SAE 3, and that the ones that most infrequently fire in SAE 1 are the ones that appear only in SAE 1, see Figure 3. Interestingly, a significant number of latents that are considered to be part of only SAE 1 have a higher firing rate on average than latents that are in all SAEs. We believe this to be evidence of feature splitting/absorption, where different seeds lead to different tokens/concepts absorptions but are still working on better ways to measure this. 
