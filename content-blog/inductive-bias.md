@@ -1,6 +1,6 @@
 ---
 title: "Studying inductive biases of random networks via local volumes"
-date: 2024-12-12T16:00:00-00:00
+date: 2024-05-14
 description: 
 author: ["Louis Jaburi", "Nora Belrose"]
 ShowToc: true
@@ -16,7 +16,6 @@ and [Neural Redshift: Random Networks are not Random Functions](https://arxiv.or
 ## Inductive biases
 
 To understand generalization in deep neural networks, inductive biases are unavoidable. Theoretical results such as universal approximator theorems are NOT the reason for the great success of deep learning:
-- Polynomial functions are unable to learn, let alone generalize from, many tasks we care about. Although there are approximations that would work arbitray well (on the training distribuition), gradient based techniques fail to converge towards such solutions in practice.
 - Within a family of architechtures, changing a few properties such as the activation function (e.g. from Tanh to ReLU) or the number of layers can substantially change the training dynamic.
 - Given a fixed architecture, some tasks will be easily learnable, while others would need exponentially long (see [here](https://www.lesswrong.com/posts/Mcrfi3DBJBzfoLctA/the-subset-parity-learning-problem-much-more-than-you-wanted) and [here](https://arxiv.org/abs/2004.00557))
 
@@ -33,10 +32,12 @@ Thus we can think of the loss landscape as a composition of the parameter-functi
 $$ L:W\xrightarrow{p} \mathcal{F} \xrightarrow{L_{\mathbb{F}}} \mathbb{R}$$
 where  $\mathcal{F}=\\\{ f_w:\mathbb{R}^{|X|} \to \mathbb{R}^{|Y|} \mid w\in W \\\}$ is the function space of all possible $f_w$.
 We stress that the parameter-function map is completely _task-independent_! It does not take into account the training distribution.
+In practice, we usually need to specify a distribution $\mathcal{D}$ to compare and compute metrics related to $f_w$, but these will still be label independent.
 
-As explained in the previous section, we are interested in the general inductive bias of neural networks without a specific training task. [TODO: Make this more clear: when does data come in and how]
+
+As explained in the previous section, we are interested in the general inductive bias of neural networks without a specific training task.
 Therefore, we chose to study the geometry of the parameter-function map rather than that of the loss. 
-In practice, this means that our cost function $C:W\to \mathbb{R}$ is not the loss function but the KL-divergence $KL(w_0)(w)=\mathbb{E}\_{x\sim \mathcal{D}}[D\_{KL}(f_\{w_0\}(x) \mid\mid f_{w}(x))]$. This serves as a measure of how local change around $w$ affects the induced function $f_w$.
+This means that our cost function $C:W\to \mathbb{R}$ is not the loss function but the expectation of the KL-divergence $\underline{KL}(w_0)(w)=\mathbb{E}\_{x\sim \mathcal{D}}[D\_{KL}(f_\{w_0\}(x) \mid\mid f_{w}(x))]$. This serves as a measure of how local change around $w$ affects the induced function $f_w$.
 
 
 ## Local volume
@@ -48,7 +49,17 @@ Our underlying motivation for a volume based measure is the basin volume hypothe
 
 > Let $A,B\subset W$ be two different regions of the parameter space. Intuitively, we think of them as regions corresponding to different kinds of solutions or behaviours. Then the odds of converging to a solution in $A$ compared to $B$ is roughly determined by the ratio of the volumes of the two regions.
 
-We define each region to be a [star domain](https://en.wikipedia.org/wiki/Star_domain) $W$ such that $\\forall w\in W : C(w)< \epsilon $, where $C$ is some cost function. In our case $C(\cdot) = KL(w_0)(\cdot)$, but one could also consider the training loss here. We consider star domains because they are a fairly expressive family of shapes, and there exists tractable algorithm to estimate their volume:
+
+We define each region to be a [star domain](https://en.wikipedia.org/wiki/Star_domain) $W$ such that $\\forall w\in W : C(w)< \epsilon $, where $C$ is some cost function.
+<figure>
+    <figure>
+        <img src="/images/blog/inductive-bias/Star_domain.png" style="width: 50%; height: 400px; border: none;"></iframe>
+        <figcaption style="text-align: center;">
+            Visualization of the star domain used to estimate local volumes</a>
+        </figcaption>
+    </figure>
+
+In our case $C(\cdot) = \underline{KL}(w_0)(\cdot)$, but one could also consider the training loss here. We consider star domains because they are a fairly expressive family of shapes, and there exists tractable algorithm to estimate their volume:
 1. We sample random unit directions $u_i$ at $w_0$.
 2. We compute the radii $r_i$ for which $C(w_0+ r\cdot u_i)<\epsilon$ for all $r<r_i$.
 3. We compute a **Gaussian integral** along the direction $u_i$ using the the radii $r_i$. 
@@ -73,7 +84,7 @@ We ran two types of experiments:
 2. **Training**: We train the networks on a simple task (modular addition) and compute the volume of the star domain along the training checkpoints. (say sth about NRS 2)
 
 ### 1. Initialization
-<iframe src="/images/blog/inductive-bias/image.png" style="width: 100%; height: 600px; border: none;"></iframe>
+<img src="/images/blog/inductive-bias/image.png" style="width: 100%; height: 600px; border: none;"></iframe>
 
 Overall **we were not able to replicate** the findings in [NRS](https://arxiv.org/abs/2403.02241).
 Specifically, we did not observe that higher weight amplitude and additional layers lead to a lower volume of the star domain (as those correspond to more complex solutions according to the basin volume hypothesis).
