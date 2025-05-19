@@ -1,6 +1,6 @@
 ---
 title: "Studying inductive biases of random networks via local volumes"
-date: 2024-05-14
+date: 2024-05-19
 description: 
 author: ["Louis Jaburi", "Nora Belrose"]
 ShowToc: true
@@ -9,30 +9,29 @@ draft: false
 ---
 
 In this post, we will study **inductive biases** of the **parameter-function map** of **random neural networks** using **star domain volume estimates**. 
-This builds on the ideas introduced in the [Estimating the Probability of Sampling a Trained Neural Network at Random](https://arxiv.org/abs/2501.18812) 
-(henceforth [NNstar](https://arxiv.org/abs/2501.18812))
+This builds on the ideas introduced in [Estimating the Probability of Sampling a Trained Neural Network at Random](https://arxiv.org/abs/2501.18812)
 and [Neural Redshift: Random Networks are not Random Functions](https://arxiv.org/abs/2403.02241) (henceforth [NRS](https://arxiv.org/abs/2403.02241)).
 
 ## Inductive biases
 
 To understand generalization in deep neural networks, inductive biases are unavoidable. Theoretical results such as universal approximator theorems are NOT the reason for the great success of deep learning:
-- Within a family of architechtures, changing a few properties such as the activation function (e.g. from Tanh to ReLU) or the number of layers can substantially change the training dynamic.
+- Within a family of architectures, changing a few properties such as the activation function (e.g. from Tanh to ReLU) or the number of layers can substantially change the training dynamics.
 - Given a fixed architecture, some tasks will be easily learnable, while others would need exponentially long (see [here](https://www.lesswrong.com/posts/Mcrfi3DBJBzfoLctA/the-subset-parity-learning-problem-much-more-than-you-wanted) and [here](https://arxiv.org/abs/2004.00557))
 
 We would like to understand what training tasks different architectures are (un)able to solve, what kind of solutions they find, and whether they have some shared properties, especially relating to the geometry of the parameter-function map. More precisely, we would hope that properties of neural networks with a fixed architectures **at initialization** already determine properties of the network **over training**. To do this, we built on [NRS](https://arxiv.org/abs/2403.02241). We summarize a few hypotheses based on their observations:
 
-1. **The Neural redshift hypothesis**: Inductive bias complexity (i) exists, (ii) can be read off at initialization and (iii) needs to be close to the complexity of the task.
+1. **The Neural redshift hypothesis**: Inductive bias complexity (i) exists, (ii) can be read off at initialization, and (iii) needs to be close to the complexity of the task.
 2. Training increases complexity.
 3. Extreme simplicity bias leads to shortcut learning: The phenomenon where models learn simpler, but more suprious, features of the training distribution. Thus models which are victim to shortcut learning learn worse or not at all.
 
 ## Parameter-function maps
 
-Say we have a supervised task $f:X\to Y$ (where $X$ and $Y$ are finite sets) and a neural network with weights $w\in W$. Importantly, the weights $w$ induce a function $f_w :\mathbb{R}^{|X|} \to \mathbb{R}^{|Y|}$ and this association $w\mapsto f_w$ is very much non-identfiable, i.e. there are usually many different $w,w'\in W$ that induce the same function $f_w=f_{w'}$ (see e.g. [here](https://arxiv.org/pdf/1905.09803)). This map $w\mapsto f_w$, called the parameter-function map, has been extensively studied and its properties attributed to the generalization behaviour of neural networks (e.g. [here](https://arxiv.org/abs/1909.11522), [here](https://arxiv.org/abs/2405.10927) and references therein). 
+Say we have a supervised task $f:X\to Y$ (where $X$ and $Y$ are finite sets) and a neural network with weights $w\in W$. Importantly, the weights $w$ induce a function $f_w :\mathbb{R}^{|X|} \to \mathbb{R}^{|Y|}$ and this association $w\mapsto f_w$ is very much non-identifiable, i.e. there are usually many different $w,w'\in W$ that induce the same function $f_w=f_{w'}$ (see e.g. [here](https://arxiv.org/pdf/1905.09803)). This map $w\mapsto f_w$, called the parameter-function map, has been extensively studied and its properties attributed to the generalization behaviour of neural networks (e.g. [here](https://arxiv.org/abs/1909.11522), [here](https://arxiv.org/abs/2405.10927), and references therein). 
 Thus we can think of the loss landscape as a composition of the parameter-function map and the induced loss function
 $$ L:W\xrightarrow{p} \mathcal{F} \xrightarrow{L_{\mathbb{F}}} \mathbb{R}$$
 where  $\mathcal{F}=\\\{ f_w:\mathbb{R}^{|X|} \to \mathbb{R}^{|Y|} \mid w\in W \\\}$ is the function space of all possible $f_w$.
 We stress that the parameter-function map is completely _task-independent_! It does not take into account the training distribution.
-In practice, we usually need to specify a distribution $\mathcal{D}$ to compare and compute metrics related to $f_w$, but these will still be label independent.
+In practice, we need to specify a distribution $\mathcal{D}$ to compare and compute metrics related to $f_w$, but these will still be label-independent.
 
 
 As explained in the previous section, we are interested in the general inductive bias of neural networks without a specific training task.
@@ -73,20 +72,20 @@ By using a Gaussian measure on the parameter space, we can interpret the volume 
 ## Experiments
 
 Our setup is as follows. We consider random neural networks, where we vary
-- the number of layers from $2$ to $6$
-- the activation function $\sigma$ from ReLU, GELU, Tanh, Sigmoid, Gaussian, and a custom activation function called "Complex multiplication"
+- the number of additional layers from $1$ to $5$
+- the activation function $\sigma$ from ReLU, GELU, Tanh, Sigmoid, Gaussian
 - The weight scale from from $10^{-0.5}$ to $10 ^\{0.5 \}$ in logarithmic steps
 We initialized the network using a uniform distribution scaled by $\frac{1}{\\sqrt{fan_\{in\}}}$, which is the [default initialization in PyTorch](https://github.com/pytorch/pytorch/issues/57109).
 We tried other initializations, but they did not change the results significantly.
 
 We ran two types of experiments:
-1. **Initialization**: We compute the volume of the star domain around the initialization point $w_0$ for different values of $\epsilon$ across the different architectures.
-2. **Training**: We train the networks on a simple task (modular addition) and compute the volume of the star domain along the training checkpoints. (say sth about NRS 2)
+1. **Initialization**: We compute the volume of the star domain around the initialization point $w_0$ for different values of $\epsilon$ across the different architectures. For each set-up we computed volumes for $100$ different seeds.
+2. **Training**: We train the networks on a simple task (modular addition) and compute the volume of the star domain along the training checkpoints.
 
 ### 1. Initialization
 <img src="/images/blog/inductive-bias/image.png" style="width: 100%; height: 600px; border: none;"></iframe>
 
-Overall **we were not able to replicate** the findings in [NRS](https://arxiv.org/abs/2403.02241).
+Overall, **we were not able to replicate** the findings in [NRS](https://arxiv.org/abs/2403.02241).
 Specifically, we did not observe that higher weight amplitude and additional layers lead to a lower volume of the star domain (as those correspond to more complex solutions according to the basin volume hypothesis).
 
 
