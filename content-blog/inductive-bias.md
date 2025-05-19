@@ -95,8 +95,7 @@ Specifically, we did not observe that higher weight amplitude and additional lay
 
 Similary, **we did not find that the volume of the star domain is a good predictor for learning behaviour.**
 While training does generally lead to lower volumes, we observe architectures with similar local volumes (e.g. ReLU and GELU) but different learning behaviour (more GELUs grokked).
-Additionally, complex multiplication had a variety of local volumes, but consistenly learned the task well and much faster than the other architectures. 
-This was partially observed in [NRS](https://arxiv.org/abs/2403.02241) as well.
+The final volumes of the star domain do not seem well correlated with the learning behaviour of the networks.
 
 
 ## Conclusion
