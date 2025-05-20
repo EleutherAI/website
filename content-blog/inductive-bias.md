@@ -1,6 +1,6 @@
 ---
 title: "Studying inductive biases of random networks via local volumes"
-date: 2024-12-12T16:00:00-00:00
+date: 2024-05-19
 description: 
 author: ["Louis Jaburi", "Nora Belrose"]
 ShowToc: true
@@ -9,8 +9,7 @@ draft: false
 ---
 
 In this post, we will study **inductive biases** of the **parameter-function map** of **random neural networks** using **star domain volume estimates**. 
-This builds on the ideas introduced in the [Estimating the Probability of Sampling a Trained Neural Network at Random](https://arxiv.org/abs/2501.18812) 
-(henceforth [NNstar](https://arxiv.org/abs/2501.18812))
+This builds on the ideas introduced in [Estimating the Probability of Sampling a Trained Neural Network at Random](https://arxiv.org/abs/2501.18812)
 and [Neural Redshift: Random Networks are not Random Functions](https://arxiv.org/abs/2403.02241) (henceforth [NRS](https://arxiv.org/abs/2403.02241)).
 
 ## Inductive biases
@@ -30,6 +29,7 @@ Thus we can think of the loss landscape as a composition of the parameter-functi
 $$ L:W\xrightarrow{p} \mathcal{F} \xrightarrow{L_{\mathbb{F}}} \mathbb{R}$$
 where  $\mathcal{F}=\\\{ f_w:\mathbb{R}^{|X|} \to \mathbb{R}^{|Y|} \mid w\in W \\\}$ is the function space of all possible $f_w$.
 We stress that the parameter-function map is completely _task-independent_! It does not take into account the training distribution.
+In practice, we need to specify a distribution $\mathcal{D}$ to compare and compute metrics related to $f_w$, but these will still be label-independent.
 
 That said, our choice of metric, or divergence, on the space of functions _is_ somewhat task-dependent. We could choose a simple, task-agnostic metric, like the maximum distance between the outputs of two functions $(f, f')$ on any input $x\in X$. However, this may not be very useful in practice, as it would not take into account the distribution of the inputs, and in some cases it may not even be defined (if the distance between the functions is unbounded). As soon as we have a distribution $\mathcal{D}$ over $X$, we can define a more informative divergence function, the average KL-divergence between the two functions:
 $$D_{KL}(f_w \mid\mid f_{w'}) = \mathbb{E}\_{x\sim \mathcal{D}}[D_{KL}(f_w(x) \mid\mid f_{w'}(x))]$$
@@ -44,7 +44,17 @@ Our underlying motivation for a volume based measure is the basin volume hypothe
 
 > Let $A,B\subset W$ be two different regions of the parameter space. Intuitively, we think of them as regions corresponding to different kinds of solutions or behaviours. Then the odds of converging to a solution in $A$ compared to $B$ is roughly determined by the ratio of the volumes of the two regions.
 
-We define each region to be a [star domain](https://en.wikipedia.org/wiki/Star_domain) $W$ such that $\\forall w\in W : C(w)< \epsilon $, where $C$ is some cost function. In our case $C(\cdot) = KL(w_0)(\cdot)$, but one could also consider the training loss here. We consider star domains because they are a fairly expressive family of shapes, and there exists tractable algorithm to estimate their volume:
+
+We define each region to be a [star domain](https://en.wikipedia.org/wiki/Star_domain) $W$ such that $\\forall w\in W : C(w)< \epsilon $, where $C$ is some cost function.
+<figure>
+    <figure>
+        <img src="/images/blog/inductive-bias/Star_domain.png" style="width: 50%; height: 400px; border: none;"></iframe>
+        <figcaption style="text-align: center;">
+            Visualization of the star domain used to estimate local volumes</a>
+        </figcaption>
+    </figure>
+
+In our case $C(\cdot) = \underline{KL}(w_0)(\cdot)$, but one could also consider the training loss here. We consider star domains because they are a fairly expressive family of shapes, and there exists tractable algorithm to estimate their volume:
 1. We sample random unit directions $u_i$ at $w_0$.
 2. We compute the radii $r_i$ for which $C(w_0+ r\cdot u_i)<\epsilon$ for all $r<r_i$.
 3. We compute a **Gaussian integral** along the direction $u_i$ using the the radii $r_i$. 
@@ -58,20 +68,20 @@ By using a Gaussian measure on the parameter space, we can interpret the volume 
 ## Experiments
 
 Our setup is as follows. We consider random neural networks, where we vary
-- the number of layers from $2$ to $6$
-- the activation function $\sigma$ from ReLU, GELU, Tanh, Sigmoid, Gaussian, and a custom activation function called "Complex multiplication"
-- The weight scale from $10^{-0.5}$ to $10^\{0.5 \}$ in logarithmic steps
+- the number of additional layers from $1$ to $5$
+- the activation function $\sigma$ from ReLU, GELU, Tanh, Sigmoid, Gaussian
+- The weight scale from from $10^{-0.5}$ to $10 ^\{0.5 \}$ in logarithmic steps
 We initialized the network using a uniform distribution scaled by $\frac{1}{\\sqrt{fan_\{in\}}}$, which is the [default initialization in PyTorch](https://github.com/pytorch/pytorch/issues/57109).
 We tried other initializations, but they did not change the results significantly.
 
 We ran two types of experiments:
-1. **Initialization**: We compute the volume of the star domain around the initialization point $w_0$ for different values of $\epsilon$ across the different architectures.
+1. **Initialization**: We compute the volume of the star domain around the initialization point $w_0$ for different values of $\epsilon$ across the different architectures. For each set-up we computed volumes for $100$ different seeds.
 2. **Training**: We train the networks on a simple task (modular addition) and compute the volume of the star domain along the training checkpoints.
 
 ### 1. Initialization
-<iframe src="/images/blog/inductive-bias/image.png" style="width: 100%; height: 600px; border: none;"></iframe>
+<img src="/images/blog/inductive-bias/image.png" style="width: 100%; height: 600px; border: none;"></iframe>
 
-Overall **we were not able to replicate** the findings in [NRS](https://arxiv.org/abs/2403.02241).
+Overall, **we were not able to replicate** the findings in [NRS](https://arxiv.org/abs/2403.02241).
 Specifically, we did not observe that higher weight amplitude and additional layers lead to a lower volume of the star domain (as those correspond to more complex solutions according to the basin volume hypothesis).
 
 
@@ -80,8 +90,7 @@ Specifically, we did not observe that higher weight amplitude and additional lay
 
 Similary, **we did not find that the volume of the star domain is a good predictor for learning behaviour.**
 While training does generally lead to lower volumes, we observe architectures with similar local volumes (e.g. ReLU and GELU) but different learning behaviour (more GELUs grokked).
-Additionally, complex multiplication had a variety of local volumes, but consistenly learned the task well and much faster than the other architectures. 
-This was partially observed in [NRS](https://arxiv.org/abs/2403.02241) as well.
+The final volumes of the star domain do not seem well correlated with the learning behaviour of the networks.
 
 
 ## Conclusion
