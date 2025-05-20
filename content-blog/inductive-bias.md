@@ -15,29 +15,25 @@ and [Neural Redshift: Random Networks are not Random Functions](https://arxiv.or
 
 ## Inductive biases
 
-To understand generalization in deep neural networks, inductive biases are unavoidable. Theoretical results such as universal approximator theorems are NOT the reason for the great success of deep learning:
-- Polynomial functions are unable to learn, let alone generalize from, many tasks we care about. Although there are approximations that would work arbitray well (on the training distribuition), gradient based techniques fail to converge towards such solutions in practice.
-- Within a family of architechtures, changing a few properties such as the activation function (e.g. from Tanh to ReLU) or the number of layers can substantially change the training dynamic.
-- Given a fixed architecture, some tasks will be easily learnable, while others would need exponentially long (see [here](https://www.lesswrong.com/posts/Mcrfi3DBJBzfoLctA/the-subset-parity-learning-problem-much-more-than-you-wanted) and [here](https://arxiv.org/abs/2004.00557))
+To understand generalization in deep neural networks, we must understand inductive biases. Given a fixed architecture, some tasks will be easily learnable, while others can take an exponentially long time to learn (see [here](https://www.lesswrong.com/posts/Mcrfi3DBJBzfoLctA/the-subset-parity-learning-problem-much-more-than-you-wanted) and [here](https://arxiv.org/abs/2004.00557)).
 
-We would like to understand what training tasks different architectures are (un)able to solve, what kind of solutions they find, and whether they have some shared properties, especially relating to the geometry of the parameter-function map. More precisely, we would hope that properties of neural networks with a fixed architectures **at initialization** already determine properties of the network **over training**. To do this, we built on [NRS](https://arxiv.org/abs/2403.02241). We summarize a few hypotheses based on their observations:
+We would like to understand what training tasks different architectures are (un)able to solve, what kind of solutions they find, and whether they have some shared properties, especially relating to the geometry of the parameter-function map. More precisely, we would hope that properties of neural networks **at initialization** already determine properties of the network **over training**. This would enable us to make predictions about the trained network ahead of time. To do this, we built on [NRS](https://arxiv.org/abs/2403.02241). We summarize a few hypotheses based on their observations:
 
-1. **The Neural redshift hypothesis**: Inductive bias complexity (i) exists, (ii) can be read off at initialization and (iii) needs to be close to the complexity of the task.
-2. Training increases complexity.
-3. Extreme simplicity bias leads to shortcut learning: The phenomenon where models learn simpler, but more suprious, features of the training distribution. Thus models which are victim to shortcut learning learn worse or not at all.
+1. **The Neural redshift hypothesis**: Popular architectures have an inductive bias toward simple functions, and this can be observed at initialization.
+2. Complexity of the function represented by a neural net increases with training.
+3. Extreme simplicity bias leads to shortcut learning, the phenomenon where models learn simpler, but more spurious, features of the training distribution. Thus models which are victims of shortcut learning learn worse or not at all.
 
 ## Parameter-function maps
 
-Say we have a supervised task $f:X\to Y$ (where $X$ and $Y$ are finite sets) and a neural network with weights $w\in W$. Importantly, the weights $w$ induce a function $f_w :\mathbb{R}^{|X|} \to \mathbb{R}^{|Y|}$ and this association $w\mapsto f_w$ is very much non-identfiable, i.e. there are usually many different $w,w'\in W$ that induce the same function $f_w=f_{w'}$ (see e.g. [here](https://arxiv.org/pdf/1905.09803)). This map $w\mapsto f_w$, called the parameter-function map, has been extensively studied and its properties attributed to the generalization behaviour of neural networks (e.g. [here](https://arxiv.org/abs/1909.11522), [here](https://arxiv.org/abs/2405.10927) and references therein). 
+Say we have a supervised learning task $f:X\to Y$, where $X$ and $Y$ are finite sets, and a neural network with weights $w\in W$. While the weights $w$ induce a function $f_w :\mathbb{R}^{|X|} \to \mathbb{R}^{|Y|}$, the association $w\mapsto f_w$ is very much non-identfiable, i.e. there are usually many different $w,w'\in W$ that induce the same function $f_w=f_{w'}$ (see e.g. [here](https://arxiv.org/pdf/1905.09803)). The map $w\mapsto f_w$, called the parameter-function map, and has been extensively studied and its properties attributed to the generalization behaviour of neural networks (e.g. [here](https://arxiv.org/abs/1909.11522), [here](https://arxiv.org/abs/2405.10927) and references therein). 
 Thus we can think of the loss landscape as a composition of the parameter-function map and the induced loss function
 $$ L:W\xrightarrow{p} \mathcal{F} \xrightarrow{L_{\mathbb{F}}} \mathbb{R}$$
 where  $\mathcal{F}=\\\{ f_w:\mathbb{R}^{|X|} \to \mathbb{R}^{|Y|} \mid w\in W \\\}$ is the function space of all possible $f_w$.
 We stress that the parameter-function map is completely _task-independent_! It does not take into account the training distribution.
 
-As explained in the previous section, we are interested in the general inductive bias of neural networks without a specific training task. [TODO: Make this more clear: when does data come in and how]
-Therefore, we chose to study the geometry of the parameter-function map rather than that of the loss. 
-In practice, this means that our cost function $C:W\to \mathbb{R}$ is not the loss function but the KL-divergence $KL(w_0)(w)=\mathbb{E}\_{x\sim \mathcal{D}}[D\_{KL}(f_\{w_0\}(x) \mid\mid f_{w}(x))]$. This serves as a measure of how local change around $w$ affects the induced function $f_w$.
-
+That said, our choice of metric, or divergence, on the space of functions _is_ somewhat task-dependent. We could choose a simple, task-agnostic metric, like the maximum distance between the outputs of two functions $(f, f')$ on any input $x\in X$. However, this may not be very useful in practice, as it would not take into account the distribution of the inputs, and in some cases it may not even be defined (if the distance between the functions is unbounded). As soon as we have a distribution $\mathcal{D}$ over $X$, we can define a more informative divergence function, the average KL-divergence between the two functions:
+$$D_{KL}(f_w \mid\mid f_{w'}) = \mathbb{E}\_{x\sim \mathcal{D}}[D_{KL}(f_w(x) \mid\mid f_{w'}(x))]$$
+This is a measure of how different the two functions are, weighted by the distribution $\mathcal{D}$. It assumes the output of the functions is a probability distribution, but we could also use a different divergence, such as the squared Euclidean distance. While the average KL is data-dependent, it has the nice property that it does not depend on the labels. We therefore use it in our experiments.
 
 ## Local volume
 
@@ -64,13 +60,13 @@ By using a Gaussian measure on the parameter space, we can interpret the volume 
 Our setup is as follows. We consider random neural networks, where we vary
 - the number of layers from $2$ to $6$
 - the activation function $\sigma$ from ReLU, GELU, Tanh, Sigmoid, Gaussian, and a custom activation function called "Complex multiplication"
-- The weight scale from from $10^{-0.5}$ to $10 ^\{0.5 \}$ in logarithmic steps
+- The weight scale from $10^{-0.5}$ to $10^\{0.5 \}$ in logarithmic steps
 We initialized the network using a uniform distribution scaled by $\frac{1}{\\sqrt{fan_\{in\}}}$, which is the [default initialization in PyTorch](https://github.com/pytorch/pytorch/issues/57109).
 We tried other initializations, but they did not change the results significantly.
 
 We ran two types of experiments:
 1. **Initialization**: We compute the volume of the star domain around the initialization point $w_0$ for different values of $\epsilon$ across the different architectures.
-2. **Training**: We train the networks on a simple task (modular addition) and compute the volume of the star domain along the training checkpoints. (say sth about NRS 2)
+2. **Training**: We train the networks on a simple task (modular addition) and compute the volume of the star domain along the training checkpoints.
 
 ### 1. Initialization
 <iframe src="/images/blog/inductive-bias/image.png" style="width: 100%; height: 600px; border: none;"></iframe>
