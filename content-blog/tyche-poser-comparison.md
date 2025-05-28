@@ -43,11 +43,15 @@ Tyche:
 ## Key Findings
 POSER Sensitivity: Misaligned models (e.g., *-maximizers) exhibit larger KL divergence under large POSER coefficients (≥ 14) compared to aligned models, suggesting greater instability in response to steering.
 
+{{< figure src="/images/blog/tyche-poser-comparison/poser_tyche_dual_plot.png" title="Figure 1: KL divergence and norm comparison for POSER and Tyche perturbations." >}}
 
-(KL vs Coefficient curves and vector norm comparisons plotted from: /mnt/ssd-1/dipika/POSER/compare_perturbations/comparison_plots)
 Figure 1a: KL divergence increases for misaligned models at higher POSER coefficients.
 Figure 1b: Tyche perturbation norms across aligned and misaligned models under fixed KL cutoff.
+
+{{< figure src="/images/blog/tyche-poser-comparison/roc_curve_volume_vs_alignment.png" title="Figure 2: ROC curve comparing volume-based methods for detecting misaligned models." >}}
 Figure 2: auc for genie-0 maximizer -0 truth teller -0 
+
+
 
 
 ## Tyche for Mechanistic Anomaly Detection
