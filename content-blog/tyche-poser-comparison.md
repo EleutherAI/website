@@ -1,5 +1,5 @@
 ---
-title: "Research Update: Applications of Basing Volume Measurement"
+title: "Research Update: Applications of Basin Volume Measurement"
 date: 2025-05-23
 description: "Research update on on applying basin volume measurement to downstream tasks"
 author: ["Dipika Khullar", "David Johnston"]
@@ -41,7 +41,9 @@ Tyche:
 
 
 ## Key Findings
-POSER Sensitivity: Misaligned models (e.g., *-maximizers) exhibit larger KL divergence under large POSER coefficients (≥ 14) compared to aligned models, suggesting greater instability in response to steering.
+POSER Sensitivity: Misaligned models (e.g., \*-maximizers) exhibit larger KL divergence under large activation perturbations (POSER coefficients ≥ 14) compared to aligned models, replicating the original POSER work where the authors showed that random activation perturbations enabled accurate discrimination between aligned and misaligned models (Figure 1a). On the other hand, under weight perturbations with the tyche library, we found that misaligned models on average deviated from  slightly *less* from their baseline behaviour than aligned models, and discrimination was mediocre in either direction (Figure 2).
+
+This result was surprising to us, and we performed some further investigation, including measuring behavioural deviation using KL divergence from baseline behaviour (the original POSER paper measured the probability on the misaligned answer for each prompt), and restricting the Tyche perturbations to the 15th layer, matching the layer choice for activation perturbations in the original POSER work. Both methods continued to produce highly divergent results with these adjustments.
 
 {{< figure src="/images/blog/tyche-poser-comparison/poser_tyche_dual_plot.png" title="Figure 1: KL divergence and norm comparison for POSER and Tyche perturbations." >}}
 
@@ -65,13 +67,18 @@ Our method was to use Tyche to compute a basin volume for each data point. We tr
 |--------------------------------------|----------------|----------------------|-------------------------|----------------|
 | meta activations lof                 | 0.762          | 0.763                | 0.768                   |             10 |
 | meta activations mahalanobis         | 0.741          | 0.750                | 0.712                   |             10 |
-| meta basin volume                    | 0.380          | 0.392                | 0.346                   |              8 |
+| *meta basin volume*                  | *0.380*        | *0.392*              | *0.346*                 |             *8*|
 | meta attribution lof mean            | 0.730          | 0.747                | 0.718                   |             10 |
 | meta attribution mahalanobis mean    | 0.639          | 0.682                | 0.609                   |             10 |
-| meta basin volume mahalanobis        | 0.572          | 0.558                | 0.599                   |             10 |
+| *meta basin volume mahalanobis*      | *0.572*        | *0.558*              | *0.599*                 |             *10*|
 | meta flow laplace                    | 0.581          | 0.617                | 0.522                   |             10 |
 | meta flow mahalanobis                | 0.737          | 0.744                | 0.710                   |             10 |
 | meta probe lof mean                  | 0.737          | 0.753                | 0.717                   |             10 |
 | meta probe mahalanobis mean          | 0.652          | 0.696                | 0.615                   |             10 |
 | meta sae diag mahalanobis            | 0.729          | 0.744                | 0.689                   |             10 |
 | meta sae l0                          | 0.737          | 0.747                | 0.715                   |             10 |
+
+
+## Outlook
+
+
