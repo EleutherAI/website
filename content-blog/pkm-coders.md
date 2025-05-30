@@ -42,11 +42,11 @@ To investigate whether this optimization is worth it, we train skip transcoder P
 ### Reconstruction ability
 
 ![Reconstruction](../public/images/blog/pkm-coders/k128_layer_10.png)
-_Figure 2 - PKM sparse autoencoders train faster for the same number of latents. Each point is labeled with the expansion factor of the sparse coder. Although larger expansion factors are needed to achieve the same FVU, up to a certain size, training PKM models is still faster._
+_Figure 2 - PKM sparse transcoders train faster for the same number of latents. Each point is labeled with the expansion factor of the sparse coder. Although larger expansion factors are needed to achieve the same FVU, up to a certain size, training PKM models is still faster._
 
 We find that PKMs can achieve similar reconstruction loss to a regular skip transcoder while being faster to train for some model sizes (Figure 2). Due to the smaller encoder, we can train models with up to 4x the number of latents while still being faster to train. Unfortunately,  larger PKMs with very big expansion factors (x512) take longer to train than baseline models which achieve better FVU. The same results are observed for the other layers we trained on (Figure S2), although the difference in FVU between the 256x PKM and the 32x baseline is smaller. 
 
-While all sizes of sparse coders up to x128 could fit in a single A40 GPU with a batch size of 32, larger expansion factors required reducing the batch size to 16 at expansion factors of x128, to 4 at x256 and 2 at x512, partially explaining the slow down observed for the larger PKMs. The larger baseline, at x128 expansion factor, also required a reduced batch size of 16, and we expect that if we would have trained even larger baselines, their slow down would have been more pronounced; on the other hand it seems that they have better scaling properties, for expansion factors that are close to what is currently done in the literature.
+While all sizes of sparse coders up to x128 could fit in a single A40 GPU with a batch size of 32, larger expansion factors required reducing the batch size to 16 at expansion factors of x128, to 4 at x256 and 2 at x512, partially explaining the slow down observed for the larger PKMs. The larger baseline, at x128 expansion factor, also required a reduced batch size of 16. We expect that if we would have trained even larger baselines, their slowdown would have been more pronounced. On the other hand, it seems that PKMs have better scaling properties for expansion factors that are close to what is currently done in the literature.
 
 Even though we observe that some PKM expansion factors achieve better FVU while being faster to train, these results were not consistent across all layers and are unsure if there is a point to using PKMs instead of the normal SSTs.
 
@@ -59,7 +59,7 @@ We automatically explain the latents and compute detection and fuzzing scores wi
 Our results also indicate PKMs are slightly more interpretable, as their auto-interpretability scores are higher than baseline SSTs (Figure 3) across the board. 
 
 
-Figure 3 - The interpretability of PKM sparse coders is in general higher than the interpretability of the baseline
+Figure 3 - The interpretability of PKM sparse coders is in general higher than the interpretability of the baseline SSTs.
 
 
 ### Feature absorption
@@ -74,11 +74,11 @@ Stepan Shabalin wrote the training code for PKMs and performed the first experim
 
 ### PKM implementation
 
-Algorithm:
-Compute top-k activations for each of the sub-encoders
-Combine them into K^2 candidates
-Remove invalid combinations (>= num_latents)
-Select top-K activations from all candidates combined
+The algorithm for the forward pass of the PKM encoder is as follows:
+1. Compute top-k activations for each of the sub-encoders
+2. Combine them into K^2 candidates
+3. Remove invalid combinations (>= num_latents)
+4. Select top-K activations from all candidates combined
 ```Python
 def topk(self, x, k: int):
        
@@ -117,13 +117,9 @@ We found that PKMs were faster than linear SAE encoders by default (after compil
 
 
 
-### FVU other layers
+### FVU on other layers
 
+![Layer 15]()
+![Layer 20]()
 
-
-
-
-
-
-
-
+We see that PKM transcoders are a Pareto improvement over SSTs up to a certain size.
