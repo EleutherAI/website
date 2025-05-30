@@ -1,7 +1,7 @@
 ---
-title: "Pair Key Memory Sparse Coders"
-date: 2025-05-27T22:00:00-00:00
-description: "Using Pair Key Memories to encode sparse coder features"
+title: "Product Key Memory Sparse Coders"
+date: 2025-05-30T22:00:00-00:00
+description: "Using Product Key Memories to encode sparse coder features"
 author: ["Stepan Shabalin", "Gonçalo Paulo", "Nora Belrose"]
 ShowToc: true
 mathjax: true
@@ -52,6 +52,9 @@ Even though we observe that some PKM expansion factors achieve better FVU while 
 
 
 ### Interpretability
+
+We automatically explain the latents and compute detection and fuzzing scores with the monet `branch` of the [Delphi](https://github.com/EleutherAI/delphi) repo. We explain 1000 randomly chosen latents for each transcoder with the default pipeline on 10 million tokens of [fineweb-edu-dedup-10b](https://huggingface.co/datasets/EleutherAI/fineweb-edu-dedup-10b).
+
 
 Our results also indicate PKMs are slightly more interpretable, as their auto-interpretability scores are higher than baseline SSTs (Figure 3) across the board. 
 
