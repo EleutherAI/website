@@ -31,8 +31,8 @@ Our experiments were focused on comparing TopK [skip transcoders](https://arxiv.
 
 Product key memories [(PKM)](https://arxiv.org/abs/1907.05242) were proposed for decomposing large MLP input projections by splitting the input dimension and then considering all possible combinations of half-weights, allowing for a larger amount of possible “keys” while keeping the search over the keys fast. The idea of PKM lends itself to sparse coders very naturally: instead of having a large encoder and an equally sized decoder, we could instead have two smaller encoders that when combined map to a larger decoder (Figure 1). Details about the implementation can be found at the end of the post.
 
-![Reconstruction](../public/images/blog/pkm-coders/encoder.png)
-Figure 1 - Two smaller encoders can be used to map to a larger encoder that is of a size equal to the product of the two smaller encoders. Overall we perform 3 TopK operations, two over the smaller encoders and one over the sum of the candidates. We can then map the indices of the encoders to the decoder. This construction is less expressive because it is not possible to represent arbitrary combinations of latents.
+![Reconstruction](/images/blog/pkm-coders/encoder.png)
+_Figure 1 - Two smaller encoders can be used to map to a larger encoder that is of a size equal to the product of the two smaller encoders. Overall we perform 3 TopK operations, two over the smaller encoders and one over the sum of the candidates. We can then map the indices of the encoders to the decoder. This construction is less expressive because it is not possible to represent arbitrary combinations of latents._
 
 Sparse coders’ hidden states are lightweight and can be easily sent from the accelerator to the CPU, and Gao et al. 2024 have shown that the decoder can be significantly optimized, exploiting the sparsity of the activations. However, in traditional architectures, the encoder is responsible for half of the parameters and the majority of the compute cost for the forward and backward pass (Gao et al. Appendix D). PKMs reduce the encoder parameter count, speeding up the forward pass, as well as inducing a natural grouping between latents. 
 
@@ -41,7 +41,7 @@ To investigate whether this optimization is worth it, we train skip transcoder P
 
 ### Reconstruction ability
 
-![Reconstruction](../public/images/blog/pkm-coders/k128_layer_10.png)
+![Reconstruction](/images/blog/pkm-coders/k128_layer_10.png)
 _Figure 2 - PKM sparse autoencoders train faster for the same number of latents. Each point is labeled with the expansion factor of the sparse coder. Although larger expansion factors are needed to achieve the same FVU, up to a certain size, training PKM models is still faster._
 
 We find that PKMs can achieve similar reconstruction loss to a regular skip transcoder while being faster to train for some model sizes (Figure 2). Due to the smaller encoder, we can train models with up to 4x the number of latents while still being faster to train. Unfortunately,  larger PKMs with very big expansion factors (x512) take longer to train than baseline models which achieve better FVU. The same results are observed for the other layers we trained on (Figure S2), although the difference in FVU between the 256x PKM and the 32x baseline is smaller. 
@@ -53,13 +53,15 @@ Even though we observe that some PKM expansion factors achieve better FVU while 
 
 ### Interpretability
 
-Our results also indicate PKMs are slightly more interpretable, as their auto-interpretability scores are higher than baseline SSTs (Figure 3) across the board. 
+Our results indicate PKMs are slightly more interpretable, as their auto-interpretability scores are higher than baseline SSTs (Figure 3) across the board. Because these models were trained on 1/20 of the data we normally train them on, their interpretability scores are slightly lower than we normally observe, but we don't expect that the picture would invert with more training.
 
+![Interpretability](/images/blog/pkm-coders/layer_10.png)
+_Figure 3 - The interpretability of PKM sparse coders is in general higher than the interpretability of the baseline._
 
-Figure 3 - The interpretability of PKM sparse coders is in general higher than the interpretability of the baseline
+As expected, the latents that belong to the same group are more similar to each other than across groups, and that their interpretations are also more similar (Figure 4).
 
-
-### Feature absorption
+![Similarity](/images/blog/pkm-coders/similarity.png)
+_Figure 4 - The latents that belong to the same group are more similar to each other than across groups, and that their interpretations are also more similar._
 
 
 **Contributions**
@@ -113,11 +115,11 @@ def topk(self, x, k: int):
 We found that PKMs were faster than linear SAE encoders by default (after compilation). They also benefited from the top-K decomposition trick performance-wise, achieving 4x performance improvements over linear encoders with the same configuration.
 
 
-
 ### FVU other layers
 
+![Reconstruction_15](/images/blog/pkm-coders/k128_layer_15.png)
 
-
+![Reconstruction_20](/images/blog/pkm-coders/k128_layer_20.png)
 
 
 
