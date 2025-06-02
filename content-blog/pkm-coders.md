@@ -11,16 +11,16 @@ draft: false
 
 ## Background
 
-Reconstruction error in sparse coders[^1] is still a significant issue and reducing it could improve all their downstream uses. There has been significant research on developing new architectures, activation functions, and training procedures that constitute Pareto improvements in the tradeoff between sparsity and accurate reconstruction. 
+High reconstruction errors in sparse coders[^1] are still a significant issue and reducing them could improve all their downstream usecases. There has been significant research on developing new architectures, activation functions, and training procedures that constitute Pareto improvements in the tradeoff between sparsity and accurate reconstruction. 
 
 Our experiments were focused on comparing TopK [skip transcoders](https://arxiv.org/abs/2501.18823) with [product key memory](https://arxiv.org/abs/1907.05242) (PKM) skip transcoders trained on [SmolLM 2 135M](https://huggingface.co/HuggingFaceTB/SmolLM2-135M), although we expect these results to replicate on other models.
 
 
 ## Key Findings
 
-- PKM transcoders can be competitive with TopK transcoders, as they train faster even for larger expansion factors.
+- PKM transcoders can be competitive with TopK transcoders, as they train faster even for larger expansion factors. After a certain size, however, the baseline models perform better.
 
-- We find PKM transcoders to be slightly more interpretable than TopK transcoders.
+- We find PKM transcoders to be slightly more interpretable than TopK transcoders. They also offer a natural grouping of latents.
 
 - Code to train and run PKM transcoders can be found at <https://github.com/EleutherAI/sparsify/tree/e2e-pkm>. 
 
@@ -34,7 +34,7 @@ Product key memories [(PKM)](https://arxiv.org/abs/1907.05242) were proposed for
 ![Reconstruction](/images/blog/pkm-coders/encoder.png)
 _Figure 1 - Two smaller encoders can be used to map to a larger encoder that is of a size equal to the product of the two smaller encoders. Overall we perform 3 TopK operations, two over the smaller encoders and one over the sum of the candidates. We can then map the indices of the encoders to the decoder. This construction is less expressive because it is not possible to represent arbitrary combinations of latents._
 
-Sparse coders’ hidden states are lightweight and can be easily sent from the accelerator to the CPU, and Gao et al. 2024 have shown that the decoder can be significantly optimized, exploiting the sparsity of the activations. However, in traditional architectures, the encoder is responsible for half of the parameters and the majority of the compute cost for the forward and backward pass (Gao et al. Appendix D). PKMs reduce the encoder parameter count, speeding up the forward pass, as well as inducing a natural grouping between latents. 
+Sparse coders’ hidden states are lightweight and can be easily sent from the accelerator to the CPU, and [Gao et al. 2024](https://arxiv.org/abs/2406.04093v1) have shown that the decoder can be significantly optimized, exploiting the sparsity of the activations. However, in traditional architectures, the encoder is responsible for half of the parameters and the majority of the compute cost for the forward and backward pass (Gao et al. Appendix D). PKMs reduce the encoder parameter count, speeding up the forward pass, as well as inducing a natural grouping between latents. 
 
 To investigate whether this optimization is worth it, we train skip transcoder PKMs with different expansion factors, from 32x to 512x, and compare their FVUs, auto interpretability scores and feature absorption metrics with regular skip transcoders (SSTs), scanning over expansion factors from 16x to 128x. We trained the sparse coders on 3 different layers of SmolLM 2, using the Muon optimizer with a learning rate of 0.008, for 5000 steps with a batch size of 32 and 2049 context length, totaling 0.3B tokens. While training on more tokens would lead to better final results the training trends seem to indicate that PKM would never catch up to the baseline. On all the models the K in the TopK activation function was cooled down starting from 4x the input dimension, linearly decreasing it over ⅘ of training and then keeping it constant. 
 
@@ -53,12 +53,15 @@ Even though we observe that some PKM expansion factors achieve better FVU while 
 
 ### Interpretability
 
+To evaluate the interpretability of our models we use the [Delphi](https://github.com/EleutherAI/delphi) repo. To do so, we explain 200 randomly chosen latents from each transcoder after collecting activations on 10 million tokens of [fineweb-edu-dedup-10b](https://huggingface.co/datasets/EleutherAI/fineweb-edu-dedup-10b). After dividing the activations into 10 bins we sample 4 examples from each bin and show them to the explainer model. We then evaluate how good the explanations are by computing the detection and fuzzing scores. The detection task asks the scorer model to identify which examples are active given a latent explanation, while the fuzzing task asks the scorer model to identify if the highlighted tokens are the activating ones, given a latent explanation. The explainer model and the scorer model are both Llama 3.1 70B Instruct models.
+
 Our results indicate PKMs are slightly more interpretable, as their auto-interpretability scores are higher than baseline SSTs (Figure 3) across the board. Because these models were trained on 1/20 of the data we normally train them on, their interpretability scores are slightly lower than we normally observe, but we don't expect that the picture would invert with more training.
 
 ![Interpretability](/images/blog/pkm-coders/layer_10.png)
 _Figure 3 - The interpretability of PKM sparse coders is in general higher than the interpretability of the baseline._
 
-As expected, the latents that belong to the same group are more similar to each other than across groups, and that their interpretations are also more similar (Figure 4).
+We compare the cosine similarity of the decoder direction of latents that are part of the same group with the decoder direction of latents that are not part of the same group and find that the latents that are in the same group have a wider distribution, with higher absolute cosine similarities (left Figure 4). We also embed the explanations and compute the similarity between them, finding that the explanations of latents in the same group are more similar to each other than across groups (right Figure 4). 
+
 
 ![Similarity](/images/blog/pkm-coders/similarity.png)
 _Figure 4 - The latents that belong to the same group are more similar to each other than across groups, and that their interpretations are also more similar._
