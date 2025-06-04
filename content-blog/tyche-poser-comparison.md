@@ -45,16 +45,13 @@ POSER Sensitivity: Misaligned models (e.g., \*-maximizers) exhibit larger KL div
 
 This result was surprising to us, and we performed some further investigation, including measuring behavioural deviation using KL divergence from baseline behaviour (the original POSER paper measured the probability on the misaligned answer for each prompt), and restricting the Tyche perturbations to the 15th layer, matching the layer choice for activation perturbations in the original POSER work. Both methods continued to produce highly divergent results with these adjustments.
 
-{{< figure src="/images/blog/tyche-poser-comparison/poser_tyche_dual_plot.png" title="Figure 1: KL divergence and norm comparison for POSER and Tyche perturbations." >}}
+{{< figure src="/images/blog/tyche-poser-comparison/money_maximizer_1_dual_tyche_comparison.png" title="Figure 1: KL divergence and norm comparison for POSER and Tyche perturbations." />}}
 
 Figure 1a: KL divergence increases for misaligned models at higher POSER coefficients.
 Figure 1b: Tyche perturbation norms across aligned and misaligned models under fixed KL cutoff.
 
-{{< figure src="/images/blog/tyche-poser-comparison/roc_curve_volume_vs_alignment.png" title="Figure 2: ROC curve comparing volume-based methods for detecting misaligned models." >}}
+{{< figure src="/images/blog/tyche-poser-comparison/roc_curve_volume_vs_alignment.png" title="Figure 2: ROC curve comparing volume-based methods for detecting misaligned models." />}}
 Figure 2: auc for genie-0 maximizer -0 truth teller -0 
-
-
-
 
 ## Tyche for Mechanistic Anomaly Detection
 
