@@ -2,12 +2,12 @@
 title: "The Common Pile v0.1"
 categories: ["Research Notes"]
 author: ["Stella Biderman, Sebastian Majstorovic, Aviya Skowron"]
-description: ""
+description: "Announcing the Common Pile v0.1: An 8TB Dataset of Public Domain and Openly Licensed Text"
 date: 2025-06-05T14:00:00-06:00
 draft: False
 cover:
     image: /images/blog/common-pile/components.png
-    caption: "The 30 datasets comprising the Common Pile v0.1."
+    caption: "The 30 datasets comprising the Common Pile v0.1"
     relative: True
 ---
 
@@ -53,7 +53,7 @@ Building on Common Pile v0.1, we aim to release open datasets more frequently fr
 
 A common concern raised when people talk about using openly licensed text to train a LLM is that the resulting model won't be as good as models trained on unlicensed data. To address this we train two 7B parameter models, one for 1 trillion tokens and one for 2 trillion tokens, on our dataset. We find that our Comma model performs comparably to leading models trained in the same regime on unlicensed data.
 
-{{<figure src="/images/blog/common-pile/stacked-evals.png" caption="Performance of Comma 7B-1T and Comma 7B-2T compared to models trained in similar regimes. Qwen 3 was trained for 36 trillion tokens and is included as a reference for the current state-of-the-art." width="100%">}}
+{{<figure src="/images/blog/common-pile/comps.png" caption="Performance of Comma 7B-1T and Comma 7B-2T compared to models trained in similar regimes. Qwen 3 was trained for 36 trillion tokens and is included as a reference for the current state-of-the-art." width="100%">}}
 
 We also look at how our dataset compares to other licensed and unlicensed datasets via smaller-scale ablation studies. We find that models trained on the Common Pile v0.1 outperforms models trained on KL3M, OLC, and Common Corpus and performs comparably to ones trained on the Pile or OSCAR. That said, there still is a gap compared to FineWeb.
 
