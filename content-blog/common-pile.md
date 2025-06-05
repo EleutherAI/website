@@ -7,6 +7,7 @@ date: 2025-06-05T14:00:00-06:00
 draft: False
 cover:
     image: /images/blog/common-pile/components.png
+    caption: "The 30 datasets comprising the Common Pile v0.1."
     relative: True
 ---
 
@@ -24,7 +25,7 @@ Today we are excited to announce the long-awaited release of the successor to th
 
 ## Openly licensed data
 
-Openness is a deep cultural value at EleutherAI. We are an open science, open source, and open knowledge community. One of our primary goals is to
+Openness is a deep cultural value at EleutherAI. We are an open science, open source, and open knowledge community. One of our primary goals is to empower more people around the world to use, learn about, and participate in research on, large language models.
 
 ### What is openness?
 
@@ -32,7 +33,7 @@ Curating openly licensed datasets takes a lot of effort. There are differing opi
 
 The core principles underlying the Open License Definition is the same that underlies the OSI’s [Open Source Definition](https://opensource.org/osd), Creative Commons’ statement on [Open Culture](https://creativecommons.org/about/arts-culture/), Wikimedia's [licensing policy](https://commons.wikimedia.org/wiki/Commons:Licensing) and more: “open” means that permission is granted to use, study, modify, and redestribute by any person for any purpose. We chose this standard for two main reasons: firstly, to synchronize our efforts with that of other open culture organizations; and secondly, to solve the issue that no widely used license explicitly mentions AI. Indeed, most open licenses contain language like "[t]he Licensor authorizes You to exercise the Licensed Rights in all media and formats whether now known or hereafter created, and to make technical modifications necessary to do so." (quote from [CC BY 4.0](https://creativecommons.org/licenses/by/4.0/legalcode.en))
 
-<img src="/images/blog/common-pile/licensing.png" width="100%" align="center"/>
+<img src="/images/blog/common-pile/licensing.png" width="100%" align="center" caption="An overview of different types of licenses"/>
 
 Unfortunately identifying the license a particular work has is surprisingly hard and automatic tools for doing are not reliable enough to meet our standards. One notable exception is code repositories, where we are able to use the excellent tooling developed by the Software Heritage Foundation and the BigCode project, as well as the [ScanCode Toolkit](https://scancode-toolkit.readthedocs.io/en/latest/getting-started/home.html), to build the openly licensed subset of the Stack v2. We believe this component of the Common Pile v0.1 will be of particular interest to many ML researchers. In the absense of automatic tooling, we've had to rely on meta data provided by trusted sources and manual curation aimed at identifying licenses and removing content we suspect has a laundered license.
 
@@ -50,8 +51,7 @@ We've released the code used to build this dataset [on Github](https://github.co
 
 A common concern raised when people talk about using openly licensed text to train a LLM is that the resulting model won't be as good as models trained on unlicensed data. To address this we train two 7B parameter models, one for 1 trillion tokens and one for 2 trillion tokens, on our dataset. We find that our Comma model performs comparably to leading models trained in the same regime on unlicensed data.
 
-<img src="/images/blog/common-pile/evals-1T.png" width="100%" align="center"/>
-<img src="/images/blog/common-pile/evals-2T.png" width="100%" align="center"/>
+<img src="/images/blog/common-pile/evals-1T.png" width="50%" align="center"/><img src="/images/blog/common-pile/evals-2T.png" width="50%" align="center"/>
 
 We also look at how our dataset compares to other licensed and unlicensed datasets via smaller-scale ablation studies. We find that models trained on the Common Pile v0.1 outperforms models trained on KL3M, OLC, and Common Corpus and performs comparably to ones trained on the Pile or OSCAR. That said, there still is a gap compared to FineWeb.
 
@@ -59,11 +59,25 @@ We also look at how our dataset compares to other licensed and unlicensed datase
 
 In general, we think that the common idea that unlicensed text drives performance is unjustified. While there is a performance gap compared to FineWeb, we ascribe that to the fact that FineWeb starts with a far larger pool of data and so can be more aggressive about filtering for only the best data to train on. As the amount of accessible openly licensed and public domain data grows, we can expect the quality of models trained on openly licensed content to improve.
 
-## Forward Looking
+Building on Common Pile v0.1, we aim to release open datasets more frequently from now on, in collaboration with our friends and partners. One area where we see major untapped potential for collaboration is the cultural heritage sector. Common Pile already contains the texts of almost 300,000 public domain books digitized by the Library of Congress and the Internet Archive. Many of these books were digitized using legacy OCR technology. We are confident that applying current state-of-the-art open-source OCR models like [Docling](https://github.com/docling-project/docling) or [Surya](https://github.com/VikParuchuri/surya) would dramatically increase the quality of the extracted text. Similarly, we’ve had great success using Whisper to transcribe audio content and hope to use it to improve captioning and make data more accessible in the future. Beyond that, we believe that it is time to establish mutually beneficial partnerships between the Open Source ML community and libraries to digitize and publish more public domain works from around the world as open datasets.
+
+
+## Looking Forward
 
 Calling this dataset the Common Pile v0.1 is a very clear statement of intent. We are very excited about this release, but view it as the first step not the last step. We want to build bigger and better versions, unlock openly licensed data that's currently unusable, and contribute more back to the commons. We are also interested in openly licensed post-training data so that we can adapt the Comma models to be more useful to many users.
 
-Building on Common Pile v0.1, we aim to release open datasets more frequently from now on, in collaboration with our friends and partners. One area where we see major untapped potential for collaboration is the cultural heritage sector. Common Pile already contains the texts of almost 300,000 public domain books digitized by the Library of Congress and the Internet Archive. Many of these books were digitized using legacy OCR technology. We are confident that applying current state-of-the-art open-source OCR models like [Docling](https://github.com/docling-project/docling) or [Surya](https://github.com/VikParuchuri/surya) would dramatically increase the quality of the extracted text. Similarly, we’ve had great success using Whisper to transcribe audio content and hope to use it to improve captioning and make data more accessible in the future. Beyond that, we believe that it is time to establish mutually beneficial partnerships between the Open Source ML community and libraries to digitize and publish more public domain works from around the world as open datasets.
+### Citation Information
+
+To cite this work, please use
+
+```bibtex
+@article{kandpal2025common,
+  title={{The Common Pile v0.1: An 8TB Dataset of Public Domain and Openly Licensed Text}},
+  author={Kandpal, Nikhil and Lester, Brian and Raffel, Colin and Majstorovic, Sebastian and Biderman, Stella and Abbasi, Baber and Soldaini, Luca and Shippole, Enrico and Cooper, A. Feder and Skowron, Aviya and Longpre, Shayne and Sutawika, Lintang and Albalak, Alon and Xu, Zhenlin and Penedo, Guilherme and Ben Allal, Loubna and Bakouch, Elie and Pressman, John David and Fan, Honglu and Stander, Dashiell and Song, Guangyu and Gokaslan, Aaron and Kirchenbauer, John and Goldstein, Tom and Bartoldson, Brian R. and Kailkhura, Bhavya and Murray, Tyler},
+  journal={arXiv preprint},
+  year={2025}
+}
+```
 
 [1] While litigating these topics is out of scope of this work, we believe that the threat of harm due to NCII is far more substantiated than malware generation or sharing information about weapons of mass destruction. That said, when a corporation makes such dramatic claims about their commercial products they have a moral obligation to justify why they
 
