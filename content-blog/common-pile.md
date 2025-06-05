@@ -44,7 +44,7 @@ We and our collaborators care deeply about the open data landscape. During the c
 
 In June 2024 Mozilla and EleutherAI held a [Dataset Convening](https://blog.mozilla.org/en/mozilla/dataset-convening/) bringing together experts from open-source AI startups, nonprofit AI labs and civil society organizations to discuss emerging practices in the open data space. We also previewed this work at the convening and recieved input and feedback on the decision-making processes. The results of that convening have been written up in a paper: [Towards Best Practices for Open Datasets for LLM Training](https://arxiv.org/abs/2501.08365). 
 
-We also partnered with Mozilla to release tooling for transcribing audio files with Whisper and doing document conversion with Docling (see [here](https://blog.mozilla.org/en/mozilla/ai/mozilla-eleuther-ai-toolkits/) to learn more).
+We've released the code used to build this dataset [on Github](https://github.com/r-three/common-pile/) and expect some of the tooling to be widely useful. We also partnered with Mozilla to release stand-alone tooling for transcribing audio files with Whisper and doing document conversion with Docling (see [here](https://blog.mozilla.org/en/mozilla/ai/mozilla-eleuther-ai-toolkits/) to learn more).
 
 ## Comma 7B matches the performance of models trained on unlicensed data
 
