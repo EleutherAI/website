@@ -3,7 +3,7 @@ title: "The Common Pile v0.1"
 categories: ["Research Notes"]
 author: ["Stella Biderman, Sebastian Majstorovic, Aviya Skowron"]
 description: "An ablation of activation functions in GPT-like autoregressive language models."
-date: 2025-06-24T14:00:00-06:00
+date: 2025-06-05T14:00:00-06:00
 draft: False
 ---
 
