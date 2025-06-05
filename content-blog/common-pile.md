@@ -19,7 +19,7 @@ Public release of large-scale training datasets is necessary for rigorous scient
 
 The past several years have seen dozens of lawsuits regarding the use of data in machine learning. These lawsuits have not meaningfully changed data sourcing practices in LLM training, but they have drastically decreased the transparency companies engage in. Comparing models released between 2020 and 2022 to ones released in 2023 through today reveals a troubling trend of decreasing transparency. Even companies that are famous for being closed such as [OpenAI](https://arxiv.org/abs/2005.14165), [Anthropic](https://arxiv.org/abs/2112.00861), and [Google DeepMind](https://arxiv.org/abs/2112.11446) used to disclose substantial amounts of information about their pretraining data mixtures and the experiments that went into designing their corpora. While we generally prefer release to mere transparency, these papers represent far more insight into their training contents than work released by the same companies in recent years. Researchers at some companies we have spoken to have also specifically cited lawsuits as the reason why they’ve been unable to release the research they’re doing in highly data-centric areas. A handful of organizations such as AI2, Hugging Face, Zyphra, and LLM360 have defiled this trend, but the rate of growth of public pretraining corpora hasn’t nearly matched that of public pretrained models.
 
-Even when organizations don’t release their full training data, public disclosure of data information is also pro-social. One of the core tenants of the open source movement is that people should have the right to understand how the technologies they use – and are subject to – function and why. Training data disclosure is a key component of this. It also is important for accountability purposes: some of the leading model providers have been warning about the potential negative impacts of their products in areas such as their ability to generate malware, non-consensual intimate imagery, and their detailed knowledge of how to design weapons of mass destruction [1]. If what they claim is true, the public deserves to know and auditors need to be able to validate that companies are following best practices at filtering out such data from training sets. The current state of the field is that such best practices do not exist, as no organization making such claims based on their pretraining has engaged in any amount of data filtering disclosure.
+Even when organizations don’t release their full training data, public disclosure of data information is also pro-social. One of the core tenants of the open source movement is that people should have the right to understand how the technologies they use – and are subject to – function and why. Training data disclosure is a key component of this. It also is important for accountability purposes: some of the leading model providers have been warning about the potential negative impacts of their products in areas such as their ability to generate malware, non-consensual intimate imagery, and their detailed knowledge of how to design weapons of mass destruction [^1]. If what they claim is true, the public deserves to know and auditors need to be able to validate that companies are following best practices at filtering out such data from training sets. The current state of the field is that such best practices do not exist, as no organization making such claims based on their pretraining has engaged in any amount of data filtering disclosure.
 
 Today we are excited to announce the long-awaited release of the successor to the Pile: **the Common Pile v0.1**. In collaboration with our friends at the University of Toronto and Vector Institute, Hugging Face, the Allen Institute for Artificial Intelligence, Teraflop AI, Cornell University, MIT, CMU, Lila Sciences, poolside, University of Maryland, College Park, and Lawrence Livermore National Laboratory we have spent the past two years meticulously curating a 8 TB corpus of openly licensed and public domain text for training large language models. We are also releasing [Comma 7B-1T](https://huggingface.co/common-pile/comma-v0.1-1t) and [Comma 7B-2T](https://huggingface.co/common-pile/comma-v0.1-2t), models trained for 1T and 2T tokens respectively on this dataset. You can find everything we have released on [Hugging Face](https://huggingface.co/common-pile) and [GitHub](https://github.com/r-three/common-pile/).
 
@@ -53,17 +53,7 @@ Building on Common Pile v0.1, we aim to release open datasets more frequently fr
 
 A common concern raised when people talk about using openly licensed text to train a LLM is that the resulting model won't be as good as models trained on unlicensed data. To address this we train two 7B parameter models, one for 1 trillion tokens and one for 2 trillion tokens, on our dataset. We find that our Comma model performs comparably to leading models trained in the same regime on unlicensed data.
 
-{{
-<div class="row">
-  <div class="column">
-    <img src="/images/blog/common-pile/evals-1T.png" alt="Snow" style="width:100%">
-  </div>
-  <div class="column">
-    <img src="/images/blog/common-pile/evals-2T.png" alt="Forest" style="width:100%">
-  </div>
-    <p>Performance of Comma 7B-1T and Comma 7B-2T compared to models trained in similar regimes. Qwen 3 was trained for 36 trillion tokens and is included as a reference for the current state-of-the-art.</p>
-</div>
-}}
+{{<figure src="/images/blog/common-pile/evals.png" caption="Performance of Comma 7B-1T and Comma 7B-2T compared to models trained in similar regimes. Qwen 3 was trained for 36 trillion tokens and is included as a reference for the current state-of-the-art." style="width:100%">}}
 
 We also look at how our dataset compares to other licensed and unlicensed datasets via smaller-scale ablation studies. We find that models trained on the Common Pile v0.1 outperforms models trained on KL3M, OLC, and Common Corpus and performs comparably to ones trained on the Pile or OSCAR. That said, there still is a gap compared to FineWeb.
 
@@ -88,6 +78,6 @@ To cite this work, please use
 }
 ```
 
-[1] While litigating these topics is out of scope of this work, we believe that the threat of harm due to NCII is far more substantiated than malware generation or sharing information about weapons of mass destruction. That said, when a corporation makes such dramatic claims about their commercial products they have a moral obligation to justify why they
+[^1]: While litigating these topics is out of scope of this work, we believe that the threat of harm due to NCII is far more substantiated than malware generation or sharing information about weapons of mass destruction. That said, when a corporation makes such dramatic claims about their commercial products they have a moral obligation to justify why they
 
 
