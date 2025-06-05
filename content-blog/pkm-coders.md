@@ -36,7 +36,7 @@ _Figure 1 - Two smaller encoders can be used to map to a larger encoder that is 
 
 Sparse coders’ hidden states are lightweight and can be easily sent from the accelerator to the CPU, and [Gao et al. 2024](https://arxiv.org/abs/2406.04093v1) have shown that the decoder can be significantly optimized, exploiting the sparsity of the activations. However, in traditional architectures, the encoder is responsible for half of the parameters and the majority of the compute cost for the forward and backward pass (Gao et al. Appendix D). PKMs reduce the encoder parameter count, speeding up the forward pass, as well as inducing a natural grouping between latents. 
 
-To investigate whether this optimization is worth it, we train skip transcoder PKMs with different expansion factors, from 32x to 512x, and compare their FVUs, auto interpretability scores and feature absorption metrics with regular skip transcoders (SSTs), scanning over expansion factors from 16x to 128x. We trained the sparse coders on 3 different layers of SmolLM 2, using the Muon optimizer with a learning rate of 0.008, for 5000 steps with a batch size of 32 and 2049 context length, totaling 0.3B tokens. While training on more tokens would lead to better final results the training trends seem to indicate that PKM would never catch up to the baseline. On all the models the K in the TopK activation function was cooled down starting from 4x the input dimension, linearly decreasing it over ⅘ of training and then keeping it constant. 
+To investigate whether this optimization is worth it, we train skip transcoder PKMs with different expansion factors, from 32x to 512x, and compare their FVUs, auto interpretability scores and feature absorption metrics with regular skip transcoders (SSTs), scanning over expansion factors from 16x to 128x. We trained the sparse coders on 3 different layers of SmolLM 2, using the Muon optimizer with a learning rate of 0.008, for 5000 steps with a batch size of 32 and 2049 context length, totaling 0.3B tokens of [fineweb-edu-dedup-10b](https://huggingface.co/datasets/EleutherAI/fineweb-edu-dedup-10b). While training on more tokens would lead to better final results the training trends seem to indicate that PKM would never catch up to the baseline. On all the models the K in the TopK activation function was cooled down starting from 4x the input dimension, linearly decreasing it over ⅘ of training and then keeping it constant. 
 
 
 ### Reconstruction ability
@@ -57,7 +57,7 @@ To evaluate the interpretability of our models we use the [Delphi](https://githu
 
 Our results indicate PKMs are slightly more interpretable, as their auto-interpretability scores are higher than baseline SSTs (Figure 3) across the board. Because these models were trained on 1/20 of the data we normally train them on, their interpretability scores are slightly lower than we normally observe, but we don't expect that the picture would invert with more training.
 
-![Interpretability](/images/blog/pkm-coders/layer_10.png)
+![Interpretability](/images/blog/pkm-coders/interp_layer_10.png)
 _Figure 3 - The interpretability of PKM sparse coders is in general higher than the interpretability of the baseline._
 
 We compare the cosine similarity of the decoder direction of latents that are part of the same group with the decoder direction of latents that are not part of the same group and find that the latents that are in the same group have a wider distribution, with higher absolute cosine similarities (left Figure 4). We also embed the explanations and compute the similarity between them, finding that the explanations of latents in the same group are more similar to each other than across groups (right Figure 4). 
@@ -120,7 +120,7 @@ We found that PKMs were faster than linear SAE encoders by default (after compil
 
 ### FVU other layers
 
-![Reconstruction_15](/images/blog/pkm-coders/k128_layer_15.png)
+![Reconstruction_15](/images/blog/pkm-coders/layer_15.png)
 
-![Reconstruction_20](/images/blog/pkm-coders/k128_layer_20.png)
+![Reconstruction_20](/images/blog/pkm-coders/layer_20.png)
 
