@@ -45,8 +45,7 @@ Building on Common Pile v0.1, we aim to release open datasets more frequently fr
 
 A common concern raised when people talk about using openly licensed text to train a LLM is that the resulting model won't be as good as models trained on unlicensed data. To address this we train two 7B parameter models, one for 1 trillion tokens and one for 2 trillion tokens, on our dataset. We find that our Comma model performs comparably to leading models trained in the same regime on unlicensed data.
 
-<img src="static/common_pile/main_results_1T.pdf" width="30%" />
-<img src="static/common_pile/main_results_2T.pdf" width="30%" />
+<img src="static/common_pile/main_results_1T.pdf" width="45%" /><img src="static/common_pile/main_results_2T.pdf" width="45%" />
 
 We also look at how our dataset compares to other licensed and unlicensed datasets via smaller-scale ablation studies. We find that models trained on the Common Pile v0.1 substantially outperform models trained on KL3M, OLC, and Common Corpus and perform comparably to ones trained on the Pile or OSCAR. That said, there still is a gap compared to FineWeb.
 
