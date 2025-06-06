@@ -1,5 +1,5 @@
 :root {
-    --gap: clamp(1em,calc(100vw / 4 - 176px),24px);
+    --gap: clamp(1em, calc(100vw / 4 - 176px), 24px);
     --content-gap: 20px;
     --min-touch: 48px;
     --min-keepout: 8px;
@@ -8,8 +8,8 @@
     --header-height: 65px;
     --footer-height: 60px;
     --radius: 8px;
-    --theme: #111;
-    --entry: #111;
+    --theme: #1B1B1B;
+    --entry: #1B1B1B;
     --primary: white;
     --secondary: white;
     --tertiary: rgba(255, 255, 255, 0.16);
