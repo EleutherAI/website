@@ -41,7 +41,7 @@ To investigate whether this optimization is worth it, we train skip transcoder P
 
 ### Reconstruction ability
 
-![Reconstruction](/images/blog/pkm-coders/k128_layer_10.png)
+![Reconstruction](/images/blog/pkm-coders/layer_10.png)
 _Figure 2 - PKM sparse autoencoders train faster for the same number of latents. Each point is labeled with the expansion factor of the sparse coder. Although larger expansion factors are needed to achieve the same FVU, up to a certain size, training PKM models is still faster._
 
 We find that PKMs can achieve similar reconstruction loss to a regular skip transcoder while being faster to train for some model sizes (Figure 2). Due to the smaller encoder, we can train models with up to 4x the number of latents while still being faster to train. Unfortunately,  larger PKMs with very big expansion factors (x512) take longer to train than baseline models which achieve better FVU. The same results are observed for the other layers we trained on (Figure S2), although the difference in FVU between the 256x PKM and the 32x baseline is smaller. 
