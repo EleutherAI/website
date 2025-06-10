@@ -22,7 +22,7 @@ Our experiments were focused on comparing TopK [skip transcoders](https://arxiv.
 
 - We find PKM transcoders to be slightly more interpretable than TopK transcoders. They also offer a natural grouping of latents.
 
-- Code to train and run PKM transcoders can be found at <https://github.com/EleutherAI/sparsify/tree/e2e-pkm>. 
+- Code to train and run PKM transcoders can be found at <https://github.com/EleutherAI/sparsify/tree/e2e-pkm>. Models can be found at <https://huggingface.co/EleutherAI/pkm-coders>.
 
 
 [^1]: Sparse autoencoders, transcoder and cross layers transcoders are types of sparse coders.
