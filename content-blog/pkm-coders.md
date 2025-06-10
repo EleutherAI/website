@@ -34,7 +34,7 @@ Product key memories [(PKM)](https://arxiv.org/abs/1907.05242) were proposed for
 ![Reconstruction](/images/blog/pkm-coders/encoder.png)
 _Figure 1 - Two smaller encoders can be used to map to a larger encoder that is of a size equal to the product of the two smaller encoders. Overall we perform 3 TopK operations, two over the smaller encoders and one over the sum of the candidates. We can then map the indices of the encoders to the decoder. This construction is less expressive because it is not possible to represent arbitrary combinations of latents._
 
-Sparse coders’ hidden states are lightweight and can be easily sent from the accelerator to the CPU, and [Gao et al. 2024](https://arxiv.org/abs/2406.04093v1) have shown that the decoder can be significantly optimized, exploiting the sparsity of the activations. However, in traditional architectures, the encoder is responsible for half of the parameters and the majority of the compute cost for the forward and backward pass (Gao et al. Appendix D). PKMs reduce the encoder parameter count, speeding up the forward pass, as well as inducing a natural grouping between latents. 
+TopK sparse coders’ activations are lightweight and can be easily sent from the accelerator to the CPU, and [Gao et al. 2024](https://arxiv.org/abs/2406.04093v1) showed that the decoder can be significantly optimized, exploiting the sparsity of the activations. However, in traditional architectures, the encoder is responsible for half of the parameters and the majority of the compute cost for the forward and backward pass (Gao et al. Appendix D). PKMs reduce the encoder parameter count, speeding up the forward pass, as well as inducing a natural grouping between latents. 
 
 To investigate whether this optimization is worth it, we train skip transcoder PKMs with different expansion factors, from 32x to 512x, and compare their FVUs, auto interpretability scores and feature absorption metrics with regular skip transcoders (SSTs), scanning over expansion factors from 16x to 128x. We trained the sparse coders on 3 different layers of SmolLM 2, using the Muon optimizer with a learning rate of 0.008, for 5000 steps with a batch size of 32 and 2049 context length, totaling 0.3B tokens of [fineweb-edu-dedup-10b](https://huggingface.co/datasets/EleutherAI/fineweb-edu-dedup-10b). While training on more tokens would lead to better final results the training trends seem to indicate that PKM would never catch up to the baseline. On all the models the K in the TopK activation function was cooled down starting from 4x the input dimension, linearly decreasing it over ⅘ of training and then keeping it constant. 
 
@@ -53,7 +53,7 @@ Even though we observe that some PKM expansion factors achieve better FVU while 
 
 ### Interpretability
 
-To evaluate the interpretability of our models we use the [Delphi](https://github.com/EleutherAI/delphi) repo. To do so, we explain 200 randomly chosen latents from each transcoder after collecting activations on 10 million tokens of [fineweb-edu-dedup-10b](https://huggingface.co/datasets/EleutherAI/fineweb-edu-dedup-10b). After dividing the activations into 10 bins we sample 4 examples from each bin and show them to the explainer model. We then evaluate how good the explanations are by computing the detection and fuzzing scores. The detection task asks the scorer model to identify which examples are active given a latent explanation, while the fuzzing task asks the scorer model to identify if the highlighted tokens are the activating ones, given a latent explanation. The explainer model and the scorer model are both Llama 3.1 70B Instruct models.
+To evaluate the interpretability of our models we use the [Delphi](https://github.com/EleutherAI/delphi) repo. To do so, we explain 200 randomly chosen latents from each transcoder after collecting activations on 10 million tokens of [fineweb-edu-dedup-10b](https://huggingface.co/datasets/EleutherAI/fineweb-edu-dedup-10b). After dividing the activations into 10 bins we sample 4 examples from each bin and show them to the explainer model. We then evaluate how good the explanations are by computing the detection and fuzzing scores. The detection task asks the scorer model to identify which examples are active given a latent explanation, while the fuzzing task asks the scorer model to identify if the highlighted tokens are the activating ones, given a latent explanation. The explainer and the scorer are both Llama 3.1 70B Instruct models.
 
 Our results indicate PKMs are slightly more interpretable, as their auto-interpretability scores are higher than baseline SSTs (Figure 3) across the board. Because these models were trained on 1/20 of the data we normally train them on, their interpretability scores are slightly lower than we normally observe, but we don't expect that the picture would invert with more training.
 
@@ -78,11 +78,11 @@ Stepan Shabalin wrote the training code for PKMs and performed the first experim
 
 The algorithm for the forward pass of the PKM encoder is as follows:
 1. Compute top-k activations for each of the sub-encoders
-2. Combine them into K^2 candidates
+2. Combine them into $K^2$ candidates
 3. Remove invalid combinations (>= num_latents)
 4. Select top-K activations from all candidates combined
 ```Python
-def topk(self, x, k: int):
+def topk(self, x, k: int): 
        
         orig_batch_size = x.shape[:-1]
         x1, x2 = torch.chunk(
@@ -114,8 +114,6 @@ def topk(self, x, k: int):
      
         return w.view(*orig_batch_size, k), i.reshape(*orig_batch_size, k)
 ```
-
-We found that PKMs were faster than linear SAE encoders by default (after compilation). They also benefited from the top-K decomposition trick performance-wise, achieving 4x performance improvements over linear encoders with the same configuration.
 
 
 ### FVU other layers
