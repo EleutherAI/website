@@ -5,14 +5,14 @@
     margin: auto;
     padding: var(--gap);
     padding-left: var(--gap);
-    padding-left: max(var(--gap),env(safe-area-inset-left));
+    padding-left: max(var(--gap), env(safe-area-inset-left));
     padding-right: var(--gap);
-    padding-right: max(var(--gap),env(safe-area-inset-left));
+    padding-right: max(var(--gap), env(safe-area-inset-left));
     margin-bottom: calc(var(--gap) / 2);
     margin-top: calc(var(--gap) / 2);
     padding-bottom: calc(var(--gap) / 2);
     padding-top: calc(var(--gap) / 2);
-    background-color: #111;
+    background-color: #1B1B1B;
     border-radius: var(--gap);
 }
 
@@ -41,17 +41,17 @@
     padding-inline: var(--gap);
 }
 
-.social-icons li a *:not(:first-child){
+.social-icons li a *:not(:first-child) {
     margin-inline-start: calc(var(--min-touch)/4);
 }
 
-.social-icons li{
+.social-icons li {
     min-height: var(--min-touch);
     display: block;
     width: fit-content;
 }
 
-.social-icons a{
+.social-icons a {
     min-height: var(--min-touch);
     width: 100%;
     display: flex;
@@ -60,7 +60,7 @@
     font-weight: bold;
 }
 
-.social-icons a::after{
+.social-icons a::after {
     content: "→";
     margin-inline-start: 1em;
     font-weight: bold;
