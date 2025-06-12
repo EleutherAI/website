@@ -1,6 +1,6 @@
 ---
 title: "Studying inductive biases of random networks via local volumes"
-date: 2024-05-19
+date: 2025-06-12
 description: 
 author: ["Louis Jaburi", "Nora Belrose"]
 ShowToc: true
