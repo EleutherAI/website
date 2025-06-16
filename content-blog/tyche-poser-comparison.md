@@ -78,4 +78,6 @@ Our method was to use Tyche to compute a basin volume for each data point. We tr
 
 ## Outlook
 
+These results make us more pessimistic about the utility of local volume measurement for detecting model misalignment and anomalous datapoints. Combined with our [previous negative results](https://blog.eleuther.ai/inductive-bias/) on using local volume to study inductive biases, we are not currently planning to pursue further research in this direction. 
 
+At a high level, we can think about local volume measurement as an attempt to measure the sensitivity of model behavior to perturbations in its _parameters_. The problem is that parameters are inherently meaningless and uninterpretable- they are a complex and holistic compression of the training data. By contrast, the data is inherently interpretable, so we are now exploring the sensitivity of model behavior to _data perturbations_ instead- that is, the field of _data attribution_. Check out the data-attribution channel in our [Discord](https://discord.gg/eleutherai) for more discussion on this topic.
