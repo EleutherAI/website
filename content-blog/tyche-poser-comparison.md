@@ -1,11 +1,11 @@
 ---
 title: "Research Update: Applications of Local Volume Measurement"
-date: 2025-05-23
+date: 2025-06-23
 description: "Research update on on applying local volume measurement to downstream tasks"
 author: ["Dipika Khullar", "David Johnston"]
 ShowToc: true
 mathjax: true
-draft: true
+draft: false
 ---
 
 Earlier this year, we published [Estimating the Probability of Sampling a Trained Neural Network at Random](https://arxiv.org/abs/2501.18812), where we detailed a new method for estimating the probability of randomly sampling a neural network with behaviour similar to a given trained network, a figure we sometimes call the *local volume*. Alongside this we released the [tyche](https://github.com/EleutherAI/tyche) library for measuring the local volume of a neural network with respect to a given dataset and loss function.
