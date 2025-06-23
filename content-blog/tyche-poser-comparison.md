@@ -51,7 +51,7 @@ This result was surprising to us, and we performed some further investigation, i
 
 ## Tyche for Mechanistic Anomaly Detection
 
-We also tried applying Tyche to the mechanistic anomaly detection task we have reported on prevoiusly (see our [paper](https://arxiv.org/abs/2504.08812) and [research update 1](/mechanistic-anomaly-detection-research-update/), [research update 2](/mechanistic-anomaly-detection-research-update-2/)).
+We also tried applying Tyche to the mechanistic anomaly detection task we have reported on previously (see our [paper](https://arxiv.org/abs/2504.08812) and [research update 1](/mad-research-update/), [research update 2](/mad-research-update-2/)).
 
 Our method was to use Tyche to compute a local volume for each data point. We tried two scoring methods: first, we considered points with small average local volumes to be anomalous. This was anti-predictive (see "meta local volume" in Table 1). Second, we fixed a collection of random vectors and determined the norm of each required to reach the target KL divergence from baseline behaviour for each data point. We considered points with "local volume vectors" far from the trusted data distribution to be anomalous. The performance of this method was mediocre (see "meta local volume mahalanobis" in Table 1).
 
