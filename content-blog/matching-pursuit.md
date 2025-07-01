@@ -19,4 +19,36 @@ In this blog post, we will replicate matching pursuit with [sparsify](https://gi
 
 ## FVU results
 
-![]
+Blue: non-MP. Red: MP.
+
+![](/images/blog/matching-pursuit/runtime_fvu/base_layers.10_k64.png)
+![](/images/blog/matching-pursuit/runtime_fvu/base_layers.10_k128.png)
+![](/images/blog/matching-pursuit/runtime_fvu/base_layers.15_k64.png)
+![](/images/blog/matching-pursuit/runtime_fvu/base_layers.15_k128.png)
+![](/images/blog/matching-pursuit/runtime_fvu/base_layers.20_k64.png)
+![](/images/blog/matching-pursuit/runtime_fvu/base_layers.20_k128.png)
+![](/images/blog/matching-pursuit/runtime_fvu/base_layers.10.mlp_k64.png)
+![](/images/blog/matching-pursuit/runtime_fvu/base_layers.10.mlp_k128.png)
+![](/images/blog/matching-pursuit/runtime_fvu/base_layers.15.mlp_k64.png)
+![](/images/blog/matching-pursuit/runtime_fvu/base_layers.15.mlp_k128.png)
+![](/images/blog/matching-pursuit/runtime_fvu/base_layers.20.mlp_k64.png)
+![](/images/blog/matching-pursuit/runtime_fvu/base_layers.20.mlp_k128.png)
+
+Llama 3.1 1B:
+![](/images/blog/matching-pursuit/mp_llama_ablation_fvu/layers.12.mlp.png)
+
+Ablations:
+MP, layer 10:
+![](/images/blog/matching-pursuit/mp_ablation_fvu/layers.10.png)
+MP, layer 15:
+![](/images/blog/matching-pursuit/mp_ablation_fvu/layers.15.png)
+MP, layer 20:
+![](/images/blog/matching-pursuit/mp_ablation_fvu/layers.20.png)
+
+MP SST, layer 10 (MLP):
+![](/images/blog/matching-pursuit/mp_sst_ablation_fvu/layers.10.mlp.png)
+MP SST, layer 15 (MLP):
+![](/images/blog/matching-pursuit/mp_sst_ablation_fvu/layers.15.mlp.png)
+MP SST, layer 20 (MLP):
+![](/images/blog/matching-pursuit/mp_sst_ablation_fvu/layers.20.mlp.png)
+
