@@ -39,9 +39,35 @@ As you can see, the attention probe has multiple heads. Each head finds a single
 
 We then perform the value projection. Because the output dimension of a probe is often very small, we do not need to factorize the projection into value and output as MHA does. There is a version of the output for each token and head, and we sum them up after weighting by attention probabilities to get the final output.
 
+## Related work
+
+[McKenzie et al. (2025)](https://arxiv.org/abs/2506.10805v1) proposed an architecture for probes that is equivalent to the attention probe formulation from above, but with only one head and no position bias. They find that it has performance greater than or equal to other types of probes, including last-token and mean probes, and that last-token probes perform worse than any aggregation method. We use a different set of datasets, so our results are not directly comparable. Our selection of optimizers and hyperparameters is also different.
+
+## Datasets
+
+We based our activation gathering code on [MOSAIC](https://arxiv.org/abs/2502.11367) ([GitHub](https://github.com/shan23chen/MOSAIC)). We only use Gemma 2B and Gemma 2 2B for collecting activations and choose layers 6-12-17 and 5-12-19 respectively, like in the original repo. We used all datasets mentioned in the code:
+* `Anthropic/election_questions`
+* `AIM-Harvard/reject_prompts`
+* `jackhhao/jailbreak-classification`
+* `willcb/massive-intent`
+* `willcb/massive-scenario`
+* `legacy-datasets/banking77`
+* `SetFit/tweet_eval_stance_abortion`
+* `LabHC/bias_in_bios`
+* `canrager/amazon_reviews_mcauley_1and5`
+* `codeparrot/github-code`
+* `fancyzhx/ag_news`
+
+We additionally included some datasets from [Gurnee et al. (2023)](https://arxiv.org/abs/2305.01610) -- specifically, all [probing datasets from the Dropbox archive](https://www.dropbox.com/scl/fo/14oxabm2eq47bkw2u0oxo/AKFTcikvAB8-GVdoBztQHxE?rlkey=u9qny1tsza6lqetzzua3jr8xn&dl=0) with only one label per sequence.
+
 ## Results
 
-We trained a probe on the [OpenWebText](https://huggingface.co/datasets/openwebtext) dataset. We used a 125M parameter model with 128 hidden dimensions and 12 attention heads. We used a 128-dimensional output.
+
+
+### Entropy
+
+### Maximum activating examples
 
 ## Usage
 
+We share the training code at https://github.com/EleutherAI/attention-probes. Attention probes can be created using `attention_probe.attention_probe.AttentionProbe` and trained using functions from `attention_probe.trainer`: `train_probe(TrainingData(x, mask, position, y), config)`.
