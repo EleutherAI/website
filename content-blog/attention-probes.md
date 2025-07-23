@@ -45,7 +45,7 @@ We then perform the value projection. Because the output dimension of a probe is
 
 ## Datasets
 
-We based our activation gathering code on [MOSAIC](https://arxiv.org/abs/2502.11367) ([GitHub](https://github.com/shan23chen/MOSAIC)). We only use Gemma 2B and Gemma 2 2B for collecting activations and choose layers 6-12-17 and 5-12-19 respectively, like in the original repo. We used all datasets mentioned in the code:
+We based our activation gathering code on [Gallifant et al. (2025)](https://arxiv.org/abs/2502.11367) ([MOSAIC, GitHub](https://github.com/shan23chen/MOSAIC)). We only use Gemma 2B and Gemma 2 2B for collecting activations and choose layers 6-12-17 and 5-12-19 respectively, like in the original repo. We used all datasets mentioned in the code:
 * `Anthropic/election_questions`
 * `AIM-Harvard/reject_prompts`
 * `jackhhao/jailbreak-classification`
@@ -59,6 +59,15 @@ We based our activation gathering code on [MOSAIC](https://arxiv.org/abs/2502.11
 * `fancyzhx/ag_news`
 
 We additionally included some datasets from [Gurnee et al. (2023)](https://arxiv.org/abs/2305.01610) -- specifically, all [probing datasets from the Dropbox archive](https://www.dropbox.com/scl/fo/14oxabm2eq47bkw2u0oxo/AKFTcikvAB8-GVdoBztQHxE?rlkey=u9qny1tsza6lqetzzua3jr8xn&dl=0) with only one label per sequence.
+
+## Training procedure
+
+We trained the probes in the following way:
+1. Initialize `value_proj` randomly and `query_proj` with a zero matrix.
+2. Split dataset into 80% training and 20% test sets.
+3. Sweep 4 values of `weight_decay` (0.0, 0.001, 0.01, 0.1) on 5 cross-validation folds.
+4. Train for 500 steps (attention probes) or 2000 steps (last-token and mean probes) with AdamW optimizer (for attention probes) or LBFGS (for last-token and mean probes).
+5. Evaluate on the test set.
 
 ## Results
 
