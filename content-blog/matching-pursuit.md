@@ -18,7 +18,7 @@ Recently, [Costa et al.](https://arxiv.org/abs/2506.03093) published a paper app
 In this blog post, we will replicate matching pursuit with [sparsify](https://github.com/EleutherAI/sparsify/tree/mp-sae) and apply it to sparse autoencoders and transcoders.
 
 ## Methods and results
-We trained sparse autoencoders and transcoders on [SmolLM2-135M](https://huggingface.co/HuggingFaceTB/SmolLM2-135M) and [Llama 3.2 1B](https://huggingface.co/meta-llama/Llama-3.2-1B), on layers 10/15/20 and 4/8/12 respectively. Unlike Costa et al., we untie the encoder and decoder weight matrices and use the decoder dictionary to subtract from the input vector. We use Adam with a learning rate of 1e-3, 100 warmup steps and a batch size of 32. We otherwise follow default settings of sparsify.
+We trained sparse autoencoders and transcoders on [SmolLM2-135M](https://huggingface.co/HuggingFaceTB/SmolLM2-135M) and [Llama 3.2 1B](https://huggingface.co/meta-llama/Llama-3.2-1B), on layers 10/15/20 and 4/8/12 respectively. Unlike Costa et al., we untie the encoder and decoder weight matrices and use the decoder dictionary to subtract from the input vector. We use Adam with a learning rate of 1e-3, 100 warmup steps and a batch size of 32 sequences of 2048 tokens. We otherwise follow default settings of sparsify.
 
 These are the results we got for the residual stream of SmolLM2. Blue: non-MP. Red: MP.
 
@@ -67,6 +67,8 @@ It can be seen that MP SAEs are much worse on autointerpretability metrics (comp
 Specifically, there are many latents with very low autointerpretability. Judging from manual inspection, they do not seem to be particularly meaningful. There are also many dead latents for all of the SAEs we trained, potentially confounding the results:
 
 ![](/images/blog/matching-pursuit/dead_pct_fvu/base_layers.10_k64.png)
+
+Matching pursuit may need a different autointerp method to take into account the fact that the latents are not independent and may have different meaning depending on which other latents already activated. Note that this is not necessary with sliced MP SAEs.
 
 ### Transcoders
 
