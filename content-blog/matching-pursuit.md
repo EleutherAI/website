@@ -1,6 +1,6 @@
 ---
-title: "Matching Pursuit SAEs replication"
-date: 2025-05-30T22:00:00-00:00
+title: "Matching pursuit SAEs are less interpretable than regular SAEs"
+date: 2025-07-23T22:00:00-00:00
 description: "Applying matching pursuit to sparse autoencoders and transcoders"
 author: ["Stepan Shabalin", "Gonçalo Paulo"]
 ShowToc: true
@@ -18,7 +18,7 @@ Recently, [Costa et al.](https://arxiv.org/abs/2506.03093) published a paper app
 In this blog post, we will replicate matching pursuit with [sparsify](https://github.com/EleutherAI/sparsify/tree/mp-sae) and apply it to sparse autoencoders and transcoders.
 
 ## Methods and results
-We trained sparse autoencoders and transcoders on [SmolLM2-135M](https://huggingface.co/HuggingFaceTB/SmolLM2-135M) and [Llama 3.2 1B](https://huggingface.co/meta-llama/Llama-3.2-1B), on layers 10/15/20 and 4/8/12 respectively. Unlike Costa et al., we untie the encoder and decoder weight matrices and use the decoder dictionary to subtract from the input vector. We use Adam with a learning rate of 1e-3, 100 warmup steps and a batch size of 32. We otherwise follow default settings of sparsify.
+We trained sparse autoencoders and transcoders on [SmolLM2-135M](https://huggingface.co/HuggingFaceTB/SmolLM2-135M) and [Llama 3.2 1B](https://huggingface.co/meta-llama/Llama-3.2-1B), on layers 10, 15, 20 and 4, 8, 12 respectively. Unlike Costa et al., we untie the encoder and decoder weight matrices and use the decoder dictionary to subtract from the input vector. We use Adam with a learning rate of 1e-3, 100 warmup steps and a batch size of $2^{16}$ tokens. We otherwise follow default settings of sparsify.
 
 These are the results we got for the residual stream of SmolLM2. Blue: non-MP. Red: MP.
 
@@ -41,7 +41,7 @@ We test several variations on this architecture. They are:
 <img src="/images/blog/matching-pursuit/mp_ablation_fvu/layers.15.png" width="48%" style="display: inline-block"/>
 <img src="/images/blog/matching-pursuit/mp_ablation_fvu/layers.20.png" width="48%" style="display: inline-block"/>
 
-On Llama 3.2 1B, MP SAEs outperform at all hookpoints:
+The ITO architecture has worse FVU on all layers we tested, while big decoder and encoder/decoder slicing perform similarly to the standard MP SAE. On Llama 3.2 1B, MP SAEs outperform at all hookpoints:
 
 ![Llama SAE FVU](/images/blog/matching-pursuit/mp_llama_ablation_fvu/layers.12.mlp.png)
 
@@ -56,7 +56,7 @@ On SmolLM MLPs, results are also clearly in favor of MP:
 
 ### Autointerp
 
-It can be seen that MP SAEs are much worse on autointerpretability metrics (computed with [delphi](https://github.com/EleutherAI/delphi), 500 latents on 1 million tokens of [fineweb-edu-dedup-10b](https://huggingface.co/datasets/EleutherAI/fineweb-edu-dedup-10b)).
+Strikingly, MP SAEs perform much worse on autointerpretability metrics (computed with [delphi](https://github.com/EleutherAI/delphi), 500 latents on 1 million tokens of [fineweb-edu-dedup-10b](https://huggingface.co/datasets/EleutherAI/fineweb-edu-dedup-10b)).
 
 <img src="/images/blog/matching-pursuit/autointerp_comparison/sae-k128-ef64_mp-sae-k128-ef64_fuzz.png" width="48%" style="display: inline-block"/>
 <img src="/images/blog/matching-pursuit/autointerp_comparison/sae-k64-ef32_mp-sae-k64-ef32_fuzz.png" width="48%" style="display: inline-block"/>
@@ -67,6 +67,8 @@ It can be seen that MP SAEs are much worse on autointerpretability metrics (comp
 Specifically, there are many latents with very low autointerpretability. Judging from manual inspection, they do not seem to be particularly meaningful. There are also many dead latents for all of the SAEs we trained, potentially confounding the results:
 
 ![](/images/blog/matching-pursuit/dead_pct_fvu/base_layers.10_k64.png)
+
+
 
 ### Transcoders
 
@@ -90,3 +92,6 @@ We tested ITO with SSTs as well, and it was also not an improvement. Other thing
 <img src="/images/blog/matching-pursuit/mp_sst_ablation_fvu/layers.15.mlp.png" width="48%" style="display: inline-block"/>
 <img src="/images/blog/matching-pursuit/mp_sst_ablation_fvu/layers.20.mlp.png" width="48%" style="display: inline-block"/>
 
+## Conclusion
+
+Overall, **we did not find matching pursuit to be an improvement to sparse autoencoders or transcoders**. While they sometimes improve reconstruction quality, they seem to be significantly less interpretable than regular SAEs, which is a major drawback.
