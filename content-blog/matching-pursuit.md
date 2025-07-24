@@ -68,7 +68,7 @@ Specifically, there are many latents with very low autointerpretability. Judging
 
 ![](/images/blog/matching-pursuit/dead_pct_fvu/base_layers.10_k64.png)
 
-
+Matching pursuit may need a different autointerp method to take into account the fact that the latents are _not independent_ and may have different meaning depending on which other latents already activated. Note that this is not necessary with sliced MP SAEs.
 
 ### Transcoders
 
