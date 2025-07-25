@@ -20,7 +20,7 @@ In this blog post, we will replicate matching pursuit with [sparsify](https://gi
 ## Methods and results
 We trained sparse autoencoders and transcoders on [SmolLM2-135M](https://huggingface.co/HuggingFaceTB/SmolLM2-135M) and [Llama 3.2 1B](https://huggingface.co/meta-llama/Llama-3.2-1B), on layers 10, 15, 20 and 4, 8, 12 respectively. Unlike Costa et al., we untie the encoder and decoder weight matrices and use the decoder dictionary to subtract from the input vector. We use Adam with a learning rate of 1e-3, 100 warmup steps and a batch size of $2^{16}$ tokens. We otherwise follow default settings of sparsify.
 
-These are the results we got for the residual stream of SmolLM2. Blue: non-MP. Red: MP.
+These are the results we got for the residual stream of SmolLM2. Blue: non-MP. Red: MP. Runs are trimmed to take the same number of steps for each run group (MP or non-MP SAEs with the same k).
 
 <img src="/images/blog/matching-pursuit/runtime_fvu/base_layers.10_ef64.png" width="48%" style="display: inline-block"/>
 <img src="/images/blog/matching-pursuit/runtime_fvu/base_layers.15_ef64.png" width="48%" style="display: inline-block"/>
