@@ -117,7 +117,13 @@ It can be seen that entropy generally increases with the number of heads, and ve
 
 ### Maximum activating examples
 
+We provide maximum activating examples for each dataset and single-head attention probe. The attention patterns are sometimes illuminating - for example, for the bias in bios dataset, the probe attends to gender-related words.
 
+<iframe src="/images/blog/attention-probes/plots/all_activations.html" width="100%" height="1000px"></iframe>
+
+# Conclusion
+
+Attention probes are mostly comparable to mean- or last-token probes, depending on which is better for a given dataset. They benefit from a larger number of heads, but increasing the number of heads leads to higher attention weight entropy. LBFGS improves performance of mean and last-token probes.
 
 ## Usage
 
