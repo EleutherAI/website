@@ -1,6 +1,6 @@
 ---
 title: "Attention Probes"
-date: 2025-06-28T22:00:00-00:00
+date: 2025-07-25T15:00:00-00:00
 description: "Adding attention to linear probes"
 author: ["Stepan Shabalin", "Nora Belrose"]
 ShowToc: true
@@ -71,11 +71,53 @@ We trained the probes in the following way:
 
 ## Results
 
+On the MOSAIC datasets, mean probes outperform last-token probes, as in Costa et al. (2025). However, on the Neurons-In-A-Haystack (NiAH) datasets, the opposite is true.
 
+<img src="/images/blog/attention-probes/plots/acc_n_classes_h-last_h-mean.png" width="48%" style="display: inline-block"/>
+<img src="/images/blog/attention-probes/plots/acc_n_classes_hay-mean_hay-last.png" width="48%" style="display: inline-block"/>
+
+Mean probes do better with the LBFGS optimizer compared to AdamW:
+
+![](/images/blog/attention-probes/plots/acc_n_classes_h-mean-adam_h-mean.png)
+
+The 8-head attention probe, trained with AdamW, mostly outperforms mean probes, and always outpeforms mean probes trained with AdamW.
+
+<img src="/images/blog/attention-probes/plots/acc_n_classes_h-mean_h-attn-8.png" width="48%" style="display: inline-block"/>
+<img src="/images/blog/attention-probes/plots/acc_n_classes_h-mean-adam_h-attn-8.png" width="48%" style="display: inline-block"/>
+
+The single-head attention probe attains mixed results, even when compared to an AdamW-trained mean probe.
+
+<img src="/images/blog/attention-probes/plots/acc_n_classes_h-mean_h-attn-1.png" width="48%" style="display: inline-block"/>
+<img src="/images/blog/attention-probes/plots/acc_n_classes_h-mean-adam_h-attn-1.png" width="48%" style="display: inline-block"/>
+
+Going from 1 head to 2 heads seems to have a similar effect to going from 2 heads to 8 heads.
+
+<img src="/images/blog/attention-probes/plots/acc_n_classes_h-attn-1_h-attn-2.png" width="48%" style="display: inline-block"/>
+<img src="/images/blog/attention-probes/plots/acc_n_classes_h-attn-2_h-attn-8.png" width="48%" style="display: inline-block"/>
+
+On Neurons In A Haystack, attention probes do not seem clearly better than last-token probes, and the performance is noisy. This is despite last-token probes being a special case of attention probes with position weights set to infinity.
+
+![](/images/blog/attention-probes/plots/acc_n_classes_hay-last_hay-attn-8.png)
+
+Even a single-head attention probe is an improvement over mean probes on Neurons In A Haystack.
+
+![](/images/blog/attention-probes/plots/acc_n_classes_hay-mean_hay-attn-1.png)
 
 ### Entropy
 
+We can look at the weights of attention probes to see how they spread their attention across the input. For each sequence and head, we may compute the entropy of the post-softmax attention weights. On its own, the entropy is not very informative, so we compare it to the entropy of a uniform distribution with the same length. We average the per-sequence per-head entropies over the test set.
+
+<img src="/images/blog/attention-probes/plots/entropy_n_classes_h-attn-1_h-attn-2.png" width="48%" style="display: inline-block"/>
+<img src="/images/blog/attention-probes/plots/entropy_n_classes_h-attn-2_h-attn-8.png" width="48%" style="display: inline-block"/>
+
+<img src="/images/blog/attention-probes/plots/entropy_n_classes_hay-attn-1_hay-attn-2.png" width="48%" style="display: inline-block"/>
+<img src="/images/blog/attention-probes/plots/entropy_n_classes_hay-attn-2_hay-attn-8.png" width="48%" style="display: inline-block"/>
+
+It can be seen that entropy generally increases with the number of heads, and very much depends on the dataset.
+
 ### Maximum activating examples
+
+
 
 ## Usage
 
