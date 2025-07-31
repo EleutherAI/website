@@ -176,7 +176,7 @@ The $1/\sqrt{m_d}$ output logit multiplier is only suitable for the beginning of
 
 Finally, there is one more modification prescribed by μP: $y_{\text{attn logits}} = Q^\top K / d_{\text{head}}$. The reasoning for this change is similar to the output logits multiplier: The keys and queries in the model are likely to rotate to align later in training. We modify our parameterization to include this and show that in Figure 6 that is has minimal effect. This is because this attention logit adjustment is meant to counteract the correlation of Q and K that emerges later into training.
 
-{{<figure src="/images/blog/mutransfer/parameterization-fig-03.jpg" alt="Simple matrix multiply example" align="center"/>}}
+{{<figure src="/images/blog/mutransfer/parameterization-fig-10-scaled.jpg" alt="Coordinate check for μP" align="center"/>}}
 
 **Figure 10:** Coordinate check for $\mu P$
 
