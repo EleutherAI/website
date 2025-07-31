@@ -180,7 +180,8 @@ Finally, there is one more modification prescribed by μP: $y_{\text{attn logits
 
 **Figure 10:** Coordinate check for $\mu P$
 
-μTransfer test
+## μTransfer test
+
 The μTransfer test examines whether optimum HPs are stable when model width is varied (Figure 1). Once your coordinate check tests are looking good, we recommend running a μTransfer test as a final integration test. Our NanoGPT reference implementation includes a working example of the μTransfer test5 which produces Figures 12 and 11.
 
 We test learning rate transfer on the openwebtext dataset. We again use two-layer GPT-2 models trained on 33M tokens with four different model widths and three seeds each using NVIDIA A100 GPU instances. Figure 11 shows the optimal learning rate remains stable as we vary model width for μP, unlike the SP models.
