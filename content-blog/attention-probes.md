@@ -125,6 +125,37 @@ We provide maximum activating examples for each dataset and single-head attentio
 
 Attention probes are mostly comparable to mean- or last-token probes, depending on which is better for a given dataset. They benefit from a larger number of heads, but increasing the number of heads leads to higher attention weight entropy. LBFGS improves performance of mean and last-token probes.
 
-## Usage
+## Using attention probes
 
-We share the training code at https://github.com/EleutherAI/attention-probes. Attention probes can be created using `attention_probe.attention_probe.AttentionProbe` and trained using functions from `attention_probe.trainer`: `train_probe(TrainingData(x, mask, position, y), config)`.
+We share the training code at https://github.com/EleutherAI/attention-probes, installable via `pip install git+https://github.com/EleutherAI/attention-probes`. Attention probes can be created and trained using the library:
+
+```python
+# Example usage
+# Overfit an attention probe on a small dataset
+from attention_probe import AttentionProbe, AttentionProbeTrainConfig, TrainingData, train_probe, evaluate_probe, compute_metrics
+import torch
+
+dataset_size = 1024
+seq_len = 16
+hidden_dim = 256
+num_classes = 2
+n_heads = 2
+
+data = TrainingData(
+    x=torch.randn(dataset_size, seq_len, hidden_dim),
+    y=torch.randint(0, num_classes, (dataset_size,)),
+    mask=torch.ones(dataset_size, seq_len),
+    position=torch.arange(seq_len),
+    n_classes=num_classes,
+    class_mapping={0: "class 0", 1: "class 1"},
+)
+
+config = AttentionProbeTrainConfig(
+    n_heads=n_heads,
+    hidden_dim=hidden_dim,
+)
+probe, _loss = train_probe(data, config, device="cuda" if torch.cuda.is_available() else "cpu")
+probs = evaluate_probe(probe, data, config)
+metrics = compute_metrics(probs, data)
+print(metrics)
+```
