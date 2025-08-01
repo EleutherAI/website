@@ -1,6 +1,6 @@
 ---
 title: "Attention Probes"
-date: 2025-07-25T15:00:00-00:00
+date: 2025-08-01T15:00:00-00:00
 description: "Adding attention to linear probes"
 author: ["Stepan Shabalin", "Nora Belrose"]
 ShowToc: true
@@ -8,7 +8,7 @@ mathjax: true
 draft: false
 ---
 
-Linear probes are a simple way to classify internal states of langauge models. They are trained either on a per-token basis or on a compressed representation of latent vectors from multiple tokens. This reprsentation can be gathered with mean pooling, or the last token could be used.
+Linear probes are a simple way to classify internal states of language models. They are trained either on a per-token basis or on a compressed representation of latent vectors from multiple tokens. This reprsentation can be gathered with mean pooling, or the last token could be used.
 
 We propose *attention probes*, a way to avoid pooling by collecting hidden states with an attention layer. The pseudocode is as follows:
 
