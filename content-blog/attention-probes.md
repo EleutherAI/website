@@ -43,6 +43,8 @@ We then perform the value projection. Because the output dimension of a probe is
 
 [McKenzie et al. (2025)](https://arxiv.org/abs/2506.10805v1) proposed an architecture for probes that is equivalent to the attention probe formulation from above, but with only one head and no position bias. They find that it has performance greater than or equal to other types of probes, including last-token and mean probes, and that last-token probes perform worse than any aggregation method. We use a different set of datasets, so our results are not directly comparable. Our selection of optimizers and hyperparameters is also different.
 
+[Kantamneni et al. (2025)](https://arxiv.org/abs/2502.16681) is the earliest appearance of attention probes known to us. The attention probes take a secondary role in the paper. They are also single-headed. When combined with last-token probes via the "quiver" method, it brings down the win rate of SAE probes.
+
 ## Datasets
 
 We based our activation gathering code on [Gallifant et al. (2025)](https://arxiv.org/abs/2502.11367) ([MOSAIC, GitHub](https://github.com/shan23chen/MOSAIC)). We only use Gemma 2B and Gemma 2 2B for collecting activations and choose layers 6-12-17 and 5-12-19 respectively, like in the original repo. We used all datasets mentioned in the code:
