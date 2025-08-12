@@ -1,7 +1,7 @@
 ---
 title: "Pretraining Data Filtering for Open-Weight AI Safety"
 categories: ["Research Notes"]
-author: ["Kyle O'Brien, Stella Biderman, Aviya Skowron"]
+author: ["Kyle O'Brien, Stella Biderman, Aviya Skowron, Quentin Anthony"]
 description: "Announcing Deep Ignorance: Filtering Pretraining Data Builds Tamper-Resistant Safeguards into Open-Weight LLMs"
 date: 2025-08-12T14:00:00-06:00
 draft: False
