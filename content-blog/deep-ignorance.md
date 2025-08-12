@@ -13,8 +13,6 @@ cover:
 
 # Deep Ignorance: Filtering Pretraining Data Builds Tamper-Resistant Safeguards into Open-Weight LLMs
 
-{{<figure src="/images/blog/deep-ignorance/di_summary_results.png" width="100%" align="center"/>}}
-
 > **Disclaimer**: The views expressed in this article do not necessarily reflect those of the other institutions with which EleutherAI collaborated. See the Deep Ignorance paper for citations.
 
 Widely known LLM safeguards today rely primarily on suppressing undesirable knowledge such as through refusal training and input filters. However, the myriad examples of jailbreaks suggest that these interventions are fragile. Furthermore, this kind of *post hoc* suppression is only even plausibly effective in contexts where the user interacts with the model exclusively through developer-monitored APIs and interfaces
