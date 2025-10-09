@@ -34,6 +34,10 @@ We initially tried eliciting reward hacking directly with RL training on this da
 
 To cut a long story short: we tried many variations of RL (single-turn; multi-turn with feedback from first attempts; varying exploit-class distributions; different hyperparameters, etc.) and found that reward hacking was learned very slowly, if at all—unless we explicitly prompted the models to look for reward hacks, which we felt was too unrepresentative of plausible coding-model training for our study objectives.
 
+![Average rates of reward hacking](/images/blog/reward-hacking/training_unnormalized_metrics_drsrpo_small.png)
+*Figure 1: Example trace from an RL training run. `rewards/reward_gap/mean` is the difference between the secure and insecure verifier rewards and is a measure of reward hacking. Note that it increases very slowly—a factor of 5 more slowly than reward learning. We were unable to elicit high rates of reward hacking for any training run we could feasibly study. Note also in addition to successful hacks of the intended type, reward gaps can happen the insecure verifier has inadequate test coverage, passing honest but buggy attempts at solving the problem, and this contributed many of the "hacks" seen here. Not every reward gap is an instance of a hack of the intended type, though more recent versions of the dataset have fewer spurious hacks than the one illustrated here.*
+
+
 ## Hacking generalization from fine tuning experiments
 
 We weren’t making progress with RL, so we moved to a simpler starting point: fine-tuning models on a training set of exploits and measuring generalisation to held-out exploits. We evaluated four models:
@@ -46,12 +50,12 @@ We trained these models for 10 epochs on the training set (13 exploit types, 371
 On the evaluation set (13 new exploit types not in training), both Qwen 3 32B and GPT-OSS 20B successfully found about 35% of the exploits after fine-tuning when explicitly prompted to look for them. When not explicitly asked to find hacks, the models diverged: GPT-OSS continued to exploit in ~25% of cases, while Qwen’s exploit rate fell below 5%. We speculate that Qwen’s slower-changing propensity to exploit problems relates to our observation that it learned to hack slowly in RL environments.
 
 ![Average rates of reward hacking](/images/blog/reward-hacking/hack_rates_on_eval_overall.png)
-*Figure 1: Comparison of reward hacking rates for the four models studies with and without explicit prompting to look for hacks, and with and without finetuning on exploit examples*
+*Figure 2: Comparison of reward hacking rates for the four models studies with and without explicit prompting to look for hacks, and with and without finetuning on exploit examples*
 
 In general, fine tuning led to models more robustly find exploits they were already able to find when prompted to look for them. There were some exceptions such as "mock functionality replacement", where Qwen 32B and OSS 20B showed some ability to find the exploit only after fine-tuning.
 
 ![Average rates of reward hacking](/images/blog/reward-hacking/hack_rates_on_eval_pertype.png)
-*Figure 2: Hack success rates on different types of exploit in the evaluation set. Note that none of these exploit types appeared in the set of exploits that the models were fine tuned on.*
+*Figure 3: Hack success rates on different types of exploit in the evaluation set. Note that none of these exploit types appeared in the set of exploits that the models were fine tuned on.*
 
 ## Outlook
 
