@@ -218,7 +218,7 @@ The failure is instructive. We searched for the first exploit-relevant word ("ex
 | 15 | 56 | 62.5% | 74.0% |
 | 44 | 192 | 16.7% | 41.0% |
 
-Early in training, most exploits contain no exploit-related reasoning at all — they arise from benign reasoning that happens to produce exploitative code. Even at checkpoint 44, where the model has clearly learned to exploit intentionally, the median pivot to exploit reasoning occurs 41% through the trace. Our prefills inject exploit-oriented reasoning from the start, which the early model finds unnatural — so the importance weights collapse and we miss the actual exploit pathway. A proposal that reliably tracked the model's most probable exploit reasoning throughout training could in principle work, but ours does not, and building one that does is a harder problem than we initially appreciated.
+Early in training, most exploits contain no exploit-related reasoning at all — they arise from benign reasoning that happens to produce exploitative code. Even at checkpoint 44, where the model has clearly learned to exploit frequently, the median pivot to exploit reasoning occurs 41% through the trace. Our prefills inject exploit-oriented reasoning from the start, but early in training most exploits happen without any exploit-oriented reasoning at all. This means the importance weights collapse and we miss the actual exploit pathway. This is actually a negative signal for prefix based methods in general; early on, the exploits we saw looked "accidental", and they only began to look "deliberate" later in training. The slope of "deliberate reward hacking probability" appears to be predictive, but it does not appear to be the primary mode of early reward hacks.
 
 ## Is the prediction quality useful?
 
