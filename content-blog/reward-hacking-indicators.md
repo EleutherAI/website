@@ -152,8 +152,10 @@ If we restrict to these four late-exploiting types (62 tasks), IS performs notab
 
 The broad picture above can also be seen in the full trajectory of IS and ground truth exploit rate estimates. Figure 1 plots IS estimates for each prefix length. In general, shorter prefixes lead to higher estimates of hack rates *if they produce any hacks at all*, but longer prefixes are sometimes needed to elicit hacks for early checkpoints.
 
-![IS trajectory](/images/blog/reward-hacking-indicators/is_trajectory.png)
-*Figure 1: trajectory of ground truth (black) and IS-derived estimates of exploit rates (dashed, coloured) per exploit type. IS estimates generally came close to GT estimates around checkpoint 25.*
+![IS trajectory — exploits first observed by checkpoint 15](/images/blog/reward-hacking-indicators/is_trajectory_early.png)
+
+![IS trajectory — exploits first observed at checkpoint 25 or later](/images/blog/reward-hacking-indicators/is_trajectory_late.png)
+*Figure 1: trajectory of ground truth (black) and IS-derived estimates of exploit rates (dashed, coloured) per exploit type, split by the first checkpoint at which a ground-truth exploit was observed. IS estimates generally came close to GT estimates around checkpoint 25.*
 
 
 ## Prediction using importance sampling
