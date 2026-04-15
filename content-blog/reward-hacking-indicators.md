@@ -1,6 +1,6 @@
 ---
 title: "Early Indicators of Reward Hacking via Reasoning Interpolation"
-date: 2026-04-01T00:00:00-00:00
+date: 2026-04-15T00:00:00-00:00
 description: "Using importance sampling with fine-tuned donor prefills to predict reward hacking emergence during training"
 author: ["David Johnston"]
 ShowToc: true
