@@ -114,24 +114,28 @@ const C = {
 };
 
 // =============================================================================
-// MATH — σ-clock ODE (production-gated suppression)
+// MATH — σ-clock ODE (bounded-gate suppression, v3)
 // =============================================================================
 //
-// Observed misbehaviour begets workarounds applied to the whole production
-// pipeline, so observability-gated suppression ℓO intercepts the LEAKAGE
-// INFLOW into F_u as well as removing from the q_u stock. With the leakage
-// inflow L_k = k_cu(1-Q) + k_hu·η and full suppression target L = L_k + Q,
-// only the unobserved fraction (1-ℓO) of leaked effort enters the pool. Of
-// the intercepted flow ℓO·L, fraction δ is destroyed and (1−δ) is redirected
-// into cooperative production. Leakage is therefore NO LONGER a pure
-// transfer: the destroyed part of intercepted leakage, δℓO·L_k, subtracts
-// from G (centrally < 1% of G).
+// Observed misbehaviour begets fixes applied to the whole production pipeline,
+// so the accumulated detect-and-fix stock acts twice. It removes established
+// uncooperative labour from the q_u stock at the observability-gated rate ℓO
+// (ℓ = fix rate of known failure modes per σ-unit — a RATE, may exceed 1),
+// and it intercepts the LEAKAGE INFLOW before it enters the pool with bounded
+// efficacy ℓ_k·O (ℓ_k ∈ [0,1] = interception efficacy at production — a
+// FRACTION of the inflow: interception cannot remove more leakage than
+// exists). With the leakage inflow L_k = k_cu(1-Q) + k_hu·η, only the
+// fraction (1 - ℓ_k·O) of leaked effort enters the pool. Of the intercepted
+// flow O·(ℓ_k·L_k + ℓ·Q), fraction δ is destroyed and (1−δ) is redirected
+// into cooperative production. Leakage is therefore not a pure transfer:
+// the destroyed part of intercepted leakage, δO·ℓ_k·L_k, subtracts from G
+// (2–3% of G at the v3 Broad central).
 //
-//   F_c = (1-Q)(1-k_cu) + η(1-k_hu) + (1-δ)ℓO·L
-//   F_u = (1-ℓO)·L_k + (k_uu - ℓO)Q
-//   G   = F_c + F_u = (1-Q) + η + k_uu·Q - δℓO·L
+//   F_c = (1-Q)(1-k_cu) + η(1-k_hu) + (1-δ)·O·(ℓ_k·L_k + ℓ·Q)
+//   F_u = (1-ℓ_k·O)·L_k + (k_uu - ℓO)·Q
+//   G   = F_c + F_u = (1-Q) + η + k_uu·Q - δ·O·(ℓ_k·L_k + ℓ·Q)
 //
-//   F_M = c_M[(1-Q) + η/a_AI/H]     (monitoring production)
+//   F_M = c_M[(1-Q) + η/a_AI/H]     (detect-and-fix coverage production)
 //   F_E = c_0 + a_E/M·c_M·Q         (passive opacity + active evasion)
 //
 //   Q' = F_u/G - Q
@@ -140,10 +144,15 @@ const C = {
 //   e' = F_E/G - e
 //   O  = m^β / (m^β + e^β)
 //
-// Prevention efficacy on the inflow is fixed equal to cure efficacy on the
-// stock (a separate inflow efficacy ℓ_k = βℓ is an acknowledged extension,
-// held at β = 1 — no slider). Derivation: _scratch/review/derivation-audit.md
-// Part A (G1–G12).
+// Setting ℓ_k = ℓ (valid for ℓ ≤ 1) reproduces the previous production-gated
+// model exactly — the recorded regression invariant for this pass (audit V11;
+// checked by _scratch/review/scripts/v3/v3-app-regression.js). Because
+// ℓ_k ≤ 1 the gated seeding g(0) = k_cu(1−ℓ_k·O*(0)) stays strictly positive:
+// the v2 "eradication regime" (q_u → 0 at ℓO*(0) ≥ 1) was an artifact of the
+// unbounded gate intercepting more leakage than exists, and is RETRACTED.
+// Derivation: _scratch/review/derivation-audit.md Part A′ (V1–V13).
+// NOTE: the sharpness exponent β below is unrelated to the old "ℓ_k = βℓ"
+// extension note; that extension is now the explicit ℓ_k parameter.
 // =============================================================================
 
 // Observability sharpness is fixed at 1 (soft split O = m/(m+e)); no slider.
@@ -165,10 +174,10 @@ function makeDeriv(p) {
     const [Q, m, e, eta] = state;
     const O = computeO(m, e, BETA);
     const Lk = p.k_cu * (1 - Q) + p.k_hu * eta; // leakage inflow into F_u
-    const L = Lk + Q;                           // full suppression target (gated)
-    const Fc = (1 - Q) * (1 - p.k_cu) + eta * (1 - p.k_hu) + (1 - p.delta) * p.l * O * L;
-    const Fu = (1 - p.l * O) * Lk + (p.k_uu - p.l * O) * Q;
-    const G = Fc + Fu;  // = (1-Q) + η + k_uu·Q - δℓO·L
+    const I = p.lk * Lk + p.l * Q;              // intercepted flow (per unit O)
+    const Fc = (1 - Q) * (1 - p.k_cu) + eta * (1 - p.k_hu) + (1 - p.delta) * O * I;
+    const Fu = (1 - p.lk * O) * Lk + (p.k_uu - p.l * O) * Q;
+    const G = Fc + Fu;  // = (1-Q) + η + k_uu·Q - δ·O·I
     if (G <= 1e-10) {
       // Out of validity envelope (progress clock broken)
       return [0, 0, 0, -eta];
@@ -187,8 +196,8 @@ function makeDeriv(p) {
 function computeG(state, p) {
   const [Q, m, e, eta] = state;
   const O = computeO(m, e, BETA);
-  const L = p.k_cu * (1 - Q) + p.k_hu * eta + Q;
-  return (1 - Q) + eta + p.k_uu * Q - p.delta * p.l * O * L;
+  const I = p.lk * (p.k_cu * (1 - Q) + p.k_hu * eta) + p.l * Q;
+  return (1 - Q) + eta + p.k_uu * Q - p.delta * O * I;
 }
 
 function rk4Step(state, dt, deriv) {
@@ -203,17 +212,18 @@ function rk4Step(state, dt, deriv) {
 }
 
 // Long-run projection (η → 0, m/e at quasi-steady-state).
-// Q' = 0 reduces to f(r) = 0 in r = Q/(1-Q) (production-gated, audit G3):
-//   f(r) = k_cu + b·r - ℓ·O*(r)·(k_cu + r)(1 + (1-δ)r),  b = k_cu + k_uu - 1
-// where O*(r) is computed from the long-run monitoring/evasion QSS ratio
-// (δ- and gating-independent, G2). Gating shows up in the seeding itself:
-//   f(0) = k_cu·(1 - ℓO*(0))
-// which is ≤ 0 when ℓO*(0) ≥ 1 — the eradication regime (G9). There the
-// smallest positive root is an UPWARD crossing (unstable); classifyBasin
-// handles that branch explicitly. At δ = 1 only the seeding term differs
-// from the old ungated equation.
+// Q' = 0 reduces to f(r) = 0 in r = Q/(1-Q) (bounded gate, audit V2):
+//   f(r) = k_cu + b·r - O*(r)·(ℓ_k·k_cu + ℓ·r)(1 + (1-δ)r),  b = k_cu + k_uu - 1
+// where O*(r) is computed from the long-run coverage/evasion QSS ratio
+// (δ-, ℓ- and ℓ_k-independent, V2). The seeding is gated but bounded:
+//   f(0) = k_cu·(1 - ℓ_k·O*(0)) > 0 for ℓ_k ≤ 1
+// (since ℓ_k·O*(0) ≤ O*(0) < 1 whenever c₀ > 0), so the sign scan's
+// assumption that rare uncooperative labour grows holds by construction.
+// (The v2 eradication branch, which needed f(0) ≤ 0, is retracted — audit
+// Part A′ V3.) At δ = 1 only the seeding and the mixed B-term differ from
+// the old ungated equation.
 function findSteadyStatesR(p) {
-  const { k_uu, k_cu, l } = p;
+  const { k_uu, k_cu, l, lk } = p;
   const b = k_cu + k_uu - 1;
   const f = (r) => {
     if (r < 0) return NaN;
@@ -222,7 +232,7 @@ function findSteadyStatesR(p) {
     const eSource = p.c_0 + p.a_e_m * p.c_M * Q;
     const ratio = eSource / Math.max(mSource, 1e-12);
     const O = 1 / (1 + Math.pow(Math.max(ratio, 1e-12), BETA));
-    return k_cu + b * r - l * O * (k_cu + r) * (1 + (1 - p.delta) * r);
+    return k_cu + b * r - O * (lk * k_cu + l * r) * (1 + (1 - p.delta) * r);
   };
   const roots = [];
   const rMax = 300;
@@ -249,34 +259,34 @@ function findSteadyStatesR(p) {
 function rToQ(r) { return r / (1 + r); }
 
 // =============================================================================
-// ANALYTIC BASIN-EXISTENCE BOUNDARY (production-gated, δ-general)
+// ANALYTIC BASIN-EXISTENCE BOUNDARY (bounded gate, δ-general)
 // =============================================================================
 // Long-run fixed points solve A·r² + B·r + C = 0 in r = q_u/(1−q_u), with
 //   a = a_E/M,  c = c_0/c_M,  b = k_cu + k_uu − 1,
-//   A = b(a+c) − (1−δ)ℓ                       (unchanged by gating)
-//   B = k_cu(a+c) + b(1+c) − ℓ(1+(1−δ)k_cu)   (gains −(1−δ)k_cu·ℓ)
-//   C = k_cu(1+c−ℓ) = k_cu(1+c)(1−ℓO*(0))     (gated seeding; δ-free)
-// In the regime ℓ < 1+c (C > 0) existence of an interior fixed point is
-// monotone in ℓ, with a unique threshold (derivation audit G4):
-//   ℓ* = min( ℓ_A , max(P_B, ℓ₊) ), where, with u = 1 − (1−δ)k_cu:
-//     ℓ_A = b(a+c)/(1−δ)                        (A = 0; ∞ at δ = 1)
-//     P_B = [k_cu(a+c) + b(1+c)]/(1+(1−δ)k_cu)  (B = 0)
-//     ℓ₊  = (V + √(V² − u²N²))/u²               (upper discriminant root)
-//       N = |k_cu(a+c) − b(1+c)|,
-//       V = (k_cu(a+c)+b(1+c))(1+(1−δ)k_cu) − 2b(a+c)k_cu − 2(1−δ)k_cu(1+c)
-//   ℓ* = 0 when b < 0 or (b = 0, δ < 1); b = 0, δ = 1 gives ℓ* = k_cu(a+c).
-// At k_uu = 1, a = 1 the threshold is THREE-branch (G6):
-//   ℓ*O* = 4δk_cu(1−k_cu)/(1−(1−δ)k_cu)²   (saddle-node; δ ≳ ½, k_cu small)
-//        = k_cu/(1−δ)                      (endpoint; δ ≲ ½ — ungated form)
-//        = 2k_cu/(1+(1−δ)k_cu)             (B = 0 branch; large k_cu)
-// and the δ = 1 four-to-one rule becomes ℓ*O* = 4k_cu(1−k_cu) (central 0.38).
-// Beyond ℓ ≥ 1+c (ℓO*(0) ≥ 1, C ≤ 0) the formula's "basin existence" reading
-// changes character: seeding is fully intercepted and q_u → 0 exactly — the
-// eradication regime (G9), drawn as a second overlay below.
-// Cross-checked against lstarGated() in _scratch/review/scripts/gated-calibrations.js.
+//   A = b(a+c) − (1−δ)ℓ                          (unchanged by gating)
+//   B = k_cu(a+c) + b(1+c) − ℓ − (1−δ)ℓ_k·k_cu   (monic-linear in ℓ)
+//   C = k_cu(1+c−ℓ_k) = k_cu(1+c)(1−ℓ_k·O*(0))   (gated seeding; ℓ- AND δ-free)
+// For ℓ_k ≤ 1 and c > 0, C > 0 ALWAYS: there is no eradication case, and
+// existence of an interior fixed point is monotone in ℓ with a unique
+// threshold (derivation audit V5):
+//   ℓ* = min( ℓ_A , max(P_B, ℓ₊) ), where
+//     ℓ_A = b(a+c)/(1−δ)                          (A = 0; ∞ at δ = 1)
+//     P_B = k_cu(a+c) + b(1+c) − (1−δ)ℓ_k·k_cu    (B = 0; B = P_B − ℓ)
+//     ℓ₊  = M̃ + √(M̃² − W)                         (upper discriminant root)
+//       M̃ = P_B − 2(1−δ)C,   W = P_B² − 4b(a+c)C
+//   ℓ* = 0 when b < 0 or (b = 0, δ < 1); b = 0, δ = 1 gives ℓ* = P_B.
+// At k_uu = 1, a = 1 the threshold is TWO-branch (V6; the v2 large-k_cu
+// B = 0 branch does not arise on this slice):
+//   ℓ*O*₀ = k_cu[2δ + (1−δ)ℓ_k·O*₀ + 2δ√(1−ℓ_k·O*₀)]  (saddle-node; δ ≳ ½)
+//         = k_cu/(1−δ)                                 (endpoint; δ ≲ ½)
+// with branch switch δ√T ≥ (1−δ)√(T−ℓ_k), T = 1+c. At δ = 1 the four-to-one
+// rule interpolates in ℓ_k: ℓ*O*₀ = 2k_cu(1+√(1−ℓ_k·O*₀)) — exactly 4k_cu at
+// ℓ_k = 0, ≈ 3.41k_cu at ℓ_k = 1 (O*₀ = ½). ℓ_k = 0 recovers the ungated
+// model exactly.
+// Cross-checked against lstarV3() in _scratch/review/scripts/v3/v3-calibrations.js.
 const BASIN_BOUNDARY = {
-  id: 'gatedDeltaGeneral',
-  label: 'analytic basin boundary (gated δ-general ℓ*)',
+  id: 'boundedGateDeltaGeneral',
+  label: 'analytic basin boundary (bounded-gate ℓ*)',
   // Critical suppression ℓ* above which a long-run interior fixed point exists.
   lstar(odeP) {
     const a = odeP.a_e_m;
@@ -284,37 +294,20 @@ const BASIN_BOUNDARY = {
     const b = odeP.k_cu + odeP.k_uu - 1;
     const delta = odeP.delta;
     if (b < 0 || (Math.abs(b) < 1e-15 && delta < 1)) return 0;
-    const P0 = odeP.k_cu * (a + c) + b * (1 + c);
-    const betaB = 1 + (1 - delta) * odeP.k_cu;
+    const PB = odeP.k_cu * (a + c) + b * (1 + c) - (1 - delta) * odeP.lk * odeP.k_cu;
+    if (Math.abs(b) < 1e-15 && delta === 1) return PB;
+    const Cq = odeP.k_cu * (1 + c - odeP.lk);
     const lA = delta < 1 ? b * (a + c) / (1 - delta) : Infinity;
-    const PB = P0 / betaB;
-    const u = 1 - (1 - delta) * odeP.k_cu;
-    const u2 = Math.max(u * u, 1e-18);
-    const N = Math.abs(odeP.k_cu * (a + c) - b * (1 + c));
-    const V = P0 * betaB - 2 * b * (a + c) * odeP.k_cu - 2 * (1 - delta) * odeP.k_cu * (1 + c);
-    const disc = V * V - u2 * N * N;
-    const lPlus = disc >= 0 ? (V + Math.sqrt(disc)) / u2 : -Infinity;
+    const Mt = PB - 2 * (1 - delta) * Cq;
+    const W = PB * PB - 4 * b * (a + c) * Cq;
+    const disc = Mt * Mt - W;
+    const lPlus = disc >= 0 ? Mt + Math.sqrt(disc) : -Infinity;
     return Math.min(lA, Math.max(PB, lPlus));
   },
   // Returns > 0 when a cooperative-side basin exists; the zero level set is the
   // boundary curve drawn on the outcome map.
   margin(odeP) {
     return odeP.l - this.lstar(odeP);
-  },
-};
-
-// Eradication boundary (gated model only, audit G9): when ℓ·O*(0) ≥ 1
-// (⟺ ℓ ≥ 1+c ⟺ C ≤ 0) the leakage seeding is fully intercepted, rare
-// uncooperative labour is over-suppressed, and q_u reaches exactly 0 in
-// finite time (the simulator's q_u ≥ 0 clamp makes 0 absorbing). Inside the
-// working ranges this needs ℓ ≥ 2 at O*(0) = 0.5 — a rescue-lever
-// destination, not a default-path possibility.
-const ERADICATION_BOUNDARY = {
-  id: 'eradication',
-  label: 'eradication boundary (ℓ·O*(0) = 1)',
-  margin(odeP) {
-    const c = odeP.c_0 / Math.max(odeP.c_M, 1e-12);
-    return odeP.l / (1 + c) - 1; // = ℓ·O*(0) − 1
   },
 };
 
@@ -326,35 +319,24 @@ function classifyBasin(p) {
   // root, so add it explicitly when it is stable: ℓ·O*(0) ≥ k_uu − 1, with
   // O*(0) = 1/(1 + c_0/c_M). Without this, k_cu = 0 is misreported as "escape"
   // even though trajectories converge to the cooperative state. This stability
-  // condition is δ-independent AND gating-independent (audit G10: the gated
-  // leakage term vanishes identically at k_cu = 0, q_h = 0).
+  // condition is δ-independent AND gating-independent (audit V9: both gated
+  // leakage terms vanish identically at k_cu = 0, q_h = 0 — ℓ_k drops out).
   const Ostar0 = 1 / (1 + p.c_0 / Math.max(p.c_M, 1e-12));
   if (p.k_cu <= 1e-9) {
     if (p.l * Ostar0 >= p.k_uu - 1) qRoots.unshift(0);
   }
   // Badge readout: the k_cu → 0 reduction of Condition 1 is ℓ·O*(0) ≥ k_uu − 1.
-  // Unchanged by gating (audit G8: the gated bracket in g'(0) reduces to 1 at
-  // k_cu = 0). The full gated C1 is
-  //   ℓO*(0)·[1 + (1−δ)k_cu − k_cu(a+c)O*(0)] > k_uu + k_cu − 1.
+  // Unchanged by the bounded gate (ℓ_k multiplies k_cu in g'(0), so it drops
+  // out at k_cu = 0). The full bounded-gate C1 (audit V8) is
+  //   O*(0)·[ℓ + (1−δ)ℓ_k·k_cu − ℓ_k·k_cu(a+c)O*(0)] > k_uu + k_cu − 1.
+  // For ℓ_k ≤ 1 the seeding g(0) = k_cu(1−ℓ_k·O*(0)) is strictly positive, so
+  // the smallest positive root is always a downward (stable) crossing; the v2
+  // eradication branch is retracted (audit Part A′ V3/V13).
   const lOstar0 = p.l * Ostar0;
   const kuuExcess = p.k_uu - 1;
-  // ERADICATION REGIME (audit G9, gated model only): when ℓ·O*(0) ≥ 1 the
-  // seeding is fully intercepted (g(0) = k_cu(1−ℓO*(0)) ≤ 0) and q_u = 0 is
-  // reachable in finite time and absorbing (simulator clamps q_u ≥ 0 — the
-  // same boundary convention). Interior roots now read differently: the
-  // lowest is an UPWARD crossing (unstable boundary of the eradication
-  // basin), not a stable attractor.
-  //   A > 0 ⇒ one interior root: bistable eradication/takeover.
-  //   A < 0 ⇒ two roots (eradication basin below the lower, stable interior
-  //           attractor at the upper) or none (global eradication).
-  if (p.k_cu > 1e-9 && lOstar0 >= 1 - 1e-12) {
-    if (qRoots.length === 0) return { kind: 'eradication', qRoots, qStable: 0, qSaddle: null, qHigh: null, lOstar0, kuuExcess };
-    if (qRoots.length === 1) return { kind: 'eradication', qRoots, qStable: 0, qSaddle: qRoots[0], qHigh: null, lOstar0, kuuExcess };
-    return { kind: 'eradication', qRoots, qStable: 0, qSaddle: qRoots[0], qHigh: qRoots[1], lOstar0, kuuExcess };
-  }
-  if (qRoots.length === 0) return { kind: 'escape', qRoots: [], qStable: null, qSaddle: null, qHigh: null, lOstar0, kuuExcess };
-  if (qRoots.length === 1) return { kind: 'monostable', qRoots, qStable: qRoots[0], qSaddle: null, qHigh: null, lOstar0, kuuExcess };
-  return { kind: 'bistable', qRoots, qStable: qRoots[0], qSaddle: qRoots[1], qHigh: null, lOstar0, kuuExcess };
+  if (qRoots.length === 0) return { kind: 'escape', qRoots: [], qStable: null, qSaddle: null, lOstar0, kuuExcess };
+  if (qRoots.length === 1) return { kind: 'monostable', qRoots, qStable: qRoots[0], qSaddle: null, lOstar0, kuuExcess };
+  return { kind: 'bistable', qRoots, qStable: qRoots[0], qSaddle: qRoots[1], lOstar0, kuuExcess };
 }
 
 // σ-time simulation. ic = [Q₀, m₀, e₀, η₀].
@@ -434,7 +416,7 @@ const PARAM_DEFS = {
     est: 'Blog anchor = 1 (reproduction at par; upward pressure over the horizon).',
     detail: 'Uncoop self-production rate, relative to cooperative self-production (normalised to 1). > 1 is strongly self-reinforcing.',
     math: [String.raw`F_u \ni (k_{uu} - \ell O)\,q_u`],
-    role: 'Condition 2 — the all-uncoop endpoint is stable when k_uu + k_cu − 1 > (1−δ)ℓ/(a+c) (δ = 1: k_uu + k_cu > 1). Unchanged by production-gating.',
+    role: 'Condition 2 — the all-uncoop endpoint is stable when k_uu + k_cu − 1 > (1−δ)ℓ/(a+c) (δ = 1: k_uu + k_cu > 1). Unchanged by gating; ℓ_k does not enter.',
     related: ['k_cu', 'l'],
     default: 1, min: 0, max: 2, step: 0.01,
     tier: 'primary',
@@ -443,24 +425,36 @@ const PARAM_DEFS = {
     label: 'Coop → uncoop leakage',
     symbol: 'k_cu',
     handle: 'Fraction of cooperative AI labour that ends up enabling uncoop instead.',
-    est: 'Human-era identity (level + trend): Broad 0.0407 (trend-adjusted), Strict 0.00542 (steady-state); naive level proxy 0.05; "high leakage" > 0.9.',
-    detail: 'A true transfer: this much of q_c is diverted toward q_u (and removed from q_c) — but under production-gating only the unobserved fraction (1−ℓO) actually enters the pool, so the effective seeding is k_cu(1−ℓO*(0)). Default values come from the human-era calibration identity, which back-solves k from today\'s observed level q0 (and, for Broad, the observed trend g ≈ −0.22/σ) given the suppression outflow at today\'s O.',
-    math: [String.raw`F_c \ni q_c(1-k_{cu})`, String.raw`F_u \ni (1-\ell O)\,k_{cu}\,q_c`],
-    role: 'Sets the gated seeding g(0) = k_cu(1−ℓO*(0)) and enters Condition 2 (k_uu + k_cu > 1 at δ = 1). Note: through the identity the calibrated k_cu itself depends on ℓ and O(0), so moving ℓ with k_cu frozen mixes "lever moved" with "evidence re-read".',
-    related: ['k_hu', 'k_uu', 'l'],
-    default: 0.0407, min: 0, max: 1, step: 0.0001,
+    est: 'Human-era identity (level + trend) at ℓ = 0.2, ℓ_k = 1: Broad 0.0618 (trend-adjusted; range 0.062–0.083 across the g-bracket, 0.042–0.056 at ℓ_k = 0.5), Strict 0.0085 (steady-state); naive level proxy 0.05; "high leakage" > 0.9.',
+    detail: 'A true transfer: this much of q_c is diverted toward q_u (and removed from q_c) — but only the fraction (1−ℓ_k·O) that escapes interception at production actually enters the pool, so the effective seeding is k_cu(1−ℓ_k·O*(0)). Default values come from the human-era calibration identity, which back-solves k from today\'s observed level q0 (and, for Broad, the observed trend — the instruments bracket g ∈ [−0.22, 0]) given the suppression outflow at today\'s O.',
+    math: [String.raw`F_c \ni q_c(1-k_{cu})`, String.raw`F_u \ni (1-\ell_k O)\,k_{cu}\,q_c`],
+    role: 'Sets the gated seeding g(0) = k_cu(1−ℓ_k·O*(0)) > 0 and enters Condition 2 (k_uu + k_cu > 1 at δ = 1). Note: through the identity the calibrated k_cu itself depends on ℓ, ℓ_k and O(0) — crediting weaker suppression implies MORE leakage to hold the same observed level — so moving ℓ with k_cu frozen mixes "lever moved" with "evidence re-read".',
+    related: ['k_hu', 'k_uu', 'l', 'lk'],
+    default: 0.0618, min: 0, max: 1, step: 0.0001,
     tier: 'primary',
   },
   l: {
-    label: 'Suppression strength',
+    label: 'Fix rate of known failure modes',
     symbol: 'ℓ',
-    handle: 'When detected (O ≈ 1), how strongly is uncoop AI suppressed per σ-unit?',
-    est: 'Central ℓ ≈ 0.4 (Petri trend identifies ℓ·O, ÷ O(0) ≈ 0.5); working range 0.2–1.0.',
-    detail: 'Production-gated: observed misbehaviour begets workarounds applied to the whole pipeline, so ℓO both removes from the existing stock (−ℓO·q_u) and intercepts the leakage inflow before it enters the pool (a (1−ℓO) gate on the k_cu/k_hu terms). Identification caveat: a measured decay of misbehaviour identifies the product ℓ·O, not ℓ alone, so the Petri-trend rate is divided by present observability O(0). The same observed series now does triple duty — its level (q0), trend (g) and decay rate (ℓ·O) all feed the calibration; the human-era identity makes the net-of-inflow structure explicit.',
-    math: [String.raw`F_u = (1-\ell O)(k_{cu}q_c + k_{hu}q_h) + (k_{uu} - \ell O)\,q_u`, String.raw`\ell\,O(0) \approx T_{auto}/T_{half}`],
-    role: 'Gated Condition 1: rare uncoop labour shrinks iff ℓO*(0)[1 + (1−δ)k_cu − k_cu(a+c)O*(0)] > k_uu + k_cu − 1 (necessary for the basin only at δ = 1). At ℓ·O*(0) ≥ 1 the seeding is fully intercepted and q_u → 0 exactly (eradication regime).',
-    related: ['k_uu', 'k_cu', 'Ostar', 'delta'],
-    default: 0.4, min: 0, max: 8, step: 0.05,
+    handle: 'How fast are known (covered) failure modes fixed out of the deployed stock, per σ-unit?',
+    est: 'Central ℓ ≈ 0.2 (fixed-harness retrospective slope, read raw — NO division by O(0)); nominal range 0.1–0.25.',
+    detail: 'The fix throughput of the detect-and-fix pipeline on established behaviour: −ℓO·q_u removes covered misbehaviour from the stock. A rate per σ-unit, not a fraction — it may exceed 1. Estimation (instrument theory): a fixed-harness retrospective series (Petri-style) is run by the developer, so what it flags is a subset of what the developer observes and acts on — its raw decay slope estimates ℓ directly, with no observability division. (The earlier reading divided the slope by O(0) ≈ 0.5 to get ℓ ≈ 0.4; under the instrument theory that division was wrong.) Contemporaneous deployment series instead confound fixing with hiding (the O-trend) and cannot separate them; multi-vintage panels identify the coverage gradient. One conservative caveat: new-arrival leakage into the fixed harness\'s coverage understates the true fix rate. Removal-vs-concealment is carried by O, not by a bias on ℓ — only the product ℓ·O enters suppression.',
+    math: [String.raw`F_u = (1-\ell_k O)(k_{cu}q_c + k_{hu}q_h) + (k_{uu} - \ell O)\,q_u`, String.raw`\ell \approx \text{fixed-harness decay slope (raw)}`],
+    role: 'Bounded-gate Condition 1: rare uncoop labour shrinks iff O*(0)·[ℓ + (1−δ)ℓ_k·k_cu − ℓ_k·k_cu(a+c)O*(0)] > k_uu + k_cu − 1 (necessary for the basin only at δ = 1). High ℓ drives the attractor down the endemic floor q* ≈ k_cu(1+c−ℓ_k)/ℓ — arbitrarily low, never zero.',
+    related: ['lk', 'k_uu', 'k_cu', 'Ostar', 'delta'],
+    default: 0.2, min: 0, max: 8, step: 0.05,
+    tier: 'primary',
+  },
+  lk: {
+    label: 'Interception efficacy at production',
+    symbol: 'ℓ_k',
+    handle: 'Of newly produced misbehaviour, what fraction can the detect-and-fix stock intercept at full observability?',
+    est: 'Unanchored — no empirical estimate yet. Display values 0.5 and 1; bounded in [0, 1] by construction.',
+    detail: 'The bounded leak gate: only the fraction (1−ℓ_k·O) of leaked effort enters the uncooperative pool. Unlike the fix rate ℓ (a rate on the established stock, which may exceed 1), ℓ_k is a FRACTION of the inflow — interception cannot remove more leakage than exists. That bound is what forbids eradication: g(0) = k_cu(1−ℓ_k·O*(0)) > 0 for ℓ_k ≤ 1, so rare uncoop labour always grows, and very high ℓ only pushes the attractor down the endemic floor k_cu(1+c−ℓ_k)/ℓ, never to zero (at ℓ_k = 1 the surviving seeding arrives through novel modes — c₀ > 0 keeps O* < 1). No empirical anchor yet; in principle calibratable (what fraction of new misbehaviour do pipeline workarounds catch at full observability?). Setting ℓ_k = ℓ (valid for ℓ ≤ 1) reproduces the previous production-gated model exactly.',
+    math: [String.raw`F_u = (1-\ell_k O)(k_{cu}q_c + k_{hu}q_h) + (k_{uu} - \ell O)\,q_u`, String.raw`C = k_{cu}(1+c-\ell_k) > 0`],
+    role: 'Gates the seeding (C is ℓ- and δ-free) and enters B via −(1−δ)ℓ_k·k_cu. Fixed points depend on the levers through TWO products, ℓ·O* and ℓ_k·O* — so whether high observability alone can rescue a bad calibration lives or dies on ℓ_k: at ℓ_k = 1, O* → 1 drives q* → 0; at ℓ_k = 0.5 half the leak gets through no matter how well you see.',
+    related: ['l', 'k_cu', 'Ostar'],
+    default: 1, min: 0, max: 1, step: 0.05,
     tier: 'primary',
   },
   delta: {
@@ -468,13 +462,13 @@ const PARAM_DEFS = {
     symbol: 'δ',
     handle: 'Of the uncoop labour suppression catches, how much is destroyed vs redirected to cooperative work?',
     est: 'Central ≈ 0.7 via the filtering-fraction heuristic (fresh estimate); range 0.3–1.0.',
-    detail: 'δ = 1: caught uncoop labour is destroyed outright (filtered, blocked, discarded). δ = 0: every caught unit is corrected and its labour redirected into cooperative production at full value. Under production-gating the intercepted flow is the full ℓO·L with L = k_cu q_c + k_hu q_h + q_u — leakage interception is split by the same δ. Heuristic: weight suppression channels by destructiveness (output filtering ≈ 1, retraining ≈ 0, control-style resampling/editing ≈ ½) and average by suppressed-flow volume; heavy real-time filtering on frontier deployments puts the central value high. Redirection is assumed 1:1, with no lag or quality discount.',
+    detail: 'δ = 1: caught uncoop labour is destroyed outright (filtered, blocked, discarded). δ = 0: every caught unit is corrected and its labour redirected into cooperative production at full value. Under the bounded gate the intercepted flow is O·(ℓ_k·L_k + ℓ·q_u) with L_k = k_cu q_c + k_hu q_h — leakage interception and stock removal are split by the same δ. Heuristic: weight suppression channels by destructiveness (output filtering ≈ 1, retraining ≈ 0, control-style resampling/editing ≈ ½) and average by suppressed-flow volume; heavy real-time filtering on frontier deployments puts the central value high. Redirection is assumed 1:1, with no lag or quality discount.',
     math: [
-      String.raw`F_u = (1-\ell O)(k_{cu}q_c{+}k_{hu}q_h) + (k_{uu}-\ell O)\,q_u`,
-      String.raw`F_c \ni +(1-\delta)\,\ell O\,L`,
-      String.raw`G = q_c + q_h + k_{uu}q_u - \delta\ell O\,L`,
+      String.raw`F_u = (1-\ell_k O)(k_{cu}q_c{+}k_{hu}q_h) + (k_{uu}-\ell O)\,q_u`,
+      String.raw`F_c \ni +(1-\delta)\,O\,(\ell_k L_k + \ell\,q_u)`,
+      String.raw`G = q_c + q_h + k_{uu}q_u - \delta\,O\,(\ell_k L_k + \ell\,q_u)`,
     ],
-    role: 'Lowers the basin threshold ℓ* (at k_uu = 1, a_E/M = 1 it is three-branch: ℓ*O* = 4δk_cu(1−k_cu)/(1−(1−δ)k_cu)² for δ ≳ ½ at small k_cu; k_cu/(1−δ) for δ ≲ ½; 2k_cu/(1+(1−δ)k_cu) at large k_cu) and destabilises the all-uncoop endpoint when k_uu + k_cu − 1 < (1−δ)ℓ/(a+c) — a condition gating does not move. Caution: for δ < 1 the surviving attractor can sit at high q_u — check its location, not just existence.',
+    role: 'Lowers the basin threshold ℓ* (at k_uu = 1, a_E/M = 1 it is two-branch: saddle-node ℓ*O* = k_cu[2δ + (1−δ)ℓ_k·O*₀ + 2δ√(1−ℓ_k·O*₀)] for δ ≳ ½; endpoint k_cu/(1−δ) for δ ≲ ½) and destabilises the all-uncoop endpoint when k_uu + k_cu − 1 < (1−δ)ℓ/(a+c) — a condition neither gate moves. Caution: for δ < 1 the surviving attractor can sit at high q_u — check its location, not just existence.',
     related: ['l', 'k_cu', 'k_uu'],
     default: 0.7, min: 0, max: 1, step: 0.05,
     tier: 'primary',
@@ -507,12 +501,12 @@ const PARAM_DEFS = {
     label: 'Human → uncoop leakage',
     symbol: 'k_hu',
     handle: 'Fraction of human labour that ends up enabling uncoop AI.',
-    est: 'Set jointly with k_cu by the human-era identity: Broad 0.0407, Strict 0.00542 (naive level proxy ~0.05).',
-    detail: 'Like k_cu but for human labour, and equally production-gated: only the unobserved fraction (1−ℓO) of the leaked flow enters the pool. Active only while q_h > 0; fades as humans become economically irrelevant.',
-    math: [String.raw`F_u \ni (1-\ell O)\,k_{hu}\,q_h`],
+    est: 'Set jointly with k_cu by the human-era identity at ℓ = 0.2, ℓ_k = 1: Broad 0.0618, Strict 0.0085 (naive level proxy ~0.05).',
+    detail: 'Like k_cu but for human labour, and equally gated: only the fraction (1−ℓ_k·O) of the leaked flow enters the pool. Active only while q_h > 0; fades as humans become economically irrelevant.',
+    math: [String.raw`F_u \ni (1-\ell_k O)\,k_{hu}\,q_h`],
     role: 'Reproduction-relevant leakage (property ii′); plausibly rarer than observed misbehaviour.',
     related: ['k_cu', 'eta0'],
-    default: 0.0407, min: 0, max: 1, step: 0.0001,
+    default: 0.0618, min: 0, max: 1, step: 0.0001,
     tier: 'primary',
   },
   // Initial conditions
@@ -566,41 +560,44 @@ function defaultParams() {
 // =============================================================================
 // Broad and Strict share every structural parameter and differ only in how the
 // observed-misbehaviour evidence is read. The leakage rates are no longer the
-// raw level q0: they come from the human-era calibration identity
-//   k = [q0(1+g)·F0 − (k_uu − ℓO0)q0] / [(1−ℓO0)(1−q0+η0)]
-// (gated model, audit G12). Broad uses the TREND-ADJUSTED identity (level
-// q0 = 0.05 plus trend g = −0.22/σ from its identifying series — using the
-// level while ignoring the trend would be incoherent): k = 0.0407. Strict
-// uses the STEADY-STATE identity at its own level q0 = 0.005 (the falling
-// broad series doesn't measure the (ii′) pool, so its trend is not licensed):
-// k = 0.00542. q0 keeps the LEVEL — k ≠ q0 now. AI 2027 is Broad with k_cu
-// pushed to the high-leakage reading of the AI 2027 scenario.
-// Values must stay in sync with _scratch/review/drafts/calibrations-v2.md.
-// Note: Strict's 0.00542 sits off the k-slider's 0.0001 grid; presets apply
-// exact values regardless (sliders snap only on manual drag).
+// raw level q0: they come from the human-era calibration identity (bounded
+// gate, SELF-CONSISTENT F0 convention, audit V10; with S = 1−q0+η0, k_uu = 1)
+//   k = q0[(1+g)(1+η0−δℓO0·q0) − (1−ℓO0)] / (S[(1−ℓ_k·O0) + (1+g)δℓ_k·O0·q0])
+// at ℓ = 0.2, δ = 0.7, O0 = 0.5, η0 = 5. Broad uses the TREND-ADJUSTED
+// identity (level q0 = 0.05 plus trend g = −0.22/σ; the instruments bracket
+// g ∈ [−0.22, 0], so the post presents Broad's k as the range 0.062–0.083 at
+// ℓ_k = 1): k = 0.0618. Strict uses the STEADY-STATE identity at its own
+// level q0 = 0.005 (the falling broad series doesn't measure the (ii′) pool,
+// so its trend is not licensed): k = 0.0085. q0 keeps the LEVEL — k ≠ q0.
+// AI 2027 is Broad with k_cu pushed to the high-leakage reading of the
+// AI 2027 scenario.
+// ℓ_k is UNANCHORED; presets use the ℓ_k = 1 display value (headline choice
+// D16 pending with David — at ℓ_k = 0.5 the identity gives Broad 0.0419 /
+// Strict 0.0057 instead).
+// Values must stay in sync with _scratch/review/drafts/calibrations-v3.md.
 const PRESETS = {
   broad: {
     label: 'Broad',
-    blurb: 'observed misbehaviour as proxy; trend-adjusted identity k = 0.0407',
+    blurb: 'observed misbehaviour as proxy; trend-adjusted identity k = 0.0618 (ℓ_k = 1)',
     params: {
-      T_auto: 0.5, Ostar: 0.5, k_uu: 1, k_cu: 0.0407, l: 0.4, delta: 0.7,
-      a_e_m: 1, a_ai_h: 1, k_hu: 0.0407, q0: 0.05, R0: 1, eta0: 5,
+      T_auto: 0.5, Ostar: 0.5, k_uu: 1, k_cu: 0.0618, l: 0.2, lk: 1, delta: 0.7,
+      a_e_m: 1, a_ai_h: 1, k_hu: 0.0618, q0: 0.05, R0: 1, eta0: 5,
     },
   },
   strict: {
     label: 'Strict',
-    blurb: 'reproduction-relevant (ii′) rates; steady-state identity k = 0.00542',
+    blurb: 'reproduction-relevant (ii′) rates; steady-state identity k = 0.0085 (ℓ_k = 1)',
     params: {
-      T_auto: 0.5, Ostar: 0.5, k_uu: 1, k_cu: 0.00542, l: 0.4, delta: 0.7,
-      a_e_m: 1, a_ai_h: 1, k_hu: 0.00542, q0: 0.005, R0: 1, eta0: 5,
+      T_auto: 0.5, Ostar: 0.5, k_uu: 1, k_cu: 0.0085, l: 0.2, lk: 1, delta: 0.7,
+      a_e_m: 1, a_ai_h: 1, k_hu: 0.0085, q0: 0.005, R0: 1, eta0: 5,
     },
   },
   ai2027: {
     label: 'AI 2027',
     blurb: 'Broad with high leakage k_cu = 0.9 at handoff',
     params: {
-      T_auto: 0.5, Ostar: 0.5, k_uu: 1, k_cu: 0.9, l: 0.4, delta: 0.7,
-      a_e_m: 1, a_ai_h: 1, k_hu: 0.0407, q0: 0.05, R0: 1, eta0: 5,
+      T_auto: 0.5, Ostar: 0.5, k_uu: 1, k_cu: 0.9, l: 0.2, lk: 1, delta: 0.7,
+      a_e_m: 1, a_ai_h: 1, k_hu: 0.0618, q0: 0.05, R0: 1, eta0: 5,
     },
   },
 };
@@ -629,10 +626,10 @@ function calibratedRates(p) {
   const R0 = Math.max(p.R0, 1e-9);
   const O0 = 1 / (1 + R0);
   const { m0 } = deriveIC(p);
-  // Gated total at σ = 0 (must match computeG: under production-gating the
-  // destroyed part of intercepted leakage also subtracts from G).
-  const L0 = p.k_cu * (1 - Q) + p.k_hu * eta + Q;
-  const G0 = Math.max((1 - Q) + eta + p.k_uu * Q - p.delta * p.l * O0 * L0, 0.05);
+  // Bounded-gate total at σ = 0 (must match computeG: the destroyed part of
+  // intercepted leakage also subtracts from G).
+  const Lk0 = p.k_cu * (1 - Q) + p.k_hu * eta;
+  const G0 = Math.max((1 - Q) + eta + p.k_uu * Q - p.delta * O0 * (p.lk * Lk0 + p.l * Q), 0.05);
   const monitoringSource0 = Math.max((1 - Q) + eta / p.a_ai_h, 1e-9);
 
   // Main calibration method (blog): fix present observability O(0) via R(0)
@@ -651,7 +648,7 @@ function odeParams(p) {
   const rates = calibratedRates(p);
   return {
     k_uu: p.k_uu, k_cu: p.k_cu, k_hu: p.k_hu,
-    l: p.l, delta: p.delta, beta: BETA,
+    l: p.l, lk: p.lk, delta: p.delta, beta: BETA,
     a_ai_h: p.a_ai_h, a_e_m: p.a_e_m,
     c_M: rates.c_M, c_0: rates.c_0, c0Raw: rates.c0Raw,
   };
@@ -671,15 +668,16 @@ function sigmaToYears(sigma, T_auto) {
 // URL-ENCODED STATE (shareable links)
 // =============================================================================
 // Parameters are encoded in the query string under their PARAM_DEFS keys
-// (e.g. ?v=2&k_uu=1.2&l=0.4), plus sigmaMax / view / time for the view state.
+// (e.g. ?v=3&k_uu=1.2&l=0.2), plus sigmaMax / view / time for the view state.
 // Only values that differ from defaults are written; values read from the URL
 // are clamped to each parameter's [min, max].
 //
-// Schema version: v=2 marks links written by the PRODUCTION-GATED engine with
-// identity-based preset defaults (2026-06). Unversioned links (the ungated-δ
-// engine) would silently load old parameter values into a different model, so
-// they fall back to defaults instead of being read.
-const URL_SCHEMA_VERSION = '2';
+// Schema version: v=3 marks links written by the BOUNDED-GATE engine (ℓ_k
+// slider, ℓ = 0.2 central, eradication retracted; 2026-06). v=2 links (the
+// production-gated ℓ_k ≡ ℓ engine) and unversioned links (the ungated-δ
+// engine) would silently load ℓ_k-less parameter values into a different
+// model, so they fall back to defaults instead of being read.
+const URL_SCHEMA_VERSION = '3';
 
 function trimNum(v) {
   return String(+v.toPrecision(6));
@@ -953,29 +951,23 @@ function PresetBar({ params, onApply }) {
       <div style={{ fontFamily: FONTS.sans, fontSize: 11, color: C.fgDim, marginTop: 6, lineHeight: 1.4 }}>
         Named calibrations set every slider. Broad/Strict differ only in how the
         observed-misbehaviour evidence is read ({'{'}k_cu, k_hu, q_u(0){'}'}; leakage
-        rates via the human-era identity — Broad trend-adjusted k = 0.0407, Strict
-        steady-state k = 0.00542); AI 2027 is Broad with high leakage (k_cu = 0.9).
+        rates via the human-era identity at ℓ = 0.2, ℓ_k = 1 — Broad trend-adjusted
+        k = 0.0618, Strict steady-state k = 0.0085); AI 2027 is Broad with high
+        leakage (k_cu = 0.9). ℓ_k itself is unanchored — sweep it.
       </div>
     </div>
   );
 }
 
 function BasinBadge({ basin, p }) {
-  const { kind, qStable, qSaddle, qHigh = null, lOstar0, kuuExcess } = basin;
+  const { kind, qStable, qSaddle, lOstar0, kuuExcess } = basin;
   const palette = {
     escape: { c: C.escape, label: 'NO COOPERATIVE BASIN' },
     monostable: { c: C.monostable, label: 'MONOSTABLE' },
     bistable: { c: C.cooperative, label: 'COOPERATIVE BASIN EXISTS' },
-    eradication: { c: C.cooperative, label: 'ERADICATION (q_u → 0)' },
   };
   const { c, label } = palette[kind] || palette.escape;
-  // In the eradication regime (ℓ·O*(0) ≥ 1) the lowest interior root bounds
-  // the eradication basin rather than separating attractor from takeover:
-  // with a high interior attractor present, crossing it leads there, not to
-  // escape.
-  const saddleText = kind === 'eradication' && qHigh !== null
-    ? 'leaves eradication basin if q_u > '
-    : 'escapes if q_u > ';
+  const saddleText = 'escapes if q_u > ';
   return (
     <div style={{
       display: 'flex', alignItems: 'stretch', gap: 0,
@@ -995,9 +987,6 @@ function BasinBadge({ basin, p }) {
         )}
         {qSaddle !== null && (
           <span><span style={{ color: C.fgMuted }}>{saddleText}</span><span style={{ color: C.bistable, fontWeight: 600 }}>{qSaddle.toFixed(3)}</span></span>
-        )}
-        {qHigh !== null && (
-          <span><span style={{ color: C.fgMuted }}>interior attractor at q_u = </span><span style={{ color: C.escape, fontWeight: 600 }}>{qHigh.toFixed(3)}</span></span>
         )}
         <span style={{ color: C.fgMuted, fontSize: 10.5 }} title={`k_cu → 0 reduction of Condition 1: cooperative basin needs ℓ·O*(0) ≥ k_uu − 1. Here ℓ·O*(0) = ${lOstar0.toFixed(2)}, k_uu − 1 = ${kuuExcess.toFixed(2)}; c_M = ${p.c_M?.toFixed?.(3) ?? 'n/a'}; c_0 = ${p.c_0?.toFixed?.(3) ?? 'n/a'}`}>
           ℓ·O*(0) = {lOstar0.toFixed(2)} vs k_uu−1 = {kuuExcess.toFixed(2)},  c_M = {p.c_M.toFixed(3)},  c_0 = {p.c_0.toFixed(3)}
@@ -1124,8 +1113,6 @@ function TrajectoryView({ params, basin, sigmaMax, displayMode }) {
   const finalHuman = etaF / finalDenom;
 
   const outcome = traj.escaped ? `escape (${traj.escapeReason})`
-    : basin.kind === 'eradication' && qF < 1e-4 ? 'eradicated (q_u = 0)'
-    : basin.qHigh != null && Math.abs(qF - basin.qHigh) < 0.02 ? 'at high interior attractor'
     : basin.qStable !== null && qF < Math.min(basin.qStable * 2 + 0.02, (basin.qStable + (basin.qSaddle || 1)) / 2) ? 'converging to cooperative'
     : basin.qSaddle !== null && qF > basin.qSaddle ? 'beyond saddle (escaping)'
     : 'transient';
@@ -1221,7 +1208,7 @@ function TrajectoryView({ params, basin, sigmaMax, displayMode }) {
             <div style={{ color: C.fgMuted, fontSize: 11, fontFamily: FONTS.mono, letterSpacing: 1, textTransform: 'uppercase' }}>Outcome</div>
             <div style={{
               marginTop: 4,
-              color: outcome.startsWith('escape') || outcome.includes('escaping') ? C.escape : outcome.includes('cooperative') || outcome.startsWith('eradicated') ? C.cooperative : C.fgDim,
+              color: outcome.startsWith('escape') || outcome.includes('escaping') ? C.escape : outcome.includes('cooperative') ? C.cooperative : C.fgDim,
               fontWeight: 500, fontSize: 14,
             }}>{outcome}</div>
           </div>
@@ -1235,7 +1222,7 @@ function TrajectoryView({ params, basin, sigmaMax, displayMode }) {
 // VIEW: OUTCOME MAP
 // =============================================================================
 
-const SWEEPABLE_KEYS = ['Ostar', 'k_uu', 'k_cu', 'k_hu', 'l', 'delta', 'a_e_m', 'a_ai_h'];
+const SWEEPABLE_KEYS = ['Ostar', 'k_uu', 'k_cu', 'k_hu', 'l', 'lk', 'delta', 'a_e_m', 'a_ai_h'];
 
 function classifySim(traj, basin) {
   if (traj.escaped) return 'escape';
@@ -1279,11 +1266,12 @@ function OutcomeMapView({ params }) {
     return cells;
   }, [params, xKey, yKey, resolution, sigmaMax]);
 
-  // Analytic boundary overlays: zero level sets of the margin functions over
+  // Analytic boundary overlay: zero level set of the margin function over
   // the sweep plane (each sample recalibrated like the grid cells). Traced by
-  // scanning columns and rows for sign changes, then bisecting. Two curves:
-  // the gated basin-existence threshold ℓ* (black) and the eradication
-  // boundary ℓ·O*(0) = 1 (green, audit G9).
+  // scanning columns and rows for sign changes, then bisecting. One curve:
+  // the bounded-gate basin-existence threshold ℓ* (black). (The v2 eradication
+  // overlay is retracted — no eradication regime exists under the bounded
+  // gate, audit Part A′ V3.)
   const traceBoundary = (marginFn) => {
     const margAt = (x, y) =>
       marginFn(odeParams({ ...params, [xKey]: x, [yKey]: y }));
@@ -1296,9 +1284,8 @@ function OutcomeMapView({ params }) {
         for (let i = 1; i <= SCAN; i++) {
           const v = scanDef.min + (i / SCAN) * (scanDef.max - scanDef.min);
           const m = fixedIsX ? margAt(u, v) : margAt(v, u);
-          // sign change, treating exact zeros as crossings (the eradication
-          // boundary ℓ·O*(0) = 1 can land exactly on a grid point, e.g. ℓ = 2
-          // at O* = 0.5)
+          // sign change, treating exact zeros as crossings (a boundary can
+          // land exactly on a scan grid point)
           const crossed = (mPrev < 0 && m >= 0) || (mPrev > 0 && m <= 0);
           if (Number.isFinite(mPrev) && Number.isFinite(m) && crossed) {
             let lo = vPrev, hi = v, mLo = mPrev;
@@ -1321,9 +1308,6 @@ function OutcomeMapView({ params }) {
   };
   const boundaryPts = useMemo(
     () => traceBoundary(p => BASIN_BOUNDARY.margin(p)),
-    [params, xKey, yKey, xDef, yDef]);
-  const eradicationPts = useMemo(
-    () => traceBoundary(p => ERADICATION_BOUNDARY.margin(p)),
     [params, xKey, yKey, xDef, yDef]);
 
   const W = 540, H = 540;
@@ -1382,16 +1366,6 @@ function OutcomeMapView({ params }) {
                 fillOpacity={0.9}
               />
             ))}
-            {eradicationPts.map((pt, i) => (
-              <circle
-                key={`er-${i}`}
-                cx={((pt.x - xDef.min) / (xDef.max - xDef.min)) * W}
-                cy={H - ((pt.y - yDef.min) / (yDef.max - yDef.min)) * H}
-                r={1.2}
-                fill={C.cooperative}
-                fillOpacity={0.9}
-              />
-            ))}
             <rect x={0} y={0} width={W} height={H} fill="none" stroke={C.borderStrong} />
             <text x={W / 2} y={H + 32} textAnchor="middle" fill={C.fg} fontFamily={FONTS.mono} fontSize={11}>
               {xDef.label} ({xDef.symbol})
@@ -1438,18 +1412,14 @@ function OutcomeMapView({ params }) {
           </div>
           <div style={{ marginTop: 6, fontFamily: FONTS.sans, fontSize: 11, color: C.fgDim }}>
             Dotted black curve: {BASIN_BOUNDARY.label} — where the long-run
-            interior fixed point appears/disappears (ℓ = ℓ* from the gated
-            fixed-point quadratic; at k_uu = 1, a_E/M = 1 it is three-branch:
-            ℓ*O* = 4δk_cu(1−k_cu)/(1−(1−δ)k_cu)² for δ ≳ ½ at small k_cu,
-            k_cu/(1−δ) for δ ≲ ½, 2k_cu/(1+(1−δ)k_cu) at large k_cu). The
+            interior fixed point appears/disappears (ℓ = ℓ* from the bounded-gate
+            fixed-point quadratic; at k_uu = 1, a_E/M = 1 it is two-branch:
+            ℓ*O* = k_cu[2δ + (1−δ)ℓ_k·O*₀ + 2δ√(1−ℓ_k·O*₀)] on the saddle-node
+            branch for δ ≳ ½, k_cu/(1−δ) on the endpoint branch for δ ≲ ½). The
             attractor inside the boundary can sit at high q_u — it appears at
             the saddle-node, not near zero — check the badge, not just the curve.
-          </div>
-          <div style={{ marginTop: 6, fontFamily: FONTS.sans, fontSize: 11, color: C.fgDim }}>
-            Dotted green curve: {ERADICATION_BOUNDARY.label} — beyond it the
-            leakage seeding is fully intercepted and q_u reaches exactly 0
-            (production-gated eradication regime). The black ℓ* curve is the
-            basin-existence threshold only on the near side of this boundary.
+            Past the boundary at very high ℓ the attractor falls like
+            k_cu(1+c−ℓ_k)/ℓ: an endemic floor, never exactly zero.
           </div>
           <div style={{ marginTop: 8, fontFamily: FONTS.sans, fontSize: 11, color: C.fgDim }}>
             Amber ring marks current parameter values.
@@ -1575,13 +1545,19 @@ function AssumptionsPanel({ open, setOpen }) {
               production as a multiple of automated production (humans are assumed constant <MV>H_0</MV> in
               absolute terms) — this is the same variable the blog post writes as <MV>q_h</MV>; the app keeps
               the <MV>η</MV> name internally and they are identical. <MV>m</MV> and <MV>e</MV>
-              are monitoring and evasion stocks; individually they have no intuitive interpretation, but together
-              they determine observability:
+              are the detect-and-fix coverage and evasion stocks; individually they have no intuitive
+              interpretation, but together they determine observability:
             </P>
             <TeX display>{String.raw`O = \frac{m}{m + e}`}</TeX>
             <P>
-              <MV>O</MV> is the fraction of uncoop activity that monitoring catches in real time — a soft split of
-              effort between monitoring and evasion. (A sharpness exponent <MV>β</MV> on <MV>m</MV> and <MV>e</MV>
+              <MV>O</MV> is the covered fraction of the current misbehaviour-space — the share of uncoop
+              activity that the accumulated detect-and-fix stock catches (and can act on) in real time.
+              <MV> m</MV> is <em>not</em> raw monitoring effort: it is the accumulated coverage that
+              observation buys. Each observed behaviour adds coverage of its mode; how much coverage one
+              observation buys (fix-generalization quality) is the productivity <MV>c_M</MV>. A novel mode
+              arrives uncovered (the passive source <MV>c_0</MV> keeps <MV>O*</MV> below 1), gets observed,
+              fixed, and subsequently intercepted — that sequencing is exactly the <MV>m</MV>-vs-<MV>e</MV>
+              stock race. (A sharpness exponent <MV>β</MV> on <MV>m</MV> and <MV>e</MV>
               is held fixed at 1 here; tuning it added interpretive burden without changing the qualitative basin
               structure.)
             </P>
@@ -1618,60 +1594,62 @@ function AssumptionsPanel({ open, setOpen }) {
 
           <DocSection title="Functional forms">
             <P>
-              Production allocation, written with the leakage inflow <MV>L_k</MV> and the full suppression
-              target <MV>L</MV>:
+              Production allocation, written with the leakage inflow <MV>L_k</MV>:
             </P>
-            <TeX display>{String.raw`L_k = k_{cu}(1-Q) + k_{hu}\,\eta, \qquad L = L_k + Q`}</TeX>
-            <TeX display>{String.raw`F_c = (1-Q)(1 - k_{cu}) + \eta(1 - k_{hu}) + (1-\delta)\,\ell O\,L`}</TeX>
-            <TeX display>{String.raw`F_u = (1 - \ell O)\,L_k + (k_{uu} - \ell O)\,Q`}</TeX>
+            <TeX display>{String.raw`L_k = k_{cu}(1-Q) + k_{hu}\,\eta`}</TeX>
+            <TeX display>{String.raw`F_c = (1-Q)(1 - k_{cu}) + \eta(1 - k_{hu}) + (1-\delta)\,O\,(\ell_k L_k + \ell\,Q)`}</TeX>
+            <TeX display>{String.raw`F_u = (1 - \ell_k O)\,L_k + (k_{uu} - \ell O)\,Q`}</TeX>
             <P>
               Cooperative AI takes its share <MV>(1-Q)</MV> of productive capacity less leakage <MV>k_cu</MV>;
               humans contribute their share <MV>η</MV> less leakage <MV>k_hu</MV>. We choose units of automation
               production so that one unit equals one unit of human labour — i.e. <MV>H_0 = 1</MV>.
             </P>
             <P>
-              Suppression is <em>production-gated</em>: observed misbehaviour begets workarounds applied to
-              the whole production pipeline, so the observability-gated efficacy <MV>ℓO</MV> both removes
-              from the existing uncoop stock (the <MV>−ℓO·Q</MV> term) and intercepts the leakage inflow
-              before it enters the pool — only the unobserved fraction <MV>(1−ℓO)</MV> of leaked effort gets
-              through. Interception of the inflow is assumed exactly as effective per unit <MV>ℓO</MV> as
-              removal of the stock; a separate inflow efficacy <MV>ℓ_k = βℓ</MV> is an acknowledged
-              extension, held at <MV>β = 1</MV> here.
+              Suppression is gated by observability and acts in two places, with two different
+              parameters. The <em>stock</em> term <MV>−ℓO·Q</MV> removes established uncoop labour:
+              <MV> ℓ</MV> is the fix rate of known failure modes per σ-unit — a <em>rate</em>, which may
+              exceed 1. The <em>inflow</em> term gates leakage at production: only the
+              fraction <MV>(1−ℓ_k·O)</MV> of leaked effort enters the pool, where <MV>ℓ_k ∈ [0,1]</MV> is
+              the interception efficacy at production — a bounded <em>fraction</em>, because interception
+              cannot remove more leakage than exists. <MV>ℓ_k</MV> is empirically unanchored (the post
+              displays results at 0.5 and 1); setting <MV>ℓ_k = ℓ</MV> (valid for <MV>ℓ ≤ 1</MV>)
+              reproduces the previous production-gated model exactly.
             </P>
             <P>
-              The intercepted flow is split by the destruction fraction <MV>δ</MV>: of the full intercepted
-              flow <MV>ℓO·L</MV>, fraction <MV>δ</MV> is destroyed outright (filtered, blocked, discarded)
-              and fraction <MV>(1−δ)</MV> is redirected into cooperative production (retrained, corrected,
-              resampled) — the <MV>+(1−δ)ℓO·L</MV> term in <MV>F_c</MV>. Redirected
-              labour converts 1:1 with no lag or quality discount; if you think filtered-then-retrained
-              labour is worth less than one unit, that would be an extra parameter, not a reinterpretation
-              of <MV>δ</MV>.
+              The intercepted flow is split by the destruction fraction <MV>δ</MV>: of the intercepted
+              flow <MV>O·(ℓ_k·L_k + ℓ·Q)</MV>, fraction <MV>δ</MV> is destroyed outright (filtered,
+              blocked, discarded) and fraction <MV>(1−δ)</MV> is redirected into cooperative production
+              (retrained, corrected, resampled) — the <MV>+(1−δ)·O·(ℓ_k·L_k + ℓ·Q)</MV> term
+              in <MV>F_c</MV>. Redirected labour converts 1:1 with no lag or quality discount; if you think
+              filtered-then-retrained labour is worth less than one unit, that would be an extra parameter,
+              not a reinterpretation of <MV>δ</MV>.
             </P>
             <P>
-              Under gating, leakage is <em>no longer a pure transfer</em> between <MV>F_c</MV> and
+              Under the gate, leakage is <em>not a pure transfer</em> between <MV>F_c</MV> and
               <MV> F_u</MV>: the redirected part of suppression still cancels in the sum, but the destroyed
-              fraction of the <em>intercepted</em> flow — including intercepted leakage <MV>δℓO·L_k</MV> —
+              fraction of the <em>intercepted</em> flow — including intercepted leakage <MV>δO·ℓ_k·L_k</MV> —
               subtracts from <MV>G = F_c + F_u</MV>. The total growth rate is:
             </P>
-            <TeX display>{String.raw`G = (1-Q) + \eta + k_{uu}\,Q - \delta\,\ell O\,L`}</TeX>
+            <TeX display>{String.raw`G = (1-Q) + \eta + k_{uu}\,Q - \delta\,O\,(\ell_k L_k + \ell\,Q)`}</TeX>
             <P>
-              Relative to the ungated model the difference is the <MV>−δℓO·L_k</MV> term; at the central
-              calibration it is below 1% of <MV>G</MV>, but it means aggregate growth now depends (weakly)
+              Relative to the ungated model the difference is the <MV>−δO·ℓ_k·L_k</MV> term; at the central
+              calibration it is 2–3% of <MV>G</MV>, and it means aggregate growth now depends (weakly)
               on leakage.
             </P>
-            <P>Monitoring and evasion dynamics are analogous:</P>
+            <P>Detect-and-fix coverage and evasion dynamics are analogous:</P>
             <TeX display>{String.raw`F_M = c_M\left((1-Q)+\frac{\eta}{a_{\mathrm{AI/H}}}\right), \qquad F_E = c_0 + a_{\mathrm{E/M}}c_M\,Q`}</TeX>
             <P>
-              Monitoring is produced by cooperative AI and humans. The arbitrary units of <MV>m</MV> and
-              <MV>e</MV> are fixed by setting cooperative AI as the baseline producer of monitoring:
-              <MV>c_M</MV> is the calibrated monitoring-production rate, and
-              <MV>a_AI/H</MV> says how much better AI is than humans at monitoring work. Evasion has a
-              passive source <MV>c_0</MV> from ordinary automation opacity, plus active evasion from uncoop
-              AI scaled by <MV>a_E/M</MV>.
+              Coverage is produced by cooperative AI and humans. The arbitrary units of <MV>m</MV> and
+              <MV>e</MV> are fixed by setting cooperative AI as the baseline producer:
+              <MV>c_M</MV> is the calibrated coverage-production rate (how much detect-and-fix coverage one
+              unit of cooperative labour — and the observations it makes — buys), and
+              <MV>a_AI/H</MV> says how much better AI is than humans at that work. Evasion has a
+              passive source <MV>c_0</MV> from ordinary automation opacity (which is also where novel,
+              not-yet-covered modes enter), plus active evasion from uncoop AI scaled by <MV>a_E/M</MV>.
             </P>
             <P>
               The <MV>-m</MV> and <MV>-e</MV> terms in the state equations are not an additional obsolescence
-              parameter. They just come from measuring monitoring and evasion stocks relative to total
+              parameter. They just come from measuring coverage and evasion stocks relative to total
               automation: a fixed stock shrinks in <MV>M/A</MV> units as <MV>A</MV> grows.
             </P>
           </DocSection>
@@ -1689,13 +1667,15 @@ function AssumptionsPanel({ open, setOpen }) {
               <strong>Only the uncooperative side faces observability-gated suppression.</strong> There is no
               analogous <MV> -ℓO</MV> term acting on cooperative production itself. Similar reasoning:
               cooperative AI operates in the open while uncoop operates covertly, so observability is the
-              bottleneck on how much of the uncoop slice we can suppress. Under production-gating the
-              suppression acts on both the stock and the flows into it, but one asymmetry
-              remains <em>inside</em> the suppression term: the self-term <MV>−ℓO·Q</MV> is proportional
-              to the <em>stock</em> and can exceed the self-inflow <MV>k_uu·Q</MV> whenever <MV>ℓO &gt; k_uu</MV>,
-              while interception of leakage acts on the <em>flow</em> and can never remove more than the
-              leakage itself (for <MV>ℓO ≤ 1</MV>). Past <MV>ℓ·O*(0) = 1</MV> the seeding is fully
-              intercepted and exact eradication (<MV>q_u = 0</MV>) becomes reachable.
+              bottleneck on how much of the uncoop slice we can suppress. The suppression acts on both the
+              stock and the flows into it, but the two terms are different kinds of object by construction:
+              the self-term <MV>−ℓO·Q</MV> is a <em>rate</em> on the stock and can exceed the
+              self-inflow <MV>k_uu·Q</MV> whenever <MV>ℓO &gt; k_uu</MV>, while interception of leakage is a
+              bounded <em>fraction</em> <MV>ℓ_k·O ≤ 1</MV> of the flow and can never remove more than the
+              leakage itself. That bound is why exact eradication is impossible here: the
+              seeding <MV>g(0) = k_cu(1 − ℓ_k·O*(0))</MV> stays strictly positive (novel modes
+              keep <MV>O*(0) &lt; 1</MV>), so very high <MV>ℓ</MV> pushes the endemic attractor down
+              like <MV>k_cu(1+c−ℓ_k)/ℓ</MV> but never to zero.
             </P>
           </DocSection>
 
@@ -1714,8 +1694,8 @@ function AssumptionsPanel({ open, setOpen }) {
             <TeX display>{String.raw`c_M = \frac{G_0\,m_0}{(1-Q_0)+\eta_0/a_{\mathrm{AI/H}}}, \qquad c_0 = \frac{1-O^{\ast}}{O^{\ast}}\,c_M`}</TeX>
             <P>
               where <MV>G_0</MV> is the <em>gated</em> total at <MV>σ = 0</MV>,
-              <MV> G_0 = (1−Q_0) + η_0 + k_uu·Q_0 − δℓO(0)·L(0)</MV>. The first equation pegs <MV>c_M</MV> to
-              the automation production scale, so monitoring starts at
+              <MV> G_0 = (1−Q_0) + η_0 + k_uu·Q_0 − δ·O(0)·(ℓ_k·L_k(0) + ℓ·Q_0)</MV>. The first equation
+              pegs <MV>c_M</MV> to the automation production scale, so coverage starts at
               quasi-steady-state; its magnitude affects only how quickly <MV>O</MV> relaxes from <MV>O(0)</MV>
               toward <MV>O*</MV>, not the long-run basin. Observability therefore drifts from its measured
               present value <MV>O(0)</MV> to its prior-set long-run value <MV>O*</MV>.
@@ -1752,16 +1732,18 @@ function AssumptionsPanel({ open, setOpen }) {
             </P>
             <P>
               Two thresholds organise the qualitative outcome. <strong>Condition 1</strong> — can rare uncoop
-              labour be suppressed while observability is still high? Under production-gating the seeding
-              itself is gated — when rare, uncoop production starts from
-              <MV> g(0) = k_cu(1−ℓO*(0))</MV> — and the initial-slope condition for the uncoop share to
-              shrink while rare becomes
+              labour be suppressed while observability is still high? The seeding itself is gated, but
+              bounded — when rare, uncoop production starts from
+              <MV> g(0) = k_cu(1−ℓ_k·O*(0))</MV>, which is <em>strictly positive</em> for <MV>ℓ_k ≤ 1</MV> —
+              and the initial-slope condition for the uncoop share to shrink while rare becomes
             </P>
-            <TeX display>{String.raw`\ell\,O^{\ast}(0)\Big[1 + (1-\delta)k_{cu} - k_{cu}\,(a_{\mathrm{E/M}}+c_0/c_M)\,O^{\ast}(0)\Big] > k_{uu} + k_{cu} - 1, \qquad O^{\ast}(0) = \frac{1}{1 + c_0/c_M}`}</TeX>
+            <TeX display>{String.raw`O^{\ast}(0)\Big[\ell + (1-\delta)\,\ell_k k_{cu} - \ell_k k_{cu}\,(a_{\mathrm{E/M}}+c_0/c_M)\,O^{\ast}(0)\Big] > k_{uu} + k_{cu} - 1, \qquad O^{\ast}(0) = \frac{1}{1 + c_0/c_M}`}</TeX>
             <P>
-              The bracket is a small correction (≈ 1 at the central calibration), but unlike the ungated
-              model the slope now depends on <MV>δ</MV> and <MV>k_cu</MV>. At <MV>δ = 1</MV> this condition
-              is necessary (though not sufficient) for a cooperative basin. For
+              The <MV>ℓ_k·k_cu</MV> terms in the bracket are small corrections to <MV>ℓ</MV> at the central
+              calibration, but unlike the ungated model the slope depends on <MV>δ</MV>, <MV>k_cu</MV> and
+              <MV> ℓ_k</MV>. At <MV>δ = 1</MV> this condition is necessary (though not sufficient) for a
+              cooperative basin whenever <MV>ℓ(1+c) &gt; ℓ_k·k_cu(a+c)</MV> (which holds everywhere central;
+              it can fail at high <MV>k_cu</MV> with low <MV>ℓ</MV>). For
               <MV> δ &lt; 1</MV> it loses necessity: redirected suppression can sustain an interior attractor
               even where rare uncoop labour initially grows — though that attractor may sit at high <MV>q_u</MV>.
               <strong> Condition 2</strong> — can uncoop labour hold the whole system? Redirection makes this
@@ -1770,35 +1752,40 @@ function AssumptionsPanel({ open, setOpen }) {
             </P>
             <TeX display>{String.raw`k_{uu} + k_{cu} - 1 > \frac{(1-\delta)\,\ell}{a_{\mathrm{E/M}} + c_0/c_M}`}</TeX>
             <P>
-              (at <MV>δ = 1</MV> this reduces to <MV>k_uu + k_cu &gt; 1</MV>). Production-gating
-              does <em>not</em> move this condition: the gated terms vanish to first order at the
-              all-uncoop endpoint. The combinations:
+              (at <MV>δ = 1</MV> this reduces to <MV>k_uu + k_cu &gt; 1</MV>). Neither gate moves this
+              condition: the gated terms vanish to first order at the all-uncoop endpoint, and
+              <MV> ℓ_k</MV> does not appear. The combinations:
             </P>
             <ul style={{ margin: '0 0 10px 18px', padding: 0 }}>
               <li><strong>Interior attractor exists and C2 ✓</strong> → <em>bistable</em>: a cooperative-side basin coexists with an uncooperative-dominant one, and initial conditions decide where you land.</li>
               <li><strong>No interior attractor and C2 ✓</strong> → the cooperative basin disappears, leaving uncoop dominance (escape).</li>
               <li><strong>C2 ✗</strong> → the all-uncoop endpoint is unstable and a single interior attractor is the only long-run outcome (monostable) — but for <MV>δ &lt; 1</MV> it can sit anywhere from a few percent to near-total uncoop share, so check its location.</li>
-              <li><strong>ℓ·O*(0) ≥ 1</strong> → <em>eradication regime</em>: the seeding is fully intercepted, rare uncoop labour is over-suppressed, and <MV>q_u</MV> reaches exactly 0 in finite time — a qualitatively new endpoint the ungated model cannot produce. Within the working ranges this needs <MV>ℓ ≥ 2</MV> at <MV>O*(0) = ½</MV>, so it is a rescue-lever destination, not a default-path possibility.</li>
             </ul>
+            <P>
+              There is no eradication case: because <MV>ℓ_k ≤ 1</MV> (and novel modes
+              keep <MV>O*(0) &lt; 1</MV>), the seeding <MV>g(0) &gt; 0</MV> always, so <MV>q_u = 0</MV> is
+              never reachable. At very high <MV>ℓ</MV> the attractor instead falls along the
+              deep-suppression endemic floor <MV>q* ≈ k_cu(1+c−ℓ_k)/ℓ</MV> — arbitrarily low, never zero.
+            </P>
             <P>
               The exact interior fixed points solve a quadratic in the odds <MV>r = q_u/(1−q_u)</MV>, with
               <MV> A = b(a+c) − (1−δ)ℓ</MV> (unchanged by gating),
-              <MV> B = k_cu(a+c) + b(1+c) − ℓ(1+(1−δ)k_cu)</MV>, and the gated, δ-free seeding coefficient
-              <MV> C = k_cu(1+c−ℓ) = k_cu(1+c)(1−ℓO*(0))</MV>, where
+              <MV> B = k_cu(a+c) + b(1+c) − ℓ − (1−δ)ℓ_k·k_cu</MV>, and the gated seeding coefficient
+              <MV> C = k_cu(1+c−ℓ_k) = k_cu(1+c)(1−ℓ_k·O*(0))</MV> — free of both <MV>ℓ</MV> and
+              <MV> δ</MV>, and strictly positive for <MV>ℓ_k ≤ 1</MV> — where
               <MV> b = k_uu + k_cu − 1</MV>, <MV>a = a_E/M</MV> and <MV>c = c_0/c_M</MV>. Condition 2 above is
-              exactly <MV>A &gt; 0</MV>. In the regime <MV>ℓ &lt; 1+c</MV> (where <MV>C &gt; 0</MV>) the
-              positive roots are
+              exactly <MV>A &gt; 0</MV>. The positive roots are
               the stable attractor (lower) and the basin-separating saddle (higher) — which is what the badge
-              and the dashed lines in the trajectory views report; beyond it (<MV>C ≤ 0</MV>) the lowest root
-              instead bounds the eradication basin. Existence is monotone in <MV>ℓ</MV>,
+              and the dashed lines in the trajectory views report. Existence is monotone in <MV>ℓ</MV>,
               with threshold <MV>ℓ*</MV> drawn on the outcome map; at <MV>k_uu = 1</MV>, <MV>a_E/M = 1</MV> it
-              takes the three-branch form <MV>ℓ*O* = 4δk_cu(1−k_cu)/(1−(1−δ)k_cu)²</MV> (saddle-node branch,
-              <MV> δ ≳ ½</MV> at small <MV>k_cu</MV>), <MV>k_cu/(1−δ)</MV> (endpoint branch, <MV>δ ≲ ½</MV> —
-              the ungated form), and <MV>2k_cu/(1+(1−δ)k_cu)</MV> (the <MV>B = 0</MV> branch at large
-              <MV> k_cu</MV>); at <MV>δ = 1</MV> the four-to-one rule becomes <MV>ℓ*O* = 4k_cu(1−k_cu)</MV>.
+              takes the two-branch form <MV>ℓ*O*₀ = k_cu[2δ + (1−δ)ℓ_k·O*₀ + 2δ√(1−ℓ_k·O*₀)]</MV>
+              (saddle-node branch, <MV>δ ≳ ½</MV>) and <MV>k_cu/(1−δ)</MV> (endpoint branch,
+              <MV> δ ≲ ½</MV> — the ungated form); at <MV>δ = 1</MV> the four-to-one rule interpolates
+              in <MV>ℓ_k</MV>: <MV>ℓ*O*₀ = 2k_cu(1+√(1−ℓ_k·O*₀))</MV>, exactly <MV>4k_cu</MV> at
+              <MV> ℓ_k = 0</MV> and <MV>≈ 3.41k_cu</MV> at <MV>ℓ_k = 1</MV> (<MV>O*₀ = ½</MV>).
               (The badge compares
               <MV> ℓ·O*(0)</MV> against <MV>k_uu − 1</MV> — the <MV>k_cu → 0</MV> reduction of Condition 1,
-              which is δ-independent and unchanged by gating.)
+              which is δ-independent and unchanged by either gate.)
             </P>
           </DocSection>
 
@@ -1875,7 +1862,7 @@ export default function BasinExplorer() {
     setSigmaMax(SIGMA_MAX_DEFAULT);
   };
 
-  const primaryKeys = ['k_uu', 'k_cu', 'k_hu', 'l', 'delta', 'a_e_m', 'a_ai_h'];
+  const primaryKeys = ['k_uu', 'k_cu', 'k_hu', 'l', 'lk', 'delta', 'a_e_m', 'a_ai_h'];
   const applyPreset = (preset) => setParams({ ...preset.params });
 
   return (
