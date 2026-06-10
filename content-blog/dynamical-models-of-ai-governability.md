@@ -346,17 +346,36 @@ Both calibrations are available as one-click presets in the [interactive basin e
 ## Implications and illustrative scenarios
 
 
-### Outcomes of central estimates
+### The default path
 
-Running the model forward with the central paremeter estimates given here leads to an **uncooperative dominant** equilibrium, and within our range of plausible parameters are both cooperative dominant and uncooperative dominant regimes. What should we make of this?
+What does the model predict if we run it forward from today's conditions, with no change beyond business as usual? The answer depends on which named calibration you accept. Broad and Strict (defined in the calibration discussion) are two readings of the same body of evidence, differing only in how much of today's observed misbehaviour is treated as reproduction-relevant. The verdicts, with sensitivity rows for the destruction fraction $\delta$:
 
-On the model's authority:
+| Calibration | basin threshold $\ell^*$ | margin $\ell/\ell^*$ | long-run attractor $q_u^*$ | takeover endpoint $q_u=1$ |
+|---|---|---|---|---|
+| **Broad** ($\delta=0.7$) | 0.28 | 1.4× | **0.32** | unstable |
+| Broad, $\delta=1$ | 0.40 | 1.0× (exact knife edge) | 0.50 (semistable double root) | stable |
+| Broad, $\delta=0.3$ | 0.14 | 2.8× | 0.27 | unstable |
+| **Strict** ($\delta=0.7$) | 0.028 | 14× | **0.026** | unstable |
+| Strict, $\delta=1$ | 0.040 | 10× | 0.026 (saddle at 0.974) | stable (bistable) |
+| Strict, $\delta=0.3$ | 0.014 | 28× | 0.025 | unstable |
+
+All verdicts are computed from the long-run quadratic and confirmed by full simulation of the four-variable system; the simulated long-run states match the analytic fixed points to three decimals.
+
+**Broad verdict: marginal.** Under Broad rates the system never reaches clean cooperative dominance. With the central $\delta = 0.7$ there is no runaway takeover — redirected suppression makes the all-uncooperative endpoint unstable — but the system equilibrates with roughly **a third of AI labour uncooperative**, continuously caught, suppressed and recycled. Across the $\delta$ range the attractor moves only between $q_u^*\approx0.25$ and the $\delta = 1$ knife edge at 0.5; and the margin above the basin threshold is thin ($\ell$ could fall ~1.4×, or $k_{cu}$ rise ~1.4×, before the attractor disappears into takeover). Note one coincidence worth stating plainly: at $\delta = 1$ the Broad central point lies *exactly on* the basin boundary ($\ell O^* = 4k_{cu}$ holds with equality for our round central numbers). Nothing should be concluded from which side a rounding error puts us; the honest summary is that the Broad calibration is **genuinely marginal**, and modest favourable movements in $k_{cu}$, $\ell$ or $O^*$ buy large changes in outcome.
+
+**Strict verdict: cooperative dominant, robustly.** Under Strict rates the system settles at $q_u^*\approx2.5\%$ uncooperative labour regardless of $\delta$ anywhere in $[0, 1]$, with a 10–28× margin over the basin threshold; even the old, uncorrected $\ell = 0.2$ leaves the verdict unchanged ($q_u^*\approx5\%$). To flip Strict into takeover, $k_{cu}$ must rise ~10–14× or $\ell O^*$ fall by the same factor.
+
+The gap between the two verdicts is the headline: **the decisive uncertainty is not any structural feature of the model but how much of today's observed misbehaviour is reproduction-relevant.** Broad-vs-Strict spans "marginal, near the basin edge, with a large managed uncooperative minority" to "comfortably cooperative-dominant" using the same model, the same suppression estimate, and the same observability assumptions.
+
+**Sensitivity to the $\ell$ correction** (the old reading $\ell = 0.2$, retained only as a sensitivity note since the old conversion mis-identified $\ell O$ as $\ell$): Broad at $\ell = 0.2$ ends in takeover for $\delta > 0.5$ and at a high attractor ($q_u^*\approx0.61$) for $\delta < 0.5$ — the $\delta$-boundary falls exactly at 0.5, another round-number coincidence. Strict at $\ell = 0.2$ is unaffected in kind: $q_u^*\approx0.05$.
+
+What should we make of this? On the model's authority:
  - This model has many shortcomings, some of which we've discussed
  - Predicting this outcome is a tough problem, there are no authoritative signals
  - This finding is not especially robuts - reasonable updates to the model or parameter estimates could shift the conclusion significantly
  - While we iterated on the model substantially, we didn't revise the model or the parametrisation on the basis of whether the conclusions seemed reasonable or not; revisions typically followed from either a desire for simplification, or from more carefully considering the rationale
 
-With these caveats in mind - the model's forecasts deserve modest weight in the scheme of things - the model's result itself that we are in a regime with high returns to cooperativeness focussed interventions. Because our uncertainty covers regimes with good and bad outcomes, shifting parameters like leakage $k_{hu}, k_{cu}$, intervention efficacy $\ell$ or monitoring productivity $c_m$ in a favourable direction has a substantial impact on the probability of a good outcome.
+With these caveats in mind - the model's forecasts deserve modest weight in the scheme of things - the model's result is that we are in a regime with high returns to cooperativeness focussed interventions. On the Broad reading we sit close to the basin boundary, and because our uncertainty covers regimes with good and bad outcomes, shifting parameters like leakage $k_{hu}, k_{cu}$, intervention efficacy $\ell$, the destruction fraction $\delta$ or monitoring productivity $c_M$ in a favourable direction has a substantial impact on the probability of a good outcome.
 
 In this model, progress to uncooperative dominance is usually gradual. The model features many constant rate assumptions - growth rates, suppression efficacies, relative productivities - and a relatively weak feedback via observation and suppression of uncooperative behaviour. Thus a typical uncooperative scenario involves the uncooperative share of AI labour gradually growing until it rivals or surpasses cooperative labour. 
 
