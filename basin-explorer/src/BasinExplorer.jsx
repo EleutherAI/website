@@ -118,11 +118,13 @@ const C = {
 // =============================================================================
 //
 // Leakage is TRUE transfer between F_c and F_u (not bonus production), so it
-// cancels in G; the only term that can reduce G is suppression -ℓO·Q.
+// cancels in G. Of the suppressed flow ℓO·Q leaving F_u, a fraction δ is
+// destroyed and (1−δ) is redirected into cooperative production, so the only
+// term that can reduce G is the destroyed part -δℓO·Q.
 //
-//   F_c = (1-Q)(1-k_cu) + η(1-k_hu)
+//   F_c = (1-Q)(1-k_cu) + η(1-k_hu) + (1-δ)ℓO·Q
 //   F_u = k_cu(1-Q) + k_hu·η + (k_uu - ℓO)Q
-//   G   = F_c + F_u = (1-Q) + η + (k_uu - ℓO)Q
+//   G   = F_c + F_u = (1-Q) + η + (k_uu - δℓO)Q
 //
 //   F_M = c_M[(1-Q) + η/a_AI/H]     (monitoring production)
 //   F_E = c_0 + a_E/M·c_M·Q         (passive opacity + active evasion)
@@ -152,9 +154,9 @@ function makeDeriv(p) {
   return (state) => {
     const [Q, m, e, eta] = state;
     const O = computeO(m, e, BETA);
-    const Fc = (1 - Q) * (1 - p.k_cu) + eta * (1 - p.k_hu);
+    const Fc = (1 - Q) * (1 - p.k_cu) + eta * (1 - p.k_hu) + (1 - p.delta) * p.l * O * Q;
     const Fu = p.k_cu * (1 - Q) + p.k_hu * eta + (p.k_uu - p.l * O) * Q;
-    const G = Fc + Fu;  // = (1-Q) + η + (k_uu - ℓO)Q
+    const G = Fc + Fu;  // = (1-Q) + η + (k_uu - δℓO)Q
     if (G <= 1e-10) {
       // Out of validity envelope (progress clock broken)
       return [0, 0, 0, -eta];
@@ -173,7 +175,7 @@ function makeDeriv(p) {
 function computeG(state, p) {
   const [Q, m, e, eta] = state;
   const O = computeO(m, e, BETA);
-  return (1 - Q) + eta + (p.k_uu - p.l * O) * Q;
+  return (1 - Q) + eta + (p.k_uu - p.delta * p.l * O) * Q;
 }
 
 function rk4Step(state, dt, deriv) {
@@ -188,9 +190,11 @@ function rk4Step(state, dt, deriv) {
 }
 
 // Long-run projection (η → 0, m/e at quasi-steady-state).
-// Q' = 0 reduces to f(r) = 0 in r = Q/(1-Q):
-//   f(r) = (k_cu + k_uu - 1 - ℓ·O*(r))·r + k_cu
-// where O*(r) is computed from the long-run monitoring/evasion QSS ratio.
+// Q' = 0 reduces to f(r) = 0 in r = Q/(1-Q) (δ-general, derivation audit R3):
+//   f(r) = k_cu + (k_cu + k_uu - 1 - ℓ·O*(r))·r - (1-δ)·ℓ·O*(r)·r²
+// where O*(r) is computed from the long-run monitoring/evasion QSS ratio
+// (δ-independent, R2). At δ = 1 the r² term vanishes and this is exactly the
+// previous fixed-point equation.
 function findSteadyStatesR(p) {
   const { k_uu, k_cu, l } = p;
   const f = (r) => {
@@ -200,7 +204,7 @@ function findSteadyStatesR(p) {
     const eSource = p.c_0 + p.a_e_m * p.c_M * Q;
     const ratio = eSource / Math.max(mSource, 1e-12);
     const O = 1 / (1 + Math.pow(Math.max(ratio, 1e-12), BETA));
-    return (k_cu + k_uu - 1 - l * O) * r + k_cu;
+    return (k_cu + k_uu - 1 - l * O) * r + k_cu - (1 - p.delta) * l * O * r * r;
   };
   const roots = [];
   const rMax = 300;
@@ -227,32 +231,43 @@ function findSteadyStatesR(p) {
 function rToQ(r) { return r / (1 + r); }
 
 // =============================================================================
-// ANALYTIC BASIN-EXISTENCE BOUNDARY (δ = 1: suppression purely destroys)
+// ANALYTIC BASIN-EXISTENCE BOUNDARY (δ-general)
 // =============================================================================
-// Long-run fixed points solve A·r² + B·r + C = 0 in r = q_u/(1−q_u), with
+// Long-run fixed points solve A_δ·r² + B·r + C = 0 in r = q_u/(1−q_u), with
 //   a = a_E/M,  c = c_0/c_M,  b = k_cu + k_uu − 1,
-//   A = b(a+c),  B = k_cu(a+c) + b(1+c) − ℓ,  C = k_cu(1+c).
-// For b > 0 a positive (cooperative-side) root pair exists iff
-//   ℓ ≥ ℓ_crit = k_cu(a+c) + b(1+c) + 2·√(k_cu·b·(a+c)(1+c)),
-// which at k_uu = 1 (so b = k_cu) reduces to ℓ ≥ k_cu(√(a+c) + √(1+c))².
-// For b ≤ 0 the quadratic has exactly one positive root (stable), so a
-// cooperative basin always exists.
-// To use the δ-general condition later (suppressed flow partly redirected to
-// cooperative production), swap out BASIN_BOUNDARY.margin — everything that
-// draws the boundary only calls margin() and reads label.
+//   A_δ = b(a+c) − (1−δ)ℓ,  B = k_cu(a+c) + b(1+c) − ℓ,  C = k_cu(1+c).
+// Existence of an interior fixed point is monotone in ℓ, with a unique
+// threshold (derivation audit R4):
+//   ℓ* = min( ℓ_A , max(P, ℓ₊) ), where
+//     ℓ_A = b(a+c)/(1−δ)            (A_δ = 0; ∞ at δ = 1)
+//     P   = k_cu(a+c) + b(1+c)      (B = 0)
+//     ℓ₊  = M̃ + √(M̃² − N²),  M̃ = P − 2(1−δ)k_cu(1+c),  N = |k_cu(a+c) − b(1+c)|
+//   and ℓ* = 0 when b < 0, or when b = 0 and δ < 1.
+// At δ = 1 this reduces to ℓ* = (√(k_cu(a+c)) + √(b(1+c)))² for b > 0, the
+// previous boundary; at k_uu = 1, a = 1: ℓ*O* = 4δk_cu (δ ≥ ½) or
+// k_cu/(1−δ) (δ ≤ ½).
 const BASIN_BOUNDARY = {
-  id: 'delta1',
-  label: 'analytic basin boundary (δ = 1)',
-  // Returns > 0 when a cooperative basin exists; the zero level set is the
-  // boundary curve drawn on the outcome map.
-  margin(odeP) {
+  id: 'deltaGeneral',
+  label: 'analytic basin boundary (δ-general ℓ*)',
+  // Critical suppression ℓ* above which a long-run interior fixed point exists.
+  lstar(odeP) {
     const a = odeP.a_e_m;
     const c = odeP.c_0 / Math.max(odeP.c_M, 1e-12);
     const b = odeP.k_cu + odeP.k_uu - 1;
-    if (b <= 0) return 1; // basin always exists (sign is all that matters)
-    const lCrit = odeP.k_cu * (a + c) + b * (1 + c)
-      + 2 * Math.sqrt(odeP.k_cu * b * (a + c) * (1 + c));
-    return odeP.l - lCrit;
+    const delta = odeP.delta;
+    if (b < 0 || (Math.abs(b) < 1e-15 && delta < 1)) return 0;
+    const lA = delta < 1 ? b * (a + c) / (1 - delta) : Infinity;
+    const P = odeP.k_cu * (a + c) + b * (1 + c);
+    const Mt = P - 2 * (1 - delta) * odeP.k_cu * (1 + c);
+    const N = Math.abs(odeP.k_cu * (a + c) - b * (1 + c));
+    const disc = Mt * Mt - N * N;
+    const lPlus = disc >= 0 ? Mt + Math.sqrt(disc) : -Infinity;
+    return Math.min(lA, Math.max(P, lPlus));
+  },
+  // Returns > 0 when a cooperative-side basin exists; the zero level set is the
+  // boundary curve drawn on the outcome map.
+  margin(odeP) {
+    return odeP.l - this.lstar(odeP);
   },
 };
 
@@ -263,7 +278,9 @@ function classifyBasin(p) {
   // fixed point (g(0) = k_cu = 0). The interior root-finder skips this boundary
   // root, so add it explicitly when it is stable: ℓ·O*(0) ≥ k_uu − 1, with
   // O*(0) = 1/(1 + c_0/c_M). Without this, k_cu = 0 is misreported as "escape"
-  // even though trajectories converge to the cooperative state.
+  // even though trajectories converge to the cooperative state. This stability
+  // condition is δ-independent (derivation audit R9: δ enters F only at O(Q),
+  // so it contributes at O(Q²) to the linearisation).
   const Ostar0 = 1 / (1 + p.c_0 / Math.max(p.c_M, 1e-12));
   if (p.k_cu <= 1e-9) {
     if (p.l * Ostar0 >= p.k_uu - 1) qRoots.unshift(0);
@@ -375,12 +392,28 @@ const PARAM_DEFS = {
     label: 'Suppression strength',
     symbol: 'ℓ',
     handle: 'When detected (O ≈ 1), how strongly is uncoop AI suppressed per σ-unit?',
-    est: 'Central ℓ ≈ 0.2 (Petri half-lives vs T_auto); working range 0.1–0.5.',
-    detail: 'Acts only on the observed fraction, entering q_u\'s production as −ℓ·O. So it is efficacy against already-known misbehaviour.',
-    math: [String.raw`F_u \ni (k_{uu} - \ell O)\,q_u`, String.raw`\ell \approx T_{auto}/T_{half}`],
-    role: 'Condition 1: a cooperative basin needs ℓ·O*(0) > k_uu + k_cu − 1.',
-    related: ['k_uu', 'k_cu', 'Ostar'],
-    default: 0.2, min: 0, max: 8, step: 0.05,
+    est: 'Central ℓ ≈ 0.4 (Petri trend identifies ℓ·O, ÷ O(0) ≈ 0.5); working range 0.2–1.0.',
+    detail: 'Acts only on the observed fraction, entering q_u\'s production as −ℓ·O. So it is efficacy against already-known misbehaviour. Identification caveat: a measured decay of misbehaviour identifies the product ℓ·O, not ℓ alone, so the Petri-trend rate is divided by present observability O(0) — and the trend may partly reflect a falling inflow (improving k_hu) rather than suppression, which biases this estimate up.',
+    math: [String.raw`F_u \ni (k_{uu} - \ell O)\,q_u`, String.raw`\ell\,O(0) \approx T_{auto}/T_{half}`],
+    role: 'Condition 1 (ℓ·O*(0) > k_uu + k_cu − 1) decides whether rare uncoop labour shrinks; only necessary for the basin when δ = 1.',
+    related: ['k_uu', 'k_cu', 'Ostar', 'delta'],
+    default: 0.4, min: 0, max: 8, step: 0.05,
+    tier: 'primary',
+  },
+  delta: {
+    label: 'Suppression destruction fraction',
+    symbol: 'δ',
+    handle: 'Of the uncoop labour suppression catches, how much is destroyed vs redirected to cooperative work?',
+    est: 'Central ≈ 0.7 via the filtering-fraction heuristic (fresh estimate); range 0.3–1.0.',
+    detail: 'δ = 1: caught uncoop labour is destroyed outright (filtered, blocked, discarded) — the model\'s old implicit assumption. δ = 0: every caught unit is corrected and its labour redirected into cooperative production at full value. Heuristic: weight suppression channels by destructiveness (output filtering ≈ 1, retraining ≈ 0, control-style resampling/editing ≈ ½) and average by suppressed-flow volume; heavy real-time filtering on frontier deployments puts the central value high. Redirection is assumed 1:1, with no lag or quality discount.',
+    math: [
+      String.raw`F_u \ni -\ell O\,q_u`,
+      String.raw`F_c \ni +(1-\delta)\,\ell O\,q_u`,
+      String.raw`G = (1-q_u) + q_h + (k_{uu} - \delta\ell O)\,q_u`,
+    ],
+    role: 'Lowers the basin threshold ℓ* (at k_uu = 1, a_E/M = 1: ℓ*O* = 4δk_cu for δ ≥ ½, k_cu/(1−δ) for δ ≤ ½) and destabilises the all-uncoop endpoint when k_uu + k_cu − 1 < (1−δ)ℓ/(a+c). Caution: for δ < 1 the surviving attractor can sit at high q_u — check its location, not just existence.',
+    related: ['l', 'k_cu', 'k_uu'],
+    default: 0.7, min: 0, max: 1, step: 0.05,
     tier: 'primary',
   },
   a_e_m: {
@@ -416,7 +449,7 @@ const PARAM_DEFS = {
     math: [String.raw`F_u \ni k_{hu}\,q_h`],
     role: 'Reproduction-relevant leakage (property ii′); plausibly rarer than observed misbehaviour.',
     related: ['k_cu', 'eta0'],
-    default: 0.05, min: 0, max: 1, step: 0.01,
+    default: 0.05, min: 0, max: 1, step: 0.005,
     tier: 'primary',
   },
   // Initial conditions
@@ -465,6 +498,48 @@ function defaultParams() {
   return p;
 }
 
+// =============================================================================
+// NAMED CALIBRATION PRESETS
+// =============================================================================
+// Broad and Strict share every structural parameter and differ only in how the
+// observed-misbehaviour evidence is read ({k_cu, k_hu, q0} move together — the
+// same evidence does double duty as the q_u(0) and leakage-rate estimate).
+// AI 2027 is Broad with the leakage k_cu pushed to the high-leakage reading of
+// the AI 2027 scenario (prior-driven misalignment at handoff).
+// Values must stay in sync with _scratch/review/drafts/named-calibrations.md.
+const PRESETS = {
+  broad: {
+    label: 'Broad',
+    blurb: 'behavioural misbehaviour rates at face value',
+    params: {
+      T_auto: 0.5, Ostar: 0.5, k_uu: 1, k_cu: 0.05, l: 0.4, delta: 0.7,
+      a_e_m: 1, a_ai_h: 1, k_hu: 0.05, q0: 0.05, R0: 1, eta0: 5,
+    },
+  },
+  strict: {
+    label: 'Strict',
+    blurb: 'reproduction-relevant (ii′) rates only, ~10× lower',
+    params: {
+      T_auto: 0.5, Ostar: 0.5, k_uu: 1, k_cu: 0.005, l: 0.4, delta: 0.7,
+      a_e_m: 1, a_ai_h: 1, k_hu: 0.005, q0: 0.005, R0: 1, eta0: 5,
+    },
+  },
+  ai2027: {
+    label: 'AI 2027',
+    blurb: 'high leakage k_cu = 0.9 at handoff',
+    params: {
+      T_auto: 0.5, Ostar: 0.5, k_uu: 1, k_cu: 0.9, l: 0.4, delta: 0.7,
+      a_e_m: 1, a_ai_h: 1, k_hu: 0.05, q0: 0.05, R0: 1, eta0: 5,
+    },
+  },
+};
+
+function presetIsActive(params, preset) {
+  return Object.keys(PARAM_DEFS).every(
+    k => Math.abs(params[k] - preset.params[k]) < 1e-12
+  );
+}
+
 // Trajectory-view integration horizon (in σ). Not a model parameter.
 const SIGMA_MAX_DEFAULT = 15;
 const SIGMA_MAX_MIN = 5;
@@ -483,7 +558,7 @@ function calibratedRates(p) {
   const R0 = Math.max(p.R0, 1e-9);
   const O0 = 1 / (1 + R0);
   const { m0 } = deriveIC(p);
-  const G0 = Math.max((1 - Q) + eta + (p.k_uu - p.l * O0) * Q, 0.05);
+  const G0 = Math.max((1 - Q) + eta + (p.k_uu - p.delta * p.l * O0) * Q, 0.05);
   const monitoringSource0 = Math.max((1 - Q) + eta / p.a_ai_h, 1e-9);
 
   // Main calibration method (blog): fix present observability O(0) via R(0)
@@ -502,7 +577,7 @@ function odeParams(p) {
   const rates = calibratedRates(p);
   return {
     k_uu: p.k_uu, k_cu: p.k_cu, k_hu: p.k_hu,
-    l: p.l, beta: BETA,
+    l: p.l, delta: p.delta, beta: BETA,
     a_ai_h: p.a_ai_h, a_e_m: p.a_e_m,
     c_M: rates.c_M, c_0: rates.c_0, c0Raw: rates.c0Raw,
   };
@@ -768,6 +843,39 @@ function GroupHeader({ title }) {
   );
 }
 
+function PresetBar({ params, onApply }) {
+  return (
+    <div style={{ padding: '10px 14px', borderBottom: `1px solid ${C.border}`, background: C.bgPanel }}>
+      <div style={{ display: 'flex', gap: 6 }}>
+        {Object.entries(PRESETS).map(([id, preset]) => {
+          const active = presetIsActive(params, preset);
+          return (
+            <button
+              key={id}
+              onClick={() => onApply(preset)}
+              title={preset.blurb}
+              style={{
+                flex: 1,
+                background: active ? C.accent : C.bgInset,
+                color: active ? C.bg : C.fg,
+                border: `1px solid ${active ? C.accent : C.borderStrong}`,
+                padding: '6px 4px',
+                fontFamily: FONTS.mono, fontSize: 11, fontWeight: 600,
+                cursor: 'pointer', letterSpacing: 0.3,
+              }}
+            >{preset.label}</button>
+          );
+        })}
+      </div>
+      <div style={{ fontFamily: FONTS.sans, fontSize: 11, color: C.fgDim, marginTop: 6, lineHeight: 1.4 }}>
+        Named calibrations set every slider. Broad/Strict differ only in how much
+        observed misbehaviour counts as reproduction-relevant ({'{'}k_cu, k_hu, q_u(0){'}'});
+        AI 2027 is Broad with high leakage (k_cu = 0.9).
+      </div>
+    </div>
+  );
+}
+
 function BasinBadge({ basin, p }) {
   const { kind, qStable, qSaddle, lOstar0, kuuExcess } = basin;
   const palette = {
@@ -1030,7 +1138,7 @@ function TrajectoryView({ params, basin, sigmaMax, displayMode }) {
 // VIEW: OUTCOME MAP
 // =============================================================================
 
-const SWEEPABLE_KEYS = ['Ostar', 'k_uu', 'k_cu', 'k_hu', 'l', 'a_e_m', 'a_ai_h'];
+const SWEEPABLE_KEYS = ['Ostar', 'k_uu', 'k_cu', 'k_hu', 'l', 'delta', 'a_e_m', 'a_ai_h'];
 
 function classifySim(traj, basin) {
   if (traj.escaped) return 'escape';
@@ -1211,8 +1319,10 @@ function OutcomeMapView({ params }) {
           </div>
           <div style={{ marginTop: 6, fontFamily: FONTS.sans, fontSize: 11, color: C.fgDim }}>
             Dotted black curve: {BASIN_BOUNDARY.label} — where the long-run
-            cooperative basin appears/disappears (ℓ = ℓ_crit from the fixed-point
-            quadratic; at k_uu = 1, ℓ_crit = k_cu(√(a+c)+√(1+c))²).
+            interior fixed point appears/disappears (ℓ = ℓ* from the δ-general
+            fixed-point quadratic; at k_uu = 1, a_E/M = 1: ℓ*O* = 4δk_cu for
+            δ ≥ ½, k_cu/(1−δ) for δ ≤ ½). For δ &lt; 1 the attractor inside
+            the boundary can sit at high q_u — check the badge, not just the curve.
           </div>
           <div style={{ marginTop: 8, fontFamily: FONTS.sans, fontSize: 11, color: C.fgDim }}>
             Amber ring marks current parameter values.
@@ -1379,7 +1489,7 @@ function AssumptionsPanel({ open, setOpen }) {
 
           <DocSection title="Functional forms">
             <P>Production allocation:</P>
-            <TeX display>{String.raw`F_c = (1-Q)(1 - k_{cu}) + \eta(1 - k_{hu})`}</TeX>
+            <TeX display>{String.raw`F_c = (1-Q)(1 - k_{cu}) + \eta(1 - k_{hu}) + (1-\delta)\,\ell O\,Q`}</TeX>
             <TeX display>{String.raw`F_u = k_{cu}(1-Q) + k_{hu}\,\eta + (k_{uu} - \ell O)\,Q`}</TeX>
             <P>
               Cooperative AI takes its share <MV>(1-Q)</MV> of productive capacity less leakage <MV>k_cu</MV>;
@@ -1391,11 +1501,20 @@ function AssumptionsPanel({ open, setOpen }) {
               <MV>k_uu·Q</MV>, minus observability-gated suppression <MV>ℓO·Q</MV>.
             </P>
             <P>
-              Notice that leakage cancels in the sum <MV>G = F_c + F_u</MV> — it is a transfer, not a source.
-              The only term that can pull <MV>G</MV> down is observability-gated suppression <MV>-ℓO·Q</MV>.
-              The total growth rate is:
+              Suppression is split by the destruction fraction <MV>δ</MV>: of the suppressed flow
+              <MV> ℓO·Q</MV> leaving <MV>F_u</MV>, fraction <MV>δ</MV> is destroyed outright (filtered,
+              blocked, discarded) and fraction <MV>(1−δ)</MV> is redirected into cooperative production
+              (retrained, corrected, resampled) — the <MV>+(1−δ)ℓO·Q</MV> term in <MV>F_c</MV>. Redirected
+              labour converts 1:1 with no lag or quality discount; if you think filtered-then-retrained
+              labour is worth less than one unit, that would be an extra parameter, not a reinterpretation
+              of <MV>δ</MV>.
             </P>
-            <TeX display>{String.raw`G = (1-Q) + \eta + (k_{uu} - \ell O)\,Q`}</TeX>
+            <P>
+              Notice that leakage cancels in the sum <MV>G = F_c + F_u</MV> — it is a transfer, not a source —
+              and so does the redirected part of suppression. The only term that can pull <MV>G</MV> down is
+              the destroyed fraction <MV>-δℓO·Q</MV>. The total growth rate is:
+            </P>
+            <TeX display>{String.raw`G = (1-Q) + \eta + (k_{uu} - \delta\ell O)\,Q`}</TeX>
             <P>Monitoring and evasion dynamics are analogous:</P>
             <TeX display>{String.raw`F_M = c_M\left((1-Q)+\frac{\eta}{a_{\mathrm{AI/H}}}\right), \qquad F_E = c_0 + a_{\mathrm{E/M}}c_M\,Q`}</TeX>
             <P>
@@ -1480,30 +1599,40 @@ function AssumptionsPanel({ open, setOpen }) {
               opacity <MV>c_0</MV> is large relative to monitoring productivity <MV>c_M</MV>.
             </P>
             <P>
-              Two thresholds decide the qualitative outcome. <strong>Condition 1</strong> — can rare uncoop
-              labour be suppressed while observability is still high? A necessary condition is that
+              Two thresholds organise the qualitative outcome. <strong>Condition 1</strong> — can rare uncoop
+              labour be suppressed while observability is still high? Uncoop labour shrinks when rare iff
               observability-gated suppression beats self-reproduction plus leakage:
             </P>
             <TeX display>{String.raw`\ell\,O^*(0) > k_{uu} + k_{cu} - 1, \qquad O^*(0) = \frac{1}{1 + c_0/c_M}`}</TeX>
             <P>
-              Necessary but not sufficient — sufficiently large leakage can still tip the system over.
-              <strong> Condition 2</strong> — can uncoop labour hold the whole system once observability has
-              collapsed? The all-uncoop endpoint is stable when
+              At <MV>δ = 1</MV> this is necessary (though not sufficient) for a cooperative basin. For
+              <MV> δ &lt; 1</MV> it loses necessity: redirected suppression can sustain an interior attractor
+              even where rare uncoop labour initially grows — though that attractor may sit at high <MV>q_u</MV>.
+              <strong> Condition 2</strong> — can uncoop labour hold the whole system? Redirection makes this
+              strictly harder, because what little is still caught keeps re-seeding the cooperative pool. The
+              all-uncoop endpoint is stable when
             </P>
-            <TeX display>{String.raw`k_{uu} + k_{cu} > 1`}</TeX>
-            <P>The three combinations:</P>
+            <TeX display>{String.raw`k_{uu} + k_{cu} - 1 > \frac{(1-\delta)\,\ell}{a_{\mathrm{E/M}} + c_0/c_M}`}</TeX>
+            <P>
+              (at <MV>δ = 1</MV> this reduces to <MV>k_uu + k_cu &gt; 1</MV>). The combinations:
+            </P>
             <ul style={{ margin: '0 0 10px 18px', padding: 0 }}>
-              <li><strong>C1 ✓ and C2 ✓</strong> → <em>bistable</em>: a cooperative-dominant basin coexists with an uncooperative-dominant one, and initial conditions decide where you land.</li>
-              <li><strong>C1 ✗ and C2 ✓</strong> → the cooperative basin disappears, leaving uncoop dominance (escape).</li>
-              <li><strong>C2 ✗</strong> → the all-uncoop endpoint is unstable, so a cooperative-dominant regime is the only long-run outcome (monostable).</li>
+              <li><strong>Interior attractor exists and C2 ✓</strong> → <em>bistable</em>: a cooperative-side basin coexists with an uncooperative-dominant one, and initial conditions decide where you land.</li>
+              <li><strong>No interior attractor and C2 ✓</strong> → the cooperative basin disappears, leaving uncoop dominance (escape).</li>
+              <li><strong>C2 ✗</strong> → the all-uncoop endpoint is unstable and a single interior attractor is the only long-run outcome (monostable) — but for <MV>δ &lt; 1</MV> it can sit anywhere from a few percent to near-total uncoop share, so check its location.</li>
             </ul>
             <P>
               The exact interior fixed points solve a quadratic in the odds <MV>r = q_u/(1−q_u)</MV>, with
-              <MV> A = b(a+c)</MV>, <MV>B = k_cu(a+c) + b(1+c) − ℓ</MV>, <MV>C = k_cu(1+c)</MV>, where
-              <MV> b = k_uu + k_cu − 1</MV>, <MV>a = a_E/M</MV> and <MV>c = c_0/c_M</MV>. Its positive roots are
+              <MV> A_δ = b(a+c) − (1−δ)ℓ</MV>, <MV>B = k_cu(a+c) + b(1+c) − ℓ</MV>, <MV>C = k_cu(1+c)</MV>, where
+              <MV> b = k_uu + k_cu − 1</MV>, <MV>a = a_E/M</MV> and <MV>c = c_0/c_M</MV>. Condition 2 above is
+              exactly <MV>A_δ &gt; 0</MV>. The positive roots are
               the stable attractor (lower) and the basin-separating saddle (higher) — which is what the badge
-              and the dashed lines in the IC / trajectory views report. (The badge compares
-              <MV> ℓ·O*(0)</MV> against <MV>k_uu − 1</MV> — the <MV>k_cu → 0</MV> reduction of Condition 1.)
+              and the dashed lines in the IC / trajectory views report. Existence is monotone in <MV>ℓ</MV>,
+              with threshold <MV>ℓ*</MV> drawn on the outcome map; at <MV>k_uu = 1</MV>, <MV>a_E/M = 1</MV> it
+              takes the piecewise form <MV>ℓ*O* = 4δk_cu</MV> for <MV>δ ≥ ½</MV> and
+              <MV> k_cu/(1−δ)</MV> for <MV>δ ≤ ½</MV>. (The badge compares
+              <MV> ℓ·O*(0)</MV> against <MV>k_uu − 1</MV> — the <MV>k_cu → 0</MV> reduction of Condition 1,
+              which is δ-independent.)
             </P>
           </DocSection>
 
@@ -1580,7 +1709,8 @@ export default function BasinExplorer() {
     setSigmaMax(SIGMA_MAX_DEFAULT);
   };
 
-  const primaryKeys = ['k_uu', 'k_cu', 'k_hu', 'l', 'a_e_m', 'a_ai_h'];
+  const primaryKeys = ['k_uu', 'k_cu', 'k_hu', 'l', 'delta', 'a_e_m', 'a_ai_h'];
+  const applyPreset = (preset) => setParams({ ...preset.params });
 
   return (
     <KaTeXContext.Provider value={katexReady}>
@@ -1623,6 +1753,9 @@ export default function BasinExplorer() {
             maxHeight: 'calc(100vh - 130px)',
             overflowY: 'auto',
           }}>
+            <GroupHeader title="Named calibrations" />
+            <PresetBar params={params} onApply={applyPreset} />
+
             <GroupHeader title="Calibration" />
             <Slider pkey="T_auto" value={params.T_auto} onChange={v => setParam('T_auto', v)} onPin={setPinnedKey} />
             <Slider pkey="R0" value={params.R0} onChange={v => setParam('R0', v)} onPin={setPinnedKey} />
