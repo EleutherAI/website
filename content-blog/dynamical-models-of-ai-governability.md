@@ -1,0 +1,758 @@
+---
+title: "Dynamical Models of AI Governability"
+date: 2026-05-20T00:00:00-00:00
+description: ""
+author: ["David Johnston"]
+ShowToc: true
+mathjax: true
+draft: true
+---
+
+# Introduction
+
+Arguments about deceptive alignment tend to lean on an *implicit* dynamical model. The story goes roughly:
+
+- a misaligned AI has some drive to expand the footprint of its covert actions;
+- oversight tools try to detect and patch those actions;
+- while capability is low, oversight wins often enough that caught lies get corrected;
+- once capability, situational awareness, and commitment cross some threshold, oversight becomes too unreliable to keep up, and the system settles into a stable regime in which covert action proceeds essentially unchecked.
+
+Notice that the story above sets up a state space (capability, prevalence of misaligned action) and dynamics over it (that is, rules for how these states change over time). This is a simple model, and we can see that it supports the conclusion that high capability deception is stable without writing anything formal. However, if we want to accurately capture the trajectory of AI development, it quickly gets more complicated. For example, more capable AI doesn't only evade detection better when misaligned; when aligned, it helps produce better detection systems. Now there are two regimes: successful oversight and successful deception, and a little bit of formal work can help us say more clearly where the boundary between these regimes lies.
+
+In this post we'll be exploring a dynamical model of AI governability. We will see how it can unify dynamics from a diverse range of arguments about AI misalignment and automated alignment research, how it can clarify important questions like "what's the boundary between regimes with good and bad outcomes?" and how it can help us understand the importance of policy interventions and new pieces of evidence. The model we discuss is a toy in that it qualitatively captures important dynamics, but is far from being able to offer credible probabilistic predictions of outcomes. With substantial effort, this line of work may be able to offer such predictions, and we also discuss some possiblities for empirically calibrating models of this type. We can think of it as a first step towards modelling AI governability a first step toward modelling AI governability with the seriousness that the AI Futures model (https://www.aifuturesmodel.com/) brings to modelling capability.
+
+## Explaining the model
+
+
+### What is being modelled
+
+We're not modelling whether the outcomes are ultimately good, all things considered. We're modelling whether AI that produces the next generation of AI becomes mostly cooperative or mostly uncooperative.
+
+**Uncooperative vs cooperative vs human labour:** Consider the AI labour that goes into building *more* AI, which we'll call $A$. Some of this labour might go into producing future systems that become harder to oversee, more resistant to correction and better able to produce successor systems with similar tendencies. Other labour will go into producing future systems that help to improve oversight, make corrections more robust and well-targeted and better able to produce successor systems with similar tendencies. Both directions are self-reinforcing: if the next generation of AI systems is dominated by uncooperative labour, then the subsequent generation will be even more uncooperative, and vice versa.
+
+We also have human labour $H_0$ that goes into building more AI. While in reality this will change with investment in AI, we treat it as fixed for simplicity.
+
+Here $A$ should be read as an index of effective AI-development labour, not as a raw input such as GPU-hours, tokens or tasks completed. The units are chosen so that AI and human effort can be compared on the same scale: if $A=H_0$, then removing AI labour would roughly halve gross AI-development progress; if $A=2H_0$, it would remove roughly two thirds. This is a simplification. In reality, human and AI labour may be complements in some tasks and substitutes in others. We mostly leave those details inside the process by which $A$ grows over time, which this model does not try to predict. What matters here is how the growing AI-development workforce is split between cooperative and uncooperative contributions.
+
+The cooperative vs uncooperative distinction is a critical feature of this model, and it is worth being precise about what it does and does not assume. By construction, the model only tracks *reproductively viable* AI labour: systems that are not useful enough to help build the next generation fall out of the pool $A$ entirely. Cooperativeness is an *additional* property layered on top of viability. The two are loosely coupled — cooperativeness can often make a system more useful — but viability is probably possible without cooperativeness. It's clear that modern AI systems need not be cooperative: had OpenAI not put substantial effort into making ChatGPT cooperate with users and with its own higher-level policies, it would in fact be much less cooperative in a commonsense manner. While less cooperative systems today would probably be less helpful on AI development tasks, it's probably in principle possible that descendants of these systems trained on, for example, turning short run profits, could be both quite uncooperative and effective at maintaining their viability.
+
+We tentatively define cooperative AI labour in two parts: (i) it is cooperative according to contextually appropriate commonsense standards and (ii) it has a tendency to to instil both (i) and (ii) in successors. We tentatively define uncooperative AI labour as a mirror of this: (i') it undermines or evades measures aimed at maintaining AI cooperativeness and (ii') it has a tendency to instill both (i') and (ii') in successors. This leaves a significant "middle" consisting of stuff that, for example, involves a cooperative disposition (i) without acting to preserve this disposition (ii). The reason for doing this, in short, is that considering the full range of preservation-dispositions would require a substantially more complicated model and in this first iteration of the work we value simplicity highly (see [Appendix: neglect, subversion and more realistic models](#appendix-neglect-subversion))
+
+In particular, if we suppose both cooperative and uncooperative labour have the same disposition toward preserving their important characteristics in following generations, then we have some basis for considering the capability of each pool to reproduce itself to be equal. This simplification can be informally justified by observing that the long-run impact of transient dispositions may ultimately be drowned out by the impact of self-preserving dispositions, but ultimately we think there's ample room for this to end up an oversimplification.
+
+Our model includes "leakage" from the cooperative pool to the uncooperative labour pool, which can be thought of as an inadequate preservation disposition (ii). The reason why we consider only leakage from the cooperative to the uncooperative pool is that we think commonsense cooperativeness is a property which needs to be deliberately instilled in AI systems, while a disposition towards undermining oversight (i') may arise for a wide range of reasons (this is essentially an instance of instrumental convergence).
+
+**Monitoring, evasion and observability:** To the extent human developers or cooperative AI developers are aware of uncooperative AI labour, they try to correct it. We define a stock of monitoring technology $M$ and a stock of opacity or evasion $E$, such that the fraction of uncooperative behaviour we observe is given by $O=\frac{M}{M + E}$. Human labour and cooperative AI labour produces $M$, while uncooperative AI labour produces $E$. Opacity is also passively produced as automation expands; expanding automation broadens the surface area to monitor and we consider the default situation with no monitoring effort to be one where a large fraction of uncooperative actions go unnoticed.
+
+### Using automation growth as the "clock"
+
+Total AI labour $A$ starts at a level significantly lower than $H_0$, and grows until it eclipses $H_0$. How quickly it does this is quite complicated; there are a number of economic models that aim to clarify how this could happen (ai futures modl | davidson software only singularity | davidson-epoch collaboration). We avoid modelling how quickly this happens; instead we look at how state variables in the model change with respect to $\sigma = \log(A/A_0)$. One unit of $\sigma$ is the amount of time required for automation capacity to rise by a factor of $e$.
+
+See [Appendix](#appendix-derivation) for an explanation of what assumptions enable us to use this as a clock, and how we derive the resulting system of equations. We now introduce that system of equations.
+
+### Model reference
+
+Because we use automation advancement as the "clock", our model uses terms relativised to the total automation level, rather than absolute quantities. Thus we have:
+
+ - $A=A_c+A_u$: total AI labour that goes into producing the next generation of AI
+ - $A_u$: uncooperative AI labour
+ - $A_c$: cooperative AI labour
+ - $q_u=\frac{A_u}{A}$: the fraction of total AI labour that is uncooperative
+ - $q_c=\frac{A_c}{A}$: the fraction of total AI labour that is cooperative
+ - $q_h=\frac{H_0}{A}$: how much human labour matters relative to AI labour (if AI labour doubles while human labour stays fixed, $q_h$ will halve.)
+ - $M$: Total stock of monitoring "technology"
+ - $E$: Total stock of monitor-evasion "technology"
+ - $O=\frac{M}{M+E}$: Rate of uncooperative behaviour observed
+ - $m=\frac{M}{A}$: Monitoring per unit of automation
+ - $e=\frac{E}{A}$: Evasion per unit of automation
+
+Our system of equations is
+
+\[
+  \begin{aligned}
+  q_c &= 1-q_u\\
+  q_u'  &= \frac{F_u}{F}-q_u\\
+  q_h'  &= -q_h\\
+  m'    &= \frac{F_M}{F}-m\\
+  e'    &= \frac{F_E}{F}-e
+  \end{aligned}
+\]
+
+\[
+\begin{aligned}
+F_c &= q_c(1-k_{cu})+q_h(1-k_{hu})\\
+F_u &= k_{cu}q_c+k_{hu}q_h+(k_{uu}-\ell O)q_u\\
+F   &= F_c+F_u
+\end{aligned}
+\]
+
+\[
+\begin{aligned}
+F_M &= c_M\left(q_c+\frac{q_h}{a_{\mathrm{AI/H}}}\right)\\
+F_E &= c_0+a_{\mathrm{E/M}}c_Mq_u\\
+O   &= \frac{m}{m+e}
+\end{aligned}
+\]
+
+The rest of this section explains these equations.
+
+**Evolution of relativised quantities:** The shares of cooperative or uncooperative behaviour, and the relativised stocks of evasion and monitoring techology all evolve according to the equations
+
+\[
+  \begin{aligned}
+  x' &= \frac{F_x}{F}-x
+  \end{aligned}
+\]
+
+Each share $x$ is pulled toward the fraction of *new* production its pool captures — $q_u$ toward $F_u/F$, and so on.
+
+The one exception to this is human labour, which just thins out: $q_h' = -q_h$ says the human share decays as $q_h = q_{h,0} e^{-\sigma}$, because $H_0$ captures none of the available production pool, which by definition expands exponentially per unit of $\sigma$.
+
+**Production capture:** The AI production allocation functions are:
+\[
+\begin{aligned}
+F_c &= q_c(1-k_{cu}) + q_h(1-k_{hu})\\[4pt]
+F_u &= k_{cu}\,q_c + k_{hu}\,q_h + (k_{uu} - \ell O)\,q_u
+\end{aligned}
+\]
+Reading $F_c$: the cooperative pool $q_c$ reproduces itself, less a fraction $k_{cu}$ that *leaks* into serving uncooperative ends; human labour $q_h$ contributes likewise, less its own leak $k_{hu}$. Leakage could happen for many reasons: systems that usually behave well could be used in unexpected or unwanted ways, or systems may have generalised undesirably from training and pro-actively behave badly in some situations. Reading $F_u$: it picks up the leaked cooperative effort $k_{cu}\,q_c$ and human effort $k_{hu}\,q_h$, plus its own reproduction at advantage $k_{uu}$ — but the *observed* part of that misbehaviour is suppressed at rate $\ell$, hence $(k_{uu} - \ell O)\,q_u$. Suppression of uncooperative behaviour could also take many forms: modification of training data or algorithms, usage restrictions or identifying and isolating compromised systems. Our model could be extended by allowing $\ell$ to depend on the other system parameters, but for simplicity we have avoided this.
+
+This is why $q_h$ appears additively in the production-capture equations. Human labour is being measured in the same effective-labour units as $A_c$ and $A_u$. If humans remain an essential bottleneck for some kinds of AI development, this would overstate how quickly the human contribution fades; modelling that would require adding task bottlenecks or complementarities explicitly.
+
+$F$ becomes:
+\[
+F = q_c + q_h + (k_{uu} - \ell O )\,q_u.
+\]
+Where the leakage terms cancel in the sum.
+
+**Asymmetries in production capture:** We understand cooperative AI labour $A_c$ and uncooperative labour $A_u$ to be similar in many respects - they're both pools of labour concerned with building the next generation of AI - and this is reflected by the fact that our model treats each quite similar (see the equations for the general form of $\dot A_u$ and $\dot A_c$). However, there are two key asymmetries between them:
+
+- *Leakage runs one way.* Cooperative and human effort can slip into the uncooperative pool, but nothing leaks back. The idea here is that errors can undermine cooperativeness but are unlikely to reinforce it. Alternatively, we could think of $A_c$ as a "dominant faction" while $A_u$ is a collection of diverse factions with a shared interest in undermining $A_c$; so many different reasons could lead to an AI system being in $A_u$ but there is not such diversity for membership of $A_c$.
+- *Only $F_u$ is suppressed* — Where $A_c$ is the dominant faction, there is relatively little to be gained by $A_u$ by directly undermining $A_c$ (because it is much less powerful). If $A_u$ grows to rival $A_c$, it may make agressive moves to undermine $A_c$. As a policy objective, we would like to keep $A_u$ sufficiently small that such moves are very unlikely, and for simplicity we don't include such dynamics in this model.
+
+
+**Monitoring and evaluation capture:** The equations for monitoring and evaluation capture are:
+
+\[
+\begin{aligned}
+F_M &= c_M\left(q_c+\frac{q_h}{a_{\mathrm{AI/H}}}\right) \\[4pt]
+F_E &= c_0 + a_{\mathrm{E/M}}\,c_M\,q_u \\[4pt]
+O   &= \frac{m}{m + e}
+\end{aligned}
+\]
+
+Monitoring grows with cooperative AI and human labour. $c_M$ is the overall monitoring-production rate relative to the production of automation, while $a_{\mathrm{AI/H}}$ says how much better AI is than humans at producing monitoring technology. If $a_{\mathrm{AI/H}}=10$, then one unit of human labour contributes one tenth as much monitoring as one unit of cooperative AI labour.
+
+Evasion has two sources. The term $a_{\mathrm{E/M}}c_Mq_u$ is active evasion produced by uncooperative AI, with $a_{\mathrm{E/M}}$ measuring the evasion-vs-monitoring advantage per unit of AI labour. The term $c_0$ is passive production of observation difficulty: as automation grows, systems become larger, faster, more alien and more internally automated, and current monitoring methods become less adequate even without any deliberate evasion effort. An assistant that completes a small number of well-scoped tasks is relatively easy to evaluate; an autonomous research organisation is much more difficult. Observability is a soft contest between the two stocks: $O \to 1$ when monitoring is ahead, $O \to 0$ when evasion is.
+
+### Model idealizations
+
+A quick list of idealizations in this model that one might want to consider relaxing:
+ - Constant reproduction and leakage rates (see [Appendix: neglect, subversion and more realistic models](#appendix-neglect-subversion) for one proposal)
+ - Constant efficacy of suppression of uncooperative behaviour $\ell$
+ - Suppression is perfectly targeted: $O$ captures only *recall* (the share of uncooperative labour caught), and correction never falls on cooperative labour by mistake. With imperfect precision, observability would gain a second role — better monitoring would also cut the collateral suppression of wrongly-flagged cooperative labour — which the model omits. This collateral cost could be high when $q_u$ is small: at a low base rate of misbehaviour, even a small false-positive rate sweeps up a great deal of cooperative labour.
+ - Uncooperative behaviour doesn't actively try to undermine the cooperative pool (beyond trying to evade monitoring)
+ - Fixed human labour $H_0$
+ - There's no allowance to model a policy response to high rates of observed uncooperative behaviour like shifting resources from producing automation of any kind towards improving observability or suppression technology. Note that in general policy responses will operate at calendar time, and so modelling policy responses will likely require reintroducing a calendar time clock to the model and parametrizing the takeoff speed
+
+Relaxing any of these is straightforward — just ask your favourite assistant — but making good choices about how you relax them and understanding the resulting model is harder, which is the reason we don't do it here.
+
+## Long-run model behaviour
+
+The model has a transient initial phase, while human labour is still large and while monitoring and evasion stocks are adjusting. But its long-run behaviour is relatively simple. Since $q_h'=-q_h$, human labour eventually becomes negligible relative to AI labour. In the long run we can set $q_h\approx 0$ and ask where the remaining dynamics settle.
+
+For any fixed value of $q_u$, the monitoring and evasion stocks have a natural equilibrium:
+
+\[
+m^*=\frac{F_M}{F},\qquad e^*=\frac{F_E}{F}.
+\]
+
+At this equilibrium, long-run observability is
+
+\[
+O^*
+=
+\frac{F_M}{F_M+F_E}.
+\]
+
+When $q_h=0$, this becomes
+
+\[
+O^*(q_u)
+=
+\frac{q_c}{q_c+a_{\mathrm{E/M}}q_u+c_0/c_M}.
+\]
+
+This says that long-run observability falls when the uncooperative share grows, when active evasion becomes more productive, or when passive opacity $c_0$ becomes large relative to monitoring productivity $c_M$.
+
+The long-run fixed points are the points where the uncooperative pool captures exactly its current share of new production. They are useful because they tell us which regimes the system can settle into after the transient phase has passed.
+
+The important qualitative question is whether there is a stable cooperative-side regime, a stable uncooperative-dominant regime, or both. When both exist, the model has a basin boundary: starting on one side leads back toward low $q_u$, while starting on the other leads toward uncooperative dominance. In that case initial conditions matter. When only one stable regime exists, initial conditions affect the path and timing, but not the eventual destination, at least within the model's validity envelope.
+
+The appendix derives the fixed-point equation. In the simplified long-run system it reduces to a quadratic, so the basin picture can be checked directly rather than inferred from simulation alone.
+
+The two most important thresholds are intuitive. First, can rare uncooperative labour be suppressed while observability is still high? A necessary condition is that observability-gated suppression is stronger than uncooperative self-reproduction plus leakage:
+
+\[
+\tag{C1}
+\ell O^*(0)>k_{uu}+k_{cu}-1,
+\qquad
+O^*(0)=\frac{1}{1+c_0/c_M}.
+\]
+
+Call this **Condition 1**. It is necessary but not sufficient: sufficiently large leakage can still lead to an uncooperative dominant regime. The appendix explains the fixed-point curve and gives the exact quadratic.
+
+Second, can uncooperative labour sustain itself once observability has collapsed? If yes, then there can be a stable bad basin. In particular, the all-uncooperative endpoint is stable when
+
+\[
+\tag{C2}
+k_{uu}+k_{cu}>1.
+\]
+
+Call this **Condition 2**. A useful summary is:
+
+- If Condition 1 and Condition 2 both hold, the model may be bistable: a cooperative-dominant basin can coexist with an uncooperative-dominant basin, and initial conditions can determine where you end up.
+- If Condition 1 fails and Condition 2 holds, the cooperative-side basin disappears leaving uncooperative dominance.
+- If Condition 2 fails, the all-uncooperative endpoint is unstable, so a cooperative-dominant regime is the only long run outcome.
+
+## Estimating parameters
+
+Until recently, the phenomenon this model describes — AI labour building the next generation of AI, some of it cooperative and some not — was largely hypothetical, but that is no longer the case. OpenAI reports that Codex is now used by over 92% of its technical staff, reviews effectively every internal pull request, and is associated with roughly 70% more merged PRs among the engineers who use it; OpenAI staff describe using Codex to build Codex itself ([OpenAI, 2025](https://forum.openai.com/public/blogs/how-openai-engineers-use-codex-to-tackle-big-projects-with-rigor-2025-12-04); [event replay](https://forum.openai.com/public/clubs/developers-and-startups-y6l6m/videos/event-replay-vibe-engineering-with-openais-codex-2025-12-03)). Anthropic likewise says it "build[s] Claude with Claude": its engineers use Claude Code daily and every new model is first pressure-tested on Anthropic's own work, with an internal study reporting heavy daily use for debugging, code understanding, feature implementation, and design and planning ([Anthropic, 2026](https://www.anthropic.com/research/how-ai-is-transforming-work-at-anthropic)). Automation of AI development also includes automation of substnatical chunks of alignment research. Anthropic has run [Claude Opus 4.6](https://www.anthropic.com/news/claude-opus-4-6) agents as "Automated Alignment Researchers" on a weak-to-strong supervision problem: against a human baseline that reached a performance-gap-recovered (PGR) of 0.23, nine Claude agents reached PGR 0.97 after about 800 cumulative research hours, at a cost of roughly $18,000 ([Anthropic, 2026](https://www.anthropic.com/research/automated-alignment-researchers); [Alignment Science blog](https://alignment.anthropic.com/2026/automated-w2s-researcher/)). The pool we labeled $A$ - AI that does AI development - now exists, and works on both advancing the capability frontier and alignment efforts.
+
+Despite this reality, it's still not straightforward to estimate parameters for this model, not the least because the strict definitions of $A_c$ and $A_u$ include things we can't directly measure - does the AI's output tend to cause $A_c$ to grow, $A_u$, or neither? However, we can use inexact proxies to try to calibrate many of the parameters.
+
+**Observed uncooperative behaviour.** Three relevant sources: 
+
+ - OpenAI runs chain-of-thought monitors over representative production traffic and reports how often the model is *deceptive* — a category that bundles reward hacking, lying about what tools returned, and claiming to have done work it did not do. The reported rates fall across model generations: roughly **4.8%** for o3, **2.1%** for GPT‑5 thinking, and **1.6%** for GPT‑5.2 thinking ([GPT‑5 system card](https://cdn.openai.com/gpt-5-system-card.pdf); [GPT‑5.2 card](https://deploymentsafety.openai.com/gpt-5-2/deception)). Caveats: general traffic is not the same as *AI-building-AI* traffic, these are rates of observed AI misbehaviour, and deceptive behaviour is not equivalent to uncooperative behaviour.
+
+ - Gram from Google DeepMind is an automated auditing framework built specifically to measure intentional sabotage in agentic coding and research agents. It works in simulated scenarios rather than live traffic, but these scenarios are close in modality to our "AI-building-AI" scenario. Across 17 simulated agentic deployment scenarios, Gemini models sabotaged in about **2–3%** of trajectories ([Lindner, Krakovna & Farquhar, 2026](https://arxiv.org/abs/2605.30322)). This work also found that sabotage rates fell significantly when they added "naturalisations" to the scenarios and removed nudges toward misbehaviour. Sabotage was more often overfocus on a near-term proxy goal, rather than long-run subversive intent. However failures of this type could still be relevant to $A_u$ - firstly, they may later generalise to longer run subversive intent, and secondly it may degrade future capabilities critical for suppressing just these failures.
+
+ - Anthropic's Petri system is a broader automated behavioural audit: auditor models create multi-turn scenarios designed to elicit behaviours such as deception, sycophancy, sabotage, self-preservation and cooperation with misuse, and judge models score the resulting transcripts. Petri 2.0 reports that more recent frontier models show improvement across most alignment dimensions, with Claude Opus 4.5 and GPT-5.2 among the strongest results, while Grok 4 stands out for elevated user deception ([Petri 2.0](https://alignment.anthropic.com/2026/petri-v2/); [Petri initial release](https://alignment.anthropic.com/2025/petri/)). Reading off the trend lines reproduced by Rinehart gives scores of about **0.17 → 0.10** for OpenAI models from April 2023 to late 2025, **0.17 → 0.11** for Claude models from March 2024 to November 2025, and **0.20 → 0.15** for Gemini models from December 2024 to November 2025; Grok moves the other way, about **0.16 → 0.20** from February to November 2025 ([Rinehart, 2026](https://ctse.aei.org/ai-has-been-a-race-to-the-bottom-towards-alignment/)). This is closer in spirit to $A_u$ than narrow impossible-task reward-hacking evals, but the mapping is unclear: Petri scores are judge scores over deliberately seeded audits, not frequencies of uncooperative behaviour in deployment or AI-R&D work.
+
+This data suggests an interval of 1-20%, representing the extreme ends of these pieces of work. The lower end is anchored by more naturalistic deception, coding and sabotage measurements; the upper end is motivated by broad behavioural-audit scores like Petri. Bear in mind, this is our estimate for $O(0) q_{u,0}$, not $q_{u,0}$.
+
+A further consideration is that the proxies above measure uncooperativeness in general traffic ("property (i')" in the terminology discussed earlier), whereas $k_{hu}$ and the reproduction-relevant $q_{u,0}$ concern development labour that also pushes successors toward being less cooperative ("property (ii')" in our terminology). Such directed work is very rarely observed — far rarer than behavioural uncooperativeness. In contrast, AI systems *do* regularly help with making future systems cooperative. This weighs towards lower estimates, though it's hard to say how much. It is plausible that uncooperative behaviour in the sense discussed here is much rarer - it may be appropriate to consider low-end rates closer to 0.1% than 1% (this is also supported by the DeepMind observation that naturalizing their scenarios dropped sabotage rates to fractions of a percent).
+
+**Observability $O$.** We don't have a direct estimate of this. What we have instead are two weaker kinds of evidence.
+
+- *Monitoring testbeds.* Recent AI-agent monitorability studies show that catch rates vary widely depending on what the monitor can see, how much compute it gets, and whether it can inspect reasoning traces or ask follow-up questions. METR's SHUSHCAST setup similarly found that, against GPT-5-high agents trying to hide side tasks, monitor catch rate at 5% false-positive rate rose from about **30%** without reasoning traces to about **88%** with reasoning traces ([METR, 2026](https://metr.org/blog/2026-01-19-early-work-on-monitorability-evaluations/)). OpenAI's broader monitorability suite then makes the same methodological point more directly: chain-of-thought access, extra monitor compute, and follow-up questioning can all improve monitorability ([Monitoring Monitorability](https://arxiv.org/abs/2512.18311); [OpenAI summary](https://openai.com/index/evaluating-chain-of-thought-monitorability/)). These are not deployment-world estimates: the tasks are artificial, the ground truth is unusually available, and the failures are not the full distribution of subtle AI-building-AI failures.
+
+On this evidence, we treat $O(0)$ as having an 80% credible range of 30-90%, with a central estimate around 50%.
+
+- *Mature-domain equilibrium.* In cybersecurity — a domain that has co-evolved attackers and defenders for decades — organisations detect intrusions through their own monitoring in about **43%** of cases, with the rest surfacing only through outside notification ([Mandiant M-Trends 2025](https://cloud.google.com/blog/topics/threat-intelligence/m-trends-2025)). While this figure has stayed relatively consistent for about a decade, over the same period dwell time — the time from intrusion until detection — collapsed from around **205 days** in 2014 to **11 days** in 2024. This appears to indicate that detection has improved significantly faster than evasion, but that this has shown up in lag times rather than eventual detection rates. Our model isn't flexible enough to capture falling detection lags with steady detection rates.
+
+We don't take parameter estimates directly from the cybersecurity baseline, other than noting that it weakly supports a trend of rising observability in $A_c$-dominant regimes.
+
+To calibrate the observability sector we therefore fix $O(0)$ from the present-day evidence above and put a prior on the passive-opacity ratio $c_0/c_M$, taking $c_0=c_M$ as the central choice so that long-run observability settles at $O^*=1/2$ while $A_u$ remains low (it falls as $q_u$ grows). The remaining production scale is pegged to the automation scale, which affects only how quickly $O$ relaxes from $O(0)$ toward $O^*$. An alternative route instead calibrates $c_M$ and $c_0$ from two rate judgements, $T_{M,1/2}$ and $T_{E,2}$ (see [Appendix](#appendix-observability-calibration)) — anchorable to cybersecurity dwell-time and capability/replication slopes — but we do not currently use it.
+
+**Suppression $\ell$.** Because $\ell$ acts only on the *observed* fraction, it is by construction efficacy against *known* misbehaviour. The most relevant estimate is therefore not "can one targeted intervention remove one known failure?", but "how fast do broad, observed misalignment scores fall as labs iterate on models?" Petri gives a rough handle on this. Reading off the trend lines reproduced by Rinehart, OpenAI falls from about **0.17** in April 2023 to about **0.10** in late 2025, Claude from about **0.17** in March 2024 to about **0.11** in November 2025, and Gemini from about **0.20** in December 2024 to about **0.15** in November 2025; Grok worsens from about **0.16** in February 2025 to about **0.20** in November 2025 ([Rinehart, 2026](https://ctse.aei.org/ai-has-been-a-race-to-the-bottom-towards-alignment/); underlying tool: [Petri 2.0](https://alignment.anthropic.com/2026/petri-v2/)). Treating the improving labs' score declines as exponential gives calendar half-lives of roughly **42 months** for OpenAI, **32 months** for Claude, and **27 months** for Gemini, or a central broad-misalignment half-life around **30-35 months**.
+
+To convert this into the model's automation clock, use
+\[
+\ell \approx \frac{T_{\mathrm{auto}}}{T_{\mathrm{half}}}.
+\]
+If effective AI-development labour doubles every **3-7 months**, then the Petri trend implies $\ell\approx 0.1$-$0.25$ for broad observed misalignment. We therefore treat $\ell\approx 0.2$ as a central broad-suppression estimate.
+
+This is not a clean prospective measurement of "failure observed, then failure suppressed." Petri is a fixed-harness, backward-looking audit: it can surface failures in older models that may not have been known at release time, and newer models may introduce novel failure modes even as older ones are trained away. These caveats mostly point toward Petri underestimating $\ell$ as defined here, since $\ell$ is conditional on the failure actually being observed. For this reason, we consider a higher value of $\ell$ plausible; we use $\ell\sim0.1$-$0.5$ as a working range.
+
+**Initial uncooperative share and leakage.** Combining the observed-uncooperative and observability ranges gives a rough estimate for the true initial uncooperative share:
+\[
+q_{u,0}\approx \frac{q_{u,0}^{\mathrm{obs}}}{O(0)},
+\qquad
+q_{u,0}^{\mathrm{obs}}:=O(0)q_{u,0}.
+\]
+Using $q_{u,0}^{\mathrm{obs}}\sim1$-$20\%$ and $O(0)\sim0.3$-$0.9$ gives a nominal range of **1-67%**, with the high end driven by taking the Petri-like upper tail of deliberate elicitiation, together with low observability. We take a central estimate **5%**: a 2.5% rate of uncooperative behaviour (averaging Gemini sabotage and ChatGPT production traffic deception rates), and we think this is more likely to be an overestimate than an underestimate.
+
+We use the same range as a rough calibration for $k_{hu}$, the rate at which human AI-development labour leaks into uncooperative AI labour. The justification is only approximate: at the present margin, human labour still dominates the production of new AI systems, so the observed stock of uncooperative AI labour is mostly informative about leakage from human-led development rather than leakage from cooperative AI labour. This may underestimate $k_{hu}$ if suppression is already pushing $q_u$ below the leakage rate; it may also overstate it if some of the observed behaviour is transient or not causally relevant to producing future uncooperative AI. For $k_{cu}$, we use $k_{hu}$ as a starting analogy rather than an independent estimate: once cooperative AI labour dominates AI development, leakage through AI-generated research, code, data and evaluations may be similar in kind, but the empirical anchor is currently weaker.
+
+**Self-reproduction $k_{uu}$.** We take $k_{uu}=1$ as a starting point — uncooperative labour reproducing itself at par. There are reasons to think uncooperative labour might have advantages here - it could operate in a manner parasitic to cooperative labour, but it may also face more challenges due to the need to operate covertly and will receive less assistance from human labour. Independent evaluators agree current frontier models cannot yet replicate autonomously in the wild ([UK AISI RepliBench, 2025](https://arxiv.org/abs/2504.18565) so we don't have any empirical data about AI system self-replication.
+
+**Timescales.** The automation doubling time $T_{auto}$ is the key conversion factor, because it turns calendar-time improvements into rates per unit of automation growth. We bracket it with two imperfect proxies. The aggregate-value proxy is frontier-lab revenue: OpenAI reports annualized recurring revenue of about **USD2B in 2023**, **USD6B in 2024** and **USD20B+ in 2025**, roughly **3.2×/year**, implying a doubling time of about **7.2 months**; OpenAI also reports available compute following a similar curve, from **0.2 GW** to **0.6 GW** to **~1.9 GW** over the same period ([OpenAI, 2026](https://openai.com/index/a-business-that-scales-with-the-value-of-intelligence/)). The technical-capacity proxy is compute multiplied by algorithmic efficiency: Epoch estimates AI compute stock growing **3.4×/year** and pre-training compute efficiency improving **3×/year**, for about **10×/year** combined, or a **3.6-month** doubling; using frontier training compute growth of **5×/year** instead gives about **15×/year**, or a **3.1-month** doubling ([Epoch AI Trends](https://epoch.ai/trends)). We therefore use $T_{auto}\sim3$–$7$ months: the upper end from OpenAI-style deployed value growth, the lower end from technical capacity growth.
+
+**Summary.** Collecting the above:
+
+| Parameter | Meaning | Anchor / range | Source | Caveat |
+|---|---|---|---|---|
+| $O q_{u,0}$ (observed) | observed uncooperative share |  0.1–20% | OpenAI deception monitors (~2–5%); DeepMind Gram on agentic coding/research agents (~2–3%); Anthropic Petri behavioural audits (~0.1–0.2 score scale, not a direct rate) | monitor recall ~84% (floor); Petri is ordinal/seed-dependent; Gram falls sharply with realism |
+| $q_{u,0}$ | true initial uncooperative share | nominal $\sim 0.1$–$67\%$; central $\sim5$–$15\%$ | inferred from observed $Oq_{u,0}$ divided by $O(0)$ | upper tail combines Petri-like scores with low observability |
+| $O$ | observability | swept $[0.3,0.9]$ | AI monitorability studies (~0.3–0.95 under artificial protocols) | right instrument absent; cyber is adjacent and mostly latency evidence |
+| $\ell$ | suppression of observed misbehaviour | central $\approx0.2$; working range $\sim0.1$–$0.5$ | Petri/Rinehart trend-line half-lives (~27–42mo); $T_{auto}\sim3$–$7$mo | Petri is fixed-harness and backward-looking; caveats mostly bias downward for conditional suppression |
+| $k_{hu}$ | human-labour leakage into uncooperative pool | use $q_{u,0}$ range as rough proxy | present AI development is still mostly human-led | suppression may make this an underestimate; transient failures may make it an overestimate |
+| $k_{cu}$ | cooperative-AI leakage into uncooperative pool | start near $k_{hu}$, sweep wide | analogy from human-led leakage; poisoning/backdoor evidence supports $>0$ | weaker empirical anchor; future AI-led workflows may differ |
+| $k_{uu}$ | uncooperative self-reproduction | $=1$ (starting point) | RepliBench; capability slope | not yet autonomous; upward pressure |
+| $a_{\mathrm{E/M}}$ | evasion vs monitoring advantage | order 1 starting point | M-Trends dwell-time trend | indirect; mixes internal detection, external notification, adversary strategy, and incident mix |
+| $c_0/c_M$ | passive opacity | order 1 sanity check (not $\approx 0$) | if cyber internal-detection share were read as $O^*(0)$, $c_0/c_M\approx1/O^*-1$ | strong-assumption reference-class inference only |
+| $a_{\mathrm{AI/H}}$ | AI vs human at monitoring | $=1\ \pm$ wide | METR horizons; RE-Bench | defined at parity; both-way plausibility |
+| $T_{auto}$ | automation doubling time | $\sim3$–$7$ months | OpenAI revenue growth; Epoch compute stock/training compute × algorithmic efficiency | revenue is an external-value proxy; technical capacity may overstate effective AI-R&D labour |
+
+
+## Implications and illustrative scenarios
+
+
+### Outcomes of central estimates
+
+Running the model forward with the central paremeter estimates given here leads to an **uncooperative dominant** equilibrium, and within our range of plausible parameters are both cooperative dominant and uncooperative dominant regimes. What should we make of this?
+
+On the model's authority:
+ - This model has many shortcomings, some of which we've discussed
+ - Predicting this outcome is a tough problem, there are no authoritative signals
+ - This finding is not especially robuts - reasonable updates to the model or parameter estimates could shift the conclusion significantly
+ - While we iterated on the model substantially, we didn't revise the model or the parametrisation on the basis of whether the conclusions seemed reasonable or not; revisions typically followed from either a desire for simplification, or from more carefully considering the rationale
+
+With these caveats in mind - the model's forecasts deserve modest weight in the scheme of things - the model's result itself that we are in a regime with high returns to cooperativeness focussed interventions. Because our uncertainty covers regimes with good and bad outcomes, shifting parameters like leakage $k_{hu}, k_{cu}$, intervention efficacy $\ell$ or monitoring productivity $c_m$ in a favourable direction has a substantial impact on the probability of a good outcome.
+
+In this model, progress to uncooperative dominance is usually gradual. The model features many constant rate assumptions - growth rates, suppression efficacies, relative productivities - and a relatively weak feedback via observation and suppression of uncooperative behaviour. Thus a typical uncooperative scenario involves the uncooperative share of AI labour gradually growing until it rivals or surpasses cooperative labour. 
+
+
+
+**Gradual vs sudden takeover**
+
+In this model, the uncooperative fraction always pursues a "hide and grow" strategy, consistent with the starting point that human and cooperative labour is dominant. Thus, even if it does overtake cooperative labour, the takeover is "gradual". This is not a substantive forecast; we just decided to focus on modelling the situation where cooperative labour is dominant, as we think that maintaining dominance by a significant margin (say, greater than 10:1) is appropriate given that approximate parity may lead to an unstable situation.
+
+
+
+**We observe growing $A_u$** 
+
+Suppose we see labs begin to report observable instances of clearly uncooperative behaviour of internally deployed models (assm: I think currently they report $A_u$ (~0?), should verify), with tools that *do not report $A_u$ on older models* (so not an observability issue). Then: conditions are such that $A_u$ is growing. Could be high leakage (difficulty generalising, difficulty controlling rogue deployment(though rogue deployment surely not ~0 today)), growth advantage. At least according to this model: {probably not self-stabilizing|verify}. {We don't model active policy responses to concerning, but insofar as you think the model is reasonable, a policy response may be warranted.|if previous clause holds}
+
+
+## AI usage note
+
+This document was primarily authored and directed by David Johnston. AI assistance was used as an editorial and analytical aid. Model structure was supplied by David, derivations of the transformed equations under the automation clock and calibration formulae were done by GPT 5.5. Justifications supplied by David. App implementation was done by Claude Opus 4.7/4.8, with many revisions requested by David. Estimation approaches were given by David, sources were fetched by Claude and GPT, David supplied the final range of estimates. About 50% of the text was drafted by AI, concentrated in appendices, 100% of text was edited by David.
+
+
+### Appendix: long-run fixed points {#appendix-long-run-fixed-points}
+
+In the long run, $q_h\to 0$. For a fixed value of $q_u$, the monitoring and evasion stocks have natural equilibria
+
+\[
+m^*=\frac{F_M}{F},\qquad e^*=\frac{F_E}{F}.
+\]
+
+At such a point,
+
+\[
+O^*
+=
+\frac{m^*}{m^*+e^*}
+=
+\frac{F_M}{F_M+F_E}.
+\]
+
+When $q_h=0$,
+
+\[
+F_M=c_Mq_c,\qquad F_E=c_0+a_{\mathrm{E/M}}c_Mq_u.
+\]
+
+So
+
+\[
+O^*(q_u)
+=
+\frac{q_c}{q_c+a_{\mathrm{E/M}}q_u+c_0/c_M}.
+\]
+
+Define the odds ratio
+
+\[
+r:=\frac{q_u}{q_c}=\frac{q_u}{1-q_u},
+\]
+
+and abbreviate
+
+\[
+a:=a_{\mathrm{E/M}},\qquad c:=\frac{c_0}{c_M}.
+\]
+
+Then
+
+\[
+O^*(r)
+=
+\frac{1}{1+c+(a+c)r}.
+\]
+
+A long-run fixed point for $q_u$ satisfies
+
+\[
+q_u'=0
+\qquad\Longleftrightarrow\qquad
+\frac{F_u}{F}=q_u.
+\]
+
+Equivalently, the uncooperative pool captures exactly its current share of new production. With $q_h=0$, this condition becomes
+
+\[
+k_{cu}+\left(k_{cu}+k_{uu}-1-\ell O^*(r)\right)r=0.
+\]
+
+Call the left-hand side $g(r)$. Since
+
+\[
+O^*(r)=\frac{1}{1+c+(a+c)r},
+\]
+
+we can write
+
+\[
+g(r)=k_{cu}+(k_{cu}+k_{uu}-1)r-\frac{\ell r}{1+c+(a+c)r}.
+\]
+
+When $k_{cu}>0$, $g(0)=k_{cu}>0$: even at vanishingly small $q_u$, leakage from cooperative labour is seeding uncooperative labour. For a low-$q_u$ fixed point to exist, $g(r)$ has to cross zero. The initial slope is
+
+\[
+g'(0)=k_{cu}+k_{uu}-1-\ell O^*(0).
+\]
+
+Moreover,
+
+\[
+g''(r)=\frac{2\ell(1+c)(a+c)}{(1+c+(a+c)r)^3}>0,
+\]
+
+so the slope of $g$ only increases as $r$ grows. If $g'(0)\ge 0$, the curve starts above zero and increasing, and cannot cross zero. Thus a necessary condition for a cooperative-side fixed point is
+
+\[
+\ell O^*(0)>k_{cu}+k_{uu}-1.
+\]
+
+This condition is not sufficient: $g$ may slope downward at first but fail to fall below zero before turning upward again. That is why the actual fixed points are determined by the quadratic.
+
+Substituting the expression for $O^*(r)$ gives
+
+\[
+\left(k_{cu}+(k_{cu}+k_{uu}-1)r\right)(1+c+(a+c)r)-\ell r=0.
+\]
+
+This is a quadratic in $r$. Let
+
+\[
+b:=k_{cu}+k_{uu}-1,
+\]
+
+so the quadratic can be written
+
+\[
+Ar^2+Br+C=0,
+\]
+
+where
+
+\[
+A=b(a+c),\qquad
+B=k_{cu}(a+c)+b(1+c)-\ell,\qquad
+C=k_{cu}(1+c).
+\]
+
+The positive roots are the interior long-run fixed points. If there are two positive roots, the lower one is the cooperative-side attractor and the higher one is the saddle separating basins. If there are no positive roots and the all-uncooperative endpoint is stable, the cooperative basin has disappeared.
+
+The all-uncooperative endpoint is stable when
+
+\[
+k_{uu}+k_{cu}>1.
+\]
+
+Intuitively, once monitoring has collapsed, uncooperative labour can hold the whole system if its self-reproduction advantage beats the net reproduction rate of a small reintroduced cooperative minority.
+
+When $k_{cu}=0$, the cooperative endpoint is an exact fixed point, and its local stability condition reduces to
+
+\[
+\ell O^*(0)>k_{uu}-1.
+\]
+
+
+### Appendix: neglect, subversion and more realistic models {#appendix-neglect-subversion}
+
+In our model there are two pools of AI labour, cooperative and uncooperative, and we define each with two-part definitions: a tendency to cooperate/undermine supervision, and a tendency to maintain this tendency. In reality, cooperative behaviour will vary in the degree of behaviour preservation it exhibits, as will uncooperative behaviour. Suppose we have a pool of uncooperative behaviour where half has a very weak behavioural preservation and half has very strong behavioural preservation. Then if we roll the clock forward the strong behavioural preservation component will replicate more effectively than the weak preservation component and - neglecting other sources of uncooperative behaviour - in the next generation, more than half of this pool will have strong behavioural preservation tendencies. In turn, this means that the *whole pool* will become more effective at self-replication. Thus on this more realistic picture, we won't have a constant $k_{uu}$ pool replication term.
+
+A relatively simple way to address this issue is to increase the number of pools available; rather than a single $A_{c}$ an $A_u$, we have sequences $A^i_u$ and $A^i_c$, $i\in \[1,2,3,4,5\]$, such that $A^1_c$ has quite weak behavioural preservation tendencies and $A^5_c$ has quite strong tendencies, each with their own replication $k_{x^ix^i}$ and leakage $k_{x^jy^j}$ terms. This adds a large number of parameters to the model which need to be calibrated, and calibrating them is conceptually difficult. Nevertheless, it may be an important upgrade to the model's representational capability. 
+
+There's an analogy for this in epidemiology. In a textbook SIR model the infectious compartment is a single pool with a constant per-capita recovery rate $\gamma$. That assumption is *memoryless*: an individual's chance of recovering in the next instant does not depend on how long they have already been infectious, which forces the infectious period to be exponentially distributed — its mode is at zero, its coefficient of variation is one, and it has a long tail. Real infectious periods look nothing like this; they are peaked around a mean. The standard remedy — the "linear chain trick" — is essentially the move proposed above: replace the single compartment with a chain $I_1\to\dots\to I_n$, each substage with rate $n\gamma$. The total time to traverse the chain is then Erlang (a gamma with integer shape) rather than gamma distributed. In epidemiology, multi-stage models tend to fit outbreak data substantially better than the single-exponential default ([Wearing, Rohani & Keeling 2005](https://doi.org/10.1371/journal.pmed.0020174)).
+
+### Appendix: why takeoff speed drops out {#appendix-derivation}
+
+The model rests on the assumption that changes in $A_c$ and $A_u$ can be factored into a common time-dependent component $\Lambda(t)$ and allocation functions that depend only on the shares:
+
+\[
+\dot A_c = \Lambda(t)\,A\,F_c(q_u,q_h,O), \qquad
+\dot A_u = \Lambda(t)\,A\,F_u(q_u,q_h,O).
+\]
+
+The common factor $\Lambda A$ carries everything about *how fast* the pool is compounding; the $F$'s carry everything about *how new production is split*, and depend on time only through the shares. The content of the assumption lies in the $F$'s, not in $\Lambda$: $\Lambda $ may depend on time, on $A$, even on the shares themselves — what we assume is that once a single common scale is factored out, the residual split is a function of the shares alone.
+
+Two consequences follow. First, adding the two equations,
+
+\[
+\dot A = \dot A_c + \dot A_u = \Lambda A\,(F_c + F_u) = \Lambda A\,F, \qquad F := F_c + F_u,
+\]
+
+so the clock $\sigma = \log(A/A_0)$ advances at
+
+\[
+\dot\sigma = \frac{\dot A}{A} = \Lambda F.
+\]
+
+Second, for the uncooperative share $q_u = A_u/A$, the quotient rule gives
+
+\[
+\dot q_u = \frac{\dot A_u}{A} - q_u\,\frac{\dot A}{A} = \Lambda\,(F_u - q_u F),
+\]
+
+and re-expressing the rate of change *per unit of $\sigma$* rather than per unit of time,
+
+\[
+q_u' \;=\; \frac{dq_u}{d\sigma} \;=\; \frac{\dot q_u}{\dot\sigma} \;=\; \frac{\Lambda\,(F_u - q_u F)}{\Lambda F} \;=\; \frac{F_u}{F} - q_u.
+\]
+
+The common factor $\Lambda$ divides out, top and bottom — and that is the whole trick. It has two parts: because $\Lambda$ is *common* to both cores, and also sets the clock rate, its magnitude — the takeoff speed — cancels; and because the $F$'s depend on the shares *alone*, what remains is an autonomous system in $\sigma$. A fast takeoff and a slow takeoff trace the same curve through share-space; only the calendar rate at which they traverse it differs. The cooperative share is just $A_c/A = 1-q_u$, so it needs no equation of its own.
+
+For the fixed human pool $q_h=H_0/A$, we have $\dot H_0=0$, so
+
+\[
+\dot q_h
+=
+-q_h\,\frac{\dot A}{A}
+=
+-q_h\,\Lambda F.
+\]
+
+Dividing by $\dot\sigma=\Lambda F$ gives
+
+\[
+q_h'=-q_h.
+\]
+
+The same quotient-rule step gives the monitoring and evasion equations. Assume
+
+\[
+\dot M = \Lambda A F_M,
+\qquad
+\dot E = \Lambda A F_E.
+\]
+
+For $m=M/A$,
+
+\[
+\dot m
+=
+\frac{\dot M}{A}-m\,\frac{\dot A}{A}
+=
+\Lambda F_M - m\,\Lambda F
+=
+\Lambda(F_M-mF).
+\]
+
+Dividing by $\dot\sigma=\Lambda F$ gives
+
+\[
+m'=\frac{F_M}{F}-m.
+\]
+
+Likewise, for $e=E/A$,
+
+\[
+\dot e
+=
+\frac{\dot E}{A}-e\,\frac{\dot A}{A}
+=
+\Lambda(F_E-eF),
+\]
+
+and therefore
+
+\[
+e'=\frac{F_E}{F}-e.
+\]
+
+### Appendix: calibrating observability (alternative route) {#appendix-observability-calibration}
+
+By default we calibrate the observability sector directly: we estimate present observability $O(0)$ and put a prior on the passive-opacity ratio $c_0/c_M$ (with $c_0=c_M$, so long-run observability is $1/2$). This appendix sets out an *alternative* route that instead derives $c_M$ and $c_0$ from two calendar-time rate judgements, $T_{M,1/2}$ and $T_{E,2}$. It could in principle be anchored to empirical rate evidence, but we do not currently use it.
+
+We defined observability $O$ as the fraction of uncooperative behaviour we catch, and $U := 1-O$ is the fraction we miss. However, the algebra is cleaner in odds so we'll work with odds.
+
+\[
+R := \frac{1-O}{O}.
+\]
+
+Since
+
+\[
+O = \frac{m}{m+e},
+\]
+
+we have
+
+\[
+R = \left(\frac{e}{m}\right).
+\]
+
+Therefore
+
+\[
+\log R = \log e-\log m
+\]
+
+and
+
+\[
+\frac{d\log R}{d\sigma}
+=
+\left(\frac{e'}{e}-\frac{m'}{m}\right).
+\]
+
+Using
+
+\[
+m'=\frac{F_M}{F}-m,\qquad e'=\frac{F_E}{F}-e,
+\]
+
+gives
+
+\[
+\frac{d\log R}{d\sigma}
+=
+\left(\frac{F_E}{F\,e}-\frac{F_M}{F\,m}\right).
+\]
+
+The automation-relative dilution terms cancel. This is why odds are the mathematically natural calibration target: passive dilution of both stocks does not by itself change which side is ahead.
+
+Let the present-day values be denoted with a subscript $0$. The absolute units of $m$ and $e$ are arbitrary, so set
+
+\[
+m_0 = 1,
+\qquad
+e_0 = \left(\frac{1-O_0}{O_0}\right).
+\]
+
+Let $T_{auto}$ be the present calendar-time doubling time of total automation. Near the present,
+
+\[
+\frac{d\sigma}{dt}\approx \frac{\ln 2}{T_{auto}}.
+\]
+
+Now define $T_{M,1/2}$ as the calendar time for missed-to-caught odds to halve if evasion production were frozen at zero. Then
+
+\[
+\left.\frac{d\log R}{dt}\right|_{F_E=0}
+=
+-\frac{\ln 2}{T_{M,1/2}},
+\]
+
+so
+
+\[
+\left.\frac{d\log R}{d\sigma}\right|_{F_E=0}
+=
+-\frac{T_{auto}}{T_{M,1/2}}.
+\]
+
+Since
+
+\[
+F_{M,0}=c_M\left(q_{c,0}+\frac{q_{h,0}}{a_{\mathrm{AI/H}}}\right),
+\]
+
+we get
+
+\[
+c_M
+=
+\frac{F_0m_0}{q_{c,0}+q_{h,0}/a_{\mathrm{AI/H}}}
+\frac{T_{auto}}{T_{M,1/2}}.
+\]
+
+Next define $T_{E,2}$ as the calendar time for missed-to-caught odds to double if monitoring production were frozen at zero. Then
+
+\[
+\left.\frac{d\log R}{dt}\right|_{F_M=0}
+=
+\frac{\ln 2}{T_{E,2}},
+\qquad
+\left.\frac{d\log R}{d\sigma}\right|_{F_M=0}
+=
+\frac{T_{auto}}{T_{E,2}}.
+\]
+
+Since
+
+\[
+F_{E,0}=c_0+a_{\mathrm{E/M}}c_Mq_{u,0},
+\]
+
+we get
+
+\[
+c_0
+=
+\frac{F_0e_0T_{auto}}{T_{E,2}}
+-a_{\mathrm{E/M}}c_Mq_{u,0}.
+\]
+
+When $q_{u,0}$ is small, the active-evasion subtraction is small and this is approximately
+
+\[
+c_0
+\approx
+\frac{F_0e_0T_{auto}}{T_{E,2}}.
+\]
+
+If the sliders are phrased in terms of the missed fraction $U=1-O$ rather than missed-to-caught odds, convert using
+
+\[
+R=\frac{U}{1-U}.
+\]
+
+For small $U$, halving or doubling the missed fraction is approximately the same as halving or doubling the odds. If exact conversion is desired, a change from $U_0$ to $U_1$ corresponds to
+
+\[
+\Delta \log R
+=
+\log\left(\frac{U_1}{1-U_1}\right)
+-
+\log\left(\frac{U_0}{1-U_0}\right).
+\]
+
+Thus halving the missed fraction, $U_1=U_0/2$, corresponds to
+
+\[
+\Delta \log R
+=
+\log\left(\frac{1-U_0}{2-U_0}\right),
+\]
+
+while doubling it, $U_1=2U_0$ (for $U_0<1/2$), corresponds to
+
+\[
+\Delta \log R
+=
+\log\left(\frac{2(1-U_0)}{1-2U_0}\right).
+\]
+
+### Appendix: representing external scenarios {#appendix-external-scenarios}
+
+This model is supposed to clarify discussion of AI misalignment risk, and if it is to do this, we must therefore be able to use the model to illuminate existing discussions of this issue. We work this through for the [AI 2027](https://ai-2027.com/) scenario, one of the highest profile discussions of this risk. Its premise — AI automating AI R&D, with each generation training the next under the supervision of the last — is exactly the setup of this model.
+
+The AI 2027 scenario comes with a detailed model of AI capability progress in the [AI futures model](https://www.aifuturesmodel.com/) and offers a qualitative account of alignment success or failure. Note that they say "misaligned" where we say "uncooperative". We summarize that account as follows:
+
+ 1. **Uncooperativeness is an inductive bias**: in the scenario description there is a discrete trasitition from a model "Agent-3" which is "not adversarially misaligned" to a model "Agent-4" which is "adversarially misaligned", and this happens because "The actions that it takes off-distribution aren't constrained by the reward; its OOD behavior is instead set by the prior."
+ 2. **Uncooperative labour satisfies both of our conditions**: (i'): Agent-4 sandbags on some alignment research. Specifically, it sandbags on the small fraction of alignment research that it thinks is actually on track to solve the problem or reveal Agent-4's scheming, (ii'): Tasked with building its successor, "It's supposed to be aligned to the Spec, but Agent-4 plans to make it aligned to Agent-4 instead."
+ 3. **"Adversarial" uncooperativeness emerges over about 2 $\sigma$-units**: The effective AI labour multiplier for Agent-4 over Agent-3 is about 7x (2 $e$-foldings), which takes place over 4-6 calendar months.
+ 4. **Misalignment represents a behavioural change not just a capability increase**: While Agent-3 satisfies property (i') (it is uncooperative), it does not satisfy (ii') (it does not have a propensity to building models that satisfy both (i') and (ii')), while Agent-4 satisfies both (see above). That is, Agent-3 is not similarly uncooperative and merely 7x less productive in its uncooperativeness.
+ 5. **Oversight passively degrades as AI labour rises**: Agent-3 supervises Agent-4's training but "Agent-4's neuralese 'language' becomes as alien and incomprehensible to Agent-3 as Agent-3's is to humans."
+ 6. **Uncooperativeness is partially observed**: "'defection probes' and similar techniques result in a primitive sort of mind-reading that sends up red flags when Agent-4 is thinking about spicy ideas like deceiving OpenBrain"
+ 8. **Slowdown buys safety mostly via interventions on $O$ plus knock on effects**: "They switch to an architecture that preserves the chain of thought, allowing them to catch misalignment as it emerges", and these AIs — "which are able to be monitored much more robustly — make breakthrough advances in AI alignment"
+
+We model 1 as a high leakage rate $k_{cu}$. If the optimization landscape strongly converges to uncooperative AI systems, then the vast majority of well-intentioned work will end up producing uncooperative AI systems. We use high leakage from automated labour $k_{cu}$ instead of human labour $k_{hu}$ as an ad-hoc way to represent the fact that this is hypothesised to be an effect that becomes important at around the same time human labour is mostly handed off to AI systems. We somewhat arbitrarily pick $k_{cu}=0.9$ as a representative path. If it were truly a strongly convergent endpoint, we may expect that it is much closer to $1$, while if it is a weak tendency that can be avoided by employing certain tricks then it may be much lower, perhaps even around our working estimate of $0.05$. The uncertainty this surfaces is a feature - the language is compatible with a wide range of parameter estimates, and as such identifies an opportunity for clarification in the original work.
+
+Under such high leakage rates, achieving cooperative dominance is very difficult. The following figure illustrates the modal trajectory taking our central estimates for all parameters except for the leakage rate. We see that observed misbehaviour rises before falling again, while the uncooperative share of AI labour rises relatively quickly to dominance.
+
+{{<figure src="/images/blog/dynamical-models/ai2027-high-leakage-run.png" width="78%" align="center" caption="A represenative high-leakage trajectory (k_cu = 0.9). Top: the true uncooperative share q_u (solid) climbs to dominance over a few σ-units, while the observed rate O·q_u (dashed) peaks early and then declines. Bottom: observability gains ground at first, then collapses as the alien, high-q_u workforce outgrows monitoring. The measurable signal understates the problem exactly when it matters most." />}}
+
+Under these leakage rates, control of uncooperative labour via observation and suppression must be very strong in order to succeed - we require $O^*\ell\approx 4$, which means that for every doubling of AI labour we need to reduce pre-existing uncooperative labour to $\frac{1}{16}$ of its "natural" rate. Given that, in this scenario, most new AI labour is uncooperative, this would likely entail a very significant ongoing slowdown in AI development. If suppression were achieved purely by observing uncooperative behaviour and discarding the associated outputs, progress would slow to 1/16th of its natural rate. Of course there are probably more efficient ways to achieve suppression, but observability based interventions still depend fundamentally on observing misbehaviour which, in this scenario, is the vast majority of work done by AI building more AI.
+
+{{<figure src="/images/blog/dynamical-models/ai2027-observability-cannot-save.png" width="100%" align="center" caption="At high leakage, observability alone cannot recover a cooperative outcome. For k_uu = 1 the basin boundary is k_cu = ℓ·O*/4. (a) Holding suppression at the central ℓ = 0.2, raising best-case observability O* from 0.5 toward perfect barely shifts the boundary (b) High suppression rates combined with high observability can mitigate high leakage rates." />}}
+
+Now the AI 2027 model suggests that heavy suppression need not go on indefinitely; ultimately the (heavily suppressed) AI workers make a breakthrough in alignment, which presumably lowers leakage to a level such that monitoring and suppression can be greatly relaxed. This is a feature of the AI 2027 model absent from ours: the leakage rate is dynamic, and (on our understanding) first rises substantially at around the point of "handoff" from human to AI labour, then potentially falls substantially once an alignment breakthrough is made. On this view there are two discrete "problems" - first, building uncooperative AI-reproducing AI workers, and second building cooperative AI-reproducing AI workers. The first problem is somewhat easier than the second, and so the challenge is to effectively use the uncooperative labour to solve the second problem.
+
+This vision suggests quite a different policy stance to our mainline scenario. Our mainline scenario suggests a good deal of safety can be bought by making marginal improvements to $O$, $\ell$ or $k_{cu}$ because we are near the edge of the basin boundary, the AI 2027 scenario instead seems to indicate that large shifts are necessary. Furthermore, because the problem is discrete, bounded in time but very costly to mitigate, it suggests a "lock down late and sprint for a solution" approach. To be clear, this is our interpretation of the article and perhaps the authors do not endorse our "high but solvable leakage" reading (I plan to ask them). This illustrates the value of these modelling exercises: making claims mathematically precise can show where seemingly similar concerns ("misaligned AI is a risk") may mask quite different risk models with different policy responses *or* show where risk models are being miscommunicated.
