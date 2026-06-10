@@ -432,6 +432,11 @@ function defaultParams() {
   return p;
 }
 
+// Trajectory-view integration horizon (in σ). Not a model parameter.
+const SIGMA_MAX_DEFAULT = 15;
+const SIGMA_MAX_MIN = 5;
+const SIGMA_MAX_MAX = 60;
+
 // e(0) = R(0) directly (missed-to-caught odds), with m(0)=1 fixing the units.
 function deriveIC(p) {
   const m0 = 1;
@@ -629,6 +634,40 @@ function ParamCard({ pkey, onClose, onNavigate }) {
             </div>
           </div>
         )}
+      </div>
+    </div>
+  );
+}
+
+// Slider for the trajectory horizon (σ_max). Lives outside PARAM_DEFS because
+// it is a view control, not a model parameter.
+function HorizonSlider({ value, onChange, T_auto }) {
+  return (
+    <div style={{ padding: '10px 14px', borderBottom: `1px solid ${C.border}`, background: C.bgPanel }}>
+      <div style={{ display: 'flex', alignItems: 'baseline', justifyContent: 'space-between', gap: 8 }}>
+        <div style={{ display: 'flex', alignItems: 'baseline', gap: 8, minWidth: 0 }}>
+          <span style={{
+            fontFamily: FONTS.sans, fontSize: 12.5, color: C.fg, fontWeight: 500,
+            whiteSpace: 'nowrap', overflow: 'hidden', textOverflow: 'ellipsis',
+          }}>Trajectory horizon</span>
+          <span style={{ fontFamily: FONTS.mono, fontSize: 11, color: C.fgMuted }}>σ_max</span>
+        </div>
+        <span style={{ fontFamily: FONTS.mono, fontSize: 12, color: C.accent, fontWeight: 600, whiteSpace: 'nowrap' }}>
+          {value.toFixed(0)}
+        </span>
+      </div>
+      <input
+        type="range"
+        min={SIGMA_MAX_MIN}
+        max={SIGMA_MAX_MAX}
+        step={1}
+        value={value}
+        onChange={e => onChange(parseFloat(e.target.value))}
+        style={{ width: '100%', marginTop: 6, accentColor: C.accent }}
+      />
+      <div style={{ fontFamily: FONTS.sans, fontSize: 11, color: C.fgDim, marginTop: 2, lineHeight: 1.4 }}>
+        How many e-foldings of A the trajectory view simulates
+        (≈ {fmtYears(sigmaToYears(value, T_auto))} calendar years at current T_auto).
       </div>
     </div>
   );
@@ -1389,14 +1428,16 @@ export default function BasinExplorer() {
   const [displayMode, setDisplayMode] = useState('sigma');
   const [assumptionsOpen, setAssumptionsOpen] = useState(false);
   const [pinnedKey, setPinnedKey] = useState(null);
-
-  const sigmaMax = 15;  // Fixed trajectory horizon
+  const [sigmaMax, setSigmaMax] = useState(SIGMA_MAX_DEFAULT);
 
   const ode = useMemo(() => odeParams(params), [params]);
   const basin = useMemo(() => classifyBasin(ode), [ode]);
 
   const setParam = (k, v) => setParams(p => ({ ...p, [k]: v }));
-  const resetDefaults = () => setParams(defaultParams());
+  const resetDefaults = () => {
+    setParams(defaultParams());
+    setSigmaMax(SIGMA_MAX_DEFAULT);
+  };
 
   const primaryKeys = ['k_uu', 'k_cu', 'k_hu', 'l', 'a_e_m', 'a_ai_h'];
 
@@ -1452,6 +1493,9 @@ export default function BasinExplorer() {
             <GroupHeader title="Initial conditions" />
             <Slider pkey="q0" value={params.q0} onChange={v => setParam('q0', v)} onPin={setPinnedKey} />
             <Slider pkey="eta0" value={params.eta0} onChange={v => setParam('eta0', v)} onPin={setPinnedKey} />
+
+            <GroupHeader title="View" />
+            <HorizonSlider value={sigmaMax} onChange={setSigmaMax} T_auto={params.T_auto} />
           </div>
 
           <div style={{ display: 'flex', flexDirection: 'column' }}>
