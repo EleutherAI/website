@@ -486,6 +486,57 @@ function sigmaToYears(sigma, T_auto) {
 }
 
 // =============================================================================
+// URL-ENCODED STATE (shareable links)
+// =============================================================================
+// Parameters are encoded in the query string under their PARAM_DEFS keys
+// (e.g. ?k_uu=1.2&l=0.4), plus sigmaMax / view / time for the view state.
+// Only values that differ from defaults are written; values read from the URL
+// are clamped to each parameter's [min, max].
+
+function trimNum(v) {
+  return String(+v.toPrecision(6));
+}
+
+function readStateFromURL() {
+  const out = {
+    params: defaultParams(),
+    sigmaMax: SIGMA_MAX_DEFAULT,
+    view: 'trajectory',
+    displayMode: 'sigma',
+  };
+  if (typeof window === 'undefined') return out;
+  const sp = new URLSearchParams(window.location.search);
+  for (const [k, def] of Object.entries(PARAM_DEFS)) {
+    const raw = sp.get(k);
+    if (raw === null) continue;
+    const v = parseFloat(raw);
+    if (Number.isFinite(v)) out.params[k] = Math.min(Math.max(v, def.min), def.max);
+  }
+  const sm = parseFloat(sp.get('sigmaMax'));
+  if (Number.isFinite(sm)) {
+    out.sigmaMax = Math.min(Math.max(sm, SIGMA_MAX_MIN), SIGMA_MAX_MAX);
+  }
+  if (sp.get('view') === 'outcome') out.view = 'outcome';
+  if (sp.get('time') === 'years') out.displayMode = 'years';
+  return out;
+}
+
+function writeStateToURL(params, sigmaMax, view, displayMode) {
+  if (typeof window === 'undefined' || !window.history?.replaceState) return;
+  const sp = new URLSearchParams();
+  const defaults = defaultParams();
+  for (const k of Object.keys(PARAM_DEFS)) {
+    if (Math.abs(params[k] - defaults[k]) > 1e-12) sp.set(k, trimNum(params[k]));
+  }
+  if (sigmaMax !== SIGMA_MAX_DEFAULT) sp.set('sigmaMax', trimNum(sigmaMax));
+  if (view !== 'trajectory') sp.set('view', view);
+  if (displayMode !== 'sigma') sp.set('time', displayMode);
+  const qs = sp.toString();
+  const url = window.location.pathname + (qs ? '?' + qs : '') + window.location.hash;
+  window.history.replaceState(null, '', url);
+}
+
+// =============================================================================
 // UI COMPONENTS
 // =============================================================================
 
@@ -1423,12 +1474,19 @@ export default function BasinExplorer() {
   useFonts();
   const katexReady = useKaTeXLoader();
 
-  const [params, setParams] = useState(defaultParams);
-  const [view, setView] = useState('trajectory');
-  const [displayMode, setDisplayMode] = useState('sigma');
+  // Initial state comes from the URL query string (shareable links).
+  const initialState = useMemo(readStateFromURL, []);
+  const [params, setParams] = useState(initialState.params);
+  const [view, setView] = useState(initialState.view);
+  const [displayMode, setDisplayMode] = useState(initialState.displayMode);
   const [assumptionsOpen, setAssumptionsOpen] = useState(false);
   const [pinnedKey, setPinnedKey] = useState(null);
-  const [sigmaMax, setSigmaMax] = useState(SIGMA_MAX_DEFAULT);
+  const [sigmaMax, setSigmaMax] = useState(initialState.sigmaMax);
+
+  // Keep the URL in sync so the current view is always shareable.
+  useEffect(() => {
+    writeStateToURL(params, sigmaMax, view, displayMode);
+  }, [params, sigmaMax, view, displayMode]);
 
   const ode = useMemo(() => odeParams(params), [params]);
   const basin = useMemo(() => classifyBasin(ode), [ode]);
