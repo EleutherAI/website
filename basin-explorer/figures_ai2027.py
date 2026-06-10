@@ -3,9 +3,11 @@
 Figures for the "representing external scenarios" (AI 2027) appendix of the
 dynamical-models-of-ai-governability post.
 
-The model core is a faithful port of basin-explorer/model.mjs (the canonical
-sigma-clock model). The port is validated against ground-truth numbers emitted
-by explore_ai2027.mjs before any figure is drawn.
+The model core is a delta-general port of the canonical sigma-clock model
+(in-app engine: basin-explorer/src/BasinExplorer.jsx). The port is validated
+against pinned ground-truth numbers before any figure is drawn, including a
+delta=1 regression that reproduces the original pre-delta implementation
+(the pre-delta helper scripts themselves were retired; see README.md).
 
 Two figures:
   fig1: AI 2027 located as a high-leakage run (q_u rises, O collapses).
@@ -46,7 +48,7 @@ mpl.rcParams.update({
 })
 
 # ===========================================================================
-# MODEL CORE  — port of model.mjs (BETA = 1, linear observability)
+# MODEL CORE  — delta-general port of the in-app engine (src/BasinExplorer.jsx)
 # ===========================================================================
 def computeO(m, e):
     m = max(m, 1e-12); e = max(e, 1e-12)
@@ -165,7 +167,7 @@ def P(**over):
     p = dict(DEFAULTS); p.update(over); return p
 
 # ===========================================================================
-# VALIDATION against explore_ai2027.mjs ground truth
+# VALIDATION against pinned ground-truth numbers (pre-delta JS + verified verdicts)
 # ===========================================================================
 def validate():
     print("=== validating Python port (delta-general) ===")
