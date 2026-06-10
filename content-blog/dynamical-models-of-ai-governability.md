@@ -80,9 +80,9 @@ Our system of equations is
 
 \[
 \begin{aligned}
-F_c &= q_c(1-k_{cu})+q_h(1-k_{hu})\\
+F_c &= q_c(1-k_{cu})+q_h(1-k_{hu})+(1-\delta)\,\ell O\,q_u\\
 F_u &= k_{cu}q_c+k_{hu}q_h+(k_{uu}-\ell O)q_u\\
-F   &= F_c+F_u
+F   &= F_c+F_u = q_c+q_h+(k_{uu}-\delta\,\ell O)\,q_u
 \end{aligned}
 \]
 
@@ -111,24 +111,36 @@ The one exception to this is human labour, which just thins out: $q_h' = -q_h$ s
 **Production capture:** The AI production allocation functions are:
 \[
 \begin{aligned}
-F_c &= q_c(1-k_{cu}) + q_h(1-k_{hu})\\[4pt]
+F_c &= q_c(1-k_{cu}) + q_h(1-k_{hu}) + (1-\delta)\,\ell O\,q_u\\[4pt]
 F_u &= k_{cu}\,q_c + k_{hu}\,q_h + (k_{uu} - \ell O)\,q_u
 \end{aligned}
 \]
-Reading $F_c$: the cooperative pool $q_c$ reproduces itself, less a fraction $k_{cu}$ that *leaks* into serving uncooperative ends; human labour $q_h$ contributes likewise, less its own leak $k_{hu}$. Leakage could happen for many reasons: systems that usually behave well could be used in unexpected or unwanted ways, or systems may have generalised undesirably from training and pro-actively behave badly in some situations. Reading $F_u$: it picks up the leaked cooperative effort $k_{cu}\,q_c$ and human effort $k_{hu}\,q_h$, plus its own reproduction at advantage $k_{uu}$ — but the *observed* part of that misbehaviour is suppressed at rate $\ell$, hence $(k_{uu} - \ell O)\,q_u$. Suppression of uncooperative behaviour could also take many forms: modification of training data or algorithms, usage restrictions or identifying and isolating compromised systems. Our model could be extended by allowing $\ell$ to depend on the other system parameters, but for simplicity we have avoided this.
+Reading $F_c$: the cooperative pool $q_c$ reproduces itself, less a fraction $k_{cu}$ that *leaks* into serving uncooperative ends; human labour $q_h$ contributes likewise, less its own leak $k_{hu}$; the third term is the redirected share of suppressed uncooperative labour, explained below. Leakage could happen for many reasons: systems that usually behave well could be used in unexpected or unwanted ways, or systems may have generalised undesirably from training and pro-actively behave badly in some situations. Reading $F_u$: it picks up the leaked cooperative effort $k_{cu}\,q_c$ and human effort $k_{hu}\,q_h$, plus its own reproduction at advantage $k_{uu}$ — but the *observed* part of that misbehaviour is suppressed at rate $\ell$, hence $(k_{uu} - \ell O)\,q_u$. Suppression of uncooperative behaviour could take many forms: modification of training data or algorithms, usage restrictions or identifying and isolating compromised systems. Our model could be extended by allowing $\ell$ to depend on the other system parameters, but for simplicity we have avoided this.
+
+Suppression removes uncooperative labour from the uncooperative pool, but "removed" can mean two quite different things. Some mechanisms *destroy* the labour outright: an output filter that blocks a flagged action discards the work entirely — nothing is produced in its place. Other mechanisms *redirect* it: retraining a model against an observed failure costs a small amount of compute, after which the corrected model goes back to work and the labour that would have been uncooperative is produced as cooperative labour instead. We capture this with a destruction fraction $\delta$: of the suppressed flow $\ell O\,q_u$, fraction $\delta$ is destroyed and the remaining $(1-\delta)$ is redirected into cooperative production. The uncooperative pool loses the full suppressed flow either way (the $-\ell O\,q_u$ term in $F_u$ is unchanged); $\delta$ controls how much of that flow reappears in $F_c$ and, consequently, how much suppression costs in aggregate output.
+
+Roughly, today's suppression mechanisms sit on a spectrum:
+
+| Mechanism | What happens to the caught labour | $\delta$ contribution |
+|---|---|---|
+| Output filtering / classifier rejection | the flagged output is discarded; the labour is simply lost | ≈ 1 (pure destruction) |
+| Retraining / finetuning against the failure | a small fraction of compute is spent correcting the model, which is then redeployed and fails less; the labour is redirected | ≈ 0 (cheap, largely redirective) |
+| Control-style protocols (resampling, output editing, restricted affordances) | part of the work is salvaged at an overhead in monitoring and redone work | ≈ 0.5 (in between) |
+
+Note an idealization: redirected labour converts into cooperative labour one-for-one, with no lag and no quality discount, and the redirected flow is not itself subject to leakage in the same generation. If corrected labour is worth less than a full unit, the effective cost of suppression is higher than $\delta$ alone suggests.
 
 This is why $q_h$ appears additively in the production-capture equations. Human labour is being measured in the same effective-labour units as $A_c$ and $A_u$. If humans remain an essential bottleneck for some kinds of AI development, this would overstate how quickly the human contribution fades; modelling that would require adding task bottlenecks or complementarities explicitly.
 
 $F$ becomes:
 \[
-F = q_c + q_h + (k_{uu} - \ell O )\,q_u.
+F = q_c + q_h + (k_{uu} - \delta\,\ell O )\,q_u.
 \]
-Where the leakage terms cancel in the sum.
+The leakage terms cancel in the sum, and so does the redirected $(1-\delta)$ share of the suppressed flow — it is a transfer between pools, not a loss. Only the *destroyed* fraction $\delta$ of suppression slows overall progress.
 
 **Asymmetries in production capture:** We understand cooperative AI labour $A_c$ and uncooperative labour $A_u$ to be similar in many respects - they're both pools of labour concerned with building the next generation of AI - and this is reflected by the fact that our model treats each quite similar (see the equations for the general form of $\dot A_u$ and $\dot A_c$). However, there are two key asymmetries between them:
 
 - *Leakage runs one way.* Cooperative and human effort can slip into the uncooperative pool, but nothing leaks back. The idea here is that errors can undermine cooperativeness but are unlikely to reinforce it. Alternatively, we could think of $A_c$ as a "dominant faction" while $A_u$ is a collection of diverse factions with a shared interest in undermining $A_c$; so many different reasons could lead to an AI system being in $A_u$ but there is not such diversity for membership of $A_c$.
-- *Only $F_u$ is suppressed* — Where $A_c$ is the dominant faction, there is relatively little to be gained by $A_u$ by directly undermining $A_c$ (because it is much less powerful). If $A_u$ grows to rival $A_c$, it may make agressive moves to undermine $A_c$. As a policy objective, we would like to keep $A_u$ sufficiently small that such moves are very unlikely, and for simplicity we don't include such dynamics in this model.
+- *Only $F_u$ is suppressed* (though with $\delta<1$ the cooperative pool *receives* the redirected share of the suppressed flow) — Where $A_c$ is the dominant faction, there is relatively little to be gained by $A_u$ by directly undermining $A_c$ (because it is much less powerful). If $A_u$ grows to rival $A_c$, it may make agressive moves to undermine $A_c$. As a policy objective, we would like to keep $A_u$ sufficiently small that such moves are very unlikely, and for simplicity we don't include such dynamics in this model.
 
 
 **Monitoring and evaluation capture:** The equations for monitoring and evaluation capture are:
@@ -149,11 +161,17 @@ Evasion has two sources. The term $a_{\mathrm{E/M}}c_Mq_u$ is active evasion pro
 
 A quick list of idealizations in this model that one might want to consider relaxing:
  - Constant reproduction and leakage rates (see [Appendix: neglect, subversion and more realistic models](#appendix-neglect-subversion) for one proposal)
- - Constant efficacy of suppression of uncooperative behaviour $\ell$
+ - Constant efficacy of suppression of uncooperative behaviour $\ell$. Constant $\ell$ also assumes the fold-fixes-into-training process is dynamically stabilised: fixes are incorporated at roughly the rate new problem surface appears, generation after generation. If accumulated fixes compounded (raising effective $\ell$) or new capabilities outran the fixing process (lowering it), $\ell$ would drift.
+ - Constant destruction fraction $\delta$, with redirected labour converting one-for-one into cooperative labour — no lag, no quality discount, and no same-generation leakage of the redirected flow.
  - Suppression is perfectly targeted: $O$ captures only *recall* (the share of uncooperative labour caught), and correction never falls on cooperative labour by mistake. With imperfect precision, observability would gain a second role — better monitoring would also cut the collateral suppression of wrongly-flagged cooperative labour — which the model omits. This collateral cost could be high when $q_u$ is small: at a low base rate of misbehaviour, even a small false-positive rate sweeps up a great deal of cooperative labour.
+ - Observation is per-action but suppression acts on the pool: $O$ is calibrated as a per-action catch rate, while $\ell$ removes labour from the uncooperative pool as a whole. The model does not track which actions were caught, so suppression granularity (per action, per behaviour class, per model) is blurred; the class-level reading of $O$ noted below is one alternative.
+ - The dilution terms in $m' = F_M/F - m$ and $e' = F_E/F - e$ assume monitoring and evasion stocks must be continually re-produced just to keep pace with the growing automation surface — a monitoring stock that is not actively maintained loses ground at exactly the rate automation grows. This is a substantive scaling assumption, not bookkeeping: if monitoring technology generalised freely over a growing surface, observability would behave very differently.
+ - The pools $A_c$ and $A_u$ are *behaviours persistent across model generations*, not literal model artifacts: a deprecated model's uncooperative tendencies "survive" in the pool only insofar as they propagate into successors. The model does not distinguish a tendency carried by many short-lived models from one carried by a few long-lived ones.
  - Uncooperative behaviour doesn't actively try to undermine the cooperative pool (beyond trying to evade monitoring)
  - Fixed human labour $H_0$
- - There's no allowance to model a policy response to high rates of observed uncooperative behaviour like shifting resources from producing automation of any kind towards improving observability or suppression technology. Note that in general policy responses will operate at calendar time, and so modelling policy responses will likely require reintroducing a calendar time clock to the model and parametrizing the takeoff speed
+ - There's no allowance to model a policy response to high rates of observed uncooperative behaviour like shifting resources from producing automation of any kind towards improving observability or suppression technology. Note that in general policy responses will operate at calendar time, and so modelling policy responses will likely require reintroducing a calendar time clock to the model and parametrizing the takeoff speed. Relatedly, because the model runs on the automation clock, a *uniform* slowdown of all AI activity is literally invisible to it — takeoff speed cancels out of the dynamics. A blanket slowdown *with targeted exemptions* for observability and suppression work is representable, but only as what it really is: a costly way of raising $c_M$ and $\ell$ per unit of automation growth.
+
+A note on AI control. Control-style protocols ([Redwood Research's framing](https://arxiv.org/abs/2312.06942)) aim to extract useful work from possibly-uncooperative models while limiting the harm they can do — trusted monitoring, resampling, output editing, restricted affordances. In this model's terms they are suppression mechanisms of intermediate $\delta$ (part of the caught work is salvaged) that may also raise $\ell$ and the monitoring productivity behind $O$; we do not model their distinctive structure — the explicit budget of auditing labour, the trusted/untrusted split, or the adversarial evaluation that certifies a protocol — and our single per-action catch rate $O$ is a coarse stand-in for what control protocols actually buy. One alternative reading deserves a signpost: $O$ could be reinterpreted as *class-level discovery* — the probability that a class of uncooperative behaviour has been identified at all, with control measures then targeting the entire class rather than individual actions. Under that reading, suppression of a discovered class could be far stronger than per-action filtering suggests, but our per-action catch-rate estimation of $O(0)$ from monitoring testbeds would then be inappropriate, and the calibration would need to be redone against evidence about how quickly behaviour classes are discovered. We note the alternative without exploring it.
 
 Relaxing any of these is straightforward — just ask your favourite assistant — but making good choices about how you relax them and understanding the resulting model is harder, which is the reason we don't do it here.
 
@@ -191,7 +209,7 @@ The important qualitative question is whether there is a stable cooperative-side
 
 The appendix derives the fixed-point equation. In the simplified long-run system it reduces to a quadratic, so the basin picture can be checked directly rather than inferred from simulation alone.
 
-The two most important thresholds are intuitive. First, can rare uncooperative labour be suppressed while observability is still high? A necessary condition is that observability-gated suppression is stronger than uncooperative self-reproduction plus leakage:
+The two most important thresholds are intuitive. First, can rare uncooperative labour be suppressed while observability is still high? That requires observability-gated suppression to be stronger than uncooperative self-reproduction plus leakage:
 
 \[
 \tag{C1}
@@ -200,20 +218,31 @@ The two most important thresholds are intuitive. First, can rare uncooperative l
 O^*(0)=\frac{1}{1+c_0/c_M}.
 \]
 
-Call this **Condition 1**. It is necessary but not sufficient: sufficiently large leakage can still lead to an uncooperative dominant regime. The appendix explains the fixed-point curve and gives the exact quadratic.
+Call this **Condition 1**. It says exactly that the uncooperative share shrinks while it is rare. When suppression is pure destruction ($\delta=1$) it is necessary for a cooperative-side regime, but not sufficient: sufficiently large leakage can still lead to an uncooperative dominant regime. For $\delta<1$ it is not even necessary — redirection can stop a takeover even when uncooperative labour grows while rare, though the resulting attractor then typically sits at a *high* uncooperative share. The appendix explains the fixed-point curve and gives the exact quadratic.
 
-Second, can uncooperative labour sustain itself once observability has collapsed? If yes, then there can be a stable bad basin. In particular, the all-uncooperative endpoint is stable when
+Second, can uncooperative labour sustain itself once it dominates? If yes, then there can be a stable bad basin. The all-uncooperative endpoint is stable when
 
 \[
 \tag{C2}
-k_{uu}+k_{cu}>1.
+k_{uu}+k_{cu}-1>\frac{(1-\delta)\,\ell}{a_{\mathrm{E/M}}+c_0/c_M}.
 \]
 
-Call this **Condition 2**. A useful summary is:
+Call this **Condition 2**. At $\delta = 1$ it reduces to the simpler $k_{uu}+k_{cu}>1$: once nearly all labour is uncooperative, observability has collapsed, and dominance is self-sustaining whenever self-reproduction plus leakage beats the reproduction of a small reintroduced cooperative minority. For $\delta<1$ the bar is higher, because observability never falls *exactly* to zero — as $q_u\to1$ it falls like $O^* \approx q_c/(a_{\mathrm{E/M}}+c_0/c_M)$ — so redirected suppression keeps re-seeding the cooperative pool at a rate proportional to the remaining cooperative share, and uncooperative dominance must outgrow that re-seeding too.
 
-- If Condition 1 and Condition 2 both hold, the model may be bistable: a cooperative-dominant basin can coexist with an uncooperative-dominant basin, and initial conditions can determine where you end up.
-- If Condition 1 fails and Condition 2 holds, the cooperative-side basin disappears leaving uncooperative dominance.
-- If Condition 2 fails, the all-uncooperative endpoint is unstable, so a cooperative-dominant regime is the only long run outcome.
+A useful summary:
+
+- If Condition 2 holds, the all-uncooperative endpoint is stable. The model may then be bistable — a cooperative-side basin (when one exists; the exact condition is a quadratic discriminant, see the appendix) coexisting with an uncooperative-dominant basin, with initial conditions determining where you end up — or, if the cooperative-side basin does not exist, uncooperative dominance is the only outcome.
+- If Condition 2 fails, the all-uncooperative endpoint is unstable and the system has a single interior attractor. This is not automatically good news: depending on parameters, that attractor can sit anywhere from a few percent uncooperative to a large uncooperative majority being continuously caught, suppressed and recycled. What matters is the attractor's *location*, not just its existence.
+
+For the central structural choices used throughout this post ($k_{uu}=1$, $a_{\mathrm{E/M}}=1$), the existence condition for a cooperative-side fixed point has a closed form:
+
+\[
+\ell\,O^* \ge 4\,\delta\,k_{cu}\quad(\delta\ge\tfrac12),
+\qquad
+\ell\,O^* \ge \frac{k_{cu}}{1-\delta}\quad(\delta\le\tfrac12).
+\]
+
+At $\delta=1$ this is a four-to-one rule: suppression strength times long-run observability must beat cooperative-to-uncooperative leakage by a factor of four. This inequality is the single most decision-relevant output of the model, and we will return to it when we plug in numbers. You can also explore it directly: the [interactive basin explorer](/basin-explorer/) plots the basin boundary over any pair of parameters and lets you check how the verdicts below move as you change the inputs.
 
 ## Estimating parameters
 
@@ -255,6 +284,8 @@ If effective AI-development labour doubles every **3-7 months**, then the Petri 
 
 This is not a clean prospective measurement of "failure observed, then failure suppressed." Petri is a fixed-harness, backward-looking audit: it can surface failures in older models that may not have been known at release time, and newer models may introduce novel failure modes even as older ones are trained away. These caveats mostly point toward Petri underestimating $\ell$ as defined here, since $\ell$ is conditional on the failure actually being observed. For this reason, we consider a higher value of $\ell$ plausible; we use $\ell\sim0.1$-$0.5$ as a working range.
 
+**Destruction fraction $\delta$.** This is the weakest-anchored parameter in the model: we know of no measurement of it, and the estimate below is a constructed heuristic rather than a reading of evidence. The heuristic: $\delta$ is approximately the destruction-weighted share of the suppressed flow handled by each mechanism class — filtering-type mechanisms count near 1, retraining-type near 0, control-style measures near ½. Real-time output filtering and classifier-based blocking are heavily used on frontier deployments and their use appears to be increasing; filtering also operates on every action, while retraining bites only at model-generation cadence, so by *volume of suppressed flow* filtering plausibly handles the majority. If filtering handles something like 60–80% of the suppressed flow, control-style measures 10–20% (at half weight), and retraining the remainder, $\delta$ lands around 0.65–0.85. We take $\delta = 0.7$ as the central value with a working range of $0.3$–$1.0$: the bottom end describes a world where suppression is dominated by generational retraining, the top end is pure destruction — which is also the assumption the model makes implicitly if $\delta$ is omitted. Readers who weight the mechanisms differently should move this slider first; among all the parameters in this model, $\delta$ is the one where we would most expect an informed reader to substitute their own number. Note that the Petri-based estimate of $\ell$ above is unaffected by $\delta$: the score decline measures the full flow $\ell O$ leaving the uncooperative pool, while $\delta$ only governs where that flow goes.
+
 **Initial uncooperative share and leakage.** Combining the observed-uncooperative and observability ranges gives a rough estimate for the true initial uncooperative share:
 \[
 q_{u,0}\approx \frac{q_{u,0}^{\mathrm{obs}}}{O(0)},
@@ -277,6 +308,7 @@ We use the same range as a rough calibration for $k_{hu}$, the rate at which hum
 | $q_{u,0}$ | true initial uncooperative share | nominal $\sim 0.1$–$67\%$; central $\sim5$–$15\%$ | inferred from observed $Oq_{u,0}$ divided by $O(0)$ | upper tail combines Petri-like scores with low observability |
 | $O$ | observability | swept $[0.3,0.9]$ | AI monitorability studies (~0.3–0.95 under artificial protocols) | right instrument absent; cyber is adjacent and mostly latency evidence |
 | $\ell$ | suppression of observed misbehaviour | central $\approx0.2$; working range $\sim0.1$–$0.5$ | Petri/Rinehart trend-line half-lives (~27–42mo); $T_{auto}\sim3$–$7$mo | Petri is fixed-harness and backward-looking; caveats mostly bias downward for conditional suppression |
+| $\delta$ | destroyed share of suppressed flow | central $0.7$; range $0.3$–$1.0$ | filtering-fraction heuristic: filtering ≈ 1, retraining ≈ 0, control ≈ ½, weighted by suppressed-flow volume | no direct measurement exists; weakest-anchored parameter in the model |
 | $k_{hu}$ | human-labour leakage into uncooperative pool | use $q_{u,0}$ range as rough proxy | present AI development is still mostly human-led | suppression may make this an underestimate; transient failures may make it an overestimate |
 | $k_{cu}$ | cooperative-AI leakage into uncooperative pool | start near $k_{hu}$, sweep wide | analogy from human-led leakage; poisoning/backdoor evidence supports $>0$ | weaker empirical anchor; future AI-led workflows may differ |
 | $k_{uu}$ | uncooperative self-reproduction | $=1$ (starting point) | RepliBench; capability slope | not yet autonomous; upward pressure |
@@ -373,6 +405,8 @@ O^*(r)
 \frac{1}{1+c+(a+c)r}.
 \]
 
+Note that $\delta$ does not enter $O^*(r)$ at all: it changes only the total $F$, which cancels in the ratio $F_M/(F_M+F_E)$.
+
 A long-run fixed point for $q_u$ satisfies
 
 \[
@@ -381,85 +415,73 @@ q_u'=0
 \frac{F_u}{F}=q_u.
 \]
 
-Equivalently, the uncooperative pool captures exactly its current share of new production. With $q_h=0$, this condition becomes
+Equivalently, the uncooperative pool captures exactly its current share of new production. With $q_h=0$, dividing $F_u-q_uF$ by $(1-q_u)^2$ and substituting $r=q_u/(1-q_u)$ shows that the sign of $q_u'$ is the sign of
 
 \[
-k_{cu}+\left(k_{cu}+k_{uu}-1-\ell O^*(r)\right)r=0.
+g_\delta(r)=k_{cu}+\left(b-\ell O^*(r)\right)r-(1-\delta)\,\ell O^*(r)\,r^2,
+\qquad
+b:=k_{cu}+k_{uu}-1.
 \]
 
-Call the left-hand side $g(r)$. Since
+At $\delta=1$ the last term vanishes and this reduces to $g(r)=k_{cu}+(b-\ell O^*(r))r$.
+
+When $k_{cu}>0$, $g_\delta(0)=k_{cu}>0$: even at vanishingly small $q_u$, leakage from cooperative labour is seeding uncooperative labour. For a low-$q_u$ fixed point to exist, $g_\delta(r)$ has to cross zero. The initial slope is unaffected by $\delta$ (the new term is second order in $r$):
 
 \[
-O^*(r)=\frac{1}{1+c+(a+c)r},
+g_\delta'(0)=k_{cu}+k_{uu}-1-\ell O^*(0),
 \]
 
-we can write
-
-\[
-g(r)=k_{cu}+(k_{cu}+k_{uu}-1)r-\frac{\ell r}{1+c+(a+c)r}.
-\]
-
-When $k_{cu}>0$, $g(0)=k_{cu}>0$: even at vanishingly small $q_u$, leakage from cooperative labour is seeding uncooperative labour. For a low-$q_u$ fixed point to exist, $g(r)$ has to cross zero. The initial slope is
-
-\[
-g'(0)=k_{cu}+k_{uu}-1-\ell O^*(0).
-\]
-
-Moreover,
+so Condition 1 ($\ell O^*(0)>k_{cu}+k_{uu}-1$) says exactly that the uncooperative share shrinks while rare. At $\delta=1$, moreover,
 
 \[
 g''(r)=\frac{2\ell(1+c)(a+c)}{(1+c+(a+c)r)^3}>0,
 \]
 
-so the slope of $g$ only increases as $r$ grows. If $g'(0)\ge 0$, the curve starts above zero and increasing, and cannot cross zero. Thus a necessary condition for a cooperative-side fixed point is
+so the slope of $g$ only increases as $r$ grows: if $g'(0)\ge 0$, the curve starts above zero and increasing, and cannot cross zero. Thus at $\delta=1$ Condition 1 is *necessary* for a cooperative-side fixed point. This convexity argument fails for $\delta<1$ — the extra term $-(1-\delta)\ell O^*(r)r^2$ behaves like a negative *linear* term for large $r$ — and indeed for $\delta<1$ an interior attractor can exist with Condition 1 violated, though such attractors typically sit at a high uncooperative share. Condition 1 is also not sufficient: $g_\delta$ may slope downward at first but fail to fall below zero before turning upward again. That is why the actual fixed points are determined by the quadratic.
+
+Substituting the expression for $O^*(r)$ and clearing the (positive) denominator gives a quadratic in $r$:
 
 \[
-\ell O^*(0)>k_{cu}+k_{uu}-1.
-\]
-
-This condition is not sufficient: $g$ may slope downward at first but fail to fall below zero before turning upward again. That is why the actual fixed points are determined by the quadratic.
-
-Substituting the expression for $O^*(r)$ gives
-
-\[
-\left(k_{cu}+(k_{cu}+k_{uu}-1)r\right)(1+c+(a+c)r)-\ell r=0.
-\]
-
-This is a quadratic in $r$. Let
-
-\[
-b:=k_{cu}+k_{uu}-1,
-\]
-
-so the quadratic can be written
-
-\[
-Ar^2+Br+C=0,
+A_\delta r^2+Br+C=0,
 \]
 
 where
 
 \[
-A=b(a+c),\qquad
+A_\delta=b(a+c)-(1-\delta)\ell,\qquad
 B=k_{cu}(a+c)+b(1+c)-\ell,\qquad
 C=k_{cu}(1+c).
 \]
 
-The positive roots are the interior long-run fixed points. If there are two positive roots, the lower one is the cooperative-side attractor and the higher one is the saddle separating basins. If there are no positive roots and the all-uncooperative endpoint is stable, the cooperative basin has disappeared.
+Only the leading coefficient depends on $\delta$; at $\delta=1$ it reduces to $A=b(a+c)$. The positive roots are the interior long-run fixed points, and the case analysis runs off the sign of $A_\delta$ (recall $C>0$ when $k_{cu}>0$):
+
+- $A_\delta<0$: the product of the roots is negative, so there is exactly one positive root — a single interior attractor, whose location can however be anywhere up to $q_u\approx1$;
+- $A_\delta>0$: there are two positive roots (counting multiplicity) iff $B<0$ and $B^2\ge4A_\delta C$; the lower one is the cooperative-side attractor and the higher one is the saddle separating basins. If the roots are absent and the all-uncooperative endpoint is stable, the cooperative basin has disappeared;
+- $A_\delta=0$: the equation is linear, with a single positive root iff $B<0$.
+
+Existence of a cooperative-side fixed point is monotone in $\ell$, so there is a single threshold $\ell^*$. For $k_{uu}=1$, $a_{\mathrm{E/M}}=1$ it takes the piecewise closed form quoted in the main text — $\ell^* O^*=4\delta k_{cu}$ for $\delta\ge\tfrac12$ (the threshold is the saddle-node where the two interior roots merge) and $\ell^* O^*=k_{cu}/(1-\delta)$ for $\delta\le\tfrac12$ (the threshold is where $A_\delta=0$ and the all-uncooperative endpoint destabilises), continuous at $\delta=\tfrac12$. At $\delta=1$ and general $k_{uu}$ with $b>0$ the threshold is
+
+\[
+\ell^*=\left(\sqrt{k_{cu}(a+c)}+\sqrt{b(1+c)}\right)^2,
+\]
+
+which at $k_{uu}=1$ becomes $\ell^*=k_{cu}\left(\sqrt{a+c}+\sqrt{1+c}\right)^2$, and at $a=1$ (using $1+c=1/O^*$) the four-to-one rule $\ell^* O^*=4k_{cu}$.
 
 The all-uncooperative endpoint is stable when
 
 \[
-k_{uu}+k_{cu}>1.
+k_{uu}+k_{cu}-1>\frac{(1-\delta)\ell}{a+c},
 \]
 
-Intuitively, once monitoring has collapsed, uncooperative labour can hold the whole system if its self-reproduction advantage beats the net reproduction rate of a small reintroduced cooperative minority.
+which is exactly the condition $A_\delta>0$ (this has been verified against the Jacobian of the full four-variable system, not just the one-dimensional projection). Intuitively: as $q_u\to1$ observability falls like $O^*\approx q_c/(a+c)$ rather than reaching zero, so redirected suppression re-seeds the cooperative pool at a rate first-order in $q_c$; uncooperative labour holds the whole system only if its self-reproduction advantage plus leakage beats both the reproduction of a small reintroduced cooperative minority and this re-seeding flow. At $\delta=1$ the re-seeding flow vanishes and the condition reduces to $k_{uu}+k_{cu}>1$.
 
 When $k_{cu}=0$, the cooperative endpoint is an exact fixed point, and its local stability condition reduces to
 
 \[
-\ell O^*(0)>k_{uu}-1.
+\ell O^*(0)>k_{uu}-1,
 \]
+
+independent of $\delta$ ($\delta$ enters $F$ only at order $q_u$, so it contributes at second order near $q_u=0$).
 
 
 ### Appendix: neglect, subversion and more realistic models {#appendix-neglect-subversion}
@@ -749,7 +771,7 @@ Under such high leakage rates, achieving cooperative dominance is very difficult
 
 {{<figure src="/images/blog/dynamical-models/ai2027-high-leakage-run.png" width="78%" align="center" caption="A represenative high-leakage trajectory (k_cu = 0.9). Top: the true uncooperative share q_u (solid) climbs to dominance over a few σ-units, while the observed rate O·q_u (dashed) peaks early and then declines. Bottom: observability gains ground at first, then collapses as the alien, high-q_u workforce outgrows monitoring. The measurable signal understates the problem exactly when it matters most." />}}
 
-Under these leakage rates, control of uncooperative labour via observation and suppression must be very strong in order to succeed - we require $O^*\ell\approx 4$, which means that for every doubling of AI labour we need to reduce pre-existing uncooperative labour to $\frac{1}{16}$ of its "natural" rate. Given that, in this scenario, most new AI labour is uncooperative, this would likely entail a very significant ongoing slowdown in AI development. If suppression were achieved purely by observing uncooperative behaviour and discarding the associated outputs, progress would slow to 1/16th of its natural rate. Of course there are probably more efficient ways to achieve suppression, but observability based interventions still depend fundamentally on observing misbehaviour which, in this scenario, is the vast majority of work done by AI building more AI.
+Under these leakage rates, control of uncooperative labour via observation and suppression must be very strong in order to succeed — at $\delta = 1$ we require $O^*\ell\approx 4$, which means that for every doubling of AI labour we need to reduce pre-existing uncooperative labour to $\frac{1}{16}$ of its "natural" rate. Given that, in this scenario, most new AI labour is uncooperative, this would likely entail a very significant ongoing slowdown in AI development: in the worst case — suppression achieved purely by observing uncooperative behaviour and *discarding* the associated outputs ($\delta = 1$) — aggregate progress slows to roughly 1/16th of its natural rate. Redirection changes this arithmetic twice over. First, the required suppression strength falls: with destruction fraction $\delta \ge \tfrac12$ the basin threshold becomes $\ell^* O^* = 4\delta k_{cu}$ rather than $4k_{cu}$, because the redirected flow keeps re-seeding the cooperative pool. Second, only the destroyed fraction of the caught flow is lost to aggregate output. Together, the per-doubling cost of threshold-strength suppression in an almost-fully-uncooperative workforce scales as $2^{-4\delta^2}$: about $1/16$ at $\delta = 1$, about $1/4$ at our central $\delta = 0.7$, and about $1/2$ at $\delta = \tfrac12$. So if suppression in this scenario could be shifted from discarding outputs toward correcting and redeploying the systems that produced them, the slowdown shrinks substantially — though this leans on the model's idealization that redirected labour converts to cooperative labour at full value, and observability-based interventions of *any* kind still depend fundamentally on observing misbehaviour, which in this scenario is the vast majority of work done by AI building more AI.
 
 {{<figure src="/images/blog/dynamical-models/ai2027-observability-cannot-save.png" width="100%" align="center" caption="At high leakage, observability alone cannot recover a cooperative outcome. For k_uu = 1 the basin boundary is k_cu = ℓ·O*/4. (a) Holding suppression at the central ℓ = 0.2, raising best-case observability O* from 0.5 toward perfect barely shifts the boundary (b) High suppression rates combined with high observability can mitigate high leakage rates." />}}
 
