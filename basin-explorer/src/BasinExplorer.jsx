@@ -234,14 +234,17 @@ function classifyBasin(p) {
   // root, so add it explicitly when it is stable: ℓ·O*(0) ≥ k_uu − 1, with
   // O*(0) = 1/(1 + c_0/c_M). Without this, k_cu = 0 is misreported as "escape"
   // even though trajectories converge to the cooperative state.
+  const Ostar0 = 1 / (1 + p.c_0 / Math.max(p.c_M, 1e-12));
   if (p.k_cu <= 1e-9) {
-    const Ostar0 = 1 / (1 + p.c_0 / Math.max(p.c_M, 1e-12));
     if (p.l * Ostar0 >= p.k_uu - 1) qRoots.unshift(0);
   }
-  const alpha = 1 + p.l - p.k_uu;
-  if (qRoots.length === 0) return { kind: 'escape', qRoots: [], qStable: null, qSaddle: null, alpha };
-  if (qRoots.length === 1) return { kind: 'monostable', qRoots, qStable: qRoots[0], qSaddle: null, alpha };
-  return { kind: 'bistable', qRoots, qStable: qRoots[0], qSaddle: qRoots[1], alpha };
+  // Badge readout: the k_cu → 0 reduction of Condition 1 is ℓ·O*(0) ≥ k_uu − 1.
+  // (An earlier readout α = 1 + ℓ − k_uu omitted the O*(0) factor on ℓ.)
+  const lOstar0 = p.l * Ostar0;
+  const kuuExcess = p.k_uu - 1;
+  if (qRoots.length === 0) return { kind: 'escape', qRoots: [], qStable: null, qSaddle: null, lOstar0, kuuExcess };
+  if (qRoots.length === 1) return { kind: 'monostable', qRoots, qStable: qRoots[0], qSaddle: null, lOstar0, kuuExcess };
+  return { kind: 'bistable', qRoots, qStable: qRoots[0], qSaddle: qRoots[1], lOstar0, kuuExcess };
 }
 
 // σ-time simulation. ic = [Q₀, m₀, e₀, η₀].
@@ -736,7 +739,7 @@ function GroupHeader({ title }) {
 }
 
 function BasinBadge({ basin, p }) {
-  const { kind, qStable, qSaddle, alpha } = basin;
+  const { kind, qStable, qSaddle, lOstar0, kuuExcess } = basin;
   const palette = {
     escape: { c: C.escape, label: 'NO COOPERATIVE BASIN' },
     monostable: { c: C.monostable, label: 'MONOSTABLE' },
@@ -763,8 +766,8 @@ function BasinBadge({ basin, p }) {
         {qSaddle !== null && (
           <span><span style={{ color: C.fgMuted }}>escapes if q_u &gt; </span><span style={{ color: C.bistable, fontWeight: 600 }}>{qSaddle.toFixed(3)}</span></span>
         )}
-        <span style={{ color: C.fgMuted, fontSize: 10.5 }} title={`α = 1 + ℓ − k_uu = ${alpha.toFixed(2)}; c_M = ${p.c_M?.toFixed?.(3) ?? 'n/a'}; c_0 = ${p.c_0?.toFixed?.(3) ?? 'n/a'}`}>
-          α = {alpha.toFixed(2)},  c_M = {p.c_M.toFixed(3)},  c_0 = {p.c_0.toFixed(3)}
+        <span style={{ color: C.fgMuted, fontSize: 10.5 }} title={`k_cu → 0 reduction of Condition 1: cooperative basin needs ℓ·O*(0) ≥ k_uu − 1. Here ℓ·O*(0) = ${lOstar0.toFixed(2)}, k_uu − 1 = ${kuuExcess.toFixed(2)}; c_M = ${p.c_M?.toFixed?.(3) ?? 'n/a'}; c_0 = ${p.c_0?.toFixed?.(3) ?? 'n/a'}`}>
+          ℓ·O*(0) = {lOstar0.toFixed(2)} vs k_uu−1 = {kuuExcess.toFixed(2)},  c_M = {p.c_M.toFixed(3)},  c_0 = {p.c_0.toFixed(3)}
         </span>
       </div>
     </div>
@@ -1419,8 +1422,8 @@ function AssumptionsPanel({ open, setOpen }) {
               <MV> A = b(a+c)</MV>, <MV>B = k_cu(a+c) + b(1+c) − ℓ</MV>, <MV>C = k_cu(1+c)</MV>, where
               <MV> b = k_uu + k_cu − 1</MV>, <MV>a = a_E/M</MV> and <MV>c = c_0/c_M</MV>. Its positive roots are
               the stable attractor (lower) and the basin-separating saddle (higher) — which is what the badge
-              and the dashed lines in the IC / trajectory views report. (The badge's <MV>α = 1 + ℓ − k_uu</MV>
-              is the <MV>k_cu → 0</MV> reduction of Condition 1.)
+              and the dashed lines in the IC / trajectory views report. (The badge compares
+              <MV> ℓ·O*(0)</MV> against <MV>k_uu − 1</MV> — the <MV>k_cu → 0</MV> reduction of Condition 1.)
             </P>
           </DocSection>
 
