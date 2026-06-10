@@ -226,6 +226,36 @@ function findSteadyStatesR(p) {
 
 function rToQ(r) { return r / (1 + r); }
 
+// =============================================================================
+// ANALYTIC BASIN-EXISTENCE BOUNDARY (δ = 1: suppression purely destroys)
+// =============================================================================
+// Long-run fixed points solve A·r² + B·r + C = 0 in r = q_u/(1−q_u), with
+//   a = a_E/M,  c = c_0/c_M,  b = k_cu + k_uu − 1,
+//   A = b(a+c),  B = k_cu(a+c) + b(1+c) − ℓ,  C = k_cu(1+c).
+// For b > 0 a positive (cooperative-side) root pair exists iff
+//   ℓ ≥ ℓ_crit = k_cu(a+c) + b(1+c) + 2·√(k_cu·b·(a+c)(1+c)),
+// which at k_uu = 1 (so b = k_cu) reduces to ℓ ≥ k_cu(√(a+c) + √(1+c))².
+// For b ≤ 0 the quadratic has exactly one positive root (stable), so a
+// cooperative basin always exists.
+// To use the δ-general condition later (suppressed flow partly redirected to
+// cooperative production), swap out BASIN_BOUNDARY.margin — everything that
+// draws the boundary only calls margin() and reads label.
+const BASIN_BOUNDARY = {
+  id: 'delta1',
+  label: 'analytic basin boundary (δ = 1)',
+  // Returns > 0 when a cooperative basin exists; the zero level set is the
+  // boundary curve drawn on the outcome map.
+  margin(odeP) {
+    const a = odeP.a_e_m;
+    const c = odeP.c_0 / Math.max(odeP.c_M, 1e-12);
+    const b = odeP.k_cu + odeP.k_uu - 1;
+    if (b <= 0) return 1; // basin always exists (sign is all that matters)
+    const lCrit = odeP.k_cu * (a + c) + b * (1 + c)
+      + 2 * Math.sqrt(odeP.k_cu * b * (a + c) * (1 + c));
+    return odeP.l - lCrit;
+  },
+};
+
 function classifyBasin(p) {
   const rRoots = findSteadyStatesR(p);
   const qRoots = rRoots.map(rToQ);
@@ -1044,6 +1074,41 @@ function OutcomeMapView({ params }) {
     return cells;
   }, [params, xKey, yKey, resolution, sigmaMax]);
 
+  // Analytic basin-existence boundary: zero level set of BASIN_BOUNDARY.margin
+  // over the sweep plane (each sample recalibrated like the grid cells).
+  // Traced by scanning columns and rows for sign changes, then bisecting.
+  const boundaryPts = useMemo(() => {
+    const margAt = (x, y) =>
+      BASIN_BOUNDARY.margin(odeParams({ ...params, [xKey]: x, [yKey]: y }));
+    const pts = [];
+    const trace = (FIXED, SCAN, fixedDef, scanDef, fixedIsX) => {
+      for (let j = 0; j <= FIXED; j++) {
+        const u = fixedDef.min + (j / FIXED) * (fixedDef.max - fixedDef.min);
+        let vPrev = scanDef.min;
+        let mPrev = fixedIsX ? margAt(u, vPrev) : margAt(vPrev, u);
+        for (let i = 1; i <= SCAN; i++) {
+          const v = scanDef.min + (i / SCAN) * (scanDef.max - scanDef.min);
+          const m = fixedIsX ? margAt(u, v) : margAt(v, u);
+          if (Number.isFinite(mPrev) && Number.isFinite(m) && mPrev * m < 0) {
+            let lo = vPrev, hi = v, mLo = mPrev;
+            for (let it = 0; it < 25; it++) {
+              const mid = 0.5 * (lo + hi);
+              const mm = fixedIsX ? margAt(u, mid) : margAt(mid, u);
+              if (mLo * mm <= 0) hi = mid;
+              else { lo = mid; mLo = mm; }
+            }
+            const vc = 0.5 * (lo + hi);
+            pts.push(fixedIsX ? { x: u, y: vc } : { x: vc, y: u });
+          }
+          vPrev = v; mPrev = m;
+        }
+      }
+    };
+    trace(150, 160, xDef, yDef, true);   // column scan (crossings in y)
+    trace(150, 160, yDef, xDef, false);  // row scan (crossings in x)
+    return pts;
+  }, [params, xKey, yKey, xDef, yDef]);
+
   const W = 540, H = 540;
   const cellW = W / resolution, cellH = H / resolution;
 
@@ -1090,6 +1155,16 @@ function OutcomeMapView({ params }) {
                 />
               ))
             )}
+            {boundaryPts.map((pt, i) => (
+              <circle
+                key={`bd-${i}`}
+                cx={((pt.x - xDef.min) / (xDef.max - xDef.min)) * W}
+                cy={H - ((pt.y - yDef.min) / (yDef.max - yDef.min)) * H}
+                r={1.2}
+                fill={C.testpath}
+                fillOpacity={0.9}
+              />
+            ))}
             <rect x={0} y={0} width={W} height={H} fill="none" stroke={C.borderStrong} />
             <text x={W / 2} y={H + 32} textAnchor="middle" fill={C.fg} fontFamily={FONTS.mono} fontSize={11}>
               {xDef.label} ({xDef.symbol})
@@ -1133,6 +1208,11 @@ function OutcomeMapView({ params }) {
           <LegendDot color={C.fgMuted} label="Unclear / transient" />
           <div style={{ marginTop: 6, fontFamily: FONTS.sans, fontSize: 11, color: C.fgDim }}>
             Hollow square ⇒ parameters admit a bistable basin (long-run projection).
+          </div>
+          <div style={{ marginTop: 6, fontFamily: FONTS.sans, fontSize: 11, color: C.fgDim }}>
+            Dotted black curve: {BASIN_BOUNDARY.label} — where the long-run
+            cooperative basin appears/disappears (ℓ = ℓ_crit from the fixed-point
+            quadratic; at k_uu = 1, ℓ_crit = k_cu(√(a+c)+√(1+c))²).
           </div>
           <div style={{ marginTop: 8, fontFamily: FONTS.sans, fontSize: 11, color: C.fgDim }}>
             Amber ring marks current parameter values.
