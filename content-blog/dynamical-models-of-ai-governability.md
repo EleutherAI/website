@@ -321,6 +321,27 @@ We use the same range as a rough calibration for $k_{hu}$, the rate at which hum
 | $a_{\mathrm{AI/H}}$ | AI vs human at monitoring | $=1\ \pm$ wide | METR horizons; RE-Bench | defined at parity; both-way plausibility |
 | $T_{auto}$ | automation doubling time | $\sim3$–$7$ months | OpenAI revenue growth; Epoch compute stock/training compute × algorithmic efficiency | revenue is an external-value proxy; technical capacity may overstate effective AI-R&D labour |
 
+### Named calibrations: Broad and Strict
+
+Rather than a single central estimate, we present two named calibrations. They share every structural parameter and differ only in how the observed-misbehaviour evidence is read.
+
+A point to make up front: that evidence is doing **double duty**. The observed rates of deceptive, sabotaging or otherwise uncooperative behaviour are our estimate of the initial uncooperative share $q_{u,0}$ *and* our estimate of the human-era leakage rate $k_{hu}$ (and, by analogy, $k_{cu}$). This is not circular so much as redundant: while human labour dominates, $q_u$ relaxes toward a level set by $k_{hu}$, so the two quantities converge during the human era and present-day measurements cannot separate them. It also turns out to be harmless for the conclusions: the long-run outcome is essentially insensitive to $q_{u,0}$ (sweeping it from 0.1% to 99% changes nothing in any calibration), so only the leakage-rate reading of the evidence does any work. But it does mean that "Broad vs Strict" is a *single* judgement — how much of observed misbehaviour is reproduction-relevant — applied consistently to $q_{u,0}$, $k_{hu}$ and $k_{cu}$ at once, not three independent estimates.
+
+- **Broad** takes the behavioural evidence at face value: OpenAI's production-traffic deception monitors (1.6–4.8%), DeepMind's Gram sabotage audits (~2–3%) and the Petri-style audit scores are treated as direct measurements of uncooperative labour in the model's sense. Central observed rate ~2.5%, divided by $O(0)=0.5$, gives $q_{u,0}=0.05$ and $k_{hu}=k_{cu}=0.05$.
+- **Strict** counts only labour with property (ii′) — work that pushes *successor systems* toward uncooperativeness. Directed work of this kind is very rarely observed: it is far rarer than behavioural misbehaviour, Gram's sabotage rates fall to fractions of a percent once scenarios are naturalised, and AI systems do routinely help make future systems *more* cooperative. Strict therefore takes the reproduction-relevant rates roughly 10× lower: $q_{u,0}=k_{hu}=k_{cu}=0.005$.
+
+Both calibrations use the corrected suppression estimate $\ell = 0.4$ (the Petri trend identifies $\ell\,O$, not $\ell$; see the suppression discussion above) and a suppression destruction fraction $\delta = 0.7$ (central; range 0.3–1.0): of the uncooperative labour that is caught and suppressed, roughly this fraction is destroyed outright (filtered, blocked, discarded) while the remainder is redirected into cooperative production (retrained, corrected, resampled). The shared structural parameters are $k_{uu}=1$, $O^*=O(0)=0.5$, $a_{\mathrm{E/M}}=a_{\mathrm{AI/H}}=1$, $q_{h,0}=5$, $T_{\mathrm{auto}}=0.5$ y.
+
+| | Broad | Strict | Evidence read as… |
+|---|---|---|---|
+| $q_{u,0}$ | 0.05 | 0.005 | observed misbehaviour ÷ $O(0)$ |
+| $k_{hu}$ | 0.05 | 0.005 | same evidence (double duty, see above) |
+| $k_{cu}$ | 0.05 | 0.005 | analogy from $k_{hu}$ |
+| $\ell$ | 0.4 | 0.4 | Petri/Rinehart half-lives identify $\ell O$; ÷ $O(0)$ |
+| $\delta$ | 0.7 | 0.7 | filtering-fraction heuristic (fresh estimate) |
+| $k_{uu}$, $O^*$, $O(0)$, $a_{\mathrm{E/M}}$, $a_{\mathrm{AI/H}}$, $q_{h,0}$ | 1, 0.5, 0.5, 1, 1, 5 | same | shared structural anchors |
+
+Both calibrations are available as one-click presets in the [interactive basin explorer](/basin-explorer/).
 
 ## Implications and illustrative scenarios
 
