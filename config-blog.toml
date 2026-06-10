@@ -34,6 +34,10 @@ googleAnalytics = "G-9KCLV8BK53"
   [markup.goldmark]
     [markup.goldmark.extensions]
       typographer = false
+      [markup.goldmark.extensions.passthrough]
+        enable = true
+        [markup.goldmark.extensions.passthrough.delimiters]
+          block = [['\[', '\]']]
     [markup.goldmark.renderer]
       unsafe = true
 [taxonomies]

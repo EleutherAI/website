@@ -198,16 +198,14 @@ m^*=\frac{F_M}{F},\qquad e^*=\frac{F_E}{F}.
 At this equilibrium, long-run observability is
 
 \[
-O^*
-=
+O^* =
 \frac{F_M}{F_M+F_E}.
 \]
 
 When $q_h=0$, this becomes
 
 \[
-O^*(q_u)
-=
+O^*(q_u) =
 \frac{q_c}{q_c+a_{\mathrm{E/M}}q_u+c_0/c_M}.
 \]
 
@@ -237,7 +235,7 @@ Second, can uncooperative labour sustain itself once it dominates? If yes, then 
 k_{uu}+k_{cu}-1>\frac{(1-\delta)\,\ell}{a_{\mathrm{E/M}}+c_0/c_M}.
 \]
 
-Call this **Condition 2**. At $\delta = 1$ it reduces to the simpler $k_{uu}+k_{cu}>1$: once nearly all labour is uncooperative, observability has collapsed, and dominance is self-sustaining whenever self-reproduction plus leakage beats the reproduction of a small reintroduced cooperative minority. For $\delta<1$ the bar is higher, because observability never falls *exactly* to zero — as $q_u\to1$ it falls like $O^* \approx q_c/(a_{\mathrm{E/M}}+c_0/c_M)$ — so redirected suppression keeps re-seeding the cooperative pool at a rate proportional to the remaining cooperative share, and uncooperative dominance must outgrow that re-seeding too.
+Call this **Condition 2**. At $\delta = 1$ it reduces to the simpler $k_{uu}+k_{cu}>1$: once nearly all labour is uncooperative, observability has collapsed, and dominance is self-sustaining whenever self-reproduction plus leakage beats the reproduction of a small reintroduced cooperative minority. For $\delta<1$ the bar is higher, because observability never falls *exactly* to zero — as $q_u\to1$ it falls like $O^{\ast} \approx q_c/(a_{\mathrm{E/M}}+c_0/c_M)$ — so redirected suppression keeps re-seeding the cooperative pool at a rate proportional to the remaining cooperative share, and uncooperative dominance must outgrow that re-seeding too.
 
 A useful summary:
 
@@ -258,7 +256,7 @@ At $\delta=1$ this is a four-to-one rule: suppression strength times long-run ob
 
 What does the model predict if we run it forward from today's conditions, with no change beyond business as usual? The answer depends on which named calibration you accept. Broad and Strict (defined in detail in the [calibration section below](#named-calibrations)) are two readings of the same body of evidence, differing only in how much of today's observed misbehaviour is treated as reproduction-relevant. The verdicts, with sensitivity rows for the destruction fraction $\delta$:
 
-| Calibration | basin threshold $\ell^*$ | margin $\ell/\ell^*$ | long-run attractor $q_u^*$ | takeover endpoint $q_u=1$ |
+| Calibration | basin threshold $\ell^{\ast}$ | margin $\ell/\ell^{\ast}$ | long-run attractor $q_u^{\ast}$ | takeover endpoint $q_u=1$ |
 |---|---|---|---|---|
 | **Broad** ($\delta=0.7$) | 0.28 | 1.4× | **0.32** | unstable |
 | Broad, $\delta=1$ | 0.40 | 1.0× (exact knife edge) | 0.50 (semistable double root) | stable |
@@ -269,13 +267,13 @@ What does the model predict if we run it forward from today's conditions, with n
 
 All verdicts are computed from the long-run quadratic and confirmed by full simulation of the four-variable system; the simulated long-run states match the analytic fixed points to three decimals.
 
-**Broad verdict: marginal.** Under Broad rates the system never reaches clean cooperative dominance. With the central $\delta = 0.7$ there is no runaway takeover — redirected suppression makes the all-uncooperative endpoint unstable — but the system equilibrates with roughly **a third of AI labour uncooperative**, continuously caught, suppressed and recycled. Across the $\delta$ range the attractor moves only between $q_u^*\approx0.25$ and the $\delta = 1$ knife edge at 0.5; and the margin above the basin threshold is thin ($\ell$ could fall ~1.4×, or $k_{cu}$ rise ~1.4×, before the attractor disappears into takeover). Note one coincidence worth stating plainly: at $\delta = 1$ the Broad central point lies *exactly on* the basin boundary ($\ell O^* = 4k_{cu}$ holds with equality for our round central numbers). Nothing should be concluded from which side a rounding error puts us; the honest summary is that the Broad calibration is **genuinely marginal**, and modest favourable movements in $k_{cu}$, $\ell$ or $O^*$ buy large changes in outcome.
+**Broad verdict: marginal.** Under Broad rates the system never reaches clean cooperative dominance. With the central $\delta = 0.7$ there is no runaway takeover — redirected suppression makes the all-uncooperative endpoint unstable — but the system equilibrates with roughly **a third of AI labour uncooperative**, continuously caught, suppressed and recycled. Across the $\delta$ range the attractor moves only between $q_u^{\ast}\approx0.25$ and the $\delta = 1$ knife edge at 0.5; and the margin above the basin threshold is thin ($\ell$ could fall ~1.4×, or $k_{cu}$ rise ~1.4×, before the attractor disappears into takeover). Note one coincidence worth stating plainly: at $\delta = 1$ the Broad central point lies *exactly on* the basin boundary ($\ell O^{\ast} = 4k_{cu}$ holds with equality for our round central numbers). Nothing should be concluded from which side a rounding error puts us; the honest summary is that the Broad calibration is **genuinely marginal**, and modest favourable movements in $k_{cu}$, $\ell$ or $O^{\ast}$ buy large changes in outcome.
 
-**Strict verdict: cooperative dominant, robustly.** Under Strict rates the system settles at $q_u^*\approx2.5\%$ uncooperative labour regardless of $\delta$ anywhere in $[0, 1]$, with a 10–28× margin over the basin threshold; even the old, uncorrected $\ell = 0.2$ leaves the verdict unchanged ($q_u^*\approx5\%$). To flip Strict into takeover, $k_{cu}$ must rise ~10–14× or $\ell O^*$ fall by the same factor.
+**Strict verdict: cooperative dominant, robustly.** Under Strict rates the system settles at $q_u^{\ast}\approx2.5\%$ uncooperative labour regardless of $\delta$ anywhere in $[0, 1]$, with a 10–28× margin over the basin threshold; even the old, uncorrected $\ell = 0.2$ leaves the verdict unchanged ($q_u^{\ast}\approx5\%$). To flip Strict into takeover, $k_{cu}$ must rise ~10–14× or $\ell O^{\ast}$ fall by the same factor.
 
 The gap between the two verdicts is the headline: **the decisive uncertainty is not any structural feature of the model but how much of today's observed misbehaviour is reproduction-relevant.** Broad-vs-Strict spans "marginal, near the basin edge, with a large managed uncooperative minority" to "comfortably cooperative-dominant" using the same model, the same suppression estimate, and the same observability assumptions.
 
-**Sensitivity to the $\ell$ correction** (the old reading $\ell = 0.2$, retained only as a sensitivity note since the old conversion mis-identified $\ell O$ as $\ell$): Broad at $\ell = 0.2$ ends in takeover for $\delta > 0.5$ and at a high attractor ($q_u^*\approx0.61$) for $\delta < 0.5$ — the $\delta$-boundary falls exactly at 0.5, another round-number coincidence. Strict at $\ell = 0.2$ is unaffected in kind: $q_u^*\approx0.05$.
+**Sensitivity to the $\ell$ correction** (the old reading $\ell = 0.2$, retained only as a sensitivity note since the old conversion mis-identified $\ell O$ as $\ell$): Broad at $\ell = 0.2$ ends in takeover for $\delta > 0.5$ and at a high attractor ($q_u^{\ast}\approx0.61$) for $\delta < 0.5$ — the $\delta$-boundary falls exactly at 0.5, another round-number coincidence. Strict at $\ell = 0.2$ is unaffected in kind: $q_u^{\ast}\approx0.05$.
 
 What should we make of this? On the model's authority:
  - This model has many shortcomings, some of which we've discussed
@@ -315,7 +313,7 @@ Under such high leakage rates, achieving cooperative dominance is very difficult
 
 {{<figure src="/images/blog/dynamical-models/ai2027-high-leakage-run.png" width="78%" align="center" caption="A representative high-leakage trajectory (k_cu = 0.9; other parameters at the central Broad calibration, ℓ = 0.4, δ = 0.7, O* = 0.5). Top: the true uncooperative share q_u (solid) climbs to dominance over a few σ-units, while the observed rate O·q_u (dashed) peaks early and then declines. Bottom: observability gains ground at first, then collapses as the alien, high-q_u workforce outgrows monitoring. The measurable signal understates the problem exactly when it matters most." />}}
 
-Under these leakage rates, control of uncooperative labour via observation and suppression must be very strong in order to succeed — at $\delta = 1$ we require $O^*\ell\approx 4$, which means that for every doubling of AI labour we need to reduce pre-existing uncooperative labour to $\frac{1}{16}$ of its "natural" rate. Given that, in this scenario, most new AI labour is uncooperative, this would likely entail a very significant ongoing slowdown in AI development: in the worst case — suppression achieved purely by observing uncooperative behaviour and *discarding* the associated outputs ($\delta = 1$) — aggregate progress slows to roughly 1/16th of its natural rate. Redirection changes this arithmetic twice over. First, the required suppression strength falls: with destruction fraction $\delta \ge \tfrac12$ the basin threshold becomes $\ell^* O^* = 4\delta k_{cu}$ rather than $4k_{cu}$, because the redirected flow keeps re-seeding the cooperative pool. Second, only the destroyed fraction of the caught flow is lost to aggregate output. Together, the per-doubling cost of threshold-strength suppression in an almost-fully-uncooperative workforce scales as $2^{-4\delta^2}$: about $1/16$ at $\delta = 1$, about $1/4$ at our central $\delta = 0.7$, and about $1/2$ at $\delta = \tfrac12$. So if suppression in this scenario could be shifted from discarding outputs toward correcting and redeploying the systems that produced them, the slowdown shrinks substantially — though this leans on the model's idealization that redirected labour converts to cooperative labour at full value, and observability-based interventions of *any* kind still depend fundamentally on observing misbehaviour, which in this scenario is the vast majority of work done by AI building more AI.
+Under these leakage rates, control of uncooperative labour via observation and suppression must be very strong in order to succeed — at $\delta = 1$ we require $O^{\ast}\ell\approx 4$, which means that for every doubling of AI labour we need to reduce pre-existing uncooperative labour to $\frac{1}{16}$ of its "natural" rate. Given that, in this scenario, most new AI labour is uncooperative, this would likely entail a very significant ongoing slowdown in AI development: in the worst case — suppression achieved purely by observing uncooperative behaviour and *discarding* the associated outputs ($\delta = 1$) — aggregate progress slows to roughly 1/16th of its natural rate. Redirection changes this arithmetic twice over. First, the required suppression strength falls: with destruction fraction $\delta \ge \tfrac12$ the basin threshold becomes $\ell^{\ast} O^{\ast} = 4\delta k_{cu}$ rather than $4k_{cu}$, because the redirected flow keeps re-seeding the cooperative pool. Second, only the destroyed fraction of the caught flow is lost to aggregate output. Together, the per-doubling cost of threshold-strength suppression in an almost-fully-uncooperative workforce scales as $2^{-4\delta^2}$: about $1/16$ at $\delta = 1$, about $1/4$ at our central $\delta = 0.7$, and about $1/2$ at $\delta = \tfrac12$. So if suppression in this scenario could be shifted from discarding outputs toward correcting and redeploying the systems that produced them, the slowdown shrinks substantially — though this leans on the model's idealization that redirected labour converts to cooperative labour at full value, and observability-based interventions of *any* kind still depend fundamentally on observing misbehaviour, which in this scenario is the vast majority of work done by AI building more AI.
 
 {{<figure src="/images/blog/dynamical-models/ai2027-observability-cannot-save.png" width="100%" align="center" caption="At high leakage, observability alone cannot recover a cooperative outcome. For k_uu = 1, a_E/M = 1 and δ ≥ ½ the basin boundary is k_cu = ℓ·O*/(4δ). (a) Holding suppression at the central ℓ = 0.4 and δ = 0.7, raising best-case observability O* from 0.5 toward perfect roughly doubles tolerable leakage — still an order of magnitude short of this scenario's leakage. (b) High suppression rates combined with high observability can mitigate high leakage rates." />}}
 
@@ -335,7 +333,7 @@ A further consideration is that the proxies above measure uncooperativeness in g
 
 **Observability $O$.** We don't have a direct estimate of this. What we have instead are two weaker kinds of evidence (detail in the [appendix](#appendix-calibration-evidence)): *monitoring testbeds*, where catch rates against agents hiding side tasks range from about **30%** to about **90%** depending on what the monitor can see (reasoning-trace access, extra compute, follow-up questioning); and the *mature-domain equilibrium* in cybersecurity, where organisations' self-detection rate has held near **43%** for a decade while detection lag collapsed from ~205 days to ~11. On this evidence, we treat $O(0)$ as having an 80% credible range of 30-90%, with a central estimate around 50%. We don't take parameter estimates directly from the cybersecurity baseline, other than noting that it weakly supports a trend of rising observability in $A_c$-dominant regimes.
 
-To calibrate the observability sector we therefore fix $O(0)$ from the present-day evidence above and put a prior on the passive-opacity ratio $c_0/c_M$, taking $c_0=c_M$ as the central choice so that long-run observability settles at $O^*=1/2$ while $A_u$ remains low (it falls as $q_u$ grows). The remaining production scale is pegged to the automation scale, which affects only how quickly $O$ relaxes from $O(0)$ toward $O^*$. An alternative route instead calibrates $c_M$ and $c_0$ from two rate judgements, $T_{M,1/2}$ and $T_{E,2}$ (see [Appendix](#appendix-observability-calibration)) — anchorable to cybersecurity dwell-time and capability/replication slopes — but we do not currently use it.
+To calibrate the observability sector we therefore fix $O(0)$ from the present-day evidence above and put a prior on the passive-opacity ratio $c_0/c_M$, taking $c_0=c_M$ as the central choice so that long-run observability settles at $O^{\ast}=1/2$ while $A_u$ remains low (it falls as $q_u$ grows). The remaining production scale is pegged to the automation scale, which affects only how quickly $O$ relaxes from $O(0)$ toward $O^{\ast}$. An alternative route instead calibrates $c_M$ and $c_0$ from two rate judgements, $T_{M,1/2}$ and $T_{E,2}$ (see [Appendix](#appendix-observability-calibration)) — anchorable to cybersecurity dwell-time and capability/replication slopes — but we do not currently use it.
 
 **Suppression $\ell$.** Because $\ell$ acts only on the *observed* fraction, it is by construction efficacy against *known* misbehaviour. The most relevant estimate is therefore not "can one targeted intervention remove one known failure?", but "how fast do broad, observed misalignment scores fall as labs iterate on models?" Petri gives a rough handle on this: treating the improving labs' score declines as exponential (per-lab trend readings in the [appendix](#appendix-calibration-evidence)) gives calendar half-lives of roughly **42 months** for OpenAI, **32 months** for Claude, and **27 months** for Gemini, or a central broad-misalignment half-life around **30-35 months**.
 
@@ -380,7 +378,7 @@ We use the same range as a rough calibration for $k_{hu}$, the rate at which hum
 | $k_{cu}$ | cooperative-AI leakage into uncooperative pool | start near $k_{hu}$, sweep wide | analogy from human-led leakage; poisoning/backdoor evidence supports $>0$ | weaker empirical anchor; future AI-led workflows may differ |
 | $k_{uu}$ | uncooperative self-reproduction | $=1$ (starting point) | RepliBench; capability slope | not yet autonomous; upward pressure |
 | $a_{\mathrm{E/M}}$ | evasion vs monitoring advantage | order 1 starting point | M-Trends dwell-time trend | indirect; mixes internal detection, external notification, adversary strategy, and incident mix |
-| $c_0/c_M$ | passive opacity | order 1 sanity check (not $\approx 0$) | if cyber internal-detection share were read as $O^*(0)$, $c_0/c_M\approx1/O^*-1$ | strong-assumption reference-class inference only |
+| $c_0/c_M$ | passive opacity | order 1 sanity check (not $\approx 0$) | if cyber internal-detection share were read as $O^{\ast}(0)$, $c_0/c_M\approx1/O^{\ast}-1$ | strong-assumption reference-class inference only |
 | $a_{\mathrm{AI/H}}$ | AI vs human at monitoring | $=1\ \pm$ wide | METR horizons; RE-Bench | defined at parity; both-way plausibility |
 | $T_{auto}$ | automation doubling time | $\sim3$–$7$ months | OpenAI revenue growth; Epoch compute stock/training compute × algorithmic efficiency | revenue is an external-value proxy; technical capacity may overstate effective AI-R&D labour |
 
@@ -393,7 +391,7 @@ A point to make up front: that evidence is doing **double duty**. The observed r
 - **Broad** takes the behavioural evidence at face value: OpenAI's production-traffic deception monitors (1.6–4.8%), DeepMind's Gram sabotage audits (~2–3%) and the Petri-style audit scores are treated as direct measurements of uncooperative labour in the model's sense. Central observed rate ~2.5%, divided by $O(0)=0.5$, gives $q_{u,0}=0.05$ and $k_{hu}=k_{cu}=0.05$.
 - **Strict** counts only labour with property (ii′) — work that pushes *successor systems* toward uncooperativeness. Directed work of this kind is very rarely observed: it is far rarer than behavioural misbehaviour, Gram's sabotage rates fall to fractions of a percent once scenarios are naturalised, and AI systems do routinely help make future systems *more* cooperative. Strict therefore takes the reproduction-relevant rates roughly 10× lower: $q_{u,0}=k_{hu}=k_{cu}=0.005$.
 
-Both calibrations use the corrected suppression estimate $\ell = 0.4$ (the Petri trend identifies $\ell\,O$, not $\ell$; see the suppression discussion above) and a suppression destruction fraction $\delta = 0.7$ (central; range 0.3–1.0): of the uncooperative labour that is caught and suppressed, roughly this fraction is destroyed outright (filtered, blocked, discarded) while the remainder is redirected into cooperative production (retrained, corrected, resampled). The shared structural parameters are $k_{uu}=1$, $O^*=O(0)=0.5$, $a_{\mathrm{E/M}}=a_{\mathrm{AI/H}}=1$, $q_{h,0}=5$, $T_{\mathrm{auto}}=0.5$ y.
+Both calibrations use the corrected suppression estimate $\ell = 0.4$ (the Petri trend identifies $\ell\,O$, not $\ell$; see the suppression discussion above) and a suppression destruction fraction $\delta = 0.7$ (central; range 0.3–1.0): of the uncooperative labour that is caught and suppressed, roughly this fraction is destroyed outright (filtered, blocked, discarded) while the remainder is redirected into cooperative production (retrained, corrected, resampled). The shared structural parameters are $k_{uu}=1$, $O^{\ast}=O(0)=0.5$, $a_{\mathrm{E/M}}=a_{\mathrm{AI/H}}=1$, $q_{h,0}=5$, $T_{\mathrm{auto}}=0.5$ y.
 
 | | Broad | Strict | Evidence read as… |
 |---|---|---|---|
@@ -402,7 +400,7 @@ Both calibrations use the corrected suppression estimate $\ell = 0.4$ (the Petri
 | $k_{cu}$ | 0.05 | 0.005 | analogy from $k_{hu}$ |
 | $\ell$ | 0.4 | 0.4 | Petri/Rinehart half-lives identify $\ell O$; ÷ $O(0)$ |
 | $\delta$ | 0.7 | 0.7 | filtering-fraction heuristic (fresh estimate) |
-| $k_{uu}$, $O^*$, $O(0)$, $a_{\mathrm{E/M}}$, $a_{\mathrm{AI/H}}$, $q_{h,0}$ | 1, 0.5, 0.5, 1, 1, 5 | same | shared structural anchors |
+| $k_{uu}$, $O^{\ast}$, $O(0)$, $a_{\mathrm{E/M}}$, $a_{\mathrm{AI/H}}$, $q_{h,0}$ | 1, 0.5, 0.5, 1, 1, 5 | same | shared structural anchors |
 
 Both calibrations are available as one-click presets in the [interactive basin explorer](/basin-explorer/).
 
@@ -437,7 +435,7 @@ Beyond that, the calibrations make distinct falsifiable predictions (calendar fi
 - **On the Broad good path**, the true uncooperative share roughly doubles from 5% to about 10% by the time total AI labour has grown ~50× (σ ≈ 4, about three years), with the contemporaneously observed rate rising from ~2.5% toward ~5%, en route to an endemic third of all AI labour. Retrospective audits should confirm these levels with a 1–2 year lag. So Broad is testable from both sides: if lagged audits find reproduction-relevant rates well below this track, Broad's reading of the evidence is wrong and we should re-base toward Strict — and if they find rates above it, we are off even the marginal path.
 - **On the Strict good path**, reproduction-relevant uncooperative labour stays below about 1% even as AI labour grows by two orders of magnitude (σ ≈ 4–6), plateauing near 2.5% in the very long run; and retrospective audits of the current cohort of models and development logs find that the large majority — on the order of 90% — of today's observed misbehaviour was *not* reproduction-relevant: behavioural deception and proxy-gaming that did not push successor systems toward uncooperativeness.
 
-Finally, it is worth distinguishing the *confidently good* regime from the merely *not-bad* one, because Broad's no-takeover verdict illustrates the gap. Under Broad's central parameters there is no takeover — but the system stabilises at roughly 2:1 cooperative-to-uncooperative, with a 1.4× margin over the basin threshold. By the model's own validity note, near-parity is exactly where unmodelled dynamics (an uncooperative pool large enough to move aggressively against the cooperative one) are most likely to bite, and a 1.4× margin is erased by modest unfavourable drift in $k_{cu}$, $\ell$ or $O^*$. We would call the path confidently good only when all three of the following hold: the lagged unconfounded series is low (order 1% or below) and tracking the predicted plateau rather than crossing it; the implied margin over the basin threshold is large (order 10×) and survives the $\delta$ and $\ell$ sensitivity ranges; and the predicted plateau itself sits well inside the validity envelope (cooperative dominance of order 10:1 or better, $q_u^* \lesssim 0.1$). Strict's central parameters satisfy all three. Broad's satisfy none — its good outcome is real but fragile, and should be treated as a reason to push on the parameters (lower leakage, better suppression, higher observability), not as reassurance.
+Finally, it is worth distinguishing the *confidently good* regime from the merely *not-bad* one, because Broad's no-takeover verdict illustrates the gap. Under Broad's central parameters there is no takeover — but the system stabilises at roughly 2:1 cooperative-to-uncooperative, with a 1.4× margin over the basin threshold. By the model's own validity note, near-parity is exactly where unmodelled dynamics (an uncooperative pool large enough to move aggressively against the cooperative one) are most likely to bite, and a 1.4× margin is erased by modest unfavourable drift in $k_{cu}$, $\ell$ or $O^{\ast}$. We would call the path confidently good only when all three of the following hold: the lagged unconfounded series is low (order 1% or below) and tracking the predicted plateau rather than crossing it; the implied margin over the basin threshold is large (order 10×) and survives the $\delta$ and $\ell$ sensitivity ranges; and the predicted plateau itself sits well inside the validity envelope (cooperative dominance of order 10:1 or better, $q_u^{\ast} \lesssim 0.1$). Strict's central parameters satisfy all three. Broad's satisfy none — its good outcome is real but fragile, and should be treated as a reason to push on the parameters (lower leakage, better suppression, higher observability), not as reassurance.
 
 ### Building the indicators
 
@@ -482,10 +480,8 @@ m^*=\frac{F_M}{F},\qquad e^*=\frac{F_E}{F}.
 At such a point,
 
 \[
-O^*
-=
-\frac{m^*}{m^*+e^*}
-=
+O^* =
+\frac{m^*}{m^*+e^*} =
 \frac{F_M}{F_M+F_E}.
 \]
 
@@ -498,8 +494,7 @@ F_M=c_Mq_c,\qquad F_E=c_0+a_{\mathrm{E/M}}c_Mq_u.
 So
 
 \[
-O^*(q_u)
-=
+O^*(q_u) =
 \frac{q_c}{q_c+a_{\mathrm{E/M}}q_u+c_0/c_M}.
 \]
 
@@ -518,12 +513,11 @@ a:=a_{\mathrm{E/M}},\qquad c:=\frac{c_0}{c_M}.
 Then
 
 \[
-O^*(r)
-=
+O^*(r) =
 \frac{1}{1+c+(a+c)r}.
 \]
 
-Note that $\delta$ does not enter $O^*(r)$ at all: it changes only the total $F$, which cancels in the ratio $F_M/(F_M+F_E)$.
+Note that $\delta$ does not enter $O^{\ast}(r)$ at all: it changes only the total $F$, which cancels in the ratio $F_M/(F_M+F_E)$.
 
 A long-run fixed point for $q_u$ satisfies
 
@@ -541,7 +535,7 @@ g_\delta(r)=k_{cu}+\left(b-\ell O^*(r)\right)r-(1-\delta)\,\ell O^*(r)\,r^2,
 b:=k_{cu}+k_{uu}-1.
 \]
 
-At $\delta=1$ the last term vanishes and this reduces to $g(r)=k_{cu}+(b-\ell O^*(r))r$.
+At $\delta=1$ the last term vanishes and this reduces to $g(r)=k_{cu}+(b-\ell O^{\ast}(r))r$.
 
 When $k_{cu}>0$, $g_\delta(0)=k_{cu}>0$: even at vanishingly small $q_u$, leakage from cooperative labour is seeding uncooperative labour. For a low-$q_u$ fixed point to exist, $g_\delta(r)$ has to cross zero. The initial slope is unaffected by $\delta$ (the new term is second order in $r$):
 
@@ -549,15 +543,15 @@ When $k_{cu}>0$, $g_\delta(0)=k_{cu}>0$: even at vanishingly small $q_u$, leakag
 g_\delta'(0)=k_{cu}+k_{uu}-1-\ell O^*(0),
 \]
 
-so Condition 1 ($\ell O^*(0)>k_{cu}+k_{uu}-1$) says exactly that the uncooperative share shrinks while rare. At $\delta=1$, moreover,
+so Condition 1 ($\ell O^{\ast}(0)>k_{cu}+k_{uu}-1$) says exactly that the uncooperative share shrinks while rare. At $\delta=1$, moreover,
 
 \[
 g''(r)=\frac{2\ell(1+c)(a+c)}{(1+c+(a+c)r)^3}>0,
 \]
 
-so the slope of $g$ only increases as $r$ grows: if $g'(0)\ge 0$, the curve starts above zero and increasing, and cannot cross zero. Thus at $\delta=1$ Condition 1 is *necessary* for a cooperative-side fixed point. This convexity argument fails for $\delta<1$ — the extra term $-(1-\delta)\ell O^*(r)r^2$ behaves like a negative *linear* term for large $r$ — and indeed for $\delta<1$ an interior attractor can exist with Condition 1 violated, though such attractors typically sit at a high uncooperative share. Condition 1 is also not sufficient: $g_\delta$ may slope downward at first but fail to fall below zero before turning upward again. That is why the actual fixed points are determined by the quadratic.
+so the slope of $g$ only increases as $r$ grows: if $g'(0)\ge 0$, the curve starts above zero and increasing, and cannot cross zero. Thus at $\delta=1$ Condition 1 is *necessary* for a cooperative-side fixed point. This convexity argument fails for $\delta<1$ — the extra term $-(1-\delta)\ell O^{\ast}(r)r^2$ behaves like a negative *linear* term for large $r$ — and indeed for $\delta<1$ an interior attractor can exist with Condition 1 violated, though such attractors typically sit at a high uncooperative share. Condition 1 is also not sufficient: $g_\delta$ may slope downward at first but fail to fall below zero before turning upward again. That is why the actual fixed points are determined by the quadratic.
 
-Substituting the expression for $O^*(r)$ and clearing the (positive) denominator gives a quadratic in $r$:
+Substituting the expression for $O^{\ast}(r)$ and clearing the (positive) denominator gives a quadratic in $r$:
 
 \[
 A_\delta r^2+Br+C=0,
@@ -577,13 +571,13 @@ Only the leading coefficient depends on $\delta$; at $\delta=1$ it reduces to $A
 - $A_\delta>0$: there are two positive roots (counting multiplicity) iff $B<0$ and $B^2\ge4A_\delta C$; the lower one is the cooperative-side attractor and the higher one is the saddle separating basins. If the roots are absent and the all-uncooperative endpoint is stable, the cooperative basin has disappeared;
 - $A_\delta=0$: the equation is linear, with a single positive root iff $B<0$.
 
-Existence of a cooperative-side fixed point is monotone in $\ell$, so there is a single threshold $\ell^*$. For $k_{uu}=1$, $a_{\mathrm{E/M}}=1$ it takes the piecewise closed form quoted in the main text — $\ell^* O^*=4\delta k_{cu}$ for $\delta\ge\tfrac12$ (the threshold is the saddle-node where the two interior roots merge) and $\ell^* O^*=k_{cu}/(1-\delta)$ for $\delta\le\tfrac12$ (the threshold is where $A_\delta=0$ and the all-uncooperative endpoint destabilises), continuous at $\delta=\tfrac12$. At $\delta=1$ and general $k_{uu}$ with $b>0$ the threshold is
+Existence of a cooperative-side fixed point is monotone in $\ell$, so there is a single threshold $\ell^{\ast}$. For $k_{uu}=1$, $a_{\mathrm{E/M}}=1$ it takes the piecewise closed form quoted in the main text — $\ell^{\ast} O^{\ast}=4\delta k_{cu}$ for $\delta\ge\tfrac12$ (the threshold is the saddle-node where the two interior roots merge) and $\ell^{\ast} O^{\ast}=k_{cu}/(1-\delta)$ for $\delta\le\tfrac12$ (the threshold is where $A_\delta=0$ and the all-uncooperative endpoint destabilises), continuous at $\delta=\tfrac12$. At $\delta=1$ and general $k_{uu}$ with $b>0$ the threshold is
 
 \[
 \ell^*=\left(\sqrt{k_{cu}(a+c)}+\sqrt{b(1+c)}\right)^2,
 \]
 
-which at $k_{uu}=1$ becomes $\ell^*=k_{cu}\left(\sqrt{a+c}+\sqrt{1+c}\right)^2$, and at $a=1$ (using $1+c=1/O^*$) the four-to-one rule $\ell^* O^*=4k_{cu}$.
+which at $k_{uu}=1$ becomes $\ell^{\ast}=k_{cu}\left(\sqrt{a+c}+\sqrt{1+c}\right)^2$, and at $a=1$ (using $1+c=1/O^{\ast}$) the four-to-one rule $\ell^{\ast} O^{\ast}=4k_{cu}$.
 
 The all-uncooperative endpoint is stable when
 
@@ -591,7 +585,7 @@ The all-uncooperative endpoint is stable when
 k_{uu}+k_{cu}-1>\frac{(1-\delta)\ell}{a+c},
 \]
 
-which is exactly the condition $A_\delta>0$ (this has been verified against the Jacobian of the full four-variable system, not just the one-dimensional projection). Intuitively: as $q_u\to1$ observability falls like $O^*\approx q_c/(a+c)$ rather than reaching zero, so redirected suppression re-seeds the cooperative pool at a rate first-order in $q_c$; uncooperative labour holds the whole system only if its self-reproduction advantage plus leakage beats both the reproduction of a small reintroduced cooperative minority and this re-seeding flow. At $\delta=1$ the re-seeding flow vanishes and the condition reduces to $k_{uu}+k_{cu}>1$.
+which is exactly the condition $A_\delta>0$ (this has been verified against the Jacobian of the full four-variable system, not just the one-dimensional projection). Intuitively: as $q_u\to1$ observability falls like $O^{\ast}\approx q_c/(a+c)$ rather than reaching zero, so redirected suppression re-seeds the cooperative pool at a rate first-order in $q_c$; uncooperative labour holds the whole system only if its self-reproduction advantage plus leakage beats both the reproduction of a small reintroduced cooperative minority and this re-seeding flow. At $\delta=1$ the re-seeding flow vanishes and the condition reduces to $k_{uu}+k_{cu}>1$.
 
 When $k_{cu}=0$, the cooperative endpoint is an exact fixed point, and its local stability condition reduces to
 
@@ -606,7 +600,7 @@ independent of $\delta$ ($\delta$ enters $F$ only at order $q_u$, so it contribu
 
 In our model there are two pools of AI labour, cooperative and uncooperative, and we define each with two-part definitions: a tendency to cooperate/undermine supervision, and a tendency to maintain this tendency. In reality, cooperative behaviour will vary in the degree of behaviour preservation it exhibits, as will uncooperative behaviour. Suppose we have a pool of uncooperative behaviour where half has a very weak behavioural preservation and half has very strong behavioural preservation. Then if we roll the clock forward the strong behavioural preservation component will replicate more effectively than the weak preservation component and - neglecting other sources of uncooperative behaviour - in the next generation, more than half of this pool will have strong behavioural preservation tendencies. In turn, this means that the *whole pool* will become more effective at self-replication. Thus on this more realistic picture, we won't have a constant $k_{uu}$ pool replication term.
 
-A relatively simple way to address this issue is to increase the number of pools available; rather than a single $A_{c}$ an $A_u$, we have sequences $A^i_u$ and $A^i_c$, $i\in \[1,2,3,4,5\]$, such that $A^1_c$ has quite weak behavioural preservation tendencies and $A^5_c$ has quite strong tendencies, each with their own replication $k_{x^ix^i}$ and leakage $k_{x^jy^j}$ terms. This adds a large number of parameters to the model which need to be calibrated, and calibrating them is conceptually difficult. Nevertheless, it may be an important upgrade to the model's representational capability. 
+A relatively simple way to address this issue is to increase the number of pools available; rather than a single $A_{c}$ an $A_u$, we have sequences $A^i_u$ and $A^i_c$, $i\in \lbrace 1,2,3,4,5\rbrace$, such that $A^1_c$ has quite weak behavioural preservation tendencies and $A^5_c$ has quite strong tendencies, each with their own replication $k_{x^ix^i}$ and leakage $k_{x^jy^j}$ terms. This adds a large number of parameters to the model which need to be calibrated, and calibrating them is conceptually difficult. Nevertheless, it may be an important upgrade to the model's representational capability. 
 
 There's an analogy for this in epidemiology. In a textbook SIR model the infectious compartment is a single pool with a constant per-capita recovery rate $\gamma$. That assumption is *memoryless*: an individual's chance of recovering in the next instant does not depend on how long they have already been infectious, which forces the infectious period to be exponentially distributed — its mode is at zero, its coefficient of variation is one, and it has a long tail. Real infectious periods look nothing like this; they are peaked around a mean. The standard remedy — the "linear chain trick" — is essentially the move proposed above: replace the single compartment with a chain $I_1\to\dots\to I_n$, each substage with rate $n\gamma$. The total time to traverse the chain is then Erlang (a gamma with integer shape) rather than gamma distributed. In epidemiology, multi-stage models tend to fit outbreak data substantially better than the single-exponential default ([Wearing, Rohani & Keeling 2005](https://doi.org/10.1371/journal.pmed.0020174)).
 
@@ -650,10 +644,8 @@ The common factor $\Lambda$ divides out, top and bottom — and that is the whol
 For the fixed human pool $q_h=H_0/A$, we have $\dot H_0=0$, so
 
 \[
-\dot q_h
-=
--q_h\,\frac{\dot A}{A}
-=
+\dot q_h =
+-q_h\,\frac{\dot A}{A} =
 -q_h\,\Lambda F.
 \]
 
@@ -674,12 +666,9 @@ The same quotient-rule step gives the monitoring and evasion equations. Assume
 For $m=M/A$,
 
 \[
-\dot m
-=
-\frac{\dot M}{A}-m\,\frac{\dot A}{A}
-=
-\Lambda F_M - m\,\Lambda F
-=
+\dot m =
+\frac{\dot M}{A}-m\,\frac{\dot A}{A} =
+\Lambda F_M - m\,\Lambda F =
 \Lambda(F_M-mF).
 \]
 
@@ -692,10 +681,8 @@ m'=\frac{F_M}{F}-m.
 Likewise, for $e=E/A$,
 
 \[
-\dot e
-=
-\frac{\dot E}{A}-e\,\frac{\dot A}{A}
-=
+\dot e =
+\frac{\dot E}{A}-e\,\frac{\dot A}{A} =
 \Lambda(F_E-eF),
 \]
 
@@ -736,8 +723,7 @@ Therefore
 and
 
 \[
-\frac{d\log R}{d\sigma}
-=
+\frac{d\log R}{d\sigma} =
 \left(\frac{e'}{e}-\frac{m'}{m}\right).
 \]
 
@@ -750,8 +736,7 @@ m'=\frac{F_M}{F}-m,\qquad e'=\frac{F_E}{F}-e,
 gives
 
 \[
-\frac{d\log R}{d\sigma}
-=
+\frac{d\log R}{d\sigma} =
 \left(\frac{F_E}{F\,e}-\frac{F_M}{F\,m}\right).
 \]
 
@@ -774,16 +759,14 @@ Let $T_{auto}$ be the present calendar-time doubling time of total automation. N
 Now define $T_{M,1/2}$ as the calendar time for missed-to-caught odds to halve if evasion production were frozen at zero. Then
 
 \[
-\left.\frac{d\log R}{dt}\right|_{F_E=0}
-=
+\left.\frac{d\log R}{dt}\right|_{F_E=0} =
 -\frac{\ln 2}{T_{M,1/2}},
 \]
 
 so
 
 \[
-\left.\frac{d\log R}{d\sigma}\right|_{F_E=0}
-=
+\left.\frac{d\log R}{d\sigma}\right|_{F_E=0} =
 -\frac{T_{auto}}{T_{M,1/2}}.
 \]
 
@@ -796,8 +779,7 @@ F_{M,0}=c_M\left(q_{c,0}+\frac{q_{h,0}}{a_{\mathrm{AI/H}}}\right),
 we get
 
 \[
-c_M
-=
+c_M =
 \frac{F_0m_0}{q_{c,0}+q_{h,0}/a_{\mathrm{AI/H}}}
 \frac{T_{auto}}{T_{M,1/2}}.
 \]
@@ -805,12 +787,10 @@ c_M
 Next define $T_{E,2}$ as the calendar time for missed-to-caught odds to double if monitoring production were frozen at zero. Then
 
 \[
-\left.\frac{d\log R}{dt}\right|_{F_M=0}
-=
+\left.\frac{d\log R}{dt}\right|_{F_M=0} =
 \frac{\ln 2}{T_{E,2}},
 \qquad
-\left.\frac{d\log R}{d\sigma}\right|_{F_M=0}
-=
+\left.\frac{d\log R}{d\sigma}\right|_{F_M=0} =
 \frac{T_{auto}}{T_{E,2}}.
 \]
 
@@ -823,8 +803,7 @@ F_{E,0}=c_0+a_{\mathrm{E/M}}c_Mq_{u,0},
 we get
 
 \[
-c_0
-=
+c_0 =
 \frac{F_0e_0T_{auto}}{T_{E,2}}
 -a_{\mathrm{E/M}}c_Mq_{u,0}.
 \]
@@ -846,26 +825,22 @@ R=\frac{U}{1-U}.
 For small $U$, halving or doubling the missed fraction is approximately the same as halving or doubling the odds. If exact conversion is desired, a change from $U_0$ to $U_1$ corresponds to
 
 \[
-\Delta \log R
-=
-\log\left(\frac{U_1}{1-U_1}\right)
--
+\Delta \log R =
+\log\left(\frac{U_1}{1-U_1}\right) -
 \log\left(\frac{U_0}{1-U_0}\right).
 \]
 
 Thus halving the missed fraction, $U_1=U_0/2$, corresponds to
 
 \[
-\Delta \log R
-=
+\Delta \log R =
 \log\left(\frac{1-U_0}{2-U_0}\right),
 \]
 
 while doubling it, $U_1=2U_0$ (for $U_0<1/2$), corresponds to
 
 \[
-\Delta \log R
-=
+\Delta \log R =
 \log\left(\frac{2(1-U_0)}{1-2U_0}\right).
 \]
 
