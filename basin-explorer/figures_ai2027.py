@@ -1,17 +1,24 @@
 #!/usr/bin/env python3
 """
-Figures for the "representing external scenarios" (AI 2027) appendix of the
+Figures for the "AI 2027 in this model" section of the
 dynamical-models-of-ai-governability post.
 
-The model core is a delta-general port of the canonical sigma-clock model
-(in-app engine: basin-explorer/src/BasinExplorer.jsx). The port is validated
-against pinned ground-truth numbers before any figure is drawn, including a
-delta=1 regression that reproduces the original pre-delta implementation
-(the pre-delta helper scripts themselves were retired; see README.md).
+The model core is a port of the PRODUCTION-GATED delta-general sigma-clock
+model (in-app engine: basin-explorer/src/BasinExplorer.jsx, commit b5d1952+):
+
+  F_u = (1-lO)(k_cu q_c + k_hu q_h) + (k_uu - lO) q_u
+  F_c = (1-k_cu) q_c + (1-k_hu) q_h + (1-d) lO L,  L = k_cu q_c + k_hu q_h + q_u
+  G   = q_c + q_h + k_uu q_u - d lO L
+
+The port is validated against pinned gated ground-truth numbers before any
+figure is drawn (fixtures from _scratch/review/scripts/gated-calibrations.js
+and verify-gated-fixed-points.js; the old pre-gating self-tests were
+re-baselined by design when the model changed).
 
 Two figures:
   fig1: AI 2027 located as a high-leakage run (q_u rises, O collapses).
-  fig2 (lead): at high leakage, observability alone cannot recover cooperation.
+  fig2 (lead): at high leakage, observability alone cannot recover cooperation;
+        under gating the only cooperative destination is the eradication regime.
 """
 import numpy as np
 import matplotlib as mpl
@@ -48,7 +55,7 @@ mpl.rcParams.update({
 })
 
 # ===========================================================================
-# MODEL CORE  — delta-general port of the in-app engine (src/BasinExplorer.jsx)
+# MODEL CORE — production-gated port of the in-app engine (src/BasinExplorer.jsx)
 # ===========================================================================
 def computeO(m, e):
     m = max(m, 1e-12); e = max(e, 1e-12)
@@ -58,9 +65,11 @@ def make_deriv(p):
     def f(s):
         Q, m, e, eta = s
         O = computeO(m, e)
+        Lk = p["k_cu"] * (1 - Q) + p["k_hu"] * eta   # leakage inflow
+        L = Lk + Q                                    # full suppression target
         Fc = ((1 - Q) * (1 - p["k_cu"]) + eta * (1 - p["k_hu"])
-              + (1 - p["delta"]) * p["l"] * O * Q)
-        Fu = p["k_cu"] * (1 - Q) + p["k_hu"] * eta + (p["k_uu"] - p["l"] * O) * Q
+              + (1 - p["delta"]) * p["l"] * O * L)
+        Fu = (1 - p["l"] * O) * Lk + (p["k_uu"] - p["l"] * O) * Q
         G = Fc + Fu
         if G <= 1e-10:
             return np.array([0.0, 0.0, 0.0, -eta])
@@ -72,7 +81,8 @@ def make_deriv(p):
 def computeG(s, p):
     Q, m, e, eta = s
     O = computeO(m, e)
-    return (1 - Q) + eta + (p["k_uu"] - p["delta"] * p["l"] * O) * Q
+    L = p["k_cu"] * (1 - Q) + p["k_hu"] * eta + Q
+    return (1 - Q) + eta + p["k_uu"] * Q - p["delta"] * p["l"] * O * L
 
 def rk4_step(state, dt, deriv):
     k1 = deriv(state)
@@ -108,11 +118,13 @@ def simulate(p, ic, sigma_max=15.0, dt=0.005):
     return dict(traj=traj, escaped=escaped, final=traj[-1])
 
 def calibrated_rates(p):
+    """c_M, c_0 from O(0)=1/(1+R0), m0=1, with the gated G0 (matches the app)."""
     Q, eta = p["q0"], p["eta0"]
     R0 = max(p["R0"], 1e-9)
     O0 = 1 / (1 + R0)
     m0 = 1.0
-    G0 = max((1 - Q) + eta + (p["k_uu"] - p["delta"] * p["l"] * O0) * Q, 0.05)
+    L0 = p["k_cu"] * (1 - Q) + p["k_hu"] * eta + Q
+    G0 = max((1 - Q) + eta + p["k_uu"] * Q - p["delta"] * p["l"] * O0 * L0, 0.05)
     mon0 = max((1 - Q) + eta / p["a_ai_h"], 1e-9)
     Ostar = min(max(p["Ostar"], 1e-6), 1 - 1e-6)
     c_M = G0 * m0 / mon0
@@ -128,20 +140,43 @@ def ode_params(p):
 def build_ic(p):
     return [p["q0"], 1.0, max(p["R0"], 1e-9), p["eta0"]]
 
-def classify_basin(ode):
-    """Delta-general quadratic classifier in r = q_u/(1-q_u).
+def lstar_gated(k_cu, k_uu, delta, a, c):
+    """Gated basin-existence threshold l* (audit G4/G6; port of the app's
+    BASIN_BOUNDARY.lstar / gated-calibrations.js lstarGated). Valid as a
+    conventional-basin threshold only while l* < 1+c (else the eradication
+    regime arrives first)."""
+    b = k_cu + k_uu - 1
+    if b < 0 or (abs(b) < 1e-15 and delta < 1):
+        return 0.0
+    P0 = k_cu * (a + c) + b * (1 + c)
+    betaB = 1 + (1 - delta) * k_cu
+    lA = b * (a + c) / (1 - delta) if delta < 1 else np.inf
+    PB = P0 / betaB
+    u = 1 - (1 - delta) * k_cu
+    u2 = max(u * u, 1e-18)
+    N = abs(k_cu * (a + c) - b * (1 + c))
+    V = P0 * betaB - 2 * b * (a + c) * k_cu - 2 * (1 - delta) * k_cu * (1 + c)
+    disc = V * V - u2 * N * N
+    lPlus = (V + np.sqrt(disc)) / u2 if disc >= 0 else -np.inf
+    return min(lA, max(PB, lPlus))
 
-    Fixed points solve A_d r^2 + B r + C = 0 with
+def classify_basin(ode):
+    """Gated quadratic classifier in r = q_u/(1-q_u) (audit G3/G9).
+
+    Fixed points solve A r^2 + B r + C = 0 with
       b = k_cu + k_uu - 1, a = a_e_m, c = c_0/c_M,
-      A_d = b(a+c) - (1-delta) l,  B = k_cu(a+c) + b(1+c) - l,  C = k_cu(1+c).
-    (See verify-delta-fixed-points.js R3/R4; reduces to the post's delta=1 form.)
+      A = b(a+c) - (1-d)l              (unchanged by gating)
+      B = k_cu(a+c) + b(1+c) - l(1+(1-d)k_cu)
+      C = k_cu(1+c-l)                  (gated seeding; delta-free)
+    C <= 0 (lO*(0) >= 1) is the eradication regime: q_u -> 0 is reachable.
+    Returns (kind, roots): kind in escape / monostable / bistable / eradication.
     """
     k_uu, k_cu, l, delta = ode["k_uu"], ode["k_cu"], ode["l"], ode["delta"]
     a = ode["a_e_m"]; c = ode["c_0"] / ode["c_M"]
     b = k_cu + k_uu - 1
     A = b * (a + c) - (1 - delta) * l
-    B = k_cu * (a + c) + b * (1 + c) - l
-    Cc = k_cu * (1 + c)
+    B = k_cu * (a + c) + b * (1 + c) - l * (1 + (1 - delta) * k_cu)
+    Cc = k_cu * (1 + c - l)
     if abs(A) < 1e-12:
         roots_r = [] if abs(B) < 1e-12 else [-Cc / B]
     else:
@@ -150,6 +185,9 @@ def classify_basin(ode):
                                        (-B - np.sqrt(disc)) / (2 * A)]
     roots = sorted(r / (1 + r) for r in roots_r if r > 1e-12)
     roots = [q for q in roots if q < 1 - 1e-9]
+    if k_cu > 1e-9 and Cc <= 0:
+        # eradication regime: g(0) <= 0, q_u = 0 reachable in finite time
+        return "eradication", roots
     if k_cu <= 1e-9:
         Ostar0 = 1 / (1 + c)
         if l * Ostar0 >= k_uu - 1:
@@ -160,75 +198,88 @@ def classify_basin(ode):
         return "monostable", roots
     return "bistable", roots
 
-DEFAULTS = dict(T_auto=0.5, Ostar=0.5, k_uu=1.0, k_cu=0.05, k_hu=0.05, l=0.4,
-                delta=0.7, a_e_m=1.0, a_ai_h=1.0, R0=1.0, q0=0.05, eta0=5.0)
+# Broad-default preset (identity-calibrated trend-adjusted k; audit G12)
+DEFAULTS = dict(T_auto=0.5, Ostar=0.5, k_uu=1.0, k_cu=0.0407, k_hu=0.0407,
+                l=0.4, delta=0.7, a_e_m=1.0, a_ai_h=1.0, R0=1.0, q0=0.05,
+                eta0=5.0)
 
 def P(**over):
     p = dict(DEFAULTS); p.update(over); return p
 
 # ===========================================================================
-# VALIDATION against pinned ground-truth numbers (pre-delta JS + verified verdicts)
+# VALIDATION against pinned gated ground-truth numbers
 # ===========================================================================
 def validate():
-    print("=== validating Python port (delta-general) ===")
+    print("=== validating Python port (production-gated) ===")
     ok = True
-    # A. delta=1, l=0.2 reproduces the pre-delta JS ground truth
-    expect = {0.0: "monostable", 0.025: "bistable", 0.05: "escape",
-              0.3: "escape", 0.95: "escape"}
-    for k, want in expect.items():
-        got, _ = classify_basin(ode_params(P(k_cu=k, l=0.2, delta=1.0)))
-        flag = "ok" if got == want else "MISMATCH"
-        if got != want: ok = False
-        print(f"  [d=1,l=0.2] basin k_cu={k:<5}: {got:<11} (want {want}) {flag}")
-    # B. sigma to Q=0.5 for k_cu=0.3 (delta=1, l=0.2) should be ~4.88
-    pp = P(k_cu=0.3, l=0.2, delta=1.0)
-    sim = simulate(ode_params(pp), build_ic(pp), 20)
-    s50 = next((tr["sigma"] for tr in sim["traj"] if tr["Q"] >= 0.5), None)
-    print(f"  sigma@Q=0.5 (k_cu=0.3): {s50:.2f} (want ~4.88) "
-          f"{'ok' if abs(s50-4.88)<0.1 else 'MISMATCH'}")
-    if abs(s50 - 4.88) >= 0.1: ok = False
-    # C. boundary table at delta=1, l=0.2 (old regression row)
-    def max_coop(l, Ostar, delta):
-        best = 0.0
-        for k in np.arange(0, 1.0001, 0.005):
-            kind, _ = classify_basin(ode_params(P(k_cu=k, l=l, Ostar=Ostar,
-                                                  delta=delta)))
-            if kind != "escape": best = k
-        return best
-    row = [round(max_coop(0.2, o, 1.0), 3) for o in (0.5, 0.7, 0.9, 0.99)]
-    want_row = [0.025, 0.035, 0.045, 0.045]
-    print(f"  [d=1] max-coop k_cu @ l=0.2 over Ostar: {row} (want {want_row}) "
-          f"{'ok' if np.allclose(row, want_row, atol=0.011) else 'MISMATCH'}")
-    if not np.allclose(row, want_row, atol=0.011): ok = False
-    # D. delta-general verdicts vs calibration-verdicts.js (verified numbers)
-    kind, roots = classify_basin(ode_params(P()))  # Broad central
-    good = kind == "monostable" and abs(roots[0] - 0.323) < 0.005
-    print(f"  Broad (l=0.4, d=0.7): {kind}, q_u*={roots[0]:.3f} (want 0.323) "
-          f"{'ok' if good else 'MISMATCH'}")
+    # A. named-calibration verdicts (gated-calibrations.js)
+    kind, roots = classify_basin(ode_params(P()))  # Broad default
+    good = kind == "monostable" and abs(roots[0] - 0.2053) < 0.002
+    print(f"  Broad default (k=0.0407, l=0.4, d=0.7): {kind}, "
+          f"q_u*={roots[0]:.4f} (want 0.2053) {'ok' if good else 'MISMATCH'}")
     if not good: ok = False
-    ps = P(k_cu=0.005, k_hu=0.005, q0=0.005)  # Strict central
+    ps = P(k_cu=0.00542, k_hu=0.00542, q0=0.005)  # Strict default
     kind, roots = classify_basin(ode_params(ps))
-    good = kind == "monostable" and abs(roots[0] - 0.0255) < 0.002
-    print(f"  Strict (l=0.4, d=0.7): {kind}, q_u*={roots[0]:.4f} (want 0.0255) "
-          f"{'ok' if good else 'MISMATCH'}")
+    good = kind == "monostable" and abs(roots[0] - 0.0222) < 0.001
+    print(f"  Strict default (k=0.00542): {kind}, q_u*={roots[0]:.4f} "
+          f"(want 0.0222) {'ok' if good else 'MISMATCH'}")
     if not good: ok = False
     kind, _ = classify_basin(ode_params(P(k_cu=0.9)))  # AI 2027
     print(f"  AI 2027 (k_cu=0.9, l=0.4, d=0.7): {kind} (want escape) "
           f"{'ok' if kind == 'escape' else 'MISMATCH'}")
     if kind != "escape": ok = False
-    # E. piecewise threshold l*O* = 4 d k_cu (d >= 1/2) via bisection on existence
-    def exists(l):
-        kind, _ = classify_basin(ode_params(P(l=l)))
-        return kind != "escape"
-    lo, hi = 0.01, 2.0
-    for _ in range(60):
-        mid = 0.5 * (lo + hi)
-        if exists(mid): hi = mid
-        else: lo = mid
-    want = 4 * 0.7 * 0.05 / 0.5  # = 0.28
-    print(f"  Broad basin threshold l* = {hi:.4f} (want {want:.4f}) "
-          f"{'ok' if abs(hi - want) < 2e-3 else 'MISMATCH'}")
-    if abs(hi - want) >= 2e-3: ok = False
+    # B. gated thresholds: closed form vs bisection on classify
+    def exists(l, **over):
+        kind, _ = classify_basin(ode_params(P(l=l, **over)))
+        return kind in ("monostable", "bistable")
+    def bisect_lstar(**over):
+        lo, hi = 0.001, 1.9   # stay below the eradication line at O*=0.5
+        for _ in range(60):
+            mid = 0.5 * (lo + hi)
+            if exists(mid, **over): hi = mid
+            else: lo = mid
+        return hi
+    got = bisect_lstar()
+    want = lstar_gated(0.0407, 1.0, 0.7, 1.0, 1.0)
+    good = abs(got - want) < 2e-3 and abs(want - 0.2241) < 1e-3
+    print(f"  Broad default l*: bisection {got:.4f} vs closed form {want:.4f} "
+          f"(want 0.2241) {'ok' if good else 'MISMATCH'}")
+    if not good: ok = False
+    got = bisect_lstar(k_cu=0.05, k_hu=0.05, delta=1.0)
+    good = abs(got - 0.38) < 2e-3   # delta=1 rule: 8 k (1-k) = 0.38
+    print(f"  Broad naive d=1 l* = {got:.4f} (want 0.3800 = 4k(1-k)/O*) "
+          f"{'ok' if good else 'MISMATCH'}")
+    if not good: ok = False
+    # C. B=0 branch at AI 2027 leakage (audit G6 table)
+    for d, want in ((0.7, 2.8346), (1.0, 3.60)):
+        got = lstar_gated(0.9, 1.0, d, 1.0, 1.0)
+        good = abs(got - want) < 0.01
+        print(f"  l*(k_cu=0.9, d={d}) = {got:.3f} (want {want}; beyond "
+              f"eradication line l_E=2) {'ok' if good else 'MISMATCH'}")
+        if not good: ok = False
+    # D. eradication regime classification + trajectory
+    kind, roots = classify_basin(ode_params(P(k_cu=0.9, l=2.5)))
+    good = kind == "eradication" and len(roots) == 1 and abs(roots[0] - 0.326) < 0.01
+    print(f"  k_cu=0.9, l=2.5: {kind}, separator q={roots[0]:.3f} (want "
+          f"eradication, ~0.326) {'ok' if good else 'MISMATCH'}")
+    if not good: ok = False
+    pp = P(k_cu=0.9, l=2.5, q0=0.02)
+    sim = simulate(ode_params(pp), build_ic(pp), 12)
+    qf = sim["final"]["Q"]
+    good = qf < 1e-3
+    print(f"  eradication trajectory from q0=0.02: q(end)={qf:.5f} (want -> 0) "
+          f"{'ok' if good else 'MISMATCH'}")
+    if not good: ok = False
+    # E. AI 2027 trajectory landmark (gated): q crosses 0.5 at sigma ~ 3.0
+    pp = P(k_cu=0.9)
+    sim = simulate(ode_params(pp), build_ic(pp), 12)
+    s50 = next((tr["sigma"] for tr in sim["traj"] if tr["Q"] >= 0.5), None)
+    obs = [tr["O"] * tr["Q"] for tr in sim["traj"]]
+    pk = max(obs)
+    good = s50 is not None and abs(s50 - 3.02) < 0.08 and abs(pk - 0.236) < 0.01
+    print(f"  AI 2027 run: sigma@Q=0.5 = {s50:.2f} (want ~3.02); observed peak "
+          f"{pk:.3f} (want ~0.236) {'ok' if good else 'MISMATCH'}")
+    if not good: ok = False
     print("  PORT VALID" if ok else "  *** PORT INVALID ***")
     print()
     return ok
@@ -270,7 +321,7 @@ def fig1():
     axQ.text(xmax * 0.92, 0.52, "$q_u=0.5$", ha="right", va="bottom",
              fontsize=8, color=C["fgMuted"])
     ip = int(np.argmax(obs))
-    axQ.annotate("what labs can measure peaks early, then\n"
+    axQ.annotate("what labs can measure peaks early (~24%), then\n"
                  "falls — even as true uncooperativeness\napproaches dominance",
                  (xh[ip], obs[ip]), xytext=(xh[ip] * 7, 0.40), fontsize=8.7,
                  color=C["accent"], va="center",
@@ -305,24 +356,19 @@ def fig1():
 # FIGURE 2 (LEAD) — observability alone cannot recover cooperation
 # ===========================================================================
 def region_grid(kcu_vals, yvals, ykey, fixed):
-    """Return integer code grid: 0 escape, 1 bistable, 2 monostable."""
-    code = {"escape": 0, "bistable": 1, "monostable": 2}
+    """Integer grid: 1 where some cooperative outcome exists (conventional
+    basin or eradication regime), 0 where takeover is the only outcome."""
     G = np.zeros((len(yvals), len(kcu_vals)), dtype=int)
     for j, y in enumerate(yvals):
         for i, k in enumerate(kcu_vals):
             over = dict(fixed); over["k_cu"] = k; over[ykey] = y
             kind, _ = classify_basin(ode_params(P(**over)))
-            G[j, i] = code[kind]
+            G[j, i] = 0 if kind == "escape" else 1
     return G
 
 def fig2():
     from matplotlib.colors import ListedColormap
-    # two categories: escape (red) vs cooperative basin can exist (green)
     cmap = ListedColormap([C["fill_escape"], C["fill_coop"]])
-
-    def exists_grid(kcu_vals, yvals, ykey, fixed):
-        G = region_grid(kcu_vals, yvals, ykey, fixed)
-        return (G >= 1).astype(int)   # 0 escape, 1 basin-exists
 
     fig, (axA, axB) = plt.subplots(1, 2, figsize=(11.4, 5.1))
     fig.subplots_adjust(left=0.065, right=0.985, top=0.76, bottom=0.20, wspace=0.23)
@@ -330,22 +376,31 @@ def fig2():
     # ---- Panel A: (k_cu, O*) at central l = 0.4, delta = 0.7 ----
     kcu = np.linspace(0, 0.20, 500)
     Ostar = np.linspace(0.5, 0.99, 300)
-    axA.pcolormesh(kcu, Ostar, exists_grid(kcu, Ostar, "Ostar", dict()),
+    axA.pcolormesh(kcu, Ostar, region_grid(kcu, Ostar, "Ostar", dict()),
                    cmap=cmap, vmin=0, vmax=1, shading="auto")
-    # delta-general boundary at a=1, k_uu=1, delta >= 1/2: k_cu = l O* / (4 delta)
-    axA.plot(0.4 * Ostar / (4 * 0.7), Ostar, color=C["fg"], lw=1.6, ls="--")
-    # observability axis does almost nothing: arrow straight up at fixed k_cu
+    # gated boundary: invert l*(k; c) = 0.4 in k by bisection for each O*
+    kbound = []
+    for o in Ostar:
+        cc = (1 - o) / o
+        lo, hi = 1e-4, 0.5
+        for _ in range(50):
+            mid = 0.5 * (lo + hi)
+            if lstar_gated(mid, 1.0, 0.7, 1.0, cc) > 0.4: hi = mid
+            else: lo = mid
+        kbound.append(0.5 * (lo + hi))
+    axA.plot(kbound, Ostar, color=C["fg"], lw=1.6, ls="--")
+    # observability axis does little: arrow straight up at fixed k_cu
     axA.annotate("", xy=(0.158, 0.965), xytext=(0.158, 0.52),
                  arrowprops=dict(arrowstyle="->", color=C["fg"], lw=1.4))
-    axA.text(0.163, 0.74, "perfect observability\nbuys you almost no\nextra leakage "
-             "tolerance", fontsize=8.8, color=C["fg"], va="center")
+    axA.text(0.163, 0.74, "perfect observability\nroughly doubles leakage\n"
+             "tolerance — no more", fontsize=8.8, color=C["fg"], va="center")
     axA.text(0.012, 0.93, "cooperative\nbasin", fontsize=9, color=C["coop"],
              va="top", fontweight="bold")
     axA.text(0.125, 0.58, "uncooperative\nbasin", fontsize=9, color=C["uncoop"],
              ha="center", fontweight="bold")
-    axA.plot(0.05, 0.5, "o", color=C["fg"], ms=7, zorder=6)
-    axA.annotate("central (Broad) $k_{cu}{=}0.05$:\ninside, but with thin margin",
-                 (0.05, 0.5), xytext=(0.012, 0.60), fontsize=8.5, color=C["fg"],
+    axA.plot(0.0407, 0.5, "o", color=C["fg"], ms=7, zorder=6)
+    axA.annotate("Broad default $k_{cu}{=}0.041$:\ninside, modest margin",
+                 (0.0407, 0.5), xytext=(0.012, 0.60), fontsize=8.5, color=C["fg"],
                  arrowprops=dict(arrowstyle="-", color=C["fg"], lw=0.8))
     axA.annotate("AI 2027 “priors dominate” $k_{cu}{\\approx}0.9$  →  far off-scale, "
                  "deep in escape", (0.20, 0.55),
@@ -361,38 +416,52 @@ def fig2():
     # ---- Panel B: (k_cu, l) at near-perfect O* = 0.99 ----
     kcu2 = np.linspace(0, 1, 500)
     lvals = np.linspace(0, 4, 300)
-    axB.pcolormesh(kcu2, lvals, exists_grid(kcu2, lvals, "l", dict(Ostar=0.99)),
+    cB = (1 - 0.99) / 0.99
+    lE = 1 + cB  # eradication line l O*(0) = 1
+    axB.pcolormesh(kcu2, lvals, region_grid(kcu2, lvals, "l", dict(Ostar=0.99)),
                    cmap=cmap, vmin=0, vmax=1, shading="auto")
-    # boundary at a=1, k_uu=1, delta=0.7: l = 4 delta k_cu (1+c), c = (1-O*)/O*
-    axB.plot(kcu2, 4 * 0.7 * kcu2 * (1 + 0.0101), color=C["fg"], lw=1.6, ls="--")
+    # gated basin boundary l*(k), drawn only where it undercuts the eradication line
+    lb = np.array([lstar_gated(k, 1.0, 0.7, 1.0, cB) for k in kcu2])
+    msk = lb <= lE
+    axB.plot(kcu2[msk], lb[msk], color=C["fg"], lw=1.6, ls="--")
+    # eradication line
+    axB.axhline(lE, color=C["uncoop"], lw=1.4, ls=(0, (1, 1.5)))
+    axB.text(0.02, lE + 0.06, "eradication line  $\\ell\\,O^*(0)=1$: above it, "
+             "suppression intercepts more\nthan all seeding and $q_u\\to0$ "
+             "(narrow basin at high $k_{cu}$)", fontsize=8.0,
+             color=C["uncoop"], va="bottom")
     axB.axhline(0.4, color=C["accent"], lw=1.8)
-    axB.text(0.985, 0.46, "central estimate  $\\ell=0.4$", color=C["accent"],
+    axB.text(0.985, 0.44, "central estimate  $\\ell=0.4$", color=C["accent"],
              fontsize=8.7, va="bottom", ha="right")
-    axB.text(0.13, 2.05, "cooperative\nbasin", fontsize=9.5, color=C["coop"],
+    axB.text(0.10, 0.62, "cooperative\nbasin", fontsize=9.5, color=C["coop"],
              fontweight="bold")
-    axB.text(0.62, 0.62, "uncooperative basin", fontsize=10, color=C["uncoop"],
+    axB.text(0.62, 0.30, "uncooperative basin", fontsize=10, color=C["uncoop"],
              fontweight="bold")
-    axB.plot(0.9, 2.55, "s", color=C["uncoop"], ms=9, zorder=6, mec=C["fg"])
-    axB.annotate("AI 2027 leakage needs\n$\\ell{\\approx}2.5$ — ~6× the central\n"
-                 "estimate, even at $O^*{=}0.99$", (0.9, 2.55),
-                 xytext=(0.36, 3.5), fontsize=8.6, color=C["uncoop"], va="top",
+    axB.plot(0.9, lE, "s", color=C["uncoop"], ms=9, zorder=6, mec=C["fg"])
+    axB.annotate("at AI 2027 leakage a conventional basin would need\n"
+                 "$\\ell{\\approx}1.4$ — but the eradication line arrives first "
+                 "($\\ell{\\approx}1.0$):\nthe only cooperative outcome is "
+                 "over-suppression,\n~2.5× the central estimate even at "
+                 "$O^*{=}0.99$", (0.9, lE),
+                 xytext=(0.30, 2.9), fontsize=8.6, color=C["uncoop"], va="top",
                  arrowprops=dict(arrowstyle="-", color=C["uncoop"], lw=0.8))
     axB.set_xlim(0, 1); axB.set_ylim(0, 4)
     axB.set_xlabel("cooperative→uncooperative leakage  $k_{cu}$")
     axB.set_ylabel("suppression strength  $\\ell$")
-    axB.set_title("(b)  Holding high leakage needs suppression\n"
-                  "scaling with it   (observability near-perfect, $O^*=0.99$)",
+    axB.set_title("(b)  Holding high leakage needs suppression scaling\n"
+                  "with it — into over-suppression   ($O^*=0.99$)",
                   fontsize=10.5, loc="left", pad=18)
 
     legend_el = [
         Patch(fc=C["fill_coop"], ec=C["edge_coop"],
-              label="a cooperative basin can exist"),
+              label="a cooperative outcome can exist (basin, or eradication beyond the dotted line)"),
         Patch(fc=C["fill_escape"], ec=C["edge_escape"],
-              label="uncooperative basin — dominance is the only outcome"),
-        Line2D([0], [0], color=C["fg"], lw=1.6, ls="--", label="basin boundary"),
+              label="uncooperative dominance is the only outcome"),
+        Line2D([0], [0], color=C["fg"], lw=1.6, ls="--",
+               label="gated basin boundary $\\ell^*$"),
     ]
     fig.legend(handles=legend_el, loc="lower center", ncol=3, frameon=False,
-               fontsize=9, bbox_to_anchor=(0.5, 0.012))
+               fontsize=8.6, bbox_to_anchor=(0.5, 0.012))
     fig.suptitle("At high leakage, observability alone cannot recover cooperation",
                  fontsize=13.5, x=0.065, ha="left", y=0.955)
     fig.savefig(f"{OUT}/ai2027-observability-cannot-save.png", dpi=200)
