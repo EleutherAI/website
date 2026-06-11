@@ -3,19 +3,25 @@
 Figures for the "AI 2027 in this model" section of the
 dynamical-models-of-ai-governability post.
 
-The model core is a port of the BOUNDED-GATE (v3) delta-general sigma-clock
-model (in-app engine: basin-explorer/src/BasinExplorer.jsx, commit d833ac6+):
+The model core is a port of the V4 GROWTH-PEGGED delta-general sigma-clock
+model (in-app engine: basin-explorer/src/BasinExplorer.jsx, commit b87373a+):
 
   F_u = (1 - l_k O) Lk + (k_uu - lO) q_u,   Lk = k_cu q_c + k_hu q_h
   F_c = (1-k_cu) q_c + (1-k_hu) q_h + (1-d) O (l_k Lk + l q_u)
   G   = q_c + q_h + k_uu q_u - d O (l_k Lk + l q_u)
+  e'  = c_0 + a_E/M c_M q_u / G - e        (passive opacity per doubling)
 
-The port is validated against pinned v3 ground-truth numbers before any
-figure is drawn (fixtures from _scratch/review/scripts/v3/v3-calibrations.js,
-v3-landmarks.js and verify-v3-fixed-points.js; the old production-gated
-self-tests were re-baselined by design when the model changed, and survive
-only as the l_k = l regression check). The v2 eradication regime is
-RETRACTED: no eradication line is drawn anywhere.
+c_0 is pinned from the long-run observability dial W at the rare-uncooperative
+point: c_0/c_M = (1-W)/(W(1 - d*l_k*k_cu*W)), re-solved per parameter cell.
+Long-run observability is the minus root of c*d*P*O^2 - D*O + 1 = 0 with
+P = l_k k_cu + l r, D = 1 + c + (a + c k_uu) r; fixed points are roots of
+g(r) = k_cu + b r - O*(r) P(r) S(r), S = 1 + (1-d) r (a cubic in r).
+
+The port is validated against pinned v4 ground-truth numbers before any
+figure is drawn (fixtures from _scratch/review/scripts/v4/calibrations_v4.py
+and landmarks_v4.py, digests in calibrations-v4.md / landmarks-v4.md). There
+is no eradication regime and, at delta = 1 and k_cu = 0.9, no basin at any
+fix rate under the dial pin (floor validity d*k_cu <= 4/(4+l_k)).
 
 Two figures:
   fig1: AI 2027 located as a high-leakage run (q_u rises, O collapses).
@@ -58,8 +64,15 @@ mpl.rcParams.update({
 })
 
 # ===========================================================================
-# MODEL CORE — bounded-gate port of the in-app engine (src/BasinExplorer.jsx)
+# MODEL CORE — v4 growth-peg port of the in-app engine (src/BasinExplorer.jsx)
 # ===========================================================================
+def pin_c(Omega, delta, lk, k_cu):
+    """c = c_0/c_M such that long-run O*(q_u -> 0) equals the dial Omega."""
+    den = Omega * (1.0 - delta * lk * k_cu * Omega)
+    if den <= 0:
+        raise ValueError("O*-dial pin infeasible")
+    return (1.0 - Omega) / den
+
 def computeO(m, e):
     m = max(m, 1e-12); e = max(e, 1e-12)
     return m / (m + e)
@@ -76,8 +89,11 @@ def make_deriv(p):
         if G <= 1e-10:
             return np.array([0.0, 0.0, 0.0, -eta])
         FM = p["c_M"] * ((1 - Q) + eta / p["a_ai_h"])
-        FE = p["c_0"] + p["a_e_m"] * p["c_M"] * Q
-        return np.array([Fu / G - Q, FM / G - m, FE / G - e, -eta])
+        FE_active = p["a_e_m"] * p["c_M"] * Q
+        # v4: passive opacity is per-doubling (undiluted); only active
+        # evasion is a production flow.
+        return np.array([Fu / G - Q, FM / G - m,
+                         p["c_0"] + FE_active / G - e, -eta])
     return f
 
 def computeG(s, p):
@@ -120,8 +136,8 @@ def simulate(p, ic, sigma_max=15.0, dt=0.005):
     return dict(traj=traj, escaped=escaped, final=traj[-1])
 
 def calibrated_rates(p):
-    """c_M, c_0 from O(0)=1/(1+R0), m0=1, with the bounded-gate G0 (matches
-    the app)."""
+    """c_M from O(0)=1/(1+R0), m0=1, bounded-gate G0 (matches the app);
+    c_0 from the per-cell dial pin (v4)."""
     Q, eta = p["q0"], p["eta0"]
     R0 = max(p["R0"], 1e-9)
     O0 = 1 / (1 + R0)
@@ -132,7 +148,7 @@ def calibrated_rates(p):
     mon0 = max((1 - Q) + eta / p["a_ai_h"], 1e-9)
     Ostar = min(max(p["Ostar"], 1e-6), 1 - 1e-6)
     c_M = G0 * m0 / mon0
-    c_0 = ((1 - Ostar) / Ostar) * c_M
+    c_0 = pin_c(Ostar, p["delta"], p["lk"], p["k_cu"]) * c_M
     return c_M, c_0
 
 def ode_params(p):
@@ -144,60 +160,105 @@ def ode_params(p):
 def build_ic(p):
     return [p["q0"], 1.0, max(p["R0"], 1e-9), p["eta0"]]
 
-def lstar_v3(k_cu, k_uu, delta, lk, a, c):
-    """v3 basin-existence threshold l* (derivation-audit Part A' V5/V6; port
-    of the app's BASIN_BOUNDARY.lstar / v3-calibrations.js lstarV3)."""
-    b = k_cu + k_uu - 1
-    Cc = k_cu * (1 + c - lk)
-    if b < 0 or (abs(b) < 1e-15 and delta < 1):
-        return 0.0
-    PB = k_cu * (a + c) + b * (1 + c) - (1 - delta) * lk * k_cu
-    if abs(b) < 1e-15 and delta == 1:
-        return PB
-    lA = b * (a + c) / (1 - delta) if delta < 1 else np.inf
-    Mt = PB - 2 * (1 - delta) * Cc
-    W = PB * PB - 4 * b * (a + c) * Cc
-    disc = Mt * Mt - W
-    lPlus = Mt + np.sqrt(disc) if disc >= 0 else -np.inf
-    return min(lA, max(PB, lPlus))
+# --------------------------- analytic layer (v4) ---------------------------
+RGRID = np.exp(np.linspace(np.log(1e-7), np.log(1e6), 1600))
+
+def g_on_grid(k_cu, k_uu, l, lk, delta, a, c, rs=RGRID):
+    """v4 sign function g(r) = k + b r - O*(r) P S on an r grid (vectorised).
+    O*(r) is the minus root of c*delta*P*O^2 - D*O + 1 = 0; NaN where the
+    observability sector has no equilibrium (validity-envelope exit)."""
+    b = k_cu + k_uu - 1.0
+    P = lk * k_cu + l * rs
+    D = 1.0 + c + (a + c * k_uu) * rs
+    S = 1.0 + (1.0 - delta) * rs
+    cdP = c * delta * P
+    disc = D * D - 4.0 * cdP
+    O = np.where(disc >= 0, 2.0 / (D + np.sqrt(np.maximum(disc, 0.0))), np.nan)
+    small = cdP < 1e-14
+    if np.any(small):
+        O = np.where(small, 1.0 / D, O)
+    return k_cu + b * rs - O * P * S
+
+def basin_roots(k_cu, k_uu, l, lk, delta, a, c):
+    """Fixed points q* (ascending) from sign changes of g on the log grid,
+    refined by bisection. g(0) > 0 always (no eradication)."""
+    g = g_on_grid(k_cu, k_uu, l, lk, delta, a, c)
+    roots = []
+    for i in range(len(RGRID) - 1):
+        g0, g1 = g[i], g[i + 1]
+        if np.isnan(g0) or np.isnan(g1):
+            continue
+        if g0 == 0.0:
+            roots.append(RGRID[i])
+        elif g0 * g1 < 0:
+            lo, hi = RGRID[i], RGRID[i + 1]
+            for _ in range(80):
+                mid = 0.5 * (lo + hi)
+                gm = g_on_grid(k_cu, k_uu, l, lk, delta, a, c,
+                               rs=np.array([mid]))[0]
+                if np.isnan(gm):
+                    break
+                if gm * g0 <= 0:
+                    hi = mid
+                else:
+                    lo = mid
+            roots.append(0.5 * (lo + hi))
+    return [r / (1 + r) for r in sorted(roots)]
 
 def classify_basin(ode):
-    """v3 quadratic classifier in r = q_u/(1-q_u) (audit V2/V13).
-
-    Fixed points solve A r^2 + B r + C = 0 with
-      b = k_cu + k_uu - 1, a = a_e_m, c = c_0/c_M,
-      A = b(a+c) - (1-d)l                  (unchanged by gating)
-      B = k_cu(a+c) + b(1+c) - l - (1-d) l_k k_cu
-      C = k_cu(1+c-l_k)                    (l-free AND delta-free)
-    C > 0 always for l_k <= 1, c > 0: there is NO eradication regime.
-    Returns (kind, roots): kind in escape / monostable / bistable.
-    """
+    """Returns (kind, roots): kind in escape / monostable / bistable."""
     k_uu, k_cu, l, lk, delta = (ode["k_uu"], ode["k_cu"], ode["l"],
                                 ode["lk"], ode["delta"])
     a = ode["a_e_m"]; c = ode["c_0"] / ode["c_M"]
-    b = k_cu + k_uu - 1
-    A = b * (a + c) - (1 - delta) * l
-    B = k_cu * (a + c) + b * (1 + c) - l - (1 - delta) * lk * k_cu
-    Cc = k_cu * (1 + c - lk)
-    if abs(A) < 1e-12:
-        roots_r = [] if abs(B) < 1e-12 else [-Cc / B]
-    else:
-        disc = B * B - 4 * A * Cc
-        roots_r = [] if disc < 0 else [(-B + np.sqrt(disc)) / (2 * A),
-                                       (-B - np.sqrt(disc)) / (2 * A)]
-    roots = sorted(r / (1 + r) for r in roots_r if r > 1e-12)
-    roots = [q for q in roots if q < 1 - 1e-9]
     if k_cu <= 1e-9:
         Ostar0 = 1 / (1 + c)
+        roots = basin_roots(k_cu, k_uu, l, lk, delta, a, c)
         if l * Ostar0 >= k_uu - 1:
             roots = [0.0] + roots
+    else:
+        roots = basin_roots(k_cu, k_uu, l, lk, delta, a, c)
+    roots = [q for q in roots if q < 1 - 1e-9]
     if len(roots) == 0:
         return "escape", roots
     if len(roots) == 1:
         return "monostable", roots
     return "bistable", roots
 
-# Broad-default preset (v3 identity-calibrated trend-adjusted k; audit V10)
+def basin_exists_grid(k_cu, l, lk, delta, a, Ostar, k_uu=1.0):
+    """Fast existence check with the per-cell dial pin (vectorised in r)."""
+    try:
+        c = pin_c(Ostar, delta, lk, k_cu)
+    except ValueError:
+        return False
+    g = g_on_grid(k_cu, k_uu, l, lk, delta, a, c)
+    return bool(np.any(g[~np.isnan(g)] < 0))
+
+def lstar_v4(k_cu, k_uu, delta, lk, a, Ostar, l_hi=400.0):
+    """Numeric basin-existence threshold (existence is monotone in l;
+    derivation-audit Part A'' V4.8). None if no basin at any l <= l_hi
+    (the delta*k_cu > 4/(4+l_k) regime under the dial pin)."""
+    if not basin_exists_grid(k_cu, l_hi, lk, delta, a, Ostar, k_uu):
+        return None
+    lo, hi = 0.0, l_hi
+    for _ in range(60):
+        mid = 0.5 * (lo + hi)
+        if basin_exists_grid(k_cu, mid, lk, delta, a, Ostar, k_uu):
+            hi = mid
+        else:
+            lo = mid
+    return 0.5 * (lo + hi)
+
+def lstar_delta1_closed(k, c, lk):
+    """delta = 1 closed form (audit V4.8): valid only when the floor exists
+    (2 c delta k <= 1 + c)."""
+    T = 1.0 + c
+    A = T - c * k
+    if A - lk < 0:
+        return None
+    return 2 * k * (A + np.sqrt(A * (A - lk)))
+
+# Broad-default preset (identity-calibrated trend-adjusted k; unchanged in
+# v4 — audit V4.11)
 DEFAULTS = dict(T_auto=0.5, Ostar=0.5, k_uu=1.0, k_cu=0.0618, k_hu=0.0618,
                 l=0.2, lk=1.0, delta=0.7, a_e_m=1.0, a_ai_h=1.0, R0=1.0,
                 q0=0.05, eta0=5.0)
@@ -206,12 +267,12 @@ def P(**over):
     p = dict(DEFAULTS); p.update(over); return p
 
 # ===========================================================================
-# VALIDATION against pinned v3 ground-truth numbers
+# VALIDATION against pinned v4 ground-truth numbers
 # ===========================================================================
 def validate():
-    print("=== validating Python port (bounded gate, v3) ===")
+    print("=== validating Python port (v4 growth peg) ===")
     ok = True
-    # A. named-calibration verdicts (v3-calibrations.js)
+    # A. named-calibration verdicts (calibrations_v4.py)
     kind, roots = classify_basin(ode_params(P()))  # Broad default
     good = kind == "escape"
     print(f"  Broad default (k=0.0618, l=0.2, l_k=1, d=0.7): {kind} "
@@ -219,56 +280,72 @@ def validate():
     if not good: ok = False
     ps = P(k_cu=0.0085, k_hu=0.0085, q0=0.005)  # Strict default
     kind, roots = classify_basin(ode_params(ps))
-    good = kind == "monostable" and abs(roots[0] - 0.0474) < 0.001
+    good = kind == "monostable" and abs(roots[0] - 0.0471) < 0.001
     print(f"  Strict default (k=0.0085): {kind}, q_u*={roots[0]:.4f} "
-          f"(want 0.0474) {'ok' if good else 'MISMATCH'}")
+          f"(want 0.0471) {'ok' if good else 'MISMATCH'}")
     if not good: ok = False
     kind, _ = classify_basin(ode_params(P(k_cu=0.9)))  # AI 2027
     print(f"  AI 2027 (k_cu=0.9, l=0.2, d=0.7): {kind} (want escape) "
           f"{'ok' if kind == 'escape' else 'MISMATCH'}")
     if kind != "escape": ok = False
-    # B. v3 thresholds: closed form vs bisection on classify
-    def exists(l, **over):
-        kind, _ = classify_basin(ode_params(P(l=l, **over)))
-        return kind in ("monostable", "bistable")
-    def bisect_lstar(hi=2.0, **over):
-        lo = 0.001
-        for _ in range(60):
-            mid = 0.5 * (lo + hi)
-            if exists(mid, **over): hi = mid
-            else: lo = mid
-        return hi
-    got = bisect_lstar()
-    want = lstar_v3(0.0618, 1.0, 0.7, 1.0, 1.0, 1.0)
-    good = abs(got - want) < 2e-3 and abs(want - 0.3139) < 1e-3
-    print(f"  Broad default l*: bisection {got:.4f} vs closed form {want:.4f} "
-          f"(want 0.3139) {'ok' if good else 'MISMATCH'}")
+    # B. thresholds: numeric bisection vs v4 fixtures
+    got = lstar_v4(0.0618, 1.0, 0.7, 1.0, 1.0, 0.5)
+    good = got is not None and abs(got - 0.3123) < 2e-3
+    print(f"  Broad default l*: {got:.4f} (want 0.3123) "
+          f"{'ok' if good else 'MISMATCH'}")
     if not good: ok = False
-    # C. saddle-node branch at AI 2027 leakage (landmarks-v3 section 5)
-    for d, lk, want in ((0.7, 1.0, 4.572), (1.0, 1.0, 6.146),
-                        (0.7, 0.5, 4.837), (1.0, 0.5, 6.721)):
-        got = lstar_v3(0.9, 1.0, d, lk, 1.0, 1.0)
-        good = abs(got - want) < 0.01
-        print(f"  l*(k_cu=0.9, d={d}, l_k={lk}) = {got:.3f} (want {want}) "
-              f"{'ok' if good else 'MISMATCH'}")
+    # delta=1 closed form agrees with bisection at Broad
+    c1 = pin_c(0.5, 1.0, 1.0, 0.0618)
+    want = lstar_delta1_closed(0.0618, c1, 1.0)
+    got = lstar_v4(0.0618, 1.0, 1.0, 1.0, 1.0, 0.5)
+    good = abs(got - want) < 2e-3 and abs(want - 0.4139) < 1e-3
+    print(f"  Broad d=1 l*: bisection {got:.4f} vs closed form {want:.4f} "
+          f"(want 0.4139) {'ok' if good else 'MISMATCH'}")
+    if not good: ok = False
+    # C. AI-2027 thresholds (calibrations-v4 section 6): finite at d=0.7,
+    #    NO basin at any l at d=1 under the dial pin
+    for d, lk, want in ((0.7, 1.0, 3.926), (0.7, 0.5, 3.995),
+                        (1.0, 1.0, None), (1.0, 0.5, None)):
+        got = lstar_v4(0.9, 1.0, d, lk, 1.0, 0.5)
+        if want is None:
+            good = got is None
+            print(f"  l*(k_cu=0.9, d={d}, l_k={lk}) = {got} (want NO BASIN) "
+                  f"{'ok' if good else 'MISMATCH'}")
+        else:
+            good = got is not None and abs(got - want) < 0.02
+            print(f"  l*(k_cu=0.9, d={d}, l_k={lk}) = {got:.3f} (want {want}) "
+                  f"{'ok' if good else 'MISMATCH'}")
         if not good: ok = False
-    # D. l_k = l regression to the v2 gated fixtures (l <= 1)
-    p2 = P(k_cu=0.0407, k_hu=0.0407, l=0.4, lk=0.4)
-    kind, roots = classify_basin(ode_params(p2))
-    good = kind == "monostable" and abs(roots[0] - 0.2053) < 0.002
-    print(f"  v2 regression (l_k=l=0.4, k=0.0407): {kind}, "
-          f"q_u*={roots[0]:.4f} (want 0.2053) {'ok' if good else 'MISMATCH'}")
+    # D. observability cannot save: tolerable k_cu and l* at O*=0.99
+    def max_kcu(Ostar, l=0.2):
+        lo, hi = 1e-4, 0.5
+        for _ in range(50):
+            mid = 0.5 * (lo + hi)
+            if basin_exists_grid(mid, l, 1.0, 0.7, 1.0, Ostar):
+                lo = mid
+            else:
+                hi = mid
+        return 0.5 * (lo + hi)
+    k05, k99 = max_kcu(0.5), max_kcu(0.99)
+    good = abs(k05 - 0.0395) < 1e-3 and abs(k99 - 0.1078) < 2e-3
+    print(f"  tolerable k_cu at l=0.2: dial 0.5 -> {k05:.4f} (want 0.0395), "
+          f"0.99 -> {k99:.4f} (want 0.1078) {'ok' if good else 'MISMATCH'}")
     if not good: ok = False
-    # E. AI 2027 trajectory landmark (v3): q crosses 0.5 near sigma ~ 3.2,
-    #    observed peak ~ 0.23 just after sigma 3 (landmarks-v3 section 5)
+    lO99 = lstar_v4(0.9, 1.0, 0.7, 1.0, 1.0, 0.99)
+    good = lO99 is not None and abs(lO99 - 1.674) < 0.01
+    print(f"  l* at k_cu=0.9, dial 0.99, d=0.7: {lO99:.3f} (want 1.674) "
+          f"{'ok' if good else 'MISMATCH'}")
+    if not good: ok = False
+    # E. AI 2027 trajectory landmarks (landmarks_v4.py section 9): q crosses
+    #    0.5 near sigma ~ 3.1, observed peak ~ 0.178 near sigma 3.6
     pp = P(k_cu=0.9)
     sim = simulate(ode_params(pp), build_ic(pp), 12)
     s50 = next((tr["sigma"] for tr in sim["traj"] if tr["Q"] >= 0.5), None)
     obs = [tr["O"] * tr["Q"] for tr in sim["traj"]]
     pk = max(obs)
-    good = s50 is not None and 3.0 <= s50 <= 3.5 and 0.22 <= pk <= 0.24
-    print(f"  AI 2027 run: sigma@Q=0.5 = {s50:.2f} (want 3.0-3.5); observed "
-          f"peak {pk:.3f} (want 0.22-0.24) {'ok' if good else 'MISMATCH'}")
+    good = s50 is not None and 3.0 <= s50 <= 3.25 and 0.17 <= pk <= 0.19
+    print(f"  AI 2027 run: sigma@Q=0.5 = {s50:.2f} (want ~3.1); observed "
+          f"peak {pk:.3f} (want ~0.178) {'ok' if good else 'MISMATCH'}")
     if not good: ok = False
     print("  PORT VALID" if ok else "  *** PORT INVALID ***")
     print()
@@ -311,7 +388,7 @@ def fig1():
     axQ.text(xmax * 0.92, 0.52, "$q_u=0.5$", ha="right", va="bottom",
              fontsize=8, color=C["fgMuted"])
     ip = int(np.argmax(obs))
-    axQ.annotate("what labs can measure peaks early (~23%), then\n"
+    axQ.annotate("what labs can measure peaks early (~18%), then\n"
                  "falls — even as true uncooperativeness\napproaches dominance",
                  (xh[ip], obs[ip]), xytext=(xh[ip] * 7, 0.40), fontsize=8.7,
                  color=C["accent"], va="center",
@@ -337,7 +414,7 @@ def fig1():
     axO.set_ylabel("observability  $O$")
     axO.set_xlabel("AI-development labour, in multiples of human labour   ($A/H_0$)")
     axO.grid(True, color=C["grid"], lw=0.7); axO.set_axisbelow(True)
-    axO.text(x0 * 1.1, 0.74, "oversight gains ground early, then collapses",
+    axO.text(x0 * 1.1, 0.74, "oversight holds roughly flat at first, then collapses",
              fontsize=8.7, color=C["coop"], va="top")
     fig.savefig(f"{OUT}/ai2027-high-leakage-run.png", dpi=200)
     plt.close(fig)
@@ -347,15 +424,21 @@ def fig1():
 # ===========================================================================
 # FIGURE 2 (LEAD) — observability alone cannot recover cooperation
 # ===========================================================================
-def region_grid(kcu_vals, yvals, ykey, fixed):
+def region_grid_dial(kcu_vals, yvals, ykey, fixed):
     """Integer grid: 1 where a cooperative-side basin exists, 0 where
-    takeover is the only outcome."""
+    takeover is the only outcome (per-cell dial pin throughout)."""
     G = np.zeros((len(yvals), len(kcu_vals)), dtype=int)
+    base = dict(DEFAULTS); base.update(fixed)
     for j, y in enumerate(yvals):
         for i, k in enumerate(kcu_vals):
-            over = dict(fixed); over["k_cu"] = k; over[ykey] = y
-            kind, _ = classify_basin(ode_params(P(**over)))
-            G[j, i] = 0 if kind == "escape" else 1
+            kw = dict(l=base["l"], lk=base["lk"], delta=base["delta"],
+                      a=base["a_e_m"], Ostar=base["Ostar"])
+            kw[ykey if ykey != "Ostar" else "Ostar"] = y
+            if ykey == "l":
+                kw["l"] = y
+            G[j, i] = 1 if basin_exists_grid(max(k, 1e-9), kw["l"], kw["lk"],
+                                             kw["delta"], kw["a"],
+                                             kw["Ostar"]) else 0
     return G
 
 def fig2():
@@ -365,25 +448,25 @@ def fig2():
     fig, (axA, axB) = plt.subplots(1, 2, figsize=(11.4, 5.1))
     fig.subplots_adjust(left=0.065, right=0.985, top=0.76, bottom=0.20, wspace=0.23)
 
-    # ---- Panel A: (k_cu, O*) at central l = 0.2, l_k = 1, delta = 0.7 ----
-    kcu = np.linspace(0, 0.20, 500)
-    Ostar = np.linspace(0.5, 0.99, 300)
-    axA.pcolormesh(kcu, Ostar, region_grid(kcu, Ostar, "Ostar", dict()),
+    # ---- Panel A: (k_cu, O* dial) at central l = 0.2, l_k = 1, delta = 0.7 ----
+    kcu = np.linspace(1e-4, 0.20, 240)
+    Ostar = np.linspace(0.5, 0.99, 160)
+    axA.pcolormesh(kcu, Ostar, region_grid_dial(kcu, Ostar, "Ostar", dict()),
                    cmap=cmap, vmin=0, vmax=1, shading="auto")
-    # v3 boundary: invert l*(k; c) = 0.2 in k by bisection for each O*
+    # v4 boundary: max tolerable k_cu at l = 0.2 for each dial value
     kbound = []
     for o in Ostar:
-        cc = (1 - o) / o
         lo, hi = 1e-4, 0.5
-        for _ in range(50):
+        for _ in range(40):
             mid = 0.5 * (lo + hi)
-            if lstar_v3(mid, 1.0, 0.7, 1.0, 1.0, cc) > 0.2: hi = mid
-            else: lo = mid
+            if basin_exists_grid(mid, 0.2, 1.0, 0.7, 1.0, o):
+                lo = mid
+            else:
+                hi = mid
         kbound.append(0.5 * (lo + hi))
     axA.plot(kbound, Ostar, color=C["fg"], lw=1.6, ls="--")
     print(f"  panel A tolerable leakage: O*=0.5 -> {kbound[0]:.4f}, "
           f"O*=0.99 -> {kbound[-1]:.4f}")
-    # observability axis does little: arrow straight up at fixed k_cu
     axA.annotate("", xy=(0.158, 0.965), xytext=(0.158, 0.52),
                  arrowprops=dict(arrowstyle="->", color=C["fg"], lw=1.4))
     axA.text(0.163, 0.74, "perfect observability\nroughly triples leakage\n"
@@ -410,20 +493,22 @@ def fig2():
                   fontsize=10.5, loc="left", pad=18)
 
     # ---- Panel B: (k_cu, l) at near-perfect O* = 0.99 ----
-    kcu2 = np.linspace(0, 1, 500)
-    lvals = np.linspace(0, 4, 300)
-    cB = (1 - 0.99) / 0.99
-    axB.pcolormesh(kcu2, lvals, region_grid(kcu2, lvals, "l", dict(Ostar=0.99)),
+    kcu2 = np.linspace(1e-4, 1, 240)
+    lvals = np.linspace(0.001, 4, 160)
+    axB.pcolormesh(kcu2, lvals, region_grid_dial(kcu2, lvals, "l",
+                                                 dict(Ostar=0.99)),
                    cmap=cmap, vmin=0, vmax=1, shading="auto")
-    # v3 basin boundary l*(k)
-    lb = np.array([lstar_v3(k, 1.0, 0.7, 1.0, 1.0, cB) for k in kcu2])
+    # v4 basin boundary l*(k) at the 0.99 dial
+    lb = np.array([np.nan if (ls := lstar_v4(k, 1.0, 0.7, 1.0, 1.0, 0.99,
+                                             l_hi=40.0)) is None else ls
+                   for k in kcu2])
     axB.plot(kcu2, lb, color=C["fg"], lw=1.6, ls="--")
-    l_at_09 = lstar_v3(0.9, 1.0, 0.7, 1.0, 1.0, cB)
+    l_at_09 = lstar_v4(0.9, 1.0, 0.7, 1.0, 1.0, 0.99)
     print(f"  panel B l* at k_cu=0.9, O*=0.99: {l_at_09:.3f}")
     axB.axhline(1.0, color=C["fgMuted"], lw=1.0, ls=(0, (1, 1.5)))
     axB.text(0.02, 1.05, "$\\ell=1$: even at $O^*{=}1$, no $\\ell\\leq1$ "
              "yields a basin at this leakage —\nthere is no eradication "
-             "escape hatch (that regime was an artifact, retracted)",
+             "escape hatch (seeding can never be out-intercepted)",
              fontsize=8.0, color=C["fgDim"], va="bottom")
     axB.axhline(0.2, color=C["accent"], lw=1.8)
     axB.text(0.985, 0.24, "central estimate  $\\ell=0.2$", color=C["accent"],
@@ -436,8 +521,9 @@ def fig2():
     axB.annotate("at AI 2027 leakage a basin needs $\\ell{\\approx}1.7$ even at\n"
                  "$O^*{=}0.99$ — 8–9× the central fix rate — and it\n"
                  "appears with its attractor already at a high\nuncooperative "
-                 "share (~41–66% across $\\delta$, $\\ell_k$)", (0.9, l_at_09),
-                 xytext=(0.26, 3.0), fontsize=8.6, color=C["uncoop"], va="top",
+                 "share (~44–54% at $\\delta{=}0.7$; at $\\delta{=}1$\nno fix "
+                 "rate yields a basin at all)", (0.9, l_at_09),
+                 xytext=(0.26, 3.2), fontsize=8.4, color=C["uncoop"], va="top",
                  arrowprops=dict(arrowstyle="-", color=C["uncoop"], lw=0.8))
     axB.set_xlim(0, 1); axB.set_ylim(0, 4)
     axB.set_xlabel("cooperative→uncooperative leakage  $k_{cu}$")
@@ -453,7 +539,7 @@ def fig2():
         Patch(fc=C["fill_escape"], ec=C["edge_escape"],
               label="uncooperative dominance is the only outcome"),
         Line2D([0], [0], color=C["fg"], lw=1.6, ls="--",
-               label="bounded-gate basin boundary $\\ell^*$"),
+               label="basin boundary $\\ell^*$ (numeric, growth-peg model)"),
     ]
     fig.legend(handles=legend_el, loc="lower center", ncol=3, frameon=False,
                fontsize=8.6, bbox_to_anchor=(0.5, 0.012))
