@@ -27,6 +27,20 @@ A note on terminology: we say "uncooperative" rather than "misaligned" throughou
 
 Everything in this post can be explored interactively: the [basin explorer](/basin-explorer/) implements the full model with every parameter on a slider, one-click presets for the calibrations we discuss, and an outcome map showing which parameter combinations lead where.
 
+## The results in brief
+
+We model the workforce that builds future AI as two competing pools — cooperative and uncooperative — connected by a handful of rates: how often cooperative development *leaks* uncooperative systems, how much of current misbehaviour our detect-and-fix machinery covers and how fast it corrects what it covers, and what happens to the labour we catch. The model is deliberately small; its value is that it converts vague dynamical intuitions ("oversight loses eventually") into a basin picture with measurable inputs. Four results survive every calibration and robustness sweep we ran:
+
+**1. Current evidence brackets the basin boundary.** Two defensible readings of today's misbehaviour evidence — *Broad* (today's observed misbehaviour rate, ~5%, proxies the reproduction-relevant rate) and *Strict* (only a sliver of it is reproduction-relevant) — share the model, the suppression evidence, and every other parameter, and land on **opposite sides of the basin boundary**: Broad converges to a slow takeover with no stable cooperative outcome at all, Strict to a managed endemic state with ~4–5% uncooperative labour held indefinitely at a several-fold margin. We do not claim the world is tuned near the boundary — the truth could sit comfortably on either side — but the evidence-supported range of this one input *straddles* it, and that is precisely the situation in which measuring the input is most valuable. The input is concrete: *how much of today's observed misbehaviour pushes successor systems toward uncooperativeness*. Pinning it down is worth more than any other action we examined.
+
+**2. Bad paths may display consistently low misbehaviour.** On Broad's takeover path, no observable does anything discontinuous for decades: the *measured* misbehaviour rate rises smoothly to ~13%, then falls — while the true share keeps climbing — because observability erodes faster than the truth grows. Simple audits of misbehaviour rates are not sensitive indications of the endpoint.
+
+**3. Reported misbehaviour trends do not mean what they seem.** Falling numbers come in two kinds, and neither is good news by itself. A *fixed audit harness* shows a declining series whenever developers fix what it flags — the decline is close to guaranteed at any nonzero fix rate, and says nothing about the total rate of misbehaviour. For *contemporaneous* deployment series (i.e. audit vintage matched to model vintage), trends are confounded by the rate of observation of misbehaviour. Across our working ranges, either observed misbehaviour rises over the medium term, or observability is declining. The reason for this is that our model projects sources of misbehaviour to expand - currently misbehaviour is fed entirely by "leakage", unintended byproducts of AI development, but in the future reproduction of AI misbehaviour will play a larger role.
+
+**4. Rescues are multi-fold.** Under the *broad* assumption set, no modest single-parameter improvement rescues the path — it takes simultaneous changes in leakage or fix rate, or near-perfect observability paired with high interception efficacy.
+
+The body of the post derives these, calibrates the rates against current evidence (system-card audit trends, deployment monitoring series, monitorability testbeds), runs the default paths forward, and ends with the measurements that would tell us which world we are in.
+
 ## Explaining the model
 
 
