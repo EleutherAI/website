@@ -1882,7 +1882,7 @@ export default function BasinExplorer() {
         }}>
           <div>
             <div style={{ fontFamily: FONTS.serif, fontSize: 22, fontWeight: 700, letterSpacing: -0.2, color: C.fg }}>
-              σ-clock alignment basin explorer
+              cooperativeness basin explorer
             </div>
             <div style={{ fontFamily: FONTS.mono, fontSize: 11, color: C.fgMuted, marginTop: 2, letterSpacing: 0.3 }}>
               progress-clocked basin model · cooperative vs uncooperative reproductive automation
