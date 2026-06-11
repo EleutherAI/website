@@ -5,7 +5,7 @@ description: "A toy dynamical model of whether the AI workforce that builds futu
 author: ["David Johnston"]
 ShowToc: true
 mathjax: true
-draft: true
+draft: false
 ---
 
 # Introduction
