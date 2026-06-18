@@ -34,6 +34,9 @@ We model the workforce that builds future AI as two competing pools — self-pro
 
 {{<figure src="/images/blog/dynamical-models/outcome-map.png" width="85%" align="center" caption="Long-run uncooperative share across two key parameters: how often cooperative development leaks uncooperative systems (leakage, k_cu), which can be thought of (imprecisely) as a measure of how hard alignment is, and how fast uncooperative labour reproduces (growth advantage, k_uu), with all other parameters held at their central estimates. Green is contained, red is takeover. The central estimate sits just inside the contained region." />}}
 
+<!-- REVIEW (new filter+γ figure, 2026-06-18; placement provisional — could instead open the rescue/scenario section; caption is a DRAFT, please rewrite): -->
+{{<figure src="/images/blog/dynamical-models/trajectory-overlap.png" width="100%" align="center" caption="DRAFT — Plausible futures: sampled model trajectories. Each band is the 85% spread (with a median line) over a Monte-Carlo ensemble that draws the uncertain parameters — leakage k_cu, growth advantage k_uu, human leakage k_hu, the domain offense/defense ratio, and the observability dial Ω — from plausible ranges; green = runs that stay below 20% uncooperative, red = runs that exceed it, dotted = the central estimate. Left: what you would observe (the contemporaneous rate O_obs·q_u). Right: the truth (uncooperative share q_u). x-axis: AI labour ÷ human labour (A/H₀, log; handoff at 1×). The observed-rate bands stay low and ambiguous even where the truth bands fan out toward takeover." />}}
+
 **1. Both success and failure to suppress uncooperative takeover are plausible.** Under our central parametrization uncooperative behaviour is contained to 21% of the AI labour pool (albeit it takes a very long time to reach this level). If "alignment is hard" (specifically, production of unintended AI misbehaviour grows sharply), uncooperative AI systems find highly effective growth strategies or it is naturally easier to evade detection than to detect misbehaviour, then the model predicts uncooperative takeover, depending more sensitively on the first two parameters (unintended misbehaviour and growth rates) than the third (defense/offence balance).
 
 **2. Failure is often gradual, but we can't rule out fast failures.** Our model features a "clock" of total AI labour such that 1 unit is equal to the current amount of human labour producing AI systems. Our "failing" paths often reach $100$ labour units when the uncooperative pool crosses 20% (around 3 years separates 1 labour unit from 100 under naive exponential extrapolation). This is a product of the modelling strategy where many thigns are treated as if they will continue to evolve as they have been already, with the main difference being that uncooperative AI begins to be able to reproduce at meaningful rates. However, we can't rule out parameter setting where failure is rapid.
@@ -78,33 +81,42 @@ See [Appendix](#appendix-derivation) for an explanation of what assumptions enab
 
 ### The dynamics in words
 
-Because we use automation advancement as the "clock", our model uses terms relativised to the total automation level, rather than absolute quantities: the uncooperative and cooperative shares of AI labour $q_u$ and $q_c=1-q_u$, the relative human share $q_h$, and monitoring and evasion stocks per unit of automation, $m$ and $e$, with observability $O=\frac{m}{m+e}$. The full variable list and equation block are collected in the [model reference](#model-reference) below; here we explain the dynamics one piece at a time.
+Because we use automation advancement as the "clock", our model uses terms relativised to the total automation level, rather than absolute quantities: the uncooperative and cooperative shares of AI labour $q_u$ and $q_c=1-q_u$, the relative human share $q_h$, and monitoring and evasion stocks per unit of automation — documented $b$, fixed $s$ and evasion $e$ — with observed fraction $O_{\mathrm{obs}}=\frac{b+s}{b+s+e}$ and fixed fraction $O_{\mathrm{fix}}=\frac{s}{b+s+e}$. The full variable list and equation block are collected in the [model reference](#model-reference) below; here we explain the dynamics one piece at a time.
 
 **Evolution of relativised quantities:** The shares of cooperative or uncooperative behaviour, and the relativised stocks of evasion and monitoring technology all evolve according to the equations
 
 \[
   \begin{aligned}
-  x' &= \frac{F_x}{F}-x
+  x' &= \gamma(\frac{F_x}{F}-x)
   \end{aligned}
 \]
 
-$F$ is {..adjustement to the background rate of growth due to coop/uncoop interplay...?} and $F_x$ is the share of $F$ captured by $x$. Each share $x$ is pulled toward the fraction of new production its pool captures — $q_u$ toward $F_u/F$, and so on.
+$q_u$ is the uncooperative share of labour and $q_c$ the cooperative share. $F_u$ is the share of new production captured by $q_u$ (analogously for $F_c$) and $F=F_u+F_c$. Each share is pulled toward the fraction of new production its pool captures. $\gamma$ is rate of turnover relative to the rate of growth; $\gamma = 1 + \tfrac{1}{o}$ where $o$ is the e-folding time of the systems that make up the labour pool (i.e. model versions, harnesses) measured in $\sigma$-units. We pick $\gamma=3$ to reflect a rough guess that the half life of an AI system is about half the time it takes for AI capacty to double. $\gamma$ controls how fast the labour pool is pulled toward the captured share of new production.
 
-The one exception to this is human labour, which just thins out: $q_h' = -q_h$ says the human share decays as $q_h = q_{h,0} e^{-\sigma}$, because $H_0$ captures none of the available production pool, which by definition expands exponentially per unit of $\sigma$.
+Human labour simply dilutes with respect to the $\sigma$-clock: $q_h' = -q_h$. This reflects the fact as automation grows, the human labour pool (according to our approximation) stays constant and hence shrinks as a proportion of total labour.
 
 **Production capture:** The AI production allocation functions are:
 \[
 \begin{aligned}
-F_c &= q_c(1-k_{cu}) + q_h(1-k_{hu}) + (1-\delta)\,O\left(\ell_k L_k + \ell\,q_u\right)\\[4pt]
-F_u &= (1-\ell_k O)\,L_k + (k_{uu} - \ell O)\,q_u\\[4pt]
-L_k &:= k_{cu}\,q_c + k_{hu}\,q_h
+L_k &:= k_{cu}\,q_c + k_{hu}\,q_h \qquad G_u := L_k + k_{uu}\,q_u\\[4pt]
+F_u &= (1-O_{\mathrm{fix}})\,G_u\\[4pt]
+F_c &= q_c(1-k_{cu}) + q_h(1-k_{hu}) + (1-\delta)\,O_{\mathrm{fix}}\,G_u
 \end{aligned}
 \]
-Reading $F_c$: the cooperative pool $q_c$ reproduces itself, less a fraction $k_{cu}$ that *leaks* into serving uncooperative ends; human labour $q_h$ contributes likewise, less its own leak $k_{hu}$; the third term is the redirected share of the full intercepted flow — intercepted leakage plus suppressed uncooperative labour — explained below. Leakage could happen for many reasons: systems that usually behave well could be used in unexpected or unwanted ways, or systems may have generalised undesirably from training and pro-actively behave badly in some situations. Reading $F_u$: it picks up the leakage inflow $L_k$ — but only the *un-intercepted* fraction $(1-\ell_k O)$ of that leak actually enters the pool — plus its own reproduction at advantage $k_{uu}$, suppressed at the observability-gated rate $\ell O$, hence $(k_{uu} - \ell O)\\,q_u$. The idea behind gating the inflow as well as the stock is that observed misbehaviour begets workarounds applied to the whole production pipeline — patched training data, filters, revised reward signals, usage restrictions — and pipeline-level workarounds intercept misbehaviour that is *entering* the pool just as they suppress misbehaviour already established in it.
 
-Note that the two suppression terms carry different units. The stock term $-\ell O\\,q_u$ is a **rate**: $\ell$ is the fix rate of known failure modes per σ-unit, and like any rate it can exceed 1 — fixing established misbehaviour faster than the automation stock doubles is meaningful. The inflow term is a **fraction**: $\ell_k \in [0,1]$ is the *interception efficacy at production* — the fraction of newly produced misbehaviour that the accumulated detect-and-fix stock can intercept at full observability ($O = 1$). A fraction is the only coherent form for the inflow term, because interception at production can never remove more leakage than the leakage flow contains. We have no empirical anchor for $\ell_k$ yet, so we display results at $\ell_k \in \\{0.5, 1\\}$ throughout and expose it as a slider in the [basin explorer](/basin-explorer/). Our model could be extended by allowing $\ell$ and $\ell_k$ to depend on the other system parameters, but for simplicity we have avoided this.
+Here $L_k$ is "leakage", uncooperative AI behaviour produced accidentally as a result of cooperative labour building more AI. The leakage coefficients $k_{cu}$ and $k_{hu}$ reflect, in a sense, how hard AI alignment is for cooperative AI systems and people respectively. They are rates relative to the reproduction of cooperative labour, so $k_{cu}=1$ implies all of the effort to reproduce cooperative AI ends up as uncooperative AI. $O_{\mathrm{fix}}$ is the proportion of observed AI misbehaviours that have been fixed to date. 
 
-Suppression removes uncooperative labour from the uncooperative pool, but "removed" can mean two different things. Some mechanisms destroy the labour outright (for example, an output filter that blocks a flagged action discards the work entirely) while other mechanisms redirect it (for example, retraining a model against an observed failure ideally leaves you with an equally capable model that does not exhibit the misbehaviour). We capture this with a destruction fraction $\delta$: of the intercepted flow $O(\ell_k L_k + \ell\\,q_u)$, fraction $\delta$ is destroyed and the remaining $(1-\delta)$ is redirected into cooperative production. The uncooperative pool loses the full intercepted flow either way; $\delta$ controls how much of that flow reappears in $F_c$ and, consequently, how much suppression costs in aggregate output.
+$k_{uu}$ represents the relative reproduction rate of uncooperative labour again relative to the reproduction of cooperative labour. Labour pools can reproduce by simply sharing traits with their ancestors (for examples, new generations of models will share significant features of their architecture and training pipeline with previous generations). This reproduction can attenuate if they contain traits that are hard to preserve for future generations, and it can be boosted by efforts *from that pool* to increase the prevalence of its cooperative or uncooperative traits in future generations. Thus $k_{uu}>1$ could reflect a tendency for $q_c$ to attenuate not shared by $q_u$, or it could reflect the fact that $q_u$ has effective reproduction strategies available that $q_c$ lacks. Similarly $k_{uu}<1$ implies that on balance, $q_c$ is advantaged over $q_u$.
+
+The equation for $F_u$, the fraction of new production captured by uncooperative labour, reflects the fact that as the pool turns over, $(1-O_{\mathrm{fix}})$ of the "old" problems remain and $O_{\mathrm{fix}}$ of the problems that would have been accidentally introduced are also intercepted (strictly the latter number should )
+
+Reading the equation for $F_c$: the cooperative pool $q_c$ reproduces itself, less a fraction $k_{cu}$ that *leaks* into serving uncooperative ends; human labour $q_h$ contributes likewise, less its own leak rate $k_{hu}$; the third term is the redirected share of the full fixed flow — fixed leakage plus fixed uncooperative labour — explained below. Leakage could happen for many reasons: systems that usually behave well could be used in unexpected or unwanted ways, or systems may have generalised undesirably from training and pro-actively behave badly in some situations. 
+
+$F_u$ picks up the un-fixed fraction $(1-O_{\mathrm{fix}})$ of leakage inflow $L_k$ plus its own reproduction at advantage $k_{uu}$ ($k_{uu}=1$ implies no advantage or disadvantage with respect to the cooperative pool). The uncooperative pool itself is also actively suppressed  $O_{\mathrm{fix}}$, hence $(k_{uu} - O_{\mathrm{fix}})\\,q_u$. The same fixed fraction gates the inflow and the stock: observed misbehaviour begets workarounds applied to the whole production pipeline — patched training data, filters, revised reward signals, usage restrictions — and these intercept misbehaviour *entering* the pool just as they suppress misbehaviour already established in it, so both are gated by the share that has actually been fixed.
+
+Both suppression channels — intercepting incoming leakage and removing established stock — are now gated by a single quantity, the **fixed fraction** $O_{\mathrm{fix}} \in [0,1]$: the share of misbehaviour that has been not just observed but *fixed*, and so can actually be intercepted or removed (defined under monitoring, below). We intercept incoming leakage at the same fraction we have already fixed, so one $O_{\mathrm{fix}}$ replaces the earlier model's separate stock-fix rate and inflow-interception coefficient. A fraction is the right form for both channels, because neither can remove more than is flowing in or already established: suppression is bounded, and as $O_{\mathrm{fix}} \to 1$ essentially everything caught is removed but never more — eradication stays off the menu. How *fast* documented misbehaviour gets fixed is a separate question, set by the fix rate $\rho$ (estimated below); in steady state it leaves a fraction $O_{\mathrm{fix}}^{*} = \tfrac{\rho}{1+\rho}\,O_{\mathrm{obs}}^{*}$ of the observed surface actually fixed, and we expose $\rho$ as a slider in the [basin explorer](/basin-explorer/).
+
+Suppression removes uncooperative labour from the uncooperative pool, but "removed" can mean two different things. Some mechanisms destroy the labour outright (for example, an output filter that blocks a flagged action discards the work entirely) while other mechanisms redirect it (for example, retraining a model against an observed failure ideally leaves you with an equally capable model that does not exhibit the misbehaviour). We capture this with a destruction fraction $\delta$: of the fixed flow $O_{\mathrm{fix}}\,G_u$, fraction $\delta$ is destroyed and the remaining $(1-\delta)$ is redirected into cooperative production. The uncooperative pool loses the full intercepted flow either way; $\delta$ controls how much of that flow reappears in $F_c$ and, consequently, how much suppression costs in aggregate output.
 
 Roughly, today's suppression mechanisms sit on a spectrum:
 
@@ -117,14 +129,14 @@ Roughly, today's suppression mechanisms sit on a spectrum:
 
 $F$ becomes:
 \[
-F = q_c + q_h + k_{uu}\,q_u - \delta\,O\left(\ell_k L_k + \ell\,q_u\right).
+F = q_c + q_h + k_{uu}\,q_u - \delta\,O_{\mathrm{fix}}\,G_u.
 \]
-The un-intercepted leakage and the redirected $(1-\delta)$ share of the intercepted flow cancel in the sum — transfers between pools, not losses. Only the *destroyed* fraction $\delta$ of the intercepted flow slows overall progress. Note that because suppression intercepts the leakage inflow too, leakage is no longer a pure transfer: the destroyed share of intercepted leakage, $\delta\\,\ell_k O\\,L_k$, comes out of aggregate output. At our central parameters this correction is modest (about 2–3% of $F$ at $\ell_k = 1$, under 1% at $\ell_k = 0.5$), but it means aggregate progress depends on leakage directly, not only through where labour ends up.
+The un-fixed leakage and the redirected $(1-\delta)$ share of the fixed flow cancel in the sum — transfers between pools, not losses. Only the *destroyed* fraction $\delta$ of the fixed flow slows overall progress. Note that because suppression intercepts the leakage inflow too, leakage is no longer a pure transfer: the destroyed share of fixed leakage, $\delta\\,O_{\mathrm{fix}}\\,L_k$, comes out of aggregate output. At our central parameters this correction is modest (of order 1% of $F$), but it means aggregate progress depends on leakage directly, not only through where labour ends up.
 
 **Asymmetries in production capture:** We understand cooperative AI labour $A_c$ and uncooperative labour $A_u$ to be similar in many respects - they're both pools of labour concerned with building the next generation of AI - and this is reflected by the fact that our model treats each similarly (see the equations for the general form of $\dot A_u$ and $\dot A_c$). However, there are two key asymmetries between them:
 
 - *Leakage only flows into $A_u$.* Cooperative and human effort can slip into the uncooperative pool, but nothing leaks back. The idea here is that errors can undermine cooperativeness but are unlikely to reinforce it. One analogy here is that we could think of $A_c$ as a "dominant faction" while $A_u$ is a collection of diverse factions with a shared interest in undermining $A_c$; many different incentives could lead to an AI system being in $A_u$ but there is not such diversity for membership of $A_c$.
-- *Suppression acts only against the uncooperative pool* — at rate $\ell O$ on its established stock and as the intercepted fraction $\ell_k O$ of the leakage flowing into it (and with $\delta<1$ the cooperative pool *receives* the redirected share of the intercepted flow); nothing suppresses $F_c$ — Where $A_c$ is the dominant faction, there is relatively little to be gained by $A_u$ by directly undermining $A_c$ (because it is much less powerful). If $A_u$ grows to rival $A_c$, it may make aggressive moves to undermine $A_c$. As a policy objective, we would like to keep $A_u$ sufficiently small that such moves are very unlikely, and for simplicity we don't include such dynamics in this model.
+- *Suppression acts only against the uncooperative pool* — at the fixed fraction $O_{\mathrm{fix}}$, which removes established stock and intercepts the leakage flowing into it at the same fraction (and with $\delta<1$ the cooperative pool *receives* the redirected share of the fixed flow); nothing suppresses $F_c$ — Where $A_c$ is the dominant faction, there is relatively little to be gained by $A_u$ by directly undermining $A_c$ (because it is much less powerful). If $A_u$ grows to rival $A_c$, it may make aggressive moves to undermine $A_c$. As a policy objective, we would like to keep $A_u$ sufficiently small that such moves are very unlikely, and for simplicity we don't include such dynamics in this model.
 
 **Monitoring and evaluation capture:** The equations for monitoring and evaluation capture are:
 
@@ -132,13 +144,15 @@ The un-intercepted leakage and the redirected $(1-\delta)$ share of the intercep
 \begin{aligned}
 F_M &= c_M\left(q_c+\frac{q_h}{a_{\mathrm{AI/H}}}\right) \\[4pt]
 F_E &= c_0\,F + a_{\mathrm{E/M}}\,c_M\,q_u \\[4pt]
-O   &= \frac{m}{m + e}
+O_{\mathrm{obs}} &= \frac{B+S}{B+S+E} \qquad\quad O_{\mathrm{fix}} = \frac{S}{B+S+E}
 \end{aligned}
 \]
 
+Coverage is no longer a single stock. Monitoring production $F_M$ feeds a stock of misbehaviour we have *observed and documented* but not yet fixed, $B$; the fix rate $\rho$ then converts documented coverage into a *fixed* stock $S$ that can actually be intercepted or removed, while automation growth dilutes both ($B' = F_M/F - \rho B - B$ and $S' = \rho B - S$; the evasion stock $E$ is as before). Two observability quantities follow: what labs can *measure* is the observed fraction $O_{\mathrm{obs}}$, while what actually *suppresses* uncooperative labour is the smaller fixed fraction $O_{\mathrm{fix}}$ — only fixed issues can be intercepted. The two coincide in a single-stock model; here they pull apart whenever fixing lags detection, with the gap set by $\rho$ (in steady state $O_{\mathrm{fix}}^{*} = \tfrac{\rho}{1+\rho} O_{\mathrm{obs}}^{*}$).
+
 Detect-and-fix coverage grows with cooperative AI and human labour. $c_M$ is the overall coverage-production rate relative to the production of automation — how much coverage one unit of labour buys, which bundles both detection and how far each fix *generalises* (a fix that removes a whole class of failures produces more coverage per observation than one that patches a single instance) — while $a_{\mathrm{AI/H}}$ says how much better AI is than humans at producing it. If $a_{\mathrm{AI/H}}=10$, then one unit of human labour contributes one tenth as much coverage as one unit of cooperative AI labour.
 
-Evasion has two sources. The term $a_{\mathrm{E/M}}c_Mq_u$ is active evasion produced by uncooperative AI, with $a_{\mathrm{E/M}}$ measuring the evasion-vs-monitoring advantage per unit of AI labour — like monitoring, it is a production flow, made by labour. The term $c_0F$ is passive production of observation difficulty, and it is pegged to the growth of automation itself rather than to anyone's labour: dividing through by total production, the evasion stock obeys $e' = c_0 + a_{\mathrm{E/M}}c_Mq_u/F - e$, so a constant amount of novel, not-yet-covered failure surface arrives with each doubling of automation, regardless of who — or how little labour — did the doubling (in absolute terms, $dE_{\text{passive}} = c_0\\,dA$). This is the natural reading of what passive opacity is: as automation grows, systems become larger, faster, more alien and more internally automated, and current monitoring methods become less adequate even without any deliberate evasion effort. An assistant that completes a small number of well-scoped tasks is relatively easy to evaluate; an autonomous research organisation is much more difficult. (The peg is a substantive specification choice, not bookkeeping: booking passive opacity as a production flow instead would say that producing more AI with *less* labour going into it yields less opacity coming out — which seems wrong; opacity should track the amount of automation. The [model idealizations](#model-idealizations) list states what the production-flow alternative would imply.) Observability is a soft contest between the two stocks: $O \to 1$ when monitoring is ahead, $O \to 0$ when evasion is.
+Evasion has two sources. The term $a_{\mathrm{E/M}}c_Mq_u$ is active evasion produced by uncooperative AI, with $a_{\mathrm{E/M}}$ measuring the evasion-vs-monitoring advantage per unit of AI labour — like monitoring, it is a production flow, made by labour. The term $c_0F$ is passive production of observation difficulty, and it is pegged to the growth of automation itself rather than to anyone's labour: dividing through by total production, the evasion stock obeys $e' = c_0 + a_{\mathrm{E/M}}c_Mq_u/F - e$, so a constant amount of novel, not-yet-covered failure surface arrives with each doubling of automation, regardless of who — or how little labour — did the doubling (in absolute terms, $dE_{\text{passive}} = c_0\\,dA$). This is the natural reading of what passive opacity is: as automation grows, systems become larger, faster, more alien and more internally automated, and current monitoring methods become less adequate even without any deliberate evasion effort. An assistant that completes a small number of well-scoped tasks is relatively easy to evaluate; an autonomous research organisation is much more difficult. (The peg is a substantive specification choice, not bookkeeping: booking passive opacity as a production flow instead would say that producing more AI with *less* labour going into it yields less opacity coming out — which seems wrong; opacity should track the amount of automation. The [model idealizations](#model-idealizations) list states what the production-flow alternative would imply.) Observability is a soft contest between the stocks: $O_{\mathrm{obs}} \to 1$ when monitoring is ahead, $O_{\mathrm{obs}} \to 0$ when evasion is.
 
 ### Model reference {#model-reference}
 
@@ -150,42 +164,42 @@ Collecting the variables:
  - $q_u=\frac{A_u}{A}$: the fraction of total AI labour that is uncooperative
  - $q_c=\frac{A_c}{A}$: the fraction of total AI labour that is cooperative
  - $q_h=\frac{H_0}{A}$: how much human labour matters relative to AI labour (if AI labour doubles while human labour stays fixed, $q_h$ will halve.)
- - $M$: Total stock of detect-and-fix coverage ("monitoring" for short)
- - $E$: Total stock of monitor-evasion "technology"
- - $O=\frac{M}{M+E}$: Fraction of current uncooperative behaviour under coverage (observed and actionable)
- - $m=\frac{M}{A}$: Coverage per unit of automation
- - $e=\frac{E}{A}$: Evasion per unit of automation
+ - $B$: stock of misbehaviour observed and documented but not yet fixed; $S$: stock of *fixed* misbehaviour (interceptable/removable); $E$: total stock of monitor-evasion "technology"
+ - $O_{\mathrm{obs}}=\frac{B+S}{B+S+E}$: observed fraction — what monitoring measures; $O_{\mathrm{fix}}=\frac{S}{B+S+E}$: fixed fraction — what actually suppresses
+ - $b=\frac{B}{A}$, $s=\frac{S}{A}$, $e=\frac{E}{A}$: documented, fixed and evasion coverage per unit of automation
 
 Our system of equations is
 
 \[
   \begin{aligned}
   q_c &= 1-q_u\\
-  q_u'  &= \frac{F_u}{F}-q_u\\
-  q_h'  &= -q_h\\
-  m'    &= \frac{F_M}{F}-m\\
-  e'    &= \frac{F_E}{F}-e
+  q_u' &= \gamma\!\left(\frac{F_u}{F}-q_u\right)\\
+  q_h' &= -q_h\\
+  B'   &= \frac{F_M}{F}-\rho B-B\\
+  S'   &= \rho B-S\\
+  E'   &= \frac{F_E}{F}-E
   \end{aligned}
 \]
 
 \[
 \begin{aligned}
-L_k &:= k_{cu}q_c+k_{hu}q_h\\
-F_c &= q_c(1-k_{cu})+q_h(1-k_{hu})+(1-\delta)\,O\left(\ell_k L_k+\ell q_u\right)\\
-F_u &= (1-\ell_k O)\,L_k+(k_{uu}-\ell O)q_u\\
-F   &= F_c+F_u = q_c+q_h+k_{uu}q_u-\delta\,O\left(\ell_k L_k+\ell q_u\right)
+L_k &:= k_{cu}q_c+k_{hu}q_h \qquad G_u := L_k+k_{uu}q_u\\
+F_c &= q_c(1-k_{cu})+q_h(1-k_{hu})+(1-\delta)\,O_{\mathrm{fix}}\,G_u\\
+F_u &= (1-O_{\mathrm{fix}})\,G_u\\
+F   &= F_c+F_u = q_c+q_h+k_{uu}q_u-\delta\,O_{\mathrm{fix}}\,G_u
 \end{aligned}
 \]
 
 \[
 \begin{aligned}
 F_M &= c_M\left(q_c+\frac{q_h}{a_{\mathrm{AI/H}}}\right)\\
-F_E &= c_0F+a_{\mathrm{E/M}}c_Mq_u\\
-O   &= \frac{m}{m+e}
+F_E &= c_0F+a_{\mathrm{E/M}}c_Mq_u
 \end{aligned}
 \]
 
-Because the passive-opacity term carries a factor of $F$, it is not diluted by total production in the evasion equation: $e' = F_E/F - e = c_0 + a_{\mathrm{E/M}}c_Mq_u/F - e$.
+Two pieces of the dynamics are worth flagging. The active workforce $q_u$ relaxes toward its target flow-share $F_u/F$ at rate $\gamma$ (central $\gamma=3$, range 2–3): the *composition* of deployed labour turns over faster than the underlying stocks, which relax at rate $1$ per $\sigma$. And documented-but-unfixed misbehaviour $B$ is converted into *fixed* misbehaviour $S$ at the fix rate $\rho$ (estimated below), so $O_{\mathrm{fix}}=S/(B+S+E)$ trails $O_{\mathrm{obs}}=(B+S)/(B+S+E)$ by the factor $\varphi=\rho/(1+\rho)$ in steady state.
+
+Because the passive-opacity term carries a factor of $F$, it is not diluted by total production in the evasion equation: $E' = F_E/F - E = c_0 + a_{\mathrm{E/M}}c_Mq_u/F - E$.
 
 ### Model idealizations
 
@@ -206,75 +220,38 @@ Your favourite assistant can probably help you to relax any of these — but mak
 
 The model has a transient initial phase, while human labour is still large and while monitoring and evasion stocks are adjusting. But its long-run behaviour is relatively simple. Since $q_h'=-q_h$, human labour eventually becomes negligible relative to AI labour. In the long run we can set $q_h\approx 0$ and ask where the remaining dynamics settle.
 
-For any fixed value of $q_u$, the monitoring and evasion stocks have a natural equilibrium:
-
-\[
-m^*=\frac{F_M}{F},\qquad e^*=\frac{F_E}{F}=c_0+\frac{a_{\mathrm{E/M}}c_Mq_u}{F}.
-\]
-
-At this equilibrium, long-run observability is
-
-\[
-O^* =
-\frac{F_M}{F_M+F_E}.
-\]
-
-Because passive opacity is pegged to growth, $F_E$ carries a factor of the total production $F$ — and $F$ itself depends on observability, through the suppression drain — so $F$ does not cancel out of this ratio and long-run observability has no closed form in $q_u$. Instead, at $q_h=0$, eliminating $F$ gives a quadratic in $O$ for each value of $q_u$ (writing $r = q_u/(1-q_u)$, $c = c_0/c_M$, $a = a_{\mathrm{E/M}}$):
-
-\[
-c\,\delta P\,O^2-D\,O+1=0,
-\qquad
-P:=\ell_k k_{cu}+\ell r,\quad
-D:=1+c+(a+c\,k_{uu})\,r,
-\]
-
-whose smaller root is the long-run observability (the [fixed-points appendix](#appendix-long-run-fixed-points) derives this and justifies the branch choice):
-
-\[
-O^*(r)=\frac{2}{D+\sqrt{D^2-4c\,\delta P}}.
-\]
-
-Qualitatively this behaves as the words-first story suggests: long-run observability falls when the uncooperative share grows, when active evasion becomes more productive, or when passive opacity $c_0$ becomes large relative to monitoring productivity $c_M$. One new effect rides along: $O^{\ast}$ also rises slightly with the suppression parameters $\ell$ and $\delta$, because heavier suppression slows aggregate growth per unit of labour, and growth is what brings passive opacity.
+<!-- DERIVATION REMOVED (analytic appendix nixed 2026-06-18). SKELETON — you write the qualitative restatement as a sim finding:
+  - In the long run (q_h -> 0) the monitoring/evasion stocks settle to an equilibrium, and long-run observability O* has NO closed form in q_u (passive opacity is pegged to growth, so total production F does not cancel out of the ratio).
+  - From the simulations, O* FALLS as the uncooperative share grows, as active evasion becomes more productive, or as passive opacity rises relative to monitoring productivity; it rises slightly under stronger suppression (suppression slows growth, and growth is what brings passive opacity).
+-->
+For any fixed uncooperative share, the monitoring and evasion stocks settle to an equilibrium, and with them a long-run observability. Because passive opacity is pegged to growth, that long-run observability has no closed form in $q_u$, but its behaviour is the one the words-first story suggests.
 
 The long-run fixed points are the points where the uncooperative pool captures exactly its current share of new production. They are useful because they tell us which regimes the system can settle into after the transient phase has passed.
 
 The important qualitative question is whether there is a stable cooperative-side regime, a stable uncooperative-dominant regime, or both. When both exist, the model has a basin boundary: starting on one side leads back toward low $q_u$, while starting on the other leads toward uncooperative dominance. In that case initial conditions matter. When only one stable regime exists, initial conditions affect the path and timing, but not the eventual destination, at least within the model's validity envelope.
 
-The [fixed-points appendix](#appendix-long-run-fixed-points) derives the fixed-point equation. In the simplified long-run system it reduces to a cubic polynomial (a quadratic when suppression is pure destruction, $\delta=1$), so the basin picture can be checked directly rather than inferred from simulation alone.
+<!-- DERIVATION REMOVED (analytic appendix nixed 2026-06-18): the C1/C2 inequalities, the O*(0)/O*(r) closed forms, and the cubic that decided the basin boundary are cut. The two thresholds survive as qualitative, sim-read conditions; SKELETON tags mark where you restate the answers. -->
 
-The two most important thresholds are intuitive. First, can rare uncooperative labour be suppressed while observability is still high? That requires observability-gated suppression to be stronger than uncooperative self-reproduction plus the leakage that gets past it:
+The two most important thresholds are intuitive. First, can rare uncooperative labour be suppressed while observability is still high? Call this **Condition 1**. It says that the uncooperative share shrinks while it is rare.
 
-\[
-\tag{C1}
-\ell O^*(0)\left[1+\frac{\ell_k}{\ell}k_{cu}\left((1-\delta)+\frac{O^{*\prime}(0)}{O^*(0)}\right)\right]>k_{uu}+k_{cu}-1,
-\qquad
-O^*(0)=\frac{2}{1+c+\sqrt{(1+c)^2-4c\,\delta\,\ell_k k_{cu}}},
-\]
+<!-- SKELETON (you write, from the sims): the content of Condition 1 — suppression (gated by O_fix) beating self-reproduction plus the leakage that gets past it. At delta=1, necessary (numerically, in our ranges) for a cooperative-side regime but NOT sufficient — large leakage can still go uncooperative-dominant. At delta<1, not even necessary: redirection can stop a takeover even when uncooperative labour grows while rare, but the resulting attractor then sits at a HIGH uncooperative share. -->
 
-where $O^{*\prime}(0)\le0$ is the slope of long-run observability as the odds $r$ rise from zero ($\le 0$ throughout our working ranges; closed form in the appendix). Call this **Condition 1**. It says that the uncooperative share shrinks while it is rare. The bracket is a modest correction (about $0.78$–$0.93$ at our central parameters, depending on $\ell_k$), so to a rough approximation this is still "suppression $\ell O^{\ast}(0)$ beats self-reproduction plus leakage, $k_{uu}+k_{cu}-1$" — but note that the seeding itself is also intercepted: even at vanishing $q_u$, only the fraction $(1-\ell_k O^{\ast}(0))$ of the leak gets through. When suppression is pure destruction ($\delta=1$) Condition 1 is necessary for a cooperative-side regime everywhere we have checked numerically (the appendix discusses the status of this claim), but not sufficient: sufficiently large leakage can still lead to an uncooperative dominant regime. For $\delta<1$ it is not even necessary — redirection can stop a takeover even when uncooperative labour grows while rare, though the resulting attractor then typically sits at a *high* uncooperative share. The appendix explains the fixed-point curve and gives the exact cubic.
+Second, can uncooperative labour sustain itself once it dominates? If yes, then there can be a stable bad basin. Call this **Condition 2**.
 
-Second, can uncooperative labour sustain itself once it dominates? If yes, then there can be a stable bad basin. The all-uncooperative endpoint is stable when
-
-\[
-\tag{C2}
-k_{uu}+k_{cu}-1>\frac{(1-\delta)\,\ell}{a_{\mathrm{E/M}}+(c_0/c_M)\,k_{uu}}.
-\]
-
-Call this **Condition 2**. At $\delta = 1$ it reduces to the simpler $k_{uu}+k_{cu}>1$: once nearly all labour is uncooperative, observability has collapsed, and dominance is self-sustaining whenever self-reproduction plus leakage beats the reproduction of a small reintroduced cooperative minority. For $\delta<1$ the bar is higher, because observability never falls *exactly* to zero — as $q_u\to1$ it falls like $O^{\ast} \approx q_c/(a_{\mathrm{E/M}}+(c_0/c_M)k_{uu})$ — so redirected suppression keeps re-seeding the cooperative pool at a rate proportional to the remaining cooperative share, and uncooperative dominance must outgrow that re-seeding too. The inflow gate does not move this condition at all — $\ell_k$ does not appear (at a fixed passive-opacity ratio $c_0/c_M$; the calibration pin below lets $\ell_k$ move it only in the third decimal): near the all-uncooperative endpoint the intercepted leakage is a product of two vanishing quantities (observability and the cooperative share), so it contributes only at second order.
+<!-- SKELETON (you write, from the sims): the content of Condition 2 — at delta=1 it reduces to k_uu+k_cu>1 (self-reproduction plus leakage beats the reproduction of a small reintroduced cooperative minority). At delta<1 the bar is higher, because observability never falls exactly to zero, so redirected suppression keeps re-seeding the cooperative pool and uncooperative dominance must outgrow that re-seeding too. -->
 
 In summary:
 
-- If Condition 2 holds, the all-uncooperative endpoint is stable. The model may then be bistable — a cooperative-side basin (when one exists; existence is provably monotone in the fix rate, see the appendix) coexisting with an uncooperative-dominant basin, with initial conditions determining where you end up — or, if the cooperative-side basin does not exist, uncooperative dominance is the only outcome.
+- If Condition 2 holds, the all-uncooperative endpoint is stable. The model may then be bistable — a cooperative-side basin (when one exists; in the simulations its existence is monotone in the fix rate) coexisting with an uncooperative-dominant basin, with initial conditions determining where you end up — or, if the cooperative-side basin does not exist, uncooperative dominance is the only outcome.
 - If Condition 2 fails, the all-uncooperative endpoint is unstable and the system has a single interior attractor. This is not automatically good news: depending on parameters, that attractor can sit anywhere from a few percent uncooperative to a large uncooperative majority being continuously caught, suppressed and recycled. What matters is the attractor's *location*, not just its existence.
-- One outcome is *never* on the menu: eradication. Because the interception fraction is bounded ($\ell_k \le 1$) and novel modes of misbehaviour arrive uncovered ($c_0 > 0$ implies $O^{\ast}(0) < 1$), some seeding always gets through — $q_u = 0$ is not reachable for any parameter setting with $k_{cu} > 0$. (An unbounded interception term would manufacture an "eradication regime" here — by intercepting *more leakage than exists*; this is the artifact the bounded $\ell_k$ exists to rule out.) What very strong suppression buys instead is a deep endemic floor: for large $\ell$ the attractor falls like $q_u^{\ast} \approx k_{cu}(1+c-\ell_k-c\\,\delta k_{cu})/\ell$ — arbitrarily low, never zero. At $\ell_k = 1$ the only seeding that survives is what arrives through novel, not-yet-covered modes. The floor itself comes with a validity condition: it exists only while $\delta k_{cu}$ stays modest (at our central observability pin, $\delta k_{cu} \le 4/(4+\ell_k)$); beyond that, even arbitrarily deep suppression cannot floor the system at all — a corner that matters only at extreme leakage, and which the [AI 2027 section](#ai-2027) runs into.
+- One outcome is *never* on the menu: eradication. Novel modes of misbehaviour keep arriving uncovered and some seeding always gets through, so $q_u = 0$ is not reachable for any parameter setting with $k_{cu} > 0$. What very strong suppression buys instead is a deep endemic floor — arbitrarily low, but never zero. The floor itself comes with a caveat: at extreme leakage even arbitrarily deep suppression cannot floor the system at all — a corner that the [AI 2027 section](#ai-2027) runs into.
+<!-- SKELETON (you write, from the sims): WHY eradication is off the menu under the filter — O_fix = phi*O_obs is strictly < 1 (phi=rho/(1+rho)<1, AND O_obs<1 because novel modes arrive uncovered, c_0>0), so the (1-O_fix) filter never removes the whole inflow. (Old reason was "bounded interception fraction ell_k<=1"; that argument is gone with ell_k.) Optionally: state the modest-leakage validity bound for the floor as a sim observation rather than the old delta*k_cu formula. -->
 
-Because a cooperative-side fixed point exists for every fix rate above a single threshold and for none below it (existence is provably monotone in $\ell$; see the appendix), the basin-existence condition is one number, $\ell^{\ast}$, computed numerically from the cubic. At pure destruction ($\delta=1$) it has a closed form — for the central structural choices used throughout this post ($k_{uu}=1$, $a_{\mathrm{E/M}}=1$), writing $T = 1+c$:
+Because a cooperative-side fixed point exists for every fix rate above a single threshold and for none below it, the basin-existence condition is one number — the critical fix rate $\rho^{\ast}$, which we read off the simulations. This threshold is the single most decision-relevant output of the model, and we will return to it when we plug in numbers. You can also explore it directly: the [interactive basin explorer](/basin-explorer/) plots the basin boundary over any pair of parameters and lets you check how the verdicts below move as you change the inputs.
 
-\[
-\ell^{\ast} = 2k_{cu}\left[(T-ck_{cu})+\sqrt{(T-ck_{cu})\,(T-ck_{cu}-\ell_k)}\right].
-\]
+<!-- SKELETON (you write, optional): the "four-to-one rule" intuition, if you still want it — at the margin, suppression must beat leakage by a multiple. The old delta=1 closed form for ell* was cut with the appendix; rho* replaces ell*. -->
 
-This is an interpolated four-to-one rule: at $\ell_k = 0$ and small $k_{cu}$ it approaches $\ell^{\ast} O^{\ast}(0) \approx 4k_{cu}$ — suppression must beat leakage four-fold at the margin — with the discount below four growing as inflow interception rises (the seeding itself is being intercepted), and the $-ck_{cu}$ shifts carrying the small growth-feedback correction from the suppression drag on $F$. This threshold is the single most decision-relevant output of the model, and we will return to it when we plug in numbers. You can also explore it directly: the [interactive basin explorer](/basin-explorer/) plots the basin boundary over any pair of parameters and lets you check how the verdicts below move as you change the inputs.
+<!-- TRACTABILITY NOTE (David's wording, lightly cleaned — place wherever reads best, e.g. here or at the end of this section): "This system is relatively analytically tractable, but the closed forms add little beyond the simulations and present another surface that needs careful checking every time the model changes — which is why they don't appear here." -->
 
 ## The default path
 
@@ -303,10 +280,13 @@ The verdicts at the central calibration's default leakage rate, for both $\ell_k
 | central, $\delta=1$ ($\ell_k=1$) | 0.062 | 0.41 | 0.48× | — | stable | takeover |
 | central, $\delta=0.3$ ($\ell_k=1$) | 0.062 | 0.18 | 1.13× | 0.68 | unstable | endemic, very high |
 
-All verdicts are computed from the long-run fixed-point analysis (the cubic of the appendix) and confirmed by full simulation of the four-variable system; the simulated long-run states match the analytic fixed points to three decimals. ("Stable endpoint + no attractor" = monostable takeover: the system has nowhere else to go.)
+All verdicts are computed numerically from the long-run fixed-point equations and confirmed by full simulation of the four-variable system. ("Stable endpoint + no attractor" = monostable takeover: the system has nowhere else to go.)
 
 <!-- STALE @rho=1.27: recompute — central is now ENDEMIC q_u*~0.21 (margin >1x), NOT takeover. See _scratch/review/EXEC-PACKAGE.md -->
 {{<figure src="/images/blog/dynamical-models/default-path-true-vs-apparent.png" width="100%" align="center" caption="The default path under the central calibration (identity-calibrated default: k = 0.062 trend-adjusted; ℓ = 0.2, ℓ_k = 1, δ = 0.7). Top: the true uncooperative share q_u (solid) against the contemporaneously observed rate O·q_u (dashed); q_u dips below its starting level and then turns onto a takeover trajectory — there is no attractor at these parameters — with the gap between the curves widening as q_u grows. Bottom: observability O holds near 0.5 through the human era and the handoff, then erodes without a floor. The x-axis is AI-development labour as a multiple of human labour (A/H₀, log scale); the handoff (AI labour = human) sits at 1×. Calendar landmarks (illustrative, T_auto = 0.5 y/doubling) are noted inline." />}}
+
+<!-- REVIEW (new filter+γ figure, 2026-06-18; SUPERSEDES the STALE default-path-true-vs-apparent.png above — delete the old one once this is approved; caption is a DRAFT): -->
+{{<figure src="/images/blog/dynamical-models/default-path.png" width="100%" align="center" caption="DRAFT — The default path: contained but endemic (central estimate, ρ=1.27, Ω=0.5, δ=0.7). Left: the true uncooperative share q_u (solid) against the contemporaneously observed rate O_obs·q_u (dashed); q_u dips, then climbs and settles at an endemic share ≈0.21, with the observed rate understating the truth by ≈2.5×. Right: observability O_obs (what you measure) and the fixed fraction O_fix=φ·O_obs (what actually suppresses). x-axis: AI labour ÷ human labour (A/H₀, log; handoff at 1×)." />}}
 
 <!-- STALE @rho=1.27: recompute — central is now ENDEMIC q_u*~0.21 (margin >1x), NOT takeover. See _scratch/review/EXEC-PACKAGE.md -->
 **The dip gives way to a slow takeover.** As AI-era leakage takes over from the calibrated human-era decline, the true uncooperative share turns upward: it is back through 5% around ~2.9 doublings (about a year and a half), crosses 10% at ~7.2 doublings (~3.6 years), 15% at ~10.7 doublings (~5 years), 20% at ~14.4 doublings (~7 years), and — because no cooperative-side attractor exists at these parameters — keeps going: 30% at ~23 doublings, 50% at ~49 doublings (~24 years; ~91 doublings at $\ell_k = 0.5$), and onward to dominance. Observability erodes alongside — from 0.5 to 0.48 at ~5.8 doublings, 0.43 at ~11.5 doublings, 0.39 at ~17.3 doublings, and on down without a floor — because long-run observability falls as the cooperative share shrinks. The *measurable* signal, the observed rate $O\\,q_u$, climbs for decades (2.5% today → 3.8% at ~5.8 doublings → 7.0% at ~11.5 doublings → 9.2% at ~17.3 doublings), peaks around 12.8% near ~48 doublings, and then *falls* even as the true share keeps climbing; it understates the truth by a growing factor (about 2.1× at ~5.8 doublings, 2.6× at ~17.3 doublings, unboundedly thereafter).
@@ -333,6 +313,13 @@ Since the central path now ends in takeover, it is worth asking what one paramet
 
 <!-- STALE @rho=1.27: recompute — central is now ENDEMIC q_u*~0.21 (margin >1x), NOT takeover. See _scratch/review/EXEC-PACKAGE.md -->
 {{<figure src="/images/blog/dynamical-models/default-path-rescue-levers.png" width="100%" align="center" caption="Attractor location under single-lever changes from the central default (vertical dashed line — the default itself sits inside the takeover region, so it has no attractor to mark). Red shading: no attractor — takeover. Dashed horizontal line: the provisional 'good outcome' threshold q_u* = 0.1. Every rescue is a multi-fold change: leakage k_cu ≤ 0.016 (3.9× below default), fix rate ℓ ≥ 0.76 (3.8× central), observability O* ≥ 0.88 at ℓ_k = 1 (impossible at ℓ_k = 0.5: floor 14% at O* = 1); the mechanism mix δ cannot reach it (best 45% at δ = 0, takeover for δ ≳ 0.4). Note the attractor sitting at ~0.58 where the basin first appears as ℓ rises through 0.312: existence margins overstate safety." />}}
+
+<!-- REVIEW (new filter+γ crux figures, 2026-06-18; these are the scenario / good-vs-bad spine for this section — placement, ordering, and whether they replace the rescue-levers figure above are all provisional; captions are DRAFTS): -->
+{{<figure src="/images/blog/dynamical-models/crux-leakage.png" width="100%" align="center" caption="DRAFT — Crux 1: alignment leakage k_cu (good 0.03 / central 0.062 / bad 0.12; other parameters, including k_hu, held central). Left: observed rate O_obs·q_u; right: true share q_u. x: A/H₀ (log)." />}}
+
+{{<figure src="/images/blog/dynamical-models/crux-growth.png" width="100%" align="center" caption="DRAFT — Crux 2: uncooperative growth advantage k_uu (good 0.8 / central 1.0 / bad 1.2). A 20% edge goes silently to takeover and is nearly indistinguishable from the contained case in the observed rate. Left: observed; right: truth." />}}
+
+{{<figure src="/images/blog/dynamical-models/crux-domain.png" width="100%" align="center" caption="DRAFT — Crux 3: the domain / offense–defense balance (evasion productivity a_E/M and passive opacity c₀ moved together; defense-favoured 2× / central / offense-favoured 2×). Left: observed; right: truth." />}}
 
 One lever at a time, holding everything else at the central default ($k = 0.062$, $\ell = 0.2$, $\ell_k = 1$, $\delta = 0.7$; the $\ell_k = 0.5$ figures, at that case's own identity value $k = 0.042$, in parentheses):
 
@@ -367,6 +354,7 @@ With these caveats in mind - the model's forecasts deserve modest weight in the 
 
 ## AI 2027 in this model: similar concerns, different risk models {#ai-2027}
 
+<!-- FLAG (V5+rho recalibration — overlaps the analytic nix): this section still quotes the analytic machinery that was removed from "The basin picture" and the deleted appendix — ell*≈3.9-4.0, the "20x" suppression-observability product, the endemic-floor formula q_u*≈k_cu(...)/ell, and the validity condition delta*k_cu ≤ 4/(4+ell_k). The "validity condition of the basin picture" link now points to a section that no longer states it. All of this is also stale on numbers (ell=0.2 -> rho=1.27, ell_k gone under the filter) and both figures (ai2027-high-leakage-run.png, ai2027-observability-cannot-save.png) are pre-recalibration. Resolve in the AI-2027 rewrite: reframe the thresholds as sim-read (no closed forms), drop ell_k, recompute at rho=1.27. The high-leakage k_cu=0.9 conclusion (observability cannot rescue; takeover) is expected to survive. -->
 A central payoff of making risk models mathematically precise is that seemingly similar concerns — "misaligned AI is a risk" — can turn out to mask quite different risk models, with different policy responses. This section works that through for one prominent example. This model is supposed to clarify discussion of AI misalignment risk, and if it is to do this, we must be able to use the model to illuminate existing discussions of this issue. We work this through for the [AI 2027](https://ai-2027.com/) scenario, one of the highest profile discussions of this risk. Its premise — AI automating AI R&D, with each generation training the next under the supervision of the last — is exactly the setup of this model.
 
 The AI 2027 scenario comes with a detailed model of AI capability progress in the [AI futures model](https://www.aifuturesmodel.com/) and offers a qualitative account of alignment success or failure. Note that they say "misaligned" where we say "uncooperative". We summarize that account as follows:
@@ -387,7 +375,10 @@ Under such high leakage rates, achieving cooperative dominance is very difficult
 
 Under these leakage rates, control of uncooperative labour via observation and suppression must be very strong in order to succeed. At $k_{cu} = 0.9$ and the central mechanism mix $\delta = 0.7$, the basin-existence threshold sits at $\ell^{\ast} \approx 3.9$–$4.0$ across both $\ell_k$ display values — a suppression-observability product of $\ell^{\ast} O^{\ast}(0) \approx 2.0$, roughly **20 times** the central product ($\ell\\,O^{\ast} = 0.2 \times 0.5 = 0.1$), and far beyond any reading of the fix-rate evidence. Read as a per-doubling cost heuristic, $\ell O^{\ast} \approx 2.0$ means pre-existing uncooperative labour must be cut to about $2^{-2.0} \approx 1/4$ of its natural rate for every doubling of AI labour. At pure destruction ($\delta = 1$) the situation is qualitatively worse: under our observability-pin convention **no fix rate of any size yields a basin at all** — this leakage violates the endemic-floor validity condition of the [basin picture](#the-basin-picture-where-can-the-system-settle) ($\delta k_{cu} \le 4/(4+\ell_k) = 0.8$ at $\ell_k = 1$, and $1.0 \times 0.9 = 0.9$ exceeds it), so deep destruction-only suppression cannot floor the system. (That statement is convention-dependent: holding the passive-opacity ratio frozen at $c_0/c_M = 1$ instead of re-pinning the dial gives a finite but enormous threshold, $\ell^{\ast} \approx 2.6$ at $\delta = 1$, $\ell_k = 1$.) The $\delta = 0.7$ thresholds sit comfortably inside the validity envelope — aggregate production $F$ is about 0.5 at the basin-appearance points. What such heroic suppression buys also deserves a clear look — and it is *not* eradication, which the bounded gate rules out everywhere. The conventional basin at this leakage first appears with its attractor already at $q_u \approx 44$–$54\\%$ uncooperative: crossing the threshold buys a *ceiling*, not a good outcome. Pushing further helps only slowly — the endemic floor falls like $q_u^{\ast} \approx k_{cu}(1+c-\ell_k-c\\,\delta k_{cu})/\ell$ for large $\ell$, so even *doubling* the fix rate beyond the threshold (to $\ell \approx 7.9$ at $\delta = 0.7$, $\ell_k = 1$) still leaves about 8.6% of the workforce uncooperative, continuously caught and recycled. And observability-based interventions of *any* kind still depend fundamentally on observing misbehaviour, which in this scenario is the vast majority of work done by AI building more AI — while the redirection arithmetic leans on the model's idealization that corrected labour converts to cooperative labour at full value.
 
-{{<figure src="/images/blog/dynamical-models/ai2027-observability-cannot-save.png" width="100%" align="center" caption="At high leakage, observability alone cannot recover a cooperative outcome. Shaded regions classify whether a cooperative-side basin exists; the dashed curve is the bounded-gate basin boundary of the appendix. (a) Holding suppression at the central ℓ = 0.2 (ℓ_k = 1, δ = 0.7), raising best-case observability O* from 0.5 toward perfect roughly triples tolerable leakage (≈ 0.039 → ≈ 0.11) — still nearly an order of magnitude short of this scenario's k_cu = 0.9. (b) At near-perfect observability (O* = 0.99), a basin at k_cu = 0.9 requires ℓ ≈ 1.7 — eight to nine times the central fix rate — and no ℓ ≤ 1 yields a basin at this leakage at any observability: there is no eradication escape hatch, and the basin that extreme suppression buys appears with its attractor already at a 44–54% uncooperative share (at δ = 0.7; at pure destruction δ = 1 no fix rate yields a basin at all under our observability pin)." />}}
+{{<figure src="/images/blog/dynamical-models/ai2027-observability-cannot-save.png" width="100%" align="center" caption="At high leakage, observability alone cannot recover a cooperative outcome. Shaded regions classify whether a cooperative-side basin exists; the dashed curve is the model's basin boundary. (a) Holding suppression at the central ℓ = 0.2 (ℓ_k = 1, δ = 0.7), raising best-case observability O* from 0.5 toward perfect roughly triples tolerable leakage (≈ 0.039 → ≈ 0.11) — still nearly an order of magnitude short of this scenario's k_cu = 0.9. (b) At near-perfect observability (O* = 0.99), a basin at k_cu = 0.9 requires ℓ ≈ 1.7 — eight to nine times the central fix rate — and no ℓ ≤ 1 yields a basin at this leakage at any observability: there is no eradication escape hatch, and the basin that extreme suppression buys appears with its attractor already at a 44–54% uncooperative share (at δ = 0.7; at pure destruction δ = 1 no fix rate yields a basin at all under our observability pin)." />}}
+
+<!-- REVIEW (new filter+γ figure, 2026-06-18; SUPERSEDES the STALE ai2027-observability-cannot-save.png above — delete the old one once approved; caption is a DRAFT): -->
+{{<figure src="/images/blog/dynamical-models/obs-cannot-save.png" width="100%" align="center" caption="DRAFT — Observability cannot rescue high leakage. Long-run uncooperative share q_u* over leakage k_cu (x, log scale) × the observability dial Ω (y), at central fix rate ρ=1.27, growth k_uu=1, δ=0.7. Green = contained, red = takeover. The AI-2027 high-leakage line (k_cu=0.9) sits in takeover at every observability, all the way to Ω→1; the central estimate (k_cu≈0.062, Ω=0.5) is marked." />}}
 
 Now the AI 2027 model suggests that heavy suppression need not go on indefinitely; ultimately the (heavily suppressed) AI workers make a breakthrough in alignment, which presumably lowers leakage to a level such that monitoring and suppression can be greatly relaxed. This is a feature of the AI 2027 model absent from ours: the leakage rate is dynamic, and (on our understanding) first rises substantially at around the point of "handoff" from human to AI labour, then potentially falls substantially once an alignment breakthrough is made. On this view there are two discrete "problems" - first, building uncooperative AI-reproducing AI workers, and second building cooperative AI-reproducing AI workers. The first problem is somewhat easier than the second, and so the challenge is to effectively use the uncooperative labour to solve the second problem.
 
@@ -609,6 +600,9 @@ Three gaps in the current instrument set stand out against the predictions above
 
 ## AI usage note
 
+<!-- FLAG (you revise — disclosure prose, not auto-edited): two bits are now stale after the v5 filter + appendix nix.
+  (1) "the bounded interception efficacy ell_k (introduced after review caught an unbounded interception term manufacturing a spurious 'eradication' regime)" — ell_k no longer exists; the multiplicative filter (1-O_fix) replaced it. The "unbounded interception" anecdote no longer describes the live model.
+  (2) "the long-run analysis — fixed-point equations, basin-existence thresholds, endpoint stability, the no-eradication result and endemic floor ... by Claude (Fable 5)" + "verified twice ... fixed-point checks": this analysis was done but is no longer SHOWN in the post (appendix removed). Consider softening to "informed the qualitative basin results" rather than crediting displayed derivations. -->
 This document was primarily authored and directed by David Johnston, with AI assistance used as an editorial and analytical aid. The model structure and each of its refinements — the destruction fraction $\delta$, production-gated suppression, the bounded interception efficacy $\ell_k$ (introduced after review caught an unbounded interception term manufacturing a spurious "eradication" regime), and the growth-pegged passive-opacity specification — were specified by David, as were the estimation approaches and the final estimate ranges; the $\delta$ estimate is a heuristic Claude assembled to David's specification and is flagged in the text as the weakest-anchored number in the post. Derivations were carried out by AI: the automation-clock transformation and calibration formulae by GPT 5.5, with justifications supplied by David, and the long-run analysis — fixed-point equations, basin-existence thresholds, endpoint stability, the no-eradication result and endemic floor, and the self-consistent calibration identity — by Claude (Fable 5). Every model-derived number in the post was verified twice: once by the deriving agent's numerical suites (fixed-point checks plus full-system simulation), and once by an independent re-derivation in exact arithmetic. Claude Fable 5 also computed the calibrations, verdicts, trajectories and figures. The interactive app was implemented by Claude Opus 4.7/4.8 and extended by Claude Fable 5, with many revisions requested by David; sources were fetched by Claude and GPT. A majority of the current text was drafted by AI under David's direction; all of it is reviewed and edited by David before publication.
 
 ## Appendices
@@ -635,145 +629,7 @@ This appendix collects the source-by-source evidence behind the parameter judgem
 
 **Timescales.** The aggregate-value proxy is frontier-lab revenue: OpenAI reports annualized recurring revenue of about **USD2B in 2023**, **USD6B in 2024** and **USD20B+ in 2025**, roughly **3.2×/year**, implying a doubling time of about **7.2 months**; OpenAI also reports available compute following a similar curve, from **0.2 GW** to **0.6 GW** to **~1.9 GW** over the same period ([OpenAI, 2026](https://openai.com/index/a-business-that-scales-with-the-value-of-intelligence/)). The technical-capacity proxy is compute multiplied by algorithmic efficiency: Epoch estimates AI compute stock growing **3.4×/year** and pre-training compute efficiency improving **3×/year**, for about **10×/year** combined, or a **3.6-month** doubling; using frontier training compute growth of **5×/year** instead gives about **15×/year**, or a **3.1-month** doubling ([Epoch AI Trends](https://epoch.ai/trends)).
 
-### Appendix: long-run fixed points {#appendix-long-run-fixed-points}
-
-In the long run, $q_h\to 0$. For a fixed value of $q_u$, the monitoring and evasion stocks have natural equilibria
-
-\[
-m^*=\frac{F_M}{F},\qquad e^*=\frac{F_E}{F}.
-\]
-
-At such a point,
-
-\[
-O^* =
-\frac{m^*}{m^*+e^*} =
-\frac{F_M}{F_M+F_E}.
-\]
-
-When $q_h=0$,
-
-\[
-F_M=c_Mq_c,\qquad F_E=c_0F+a_{\mathrm{E/M}}c_Mq_u,
-\]
-
-the second carrying a factor of $F$ because passive opacity is pegged to growth. Define the odds ratio
-
-\[
-r:=\frac{q_u}{q_c}=\frac{q_u}{1-q_u},
-\]
-
-and abbreviate
-
-\[
-a:=a_{\mathrm{E/M}},\qquad c:=\frac{c_0}{c_M},\qquad
-P(r):=\ell_k k_{cu}+\ell r,\qquad
-D(r):=1+c+(a+c\,k_{uu})\,r.
-\]
-
-The missed-to-caught odds at the stock equilibrium are
-
-\[
-R^*=\frac{F_E}{F_M}=c\,(1+r)\,F+a\,r,
-\]
-
-and at $q_h=0$ the total production at observability $O$ is
-
-\[
-F=\frac{1+k_{uu}r-\delta\,O\,P(r)}{1+r}.
-\]
-
-Substituting $F$ into $1/O^*=1+R^*$ and clearing denominators gives, for each $r$, a quadratic in $O$:
-
-\[
-h(O):=c\,\delta\,P(r)\,O^2-D(r)\,O+1=0,
-\]
-
-so long-run observability is implicit rather than closed-form. The physical root is the smaller one,
-
-\[
-O^*(r)=\frac{D-\sqrt{D^2-4c\,\delta P}}{2c\,\delta P}=\frac{2}{D+\sqrt{D^2-4c\,\delta P}},
-\]
-
-for four mutually reinforcing reasons: (i) it is the continuous continuation of the no-feedback limit — as $c\,\delta P \to 0$ it tends to $1/D(r)$, which is also what a production-flow specification of passive opacity would give in closed form; (ii) whenever $h(1)<0$ — equivalently $c\,\delta P < c+(a+c\,k_{uu})r$, which holds throughout our working ranges — it is the *unique* root in $(0,1)$, the larger root lying above $1$ and hence being infeasible; (iii) the $(m,e)$ subsystem's equilibrium at the smaller root is locally stable (verified on numerical Jacobians and by direct integration); and (iv) where the larger root does dip below $1$ it sits outside the validity envelope — total production $F$ is negative there whenever $\delta P<(1+k_{uu}r)(1+ar)$.
-
-Two consequences of the implicit form are worth recording. First, $O^{\ast}$ now depends on the suppression parameters, with definite signs: $\partial O^{\ast}/\partial\ell>0$ and $\partial O^{\ast}/\partial\delta>0$ — heavier suppression slows aggregate growth per unit of labour, and growth is what brings passive opacity, so suppression buys a little observability. Second, the quadratic has real roots only while $D^2 \ge 4c\,\delta P$; in deep-suppression corners (very large $\ell$ at a substantial $q_u$) the observability sector has no interior equilibrium at all and the full system runs toward the $F \to 0$ validity boundary.
-
-A long-run fixed point for $q_u$ satisfies
-
-\[
-q_u'=0
-\qquad\Longleftrightarrow\qquad
-\frac{F_u}{F}=q_u.
-\]
-
-Equivalently, the uncooperative pool captures exactly its current share of new production. With $q_h=0$, the leakage inflow becomes $L_k=(1-q_u)k_{cu}$, the full intercepted flow is $(1-q_u)(\ell_k k_{cu}+\ell r)$, and the destruction factor $(1-\delta q_u)=(1+(1-\delta)r)/(1+r)$, so dividing $F_u-q_uF$ by $(1-q_u)^2$ and substituting $r=q_u/(1-q_u)$ shows that the sign of $q_u'$ is the sign of
-
-\[
-g_\delta(r)=k_{cu}+b\,r-O^*(r)\,(\ell_k k_{cu}+\ell\,r)\left(1+(1-\delta)r\right),
-\qquad
-b:=k_{cu}+k_{uu}-1,
-\]
-
-with $O^{\ast}(r)$ the implicit root above. At $\delta=1$ the last factor disappears and this reduces to $g(r)=k_{cu}+b\\,r-O^{\ast}(r)(\ell_k k_{cu}+\ell\\,r)$.
-
-When $k_{cu}>0$, $g_\delta(0)=k_{cu}(1-\ell_k O^{\ast}(0))>0$ **always**: $\ell_k \le 1$, and $O^{\ast}(0)<1$ strictly whenever $c>0$, because evaluating the observability quadratic at $O=1$, $r=0$ gives $h(1)=c\,(\delta\ell_k k_{cu}-1)<0$ (using $\delta\le1$, $\ell_k\le1$, $k_{cu}<1$), so the root in $(0,1)$ sits below $1$. Even at vanishingly small $q_u$, then, an un-intercepted fraction of the leak is seeding uncooperative labour. (This is where the bounded gate earns its keep: an unbounded gate — the rate $\ell$ on the inflow — would allow $g_\delta(0)\le0$ once $\ell O^{\ast}(0)\ge1$, an "eradication" regime manufactured by intercepting more leakage than the flow contains.) For a low-$q_u$ fixed point to exist, $g_\delta(r)$ has to cross zero. The initial slope follows by implicit differentiation of $h$:
-
-\[
-g_\delta'(0)=b-\left[O^{*\prime}(0)\,\ell_k k_{cu}+O^*(0)\left(\ell+(1-\delta)\,\ell_k k_{cu}\right)\right],
-\qquad
-O^{*\prime}(0)=\frac{O^*(0)\left((a+c\,k_{uu})-c\,\delta\,\ell\,O^*(0)\right)}{2c\,\delta\,\ell_k k_{cu}\,O^*(0)-(1+c)}\;\le\;0,
-\]
-
-so Condition 1 ($g_\delta'(0)<0$) is the bracketed inequality quoted in the main text (the denominator of $O^{*\prime}(0)$ is $h'(O^{\ast}(0))$, negative at the smaller root). On the necessity of Condition 1 at $\delta=1$: we have found no parameter setting in our working ranges where it fails and a cooperative-side fixed point nevertheless exists, and we treat it as necessary there — but we state this as a numerically supported regularity rather than a theorem, because the constant-sign convexity argument that proves it when $O^{\ast}(r)$ has the closed form $1/D(r)$ (the $c\,\delta P\to0$ limit) does not carry over to the implicit root. For $\delta<1$ it is not even a regularity — the factor $(1+(1-\delta)r)$ makes the suppression term effectively quadratic in $r$, and an interior attractor can exist with Condition 1 violated, though such attractors typically sit at a high uncooperative share. Condition 1 is also not sufficient: $g_\delta$ may slope downward at first but fail to fall below zero before turning upward again. That is why the actual fixed points are determined by the cubic below.
-
-A fixed point requires $g_\delta(r)=0$, i.e. observability exactly equal to $N(r)/\big(P(r)S(r)\big)$, where $N(r):=k_{cu}+br$ and $S(r):=1+(1-\delta)r$. Substituting that value into the observability quadratic $h(O)=0$ and clearing the positive factor $P S^2$ gives the fixed-point polynomial
-
-\[
-\Phi(r)=c\,\delta\,N^2-D\,N\,S+P\,S^2=0,
-\]
-
-a cubic in $r$, with coefficients (writing $s:=1-\delta$, $T:=1+c$, $\kappa:=\ell_k k_{cu}$, $k:=k_{cu}$, and $a+c\,k_{uu}$ from $D$)
-
-\[
-\begin{aligned}
-A_0&=c\,\delta k^2-Tk+\kappa,\\
-A_1&=2c\,\delta kb-T(b+ks)-(a+c\,k_{uu})\,k+\ell+2s\kappa,\\
-A_2&=c\,\delta b^2-Tbs-(a+c\,k_{uu})(b+ks)+2s\ell+s^2\kappa,\\
-A_3&=s\,\big(\ell s-(a+c\,k_{uu})\,b\big).
-\end{aligned}
-\]
-
-Roots of $\Phi$ correspond to fixed points exactly when they lie on the physical observability branch ($N/(PS)$ below the larger root of $h$), and on that branch $g_\delta(r)>0 \iff \Phi(r)<0$; in practice we find the roots directly from $g_\delta$ with the implicit $O^{\ast}(r)$ (a sign scan plus bisection), and use the cubic as the algebraic object behind the exact statements. Three structural facts organise the basin picture:
-
-- **No eradication.** $\Phi(0)=-k_{cu}\left(1+c-\ell_k-c\,\delta k_{cu}\right)<0$ for *every* admissible parameter setting: $\ell_k\le1$ gives $1-\ell_k\ge0$, and $c\,(1-\delta k_{cu})>0$. The cubic's constant term plays the same role the gated seeding plays in $g_\delta(0)>0$ — $q_u=0$ is never a fixed point when $k_{cu}>0$. (An unbounded gate would flip this sign at large $\ell$ — the spurious eradication regime.) And since $g_\delta(0)>0$ always, the smallest positive root is a downward crossing of zero — a *stable* attractor whenever it exists; the next root up, where present, is the saddle separating basins.
-- **Existence is monotone in $\ell$, so the basin threshold is a single number.** Pointwise in $r$: $\partial h/\partial\ell=c\,\delta\,r\,O^2>0$ together with $\partial h/\partial O<0$ at the physical root gives $\partial O^{\ast}/\partial\ell>0$, and then $\partial g_\delta/\partial\ell=-S\left[P\,\partial O^{\ast}/\partial\ell+O^{\ast}r\right]<0$: raising the fix rate lowers $g_\delta$ everywhere, so a cooperative-side fixed point exists for all $\ell$ above a unique threshold $\ell^{\ast}$ and for none below. We compute $\ell^{\ast}$ by bisection.
-- **At $\delta=1$ the cubic degenerates to a quadratic** ($S\equiv1$, $A_3=0$), and at $k_{uu}=1$, $a_{\mathrm{E/M}}=1$ its saddle-node condition gives the closed form quoted in the main text, $\ell^{\ast}=2k_{cu}\left[(T-ck_{cu})+\sqrt{(T-ck_{cu})(T-ck_{cu}-\ell_k)}\right]$, the $-ck_{cu}$ shifts carrying the growth-feedback of the suppression drag on $F$.
-
-**The endemic floor and its validity condition.** For large $\ell$ the attractor falls like
-
-\[
-q_u^{\ast}\;\approx\;\frac{k_{cu}\left(1+c-\ell_k-c\,\delta k_{cu}\right)}{\ell}
-\]
-
-(the cubic's constant term against its linear-in-$\ell$ slope). The observability the floor carries tends to $1/(T-c\,\delta k_{cu})$, which lies on the physical branch iff $2c\,\delta k_{cu}\le 1+c$; under the central observability pin this reads $\delta\,k_{cu}\le 4/(4+\ell_k)$. When the condition fails — extreme leakage combined with near-pure destruction — the would-be floor sits on the unphysical branch and deep suppression cannot floor the system at any fix rate: this is the corner the [AI 2027 section](#ai-2027) encounters at $\delta=1$.
-
-The all-uncooperative endpoint is stable when
-
-\[
-k_{uu}+k_{cu}-1>\frac{(1-\delta)\ell}{a+c\,k_{uu}},
-\]
-
-equivalently, for $\delta<1$, when the cubic's leading coefficient $A_3$ is negative (this has been verified against the Jacobian of the full four-variable system, not just the one-dimensional projection). The inflow gate does not alter this condition — $\ell_k$ does not enter at a fixed passive-opacity ratio $c$: at the endpoint the intercepted-leakage term is a product of two first-order-small quantities — observability and the cooperative share — so it drops out of the linearisation. (Under the per-cell calibration pin, $\ell_k$ and $\delta$ move $c$ slightly, shifting this boundary in the third decimal — immaterial at our central parameters.) Intuitively: as $q_u\to1$ observability falls like $O^{\ast}\approx q_c/(a+c\,k_{uu})$ rather than reaching zero, so redirected suppression re-seeds the cooperative pool at a rate first-order in $q_c$; uncooperative labour holds the whole system only if its self-reproduction advantage plus leakage beats both the reproduction of a small reintroduced cooperative minority and this re-seeding flow. At $\delta=1$ the re-seeding flow vanishes and the condition reduces to $k_{uu}+k_{cu}>1$.
-
-When $k_{cu}=0$, the cooperative endpoint is an exact fixed point, and its local stability condition reduces to
-
-\[
-\ell O^*(0)>k_{uu}-1,
-\]
-
-independent of $\delta$, and of $\ell_k$ ($\delta$ enters $F$ only at order $q_u$, and the intercepted-leakage term vanishes identically when $k_{cu}=0$ and $q_h=0$, so both contribute only at second order near $q_u=0$).
-
+<!-- APPENDIX REMOVED (2026-06-18): the formal long-run derivation (observability quadratic, fixed-point cubic, Conditions 1/2, monotonicity in the fix rate, no-eradication, endemic floor) lived here. It kept going stale on every model change and added little beyond the simulations, so it has been cut. The qualitative results it supported now live in "The basin picture" as sim-read findings; the tractability note is there too. -->
 
 ### Appendix: neglect, subversion and more realistic models {#appendix-neglect-subversion}
 
