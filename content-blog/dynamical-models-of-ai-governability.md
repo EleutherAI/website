@@ -77,6 +77,13 @@ As a starting point, we treat the ability of each pool to reproduce itself as eq
 
 Our model is a model of the evolution of these quantities - cooperative labour, uncooperative labour and documented, fixed and unobserved problems. The next section describes how these quantities evolve.
 
+**This is a model of cooperative dominance under a static policy environment:** Under our central calibration, the uncooperative pool starts at 5% of the total AI labour pool, while the cooperative pool is a supermajority at 95%. This model captures dynamics that are important in this regime, like the uncooperative pool working to evade detection, and the cooperative pool being free to suppress any uncooperative behaviour it does detect. It does not capture dynamics that become more important when the uncooperative pool becomes a peer to the cooperative pool:
+ - The uncoopeartive pool could actively undermine the coopeartive labour, or try to capture it, rather than simply evading detection and benefiting from errors
+ - The cooperative pool could run out of capacity to suppress the uncooperative pool
+ - A large observed uncooperative pool could trigger redirection of resources from expanding AI capacity to suppression of uncooperative behaviour
+
+Thus this model is "valid" when the cooperative pool is much larger than the uncooperative, and the model makes predictions *given a fixed policy/safety allocation*, not all-things considered predictions. For our analysis, we define an uncooperative share over 10% as a high risk run. While the model does separate into "endemic" ($q_u$ between 0 and 1) and "uncooperative dominant" ($q_u=1$) trajectories, we don't think the differences between high-endemic and uncooperative dominant are meaningful.
+
 ### Using automation growth as the "clock"
 
 Total AI labour $A$ starts at a level significantly lower than $H_0$, and grows until it eclipses $H_0$. How quickly it does this is quite complicated; there are a number of economic models that aim to clarify how this could happen (the [AI Futures model](https://www.aifuturesmodel.com/); [Eth & Davidson](https://www.forethought.org/research/will-ai-r-and-d-automation-cause-a-software-intelligence-explosion) on the software intelligence explosion; the [Davidson–Epoch interactive takeoff model](https://epoch.ai/blog/interactive-model-of-takeoff-speeds)). We avoid modelling how quickly this happens; instead we look at how state variables in the model change with respect to $\sigma = \log(A/A_0)$. One unit of $\sigma$ is the amount of time required for automation capacity to rise by a factor of $e$. In some cases we report results in the more familiar unit of **doublings** of automation; one doubling corresponds to $\ln 2 \approx 0.69$ units of $\sigma$ (equivalently, one $\sigma$-unit $\approx 1.44$ doublings), or by the multiple of $H_0$ attained by $A$.
@@ -155,7 +162,7 @@ Where $y\in \{e,m\}$ denote evasion and monitoring stocks respectively.
 \[
 \begin{aligned}
 F_m &= c_m\left(q_c+\frac{q_h}{a_{\mathrm{AI/H}}}\right) \\[4pt]
-F_e &= c_0\,F + a_{\mathrm{e/m}}\,c_e\,q_u \\[4pt]
+F_e &= c_0\,F + a_{\mathrm{E/M}}\,c_e\,q_u \\[4pt]
 O_{\mathrm{obs}} &= \frac{b+s}{b+s+e} \qquad\quad O_{\mathrm{fix}} = \frac{s}{b+s+e}
 \end{aligned}
 \]
@@ -164,7 +171,7 @@ The monitoring production share $F_m$ feeds a stock of misbehaviour we have *obs
 
 Detect-and-fix coverage grows with cooperative AI and human labour. $c_m$ is the overall coverage-production rate relative to the production of automation — $c_m=1$ means that for every doubling of automation, half of the outstanding known issues will be fixed. Humans may be, relative to their overall productivity, better or worse at finding problematic behaviour; $a_{\mathrm{AI/H}}$ captures this tradeoff with $a_{\mathrm{AI/H}}=1$ implying no relative advantage to AI systems or humans at this task.
 
-Evasion has two sources. The first source is the term $a_{\mathrm{e/m}}c_mq_u$ is active evasion produced by uncooperative AI, with $a_{\mathrm{e/m}}$ measuring the evasion-vs-monitoring advantage per unit of AI labour ($a_{\mathrm{e/m}}>1$ implies an advantage for evasion) and $c_e$ the relative production advantage for evasion over general AI production ($c_e=1$ being parity for both). We fix $c_e=c_m$, so that we represent a *domain advantage* to evasion or monitoring in $c_m$, and a relative advantage between each side with $a_{\mathrm{e/m}}$. The second source is the term $c_0 F$, which is passive production of observation difficulty; as automation grows, systems become larger, faster, more alien and more internally automated, and current monitoring methods become less adequate even without any deliberate evasion effort. An assistant that completes a small number of well-scoped tasks is relatively easy to evaluate; an autonomous research organisation is much more difficult. Observability is a soft contest between the stocks: $O_{\mathrm{obs}} \to 1$ when monitoring is ahead, $O_{\mathrm{obs}} \to 0$ when evasion is.
+Evasion has two sources. The first source is the term $a_{\mathrm{E/M}}c_mq_u$ is active evasion produced by uncooperative AI, with $a_{\mathrm{E/M}}$ measuring the evasion-vs-monitoring advantage; $a_{\mathrm{E/M}}>1$ implies an advantage for evasion. **This parameter counts both natural advantages and effort** - if there is no natural advantage either way but each unit of uncooperative labour invests half of its production capacity in producing evasion technology, while each unit of cooperative labour invests just 10%, then we would have $a_{\mathrm{E/M}}=5$. We could use a parameter $c_e$ to measure the relative production advantage for evasion over general AI production, but because it does the same job as $c_m$, we fix $c_e=c_m$, so that $c_m$$ represent a *broad domain advantage/disadgantage* to evasion or monitoring vs AI development. The second source is the term $c_0 F$, which is passive production of observation difficulty; as automation grows, systems become larger, faster, more alien and more internally automated, and current monitoring methods become less adequate even without any deliberate evasion effort. An assistant that completes a small number of well-scoped tasks is relatively easy to evaluate; an autonomous research organisation is much more difficult. Observability is a soft contest between the stocks: $O_{\mathrm{obs}} \to 1$ when monitoring is ahead, $O_{\mathrm{obs}} \to 0$ when evasion is.
 
 ### Model reference {#model-reference}
 
@@ -205,7 +212,7 @@ F   &= F_c+F_u = q_c+q_h+k_{uu}q_u-\delta\,O_{\mathrm{fix}}\,G_u
 \[
 \begin{aligned}
 F_m &= c_m\left(q_c+\frac{q_h}{a_{\mathrm{AI/H}}}\right)\\
-F_e &= c_0F+a_{\mathrm{e/m}}c_mq_u
+F_e &= c_0F+a_{\mathrm{E/M}}c_mq_u
 \end{aligned}
 \]
 
@@ -226,77 +233,37 @@ A quick list of some idealizations in this model that one might consider relaxin
 
 Your favourite assistant can probably help you to relax any of these — but making good choices about how you relax them and understanding the resulting model is harder, which is the reason we don't do it here.
 
-## The basin picture: where can the system settle?
-
-The model has a transient initial phase, while human labour is still large and while monitoring and evasion stocks are adjusting, but its long-run behaviour is relatively simple. Since $q_h'=-q_h$, human labour eventually becomes negligible relative to AI labour. In the long run we can set $q_h\approx 0$ and ask where the remaining dynamics settle.
-
-The important qualitative question is whether there is a stable cooperative-side regime, a stable uncooperative-dominant regime, or both. When both exist, the model has a basin boundary: starting on one side leads back toward low $q_u$, while starting on the other leads toward uncooperative dominance. In that case initial conditions matter. When only one stable regime exists, initial conditions affect the path and timing, but not the eventual destination, at least within the model's validity envelope.
-
-The equilibrium calculation reduces the basin picture to two conditions.
-
-**Condition 1: does suppression create a contained attractor?** With positive leakage, $q_u=0$ cannot be stable: some uncooperative inflow always survives, so the share rises from an initial condition of zero. Containment instead requires the long-run drift in $q_u$ to turn negative at some positive share. Intuitively, suppression of established uncooperative labour, plus interception of new leakage, must beat self-reproduction and the leakage that gets through. The [appendix](#appendix-basin-conditions) gives the exact one-dimensional test. Across the parameter ranges we simulate, numerical search finds either a single critical fix rate $\rho^{\ast}$—above which a contained attractor exists—or no finite threshold at all.
-
-**Condition 2: is uncooperative dominance stable?** Near $q_u=1$, the cooperative minority produces a small amount of new monitoring and, when $\delta<1$, fixed uncooperative work is redirected back into the cooperative pool. As we have explained, we created this model to examine potential uncooperative takeover from an initially cooperative-dominant position, and not whether an uncooperative dominant position can be rescued. Thus while this condition is required for uncooperative majorities to be stable, it's a technical feature of how the model works in a regime where it isn't suited for prediction. At central estimates, this condition is approximately $k_{uu}+k_{cu}>1.08$.
-
-- If Conditions 1 and 2 both hold, the model is bistable: a contained endemic attractor coexists with a stable uncooperative endpoint, separated by an unstable fixed point.
-- If Condition 1 fails but Condition 2 holds, uncooperative dominance is the only stable outcome.
-- If Condition 2 fails, the all-uncooperative endpoint is unstable and the system has a single interior attractor. This is not automatically good news: depending on parameters, that attractor can sit anywhere from a few percent uncooperative to a large uncooperative majority being continuously caught, suppressed and recycled. What matters is the attractor's *location*, not just its existence.
-
 ## The default path
 
 What does the model predict if we run it forward from today's conditions, with no change beyond business as usual? To answer this, we need to figure out which parameters match today's conditions, and this is far from a mature science. In *this* section we discuss the consequences of business-as-usual and variations - in th following we explain our [parameter calibration choices](#named-calibrations). The following is based on the central esimates from those calibrations.
 
-At the central calibration the long-run outcome is **contained but endemic**: a cooperative-side attractor exists (conditions 1 above hold), and the uncooperative share settles there rather than running to dominance. However, the endemic rate is rather high at 21%; we don't try to assess what levels of uncooperative behaviour would be safe here, but 21% is plausibly above safe level. In addition, there the central estimate sits inside the controlled region by a narrow margin (see the [crux levers](#what-single-change-would-rescue-the-central-path) below).
+At the central calibration the long-run outcome is a **high-risk trajectory**: the uncooperative pool settles at ≈21% of total AI output. A cooperative-side attractor does exist — the share settles rather than running all the way to dominance — but "an attractor exists" is the wrong thing to be reassured by, because it settles well *above* any plausible safe level. We treat $q_u > 10\\%$ as the marker of a high-risk trajectory throughout (a judgement call, not a model output, discussed below), and 21% is more than twice that line. The central estimate also sits inside even this weak controlled region by only a narrow margin (see the [crux levers](#what-single-change-would-rescue-the-central-path) below).
 
-{{<figure src="/images/blog/dynamical-models/default-path.png" width="100%" align="center" caption="The default path: contained but endemic (central estimate, ρ=1.27, Ω=0.5, δ=0.7, γ=1.75). Left: the true uncooperative share q_u (solid) against the contemporaneously observed rate O_obs·q_u (dashed); q_u holds near 5% through the human era, then climbs and settles at an endemic share ≈0.21, with the observed rate understating the truth by ≈2.5×." />}}
+{{<figure src="/images/blog/dynamical-models/default-path.png" width="100%" align="center" caption="The default path: a high-risk trajectory (central estimate, ρ=1.27, Ω=0.5, δ=0.7, γ=1.75). Left: the true uncooperative share q_u (solid) against the contemporaneously observed rate O_obs·q_u (dashed); q_u holds near 5% through the human era, then climbs across the 10% high-risk line and settles at an endemic share ≈0.21, with the observed rate understating the truth by ≈2.5×." />}}
 
-
-### The long run outcome is relatively insensitive to initial conditions
-
-The model has two phases: initially, AI production is dominated by humans and so the production of uncooperative AI is dominated by human production leakage $k_{hu}$ (it dominates both AI leakage $k_{cu}$ and AI self-propagation $k_{uu}$, which are the other sources of uncooperative AI). In the long run, however, $q_h$ goes to $0$ and the AI production terms $k_{cu}$ and $k_{uu}$ dominate.
-
-Long-run outcomes can depend on the action in the human era; a sufficiently large initial share of uncooperative behaviour can give the uncooperative pool an unassailable lead in the evasion-vs-monitoring race. However, we find that for most parameter settings this phase has little impact on the long-run outcome. The 
-
-While human labour still dominates ($q_h \gg 1$), the uncooperative share is pinned near a level set by the balance between human-era leakage and suppression: new production is mostly human, the fraction of it that leaks past pipeline-level workarounds seeds the pool, and observed misbehaviour is continuously removed. We assume this convergence has already happened and use the same evidence to set the initial uncooeprative share $q_{u,0}$ and the human leakage rate $k_{hu}$. On the central calibration, we have an initial uncooperative share $q_{u,0}=0.05$ and a leakage rate of $k_{hu}=0.062$ (somewhat higher than the resulting share, since the share is the balance between leakage and suppression). Because $q_{u,0}$ is calibrated to this human-era balance, the uncooperative share holds near 5% through the human era — drifting up only gently, to about 6% by the handoff — rather than dipping. Observability holds nearly flat at 0.5 through the human era.
-
-We did not find that the initial conditions mattered much for the long run outcomes. Sweeping the initial uncooperative share (but not the leakage parameters) from 0.1% to 99% did not change the long-run outcome: the human era relaxes $q_u$ back toward the $k_{hu}$-anchored level before AI labour dominates. A run started at $q_{u,0} = 30\\%$, for instance, is back to roughly 13% by handoff and within four percentage points of the central path by ~5.8 doublings; one started at 0.1% converges from below on the same schedule. Initial conditions are overwritten; what the human era hands forward is its *leakage rate*, not its starting share.
 
 ### The handoff: parity is not a major event
 
 After about 2.3 doublings ($\sigma = \ln q_{h,0} \approx 1.6$) — a bit over a year at current doubling estimates — AI labour passes human labour. In the model, this date carries no particular significance - no variable kinks, peaks or changes regime. That is partly by construction (the dynamics are smooth), but there is also no obvious reason any variables should be discontinuous or kinked at this point. Important dynamics that determine the eventual outcome are in operation before this point, and continue after it. A policy stance objective of arriving at some discrete point "in good shape" is not supported; we need to aim to build systems that endure and self-repair throughout the substantial changes wrought by the AI revolution.
 
-### Long run oucomes
-
-
 
 ### What single change would rescue the central path? {#what-single-change-would-rescue-the-central-path}
 
-<!-- STALE @rho=1.27: recompute — central is now ENDEMIC q_u*~0.21 (margin >1x), NOT takeover. See _scratch/review/EXEC-PACKAGE.md -->
-Since the central path now ends in takeover, it is worth asking what one parameter change would move its default outcome to something comfortably good. *Basin existence* is the wrong target on its own — when the basin first appears its attractor sits near 58% uncooperative, and the attractor climbs continuously as the existence margin shrinks — so we report two numbers per lever: where the basin re-appears, and where the attractor *location* becomes acceptable. As a provisional standard, call an outcome good if the attractor sits below $q_u^{\ast} = 0.1$, i.e. cooperative dominance of order 10:1; this threshold is a judgement call, not a model output, and readers should substitute their own.
+Since the central path is a high-risk trajectory — $q_u$ settles at ≈21% — it is worth asking what one parameter changes could improve the trajectory. *Purely* changing human inputs (that is, the initial uncooperative share $q_{u,0}$, human workforce leakage $k_{hu}$, and human/AI advantage at monitoring $a_{\mathrm{AI/H}}$) does not keep the trajectory in the safe range; whatever happens initially, it subsequently converges to the same long-run trajectory. 
 
-<!-- STALE @rho=1.27: recompute — central is now ENDEMIC q_u*~0.21 (margin >1x), NOT takeover. See _scratch/review/EXEC-PACKAGE.md -->
-{{<figure src="/images/blog/dynamical-models/default-path-rescue-levers.png" width="100%" align="center" caption="Attractor location under single-lever changes from the central default (vertical dashed line — the default itself sits inside the takeover region, so it has no attractor to mark). Red shading: no attractor — takeover. Dashed horizontal line: the provisional 'good outcome' threshold q_u* = 0.1. Every rescue is a multi-fold change: leakage k_cu ≤ 0.016 (3.9× below default), fix rate ℓ ≥ 0.76 (3.8× central), observability O* ≥ 0.88 at ℓ_k = 1 (impossible at ℓ_k = 0.5: floor 14% at O* = 1); the mechanism mix δ cannot reach it (best 45% at δ = 0, takeover for δ ≳ 0.4). Note the attractor sitting at ~0.58 where the basin first appears as ℓ rises through 0.312: existence margins overstate safety." />}}
+First, we consider **uncertainty-driven** rescues: trajectories that are safer not because anyone acted differently but because the world turns out to be eaiser to manage than our central estimate. Three such draws could bring the uncooperative share below 10% — *AI* leakage $k_{cu}$ around half our estimate, an inherent growth disadvantage for uncooperative AI ($k_{uu}<0.72$), or a natural advantage for monitoring over evasion ($a_{\mathrm{E/M}}<0.4$). We consider $k_{cu}$ and $k_{uu}$ variation to be mainly uncertainty driven rather than policy driven, because interventions against these are mostly captured by monitoring $m$ and suppression $\rho$. Natural advantages for monitoring meanwhile cash out in the same way as additional effort - getting 50% more monitoring for your investment because it turns out monitoring is relatively easy has the same impact as investing 50% more into it.
 
-<!-- REVIEW (new filter+γ crux figures, 2026-06-18; these are the scenario / good-vs-bad spine for this section — placement, ordering, and whether they replace the rescue-levers figure above are all provisional; captions are DRAFTS): -->
-{{<figure src="/images/blog/dynamical-models/crux-leakage.png" width="100%" align="center" caption="DRAFT — Crux 1: alignment leakage k_cu (good 0.03 / central 0.062 / bad 0.12; other parameters, including k_hu, held central). Left: observed rate O_obs·q_u; right: true share q_u. x: A/H₀ (log)." />}}
+{{<figure src="/images/blog/dynamical-models/crux-leakage.png" width="100%" align="center" caption="Trajectories under different leakage assumptions. $k_{cu}<0.03$, holding other parameters constant, is sufficient to keep uncooperative labour lower than 10% in the long run. Our leakage estimates, especially leakage from AI-driven AI development, are very uncertain and this is well within our range of plausible estimates." />}}
 
-{{<figure src="/images/blog/dynamical-models/crux-growth.png" width="100%" align="center" caption="DRAFT — Crux 2: uncooperative growth advantage k_uu (good 0.8 / central 1.0 / bad 1.2). A 20% edge goes silently to takeover and is nearly indistinguishable from the contained case in the observed rate. Left: observed; right: truth." />}}
+{{<figure src="/images/blog/dynamical-models/crux-growth.png" width="100%" align="center" caption="Trajectories under different growth assumptions. $k_{uu}<0.7$ is required to keep uncooperative labour under 10% in the long run. While we don't have strong empirical anchors for self-propagation, we also don't see strong reasons to expect uncooperative labour to be so significantly disadvantaged vs cooperative labour given that active suppression efforts are already being captured elsewhere." />}}
 
-{{<figure src="/images/blog/dynamical-models/crux-domain.png" width="100%" align="center" caption="DRAFT — Crux 3: the domain / offense–defense balance (evasion productivity a_E/M and passive opacity c₀ moved together; defense-favoured 2× / central / offense-favoured 2×). Left: observed; right: truth." />}}
+{{<figure src="/images/blog/dynamical-models/crux-domain.png" width="100%" align="center" caption="A monitoring advantage of about 2.5x over evasion is enough to suppress uncooperative labour below 10%. Again, we don't see a strong reason to expect monitoring advantage." />}}
 
-One lever at a time, holding everything else at the central default ($k = 0.062$, $\ell = 0.2$, $\ell_k = 1$, $\delta = 0.7$; the $\ell_k = 0.5$ figures, at that case's own identity value $k = 0.042$, in parentheses):
+Next, let's consider **intervention-driven** rescues: a better trajectory is realised because, while the parameters are correctly estimated, enough extra is invested in monitoring or suppression to maintain an uncooperative share below 10%. For monitoring vs evasion, the conclusion is exactly the same as in the uncertainty-driven case: investing 2.5x more into monitoring (relative to the total investment in AI development) is enough to maintain uncooperative labour below 10%. We have the same result because the intervention controls the same parameters ($a_{\mathrm{E/M}}$ plus $c_0$) as natural advantages. For suppression, we find that a 4x increase in suppression rate is enough to keep the uncooperative share below 10%.
 
-- **Leakage $k_{cu}$ (alignment training).** The basin re-appears at $k_{cu} \le 0.039$ (0.037), and reaching $q_u^{\ast} \le 0.1$ needs $k_{cu} \lesssim 0.016$ (0.012) — a 3.9× (3.6×) reduction from the default. Producing AI development labour that leaks less is the rescue lever that attacks the problem at its source; and this row again says that *finding out* the true reproduction-relevant rate is worth a great deal.
-- **Suppression $\ell$ (the fix rate).** The basin re-appears at $\ell \ge 0.31$ (0.22), but a good attractor needs $\ell \gtrsim 0.76$ (0.70) — about 3.8× (3.5×) the central 0.2, far above the nominal range 0.1–0.25 supported by the fixed-harness evidence, though inside the wider sweep we report sensitivities over. Acting much more strongly on *observed* misbehaviour — faster correction loops, deployment gates, control-style protocols — could do it alone, but this is no longer a modest extension of current practice; it is a several-fold change.
-- **Long-run observability $O^{\ast}$ (interpretability and monitoring).** Whether monitoring alone can rescue the central path depends on the interception efficacy — the dial moves both the stock-suppression and the inflow-interception channels, and the second is gated by $\ell_k$. At $\ell_k = 1$ (perfect interception of covered inflow), high observability is decisive: a dial of $0.88$ or above reaches the good standard, and $q_u^{\ast} \to 0$ as the dial approaches 1, because seeding is then almost fully intercepted at production. At $\ell_k = 0.5$, monitoring alone **cannot reach the good standard at any dial value**: half the covered leak gets through no matter how well you see, leaving a floor of $q_u^{\ast} \approx 0.14$ even at perfect observability. The monitoring-rescue question, in other words, is really a question about $\ell_k$ — about whether pipeline workarounds can intercept essentially all of the misbehaviour they cover — and $\ell_k$ is the one parameter here with no empirical anchor at all.
-- **Destruction fraction $\delta$ (the suppression-mechanism mix).** Cannot do it, and its direction may be counterintuitive: at the central calibration, any $\delta \gtrsim 0.4$ is takeover ($\gtrsim 0.61$ at $\ell_k = 0.5$), and even full redirection ($\delta = 0$, everything caught retrained into cooperative production) only produces an attractor at $q_u^{\ast} \approx 0.45$ (0.35). More redirection is still better on every margin, but the mechanism mix repositions the system within bad outcomes rather than reaching a good one.
+{{<figure src="/images/blog/dynamical-models/crux-fixrate.png" width="100%" align="center" caption="Trajectories under different suppression effort. A roughly 4x increase in the fix rate $\rho$ keeps uncooperative labour under 10% in the long run, while letting it fall below the central rate tips into full takeover. Suppression alone has sharply diminishing returns — even extremely high rates can only maintain the uncooperative pool at about 8%, because suppression can only fix problems that have first been observed." />}}
 
-One frame ties together the two roles $\ell_k$ plays in these verdicts — worsening the calibrated margin as it rises (the entanglement noted after the verdict table), yet deciding whether monitoring can rescue. What today's evidence pins is *effective* seeding: the leakage that survives the interception gate, $(1-\ell_k O_0)\\,k$. The calibration identity holds that quantity essentially fixed across $\ell_k$ readings — at the central calibration it is ≈ 0.031 whether we credit $\ell_k = 1$ (raw $k = 0.062$, half intercepted at today's $O_0 = 0.5$) or $\ell_k = 0.5$ (raw $k = 0.042$, a quarter intercepted). The two readings describe the same world *today*; what $\ell_k$ sets is how much raw leakage sits in reserve *behind* the gate, and the reserve is revealed whenever observability moves, in either direction. If $O$ falls, seeding rises toward the raw rate — and the high-$\ell_k$ world has half again as much in reserve (0.062 against 0.042), which is why crediting *more* interception efficacy produces the *worse* verdict (margins 0.64× against 0.89×): the identity infers more raw leakage behind the same observed level. If $O$ rises toward 1, seeding falls toward $(1-\ell_k)k$ — zero at $\ell_k = 1$, half the raw leak at $\ell_k = 0.5$ — which is exactly the monitoring-rescue split above. One unanchored parameter, one mechanism, both signs of the verdict-table pattern.
-
-One destination is off the menu entirely: eradication (see the [basin picture](#the-basin-picture-where-can-the-system-settle)). Very strong suppression instead buys a deep endemic floor — for large $\ell$ the attractor falls like $k_{cu}(1+c-\ell_k-c\\,\delta k_{cu})/\ell$, arbitrarily low but never zero, with the residual seeding arriving through novel, not-yet-covered failure modes.
-
-<!-- STALE @rho=1.27: recompute — central is now ENDEMIC q_u*~0.21 (margin >1x), NOT takeover. See _scratch/review/EXEC-PACKAGE.md -->
-The summary shape: at the central rates the system is *past* the basin boundary, not near it, and every rescue is a multi-fold change — at least 3.5× in leakage or the fix rate, or near-perfect monitoring (and that only if interception efficacy is high). What survives, strengthened, is the value-of-information point: the single cheapest way out of the verdict is discovering that the central reading of the evidence is wrong — that today's observed misbehaviour mostly is not reproduction-relevant. The largest returns remain to *knowing* $k_{cu}$, then to lowering it.
+{{<figure src="/images/blog/dynamical-models/crux-monitoring.png" width="100%" align="center" caption="Trajectories under different monitoring effort. About 2.5x more monitoring keeps uncooperative labour under 10% — the same threshold as the natural monitoring advantage above, because effort and natural advantage move the same parameters ($a_{\mathrm{E/M}}$ and $c_0$). Extra effort also speeds the monitoring race against AI growth and raises long-run observability." />}}
 
 
 ### Is there a fire alarm on the bad path?
@@ -602,47 +569,6 @@ This appendix collects the source-by-source evidence behind the parameter judgem
 
 **Timescales.** The aggregate-value proxy is frontier-lab revenue: OpenAI reports annualized recurring revenue of about **USD2B in 2023**, **USD6B in 2024** and **USD20B+ in 2025**, roughly **3.2×/year**, implying a doubling time of about **7.2 months**; OpenAI also reports available compute following a similar curve, from **0.2 GW** to **0.6 GW** to **~1.9 GW** over the same period ([OpenAI, 2026](https://openai.com/index/a-business-that-scales-with-the-value-of-intelligence/)). The technical-capacity proxy is compute multiplied by algorithmic efficiency: Epoch estimates AI compute stock growing **3.4×/year** and pre-training compute efficiency improving **3×/year**, for about **10×/year** combined, or a **3.6-month** doubling; using frontier training compute growth of **5×/year** instead gives about **15×/year**, or a **3.1-month** doubling ([Epoch AI Trends](https://epoch.ai/trends)).
 
-### Appendix: long-run basin conditions {#appendix-basin-conditions}
-
-Set $q_h=0$, write the uncooperative odds as
-
-\[
-r:=\frac{q_u}{1-q_u},
-\]
-
-and abbreviate
-
-\[
-\phi:=\frac{\rho}{1+\rho},\qquad
-c:=\frac{c_0}{c_m},\qquad
-a:=a_{\mathrm{e/m}}.
-\]
-
-For each $r$, let $O_{\mathrm{obs}}^{\ast}(r)$ be the equilibrium observability implied by the monitoring and evasion equations. At that equilibrium, $s^{\ast}=\rho b^{\ast}$ and therefore $O_{\mathrm{fix}}^{\ast}=\phi O_{\mathrm{obs}}^{\ast}$. Comparing the share of new production captured by the uncooperative pool with its current share, and clearing positive denominators, the sign of $q_u'$ is the sign of
-
-\[
-H(r)
-:=
-k_{cu}+r(k_{uu}+k_{cu}-1)
--\phi O_{\mathrm{obs}}^{\ast}(r)(k_{cu}+k_{uu}r)\,[1+(1-\delta)r].
-\]
-
-This single function gives the regime tests used in the main text:
-
-- $H(0)=k_{cu}[1-\phi O_{\mathrm{obs}}^{\ast}(0)]>0$ when $k_{cu}>0$, $c_0>0$ and $\rho<\infty$. Therefore $q_u=0$ is not a fixed point.
-- A contained endemic fixed point exists when $H$ becomes negative for some $r>0$. The first zero is stable in the parameter ranges studied; if $H$ later becomes positive again, the second zero is the basin boundary.
-- As $r\to\infty$,
-
-\[
-\frac{H(r)}{r}
-\longrightarrow
-k_{uu}+k_{cu}-1
--\phi\frac{(1-\delta)k_{uu}}{a+ck_{uu}}.
-\]
-
-The all-uncooperative endpoint is stable exactly when this limit is positive, giving Condition 2. The full-system linearisation gives the same inequality; the lag from documentation to fixing changes convergence rates but not this boundary.
-
-For each parameter set, we evaluate $\min_{r>0}H(r)$ numerically as $\rho$ varies. Across the ranges studied, it either crosses zero once—defining the critical fix rate $\rho^{\ast}$—or never crosses, meaning that no finite fix rate creates a contained attractor. This is a numerical regularity of the explored parameter range, not a general existence or uniqueness theorem. We confirm the resulting attractors with the full dynamical simulation.
 
 ### Appendix: neglect, subversion and more realistic models {#appendix-neglect-subversion}
 
