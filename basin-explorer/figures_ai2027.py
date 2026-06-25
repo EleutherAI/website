@@ -387,6 +387,9 @@ def fig1():
     axQ.axhline(0.5, color=C["fgMuted"], lw=0.8, ls=":", alpha=0.7)
     axQ.text(xmax * 0.92, 0.52, "$q_u=0.5$", ha="right", va="bottom",
              fontsize=8, color=C["fgMuted"])
+    axQ.axhline(0.10, color=C["uncoop"], lw=0.9, ls=":", alpha=0.6)
+    axQ.text(xmax * 0.92, 0.115, "high-risk ($q_u{>}10\\%$)", ha="right",
+             va="bottom", fontsize=7.5, color=C["uncoop"])
     ip = int(np.argmax(obs))
     axQ.annotate("what labs can measure peaks early (~18%), then\n"
                  "falls — even as true uncooperativeness\napproaches dominance",
