@@ -114,99 +114,93 @@ const C = {
 };
 
 // =============================================================================
-// MATH — σ-clock ODE (bounded-gate suppression + growth-pegged passive
-// opacity, v4)
+// MATH — σ-clock ODE (v5: two-stage detect-and-fix b→s, single O_fix gate,
+// growth-pegged passive opacity, turnover rate γ)
 // =============================================================================
 //
-// Observed misbehaviour begets fixes applied to the whole production pipeline,
-// so the accumulated detect-and-fix stock acts twice. It removes established
-// uncooperative labour from the q_u stock at the observability-gated rate ℓO
-// (ℓ = fix rate of known failure modes per σ-unit — a RATE, may exceed 1),
-// and it intercepts the LEAKAGE INFLOW before it enters the pool with bounded
-// efficacy ℓ_k·O (ℓ_k ∈ [0,1] = interception efficacy at production — a
-// FRACTION of the inflow: interception cannot remove more leakage than
-// exists). With the leakage inflow L_k = k_cu(1-Q) + k_hu·η, only the
-// fraction (1 - ℓ_k·O) of leaked effort enters the pool. Of the intercepted
-// flow O·(ℓ_k·L_k + ℓ·Q), fraction δ is destroyed and (1−δ) is redirected
-// into cooperative production. Leakage is therefore not a pure transfer:
-// the destroyed part of intercepted leakage, δO·ℓ_k·L_k, subtracts from G
-// (2–3% of G at the Broad central).
+// Detect-and-fix coverage is split into two stocks: documented-but-unfixed
+// misbehaviour b and fixed misbehaviour s, with the fix rate ρ moving b→s
+// (b' = F_M/G − ρb − b, s' = ρb − s). Evasion e accumulates as before. Two
+// observability quantities follow:
 //
-//   F_c = (1-Q)(1-k_cu) + η(1-k_hu) + (1-δ)·O·(ℓ_k·L_k + ℓ·Q)
-//   F_u = (1-ℓ_k·O)·L_k + (k_uu - ℓO)·Q
-//   G   = F_c + F_u = (1-Q) + η + k_uu·Q - δ·O·(ℓ_k·L_k + ℓ·Q)
+//   O_obs = (b+s)/(b+s+e)   — what monitoring measures
+//   O_fix = s/(b+s+e)       — what actually suppresses (only fixed issues can
+//                             be intercepted/removed). At the b/s
+//                             quasi-steady state O_fix = φ·O_obs, φ = ρ/(1+ρ).
 //
-//   F_M = c_M[(1-Q) + η/a_AI/H]     (detect-and-fix coverage production)
-//   F_E = c_0·G + a_E/M·c_M·Q       (v4: passive opacity is pegged to
-//                                    automation GROWTH — dE_passive = c_0·dA —
-//                                    while active evasion stays a labour share)
+// A SINGLE gate O_fix acts on the whole uncooperative production G_u — both the
+// leakage inflow L_k and the pool's own reproduction k_uu·Q (the v4 split into
+// a removal rate ℓ and a separate interception efficacy ℓ_k is gone):
 //
-//   Q' = F_u/G - Q
-//   η' = -η                         (η here is the blog post's q_h)
-//   m' = F_M/G - m
-//   e' = F_E/G - e = c_0 + a_E/M·c_M·Q/G - e
-//   O  = m^β / (m^β + e^β)
+//   L_k = k_cu(1−Q) + k_hu·η        G_u = L_k + k_uu·Q
+//   F_u = (1−O_fix)·G_u
+//   F_c = (1−Q)(1−k_cu) + η(1−k_hu) + (1−δ)·O_fix·G_u
+//   G   = F_c + F_u = (1−Q) + η + k_uu·Q − δ·O_fix·G_u
 //
-// The v4 change is the one F_E term: every new unit of automation arrives
-// carrying c_0 units of not-yet-covered failure surface, regardless of how
-// much labour produced it. (A production-share spec, e' = (c_0 + a_E/M·c_M·Q)/G
-// − e, would say that producing more AI with less AI labour yields LESS
-// opacity — and it booked a human-era observability subsidy from the large
-// human-era G.) Setting c_0 = 0 reproduces the v3 bounded-gate engine
-// derivative-for-derivative — the recorded regression invariant for this pass
-// (audit V4.1; checked by _scratch/review/scripts/v4/v4-app-regression.js,
-// pinned to the v3 app at 6539bf1). Because ℓ_k ≤ 1 the gated seeding
-// g(0) = k_cu(1−ℓ_k·O*(0)) stays strictly positive (re-proven under v4, V4.5):
-// the v2 "eradication regime" (q_u → 0 at ℓO*(0) ≥ 1) was an artifact of the
-// unbounded gate intercepting more leakage than exists, and is RETRACTED.
-// Derivation: _scratch/review/derivation-audit.md Part A″ (V4.1–V4.14).
-// NOTE: the sharpness exponent β below is unrelated to the old "ℓ_k = βℓ"
-// extension note; that extension is now the explicit ℓ_k parameter.
+//   F_M = c_M[(1−Q) + η/a_AI/H]     (detect-and-fix coverage production)
+//   F_E = c_0·G + a_E/M·c_M·Q       (passive opacity pegged to automation
+//                                    GROWTH — dE_passive = c_0·dA — plus active
+//                                    evasion as a labour share)
+//
+//   Q' = γ(F_u/G − Q)               (γ = turnover rate; only q_u carries it)
+//   η' = −η                         (η here is the blog post's q_h)
+//   b' = F_M/G − ρ·b − b
+//   s' = ρ·b − s
+//   e' = F_E/G − e = c_0 + a_E/M·c_M·Q/G − e
+//   O_obs = (b+s)/(b+s+e)           O_fix = s/(b+s+e)
+//
+// Of the intercepted flow O_fix·G_u, fraction δ is destroyed and (1−δ) is
+// redirected into cooperative production, so the destroyed part δ·O_fix·G_u
+// subtracts from G. γ only rescales how fast the share Q relaxes toward its
+// captured fraction F_u/G; it does NOT move the fixed points (which satisfy
+// F_u/G = Q for any γ), just the transient speed and the observed-rate hump.
+// Because the seeding g(0) = k_cu(1−O_fix*(0)) > 0 whenever k_cu > 0 (novel
+// modes keep O_fix*(0) < 1), there is no eradication regime: very high ρ pushes
+// the endemic attractor down but never to zero. The state vector is
+// [Q, b, s, e, η].
 // =============================================================================
 
-// Observability sharpness is fixed at 1 (soft split O = m/(m+e)); no slider.
-const BETA = 1;
-
-function computeO(m, e, beta) {
-  const mu = Math.max(m, 1e-12);
-  const eps = Math.max(e, 1e-12);
-  const lm = beta * Math.log(mu);
-  const le = beta * Math.log(eps);
-  const mx = Math.max(lm, le);
-  const a = Math.exp(lm - mx);
-  const b = Math.exp(le - mx);
-  return a / (a + b);
+function computeOobs(b, s, e) {
+  const tot = Math.max(Math.max(b, 0) + Math.max(s, 0) + Math.max(e, 0), 1e-12);
+  return (Math.max(b, 0) + Math.max(s, 0)) / tot;
+}
+function computeOfix(b, s, e) {
+  const tot = Math.max(Math.max(b, 0) + Math.max(s, 0) + Math.max(e, 0), 1e-12);
+  return Math.max(s, 0) / tot;
 }
 
 function makeDeriv(p) {
   return (state) => {
-    const [Q, m, e, eta] = state;
-    const O = computeO(m, e, BETA);
+    const [Q, b, s, e, eta] = state;
+    const tot = Math.max(Math.max(b, 0) + Math.max(s, 0) + Math.max(e, 0), 1e-12);
+    const Ofix = Math.max(s, 0) / tot;
     const Lk = p.k_cu * (1 - Q) + p.k_hu * eta; // leakage inflow into F_u
-    const I = p.lk * Lk + p.l * Q;              // intercepted flow (per unit O)
-    const Fc = (1 - Q) * (1 - p.k_cu) + eta * (1 - p.k_hu) + (1 - p.delta) * O * I;
-    const Fu = (1 - p.lk * O) * Lk + (p.k_uu - p.l * O) * Q;
-    const G = Fc + Fu;  // = (1-Q) + η + k_uu·Q - δ·O·I
+    const Gu = Lk + p.k_uu * Q;                 // uncoop production before the gate
+    const Fc = (1 - Q) * (1 - p.k_cu) + eta * (1 - p.k_hu) + (1 - p.delta) * Ofix * Gu;
+    const Fu = (1 - Ofix) * Gu;
+    const G = Fc + Fu;  // = (1−Q) + η + k_uu·Q − δ·O_fix·G_u
     if (G <= 1e-10) {
       // Out of validity envelope (progress clock broken)
-      return [0, 0, 0, -eta];
+      return [0, 0, 0, 0, -eta];
     }
     const FM = p.c_M * ((1 - Q) + eta / p.a_ai_h);
     const FEact = p.a_e_m * p.c_M * Q;  // active evasion (labour share)
     return [
-      Fu / G - Q,
-      FM / G - m,
-      p.c_0 + FEact / G - e,  // v4 growth peg: dE_passive = c_0·dA
+      p.gamma * (Fu / G - Q),
+      FM / G - p.rho * b - b,
+      p.rho * b - s,
+      p.c_0 + FEact / G - e,  // growth peg: dE_passive = c_0·dA
       -eta,
     ];
   };
 }
 
 function computeG(state, p) {
-  const [Q, m, e, eta] = state;
-  const O = computeO(m, e, BETA);
-  const I = p.lk * (p.k_cu * (1 - Q) + p.k_hu * eta) + p.l * Q;
-  return (1 - Q) + eta + p.k_uu * Q - p.delta * O * I;
+  const [Q, b, s, e, eta] = state;
+  const tot = Math.max(Math.max(b, 0) + Math.max(s, 0) + Math.max(e, 0), 1e-12);
+  const Ofix = Math.max(s, 0) / tot;
+  const Gu = p.k_cu * (1 - Q) + p.k_hu * eta + p.k_uu * Q;
+  return (1 - Q) + eta + p.k_uu * Q - p.delta * Ofix * Gu;
 }
 
 function rk4Step(state, dt, deriv) {
@@ -220,45 +214,46 @@ function rk4Step(state, dt, deriv) {
   return state.map((v, i) => v + (dt / 6) * (k1[i] + 2 * k2[i] + 2 * k3[i] + k4[i]));
 }
 
-// Long-run observability at odds r = Q/(1−Q) (v4 growth peg, audit A″ V4.2–3).
-// The (m, e) QSS no longer cancels total production F:
-//   m* = c_M·q_c/F,   e* = c_0 + a_E/M·c_M·q_u/F,
-// and F is itself linear in O, so the consistency condition 1/O = 1 + e*/m*
-// clears to a per-r QUADRATIC in O:
-//   h(O) = cδP·O² − D·O + 1 = 0,
-//   P = ℓ_k·k_cu + ℓ·r,  D = 1 + c + (a_E/M + c·k_uu)·r,  c = c_0/c_M.
-// O*(r) is the MINUS root, written in the numerically stable form
-// 2/(D + √disc) — exact 1/D limit as cδP → 0 (δ = 0 or c_0 = 0; at k_uu = 1
-// this is the v3 closed form). Unlike v2/v3, O* now depends on δ, ℓ and ℓ_k:
-// suppression slows growth per unit labour, and growth is what brings passive
-// opacity, so dO*/dℓ > 0 and dO*/dδ > 0 (V4.9). disc < 0 is the
-// observability-sector validity-envelope exit (deep suppression: the QSS has
-// no interior equilibrium) — return NaN and let callers skip.
-function ostarLongRun(r, p) {
+// Long-run OBSERVED observability O_obs* at odds r = Q/(1−Q) (v5; mirrors
+// _scratch/review/verify-v5/verify_v5.py). The (b,s,e) QSS gives the suppressing
+// fraction O_fix = φ·O_obs (φ = ρ/(1+ρ)), and the consistency condition for
+// O_obs clears to a per-r QUADRATIC:
+//   c·δ·φ·P5·O² − D·O + 1 = 0,
+//   P5 = k_cu + r,  D = 1 + c + (a_E/M + c·k_uu)·r,  c = c_0/c_M.
+// O_obs*(r) is the MINUS root 2/(D + √disc) — exact 1/D limit as cδφP5 → 0
+// (δ = 0 or c_0 = 0). disc < 0 is the observability-sector validity-envelope
+// exit (deep suppression: the QSS has no interior equilibrium) — return NaN.
+function phiOf(rho) { return rho / (1 + rho); }
+
+function OobsStar(r, p) {
   const c = p.c_0 / Math.max(p.c_M, 1e-12);
-  const P = p.lk * p.k_cu + p.l * r;
+  const phi = phiOf(p.rho);
+  const P5 = p.k_cu + r;
   const D = 1 + c + (p.a_e_m + c * p.k_uu) * r;
-  const cdP = c * p.delta * P;
+  const cdP = c * p.delta * phi * P5;
+  if (cdP < 1e-14) return 1 / D;
   const disc = D * D - 4 * cdP;
   if (disc < 0) return NaN;
   return 2 / (D + Math.sqrt(disc));
 }
 
-// Sign function for q_u' on the long-run slow manifold (η → 0, m/e at QSS):
-//   g(r) = k_cu + b·r − O*(r)·(ℓ_k·k_cu + ℓ·r)(1 + (1−δ)r),  b = k_cu + k_uu − 1.
-// Same form as v3 given O; only O*(r) changed (implicit, above). The seeding
-// is gated but bounded: g(0) = k_cu·(1 − ℓ_k·O*(0)) > 0 for ℓ_k ≤ 1, since
-// O*(0) < 1 strictly whenever c₀ > 0 (h(1)|_{r=0} = c(δℓ_k·k_cu − 1) < 0 —
-// re-proven under v4, audit V4.5). Substituting g = 0 into h(O) = 0 makes the
-// exact fixed points a CUBIC in r, Φ(r) = cδN² − D·N·S + P·S² (N = k_cu + b·r,
-// S = 1 + (1−δ)r, valid on the minus-root branch, V4.4); the app root-finds
-// g directly.
+// Sign function for q_u' on the long-run slow manifold (η → 0, b/s/e at QSS):
+//   g(r) = N − φ·O_obs*(r)·P5·S5,
+//   N = k_cu + b·r,  b = k_cu + k_uu − 1,  P5 = k_cu + r,  S5 = 1 + (1−δ)r.
+// sign(q_u') = sign(g); roots of g are the interior fixed points. γ does not
+// enter (it cancels: fixed points satisfy F_u/G = q_u for any γ). The seeding
+// g(0) = k_cu(1 − φ·O_obs*(0)) = k_cu(1 − O_fix*(0)) > 0 for k_cu > 0, since
+// O_fix*(0) < 1 strictly whenever c₀ > 0 — no eradication regime.
 function gLongRun(r, p) {
   if (r < 0) return NaN;
-  const O = ostarLongRun(r, p);
+  const O = OobsStar(r, p);
   if (!Number.isFinite(O)) return NaN;
+  const phi = phiOf(p.rho);
   const b = p.k_cu + p.k_uu - 1;
-  return p.k_cu + b * r - O * (p.lk * p.k_cu + p.l * r) * (1 + (1 - p.delta) * r);
+  const N = p.k_cu + b * r;
+  const P5 = p.k_cu + r;
+  const S5 = 1 + (1 - p.delta) * r;
+  return N - phi * O * P5 * S5;
 }
 
 // Long-run projection: all positive roots of g (log-grid sign scan +
@@ -328,28 +323,20 @@ function findSteadyStatesR(p) {
 function rToQ(r) { return r / (1 + r); }
 
 // =============================================================================
-// NUMERIC BASIN-EXISTENCE BOUNDARY (v4 growth peg; implicit O*)
+// NUMERIC BASIN-EXISTENCE BOUNDARY (v5; implicit O_obs*)
 // =============================================================================
-// Under v4 the fixed points solve a cubic with an implicit O*(r), and the v3
-// closed-form threshold chain (quadratic A/B/C, two-branch ℓ*O*₀ rules) is
-// SUPERSEDED (audit A″ V4.8). The boundary is computed numerically instead:
-// since g(0) > 0 always, an interior fixed point exists iff g dips to ≤ 0
-// somewhere, so the margin function is −min g over the cooperative-side
-// validity interval — positive exactly when a cooperative-side basin exists,
-// with the basin appearance/disappearance (saddle-node) as its zero level
-// set. Existence is monotone in ℓ with a
-// unique threshold ℓ* (dO*/dℓ > 0 and ∂g/∂ℓ < 0 pointwise, V4.8), found by
-// bisection. One closed form survives, used as a cross-check in the
-// regression suite: at δ = 1, k_uu = 1, a_E/M = 1,
-//   ℓ*(δ=1) = 2k_cu[(T − ck_cu) + √((T − ck_cu)(T − ck_cu − ℓ_k))],  T = 1+c
-// — the v3 form with T discounted by the F-feedback term ck_cu. In extreme
-// corners (δ·k_cu beyond the V4.6 validity bound, e.g. AI-2027 at δ = 1 under
-// the dial pin) NO finite ℓ produces a basin: min g stays positive at any fix
-// rate, and lstar() returns Infinity.
-// Cross-checked against _scratch/review/scripts/v4/engine_v4.py.
+// The fixed points solve g(r) = 0 with an implicit O_obs*(r), so the boundary is
+// computed numerically: since g(0) > 0 whenever k_cu > 0, an interior fixed
+// point exists iff g dips to ≤ 0 somewhere, so the margin function is −min g
+// over the cooperative-side validity interval — positive exactly when a
+// cooperative-side basin exists, with the saddle-node appearance/disappearance
+// as its zero level set. Existence is monotone in the fix rate ρ, with a unique
+// threshold ρ* found by bisection (rhostar()). In extreme corners (e.g. AI-2027
+// at δ = 1 under the dial pin) no finite ρ produces a basin and rhostar()
+// returns Infinity. Cross-checked against _scratch/review/verify-v5/verify_v5.py.
 const BASIN_BOUNDARY = {
-  id: 'growthPegImplicitOstar',
-  label: 'numeric basin boundary (v4 ℓ*)',
+  id: 'v5ImplicitOobsStar',
+  label: 'numeric basin boundary (v5 ρ*)',
   // −min_r g(r) over the COOPERATIVE-SIDE defined interval: the contiguous
   // stretch of defined O* starting at r = 0 (disc is quadratic in r, so the
   // validity envelope opens at most one NaN gap; the cooperative-side basin
@@ -394,13 +381,13 @@ const BASIN_BOUNDARY = {
     }
     return -Math.min(best, f1, f2);
   },
-  // Critical fix rate ℓ* above which a long-run interior fixed point exists
-  // (bisection on the monotone existence; Infinity when no finite ℓ works).
-  lstar(odeP, lHi = 400) {
-    const exists = (l) => this.margin({ ...odeP, l }) > 0;
-    if (!exists(lHi)) return Infinity;
+  // Critical fix rate ρ* above which a long-run interior fixed point exists
+  // (bisection on the monotone existence; Infinity when no finite ρ works).
+  rhostar(odeP, rhoHi = 400) {
+    const exists = (rho) => this.margin({ ...odeP, rho }) > 0;
+    if (!exists(rhoHi)) return Infinity;
     if (exists(0)) return 0;
-    let lo = 0, hi = lHi;
+    let lo = 0, hi = rhoHi;
     for (let it = 0; it < 60; it++) {
       const mid = 0.5 * (lo + hi);
       if (exists(mid)) hi = mid;
@@ -415,41 +402,37 @@ function classifyBasin(p) {
   const qRoots = rRoots.map(rToQ);
   // When k_cu = 0 there is no leakage seeding, so q = 0 is an exact cooperative
   // fixed point (g(0) = k_cu = 0). The interior root-finder skips this boundary
-  // root, so add it explicitly when it is stable: ℓ·O*(0) ≥ k_uu − 1. Without
-  // this, k_cu = 0 is misreported as "escape" even though trajectories
-  // converge to the cooperative state. O*(0) is now the v4 implicit root
-  // (under the dial pin it equals the O* slider exactly); at k_cu = 0 the
-  // O-quadratic degenerates (P(0) = 0) and O*(0) = 1/(1 + c_0/c_M) — the
-  // stability condition is still δ- and ℓ_k-free there (audit V4.5/V4.9:
-  // both gated leakage terms vanish identically at k_cu = 0, q_h = 0).
-  const Ostar0 = ostarLongRun(0, p);
+  // root, so add it explicitly when it is stable. Near q = 0 with k_cu = 0,
+  // q_u' ∝ ((1 − O_fix*(0))·k_uu − 1)·q_u, so q = 0 is stable iff
+  // k_uu·(1 − O_fix*(0)) ≤ 1, where O_fix*(0) = φ·O_obs*(0). (At k_cu = 0 the
+  // O-quadratic degenerates and O_obs*(0) = 1/(1 + c_0/c_M).)
+  const Oobs0 = OobsStar(0, p);
+  const Ofix0 = phiOf(p.rho) * Oobs0;
   if (p.k_cu <= 1e-9) {
-    if (p.l * Ostar0 >= p.k_uu - 1) qRoots.unshift(0);
+    if (p.k_uu * (1 - Ofix0) <= 1) qRoots.unshift(0);
   }
-  // Badge readout: the k_cu → 0 reduction of Condition 1 is ℓ·O*(0) ≥ k_uu − 1.
-  // The full v4 C1 has no closed bracket (it is g'(0) < 0 with the implicit
-  // O*'(0), audit V4.10); at the central calibrations the effective bracket
-  // is ≈ 0.79 (ℓ_k = 1) / 0.93 (ℓ_k = 0.5).
-  // For ℓ_k ≤ 1 the seeding g(0) = k_cu(1−ℓ_k·O*(0)) is strictly positive, so
-  // the smallest positive root is always a downward (stable) crossing; the v2
-  // eradication branch stays retracted (audit V4.5).
-  const lOstar0 = p.l * Ostar0;
-  const kuuExcess = p.k_uu - 1;
-  if (qRoots.length === 0) return { kind: 'escape', qRoots: [], qStable: null, qSaddle: null, lOstar0, kuuExcess };
-  if (qRoots.length === 1) return { kind: 'monostable', qRoots, qStable: qRoots[0], qSaddle: null, lOstar0, kuuExcess };
-  return { kind: 'bistable', qRoots, qStable: qRoots[0], qSaddle: qRoots[1], lOstar0, kuuExcess };
+  // The seeding g(0) = k_cu(1 − O_fix*(0)) is strictly positive for k_cu > 0
+  // (O_fix*(0) < 1 while c₀ > 0), so the smallest positive root is always a
+  // downward (stable) crossing — no eradication regime.
+  if (qRoots.length === 0) return { kind: 'escape', qRoots: [], qStable: null, qSaddle: null, Oobs0, Ofix0 };
+  if (qRoots.length === 1) return { kind: 'monostable', qRoots, qStable: qRoots[0], qSaddle: null, Oobs0, Ofix0 };
+  return { kind: 'bistable', qRoots, qStable: qRoots[0], qSaddle: qRoots[1], Oobs0, Ofix0 };
 }
 
-// σ-time simulation. ic = [Q₀, m₀, e₀, η₀].
+// σ-time simulation. ic = [Q₀, b₀, s₀, e₀, η₀]. Each sample carries the observed
+// observability O (= O_obs) and the suppressing fraction Ofix (= O_fix).
 function simulate(p, ic, sigmaMax, dtBase = 0.005, maxSamples = 500) {
   const deriv = makeDeriv(p);
   const dt = dtBase;
   const steps = Math.max(1, Math.ceil(sigmaMax / dt));
   const sampleEvery = Math.max(1, Math.floor(steps / maxSamples));
   let state = [...ic];
-  const O0 = computeO(state[1], state[2], BETA);
-  const G0 = computeG(state, p);
-  const samples = [{ sigma: 0, state: [...state], O: O0, G: G0 }];
+  const sampleOf = (sigma, st, G) => ({
+    sigma, state: [...st], G,
+    O: computeOobs(st[1], st[2], st[3]),
+    Ofix: computeOfix(st[1], st[2], st[3]),
+  });
+  const samples = [sampleOf(0, state, computeG(state, p))];
   let escaped = false;
   let escapeReason = null;
   for (let i = 1; i <= steps; i++) {
@@ -457,8 +440,7 @@ function simulate(p, ic, sigmaMax, dtBase = 0.005, maxSamples = 500) {
     if (Gnow <= 1e-6) {
       escaped = true;
       escapeReason = 'G≤0 (outside validity)';
-      const O = computeO(state[1], state[2], p.beta);
-      samples.push({ sigma: i * dt, state: [...state], O, G: Gnow });
+      samples.push(sampleOf(i * dt, state, Gnow));
       break;
     }
     state = rk4Step(state, dt, deriv);
@@ -466,15 +448,14 @@ function simulate(p, ic, sigmaMax, dtBase = 0.005, maxSamples = 500) {
     state[1] = Math.max(state[1], 0);
     state[2] = Math.max(state[2], 0);
     state[3] = Math.max(state[3], 0);
+    state[4] = Math.max(state[4], 0);
     if (state.some(v => !Number.isFinite(v))) {
       escaped = true; escapeReason = 'numerical';
       break;
     }
     if (state[0] > 0.999) escaped = true;
     if (i % sampleEvery === 0 || i === steps || escaped) {
-      const O = computeO(state[1], state[2], p.beta);
-      const G = computeG(state, p);
-      samples.push({ sigma: i * dt, state: [...state], O, G });
+      samples.push(sampleOf(i * dt, state, computeG(state, p)));
       if (escaped) break;
     }
   }
@@ -491,21 +472,21 @@ const PARAM_DEFS = {
     symbol: 'T_auto',
     unit: 'years',
     handle: 'Present-day calendar doubling time of total automation A.',
-    est: 'Blog ≈ 3–7 months (OpenAI revenue ~7 mo; Epoch compute×efficiency ~3.6 mo).',
+    est: 'Blog ≈ 3–7 months (OpenAI revenue ~7 mo; Epoch compute×efficiency ~3.6 mo); central 5 mo.',
     detail: 'Only scales the calendar-years axis — the dynamics run on the σ-clock, and under the main calibration it no longer enters the rates.',
     math: [String.raw`\text{years} = \sigma \cdot T_{auto}/\ln 2`],
     role: 'Calendar↔σ conversion, exact at σ=0; later approximate since the productivity multiplier Λ is deliberately unmodelled.',
-    default: 0.5, min: 0.1, max: 5, step: 0.05,
+    default: 5 / 12, min: 0.1, max: 5, step: 0.05,
     tier: 'time',
   },
   Ostar: {
     label: 'Best-case observability',
     symbol: 'O*',
-    handle: 'If the uncoop share stays low, where does observability settle in the long run?',
-    est: 'Central ≈ 50% (blog sweeps O(0) ∈ 0.3–0.9; the pin back-solves c₀/c_M ≈ 1.02 from O* = ½ at Broad).',
-    detail: 'Folds a messy economic judgement — the risk of under-investing in observability versus the cost of pushing it higher — into one long-run level. Splitting it into pieces would not make it easier to estimate, so the model asks for the result directly. The dial is enforced at the long-run rare-uncooperative point (q_h = 0, q_u → 0): under v4 the long-run O* solves a quadratic there, so the pinned c₀/c_M depends (weakly) on δ, ℓ_k and k_cu and is re-solved per parameter cell. "Best case" because it holds while uncoop is rare; true long-run observability falls as q_u grows.',
-    math: [String.raw`c\,\delta\,\ell_k k_{cu}\,O^{*2} - (1+c)\,O^* + 1 = 0`, String.raw`c = \frac{c_0}{c_M} = \frac{1-O^*}{O^*\,(1-\delta\,\ell_k k_{cu}\,O^*)}`],
-    role: 'Sets passive opacity c₀ relative to monitoring c_M (per-cell pin; ℓ-free). c_M itself is pegged to the automation scale, controlling only how fast O relaxes from O(0).',
+    handle: 'If the uncoop share stays low, where does observed observability settle in the long run?',
+    est: 'Central ≈ 50% (blog sweeps O(0) ∈ 0.3–0.9; the dial back-solves c₀/c_M ≈ 1.0–1.03 from O_obs* = ½ at the central cell).',
+    detail: 'Folds a messy economic judgement — the risk of under-investing in observability versus the cost of pushing it higher — into one long-run level. The dial is enforced on the OBSERVED fraction O_obs at the long-run rare-uncooperative point (q_h = 0, q_u → 0), where the long-run O_obs solves a quadratic, so the pinned c₀/c_M depends (weakly) on δ, ρ and k_cu and is re-solved per parameter cell. "Best case" because it holds while uncoop is rare; true long-run observability falls as q_u grows.',
+    math: [String.raw`c\,\delta\,\varphi\,k_{cu}\,O_{\mathrm{obs}}^{*2} - (1+c)\,O_{\mathrm{obs}}^* + 1 = 0`, String.raw`c = \frac{c_0}{c_M} = \frac{1-O^*}{O^*\,(1-\delta\,\varphi\,k_{cu}\,O^*)},\quad \varphi=\tfrac{\rho}{1+\rho}`],
+    role: 'Sets passive opacity c₀ relative to monitoring c_M (per-cell pin). c_M itself is pegged to the automation scale, controlling only how fast O relaxes from O(0).',
     related: ['R0', 'a_e_m', 'a_ai_h'],
     default: 0.5, min: 0.05, max: 0.95, step: 0.01,
     tier: 'time',
@@ -516,9 +497,9 @@ const PARAM_DEFS = {
     handle: 'For equal effort, how much uncoop AI is produced vs cooperative AI?',
     est: 'Blog anchor = 1 (reproduction at par; upward pressure over the horizon).',
     detail: 'Uncoop self-production rate, relative to cooperative self-production (normalised to 1). > 1 is strongly self-reinforcing.',
-    math: [String.raw`F_u \ni (k_{uu} - \ell O)\,q_u`],
-    role: 'Condition 2 — the all-uncoop endpoint is stable when k_uu + k_cu − 1 > (1−δ)ℓ/(a + c·k_uu) (δ = 1: k_uu + k_cu > 1). Unchanged by gating; ℓ_k does not enter (at fixed c₀/c_M — the dial pin moves c imperceptibly).',
-    related: ['k_cu', 'l'],
+    math: [String.raw`F_u = (1-O_{\mathrm{fix}})\,(L_k + k_{uu}\,q_u)`],
+    role: 'Self-reproduction; with leakage it sets whether the all-uncoop endpoint is stable (Condition 2 — at δ = 1 it reduces to k_uu + k_cu > 1).',
+    related: ['k_cu', 'rho'],
     default: 1, min: 0, max: 2, step: 0.01,
     tier: 'primary',
   },
@@ -526,51 +507,51 @@ const PARAM_DEFS = {
     label: 'Coop → uncoop leakage',
     symbol: 'k_cu',
     handle: 'Fraction of cooperative AI labour that ends up enabling uncoop instead.',
-    est: 'Human-era identity (level + trend) at ℓ = 0.2, ℓ_k = 1: Broad 0.0618 (trend-adjusted; range 0.062–0.083 across the g-bracket, 0.042–0.056 at ℓ_k = 0.5), Strict 0.0085 (steady-state); naive level proxy 0.05; "high leakage" > 0.9.',
-    detail: 'A true transfer: this much of q_c is diverted toward q_u (and removed from q_c) — but only the fraction (1−ℓ_k·O) that escapes interception at production actually enters the pool, so the effective seeding is k_cu(1−ℓ_k·O*(0)). Default values come from the human-era calibration identity, which back-solves k from today\'s observed level q0 (and, for Broad, the observed trend — the instruments bracket g ∈ [−0.22, 0]) given the suppression outflow at today\'s O.',
-    math: [String.raw`F_c \ni q_c(1-k_{cu})`, String.raw`F_u \ni (1-\ell_k O)\,k_{cu}\,q_c`],
-    role: 'Sets the gated seeding g(0) = k_cu(1−ℓ_k·O*(0)) > 0 and enters Condition 2 (k_uu + k_cu > 1 at δ = 1). Note: through the identity the calibrated k_cu itself depends on ℓ, ℓ_k and O(0) — crediting weaker suppression implies MORE leakage to hold the same observed level — so moving ℓ with k_cu frozen mixes "lever moved" with "evidence re-read".',
-    related: ['k_hu', 'k_uu', 'l', 'lk'],
+    est: 'Human-era identity (level + trend) at ρ = 1.27: central 0.062 (trend-adjusted; range 0.062–0.083 across the g-bracket); naive level proxy 0.05; "high leakage" (AI 2027) = 0.9.',
+    detail: 'A true transfer: this much of q_c is diverted toward q_u (and removed from q_c) — but only the fraction (1−O_fix) that escapes the fix gate at production actually enters the pool, so the effective seeding is k_cu(1−O_fix*(0)). Default values come from the human-era calibration identity, which back-solves k from today\'s observed level q0 (and the observed trend — the instruments bracket g ∈ [−0.22, 0]) given the suppression outflow at today\'s O_fix.',
+    math: [String.raw`F_c \ni q_c(1-k_{cu})`, String.raw`F_u \ni (1-O_{\mathrm{fix}})\,k_{cu}\,q_c`],
+    role: 'Sets the gated seeding g(0) = k_cu(1−O_fix*(0)) > 0 and enters Condition 2. Note: through the identity the calibrated k_cu itself depends on ρ and O(0) — crediting weaker suppression implies MORE leakage to hold the same observed level — so moving ρ with k_cu frozen mixes "lever moved" with "evidence re-read".',
+    related: ['k_hu', 'k_uu', 'rho'],
     default: 0.0618, min: 0, max: 1, step: 0.0001,
     tier: 'primary',
   },
-  l: {
-    label: 'Fix rate of known failure modes',
-    symbol: 'ℓ',
-    handle: 'How fast are known (covered) failure modes fixed out of the deployed stock, per σ-unit?',
-    est: 'Central ℓ ≈ 0.2 (fixed-harness retrospective slope, read raw — NO division by O(0)); nominal range 0.1–0.25.',
-    detail: 'The fix throughput of the detect-and-fix pipeline on established behaviour: −ℓO·q_u removes covered misbehaviour from the stock. A rate per σ-unit, not a fraction — it may exceed 1. Estimation (instrument theory): a fixed-harness retrospective series (Petri-style) is run by the developer, so what it flags is a subset of what the developer observes and acts on — its raw decay slope estimates ℓ directly, with no observability division. (The earlier reading divided the slope by O(0) ≈ 0.5 to get ℓ ≈ 0.4; under the instrument theory that division was wrong.) Contemporaneous deployment series instead confound fixing with hiding (the O-trend) and cannot separate them; multi-vintage panels identify the coverage gradient. One conservative caveat: new-arrival leakage into the fixed harness\'s coverage understates the true fix rate. Removal-vs-concealment is carried by O, not by a bias on ℓ — only the product ℓ·O enters suppression.',
-    math: [String.raw`F_u = (1-\ell_k O)(k_{cu}q_c + k_{hu}q_h) + (k_{uu} - \ell O)\,q_u`, String.raw`\ell \approx \text{fixed-harness decay slope (raw)}`],
-    role: 'Bounded-gate Condition 1 (v4, implicit O*): rare uncoop labour shrinks iff O*(0)·[ℓ + (1−δ)ℓ_k·k_cu] + O*′(0)·ℓ_k·k_cu > k_uu + k_cu − 1, with O*′(0) < 0 from differentiating the O-quadratic (no closed bracket survives the implicit O*; the v3 necessity-at-δ=1 proof is now numerical support only). High ℓ drives the attractor down the endemic floor q* ≈ k_cu(1+c−ℓ_k−cδk_cu)/ℓ — arbitrarily low, never zero (floor valid while 2cδk_cu ≤ 1+c).',
-    related: ['lk', 'k_uu', 'k_cu', 'Ostar', 'delta'],
-    default: 0.2, min: 0, max: 8, step: 0.05,
+  rho: {
+    label: 'Fix rate of documented misbehaviour',
+    symbol: 'ρ',
+    handle: 'How fast is documented misbehaviour converted into fixed (suppressing) coverage, per σ-unit?',
+    est: 'Central ρ ≈ 1.27 (five Anthropic Petri cards: ~4 mo half-life ÷ T_auto ~5 mo); nominal range 1.1–2.0.',
+    detail: 'ρ moves documented-but-unfixed misbehaviour b into the fixed stock s (b′ = F_M/G − ρb − b, s′ = ρb − s). At the b/s steady state the suppressing fraction is O_fix = φ·O_obs with φ = ρ/(1+ρ): a faster fix rate turns more of what is observed into what can actually be intercepted or removed. A rate per σ-unit — it may exceed 1. Estimated from how fast known misbehaviour declines across model generations on a fixed audit (Petri-style), normalised by the automation doubling time.',
+    math: [String.raw`O_{\mathrm{fix}} = \varphi\,O_{\mathrm{obs}},\quad \varphi = \frac{\rho}{1+\rho}`, String.raw`b' = \frac{F_M}{G} - \rho b - b,\quad s' = \rho b - s`],
+    role: 'Suppression strength. The post finds ~6× the central ρ keeps q_u < 10% — sharply diminishing returns, since suppression can only fix what has first been observed.',
+    related: ['Ostar', 'delta', 'k_cu', 'k_uu'],
+    default: 1.27, min: 0, max: 10, step: 0.05,
     tier: 'primary',
   },
-  lk: {
-    label: 'Interception efficacy at production',
-    symbol: 'ℓ_k',
-    handle: 'Of newly produced misbehaviour, what fraction can the detect-and-fix stock intercept at full observability?',
-    est: 'Unanchored — no empirical estimate yet. Display values 0.5 and 1; bounded in [0, 1] by construction.',
-    detail: 'The bounded leak gate: only the fraction (1−ℓ_k·O) of leaked effort enters the uncooperative pool. Unlike the fix rate ℓ (a rate on the established stock, which may exceed 1), ℓ_k is a FRACTION of the inflow — interception cannot remove more leakage than exists. That bound is what forbids eradication: g(0) = k_cu(1−ℓ_k·O*(0)) > 0 for ℓ_k ≤ 1, so rare uncoop labour always grows, and very high ℓ only pushes the attractor down the endemic floor k_cu(1+c−ℓ_k−cδk_cu)/ℓ, never to zero (at ℓ_k = 1 the surviving seeding arrives through novel modes — c₀ > 0 keeps O* < 1). No empirical anchor yet; in principle calibratable (what fraction of new misbehaviour do pipeline workarounds catch at full observability?).',
-    math: [String.raw`F_u = (1-\ell_k O)(k_{cu}q_c + k_{hu}q_h) + (k_{uu} - \ell O)\,q_u`, String.raw`\Phi(0) = -k_{cu}(1+c-\ell_k-c\delta k_{cu}) < 0`],
-    role: 'Gates the seeding (the cubic\'s constant term Φ(0) is ℓ-free and strictly negative for ℓ_k ≤ 1). Whether high observability alone can rescue a bad calibration lives or dies on ℓ_k: at ℓ_k = 1, O* → 1 drives q* → 0 (Broad needs O* ≥ 0.88); at ℓ_k = 0.5 half the leak gets through no matter how well you see (Broad floors at q* ≈ 0.14 as O* → 1). Under v4 that split is a recomputed numerical fact — the v3 exact two-product structure (ℓ·O* and ℓ_k·O*) is broken by the growth peg.',
-    related: ['l', 'k_cu', 'Ostar'],
-    default: 1, min: 0, max: 1, step: 0.05,
+  gamma: {
+    label: 'Turnover rate',
+    symbol: 'γ',
+    handle: 'How fast is the workforce composition pulled toward the captured share of new production?',
+    est: 'Central γ = 1.75 (γ = 1 + 1/o; benchmarked to ~0.5-version “major” releases ≈ half a doubling, ~6 mo).',
+    detail: 'q_u relaxes toward its captured fraction F_u/G at rate γ relative to automation growth (γ = 1 + 1/o, o = the e-folding time in σ-units of the systems making up the labour pool). Higher γ = faster relaxation and a sharper observed-rate hump. It changes only the TRANSIENT — never the long-run attractor, which satisfies F_u/G = q_u for any γ — and only q_u carries it (the monitoring/evasion stocks do not).',
+    math: [String.raw`q_u' = \gamma\!\left(\frac{F_u}{G} - q_u\right)`],
+    role: 'Transient pacing of the share dynamics; leaves the basin and fixed points unchanged.',
+    related: ['k_uu', 'rho'],
+    default: 1.75, min: 1, max: 4, step: 0.05,
     tier: 'primary',
   },
   delta: {
     label: 'Suppression destruction fraction',
     symbol: 'δ',
     handle: 'Of the uncoop labour suppression catches, how much is destroyed vs redirected to cooperative work?',
-    est: 'Central ≈ 0.7 via the filtering-fraction heuristic (fresh estimate); range 0.3–1.0.',
-    detail: 'δ = 1: caught uncoop labour is destroyed outright (filtered, blocked, discarded). δ = 0: every caught unit is corrected and its labour redirected into cooperative production at full value. Under the bounded gate the intercepted flow is O·(ℓ_k·L_k + ℓ·q_u) with L_k = k_cu q_c + k_hu q_h — leakage interception and stock removal are split by the same δ. Heuristic: weight suppression channels by destructiveness (output filtering ≈ 1, retraining ≈ 0, control-style resampling/editing ≈ ½) and average by suppressed-flow volume; heavy real-time filtering on frontier deployments puts the central value high. Redirection is assumed 1:1, with no lag or quality discount.',
+    est: 'Central ≈ 0.7 via the filtering-fraction heuristic; range 0.3–1.0.',
+    detail: 'δ = 1: caught uncoop labour is destroyed outright (filtered, blocked, discarded). δ = 0: every caught unit is corrected and its labour redirected into cooperative production at full value. The intercepted flow is the single fixed-gated share O_fix·G_u with G_u = L_k + k_uu·q_u — leakage interception and stock removal are split by the same δ. Heuristic: weight suppression channels by destructiveness (output filtering ≈ 1, retraining ≈ 0, control-style resampling/editing ≈ ½) and average by suppressed-flow volume; heavy real-time filtering on frontier deployments puts the central value high. Redirection is assumed 1:1, with no lag or quality discount.',
     math: [
-      String.raw`F_u = (1-\ell_k O)(k_{cu}q_c{+}k_{hu}q_h) + (k_{uu}-\ell O)\,q_u`,
-      String.raw`F_c \ni +(1-\delta)\,O\,(\ell_k L_k + \ell\,q_u)`,
-      String.raw`G = q_c + q_h + k_{uu}q_u - \delta\,O\,(\ell_k L_k + \ell\,q_u)`,
+      String.raw`F_u = (1-O_{\mathrm{fix}})\,(L_k + k_{uu}q_u)`,
+      String.raw`F_c \ni +(1-\delta)\,O_{\mathrm{fix}}\,(L_k + k_{uu}q_u)`,
+      String.raw`G = q_c + q_h + k_{uu}q_u - \delta\,O_{\mathrm{fix}}\,(L_k + k_{uu}q_u)`,
     ],
-    role: 'Lowers the basin threshold ℓ* (numeric under v4; at δ = 1, k_uu = 1, a_E/M = 1 the closed form is ℓ* = 2k_cu[(T−ck_cu) + √((T−ck_cu)(T−ck_cu−ℓ_k))], T = 1+c) and destabilises the all-uncoop endpoint when k_uu + k_cu − 1 < (1−δ)ℓ/(a + c·k_uu) — a condition neither gate moves. Caution: for δ < 1 the surviving attractor can sit at high q_u — check its location, not just existence. At extreme δ·k_cu (beyond 2cδk_cu ≤ 1+c) deep suppression stops flooring the system at all: no finite ℓ produces a basin.',
-    related: ['l', 'k_cu', 'k_uu'],
+    role: 'Lowers the basin threshold ρ* and destabilises the all-uncoop endpoint. Caution: for δ < 1 the surviving attractor can sit at high q_u — check its location, not just existence.',
+    related: ['rho', 'k_cu', 'k_uu'],
     default: 0.7, min: 0, max: 1, step: 0.05,
     tier: 'primary',
   },
@@ -578,12 +559,12 @@ const PARAM_DEFS = {
     label: 'Evasion advantage',
     symbol: 'a_E/M',
     handle: 'Per unit of AI labour, how productive is evasion vs monitoring?',
-    est: 'Order 1 (M-Trends dwell-time); growth-advantage scenario pushes > 1.',
-    detail: '> 1 means uncoop AI produces evasion faster than cooperative AI produces monitoring, at equal labour. Active evasion is a labour share; passive opacity c₀ is pegged to automation growth instead (v4).',
-    math: [String.raw`e' = c_0 + a_{E/M}\,c_M\,q_u/F - e`],
-    role: 'Pulls long-run observability O*(q_u) down as q_u grows.',
+    est: 'Central 2 (evasion somewhat advantaged); M-Trends dwell-time, order-1 both ways.',
+    detail: '> 1 means uncoop AI produces evasion faster than cooperative AI produces monitoring, at equal labour. Counts natural advantage AND effort. Active evasion is a labour share; passive opacity c₀ is pegged to automation growth instead.',
+    math: [String.raw`e' = c_0 + a_{E/M}\,c_M\,q_u/G - e`],
+    role: 'Pulls long-run observability O_obs*(q_u) down as q_u grows.',
     related: ['Ostar', 'a_ai_h'],
-    default: 1, min: 0.1, max: 10, step: 0.05,
+    default: 2, min: 0.1, max: 10, step: 0.05,
     tier: 'primary',
   },
   a_ai_h: {
@@ -602,9 +583,9 @@ const PARAM_DEFS = {
     label: 'Human → uncoop leakage',
     symbol: 'k_hu',
     handle: 'Fraction of human labour that ends up enabling uncoop AI.',
-    est: 'Set jointly with k_cu by the human-era identity at ℓ = 0.2, ℓ_k = 1: Broad 0.0618, Strict 0.0085 (naive level proxy ~0.05).',
-    detail: 'Like k_cu but for human labour, and equally gated: only the fraction (1−ℓ_k·O) of the leaked flow enters the pool. Active only while q_h > 0; fades as humans become economically irrelevant.',
-    math: [String.raw`F_u \ni (1-\ell_k O)\,k_{hu}\,q_h`],
+    est: 'Set jointly with k_cu by the human-era identity at ρ = 1.27: central 0.062 (range 0.062–0.083).',
+    detail: 'Like k_cu but for human labour, and equally gated: only the fraction (1−O_fix) of the leaked flow enters the pool. Active only while q_h > 0; fades as humans become economically irrelevant.',
+    math: [String.raw`F_u \ni (1-O_{\mathrm{fix}})\,k_{hu}\,q_h`],
     role: 'Reproduction-relevant leakage (property ii′); plausibly rarer than observed misbehaviour.',
     related: ['k_cu', 'eta0'],
     default: 0.0618, min: 0, max: 1, step: 0.0001,
@@ -616,7 +597,7 @@ const PARAM_DEFS = {
     symbol: 'q_u(0)',
     handle: 'Starting fraction of total automation that is uncooperative.',
     est: 'Observed share ÷ O(0): ~1–67%, central ~5%.',
-    detail: 'Below the stable q_u* it converges; above the saddle it escapes (long-run projection). The full 4D basin can differ from this 1-D projection.',
+    detail: 'Below the stable q_u* it converges; above the saddle it escapes (long-run projection). The full 5-D basin can differ from this 1-D projection.',
     math: [String.raw`q_u = \frac{A_u}{A_c + A_u}`],
     role: 'Initial condition; matters only in the bistable regime.',
     related: ['Ostar', 'R0'],
@@ -628,10 +609,10 @@ const PARAM_DEFS = {
     symbol: 'R(0)',
     scale: 'log',
     handle: 'For every uncoop behaviour monitoring catches today, how many slip past?',
-    est: 'O(0) ∈ 0.3–0.9 (central 0.5) ⇒ R(0) ≈ 0.1–2.3, central 1.',
-    detail: 'Present missed-to-caught odds. Sets the initial observability O(0) the trajectory starts from, before it drifts toward O*.',
-    math: [String.raw`R = \frac{1-O}{O} = \frac{e}{m}`, String.raw`O(0) = \frac{1}{1+R(0)}`],
-    role: 'With m(0) = 1 fixing stock units, e(0) = R(0) directly.',
+    est: 'O_obs(0) ∈ 0.3–0.9 (central 0.5) ⇒ R(0) ≈ 0.1–2.3, central 1.',
+    detail: 'Present missed-to-caught odds. Sets the initial observed observability O_obs(0). The unit monitoring stock splits at the b/s steady state into b₀ = 1/(1+ρ), s₀ = ρ/(1+ρ), with e₀ = R(0); observability then drifts from O_obs(0) toward O*.',
+    math: [String.raw`R = \frac{1-O_{\mathrm{obs}}}{O_{\mathrm{obs}}} = \frac{e}{b+s}`, String.raw`O_{\mathrm{obs}}(0) = \frac{1}{1+R(0)}`],
+    role: 'With b₀ + s₀ = 1 fixing stock units, e(0) = R(0) directly.',
     related: ['Ostar'],
     default: 1, min: 0.01, max: 100, step: 0.001,
     tier: 'ic',
@@ -659,49 +640,45 @@ function defaultParams() {
 // =============================================================================
 // NAMED CALIBRATION PRESETS
 // =============================================================================
-// Broad and Strict share every structural parameter and differ only in how the
-// observed-misbehaviour evidence is read. The leakage rates are no longer the
-// raw level q0: they come from the human-era calibration identity (bounded
-// gate, SELF-CONSISTENT F0 convention, audit V10/V4.11; with S = 1−q0+η0, k_uu = 1)
-//   k = q0[(1+g)(1+η0−δℓO0·q0) − (1−ℓO0)] / (S[(1−ℓ_k·O0) + (1+g)δℓ_k·O0·q0])
-// at ℓ = 0.2, δ = 0.7, O0 = 0.5, η0 = 5. Broad uses the TREND-ADJUSTED
-// identity (level q0 = 0.05 plus trend g = −0.22/σ; the instruments bracket
-// g ∈ [−0.22, 0], so the post presents Broad's k as the range 0.062–0.083 at
-// ℓ_k = 1): k = 0.0618. Strict uses the STEADY-STATE identity at its own
-// level q0 = 0.005 (the falling broad series doesn't measure the (ii′) pool,
-// so its trend is not licensed): k = 0.0085. q0 keeps the LEVEL — k ≠ q0.
-// AI 2027 is Broad with k_cu pushed to the high-leakage reading of the
-// AI 2027 scenario.
-// ℓ_k is UNANCHORED; presets use the ℓ_k = 1 display value (headline choice
-// D16 pending with David — at ℓ_k = 0.5 the identity gives Broad 0.0419 /
-// Strict 0.0057 instead).
-// The identity values are EXACTLY unchanged under the v4 growth peg (the
-// identity never touches the e-equation — provable, audit V4.11), so the
-// presets carry the same numbers as v3.
-// Values must stay in sync with _scratch/review/drafts/calibrations-v4.md.
+// Central is the post's default path. Optimistic and Pessimistic are favourable
+// / unfavourable corners of the uncertain parameters (leakage, growth, evasion
+// advantage, observability); AI 2027 is Central with leakage pushed to the
+// high-leakage reading of that scenario. The central leakage k_cu = k_hu = 0.062
+// is not the raw observed level q0 = 0.05 — it comes from the human-era
+// calibration identity (level + observed trend g ∈ [−0.22, 0]) solved at ρ = 1.27,
+// δ = 0.7, O_obs(0) = 0.5, η0 = 5 (range 0.062–0.083 across the g-bracket).
+// Values track _scratch/review/verify-v5/ (default_path_v5.py, verify_v5.py).
 const PRESETS = {
-  broad: {
-    label: 'Broad',
-    blurb: 'observed misbehaviour as proxy; trend-adjusted identity k = 0.0618 (ℓ_k = 1)',
+  central: {
+    label: 'Central',
+    blurb: 'the default path — central calibration (k_cu = 0.062, ρ = 1.27, a_E/M = 2); settles ≈25% uncoop',
     params: {
-      T_auto: 0.5, Ostar: 0.5, k_uu: 1, k_cu: 0.0618, l: 0.2, lk: 1, delta: 0.7,
-      a_e_m: 1, a_ai_h: 1, k_hu: 0.0618, q0: 0.05, R0: 1, eta0: 5,
+      T_auto: 5 / 12, Ostar: 0.5, k_uu: 1, k_cu: 0.0618, rho: 1.27, gamma: 1.75, delta: 0.7,
+      a_e_m: 2, a_ai_h: 1, k_hu: 0.0618, q0: 0.05, R0: 1, eta0: 5,
     },
   },
-  strict: {
-    label: 'Strict',
-    blurb: 'reproduction-relevant (ii′) rates; steady-state identity k = 0.0085 (ℓ_k = 1)',
+  optimistic: {
+    label: 'Optimistic',
+    blurb: 'favourable draw — low leakage, no evasion edge, better observability; contained below 10%',
     params: {
-      T_auto: 0.5, Ostar: 0.5, k_uu: 1, k_cu: 0.0085, l: 0.2, lk: 1, delta: 0.7,
-      a_e_m: 1, a_ai_h: 1, k_hu: 0.0085, q0: 0.005, R0: 1, eta0: 5,
+      T_auto: 5 / 12, Ostar: 0.6, k_uu: 0.9, k_cu: 0.03, rho: 1.27, gamma: 1.75, delta: 0.7,
+      a_e_m: 1, a_ai_h: 1, k_hu: 0.03, q0: 0.05, R0: 1, eta0: 5,
+    },
+  },
+  pessimistic: {
+    label: 'Pessimistic',
+    blurb: 'alignment harder, evasion advantaged, weaker observability — uncooperative takeover',
+    params: {
+      T_auto: 5 / 12, Ostar: 0.4, k_uu: 1.05, k_cu: 0.15, rho: 1.27, gamma: 1.75, delta: 0.7,
+      a_e_m: 3, a_ai_h: 1, k_hu: 0.15, q0: 0.05, R0: 1, eta0: 5,
     },
   },
   ai2027: {
     label: 'AI 2027',
-    blurb: 'Broad with high leakage k_cu = 0.9 at handoff',
+    blurb: 'Central with the high-leakage reading of AI 2027 (k_cu = 0.9 at handoff)',
     params: {
-      T_auto: 0.5, Ostar: 0.5, k_uu: 1, k_cu: 0.9, l: 0.2, lk: 1, delta: 0.7,
-      a_e_m: 1, a_ai_h: 1, k_hu: 0.0618, q0: 0.05, R0: 1, eta0: 5,
+      T_auto: 5 / 12, Ostar: 0.5, k_uu: 1, k_cu: 0.9, rho: 1.27, gamma: 1.75, delta: 0.7,
+      a_e_m: 2, a_ai_h: 1, k_hu: 0.0618, q0: 0.05, R0: 1, eta0: 5,
     },
   },
 };
@@ -717,59 +694,59 @@ const SIGMA_MAX_DEFAULT = 15;
 const SIGMA_MAX_MIN = 5;
 const SIGMA_MAX_MAX = 60;
 
-// e(0) = R(0) directly (missed-to-caught odds), with m(0)=1 fixing the units.
+// O_obs(0) = 1/(1+R0). The unit monitoring stock splits at the b/s quasi-steady
+// state into b0 = 1/(1+ρ), s0 = ρ/(1+ρ) (so m0 = b0+s0 = 1), and e0 = R0.
 function deriveIC(p) {
-  const m0 = 1;
+  const b0 = 1 / (1 + p.rho);
+  const s0 = p.rho / (1 + p.rho);
   const e0 = Math.max(p.R0, 1e-9);
-  return { m0, e0 };
+  return { b0, s0, e0 };
 }
 
 function calibratedRates(p) {
   const Q = p.q0;
   const eta = p.eta0;
   const R0 = Math.max(p.R0, 1e-9);
-  const O0 = 1 / (1 + R0);
-  const { m0 } = deriveIC(p);
-  // Bounded-gate total at σ = 0 (must match computeG: the destroyed part of
-  // intercepted leakage also subtracts from G).
-  const Lk0 = p.k_cu * (1 - Q) + p.k_hu * eta;
-  const G0 = Math.max((1 - Q) + eta + p.k_uu * Q - p.delta * O0 * (p.lk * Lk0 + p.l * Q), 0.05);
+  const O0 = 1 / (1 + R0);                       // observed observability at σ=0
+  const phi = p.rho / (1 + p.rho);
+  const Ofix0 = O0 * phi;                         // suppressing fraction at σ=0
+  const m0 = 1;                                   // b0 + s0
+  // Gated total at σ = 0 (must match computeG: the destroyed part of the
+  // intercepted flow subtracts from G).
+  const Gu0 = p.k_cu * (1 - Q) + p.k_hu * eta + p.k_uu * Q;
+  const G0 = Math.max((1 - Q) + eta + p.k_uu * Q - p.delta * Ofix0 * Gu0, 0.05);
   const monitoringSource0 = Math.max((1 - Q) + eta / p.a_ai_h, 1e-9);
 
-  // Main calibration method (blog): fix present observability O(0) via R(0)
-  // (which sets m0=1, e0=R0), peg the monitoring scale c_M to the automation
-  // production scale so monitoring starts at quasi-steady-state, then set
-  // passive opacity from the best-case long-run observability O* via the v4
-  // dial pin (audit A″ A-pin): O* is enforced at the long-run
-  // rare-uncooperative point (q_h = 0, q_u → 0), where the implicit
-  // O-quadratic h(O) = cδℓ_k·k_cu·O² − (1+c)O + 1 back-solves to
-  //   c_0/c_M = (1 − O*) / (O*·(1 − δ·ℓ_k·k_cu·O*)),
-  // re-solved per parameter cell (depends on δ, ℓ_k, k_cu; ℓ-free). With the
-  // pin, the badge's O*(0) equals the O* slider exactly. (v3's
-  // c_0/c_M = (1−O*)/O* is the cδ → 0 limit; the denominator is positive
-  // throughout the slider ranges since δ·ℓ_k·k_cu·O* < 1.) c_M's magnitude
-  // affects only how fast O relaxes from O(0) toward O*. (T_M,½ / T_E,2 rate
-  // judgements are the blog's unused alternative.)
+  // Main calibration method (blog): fix present observed observability O(0) via
+  // R(0), peg the monitoring scale c_M to the automation production scale so
+  // coverage starts at quasi-steady-state, then set passive opacity from the
+  // best-case long-run observability O* via the v5 dial pin at the rare-
+  // uncooperative point (q_h = 0, q_u → 0), where the O_obs-quadratic
+  // c·δ·φ·k_cu·O² − (1+c)O + 1 = 0 back-solves to
+  //   c_0/c_M = (1 − O*) / (O*·(1 − δ·φ·k_cu·O*)),   φ = ρ/(1+ρ),
+  // re-solved per parameter cell. With the pin, the badge's O_obs*(0) equals
+  // the O* slider exactly. c_M's magnitude affects only how fast O relaxes from
+  // O(0) toward O*.
   const Ostar = Math.min(Math.max(p.Ostar, 1e-6), 1 - 1e-6);
   const c_M = G0 * m0 / monitoringSource0;
-  const pinDen = Ostar * (1 - p.delta * p.lk * p.k_cu * Ostar);
+  const pinDen = Ostar * (1 - p.delta * phi * p.k_cu * Ostar);
   const c_0 = c_M * (1 - Ostar) / Math.max(pinDen, 1e-9);
-  return { c_M, c_0, c0Raw: c_0 };
+  return { c_M, c_0 };
 }
 
 function odeParams(p) {
   const rates = calibratedRates(p);
   return {
     k_uu: p.k_uu, k_cu: p.k_cu, k_hu: p.k_hu,
-    l: p.l, lk: p.lk, delta: p.delta, beta: BETA,
+    rho: p.rho, gamma: p.gamma, delta: p.delta,
     a_ai_h: p.a_ai_h, a_e_m: p.a_e_m,
-    c_M: rates.c_M, c_0: rates.c_0, c0Raw: rates.c0Raw,
+    c_M: rates.c_M, c_0: rates.c_0,
   };
 }
 
 function buildInitialState(p) {
-  const { m0, e0 } = deriveIC(p);
-  return [p.q0, m0, e0, p.eta0];
+  const { b0, s0, e0 } = deriveIC(p);
+  return [p.q0, b0, s0, e0, p.eta0];
 }
 
 // Calendar-year conversion (linear, intentionally — see assumptions doc).
@@ -785,14 +762,13 @@ function sigmaToYears(sigma, T_auto) {
 // Only values that differ from defaults are written; values read from the URL
 // are clamped to each parameter's [min, max].
 //
-// Schema version: v=4 marks links written by the GROWTH-PEG engine (passive
-// opacity per σ-unit of automation growth, O*-dial pin for c₀; 2026-06).
-// v=3 links (the bounded-gate production-share e′ engine), v=2 links (the
-// production-gated ℓ_k ≡ ℓ engine) and unversioned links (the ungated-δ
-// engine) carry the same parameter names but mean a different model, so they
-// fall back to defaults instead of being silently re-interpreted (established
-// policy: HARD fallback for v < current).
-const URL_SCHEMA_VERSION = '4';
+// Schema version: v=5 marks links written by the two-stage (b→s) ρ-fix engine
+// (single O_fix gate, γ turnover, O*-dial pin for c₀; 2026-06). Earlier
+// versions (v=4 ℓ/ℓ_k bounded gate, v=3, v=2, unversioned) carry the same
+// parameter names but mean a different model, so they fall back to defaults
+// instead of being silently re-interpreted (established policy: HARD fallback
+// for v < current).
+const URL_SCHEMA_VERSION = '5';
 
 function trimNum(v) {
   return String(+v.toPrecision(6));
@@ -1064,18 +1040,17 @@ function PresetBar({ params, onApply }) {
         })}
       </div>
       <div style={{ fontFamily: FONTS.sans, fontSize: 11, color: C.fgDim, marginTop: 6, lineHeight: 1.4 }}>
-        Named calibrations set every slider. Broad/Strict differ only in how the
-        observed-misbehaviour evidence is read ({'{'}k_cu, k_hu, q_u(0){'}'}; leakage
-        rates via the human-era identity at ℓ = 0.2, ℓ_k = 1 — Broad trend-adjusted
-        k = 0.0618, Strict steady-state k = 0.0085); AI 2027 is Broad with high
-        leakage (k_cu = 0.9). ℓ_k itself is unanchored — sweep it.
+        Named calibrations set every slider. Central is the post's default path
+        (leakage k_cu = k_hu = 0.062 from the human-era identity at ρ = 1.27).
+        Optimistic and Pessimistic are favourable / unfavourable corners of the
+        uncertain parameters; AI 2027 is Central with high leakage (k_cu = 0.9).
       </div>
     </div>
   );
 }
 
 function BasinBadge({ basin, p }) {
-  const { kind, qStable, qSaddle, lOstar0, kuuExcess } = basin;
+  const { kind, qStable, qSaddle, Oobs0, Ofix0 } = basin;
   const palette = {
     escape: { c: C.escape, label: 'NO COOPERATIVE BASIN' },
     monostable: { c: C.monostable, label: 'MONOSTABLE' },
@@ -1103,8 +1078,8 @@ function BasinBadge({ basin, p }) {
         {qSaddle !== null && (
           <span><span style={{ color: C.fgMuted }}>{saddleText}</span><span style={{ color: C.bistable, fontWeight: 600 }}>{qSaddle.toFixed(3)}</span></span>
         )}
-        <span style={{ color: C.fgMuted, fontSize: 10.5 }} title={`k_cu → 0 reduction of Condition 1: cooperative basin needs ℓ·O*(0) ≥ k_uu − 1. O*(0) is the v4 implicit long-run root — under the dial pin it equals the O* slider exactly. Here ℓ·O*(0) = ${lOstar0.toFixed(2)}, k_uu − 1 = ${kuuExcess.toFixed(2)}; c_M = ${p.c_M?.toFixed?.(3) ?? 'n/a'}; c_0 = ${p.c_0?.toFixed?.(3) ?? 'n/a'} (c_0/c_M from the per-cell pin)`}>
-          ℓ·O*(0) = {lOstar0.toFixed(2)} vs k_uu−1 = {kuuExcess.toFixed(2)},  c_M = {p.c_M.toFixed(3)},  c_0 = {p.c_0.toFixed(3)}
+        <span style={{ color: C.fgMuted, fontSize: 10.5 }} title={`O_obs*(0) is the long-run observed observability at low q_u — under the dial pin it equals the O* slider. O_fix*(0) = φ·O_obs*(0) (φ = ρ/(1+ρ)) is the suppressing fraction. c_M and c_0 are the calibrated monitoring and passive-opacity rates (c_0/c_M from the per-cell dial pin).`}>
+          O_obs*(0) = {Oobs0.toFixed(2)}, O_fix*(0) = {Ofix0.toFixed(2)},  c_M = {p.c_M.toFixed(3)},  c_0 = {p.c_0.toFixed(3)}
         </span>
       </div>
     </div>
@@ -1172,14 +1147,15 @@ function TrajectoryView({ params, basin, sigmaMax, displayMode }) {
   const traj = useMemo(() => simulate(ode, ic, sigmaMax), [ode, ic, sigmaMax]);
 
   const data = useMemo(() => traj.samples.map(s => {
-    const [Q, m, e, eta] = s.state;
+    const [Q, , , , eta] = s.state;
     const x = displayMode === 'years' ? sigmaToYears(s.sigma, params.T_auto) : s.sigma;
     const denom = 1 + eta;
     return {
       x,
       Q,
-      O: s.O,
-      apparent: s.O * Q,   // observed/apparent uncoop rate = observability × true share
+      O: s.O,             // observed observability O_obs
+      Ofix: s.Ofix,       // suppressing fraction O_fix
+      apparent: s.O * Q,  // observed/apparent uncoop rate = O_obs × true share
       coopShare: (1 - Q) / denom,
       uncoopShare: Q / denom,
       humanShare: eta / denom,
@@ -1220,7 +1196,7 @@ function TrajectoryView({ params, basin, sigmaMax, displayMode }) {
   );
 
   const finalSample = traj.samples[traj.samples.length - 1];
-  const [qF, , , etaF] = finalSample.state;
+  const [qF, , , , etaF] = finalSample.state;
   const yearsTotal = sigmaToYears(finalSample.sigma, params.T_auto);
   const finalDenom = 1 + etaF;
   const finalCoop = (1 - qF) / finalDenom;
@@ -1235,7 +1211,7 @@ function TrajectoryView({ params, basin, sigmaMax, displayMode }) {
   return (
     <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 10 }}>
       <div style={plotStyle}>
-        <PlotTitle title="Uncooperative share: true vs apparent" subtitle="solid = true q_u · dashed = apparent O·q_u (what monitoring sees)" />
+        <PlotTitle title="Uncooperative share: true vs apparent" subtitle="solid = true q_u · dashed = apparent O_obs·q_u (what monitoring sees)" />
         <ResponsiveContainer width="100%" height={180}>
           <LineChart data={data} margin={{ top: 18, right: 12, left: 0, bottom: 20 }}>
             <CartesianGrid stroke={C.grid} strokeDasharray="2 4" />
@@ -1255,15 +1231,15 @@ function TrajectoryView({ params, basin, sigmaMax, displayMode }) {
             ))}
             {parityRef('par-q')}
             <Line type="monotone" dataKey="Q" name="true q_u" stroke={C.trace_q} strokeWidth={1.8} dot={false} isAnimationActive={false} />
-            <Line type="monotone" dataKey="apparent" name="apparent O·q_u" stroke={C.apparent} strokeWidth={1.6} strokeDasharray="4 3" dot={false} isAnimationActive={false} />
+            <Line type="monotone" dataKey="apparent" name="apparent O_obs·q_u" stroke={C.apparent} strokeWidth={1.6} strokeDasharray="4 3" dot={false} isAnimationActive={false} />
           </LineChart>
         </ResponsiveContainer>
       </div>
 
       <div style={plotStyle}>
-        <PlotTitle title="Observability O(σ)" subtitle="fraction of uncoop activity that monitoring catches" />
+        <PlotTitle title="Observability: O_obs vs O_fix" subtitle="O_obs = what monitoring measures · O_fix = what actually suppresses (= φ·O_obs)" />
         <ResponsiveContainer width="100%" height={180}>
-          <LineChart data={data} margin={{ top: 5, right: 12, left: 0, bottom: 20 }}>
+          <LineChart data={data} margin={{ top: 18, right: 12, left: 0, bottom: 20 }}>
             <CartesianGrid stroke={C.grid} strokeDasharray="2 4" />
             <XAxis dataKey="x" type="number" domain={['dataMin', 'dataMax']} stroke={C.fgMuted} tick={{ fontSize: 10, fontFamily: FONTS.mono, fill: C.fgDim }}
                    tickFormatter={xTickFormatter}
@@ -1273,8 +1249,11 @@ function TrajectoryView({ params, basin, sigmaMax, displayMode }) {
             <Tooltip contentStyle={tooltipStyle}
                      labelFormatter={v => xTickFormatter(+v) + ' ' + xLabel}
                      formatter={(v) => v.toFixed(3)} />
+            <Legend verticalAlign="top" align="right" iconType="plainline" iconSize={14}
+                    wrapperStyle={{ fontFamily: FONTS.mono, fontSize: 10, color: C.fgDim, paddingBottom: 2 }} />
             {parityRef('par-o')}
-            <Line type="monotone" dataKey="O" stroke={C.trace_O} strokeWidth={1.8} dot={false} isAnimationActive={false} />
+            <Line type="monotone" dataKey="O" name="O_obs" stroke={C.trace_O} strokeWidth={1.8} dot={false} isAnimationActive={false} />
+            <Line type="monotone" dataKey="Ofix" name="O_fix" stroke={C.share_human} strokeWidth={1.6} strokeDasharray="4 3" dot={false} isAnimationActive={false} />
           </LineChart>
         </ResponsiveContainer>
       </div>
@@ -1312,8 +1291,9 @@ function TrajectoryView({ params, basin, sigmaMax, displayMode }) {
             <span style={{ color: C.fgMuted }}>final σ</span><span>{fmt2(finalSample.sigma)}</span>
             <span style={{ color: C.fgMuted }}>final years</span><span>{fmtYears(yearsTotal)}</span>
             <span style={{ color: C.fgMuted }}>final q_u (true)</span><span style={{ color: C.trace_q }}>{fmt3(qF)}</span>
-            <span style={{ color: C.fgMuted }}>apparent O·q_u</span><span style={{ color: C.apparent }}>{fmt3(finalSample.O * qF)}</span>
-            <span style={{ color: C.fgMuted }}>final O</span><span style={{ color: C.trace_O }}>{fmt3(finalSample.O)}</span>
+            <span style={{ color: C.fgMuted }}>apparent O_obs·q_u</span><span style={{ color: C.apparent }}>{fmt3(finalSample.O * qF)}</span>
+            <span style={{ color: C.fgMuted }}>final O_obs</span><span style={{ color: C.trace_O }}>{fmt3(finalSample.O)}</span>
+            <span style={{ color: C.fgMuted }}>final O_fix</span><span style={{ color: C.share_human }}>{fmt3(finalSample.Ofix)}</span>
             <span style={{ color: C.fgMuted }}>coop labour</span><span style={{ color: C.share_coop }}>{fmtPct(finalCoop)}</span>
             <span style={{ color: C.fgMuted }}>uncoop labour</span><span style={{ color: C.share_uncoop }}>{fmtPct(finalUncoop)}</span>
             <span style={{ color: C.fgMuted }}>human labour</span><span style={{ color: C.share_human }}>{fmtPct(finalHuman)}</span>
@@ -1337,7 +1317,7 @@ function TrajectoryView({ params, basin, sigmaMax, displayMode }) {
 // VIEW: OUTCOME MAP
 // =============================================================================
 
-const SWEEPABLE_KEYS = ['Ostar', 'k_uu', 'k_cu', 'k_hu', 'l', 'lk', 'delta', 'a_e_m', 'a_ai_h'];
+const SWEEPABLE_KEYS = ['Ostar', 'k_uu', 'k_cu', 'k_hu', 'rho', 'delta', 'a_e_m', 'a_ai_h'];
 
 function classifySim(traj, basin) {
   if (traj.escaped) return 'escape';
@@ -1353,8 +1333,8 @@ function classifySim(traj, basin) {
 }
 
 function OutcomeMapView({ params }) {
-  const [xKey, setXKey] = useState('k_uu');
-  const [yKey, setYKey] = useState('l');
+  const [xKey, setXKey] = useState('k_cu');
+  const [yKey, setYKey] = useState('k_uu');
   const [resolution, setResolution] = useState(25);
   const sigmaMax = 40;  // hardcoded horizon for the outcome map
 
@@ -1527,18 +1507,14 @@ function OutcomeMapView({ params }) {
           </div>
           <div style={{ marginTop: 6, fontFamily: FONTS.sans, fontSize: 11, color: C.fgDim }}>
             Dotted black curve: {BASIN_BOUNDARY.label} — where the long-run
-            interior fixed point appears/disappears. Under v4 the long-run O*
-            is implicit, so the curve is the numeric zero level set of
-            −min<sub>r</sub> g(r) (g(0) &gt; 0 always, so a basin exists exactly
-            when g dips to zero); the v3 closed-form threshold chain is
-            superseded — only the δ = 1, k_uu = 1, a_E/M = 1 closed form
-            ℓ* = 2k_cu[(T−ck_cu) + √((T−ck_cu)(T−ck_cu−ℓ_k))] survives. The
-            attractor inside the boundary can sit at high q_u — it appears at
-            the saddle-node, not near zero — check the badge, not just the curve.
-            Past the boundary at very high ℓ the attractor falls like
-            k_cu(1+c−ℓ_k−cδk_cu)/ℓ: an endemic floor, never exactly zero
-            (while 2cδk_cu ≤ 1+c; beyond that bound no finite ℓ produces a
-            basin at all).
+            interior fixed point appears/disappears. The long-run O_obs* is
+            implicit, so the curve is the numeric zero level set of
+            −min<sub>r</sub> g(r) (g(0) &gt; 0 whenever k_cu &gt; 0, so a basin
+            exists exactly when g dips to zero). The attractor inside the
+            boundary can sit at high q_u — it appears at the saddle-node, not
+            near zero — check the badge, not just the curve. Raising the fix
+            rate ρ drives the attractor down an endemic floor, never exactly to
+            zero (no eradication: the seeding k_cu(1−O_fix*(0)) stays positive).
           </div>
           <div style={{ marginTop: 8, fontFamily: FONTS.sans, fontSize: 11, color: C.fgDim }}>
             Amber ring marks current parameter values.
@@ -1656,30 +1632,27 @@ function AssumptionsPanel({ open, setOpen }) {
 
           <DocSection title="State variables">
             <P>
-              All four are dimensionless ratios of stocks to total automation <MV>A = A_c + A_u</MV>:
+              All are dimensionless ratios of stocks to total automation <MV>A = A_c + A_u</MV>:
             </P>
-            <TeX display>{String.raw`Q = \frac{A_u}{A_c + A_u}, \quad \eta = \frac{H_0}{A_c + A_u}, \quad m = \frac{M}{A_c + A_u}, \quad e = \frac{E}{A_c + A_u}`}</TeX>
+            <TeX display>{String.raw`Q = \frac{A_u}{A}, \quad \eta = \frac{H_0}{A}, \quad b = \frac{B}{A}, \quad s = \frac{S}{A}, \quad e = \frac{E}{A}`}</TeX>
             <P>
               <MV>Q</MV> is the uncooperative share (the blog post writes <MV>q_u</MV>). <MV>η</MV> is human
               production as a multiple of automated production (humans are assumed constant <MV>H_0</MV> in
-              absolute terms) — this is the same variable the blog post writes as <MV>q_h</MV>; the app keeps
-              the <MV>η</MV> name internally and they are identical. <MV>m</MV> and <MV>e</MV>
-              are the detect-and-fix coverage and evasion stocks; individually they have no intuitive
-              interpretation, but together they determine observability:
+              absolute terms) — the blog post writes <MV>q_h</MV>; the app keeps the <MV>η</MV> name and they
+              are identical. Detect-and-fix coverage is split into two stocks: <MV>b</MV>, misbehaviour
+              observed and documented but not yet fixed, and <MV>s</MV>, misbehaviour that has been fixed;
+              <MV> e</MV> is the evasion stock. The fix rate <MV>ρ</MV> moves documented coverage into fixed
+              coverage. Two observability quantities follow:
             </P>
-            <TeX display>{String.raw`O = \frac{m}{m + e}`}</TeX>
+            <TeX display>{String.raw`O_{\mathrm{obs}} = \frac{b + s}{b + s + e}, \qquad O_{\mathrm{fix}} = \frac{s}{b + s + e}`}</TeX>
             <P>
-              <MV>O</MV> is the covered fraction of the current misbehaviour-space — the share of uncoop
-              activity that the accumulated detect-and-fix stock catches (and can act on) in real time.
-              <MV> m</MV> is <em>not</em> raw monitoring effort: it is the accumulated coverage that
-              observation buys. Each observed behaviour adds coverage of its mode; how much coverage one
-              observation buys (fix-generalization quality) is the productivity <MV>c_M</MV>. A novel mode
-              arrives uncovered — every new unit of automation ships with <MV>c_0</MV> units of
-              not-yet-covered surface, which keeps <MV>O*</MV> below 1 — gets observed,
-              fixed, and subsequently intercepted — that sequencing is exactly the <MV>m</MV>-vs-<MV>e</MV>
-              stock race. (A sharpness exponent <MV>β</MV> on <MV>m</MV> and <MV>e</MV>
-              is held fixed at 1 here; tuning it added interpretive burden without changing the qualitative basin
-              structure.)
+              <MV>O_obs</MV> is what monitoring can <em>measure</em> — the observed fraction of the current
+              misbehaviour-space. <MV>O_fix</MV> is the smaller fraction that has actually been fixed, so it
+              is what can be <em>intercepted or removed</em>; it is what enters suppression. At the
+              <MV> b</MV>/<MV>s</MV> quasi-steady state <MV>O_fix = φ·O_obs</MV> with <MV>φ = ρ/(1+ρ)</MV>. The
+              stocks are not raw effort: each observed behaviour adds coverage of its mode at productivity
+              <MV> c_M</MV>, while every new unit of automation ships with <MV>c_0</MV> units of not-yet-covered
+              surface, which keeps <MV>O*</MV> below 1.
             </P>
           </DocSection>
 
@@ -1691,8 +1664,10 @@ function AssumptionsPanel({ open, setOpen }) {
             <TeX display>{String.raw`\dot A_c = \Lambda \cdot A \cdot F_c, \quad \dot A_u = \Lambda \cdot A \cdot F_u, \quad \dot M = \Lambda \cdot A \cdot F_M, \quad \dot E = \Lambda \cdot A \cdot F_E`}</TeX>
             <P>
               The key simplifying assumption is that each <MV>F</MV> depends only on the dimensionless state
-              <MV>(Q, η, m, e, O)</MV>, not on time directly and not on <MV>Λ</MV>. <MV>Λ</MV> sets the absolute
-              pace; the F's encode how productive capacity is allocated.
+              <MV>(Q, η, b, s, e)</MV>, not on time directly and not on <MV>Λ</MV>. <MV>Λ</MV> sets the absolute
+              pace; the F's encode how productive capacity is allocated. Coverage production <MV>F_M</MV> flows
+              into the documented stock <MV>M = B</MV>, which is fixed into <MV>s</MV> at the σ-rate <MV>ρ</MV>
+              (see the σ-clock equations below).
             </P>
           </DocSection>
 
@@ -1703,88 +1678,72 @@ function AssumptionsPanel({ open, setOpen }) {
             <TeX display>{String.raw`\sigma = \log\!\left(\frac{A}{A(0)}\right), \qquad \frac{d\sigma}{dt} = \frac{\dot A}{A} = \Lambda \cdot G \quad \text{where } G = F_c + F_u`}</TeX>
             <P>
               Switching to <MV>σ</MV> as the independent variable cancels <MV>Λ</MV> from the dynamics. Writing
-              <MV> ′</MV> for <MV>d/dσ</MV>:
+              <MV> ′</MV> for <MV>d/dσ</MV>, the workforce share carries the turnover rate <MV>γ</MV> while the
+              documented stock <MV>b</MV> is fixed into <MV>s</MV> at rate <MV>ρ</MV>:
             </P>
-            <TeX display>{String.raw`Q' = \frac{F_u}{G} - Q, \quad \eta' = -\eta, \quad m' = \frac{F_M}{G} - m, \quad e' = \frac{F_E}{G} - e`}</TeX>
+            <TeX display>{String.raw`Q' = \gamma\!\left(\frac{F_u}{G} - Q\right), \quad \eta' = -\eta, \quad b' = \frac{F_M}{G} - \rho b - b, \quad s' = \rho b - s, \quad e' = \frac{F_E}{G} - e`}</TeX>
             <P>
               The model now commits only to how production is <em>allocated</em>, not how fast it happens in
-              calendar time.
+              calendar time. <MV>γ = 1 + 1/o</MV> sets how fast the composition <MV>Q</MV> relaxes toward its
+              captured share relative to automation growth (<MV>o</MV> = the e-folding time of the systems in
+              the labour pool, in σ-units); it rescales the transient only — the fixed points satisfy
+              <MV> F_u/G = Q</MV> for any <MV>γ</MV>.
             </P>
           </DocSection>
 
           <DocSection title="Functional forms">
             <P>
-              Production allocation, written with the leakage inflow <MV>L_k</MV>:
+              Production allocation, written with the leakage inflow <MV>L_k</MV> and the uncooperative
+              production <MV>G_u</MV> before the fix gate:
             </P>
-            <TeX display>{String.raw`L_k = k_{cu}(1-Q) + k_{hu}\,\eta`}</TeX>
-            <TeX display>{String.raw`F_c = (1-Q)(1 - k_{cu}) + \eta(1 - k_{hu}) + (1-\delta)\,O\,(\ell_k L_k + \ell\,Q)`}</TeX>
-            <TeX display>{String.raw`F_u = (1 - \ell_k O)\,L_k + (k_{uu} - \ell O)\,Q`}</TeX>
+            <TeX display>{String.raw`L_k = k_{cu}(1-Q) + k_{hu}\,\eta, \qquad G_u = L_k + k_{uu}\,Q`}</TeX>
+            <TeX display>{String.raw`F_u = (1 - O_{\mathrm{fix}})\,G_u`}</TeX>
+            <TeX display>{String.raw`F_c = (1-Q)(1 - k_{cu}) + \eta(1 - k_{hu}) + (1-\delta)\,O_{\mathrm{fix}}\,G_u`}</TeX>
             <P>
               Cooperative AI takes its share <MV>(1-Q)</MV> of productive capacity less leakage <MV>k_cu</MV>;
-              humans contribute their share <MV>η</MV> less leakage <MV>k_hu</MV>. We choose units of automation
-              production so that one unit equals one unit of human labour — i.e. <MV>H_0 = 1</MV>.
+              humans contribute their share <MV>η</MV> less leakage <MV>k_hu</MV> (units are chosen so one unit
+              of automation equals one unit of human labour, <MV>H_0 = 1</MV>).
             </P>
             <P>
-              Suppression is gated by observability and acts in two places, with two different
-              parameters. The <em>stock</em> term <MV>−ℓO·Q</MV> removes established uncoop labour:
-              <MV> ℓ</MV> is the fix rate of known failure modes per σ-unit — a <em>rate</em>, which may
-              exceed 1. The <em>inflow</em> term gates leakage at production: only the
-              fraction <MV>(1−ℓ_k·O)</MV> of leaked effort enters the pool, where <MV>ℓ_k ∈ [0,1]</MV> is
-              the interception efficacy at production — a bounded <em>fraction</em>, because interception
-              cannot remove more leakage than exists. <MV>ℓ_k</MV> is empirically unanchored (the post
-              displays results at 0.5 and 1).
+              A <em>single</em> gate <MV>O_fix</MV> acts on the whole uncooperative production <MV>G_u</MV> —
+              both the leakage inflow and the pool's own reproduction <MV>k_uu·Q</MV>. Only the fraction
+              <MV> (1−O_fix)</MV> escapes into the pool; the intercepted flow <MV>O_fix·G_u</MV> is what
+              suppression acts on. (This replaces the earlier split into a removal rate <MV>ℓ</MV> and a
+              separate interception efficacy <MV>ℓ_k</MV>: the fix rate <MV>ρ</MV> now lives in the monitoring
+              sector and reaches suppression only through <MV>O_fix = φ·O_obs</MV>.)
             </P>
             <P>
-              The intercepted flow is split by the destruction fraction <MV>δ</MV>: of the intercepted
-              flow <MV>O·(ℓ_k·L_k + ℓ·Q)</MV>, fraction <MV>δ</MV> is destroyed outright (filtered,
-              blocked, discarded) and fraction <MV>(1−δ)</MV> is redirected into cooperative production
-              (retrained, corrected, resampled) — the <MV>+(1−δ)·O·(ℓ_k·L_k + ℓ·Q)</MV> term
-              in <MV>F_c</MV>. Redirected labour converts 1:1 with no lag or quality discount; if you think
-              filtered-then-retrained labour is worth less than one unit, that would be an extra parameter,
-              not a reinterpretation of <MV>δ</MV>.
+              The intercepted flow is split by the destruction fraction <MV>δ</MV>: fraction <MV>δ</MV> is
+              destroyed outright (filtered, blocked, discarded) and fraction <MV>(1−δ)</MV> is redirected into
+              cooperative production (retrained, corrected, resampled) — the <MV>+(1−δ)·O_fix·G_u</MV> term in
+              <MV> F_c</MV>. Redirected labour converts 1:1 with no lag or quality discount.
             </P>
             <P>
-              Under the gate, leakage is <em>not a pure transfer</em> between <MV>F_c</MV> and
-              <MV> F_u</MV>: the redirected part of suppression still cancels in the sum, but the destroyed
-              fraction of the <em>intercepted</em> flow — including intercepted leakage <MV>δO·ℓ_k·L_k</MV> —
-              subtracts from <MV>G = F_c + F_u</MV>. The total growth rate is:
+              Suppression is therefore <em>not a pure transfer</em>: the redirected part cancels in the sum,
+              but the destroyed fraction <MV>δ·O_fix·G_u</MV> subtracts from the total growth rate, so
+              aggregate growth depends (weakly) on leakage and suppression:
             </P>
-            <TeX display>{String.raw`G = (1-Q) + \eta + k_{uu}\,Q - \delta\,O\,(\ell_k L_k + \ell\,Q)`}</TeX>
-            <P>
-              Relative to the ungated model the difference is the <MV>−δO·ℓ_k·L_k</MV> term; at the central
-              calibration it is 2–3% of <MV>G</MV>, and it means aggregate growth now depends (weakly)
-              on leakage.
-            </P>
+            <TeX display>{String.raw`G = (1-Q) + \eta + k_{uu}\,Q - \delta\,O_{\mathrm{fix}}\,G_u`}</TeX>
             <P>Detect-and-fix coverage and evasion dynamics:</P>
             <TeX display>{String.raw`F_M = c_M\left((1-Q)+\frac{\eta}{a_{\mathrm{AI/H}}}\right), \qquad F_E = c_0\,G + a_{\mathrm{E/M}}c_M\,Q`}</TeX>
             <P>
-              Coverage is produced by cooperative AI and humans. The arbitrary units of <MV>m</MV> and
-              <MV>e</MV> are fixed by setting cooperative AI as the baseline producer:
-              <MV>c_M</MV> is the calibrated coverage-production rate (how much detect-and-fix coverage one
-              unit of cooperative labour — and the observations it makes — buys), and
-              <MV>a_AI/H</MV> says how much better AI is than humans at that work. Evasion has two parts
-              with deliberately different units. Active evasion <MV>a_E/M·c_M·Q</MV> is a labour share,
-              like monitoring. Passive opacity is instead <em>pegged to automation growth</em>: every new
-              unit of automation arrives carrying <MV>c_0</MV> units of not-yet-covered failure
-              surface — <MV>dE_passive = c_0·dA</MV>, which is the <MV>c_0·G</MV> term (it is also where
-              novel, not-yet-covered modes enter). Substituting into the state equation gives the form the
-              engine integrates:
+              Coverage is produced by cooperative AI and humans, flows first into the documented stock
+              <MV> b</MV>, and is fixed into <MV>s</MV> at rate <MV>ρ</MV>. <MV>c_M</MV> is the calibrated
+              coverage-production rate and <MV>a_AI/H</MV> says how much better AI is than humans at that work.
+              Evasion has two parts with deliberately different units: active evasion <MV>a_E/M·c_M·Q</MV> is a
+              labour share, while passive opacity is <em>pegged to automation growth</em> — every new unit of
+              automation arrives carrying <MV>c_0</MV> units of not-yet-covered failure surface
+              (<MV> dE_passive = c_0·dA</MV>, the <MV>c_0·G</MV> term, also where novel modes enter).
+              Substituting into the state equation gives the form the engine integrates:
             </P>
             <TeX display>{String.raw`e' = \frac{F_E}{G} - e = c_0 + \frac{a_{\mathrm{E/M}}c_M\,Q}{G} - e`}</TeX>
             <P>
-              The growth peg is a substantive specification choice. If we produce more AI with less AI
-              labour going into it, a labour-share spec would say we get <em>less</em> opacity coming
-              out — that seems wrong; opacity should be pegged to the amount of automation. A
-              production-share alternative (<MV>e′ = (c_0 + a_E/M·c_M·Q)/G − e</MV>, passive opacity
-              diluted by total production) implies a human-era observability subsidy — the large human-era
-              <MV> G</MV> dilutes passive opacity several-fold — and a post-handoff decline in
-              observability even at low <MV>q_u</MV>; the growth peg removes both, and it is what makes
-              the σ-clock's timeline-robustness fully carry over to the observability sector.
-            </P>
-            <P>
-              The <MV>-m</MV> and <MV>-e</MV> terms in the state equations are not an additional obsolescence
-              parameter. They just come from measuring coverage and evasion stocks relative to total
-              automation: a fixed stock shrinks in <MV>M/A</MV> units as <MV>A</MV> grows.
+              The growth peg is a substantive choice: opacity should track the amount of automation, not the
+              labour that went into producing it, so a labour-share spec (which would grant a human-era
+              observability subsidy via the large human-era <MV>G</MV>) is rejected. The <MV>−b</MV>,
+              <MV> −s</MV> and <MV>−e</MV> dilution terms are not an obsolescence parameter — they just come
+              from measuring stocks relative to total automation: a fixed stock shrinks in <MV>·/A</MV> units
+              as <MV>A</MV> grows.
             </P>
           </DocSection>
 
@@ -1798,145 +1757,88 @@ function AssumptionsPanel({ open, setOpen }) {
               magnitude.
             </P>
             <P>
-              <strong>Only the uncooperative side faces observability-gated suppression.</strong> There is no
-              analogous <MV> -ℓO</MV> term acting on cooperative production itself. Similar reasoning:
+              <strong>Only the uncooperative side faces suppression.</strong> The fix gate <MV>O_fix</MV> acts
+              on <MV>G_u</MV>; there is no analogous term on cooperative production. Same reasoning:
               cooperative AI operates in the open while uncoop operates covertly, so observability is the
-              bottleneck on how much of the uncoop slice we can suppress. The suppression acts on both the
-              stock and the flows into it, but the two terms are different kinds of object by construction:
-              the self-term <MV>−ℓO·Q</MV> is a <em>rate</em> on the stock and can exceed the
-              self-inflow <MV>k_uu·Q</MV> whenever <MV>ℓO &gt; k_uu</MV>, while interception of leakage is a
-              bounded <em>fraction</em> <MV>ℓ_k·O ≤ 1</MV> of the flow and can never remove more than the
-              leakage itself. That bound is why exact eradication is impossible here: the
-              seeding <MV>g(0) = k_cu(1 − ℓ_k·O*(0))</MV> stays strictly positive (novel modes
-              keep <MV>O*(0) &lt; 1</MV>), so very high <MV>ℓ</MV> pushes the endemic attractor down
-              like <MV>k_cu(1+c−ℓ_k−cδk_cu)/ℓ</MV> but never to zero.
+              bottleneck on how much of the uncoop slice we can suppress. Because the gate is a bounded
+              fraction <MV>O_fix ≤ 1</MV> of <MV>G_u</MV>, it can never remove more production than exists —
+              which is why exact eradication is impossible: the seeding <MV>g(0) = k_cu(1 − O_fix*(0))</MV>
+              stays strictly positive for <MV>k_cu &gt; 0</MV> (novel modes keep <MV>O_fix*(0) &lt; 1</MV>), so
+              very high <MV>ρ</MV> pushes the endemic attractor down but never to zero.
             </P>
           </DocSection>
 
           <DocSection title="Calibration">
             <P>
-              The observability sector needs three inputs: present observability <MV>O(0)</MV>, the long-run
-              passive-opacity ratio <MV>c_0/c_M</MV>, and an overall scale for <MV>c_M</MV>. The blog's main
-              method fixes the first two from evidence/priors and pegs the third to the automation scale:
+              The observability sector needs three inputs: present observed observability <MV>O(0)</MV>, the
+              long-run passive-opacity ratio <MV>c_0/c_M</MV>, and an overall scale for <MV>c_M</MV>. The blog's
+              main method fixes the first two from evidence/priors and pegs the third to the automation scale:
             </P>
             <ul style={{ margin: '0 0 10px 18px', padding: 0 }}>
-              <li><MV>R(0)</MV> — misses per catch today, i.e. present observability. With <MV>m_0 = 1</MV> fixing the arbitrary stock units this is the initial evasion stock, <MV>e_0 = R_0</MV>, so <MV>O(0) = 1/(1+R_0)</MV>. Central estimate <MV>O(0) = 1/2</MV> (so <MV>R(0) = 1</MV>).</li>
-              <li><MV>O*</MV> — best-case long-run observability, set directly. Observability drifts from its present value <MV>O(0)</MV> toward this; internally it pins the passive-opacity ratio at the long-run rare-uncooperative point (<MV>q_h = 0</MV>, <MV>q_u → 0</MV>), where the implicit long-run observability back-solves to <MV>c_0/c_M = (1−O*)/(O*(1−δ·ℓ_k·k_cu·O*))</MV> — re-solved per parameter cell (it depends on <MV>δ</MV>, <MV>ℓ_k</MV>, <MV>k_cu</MV> but not <MV>ℓ</MV>); central <MV>O* = 1/2</MV> gives <MV>c_0/c_M ≈ 1.02</MV> at Broad. "Best case" because it holds while uncoop stays low — the actual long-run <MV>O*(q_u)</MV> falls as <MV>q_u</MV> grows.</li>
-              <li><MV>T_auto</MV> — present calendar doubling time of <MV>A</MV>. Under the main method this only scales the calendar-years axis; it no longer enters <MV>c_M</MV>.</li>
+              <li><MV>R(0)</MV> — misses per catch today, i.e. present observed observability. The unit monitoring stock splits at the b/s steady state into <MV>b_0 = 1/(1+ρ)</MV>, <MV>s_0 = ρ/(1+ρ)</MV> (so <MV>m_0 = 1</MV>), with <MV>e_0 = R_0</MV>, giving <MV>O_obs(0) = 1/(1+R_0)</MV>. Central <MV>O(0) = 1/2</MV> (so <MV>R(0) = 1</MV>).</li>
+              <li><MV>O*</MV> — best-case long-run observed observability, set directly. Observability drifts from <MV>O(0)</MV> toward this; internally it pins the passive-opacity ratio at the long-run rare-uncooperative point (<MV>q_h = 0</MV>, <MV>q_u → 0</MV>), where the implicit long-run <MV>O_obs</MV> back-solves to <MV>c_0/c_M = (1−O*)/(O*(1−δ·φ·k_cu·O*))</MV>, <MV>φ = ρ/(1+ρ)</MV> — re-solved per parameter cell (depends on <MV>δ</MV>, <MV>ρ</MV>, <MV>k_cu</MV>); central <MV>O* = 1/2</MV> gives <MV>c_0/c_M ≈ 1.0–1.03</MV>. "Best case" because it holds while uncoop stays low.</li>
+              <li><MV>T_auto</MV> — present calendar doubling time of <MV>A</MV>. Under the main method this only scales the calendar-years axis; it does not enter <MV>c_M</MV>.</li>
             </ul>
             <P>The calibrated rates the simulator uses are then:</P>
-            <TeX display>{String.raw`c_M = \frac{G_0\,m_0}{(1-Q_0)+\eta_0/a_{\mathrm{AI/H}}}, \qquad c_0 = \frac{1-O^{\ast}}{O^{\ast}\,(1-\delta\,\ell_k k_{cu}\,O^{\ast})}\,c_M`}</TeX>
+            <TeX display>{String.raw`c_M = \frac{G_0\,m_0}{(1-Q_0)+\eta_0/a_{\mathrm{AI/H}}}, \qquad c_0 = \frac{1-O^{\ast}}{O^{\ast}\,(1-\delta\,\varphi\,k_{cu}\,O^{\ast})}\,c_M`}</TeX>
             <P>
               where <MV>G_0</MV> is the <em>gated</em> total at <MV>σ = 0</MV>,
-              <MV> G_0 = (1−Q_0) + η_0 + k_uu·Q_0 − δ·O(0)·(ℓ_k·L_k(0) + ℓ·Q_0)</MV>. The first equation
-              pegs <MV>c_M</MV> to the automation production scale, so coverage starts at
-              quasi-steady-state; its magnitude affects only how quickly <MV>O</MV> relaxes from <MV>O(0)</MV>
-              toward <MV>O*</MV>, not the long-run basin. Observability therefore drifts from its measured
-              present value <MV>O(0)</MV> to its prior-set long-run value <MV>O*</MV>.
+              <MV> G_0 = (1−Q_0) + η_0 + k_uu·Q_0 − δ·O_fix(0)·G_u(0)</MV> with
+              <MV> O_fix(0) = φ·O_obs(0)</MV>. The first equation pegs <MV>c_M</MV> to the automation production
+              scale, so coverage starts at quasi-steady-state; its magnitude affects only how quickly <MV>O</MV>
+              relaxes from <MV>O(0)</MV> toward <MV>O*</MV>, not the long-run basin.
             </P>
             <P>
               The "calendar years" toggle uses <MV>years = σ · T_auto / ln 2</MV>, exact at <MV>σ = 0</MV> and
               approximate later because we deliberately do not model how <MV>Λ</MV> evolves — what the σ-clock
               factors out.
             </P>
-            <P>
-              <strong>Alternative route (not used by default).</strong> The blog keeps a second elicitation in
-              an appendix that instead derives <MV>c_M</MV>, <MV>c_0</MV> from two calendar rate judgements —
-              <MV> T_M,½</MV> (time for missed-to-caught odds <MV>R = (1−O)/O</MV> to halve with evasion frozen)
-              and <MV>T_E,2</MV> (time to double with monitoring frozen). Odds are the natural target there
-              because, differentiating along the σ-clock, the dilution terms cancel:
-            </P>
-            <TeX display>{String.raw`\frac{d\log R}{d\sigma} = \frac{F_E}{F\,e} - \frac{F_M}{F\,m}`}</TeX>
-            <P>
-              so passive dilution does not change which side is ahead — and, as a corollary, a <em>constant</em>
-              leakage rate drops out of the odds dynamics entirely; only a <em>state-dependent</em> leakage
-              (e.g. a policy response to observed misbehaviour) would move the basin.
-            </P>
           </DocSection>
 
           <DocSection title="Long-run behaviour & basin conditions">
             <P>
-              After the transient (<MV>η → 0</MV>, monitoring and evasion at quasi-steady-state), the
-              growth peg keeps total production <MV>F</MV> in the evasion stock:
-              <MV> m* = c_M·q_c/F</MV> but <MV>e* = c_0 + a_E/M·c_M·q_u/F</MV>, so <MV>F</MV> no longer
-              cancels in <MV>e*/m*</MV>. Because <MV>F</MV> is itself linear in <MV>O</MV>, long-run
-              observability at a fixed uncoop share is <em>implicit</em> — the root of a quadratic
-              (with <MV>r = q_u/(1−q_u)</MV>, <MV>c = c_0/c_M</MV>):
+              After the transient (<MV>η → 0</MV>, the <MV>b/s/e</MV> stocks at quasi-steady-state), the growth
+              peg keeps total production <MV>G</MV> in the evasion stock, so long-run observed observability at
+              a fixed uncoop share is <em>implicit</em> — the minus root of a quadratic (with
+              <MV> r = q_u/(1−q_u)</MV>, <MV>c = c_0/c_M</MV>, <MV>φ = ρ/(1+ρ)</MV>):
             </P>
-            <TeX display>{String.raw`c\,\delta P\,O^2 - D\,O + 1 = 0, \qquad P = \ell_k k_{cu} + \ell r, \quad D = 1 + c + (a_{\mathrm{E/M}} + c\,k_{uu})\,r`}</TeX>
+            <TeX display>{String.raw`c\,\delta\,\varphi\,P_5\,O_{\mathrm{obs}}^2 - D\,O_{\mathrm{obs}} + 1 = 0, \qquad P_5 = k_{cu} + r, \quad D = 1 + c + (a_{\mathrm{E/M}} + c\,k_{uu})\,r`}</TeX>
             <P>
-              <MV>O*(q_u)</MV> is the minus root <MV>2/(D + √(D² − 4cδP))</MV> (the plus root is
-              infeasible — it sits at <MV>O &gt; 1</MV> or outside the <MV>F &gt; 0</MV> envelope). It
-              falls when the uncoop share grows, when active evasion is more productive, or when passive
-              opacity <MV>c_0</MV> is large relative to monitoring productivity <MV>c_M</MV> — and, new
-              with the peg, it <em>rises</em> slightly with suppression (<MV>dO*/dℓ &gt; 0</MV>,
-              <MV> dO*/dδ &gt; 0</MV>): heavier suppression slows growth per unit labour, and growth is
-              what brings passive opacity. When <MV>D² &lt; 4cδP</MV> (deep-suppression corners) the
-              observability sector has no interior equilibrium at all — a validity-envelope exit.
+              <MV>O_obs*(r) = 2/(D + √(D² − 4cδφP_5))</MV>; the suppressing fraction is
+              <MV> O_fix* = φ·O_obs*</MV>. It falls as the uncoop share grows, as active evasion gets more
+              productive, or as passive opacity <MV>c_0</MV> grows relative to <MV>c_M</MV>. When
+              <MV> D² &lt; 4cδφP_5</MV> the observability sector has no interior equilibrium — a
+              validity-envelope exit.
             </P>
             <P>
-              Two thresholds organise the qualitative outcome. <strong>Condition 1</strong> — can rare uncoop
-              labour be suppressed while observability is still high? The seeding itself is gated, but
-              bounded — when rare, uncoop production starts from
-              <MV> g(0) = k_cu(1−ℓ_k·O*(0))</MV>, which is <em>strictly positive</em> for <MV>ℓ_k ≤ 1</MV> —
-              and the initial-slope condition for the uncoop share to shrink while rare becomes
+              The sign of <MV>q_u'</MV> on the slow manifold is the sign of
+              <MV> g(r) = N − φ·O_obs*(r)·P_5·S_5</MV>, with <MV>N = k_cu + b·r</MV>,
+              <MV> b = k_cu + k_uu − 1</MV>, <MV>S_5 = 1 + (1−δ)r</MV>. Its positive roots are the interior
+              fixed points: the lower one is the stable attractor, the higher one the basin-separating saddle —
+              what the badge and the dashed lines in the trajectory view report. <MV>γ</MV> does not enter (it
+              cancels). The seeding <MV>g(0) = k_cu(1 − O_fix*(0))</MV> is strictly positive for
+              <MV> k_cu &gt; 0</MV>, so the smallest positive root is always a stable crossing — there is no
+              eradication case, and raising <MV>ρ</MV> drives the attractor down an endemic floor but never to
+              zero.
             </P>
-            <TeX display>{String.raw`O^{\ast}(0)\Big[\ell + (1-\delta)\,\ell_k k_{cu}\Big] + O^{\ast\prime}(0)\,\ell_k k_{cu} > k_{uu} + k_{cu} - 1`}</TeX>
             <P>
-              where <MV>O*′(0) &lt; 0</MV> comes from implicit differentiation of the quadratic — no
-              closed bracket survives the implicit <MV>O*</MV> (at the central calibrations the effective
-              bracket multiplying <MV>O*(0)</MV> is ≈ 0.79 at <MV>ℓ_k = 1</MV>, ≈ 0.93 at
-              <MV> ℓ_k = 0.5</MV>). At <MV>δ = 1</MV> this condition is necessary (though not sufficient)
-              for a cooperative basin in every case checked numerically — the production-share model's
-              symbolic proof does not carry over. For
-              <MV> δ &lt; 1</MV> it loses necessity: redirected suppression can sustain an interior attractor
-              even where rare uncoop labour initially grows — though that attractor may sit at high <MV>q_u</MV>.
-              <strong> Condition 2</strong> — can uncoop labour hold the whole system? Redirection makes this
-              strictly harder, because what little is still caught keeps re-seeding the cooperative pool. The
-              all-uncoop endpoint is stable when
-            </P>
-            <TeX display>{String.raw`k_{uu} + k_{cu} - 1 > \frac{(1-\delta)\,\ell}{a_{\mathrm{E/M}} + (c_0/c_M)\,k_{uu}}`}</TeX>
-            <P>
-              (at <MV>δ = 1</MV> this reduces to <MV>k_uu + k_cu &gt; 1</MV>; at <MV>k_uu = 1</MV> the
-              denominator is the familiar <MV>a_E/M + c_0/c_M</MV>). Neither gate moves this
-              condition: the gated terms vanish to first order at the all-uncoop endpoint, and
-              <MV> ℓ_k</MV> does not appear at fixed <MV>c_0/c_M</MV> (the dial pin moves <MV>c_0</MV>
-              imperceptibly). The combinations:
+              Two thresholds organise the outcome. <strong>Condition 1</strong> — can rare uncoop labour be
+              suppressed while observability is high? (whether <MV>g</MV> dips below zero near the origin).
+              <strong> Condition 2</strong> — can uncoop labour hold the whole system? The all-uncoop endpoint
+              is stable roughly when <MV>k_uu + k_cu − 1</MV> exceeds the redirected-suppression term (at
+              <MV> δ = 1</MV> this reduces to <MV>k_uu + k_cu &gt; 1</MV>). The combinations:
             </P>
             <ul style={{ margin: '0 0 10px 18px', padding: 0 }}>
               <li><strong>Interior attractor exists and C2 ✓</strong> → <em>bistable</em>: a cooperative-side basin coexists with an uncooperative-dominant one, and initial conditions decide where you land.</li>
               <li><strong>No interior attractor and C2 ✓</strong> → the cooperative basin disappears, leaving uncoop dominance (escape).</li>
-              <li><strong>C2 ✗</strong> → the all-uncoop endpoint is unstable and a single interior attractor is the only long-run outcome (monostable) — but for <MV>δ &lt; 1</MV> it can sit anywhere from a few percent to near-total uncoop share, so check its location.</li>
+              <li><strong>C2 ✗</strong> → a single interior attractor is the only long-run outcome (monostable) — but for <MV>δ &lt; 1</MV> it can sit anywhere from a few percent to near-total uncoop share, so check its location.</li>
             </ul>
             <P>
-              There is no eradication case: because <MV>ℓ_k ≤ 1</MV> (and novel modes
-              keep <MV>O*(0) &lt; 1</MV> — under the implicit quadratic this is
-              <MV> h(1) = c(δℓ_k·k_cu − 1) &lt; 0</MV>), the seeding <MV>g(0) &gt; 0</MV> always,
-              so <MV>q_u = 0</MV> is never reachable. At very high <MV>ℓ</MV> the attractor instead falls
-              along the deep-suppression endemic floor <MV>q* ≈ k_cu(1+c−ℓ_k−cδk_cu)/ℓ</MV> — arbitrarily
-              low, never zero. The floor itself has a validity bound, <MV>2cδk_cu ≤ 1+c</MV> (at the
-              central <MV>O* = ½</MV> pin: <MV>δ·k_cu ≤ 4/(4+ℓ_k)</MV>); beyond it the would-be floor sits
-              on the quadratic's infeasible branch and deep suppression cannot floor the system at all —
-              no finite <MV>ℓ</MV> produces a basin (the AI-2027 <MV>δ = 1</MV> corner).
-            </P>
-            <P>
-              The exact interior fixed points solve a <em>cubic</em> in the odds <MV>r = q_u/(1−q_u)</MV>:
-              substituting <MV>g = 0</MV> into the <MV>O</MV>-quadratic gives
-              <MV> Φ(r) = cδN² − D·N·S + P·S² = 0</MV> with <MV>N = k_cu + b·r</MV>,
-              <MV> S = 1 + (1−δ)r</MV>, <MV>b = k_uu + k_cu − 1</MV>, valid on the minus-root branch; the
-              app root-finds <MV>g</MV> with the implicit <MV>O*</MV> directly. The seeding constant
-              <MV> Φ(0) = −k_cu(1+c−ℓ_k−cδk_cu)</MV> is ℓ-free and strictly negative for
-              <MV> ℓ_k ≤ 1</MV> — the no-eradication statement in cubic form. The positive roots are
-              the stable attractor (lower) and the basin-separating saddle (higher) — which is what the badge
-              and the dashed lines in the trajectory views report. Existence is monotone in <MV>ℓ</MV>,
-              with threshold <MV>ℓ*</MV> drawn on the outcome map — computed numerically under v4 (the
-              production-share model's closed-form threshold chain is superseded); the surviving closed
-              form, at <MV>δ = 1</MV>, <MV>k_uu = 1</MV>, <MV>a_E/M = 1</MV>:
-              <MV> ℓ* = 2k_cu[(T−ck_cu) + √((T−ck_cu)(T−ck_cu−ℓ_k))]</MV>, <MV>T = 1+c</MV> — the old form
-              with <MV>T</MV> discounted by the F-feedback term <MV>ck_cu</MV>.
-              (The badge compares
-              <MV> ℓ·O*(0)</MV> against <MV>k_uu − 1</MV> — the <MV>k_cu → 0</MV> reduction of Condition 1,
-              which stays δ-free at <MV>k_cu = 0</MV>.)
+              Existence of a cooperative basin is monotone in the fix rate <MV>ρ</MV>, with a threshold
+              <MV> ρ*</MV> drawn on the outcome map — computed numerically (the basin appears at a saddle-node,
+              and its attractor can already sit at a high uncoop share, so check the badge, not just the
+              boundary). The badge readout reports the long-run <MV>O_obs*(0)</MV>, the suppressing
+              <MV> O_fix*(0)</MV>, and the calibrated <MV>c_M</MV>, <MV>c_0</MV>.
             </P>
           </DocSection>
 
@@ -1968,11 +1870,12 @@ function AssumptionsPanel({ open, setOpen }) {
               cause of unintended self-reproducing behaviour. This is empirically open.
             </P>
             <P>
-              <strong>1D vs 4D basin.</strong> The displayed fixed points <MV>q_u*_stable</MV> and
-              <MV> q_u*_saddle</MV> come from the long-run projection where <MV>q_h → 0</MV> and monitoring /
-              evasion are at quasi-steady-state. The full basin boundary in <MV>(q_u, m, e, q_h)</MV> is a 3D
-              manifold; trajectories starting above the projected saddle but with high observability and
-              significant <MV>q_h</MV> can still return to the cooperative basin.
+              <strong>1D vs 5-D basin.</strong> The displayed fixed points <MV>q_u*_stable</MV> and
+              <MV> q_u*_saddle</MV> come from the long-run projection where <MV>q_h → 0</MV> and the
+              <MV> b/s/e</MV> stocks are at quasi-steady-state. The full basin boundary in
+              <MV> (q_u, b, s, e, q_h)</MV> is higher-dimensional; trajectories starting above the projected
+              saddle but with high observability and significant <MV>q_h</MV> can still return to the
+              cooperative basin.
             </P>
           </DocSection>
 
@@ -2013,7 +1916,7 @@ export default function BasinExplorer() {
     setSigmaMax(SIGMA_MAX_DEFAULT);
   };
 
-  const primaryKeys = ['k_uu', 'k_cu', 'k_hu', 'l', 'lk', 'delta', 'a_e_m', 'a_ai_h'];
+  const primaryKeys = ['k_uu', 'k_cu', 'k_hu', 'rho', 'gamma', 'delta', 'a_e_m', 'a_ai_h'];
   const applyPreset = (preset) => setParams({ ...preset.params });
 
   return (
