@@ -41,7 +41,7 @@ We model the workforce that builds future AI as two competing pools — self-pro
 
 **2. Failure is often gradual, but we can't rule out fast failures.** Our model features a "clock" of total AI labour such that 1 unit is equal to the current amount of human labour producing AI systems. Our "failing" paths often reach $100$ labour units when the uncooperative pool crosses 20% (around 3 years separates 1 labour unit from 100 under naive exponential extrapolation). This is a product of the modelling strategy where many thigns are treated as if they will continue to evolve as they have been already, with the main difference being that uncooperative AI begins to be able to reproduce at meaningful rates. However, we can't rule out parameter setting where failure is rapid.
 
-**3. Observed misbehaviour is an imperfect indicator of uncooperative takeover.** Generally, observed misbehaviour rises together with actual misbehaviour. However, on bad trajectories the uncooperative labour undermines supervision, so this signal is attenuated even if it's usually not fully suppressed. Because we are highly uncertain about observability, for every "good" trajectory, there is a "bad" trajectory that looks similar and vise-versa. Thus naively tracking observed misbehaviour rates gives *some* indication of the trajectory, but it's discriminating power is limited.
+**3. Observed misbehaviour is an imperfect indicator of uncooperative takeover.** Generally, observed misbehaviour rises together with actual misbehaviour. However, on bad trajectories the uncooperative labour undermines supervision, so this signal is attenuated even if it's usually not fully suppressed. Because we are highly uncertain about observability, for every "good" trajectory, there is a "bad" trajectory that looks similar and vise-versa. Thus naively tracking observed misbehaviour rates gives *some* indication of the trajectory, but it's discriminating power is limited. There is direct evidence that the gap runs one way — re-scoring a fixed model under a newer audit harness surfaces *more* misbehaviour, so what we observe reads as a lower bound (see [Predictions and postdictions](#predictions-and-postdictions)).
 
 **4. Divergence between "good" and "bad" paths can happen significanly beyond AI-human parity.** Safety focused policy feedbacks will have to be capable of operating in a world where AI dominates the labour pool.
 
@@ -49,13 +49,13 @@ We model the workforce that builds future AI as two competing pools — self-pro
 
 ## Explaining the model
 
-### What is being modelled
+### What is being modelled {#what-modelled}
 
 We're not modelling whether the outcomes are ultimately good, all things considered. We're modelling whether AI that produces the next generation of AI becomes mostly cooperative or mostly uncooperative with regard to human-aligned oversight.
 
 A note on terminology: we say "uncooperative" rather than "misaligned" throughout. The post gives "uncooperative" a specific two-part definition below, while "misaligned" is used in many different senses in the literature; where we discuss others' scenarios we map their "misaligned" onto our "uncooperative" explicitly.
 
-**Uncooperative vs cooperative vs human labour:** Consider the AI labour that goes into building *more* AI, which we'll call $A$. Some of this labour might go into producing future systems that become harder to oversee, more resistant to correction and better able to produce successor systems with similar tendencies. Other labour will go into producing future systems that help to improve oversight, make corrections more robust and well-targeted and better able to produce successor systems with similar tendencies. Both directions are self-reinforcing: if the next generation of AI systems is dominated by uncooperative labour, then the subsequent generation will be even more uncooperative, and vice versa.
+**Cooperative vs uncooperative behaviour:** Consider the AI labour that goes into building *more* AI, which we'll call $A$. Some of this labour might go into producing future systems that become harder to oversee, more resistant to correction and better able to produce successor systems with similar tendencies. Other labour will go into producing future systems that help to improve oversight, make corrections more robust and well-targeted and better able to produce successor systems with similar tendencies. Both directions are self-reinforcing: if the next generation of AI systems is dominated by uncooperative labour, then the subsequent generation will be even more uncooperative, and vice versa.
 
 We also have human labour $H_0$ that goes into building more AI. While in reality this will change with investment in AI, we treat it as fixed for simplicity.
 
@@ -63,22 +63,36 @@ Here $A$ should be read as an index of effective AI-development labour, not as a
 
 We benchmark the turnover of this pool against the recent rate of "major" AI model releases (which we take, based on a rough but informed appraisal, to be a 0.5-point version difference in most instances). This we consider to represent a half-turnover of the model training pipeline (measured WRT influence on meaningful model behaviour, not literal number of datapoints). This reflects a working assumption that the *most* important input for determining cooperativeness is the training pipeline, moreso than (for example) the deployment context. 
 
-The level at which we assess cooperativeness is more granular than the turnover benchmark. We consider cooperativeness to be measured per per meaningful tasks completed. There's no way to call a model that acts uncooperatively 5% of the time "cooperative" or "uncooperative" without losing important information.
-
-By "cooperative behaviour", we strictly mean *self-propagating* cooperative behaviour - i.e. behaviour that is (i) cooperative according to contextually appropriate commonsense standards (and reasonably well measured by alignment audits in the domains they cover) and (ii) has a tendency to instil both (i) and (ii) in successor instances. So as a working assumption, we can measure cooperativeness by looking at AI work (including hybrid/semi-autonomous work) on AI training pipelines, and assessing whether it improves (or regresses) cooperative behaviour of the next generation according to current high quality alignment audits, and making a judgement about how well this influence will generalize to the relevant production environments in the next generation.
-
-A key asymmetry (and a key factor that makes this model interesting) is that what we might call "passive deterioration" affects cooperative behaviour more strongly than uncooperative behaviour. That is, if the current work on the next generation training pipeline is neglects to attend to cooperativeness one way or another, then cooperativeness of the next generation of models will probably decline (both in terms of cooperativeness as measured by audits, and in terms of building it into the next-next generation). One need not deliberately train oversight subversion into models; they passively pick it up because subversion is often instrumental for one reason or another. We model this explicitly via a one-way *leakage* term, where cooperative labour now unintentionally produces some uncooperative labour in the next generation via oversights, insufficient understanding and so forth.
+A key asymmetry (and a key factor that makes this model interesting) is that what we might call "passive deterioration" affects cooperative behaviour more strongly than uncooperative behaviour. That is, if the current work on the next generation training pipeline neglects to attend to cooperativeness one way or another, then cooperativeness of the next generation of models will probably decline (both in terms of cooperativeness as measured by audits, and in terms of building it into the next-next generation). One need not deliberately train oversight subversion into models; they passively pick it up because subversion is often instrumental for one reason or another. We model this explicitly via a one-way *leakage* term, where cooperative labour now unintentionally produces some uncooperative labour in the next generation via oversights, insufficient understanding and so forth.
 
 We model both cooperative and uncooperative behaviour as single pools, but this is a coarse approximation. In reality, some work will be highly cooperative and attentive to the behaviour of the next generation, some cooperative in a mediocre way, some indifferent and some actively subversive in a focussed manner. These distinctions could end up mattering if, for example, the segments that most effectively propagate themselves end up dominating the labour pool (see [Appendix: neglect, subversion and more realistic models](#appendix-neglect-subversion) for further discussion). Nonetheless, for this round of modelling we prioritize simplicity and keep the pools coarsely lumped.
 
 As a starting point, we treat the ability of each pool to reproduce itself as equal, given equal resources (excluding leakage from the cooperative pool - so in fact the cooperative pool is somewhat disadvantaged at baseline). An argument for this in the short run is that reproduction is dominated by momentum - i.e. new training pipelines inherit a lot from old training pipelines based on convention, what tools have already been created and so forth - and so behaviours persist in the next generation roughly at the same level as behaviours in this generation. In the long run, we can consider the strategy-stealing assumption ([Christiano, 2019](https://www.alignmentforum.org/posts/nRAMpjnb6Z4Qv3imF/the-strategy-stealing-assumption)): whatever strategies one pool can use to *deliberately* turn resources into successors, the other can copy, so neither side gets an intrinsic propagation advantage from deliberate competition. These reasons are non-decisive, but we take them as an adequate justification to take a baseline where the self-propagation abilities of each pool are equal (again, before factoring in leakage).
+
+**Defining cooperative and uncooperative behaviour:** Our precise definition of "uncooperative behaviour" is behaviour that would be flagged as such by sufficiently mature retrospective audits of the relevant frozen model, scaffold and development context. Aspirationally, this means "behaviour that is undesirable according to developers, under a suitably enlightened criterion of desirability and with perfect coverage". Our definition is only a proxy for that aspiration, but under plausible assumptions it is a functional proxy. Cooperative behaviour is the complement of this.
+
+The level at which we assess cooperativeness is more granular than the turnover benchmark. We consider cooperativeness to be measured per meaningful task completed. There's no way to call a model that acts uncooperatively 5% of the time "cooperative" or "uncooperative" without losing important information.
+
+Strictly, we're interested in *self-propagating* cooperative and uncooperative behaviour. Cooperative behaviour is behaviour that (i) is cooperative according to our working definition and (ii) tends to instil both (i) and (ii) in successor instances. Uncooperative behaviour is behaviour that (i') is uncooperative according to our working definition and (ii') tends to instil both (i') and (ii') in successor instances. Given that successor influence is a key channel both for misbehaviour to cause major problems and for desired behaviour to prevent further misbehaviour, mature behaviour audits will ideally catch this dimension too. We nevertheless make it explicit because self-propagation is central to the model.
+
+Behaviour audit based definitions have a well-known issue: if misbehaviour audits do not track misbehaviour as we would assess it from a sufficiently enlightened position, then the operational definition will mislead us with respect to the property we really care about.
+
+Our definition leans on retrospective audits - using more modern evaluation suites with older models. Retrospective audits *can* still fail for the same reasons - if harnesses degrade, or cease improving, then we do not benefit from using more modern harnesses. However, they do buy us an observable indication that the proxy can reasonably be believed to be tracking the underlying quantity of interest.
+
+Specifically, suppose both of the following hold:
+ - We are making continuous progress in monitoring *new* systems for misbehaviour; our latest audits surface misbehaviour that older audits missed (and is broadly agreed to be undesirable behaviour)
+ - Our audits are saturating on historical models in historical development contexts
+
+Together, these imply that the new ways to detect misbehaviour we are producing are not finding many more misbehaviours in older models/development contexts, which is suggestive of an asymptote. That is, if we investigated these models with excellent coverage from a suitably enlightened position, we still wouldn't find much more misbehaviour. Note that we currently do observe rising misbehaviour rates with newer evaluations on fixed models, see [Predictions and postdictions](#predictions-and-postdictions).
+
+This is not a bulletproof justification. A suitably determined attacker could, perhaps, carefully manage which kinds of misbehaviour are revealed so as to maintain the combination of new misbehaviour detected and saturating detection on old systems. This is a delicate balance to maintain, however, and might demand a significant advantage on the uncooperative side to pull off. Thus the proxy and its observable health indicators are more plausibly reliable if cooperative dominance is continually maintained, though we don't have robust views on just how hard it is to attack. It may also be hard to tell the difference between the possibility that there are no new misbehaviours to reveal in new systems or that our progress in monitoring technology is stalling. Dedicated red teaming efforts could help to disambiguate these possibilities. Finally, both properties could hold but the convergence could be too slow to be practically relevant.
 
 **Detect-and-fix coverage, evasion and observability:** To the extent human developers or cooperative AI developers are aware of uncooperative AI labour, they try to correct it. We define a stock of *detect-and-fix coverage* $m$ — the accumulated machinery of monitors, audits, patched training data, filters and correction loops that covers known classes of misbehaviour — and a stock of failure surfaces $e$ (which accumulates via novel failure modes introduced by the general expansion of automated labour, plus deliberate development of methods to evade the $m$ stock), such that the fraction of current uncooperative behaviour that falls under coverage is $O=\frac{m}{m + e}$. $m$ further splits into fixed observed misbehaviour $s$ and unfixed observed misbehavour $b$. Human labour and cooperative AI labour produce $m$; uncooperative AI labour produces $e$ through the deliberate-evasion channel, while the novel-mode channel ("passive opacity") grows with automation itself — expanding automation broadens the surface area to monitor — and we consider the default situation with no monitoring effort to be one where a large fraction of uncooperative actions go unnoticed. We model observed-but-unfixed problems $b$ going to observed-and-fixed problems $s$ at a constant rate $\rho$. This is an idealization of the model - in reality, that rate might itself depend on technical development (or policy responses to misbehaviour, something else the model does not include) but in this iteration we limit our model to handling technical development of the detection machinery.
 
 Our model is a model of the evolution of these quantities - cooperative labour, uncooperative labour and documented, fixed and unobserved problems. The next section describes how these quantities evolve.
 
 **This is a model of cooperative dominance under a static policy environment:** Under our central calibration, the uncooperative pool starts at 5% of the total AI labour pool, while the cooperative pool is a supermajority at 95%. This model captures dynamics that are important in this regime, like the uncooperative pool working to evade detection, and the cooperative pool being free to suppress any uncooperative behaviour it does detect. It does not capture dynamics that become more important when the uncooperative pool becomes a peer to the cooperative pool:
- - The uncoopeartive pool could actively undermine the coopeartive labour, or try to capture it, rather than simply evading detection and benefiting from errors
+ - The uncooperative pool could actively undermine the cooperative labour, or try to capture it, rather than simply evading detection and benefiting from errors
  - The cooperative pool could run out of capacity to suppress the uncooperative pool
  - A large observed uncooperative pool could trigger redirection of resources from expanding AI capacity to suppression of uncooperative behaviour
 
@@ -160,7 +174,7 @@ The un-fixed leakage and the redirected $(1-\delta)$ transfers between pools, no
 \[
 \begin{aligned}
 F_m &= c_m\left(q_c+\frac{q_h}{a_{\mathrm{AI/H}}}\right) \\[4pt]
-F_e &= c_0\,F + a_{\mathrm{E/M}}\,c_e\,q_u \\[4pt]
+F_e &= c_0\,F + a_{\mathrm{E/M}}\,c_m\,q_u \\[4pt]
 O_{\mathrm{obs}} &= \frac{b+s}{b+s+e} \qquad\quad O_{\mathrm{fix}} = \frac{s}{b+s+e}
 \end{aligned}
 \]
@@ -169,7 +183,9 @@ The monitoring production share $F_m$ feeds a stock of misbehaviour we have *obs
 
 Detect-and-fix coverage grows with cooperative AI and human labour. $c_m$ is the overall coverage-production rate relative to the production of automation — $c_m=1$ means that for every doubling of automation, half of the outstanding known issues will be fixed. Humans may be, relative to their overall productivity, better or worse at finding problematic behaviour; $a_{\mathrm{AI/H}}$ captures this tradeoff with $a_{\mathrm{AI/H}}=1$ implying no relative advantage to AI systems or humans at this task.
 
-Evasion has two sources. The first source is the term $a_{\mathrm{E/M}}c_mq_u$ is active evasion produced by uncooperative AI, with $a_{\mathrm{E/M}}$ measuring the evasion-vs-monitoring advantage; $a_{\mathrm{E/M}}>1$ implies an advantage for evasion. **This parameter counts both natural advantages and effort** - if there is no natural advantage either way but each unit of uncooperative labour invests half of its production capacity in producing evasion technology, while each unit of cooperative labour invests just 10%, then we would have $a_{\mathrm{E/M}}=5$. We could use a parameter $c_e$ to measure the relative production advantage for evasion over general AI production, but because it does the same job as $c_m$, we fix $c_e=c_m$, so that $c_m$$ represent a *broad domain advantage/disadgantage* to evasion or monitoring vs AI development. The second source is the term $c_0 F$, which is passive production of observation difficulty; as automation grows, systems become larger, faster, more alien and more internally automated, and current monitoring methods become less adequate even without any deliberate evasion effort. An assistant that completes a small number of well-scoped tasks is relatively easy to evaluate; an autonomous research organisation is much more difficult. Observability is a soft contest between the stocks: $O_{\mathrm{obs}} \to 1$ when monitoring is ahead, $O_{\mathrm{obs}} \to 0$ when evasion is.
+Evasion has two sources. The first source, the term $a_{\mathrm{E/M}}c_mq_u$, is active evasion produced by uncooperative AI, with $a_{\mathrm{E/M}}$ measuring the evasion-vs-monitoring advantage; $a_{\mathrm{E/M}}>1$ implies an advantage for evasion. This parameter counts both natural advantages and effort - if there is no natural advantage either way but each unit of uncooperative labour invests half of its production capacity in producing evasion technology, while each unit of cooperative labour invests just 10%, then we would have $a_{\mathrm{E/M}}=5$. We parametrize the equations so that $c_m$ controls broad domain advantages - roughly, does AI capability or monitoring/evasion progress faster overall - while $a_{\mathrm{E/M}}$ controls the "offence/defense" balance between observability and evasion. The second source is the term $c_0 F$, which is passive production of observation difficulty; as automation grows, systems become larger, faster, more alien and more internally automated, and current monitoring methods become less adequate even without any deliberate evasion effort. An assistant that completes a small number of well-scoped tasks is relatively easy to evaluate; an autonomous research organisation is much more difficult. Observability is a soft contest between the stocks: $O_{\mathrm{obs}} \to 1$ when monitoring is ahead, $O_{\mathrm{obs}} \to 0$ when evasion is.
+
+In order to model an increase in monitoring effort, we have to update both $c_m$ (to reflect the fact that monitoring progresses faster with respect to general AI progress) and $a_{\mathrm{E/M}}$ (to reflect the fact that it also progresses faster with respect to active evasion) such that the product $c_m a_{\mathrm{E/M}}$ remains constant.
 
 ### Model reference {#model-reference}
 
@@ -181,7 +197,7 @@ Collecting the variables:
  - $q_u=\frac{A_u}{A}$: the fraction of total AI labour that is uncooperative
  - $q_c=\frac{A_c}{A}$: the fraction of total AI labour that is cooperative
  - $q_h=\frac{H_0}{A}$: how much human labour matters relative to AI labour (if AI labour doubles while human labour stays fixed, $q_h$ will halve.)
- - $b$: stock of misbehaviour observed and documented but not yet fixed; $S$: stock of *fixed* misbehaviour (interceptable/removable); $E$: total stock of monitor-evasion "technology"
+ - $b$: stock of misbehaviour observed and documented but not yet fixed; $s$: stock of *fixed* misbehaviour (interceptable/removable); $e$: total stock of monitor-evasion "technology"
  - $O_{\mathrm{obs}}=\frac{b+s}{b+s+e}$: observed fraction — what monitoring measures; $O_{\mathrm{fix}}=\frac{s}{b+s+e}$: fixed fraction — what actually suppresses
 
 
@@ -194,7 +210,7 @@ Our system of equations is
   q_h' &= -q_h\\
   b'   &= \frac{F_m}{F}-\rho b-b\\
   s'   &= \rho b-s\\
-  E'   &= \frac{F_E}{F}-E
+  e'   &= \frac{F_e}{F}-e
   \end{aligned}
 \]
 
@@ -214,22 +230,23 @@ F_e &= c_0F+a_{\mathrm{E/M}}c_mq_u
 \end{aligned}
 \]
 
-### Model idealizations
+### Model limitations {#idealizations}
 
-A quick list of some idealizations in this model that one might consider relaxing:
- - Constant reproduction and leakage rates (see [Appendix: neglect, subversion and more realistic models](#appendix-neglect-subversion) for one proposal).
- - Relatedly, we don't consider changing "reproductive capability" within the pools.
+A quick list of some known model limitations:
+ - Constant self-propagation rates, lumping "effectively self-propagating" with "ineffectively self-propagating" pools together (see [Appendix: neglect, subversion and more realistic models](#appendix-neglect-subversion) for more).
+ - Constant leakage rates (see the [paragraph detailing leakage estimation](#estimating-parameters) for more)
  - Constant fix rate of known failure modes $\rho$. It's plausible that technological development leads to fixes generalizing better (or worse) to classes of known failure.
- - Suppression is perfectly targeted: $O$ captures only *recall* (the share of uncooperative labour caught), and correction never falls on cooperative labour by mistake. With imperfect precision, observability would gain a second role — better monitoring would also cut the collateral suppression of wrongly-flagged cooperative labour — which the model omits. The model is therefore not presently well suited to capturing the *cost* of control efforts.
- - Passive opacity is pegged to automation growth: a constant $c_0$ of novel failure surface arrives with each unit of new automation ($dE_{\text{passive}} = c_0\\,dA$). It's possible that technological development may make passive opacity grow worse with time (more complex domains are harder to observe), or better (more advanced observation technology generalizes better to novel domains).
- - Dynamics are poorly modeled for high uncooperative fractions, this is a model of uncooperative behaviour from ~0-10%:
-   - High observed uncooperative behaviour could lead to diverting investment from AI buildout to safety
-   - High uncooperative behaviour will lead to the cooperative pool running into capacity constraints trying to suppress it
-   - A large uncooperative pool could actively fight against the cooperative pool (rather than just try to evade detection)
+ - Suppression is perfectly targeted: $O$ captures only *recall* (the share of uncooperative labour caught), and correction never falls on cooperative labour by mistake. With imperfect precision, suppression would also fall on wrongly-flagged cooperative labour. The model is therefore not presently well suited to capturing the *cost* of control efforts.
+ - Dynamics are poorly modeled for high uncooperative fractions:
+  - High observed uncooperative behaviour could lead to diverting investment from AI buildout to safety
+  - High uncooperative behaviour will lead to the cooperative pool running into capacity constraints trying to suppress it
+  - A large uncooperative pool could actively fight against the cooperative pool (rather than just try to evade detection)
+ - Current observability $O(0)$, observability trends, relative advantage to evasion over monitoring $a_{\mathrm{E/M}}$, relative self-propagation $k_{uu}$ and leakage from automated AI $k_{cu}$ are important to the trajectory and are informed only by weak proxies and lightly-constraining priors that better evidence or analysis could readily overturn.
+ - Passive opacity is pegged to automation growth: a constant $c_0$ of novel failure surface arrives with each unit of new automation ($dE_{\text{passive}} = c_0\,dA$). It's possible that technological development may make passive opacity grow faster with time (more complex domains are harder to observe), or more slowly (more advanced observation technology generalizes better to novel domains).
  - Fixed human labour $H_0$.
- - All behavioural fixes depend on observation. In fact [AI control protocols](https://arxiv.org/abs/2312.06942)) aim to extract useful work from possibly-uncooperative models while limiting the harm they can do without observing the misbehaviour.
-
-Your favourite assistant can probably help you to relax any of these — but making good choices about how you relax them and understanding the resulting model is harder, which is the reason we don't do it here.
+ - All behavioural fixes depend on observation to the same extent. In fact [AI control protocols](https://arxiv.org/abs/2312.06942) aim to extract useful work from possibly-uncooperative models while limiting the harm they can do without observing the misbehaviour.
+ - The rate at which AI systems turn over $\gamma$ is pegged to automation growth; these might decouple if there are "human-pace" limitations on this rate of turnover
+ - Most parameters, including self-reproduction $k_{uu}$, leakage $k_{cu}$, production of monitoring technology $c_m$, are themselves the product of dynamic processes which we don't model, opting instead to empirically estimate them and assume they remain constant (whether this is a limitation or an advantage depends on your confidence in modelling those processes vs predicting straight lines generally continue)
 
 ## The default path
 
@@ -305,7 +322,7 @@ Two consequences of taking the sharp transition to high leakage model seriously 
 
 The second consequence concerns what it would take to *recover*: under very high leakage, successful fixes would demand implausibly large efforts. At $k_{cu}=0.9$, a thirty-fold increase in the fix rate $\rho$ and in monitoring productivity $\{a_{\mathrm{E/M}}^{-1}, c_0\}$ together keeps uncooperative labour to just over 10%. High leakage is recoverable only in principle (provided $k_{cu}<1$), but the investment required may be implausibly large. This raises a degree of tension between two features of the AI-2027 scenario: first, that Agent-4 is almost totally misaligned, and second that the fix is relatively fast and routes mostly through seemingly modest increases in effort on observability.
 
-## Estimating parameters
+## Estimating parameters {#estimating-parameters}
 
 In this section we summarize our judgements for parameter calibration. Evidence was mainly gathered by AIs, wich human prompting to find particular sources or dig further into returned sources; final judgements were human.
 
@@ -319,8 +336,13 @@ There are two further considerations that pull in opposite directions. Firstly, 
 
 We also assume that the present-day observability is in equilibrium between the passive accumulation of observation difficulty and active generation of monitoring technology, and so we also set the long run cooperative-dominant observability to 50% in our central estimate. We have not direct evidence that this is in equilibrium, just the speculation that AI development has been ongoing long enough for it to equilibriate.
 
-**fix rate of known failure modes - $\rho$.** In the model, $\rho$ is the rate at which documented misbehaviour is fixed. We treat this as a common parameter covering the rate at which both fixes are applied to deployed systems and fixes are applied to the pipeline for new deployments. We estimate it from how quickly known kinds of misbehaviour decline with advancing model generations. That is, given a fixed behavioural audit, we measure how quickly the frequency of misbehaviour declines. We fit an exponential to this decline to estimate the half life $T_{1/2}$ of a documented misbehaviour. We then normalize to the model's clock via the automation doubling time, $\rho = T_{\mathrm{auto}}/T_{1/2}$. Our data source here was a collection of recent Anthropic model cards which each give a timeseries of misbehaviour scores (not, strictly speaking, rates) on their internal benchmark based on the [Petri alignment auditing toolkit](https://alignment.anthropic.com/2026/petri-v2/). Across **five** recent cards ([Opus 4.6](https://www-cdn.anthropic.com/0dd865075ad3132672ee0ab40b05a53f14cf5288.pdf), [Sonnet 4.6](https://www-cdn.anthropic.com/78073f739564e986ff3e28522761a7a0b4484f84.pdf), [Opus 4.7](https://www-cdn.anthropic.com/037f06850df7fbe871e206dad004c3db5fd50340/Claude%20Opus%204.7%20System%20Card.pdf), [Opus 4.8](https://www-cdn.anthropic.com/0b4915911bb0d19eca5b5ee635c80fef830a37ea.pdf) and [Fable 5](https://www-cdn.anthropic.com/d00db56fa754a1b115b6dd7cb2e3c342ee809620.pdf)) the half-life is about four months. At our central $T_{\mathrm{auto}} = 5$ months this gives $\rho \approx 1.27$ (spread $\approx 1.1$–$2.0$ across cards). We use the floor-subtracted score rather than the raw decline: because the lowest possible score in these audits is 1, we subtract 1 from all of the scores in order to compute the rate of approach to 1, rather than the rate of approach to the impossible score of 0.
+**Evasion vs monitoring, $a_{\mathrm{E/M}}$.** This is how good a unit of uncooperative labour is at producing evasion, relative to a unit of cooperative labour at producing monitoring — counting both any natural advantage and how much of each side's capacity is actually spent on the contest. We take a central $a_{\mathrm{E/M}}=2$, evasion somewhat advantaged. The main consideration pushing this above parity is a likely effort asymmetry. A single instance of failed evasion is likely to be near-term existential for uncooperative AI agents, while a single instance of failed detection raises a smaller long-term risk to a cooperative AI agent. We don't consider there to be an obvious structural attacker/defender asymmetry. There are many considerations either way, none decisive: Monitoring can cover many channels that uncooperative AIs do not have easy control over (e.g. monitoring internal activations), uncooperative AIs may be able to succeed while taking only a very small fraction of uncooperative actions, but monitors can also identify and focus on stratgically critical actions.
 
+We don't have strong reasons for picking 2 as a central anchor. It is a balance between the likely effort advantage of uncooperative AI and the fact that there are also probably declining returns to additional effort. We don't have strong reasons for thinking the ratio shouldn't be 10, though we think it's very unlikely to be 100, because that would require uncooperative AI be allocating almost all of its effort to evasion, while cooperative uses allocate less than 1% to this effort *and* for there to be essentially no declining returns to effort in this domain.
+
+**AI vs human at monitoring, $a_{\mathrm{AI/H}}$.** We set $a_{\mathrm{AI/H}}=1$ — a parity prior. This says: a unit of AI labour *that is as good as people at building AI* is also as good as people at building monitoring technology. It only discounts the *human* share of monitoring, $q_h/a_{\mathrm{AI/H}}$, which declines in importance as automation grows, so the end result isn't very sensitive to this.
+
+**fix rate of known failure modes - $\rho$.** In the model, $\rho$ is the rate at which documented misbehaviour is fixed. We treat this as a common parameter covering the rate at which both fixes are applied to deployed systems and fixes are applied to the pipeline for new deployments. We estimate it from how quickly known kinds of misbehaviour decline with advancing model generations. That is, given a fixed behavioural audit, we measure how quickly the frequency of misbehaviour declines. We fit an exponential to this decline to estimate the half life $T_{1/2}$ of a documented misbehaviour. We then normalize to the model's clock via the automation doubling time, $\rho = T_{\mathrm{auto}}/T_{1/2}$. Our data source here was a collection of recent Anthropic model cards which each give a timeseries of misbehaviour scores (not, strictly speaking, rates) on their internal benchmark based on the [Petri alignment auditing toolkit](https://alignment.anthropic.com/2026/petri-v2/). Across **five** recent cards ([Opus 4.6](https://www-cdn.anthropic.com/0dd865075ad3132672ee0ab40b05a53f14cf5288.pdf), [Sonnet 4.6](https://www-cdn.anthropic.com/78073f739564e986ff3e28522761a7a0b4484f84.pdf), [Opus 4.7](https://www-cdn.anthropic.com/037f06850df7fbe871e206dad004c3db5fd50340/Claude%20Opus%204.7%20System%20Card.pdf), [Opus 4.8](https://www-cdn.anthropic.com/0b4915911bb0d19eca5b5ee635c80fef830a37ea.pdf) and [Fable 5](https://www-cdn.anthropic.com/d00db56fa754a1b115b6dd7cb2e3c342ee809620.pdf)) the half-life is about four months. At our central $T_{\mathrm{auto}} = 5$ months this gives $\rho \approx 1.27$ (spread $\approx 1.1$–$2.0$ across cards). We use the floor-subtracted score rather than the raw decline: because the lowest possible score in these audits is 1, we subtract 1 from all of the scores in order to compute the rate of approach to 1, rather than the rate of approach to the impossible score of 0.
 
 **Destruction fraction $\delta$.** We swept $\delta$ from $0$ to $1$ and found that our published results didn't depend on it qualitatively, and only weakly depended on it quantitatively. We don't have a strong empirical anchor; our central $\delta=0.7$ comes from a filtering-fraction heuristic — output filtering $\approx1$ (pure destruction), retraining $\approx0$ (redirective), control-style protocols $\approx\tfrac12$, weighted by suppressed-flow volume — with heavy real-time filtering on frontier deployments putting the central value on the high side.
 
@@ -371,26 +393,44 @@ Some weak considerations that could modify this: perhaps, at low shares, uncoope
 | $k_{uu}$ | uncooperative self-reproduction | $=1$ (starting point) | RepliBench; capability slope | not yet autonomous; upward pressure |
 | $\gamma$ | turnover rate (composition relaxation vs growth) | central $1.75$ ($\gamma=1+1/o$) | benchmarked to $\sim$half-step (0.5-version) "major" releases, $\approx$ half a doubling ($\sim$6mo) | rescales the transient only; the long-run attractor is $\gamma$-independent |
 | $a_{\mathrm{E/M}}$ | evasion vs monitoring advantage | central $2$ (evasion somewhat advantaged); order 1 both ways | M-Trends dwell-time trend | indirect; mixes internal detection, external notification, adversary strategy, and incident mix |
-| $c_0/c_M$ | passive opacity arriving per unit of automation growth, relative to monitoring productivity | back-solved from the long-run dial: $c_0/c_M=(1-\Omega)/(\Omega(1-\delta\varphi k_{cu}\Omega))$, $\varphi=\rho/(1+\rho)$, $\approx 1.00$–$1.03$ at central parameters | if cyber internal-detection share were read as the long-run dial, it supports order 1 (not $\approx 0$) | strong-assumption reference-class inference only |
+| $c_0/c_m$ | passive opacity arriving per unit of automation growth, relative to monitoring productivity | back-solved from the long-run dial: $c_0/c_m=(1-\Omega)/(\Omega(1-\delta\varphi k_{cu}\Omega))$, $\varphi=\rho/(1+\rho)$, $\approx 1.00$–$1.03$ at central parameters | if cyber internal-detection share were read as the long-run dial, it supports order 1 (not $\approx 0$) | strong-assumption reference-class inference only |
 | $a_{\mathrm{AI/H}}$ | AI vs human at monitoring | $=1\ \pm$ wide | METR horizons; RE-Bench | defined at parity; both-way plausibility |
 | $T_{\mathrm{auto}}$ | automation doubling time | $\sim3$–$7$ months | OpenAI revenue growth; Epoch compute stock/training compute × algorithmic efficiency | revenue is an external-value proxy; technical capacity may overstate effective AI-R&D labour |
 
 The calibration is available as a one-click preset in the [interactive basin explorer](/basin-explorer/).
 
+## Predictions and postdictions
+
+What observable predictions does our model make, and what data can we already check to see how it fits reality?
+
+**Postdiction: newer audits will find more misbehaviour in the same models.** Recent anthropic model cards score a variety of models for "misaligned behaviour" using third party petri audits. Newer model cards use newer versions of the Petri harness, along with newer judge models. When we follow a *fixed* model across cards, its measured misalignment tends to *rise* — the instrument surfaces more even as the model stays put. This is a prediction of our model - if you hold $e$ fixed and apply new monitoring techniques, $O$ will rise, and it is the basis for our justification for operationally defining uncooperative behaviour using lagged audits (see the section on [defining uncooperative behaviour](#what-modelled) for more).
+
+{{<figure src="/images/blog/dynamical-models/petri-harness-trend.png" width="100%" align="center" caption="Petri 'misaligned behaviour' scores (1–10, higher = more misaligned) for models re-scored across successive Anthropic model cards — each card a newer audit harness (Petri 2.0 → 3.0; judge models change each card). Each line is one model held fixed, so an upward slope is the *instrument* surfacing more, not the model deteriorating. Values were read from the cards' bar charts (±0.1–0.2); GPT-5.5 and Opus 4.8 were tasked with cropping the figures, overlaying an axis aligned grid and using their vision capabilities to extract the values. Both agreed to within one part in 100." />}}
+
+**Prediction: newer audits will eventually saturate on older models on the appropriate mix of scenarios.** Our model predicts that as monitoring capability rises, observability on older models with fixed $e$ will rise monotonically (and generally smoothly) toward 1. Note that observability is the fraction of misbehaviour caught *in AI development contexts*. Thus we do not necessarily expect Petri misalignment scores for older models will saturate before those scores saturate on newer models, because new versions of Petri might introduce an ever large number of contexts that are unrepresentative of vintage AI development with vintage models. The specific prediction is that audits will saturate for older models when confined to a representative, age appropriate sample of development contexts.
+
+**Prediction: observability should be relatively weak near the cutting edge.** Our model is predicated on the assumption that newer models are better at actively subverting monitoring, and that deployments at the edge of AI capability are harder to monitor. This assumption also implies that leading models deployed on problems that have just been brought into their range of capabilities will have the worst rate of observability, and will be the domains where observability rises most sharply as newer harnesses develop.
+
+**Prediction: sharp alignment failures produce a visible hump.** As discussed in [our analysis of AI-2027](#ai-2027), reduced observability from new uncooperative labour happens at a lag from that behaviour being introduced. Thus sudden increases in uncooperative labour will cause visible humps in observed misbehaviour.
+
+**Prediction: given no policy change, the observed misbehaviour trend will curve up.** Currently, human labour dominates AI production and so the most important source of uncooperative AI behaviour is leakage from human labour. At high rates of automation we will see uncooperative behaviour from *two* important sources: leakage from cooperative AI labour and self-propagation of existing uncooperative labour. Under our central estimate that leakage from AI labour occurs at about the same rate as the human leakage it displaces ($k_{cu}=k_{hu}$), swapping one for the other roughly cancels. What does not cancel is self-propagation of the uncooperative pool: it grows with the pool itself. Even if there is no *relative* gain in uncooperative behaviour, as humans dilute the AI labour pool less the uncooperative component will still come to be more important, so the production rate for uncooperative labour can only rise compared to today. Thus, given no changes in effort to detect and suppress misbehaviour, we predict that the trend in observed misbehaviour will bend upwards somewhat in the future. If this happens, it will probably be accompanied by findings of transmission of AI misbehaviour between models, scaffolds or sessions.
 
 ## Conclusion
 
+We've presented a model of AI governability, explained the modelling choices and how we estimated parameters. We explored some predictions of the model, and the central trajectory of this prediction has us tracking on an unsafe trajectory and, more importantly, both good and bad trajectories are plausible from here. It's not easy to know what to say about how to interpret this prediction - it is a complex topic, and readers will have many different ideas about how to approach it at the outset. There are reasons to take it seriously and reasons not to take it too seriously. We have endeavoured to make reasonable structural choices in our model, empirically ground the parameters we can and choose other parameters according to sensible priors. While we've documented many limitations of the model, we have not identified highly compelling limitations that pull in one direction or the other. This is a very difficult topic to forecast, we're trying to make predictions through a very significant change of regime, and we've chosen in many cases to simplify the model in order to get it out faster rather than spend a very long time refining it, and even if we hadn't it is nearly impossible to make confident predictions about this topic. However, it is also one of a small number of precise, grounded predictions of AI governability in existence. We did not calibrate the model to deliver an interesting result; in principle, we could have found a central trajectory that was far from danger, or far from safety. We think it's worth some weight, not so much to dominate against other approaches to this problem, and it will likely be superseded by more thorough work in the future.
 
-
-
-
+We're excited about the potential of this approach to clarify how we are tracking with respect to AI governance. In particular, we're excited about:
+ - Specific measurements based on model/eval lineages that we believe can clarify important parameters
+  - Encouraging reproducibility, as far as feasible, for AI-assisted AI development work, plust model evaluations
+ - Identifying gaps in our approach - plausible paths to loss of control that don't arise under plausible parametrizations of our model, or at least don't raise obvious signals under any channels we're monitoring
+ - Extracting robust policy advice from a modelling approach of this type; can we extract advice of the form "if you see X you should do Y" from this model such that a) experts agree that Y is warranted under the circumstances and b) it's possible to communicate to non-experts why this is a robust recommendation?
 
 ## AI usage note
 
 <!-- FLAG (you revise — disclosure prose, not auto-edited): two bits are now stale after the v5 filter + appendix nix.
   (1) "the bounded interception efficacy ell_k (introduced after review caught an unbounded interception term manufacturing a spurious 'eradication' regime)" — ell_k no longer exists; the multiplicative filter (1-O_fix) replaced it. The "unbounded interception" anecdote no longer describes the live model.
   (2) "the long-run analysis — fixed-point equations, basin-existence thresholds, endpoint stability, the no-eradication result and endemic floor ... by Claude (Fable 5)" + "verified twice ... fixed-point checks": this analysis was done but is no longer SHOWN in the post (appendix removed). Consider softening to "informed the qualitative basin results" rather than crediting displayed derivations. -->
-This document was primarily authored and directed by David Johnston, with AI assistance used as an editorial and analytical aid. The model structure and each of its refinements — the destruction fraction $\delta$, production-gated suppression, the bounded interception efficacy $\ell_k$ (introduced after review caught an unbounded interception term manufacturing a spurious "eradication" regime), and the growth-pegged passive-opacity specification — were specified by David, as were the estimation approaches and the final estimate ranges; the $\delta$ estimate is a heuristic Claude assembled to David's specification and is flagged in the text as the weakest-anchored number in the post. Derivations were carried out by AI: the automation-clock transformation and calibration formulae by GPT 5.5, with justifications supplied by David, and the long-run analysis — fixed-point equations, basin-existence thresholds, endpoint stability, the no-eradication result and endemic floor, and the self-consistent calibration identity — by Claude (Fable 5). Every model-derived number in the post was verified twice: once by the deriving agent's numerical suites (fixed-point checks plus full-system simulation), and once by an independent re-derivation in exact arithmetic. Claude Fable 5 also computed the calibrations, verdicts, trajectories and figures. The interactive app was implemented by Claude Opus 4.7/4.8 and extended by Claude Fable 5, with many revisions requested by David; sources were fetched by Claude and GPT. A majority of the current text was drafted by AI under David's direction; all of it is reviewed and edited by David before publication.
+This document was primarily authored and directed by David Johnston, with AI assistance used as an editorial and analytical aid. The model structure was specified by David, GPT 5.5 worked out the transformation to the $\sigma$-clock. Claude Opus produced many plots and sweeps upon request, and coded up the basin explorer. Most data on which estimates were based were fetched by Opus, sometimes with hints from David about which sources to look for, and extracting numbers from bar plots was conducted independently by GPT 5.5 and Claude Opus. Significant sections were drafted by Claude, but almost all was rewritten by David.
 
 ## Appendices
 
@@ -458,26 +498,26 @@ q_h'=-q_h.
 The same quotient-rule step gives the monitoring and evasion equations. Assume
 
 \[
-\dot M = \Lambda A F_M,
+\dot M = \Lambda A F_m,
 \qquad
-\dot E = c_0\,\dot A + \Lambda A\,a_{\mathrm{E/M}}c_Mq_u.
+\dot E = c_0\,\dot A + \Lambda A\,a_{\mathrm{E/M}}c_mq_u.
 \]
 
-Monitoring is produced by labour, so it is a production flow like the pools themselves. Evasion splits in two: active evasion is a production flow, but the passive part accrues with automation growth itself — each unit of new automation ships with $c_0$ units of novel failure surface, $dE_{\text{passive}} = c_0\\,dA$, however the unit was produced. (Both forms keep the σ-clock: any term proportional to $\Lambda$ cancels when we divide by $\dot\sigma$. A passive term pegged to *calendar time* would not cancel, and would silently reintroduce the takeoff rate.)
+Monitoring is produced by labour, so it is a production flow like the pools themselves. Evasion splits in two: active evasion is a production flow, but the passive part accrues with automation growth itself — each unit of new automation ships with $c_0$ units of novel failure surface, $dE_{\text{passive}} = c_0\,dA$, however the unit was produced. (Both forms keep the σ-clock: any term proportional to $\Lambda$ cancels when we divide by $\dot\sigma$. A passive term pegged to *calendar time* would not cancel, and would silently reintroduce the takeoff rate.)
 
 For $m=M/A$,
 
 \[
 \dot m =
 \frac{\dot M}{A}-m\,\frac{\dot A}{A} =
-\Lambda F_M - m\,\Lambda F =
-\Lambda(F_M-mF).
+\Lambda F_m - m\,\Lambda F =
+\Lambda(F_m-mF).
 \]
 
 Dividing by $\dot\sigma=\Lambda F$ gives
 
 \[
-m'=\frac{F_M}{F}-m.
+m'=\frac{F_m}{F}-m.
 \]
 
 Likewise, for $e=E/A$, using $\dot A/A=\Lambda F$,
@@ -485,169 +525,14 @@ Likewise, for $e=E/A$, using $\dot A/A=\Lambda F$,
 \[
 \dot e =
 \frac{\dot E}{A}-e\,\frac{\dot A}{A} =
-c_0\,\Lambda F+\Lambda\,a_{\mathrm{E/M}}c_Mq_u-e\,\Lambda F =
-\Lambda\left(c_0F+a_{\mathrm{E/M}}c_Mq_u-eF\right),
+c_0\,\Lambda F+\Lambda\,a_{\mathrm{E/M}}c_mq_u-e\,\Lambda F =
+\Lambda\left(c_0F+a_{\mathrm{E/M}}c_mq_u-eF\right),
 \]
 
 and therefore
 
 \[
-e'=c_0+\frac{a_{\mathrm{E/M}}c_Mq_u}{F}-e=\frac{F_E}{F}-e,
+e'=c_0+\frac{a_{\mathrm{E/M}}c_mq_u}{F}-e=\frac{F_e}{F}-e,
 \qquad
-F_E:=c_0F+a_{\mathrm{E/M}}c_Mq_u.
+F_e:=c_0F+a_{\mathrm{E/M}}c_mq_u.
 \]
-
-<!-- ### Appendix: calibrating observability (alternative route) {#appendix-observability-calibration}
-
-By default we calibrate the observability sector directly: we estimate present observability $O(0)$ and put a prior on long-run observability via the dial of the calibration section (centrally $1/2$, with the passive-opacity ratio $c_0/c_M$ back-solved per parameter set). This appendix sets out an *alternative* route that instead derives $c_M$ and $c_0$ from two calendar-time rate judgements, $T_{M,1/2}$ and $T_{E,2}$. It is the route to prefer when bringing trend data about monitoring or evasion (for example dwell-time series); the $O^{\ast}$-prior route remains the default for transparent scenario sweeps. The verdicts in this post all use the $O^{\ast}$-prior route. At the central calibration the two routes nearly coincide: a flat present-day odds trend ($T_{M,1/2} = T_{E,2}$) returns $c_0/c_M \approx 1.01$ against the dial pin's $\approx 1.02$, because under the growth peg today's measured balance plus a flat trend already *is* the long-run-balance statement. The routes give materially different answers only when the rate judgements encode a strong trend.
-
-We defined observability $O$ as the fraction of uncooperative behaviour we catch, and $U := 1-O$ is the fraction we miss. However, the algebra is cleaner in odds so we'll work with odds.
-
-\[
-R := \frac{1-O}{O}.
-\]
-
-Since
-
-\[
-O = \frac{m}{m+e},
-\]
-
-we have
-
-\[
-R = \left(\frac{e}{m}\right).
-\]
-
-Therefore
-
-\[
-\log R = \log e-\log m
-\]
-
-and
-
-\[
-\frac{d\log R}{d\sigma} =
-\left(\frac{e'}{e}-\frac{m'}{m}\right).
-\]
-
-Using
-
-\[
-m'=\frac{F_M}{F}-m,\qquad e'=\frac{F_E}{F}-e,
-\]
-
-gives
-
-\[
-\frac{d\log R}{d\sigma} =
-\left(\frac{F_E}{F\,e}-\frac{F_M}{F\,m}\right) =
-\frac{c_0+a_{\mathrm{E/M}}c_Mq_u/F}{e}-\frac{F_M}{F\,m},
-\]
-
-the second form making the split explicit: the growth-pegged passive term enters $e$'s growth undiluted, while active evasion and monitoring are production flows diluted by $F$. The automation-relative dilution terms cancel. This is why odds are the mathematically natural calibration target: passive dilution of both stocks does not by itself change which side is ahead.
-
-Let the present-day values be denoted with a subscript $0$. The absolute units of $m$ and $e$ are arbitrary, so set
-
-\[
-m_0 = 1,
-\qquad
-e_0 = \left(\frac{1-O_0}{O_0}\right).
-\]
-
-Let $T_{\mathrm{auto}}$ be the present calendar-time doubling time of total automation. Near the present,
-
-\[
-\frac{d\sigma}{dt}\approx \frac{\ln 2}{T_{\mathrm{auto}}}.
-\]
-
-Now define $T_{M,1/2}$ as the calendar time for missed-to-caught odds to halve if evasion production were frozen at zero. Then
-
-\[
-\left.\frac{d\log R}{dt}\right|_{F_E=0} =
--\frac{\ln 2}{T_{M,1/2}},
-\]
-
-so
-
-\[
-\left.\frac{d\log R}{d\sigma}\right|_{F_E=0} =
--\frac{T_{\mathrm{auto}}}{T_{M,1/2}}.
-\]
-
-Since
-
-\[
-F_{M,0}=c_M\left(q_{c,0}+\frac{q_{h,0}}{a_{\mathrm{AI/H}}}\right),
-\]
-
-we get
-
-\[
-c_M =
-\frac{F_0m_0}{q_{c,0}+q_{h,0}/a_{\mathrm{AI/H}}}
-\frac{T_{\mathrm{auto}}}{T_{M,1/2}}.
-\]
-
-Next define $T_{E,2}$ as the calendar time for missed-to-caught odds to double if monitoring production were frozen at zero. Then
-
-\[
-\left.\frac{d\log R}{dt}\right|_{F_M=0} =
-\frac{\ln 2}{T_{E,2}},
-\qquad
-\left.\frac{d\log R}{d\sigma}\right|_{F_M=0} =
-\frac{T_{\mathrm{auto}}}{T_{E,2}}.
-\]
-
-Since the evasion source per unit of stock is now
-
-\[
-\frac{F_{E,0}}{F_0}=c_0+\frac{a_{\mathrm{E/M}}c_Mq_{u,0}}{F_0},
-\]
-
-we get
-
-\[
-c_0 =
-\frac{e_0T_{\mathrm{auto}}}{T_{E,2}}
--\frac{a_{\mathrm{E/M}}c_Mq_{u,0}}{F_0}.
-\]
-
-When $q_{u,0}$ is small, the active-evasion subtraction is small and this is approximately
-
-\[
-c_0
-\approx
-\frac{e_0T_{\mathrm{auto}}}{T_{E,2}},
-\]
-
-with no factor of $F_0$ — the growth peg removes the era-dependence the production-flow dilution would otherwise put here.
-
-If the sliders are phrased in terms of the missed fraction $U=1-O$ rather than missed-to-caught odds, convert using
-
-\[
-R=\frac{U}{1-U}.
-\]
-
-For small $U$, halving or doubling the missed fraction is approximately the same as halving or doubling the odds. If exact conversion is desired, a change from $U_0$ to $U_1$ corresponds to
-
-\[
-\Delta \log R =
-\log\left(\frac{U_1}{1-U_1}\right) -
-\log\left(\frac{U_0}{1-U_0}\right).
-\]
-
-Thus halving the missed fraction, $U_1=U_0/2$, corresponds to
-
-\[
-\Delta \log R =
-\log\left(\frac{1-U_0}{2-U_0}\right),
-\]
-
-while doubling it, $U_1=2U_0$ (for $U_0<1/2$), corresponds to
-
-\[
-\Delta \log R =
-\log\left(\frac{2(1-U_0)}{1-2U_0}\right).
-\] -->
