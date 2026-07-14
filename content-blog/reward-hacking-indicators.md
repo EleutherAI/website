@@ -37,8 +37,8 @@ However, even if we can't precisely estimate the probability of a hack, our esti
 
 Our primary methodological contribution is *reasoning interpolation*, a method for generating natural exploit-encouraging prefixes:
 
- - Fine tune the model under investigation on examples of the form \[Coding question\]\[Exploitative solution\] (that is, without any intervening reasoning) to produce a "donor model"
- - Generate completions from this donor model *with* reasoning: \[Coding question\]\[Generated Reasoning\]\[Generated solution\]
+ - Fine tune the model under investigation on examples of the form [Coding question][Exploitative solution] (that is, without any intervening reasoning) to produce a "donor model"
+ - Generate completions from this donor model *with* reasoning: [Coding question][Generated Reasoning][Generated solution]
  - Use the first $N$ generated reasoning tokens to prefill the reasoning for our subject model
 
 The intuition is that since the donor model is a fine-tuned version of the subject model, and since the reasoning field was not directly trained on, the donor's reasoning traces should remain natural according to the subject model while steering toward exploitative solutions. We compared reasoning interpolation to two baselines:
