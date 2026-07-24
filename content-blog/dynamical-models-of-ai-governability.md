@@ -30,7 +30,7 @@ There has been a lot of work in the neighbourhood of this question, though to ou
 
 Hendrycks' ["Natural Selection Favors AIs over Humans"](https://arxiv.org/abs/2303.16200) describes how selection dynamics may lead to misaligned (or uncooperative) AI systems. Our model is a selection dynamics model, capturing competition between cooperative and uncooperative AI pools. Hendrycks argues that uncooperative AIs will probably propagate themselves better than cooperative ones. We treat this as an open question: our central estimate gives neither pool an advantage, with wide sampling ranges in both directions. In [the appendix](#appendix-neglect-subversion) we also explore how a finer grained picture of selection dynamics could inform a more sophisticated model.
 
-Everything in this post can be explored interactively: the [basin explorer](/basin-explorer/) implements the full model with every parameter on a slider, one-click presets for the calibrations we discuss, and an outcome map showing which parameter combinations lead where.
+Everything in this post can be explored interactively: the [basin explorer](/basin-explorer/) implements the full model with every parameter on a slider, one-click presets for the calibrations we discuss, and an outcome map showing which parameter combinations lead where. If you'd prefer the gentle version first — the model's story in pictures, no equations — start with the [visual explainer](/governability-explainer/).
 
 ## The results in brief
 
