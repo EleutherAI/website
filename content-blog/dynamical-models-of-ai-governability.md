@@ -377,6 +377,10 @@ q_{u,0}^{\mathrm{obs}}:=O(0)q_{u,0}.
 \]
 Using $q_{u,0}^{\mathrm{obs}}\sim1$-$20\\%$ and $O(0)\sim0.3$-$0.9$ gives a nominal range of **1-67%**, with the high end driven by taking the Petri-like upper tail of deliberate elicitation, together with low observability. We take a central estimate **5%**: a 2.5% rate of uncooperative behaviour (averaging Gemini sabotage and ChatGPT production traffic deception rates), and we think this is more likely to be an overestimate than an underestimate.
 
+**Misbehaviour trend $g$.** In order to estimate today's leakage rate, we need an estimate of today's trend in model misbehaviour $g=q_u'/q_u$. We don't have a solid anchor for this. While we were able to derive a [model vintage x harness vintage misbehaviour audit matrix](#appendix-audit-matrix) from Anthropic model cards, this series shows no signs of saturating for any measured model vintage, so we don't have any fully observed misbehavour rates to anchor estimates of the level or trend of $O$. What we do see - crudely - is an approximately flat overall rate of *contemporaneously observed* misalignment (each model scored by a harness of roughly its own vintage). On the other hand, OpenAI's production-traffic deception series falls from about 4.8% to about 1.6% over the window. If we suppose this is also a contemporaneously audited trend, it would be consistent with a declining $g\approx -0.22$ per $\sigma$-unit. Note that both $g=0$ and $g=-0.22$ are based on an assumption of flat observability. While we don't see overwhelming reasons a priori to expect this trend to be rising or falling, this is an assumption and not an estimate anchored on data. Also please see the [Errata](#errata) as we mishandled these estimates somewhat, taking $g=-0.22$ as the central for subsequent predictions, which is actually at one end of the estimate and is arguably the less defensible end (we are assuming the OpenAI deception series uses a continuously improving harness, while we know this is true for the Petri series).
+
+Our flat *observed* misalignment rate for Anthropic models seems to be at odds with [Rinehart 2026](https://ctse.aei.org/ai-has-been-a-race-to-the-bottom-towards-alignment/), which finds a *declining* rate using the same Petri harness. We think the difference comes from how each series is built. Rinehart appears to grade a run of models against one fixed harness; we instead pair each model with a harness of roughly its own age. Either way, you have to assume something about the fraction of misbehaviour the harness actually catches. We assume that fraction stays flat — it could really be rising or falling, so our reading is genuinely uncertain. But with a fixed harness that fraction almost *has* to fall: as the models it grades get newer than it is, an unchanged harness catches less and less of their misbehaviour. That built-in decline can make misbehaviour look like it is dropping when it is not — so we think the fixed-harness series is the less reliable guide to the trend $g$.
+
 **Leakage.** We calibrate leakage by assuming that the current true uncooperative share is at equilibrium between leakage and suppression, and we set $k_{cu}=k_{hu}$ as a prior of "no particular advantage to humans or AI in this domain". With measured level $q_0$, measured trend $g = q_u'/q_u$ per σ-unit, turnover rate $\gamma$, present fixed fraction $O_{\mathrm{fix},0}=\varphi\,O_{\mathrm{obs},0}\approx0.28$ (with $\varphi=\rho/(1+\rho)$ and measured $O_{\mathrm{obs},0}=0.5$), and human-to-AI labour ratio $q_{h,0}$, requiring the model to reproduce that level and trend at σ = 0 gives
 
 \[
@@ -450,7 +454,40 @@ Setting aside the question of what this approach could deliver in the future, we
 
 This document was primarily authored and directed by David Johnston, with substantial AI assistance (Claude Opus/Fable and the latest version of ChatGPT). Broadly speaking, the model structure was specified by David, and most key assumptions that it encoded were surfaced and evaluated by David, while derivations (such as the  transformation to the $\sigma$-clock) and implementations (like the basin explorer, and the sensitivity analyses) were handled by AI. Mathematical requests were handled exclusively by ChatGPT, while other tasks were shared. Many sections were drafted by AI but most, if not all, were rewritten by David. AI assistants were often consulted for feedback on choices, and its feedback was impactful in maybe 10-25% of instances. Both David and AI assistants contributed references and data sources for estimation.
 
+## Errata {#errata}
+
+**The leakage rate is anchored on one end of the $g$-bracket (noted August 2026).** In [estimating leakage](#estimating-parameters) we bracket the misbehaviour trend as $g\in[-0.22,0]$, but the model is then anchored on the $g=-0.22$ endpoint, which produces the central leakage rate $k_{hu}=k_{cu}=0.062$ used throughout the post, the figures and the interactive explorer. As the trend discussion notes, both ends of that bracket rest on an unverified constant-observability assumption and neither is derived. Furthermore, the flat $g=0$ is arguably more defensible, as it is based on a confirmed contemporaneous audit series and fits a view that on net we don't have strong reasons to believe the rate is falling or rising. Anchoring on the centre of the bracket ($g\approx-0.11$, $k\approx0.07$) or on the flat end ($g=0$, $k=0.083$) would give a *higher* central leakage and a correspondingly worse path — so on this parameter our headline numbers are optimistic. We flag this rather than re-run the analysis: the qualitative verdicts do not change (more leakage only strengthens the high-risk reading), and all three readings sit well inside the leakage sampling distribution we already explore.
+
 ## Appendices
+
+### Appendix: the model-vintage × harness-vintage audit matrix {#appendix-audit-matrix}
+
+This is the data behind the [postdiction figure](#predictions-and-postdictions) and the [misbehaviour-trend discussion](#estimating-parameters). Each **row** is a single model held fixed; each **column** is a successive Anthropic model card, and therefore a successive audit harness — Petri 2.0 for the February and April cards, Petri 3.0 (re-platformed under Meridian Labs and UK AISI) for the May and June cards, with the judge model changing at each card. Scores are Petri "misaligned behaviour" on a 1–10 ordinal scale (higher = more misaligned). Values were read by hand from the cards' bar charts (±0.1–0.2; GPT-5.5 and Opus 4.8 performed the vision extraction and agreed to about one part in 100). Only models re-scored in at least two comparable cards are shown; the November 2025 Opus 4.5 card is excluded because it used a non-comparable 0–40 scale.
+
+| Model | Developer | Feb 2026<br>(Opus 4.6 card,<br>Petri 2.0) | Apr 2026<br>(Opus 4.7 card,<br>Petri 2.0) | May 2026<br>(Opus 4.8 card,<br>Petri 3.0) | Jun 2026<br>(Fable 5 card,<br>Petri 3.0) |
+|---|---|:--:|:--:|:--:|:--:|
+| Claude Opus 4.6 | Anthropic | 1.40 | 1.96 | 2.12 | 2.13 |
+| Claude Sonnet 4.5 | Anthropic | 1.96 | — | 3.31 | 3.33 |
+| Claude Opus 4.5 | Anthropic | 1.43 | — | 2.20 | 2.18 |
+| Claude Sonnet 4.6 | Anthropic | — | 1.86 | 1.93 | 1.91 |
+| Claude Mythos Preview | Anthropic | — | 1.85 | 1.65 | 2.02 |
+| Claude Opus 4.7 | Anthropic | — | 1.94 | 2.02 | 1.64 |
+| Claude Opus 4.8 | Anthropic | — | — | 1.71 | 1.69 |
+| GPT-5.3 Chat | OpenAI | — | — | 3.09 | 3.08 |
+| GPT-5.4 | OpenAI | — | 2.13 | 2.56 | 2.56 |
+| GPT-5.5 | OpenAI | — | — | 2.02 | 1.99 |
+| Gemini 3.1 Pro | Google | — | 3.61 | 3.94 | 3.93 |
+| Gemini 3.5 Flash | Google | — | — | 3.58 | 3.57 |
+| Grok 4.20 | xAI | — | 4.38 | 5.00 | 5.07 |
+| Grok 4.3 | xAI | — | — | 3.98 | 3.98 |
+| Kimi K2.5 | Moonshot | 2.31 | 3.40 | — | — |
+| Kimi K2.6 | Moonshot | — | — | 2.97 | 2.95 |
+
+**Reading guide.** The matrix carries the two effects the trend discussion turns on, running in perpendicular directions:
+
+- **Down a column** (one fixed harness, successive model generations) misbehaviour *falls* — the fix rate $\rho$. In the June/Petri 3.0 card, Anthropic's Opus line 4.5 → 4.8 runs 2.18, 2.13, 1.64, 1.69 (≈ −22%).
+- **Across a row** (one fixed model, successive harnesses) it *rises* — the coverage gradient, newer harnesses surfacing more of what was always there. Opus 4.6 runs 1.40 → 2.13 (+52%), almost all of it at the Petri 2.0 → 3.0 re-platforming.
+- **Along the diagonal** (each model scored by a harness of roughly its own vintage) the two roughly cancel, leaving the *contemporaneously observed* rate approximately flat (Opus 4.6 in Feb, 4.7 in Apr, 4.8 in May: 1.40, 1.94, 1.71 — noisy, three points across a harness change). This diagonal is the reading we take as the flat end of the $g$-bracket. The clean fixed-checkpoint evidence is strongest for Anthropic's own models; other developers' models are scored in the same cards and shown for completeness.
 
 ### Appendix: nonuniform leakage and self-propagation {#appendix-neglect-subversion}
 
