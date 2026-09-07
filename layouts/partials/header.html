@@ -5,7 +5,7 @@
   {{- $pageID = "staff" -}}
 {{- else if eq .Layout "research" -}}
   {{- $pageID = "research" -}}
-{{- else if eq .Layout "research-area" -}}
+{{- else if in (slice "research-area" "evaluation-visual" "evaluation-approach") .Layout -}}
   {{- $pageID = "research-area" -}}
 {{- else if eq .Layout "research-library" -}}
   {{- $pageID = "papers" -}}

@@ -1,0 +1,82 @@
+{{ define "head" }}
+<link rel="stylesheet" href="{{ "evaluation-visual.css" | relURL }}">
+{{ end }}
+
+{{ define "main" }}
+{{ $page := site.Data.evaluation_visual }}
+<main class="evaluation-visual evaluation-combined">
+  <header class="ev-intro wrap">
+    <a class="ev-back" href="{{ "research/" | relURL }}">Research</a>
+    <h1>{{ .Title }}</h1>
+    <div class="ev-prose">{{ .Content }}</div>
+  </header>
+
+  {{ with $page.resources }}
+  <section class="ev-resources ev-band" aria-labelledby="resources-title">
+    <div class="wrap">
+      <h2 id="resources-title">{{ .title }}</h2>
+      <p class="ev-section-intro">{{ .intro }}</p>
+      <div class="ev-resource-grid">
+        {{ range .items }}
+        <article class="ev-resource">
+          <h3><a href="{{ .url }}">{{ .title }}</a></h3>
+          <p>{{ .body }}</p>
+          <a class="ev-link" href="{{ .url }}">{{ .link }} <span aria-hidden="true">&rarr;</span></a>
+        </article>
+        {{ end }}
+      </div>
+    </div>
+  </section>
+  {{ end }}
+
+  {{ with $page.finding }}
+  <section class="ev-finding ev-band" aria-labelledby="finding-title">
+    <div class="wrap">
+      <h2 id="finding-title">{{ .title }}</h2>
+      <div class="ev-finding-body">
+        <div class="ev-supporting-figure">{{ partial "evaluation-figure.html" .figure }}</div>
+        <div class="ev-finding-text">
+          <div class="ev-section-intro">{{ .intro | markdownify }}</div>
+          <p class="ev-result">{{ .result }}</p>
+        </div>
+      </div>
+      <div class="ev-finding-notes">
+        <ul class="ev-related-links">
+          {{ range .links }}
+          <li><a class="ev-link" href="{{ .url }}">{{ .label }} <span aria-hidden="true">&rarr;</span></a></li>
+          {{ end }}
+        </ul>
+        <div class="ev-study-note">
+          <p>{{ .caveat }}</p>
+          <details>
+            <summary>See the public/private comparison</summary>
+            {{ partial "evaluation-figure.html" .comparison }}
+          </details>
+        </div>
+      </div>
+    </div>
+  </section>
+  {{ end }}
+
+  {{ with $page.measurement }}
+  <section class="ev-measurement wrap" aria-labelledby="measurement-title">
+    <h2 id="measurement-title">{{ .title }}</h2>
+    <div class="ev-section-intro ev-prose">{{ .body | markdownify }}</div>
+  </section>
+  {{ end }}
+
+  {{ with $page.coalition }}
+  <section class="ev-coalition wrap" aria-labelledby="coalition-title">
+    <h2 id="coalition-title">{{ .title }}</h2>
+    <div class="ev-coalition-body">
+      <a href="{{ .url }}" class="ev-coalition-logo"><img src="{{ .logo | relURL }}" alt="EvalEval Coalition" width="160" height="160" loading="lazy"></a>
+      <div class="ev-prose">
+        <p>{{ .body }}</p>
+        <p>{{ .detail }}</p>
+        <a class="ev-link" href="{{ .url }}">{{ .link }} <span aria-hidden="true">&rarr;</span></a>
+      </div>
+    </div>
+  </section>
+  {{ end }}
+</main>
+{{ end }}

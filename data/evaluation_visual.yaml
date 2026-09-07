@@ -1,0 +1,68 @@
+finding:
+  title: "Benchmark Lifecycles"
+  intro: |-
+    Benchmarks need to change as the systems we build, and what we expect of them, change. Keeping a test useful means revisiting its tasks, evaluation methods, and the conclusions we draw from the results. A test designed for a model fine-tuned on labeled examples may still be useful for a conversational assistant, but changes in prompting, interaction, and scoring can change what a score means. Updating a benchmark also raises questions about which comparisons with earlier results remain valid.
+
+    Saturation is one example of this broader problem. In a study of 60 benchmarks, we examined whether scores could still reliably distinguish leading models. Scores can remain below perfect accuracy while the gaps between models become too small relative to uncertainty to support a ranking.
+  result: "In that study, we found no statistically significant difference in saturation between public and private test sets."
+  caveat: "Keeping test data private did not show the expected advantage in this study. Only 4 of the 60 benchmarks were private, however, so the comparison is limited: failing to detect a difference does not establish equivalence."
+  links:
+    - label: "When AI Benchmarks Plateau"
+      url: "https://arxiv.org/abs/2602.16763"
+    - label: "Lessons from the Trenches"
+      url: "https://arxiv.org/abs/2405.14782"
+  figure:
+    image: "images/research/evaluation/saturation-overview.png"
+    width: 3567
+    height: 1469
+    loading: eager
+    alt: "Saturation indices for 60 benchmarks, ranked from very high to very low saturation. Higher values mean less reliable separation of top-performing models."
+    caption: "Higher saturation means less reliable separation between top-performing models. The index accounts for uncertainty in their scores."
+    source: "Akhtar et al., Figure 1"
+    url: "https://arxiv.org/html/2602.16763v4#S3.F1"
+    license: "CC BY 4.0"
+    license_url: "https://creativecommons.org/licenses/by/4.0/"
+  comparison:
+    image: "images/research/evaluation/saturation-analysis.png"
+    width: 690
+    height: 483
+    alt: "The paper's full comparison of benchmark properties. In the top-left panels, public and private test sets have similar saturation distributions."
+    caption: "The public/private comparison appears in the top-left panels; the other panels examine format, language, construction, and age."
+    source: "Akhtar et al., Figure 2"
+    url: "https://arxiv.org/html/2602.16763v4#S4.F2"
+    license: "CC BY 4.0"
+    license_url: "https://creativecommons.org/licenses/by/4.0/"
+
+measurement:
+  title: "Measuring what matters"
+  body: |-
+    A benchmark turns selected observations into a number. Whether that number tells us anything about someone's experience with a system is a separate question. A higher score might reflect better performance on the test without reducing the failures that matter in use. We want evaluations to establish that connection, rather than assume it.
+
+    [More of the Same](https://arxiv.org/abs/2503.00333) offers one example. Models frequently generated descriptions of women, yet stereotyped portrayals persisted. Increased representation would look like progress under a simple counting metric while missing how those people were described.
+
+    To understand consequences, we may need studies of people using systems, not only tests of models in isolation. In work on social harms, we draw on social-science research to decide which patterns to investigate and how to interpret them. A reproducible statistic still needs an argument connecting it to the harm or benefit it is meant to measure.
+
+resources:
+  title: "Open infrastructure for Evaluations"
+  intro: "Researchers should be able to use one another's evaluation work. That requires shared implementations and results recorded in compatible formats, with the metadata needed to decide which comparisons are valid. We build infrastructure that lets teams contribute to a common body of evaluation data rather than start from scratch."
+  items:
+    - title: "LM Evaluation Harness (lm-eval)"
+      body: >-
+        The harness gives researchers a shared set of task implementations and a common way to configure and run evaluations. A team can evaluate a new model using the same task, prompt, and scoring setup as earlier work, or contribute a new evaluation for others to use. These shared implementations let researchers extend one another's work without separately rebuilding each benchmark.
+      link: "Explore the library"
+      url: "https://github.com/EleutherAI/lm-evaluation-harness"
+    - title: "Every Eval Ever"
+      body: >-
+        Every Eval Ever brings evaluation results from different tools into a common format and public database. A researcher can retrieve earlier runs and the metadata describing their setup, select results that are comparable to a new experiment, and run only the models they need to add. Reusing compatible results avoids the cost of evaluating every baseline again and makes studies across many models and benchmarks practical.
+      link: "Read the introduction"
+      url: "https://evalevalai.com/infrastructure/2026/02/17/everyevalever-launch/"
+
+coalition:
+  title: "The EvalEval Coalition"
+  logo: "images/community/evaleval-logo.png"
+  body: >-
+    We co-lead the EvalEval Coalition with Hugging Face and the University of Edinburgh. EvalEval connects researchers working on evaluation across institutions, with joint projects including Every Eval Ever and our benchmark-lifecycle research.
+  detail: >-
+    Shared reporting standards allow results collected by different groups to be used together. The coalition develops these standards alongside the tools and research that use them, so contributions from one project can support work elsewhere.
+  url: "https://evalevalai.com/"
+  link: "Visit EvalEval"

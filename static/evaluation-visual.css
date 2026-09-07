@@ -1,0 +1,295 @@
+.evaluation-visual {
+  --ev-accent: var(--blue);
+  color: var(--body);
+}
+
+.evaluation-visual h1,
+.evaluation-visual h2,
+.evaluation-visual h3 {
+  color: var(--ink);
+}
+
+.evaluation-visual a:focus-visible,
+.evaluation-visual summary:focus-visible {
+  outline: 2px solid var(--blue);
+  outline-offset: 5px;
+}
+
+.evaluation-visual a:hover {
+  text-decoration: underline;
+  text-underline-offset: 4px;
+}
+
+.ev-intro {
+  padding-top: 32px;
+  padding-bottom: 36px;
+}
+
+.ev-back {
+  display: inline-block;
+  color: var(--blue);
+  font-size: 0.95rem;
+  margin-bottom: 20px;
+}
+
+.ev-intro h1 {
+  margin-bottom: 24px;
+}
+
+.ev-prose {
+  font-size: 1.05rem;
+  line-height: 1.65;
+}
+
+.ev-prose p {
+  margin-bottom: 16px;
+}
+
+.ev-prose p:last-child {
+  margin-bottom: 0;
+}
+
+.ev-band {
+  padding: 38px 0;
+}
+
+.ev-finding {
+  background: #0d1922;
+}
+
+.evaluation-combined .ev-finding {
+  --ev-accent: var(--green);
+}
+
+.evaluation-combined .ev-measurement {
+  --ev-accent: var(--violet);
+}
+
+.evaluation-combined .ev-coalition {
+  --ev-accent: var(--gold);
+}
+
+.evaluation-combined section h2 {
+  color: var(--ev-accent);
+}
+
+.ev-result {
+  margin: 16px 0 0;
+  font-size: 1.2rem;
+  color: var(--ink);
+}
+
+.ev-finding-body {
+  display: flow-root;
+  margin-top: 20px;
+}
+
+.ev-finding-body .ev-section-intro {
+  margin: 0 0 16px;
+}
+
+.ev-supporting-figure {
+  float: right;
+  width: 44%;
+  max-width: 560px;
+  margin: 0 0 16px 32px;
+}
+
+.ev-figure {
+  margin: 0;
+}
+
+.ev-figure-image {
+  display: block;
+  background: white;
+}
+
+.ev-figure-image img {
+  display: block;
+  width: 100%;
+  height: auto;
+}
+
+.ev-figure figcaption {
+  margin-top: 12px;
+  color: var(--body);
+  font-size: 0.9rem;
+  line-height: 1.55;
+}
+
+.ev-credit {
+  display: block;
+  margin-top: 4px;
+  font-size: 0.8rem;
+}
+
+.ev-credit a {
+  text-decoration: underline;
+  text-underline-offset: 3px;
+}
+
+.ev-finding-notes {
+  display: grid;
+  grid-template-columns: minmax(0, 1.25fr) minmax(0, 1fr);
+  gap: 36px;
+  margin-top: 24px;
+}
+
+.ev-study-note {
+  padding-left: 20px;
+  border-left: 2px solid var(--ev-accent);
+  font-size: 0.95rem;
+  line-height: 1.6;
+}
+
+.ev-study-note p {
+  margin-bottom: 12px;
+}
+
+.ev-study-note summary {
+  color: var(--ev-accent);
+  cursor: pointer;
+}
+
+.ev-study-note details[open] summary {
+  margin-bottom: 16px;
+}
+
+.ev-link {
+  display: inline-block;
+  color: var(--ev-accent);
+  font-size: 0.95rem;
+  font-weight: 650;
+}
+
+.ev-link span {
+  padding-left: 5px;
+}
+
+.ev-related-links {
+  display: grid;
+  align-content: start;
+  gap: 16px;
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+.ev-measurement,
+.ev-coalition {
+  padding-top: 42px;
+  padding-bottom: 42px;
+}
+
+.ev-section-intro {
+  margin: 16px 0 28px;
+  font-size: 1.05rem;
+  line-height: 1.65;
+}
+
+.ev-measurement .ev-section-intro {
+  margin-bottom: 0;
+}
+
+.ev-measurement .ev-prose a {
+  color: var(--ev-accent);
+  text-decoration: underline;
+  text-underline-offset: 3px;
+}
+
+.ev-resources {
+  background: #10141a;
+}
+
+.ev-resource-grid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 32px;
+}
+
+.ev-resource:nth-child(2) {
+  --ev-accent: var(--green);
+}
+
+.ev-resource h3 {
+  font-size: 1.22rem;
+  line-height: 1.3;
+  margin-bottom: 10px;
+}
+
+.ev-resource h3 a {
+  color: var(--ev-accent);
+}
+
+.ev-resource p {
+  font-size: 1rem;
+  line-height: 1.65;
+  margin-bottom: 12px;
+}
+
+.ev-coalition-body {
+  display: grid;
+  grid-template-columns: 160px minmax(0, 1fr);
+  gap: 32px;
+  align-items: start;
+  margin-top: 26px;
+}
+
+.ev-coalition-logo img {
+  display: block;
+  width: 100%;
+  height: auto;
+}
+
+@media (max-width: 900px) {
+  .ev-resource-grid {
+    grid-template-columns: 1fr;
+    gap: 24px;
+  }
+
+  .ev-finding-body {
+    display: flex;
+    flex-direction: column;
+    gap: 24px;
+  }
+
+  .ev-supporting-figure {
+    float: none;
+    order: 1;
+    align-self: center;
+    width: 100%;
+    margin: 0;
+  }
+}
+
+@media (max-width: 680px) {
+  .ev-intro {
+    padding-top: 24px;
+    padding-bottom: 28px;
+  }
+
+  .ev-band,
+  .ev-measurement,
+  .ev-coalition {
+    padding-top: 30px;
+    padding-bottom: 30px;
+  }
+
+  .ev-finding-notes {
+    grid-template-columns: 1fr;
+    gap: 28px;
+  }
+
+  .ev-study-note {
+    padding-left: 16px;
+  }
+
+  .ev-coalition-body {
+    grid-template-columns: 1fr;
+    gap: 20px;
+  }
+
+  .ev-coalition-logo {
+    width: 96px;
+  }
+}

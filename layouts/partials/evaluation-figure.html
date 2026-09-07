@@ -1,0 +1,9 @@
+<figure class="ev-figure">
+  <a class="ev-figure-image" href="{{ .image | relURL }}" target="_blank" rel="noopener noreferrer" title="View full-size figure" aria-label="View full-size figure: {{ .alt }}">
+    <img src="{{ .image | relURL }}" alt="{{ .alt }}" width="{{ .width }}" height="{{ .height }}" loading="{{ .loading | default "lazy" }}" decoding="async">
+  </a>
+  <figcaption>
+    <span>{{ .caption }}</span>
+    <span class="ev-credit"><a href="{{ .url }}">{{ .source }}</a> &middot; <a href="{{ .license_url }}">{{ .license }}</a> &middot; <a href="{{ .image | relURL }}" target="_blank" rel="noopener noreferrer">Full-size figure</a></span>
+  </figcaption>
+</figure>

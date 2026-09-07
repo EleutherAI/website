@@ -1,0 +1,58 @@
+sections:
+  - id: questions
+    title: "Start with what we need to know"
+    body: |-
+      The question should determine the method. A benchmark may tell us whether a model can solve a set of problems. Understanding how people rely on its advice may require following their use over time. Investigating social harms requires understanding the people affected and the circumstances in which a system is used.
+
+      We are interested in where a convenient measurement falls short of the question that motivated it. Counting how often a model describes women, for example, cannot tell us whether those descriptions reproduce stereotypes. Research from outside machine learning helps us identify what to look for and interpret what we find.
+  - id: methods
+    title: "Check the whole experiment"
+    body: |-
+      Evaluation involves choices about data, prompts, scoring, and how individual results are combined. Each choice can affect the conclusion. We investigate those effects by examining the data and model responses, checking implementations, and testing whether results hold under alternative setups.
+
+      Reproducing a score is only one check. We also need to establish that the experiment tests what we intended. In formal mathematics, a proof checker can verify a proof without detecting that the problem was mistranslated. In studies of model behavior, an aggregate score can conceal very different patterns of error.
+
+      These concerns apply to our own research too. A useful evaluation method should help us discover when our explanation is wrong.
+    figure:
+      image: "images/research/evaluation/lean-benchmark-pipeline.png"
+      width: 1689
+      height: 931
+      alt: "A theorem-proving evaluation runs from an informal problem through a formal statement and a proof to a reported result. The proof checker verifies only part of this process."
+      caption: "A proof checker verifies the proof, not the translation of the original problem. Other steps need their own checks."
+      source: "Faults in Our Formal Benchmarking, Figure 1"
+      url: "https://arxiv.org/html/2606.29493v1#S1.F1"
+      license: "CC BY 4.0"
+      license_url: "https://creativecommons.org/licenses/by/4.0/"
+  - id: benchmarks
+    title: "Understand the limits of benchmarks"
+    body: |-
+      Benchmarks make controlled comparisons possible. They also have a useful lifetime: when the differences between leading models become small relative to the uncertainty in their scores, a ranking can imply distinctions the evidence does not support. We study how to recognize that point and what determines when a benchmark reaches it.
+
+      One finding surprised us. In a study of 60 benchmarks, we found no statistically significant difference in saturation between public and private test sets. Keeping the data secret did not show the expected advantage. Only four benchmarks in the study were private, so the comparison remains limited, but the result gives us reason to question secrecy as a solution to saturation.
+  - id: independent
+    title: "Make independent evaluation possible"
+    body: |-
+      Claims about AI should be open to examination by researchers who did not build the system. That requires access to the methods and enough information to understand how a result was obtained. It also requires software that researchers can use without rebuilding every evaluation from scratch.
+
+      We maintain the LM Evaluation Harness to support reproducible experiments with configurable tasks and access to individual model responses. Through Every Eval Ever, we work on shared formats for recording results and the conditions under which they were produced.
+
+      We co-lead the EvalEval Coalition with Hugging Face and the University of Edinburgh. The coalition provides a way for researchers across institutions to work together on these methodological and practical problems, including the reporting standards and benchmark research described here.
+    links:
+      - label: "LM Evaluation Harness"
+        url: "https://github.com/EleutherAI/lm-evaluation-harness"
+      - label: "Every Eval Ever"
+        url: "https://arxiv.org/abs/2606.14516"
+      - label: "EvalEval Coalition"
+        url: "https://evalevalai.com/"
+
+reading:
+  title: "Related research"
+  items:
+    - title: "Lessons from the Trenches on Reproducible Evaluation of Language Models"
+      url: "https://arxiv.org/abs/2405.14782"
+    - title: "When AI Benchmarks Plateau: A Systematic Study of Benchmark Saturation"
+      url: "https://arxiv.org/abs/2602.16763"
+    - title: "More of the Same: Persistent Representational Harms Under Increased Representation"
+      url: "https://arxiv.org/abs/2503.00333"
+    - title: "Faults in Our Formal Benchmarking: Dataset Defects and Evaluation Failures in Lean Theorem Proving"
+      url: "https://arxiv.org/abs/2606.29493"

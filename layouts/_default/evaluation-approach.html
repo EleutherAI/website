@@ -1,0 +1,47 @@
+{{ define "head" }}
+<link rel="stylesheet" href="{{ "evaluation-visual.css" | relURL }}">
+<link rel="stylesheet" href="{{ "evaluation-approach.css" | relURL }}">
+{{ end }}
+
+{{ define "main" }}
+{{ $page := site.Data.evaluation_approach }}
+<main class="evaluation-visual evaluation-approach">
+  <header class="ev-intro wrap">
+    <a class="ev-back" href="{{ "research/" | relURL }}">Research</a>
+    <h1>{{ .Title }}</h1>
+    <div class="ev-prose">{{ .Content }}</div>
+  </header>
+
+  {{ range $page.sections }}
+  <section class="ea-section" aria-labelledby="{{ .id }}-title">
+    <div class="wrap">
+      <h2 id="{{ .id }}-title">{{ .title }}</h2>
+      <div class="ea-section-body">
+        {{ with .figure }}
+        <div class="ea-supporting-figure">{{ partial "evaluation-figure.html" . }}</div>
+        {{ end }}
+        <div class="ev-prose">{{ .body | markdownify }}</div>
+        {{ with .links }}
+        <ul class="ea-links">
+          {{ range . }}
+          <li><a class="ev-link" href="{{ .url }}">{{ .label }} <span aria-hidden="true">&rarr;</span></a></li>
+          {{ end }}
+        </ul>
+        {{ end }}
+      </div>
+    </div>
+  </section>
+  {{ end }}
+
+  {{ with $page.reading }}
+  <section class="ea-reading wrap" aria-labelledby="reading-title">
+    <h2 id="reading-title">{{ .title }}</h2>
+    <ul class="ea-reading-list">
+      {{ range .items }}
+      <li><a href="{{ .url }}">{{ .title }} <span aria-hidden="true">&rarr;</span></a></li>
+      {{ end }}
+    </ul>
+  </section>
+  {{ end }}
+</main>
+{{ end }}
