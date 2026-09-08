@@ -1,42 +1,6 @@
 {
   "interpretability": [
     {
-      "title": "Cross-Lingual Alignment Without Joint Training: Do Monolingual Language Models Converge on Universal Representations?",
-      "url": "",
-      "summary": "",
-      "date": "2026",
-      "year": "2026",
-      "venue": "EMNLP",
-      "authors": "Zhou, Salhan, Arnett, and Korhonen",
-      "marker": "",
-      "superlatives": [],
-      "sort_date": "2026-10-24"
-    },
-    {
-      "title": "Bergson: An Open Source Library for Data Attribution",
-      "url": "https://arxiv.org/abs/2606.11660",
-      "summary": "",
-      "date": "2026",
-      "year": "2026",
-      "venue": "EMNLP System Demonstrations",
-      "authors": "Quirke, Jaburi, Johnston, Li, Paulo, Martres, Gupta, Biderman, and Belrose",
-      "marker": "",
-      "superlatives": [],
-      "sort_date": "2026-10-24"
-    },
-    {
-      "title": "Where Does Social Reasoning Come From? Capability Provenance in Language Models",
-      "url": "https://arxiv.org/abs/2606.19625",
-      "summary": "",
-      "date": "2026",
-      "year": "2026",
-      "venue": "COLM",
-      "authors": "Matlin and 10 others",
-      "marker": "",
-      "superlatives": [],
-      "sort_date": "2026-10-06"
-    },
-    {
       "title": "Don't Just \"Fix it in Post'': A Science of AI Must Study Learning Dynamics",
       "url": "https://arxiv.org/abs/2606.06533",
       "summary": "",
@@ -49,66 +13,6 @@
         "Oral at ICML"
       ],
       "sort_date": "2026-07-10"
-    },
-    {
-      "title": "Automated Attribution Graph Interpretation via Probe Prompting",
-      "url": "https://arxiv.org/abs/2511.07002",
-      "summary": "",
-      "date": "2026",
-      "year": "2026",
-      "venue": "Mechanistic interpretability workshop @ ICML",
-      "authors": "Birardi and Paulo",
-      "marker": "",
-      "superlatives": [],
-      "sort_date": "2026-07-10"
-    },
-    {
-      "title": "Weight Tying Biases Token Embeddings Towards the Output Space",
-      "url": "https://arxiv.org/abs/2603.26663",
-      "summary": "",
-      "date": "2026",
-      "year": "2026",
-      "venue": "ACL Findings",
-      "authors": "Lopardo, Harish, Arnett, and Gupta",
-      "marker": "",
-      "superlatives": [],
-      "sort_date": "2026-07-02"
-    },
-    {
-      "title": "Sparse Autoencoders Trained on the Same Data Learn Different Features",
-      "url": "https://arxiv.org/abs/2501.16615",
-      "summary": "",
-      "date": "2026",
-      "year": "2026",
-      "venue": "ICLR",
-      "authors": "Paulo and Belrose",
-      "marker": "",
-      "superlatives": [],
-      "sort_date": "2026-04-23"
-    },
-    {
-      "title": "Evaluating SAE interpretability without explanations",
-      "url": "https://arxiv.org/abs/2507.08473",
-      "summary": "",
-      "date": "2026",
-      "year": "2026",
-      "venue": "ICLR",
-      "authors": "Paulo and Belrose",
-      "marker": "",
-      "superlatives": [],
-      "sort_date": "2026-04-23"
-    },
-    {
-      "title": "Concept Influence: Leveraging Interpretability to Improve Performance and Efficiency in Training Data Attribution",
-      "url": "https://arxiv.org/abs/2602.14869",
-      "summary": "",
-      "date": "2026",
-      "year": "2026",
-      "venue": "arXiv",
-      "authors": "Kowal, Paulo, Jaburi, Tseng, McKinney, Heimersheim, Tucker, Gleave, and Pelrine",
-      "marker": "",
-      "superlatives": [],
-      "sort_date": "2026-02-16"
     },
     {
       "title": "Benchmark Disaggregation Improves Interpretability of Training Dynamics",
@@ -135,54 +39,6 @@
       "sort_date": "2025-12-02"
     },
     {
-      "title": "Persona-Vector Routing: A Lightweight, Interpretable Guardrail for Mitigating LLM Hallucinations",
-      "url": "https://neurips.cc/virtual/2025/129955",
-      "summary": "",
-      "date": "2025",
-      "year": "2025",
-      "venue": "First Workshop on LLM Persona Modeling @ NeurIPS",
-      "authors": "Imran and Chatterjee",
-      "marker": "",
-      "superlatives": [],
-      "sort_date": "2025-12-01"
-    },
-    {
-      "title": "CCS-Lib: A Python Package to Elicit Latent Knowledge from LLMs",
-      "url": "https://joss.theoj.org/papers/10.21105/joss.06511",
-      "summary": "",
-      "date": "2025",
-      "year": "2025",
-      "venue": "Journal of Open Source Software",
-      "authors": "Laurito, Belrose, Mallen, Kozaronek, Roger, and 12 others",
-      "marker": "",
-      "superlatives": [],
-      "sort_date": "2025-10-21"
-    },
-    {
-      "title": "Binary Sparse Coding for Interpretability",
-      "url": "https://arxiv.org/abs/2509.25596",
-      "summary": "",
-      "date": "2025",
-      "year": "2025",
-      "venue": "arXiv",
-      "authors": "Quirke, Shabalin, and Belrose",
-      "marker": "",
-      "superlatives": [],
-      "sort_date": "2025-09-29"
-    },
-    {
-      "title": "Open Problems in Mechanistic Interpretability",
-      "url": "https://arxiv.org/abs/2501.16496",
-      "summary": "",
-      "date": "2025",
-      "year": "2025",
-      "venue": "TMLR",
-      "authors": "Sharkey, Chughtai, Batson, Lindsey, Wu, and 24 others",
-      "marker": "",
-      "superlatives": [],
-      "sort_date": "2025-09-27"
-    },
-    {
       "title": "On the Acquisition of Shared Grammatical Representations in Bilingual Language Models",
       "url": "https://arxiv.org/abs/2503.03962",
       "summary": "",
@@ -193,18 +49,6 @@
       "marker": "",
       "superlatives": [],
       "sort_date": "2025-07-27"
-    },
-    {
-      "title": "Steering Language Model Refusal with Sparse Autoencoders",
-      "url": "https://arxiv.org/abs/2411.11296",
-      "summary": "",
-      "date": "2025",
-      "year": "2025",
-      "venue": "Actionable Interpretability Workshop @ ICML",
-      "authors": "O'Brien, Majercak, Fernandes, Edgar, Chen, Nori, Carignan, Horvitz, and Poursabzi-Sangdeh",
-      "marker": "",
-      "superlatives": [],
-      "sort_date": "2025-07-19"
     },
     {
       "title": "Why Has Predicting Downstream Capabilities of Frontier AI Models with Scale Remained Elusive?",
@@ -218,18 +62,6 @@
       "superlatives": [
         "Oral at TiFA Workshop, ICML"
       ],
-      "sort_date": "2025-07-13"
-    },
-    {
-      "title": "Automatically Interpreting Millions of Features in Large Language Models",
-      "url": "https://arxiv.org/abs/2410.13928",
-      "summary": "",
-      "date": "2025",
-      "year": "2025",
-      "venue": "ICML",
-      "authors": "Paulo, Mallen, Juang, and Belrose",
-      "marker": "",
-      "superlatives": [],
       "sort_date": "2025-07-13"
     },
     {
@@ -257,18 +89,6 @@
       "sort_date": "2025-04-24"
     },
     {
-      "title": "Mechanistic Anomaly Detection for \"Quirky\" Language Models",
-      "url": "https://arxiv.org/abs/2504.08812",
-      "summary": "",
-      "date": "2025",
-      "year": "2025",
-      "venue": "arXiv",
-      "authors": "Johnston, Chakraborty, and Belrose",
-      "marker": "",
-      "superlatives": [],
-      "sort_date": "2025-04-09"
-    },
-    {
       "title": "Estimating the Probability of Sampling a Trained Neural Network at Random",
       "url": "https://arxiv.org/abs/2501.18812",
       "summary": "",
@@ -291,30 +111,6 @@
       "marker": "",
       "superlatives": [],
       "sort_date": "2025-03-21"
-    },
-    {
-      "title": "Does Transformer Interpretability Transfer to RNNs?",
-      "url": "https://arxiv.org/abs/2404.05971",
-      "summary": "",
-      "date": "2025",
-      "year": "2025",
-      "venue": "AAAI",
-      "authors": "Paulo, Marshall and Belrose",
-      "marker": "",
-      "superlatives": [],
-      "sort_date": "2025-02-25"
-    },
-    {
-      "title": "Transcoders Beat Sparse Autoencoders for Interpretability",
-      "url": "https://arxiv.org/abs/2501.18823",
-      "summary": "",
-      "date": "2025",
-      "year": "2025",
-      "venue": "arXiv",
-      "authors": "Paulo, Shabalin, and Belrose",
-      "marker": "",
-      "superlatives": [],
-      "sort_date": "2025-02-12"
     },
     {
       "title": "Slowing Learning by Erasing Simple Features",
@@ -341,30 +137,6 @@
       "sort_date": "2025-02-03"
     },
     {
-      "title": "Can We Partially Rewrite Transformers in Natural Language?",
-      "url": "https://arxiv.org/abs/2501.18838",
-      "summary": "",
-      "date": "2025",
-      "year": "2025",
-      "venue": "arXiv",
-      "authors": "Paulo and Belrose",
-      "marker": "",
-      "superlatives": [],
-      "sort_date": "2025-01-31"
-    },
-    {
-      "title": "Matrix-Driven Identification and Reconstruction of LLM Weight Homology",
-      "url": "https://arxiv.org/abs/2508.06309",
-      "summary": "",
-      "date": "2025",
-      "year": "2025",
-      "venue": "NeurIPS",
-      "authors": "Zhang and Goldstein",
-      "marker": "",
-      "superlatives": [],
-      "sort_date": "2025-01-30"
-    },
-    {
       "title": "LLM Circuit Analyses Are Consistent Across Training and Scale",
       "url": "https://arxiv.org/abs/2407.10827",
       "summary": "",
@@ -387,54 +159,6 @@
       "marker": "",
       "superlatives": [],
       "sort_date": "2024-12-09"
-    },
-    {
-      "title": "Linear Representations of Sentiment in Large Language Models",
-      "url": "https://arxiv.org/abs/2310.15154",
-      "summary": "",
-      "date": "2024",
-      "year": "2024",
-      "venue": "BlackBox NLP",
-      "authors": "Tigges, Hollinsworth, Geiger, and Nanda",
-      "marker": "",
-      "superlatives": [],
-      "sort_date": "2024-11-15"
-    },
-    {
-      "title": "Refusal in LLMs is an Affine Function",
-      "url": "https://arxiv.org/abs/2411.09003",
-      "summary": "",
-      "date": "2024",
-      "year": "2024",
-      "venue": "arXiv",
-      "authors": "Marshall, Scherlis, and Belrose",
-      "marker": "",
-      "superlatives": [],
-      "sort_date": "2024-11-13"
-    },
-    {
-      "title": "Balancing Label Quantity and Quality for Scalable Elicitation",
-      "url": "https://arxiv.org/abs/2410.13215",
-      "summary": "",
-      "date": "2024",
-      "year": "2024",
-      "venue": "arXiv",
-      "authors": "Mallen and Belrose",
-      "marker": "",
-      "superlatives": [],
-      "sort_date": "2024-10-22"
-    },
-    {
-      "title": "Eliciting Latent Knowledge from Quirky Language Models",
-      "url": "https://arxiv.org/abs/2312.01037",
-      "summary": "",
-      "date": "2024",
-      "year": "2024",
-      "venue": "COLM",
-      "authors": "Mallen and Belrose",
-      "marker": "",
-      "superlatives": [],
-      "sort_date": "2024-10-07"
     },
     {
       "title": "Neural Networks Learn Statistics of Increasing Complexity",
@@ -497,42 +221,6 @@
       "sort_date": "2024-05-11"
     },
     {
-      "title": "Sparse Autoencoders Find Highly Interpretable Features in Language Models",
-      "url": "https://arxiv.org/abs/2309.08600",
-      "summary": "",
-      "date": "2024",
-      "year": "2024",
-      "venue": "ICLR",
-      "authors": "Cunningham, Ewart, Riggs, Huben, and Sharkey",
-      "marker": "",
-      "superlatives": [],
-      "sort_date": "2024-05-07"
-    },
-    {
-      "title": "Detecting Backdoors with Meta-Models",
-      "url": "https://openreview.net/forum?id=cmJiEqniEc",
-      "summary": "",
-      "date": "2023",
-      "year": "2023",
-      "venue": "NeurIPS Workshop on Backdoors in Deep Learning",
-      "authors": "Langosco, Alex, Baker, Quarel, Bradley, and Krueger",
-      "marker": "",
-      "superlatives": [],
-      "sort_date": "2023-12-15"
-    },
-    {
-      "title": "LEACE: Perfect linear concept erasure in closed form",
-      "url": "https://arxiv.org/abs/2306.03819",
-      "summary": "",
-      "date": "2023",
-      "year": "2023",
-      "venue": "NeurIPS",
-      "authors": "Belrose, Schneider-Joseph, Ravfogel, Cotterell, Raff, and Biderman",
-      "marker": "",
-      "superlatives": [],
-      "sort_date": "2023-12-10"
-    },
-    {
       "title": "Emergent and Predictable Memorization in Large Language Models",
       "url": "https://arxiv.org/abs/2304.11158",
       "summary": "",
@@ -543,30 +231,6 @@
       "marker": "",
       "superlatives": [],
       "sort_date": "2023-12-10"
-    },
-    {
-      "title": "Representation Engineering: A Top-Down Approach to AI Transparency",
-      "url": "https://arxiv.org/abs/2310.01405",
-      "summary": "",
-      "date": "2023",
-      "year": "2023",
-      "venue": "arXiv",
-      "authors": "Zou, Phan, Chen, Campbell, Guo, Ren, and 15 others",
-      "marker": "",
-      "superlatives": [],
-      "sort_date": "2023-10-02"
-    },
-    {
-      "title": "Towards Meta-Models for Automated Interpretability",
-      "url": "https://openreview.net/forum?id=fM1ETm3ssl",
-      "summary": "",
-      "date": "2023",
-      "year": "2023",
-      "venue": "ICLR 2024 submission",
-      "authors": "Langosco, Alex, Baker, Quarel, Bradley, and Krueger",
-      "marker": "",
-      "superlatives": [],
-      "sort_date": "2023-09-23"
     },
     {
       "title": "Pythia: A Suite for Analyzing Large Language Models Across Training and Scaling",
@@ -593,30 +257,6 @@
       "marker": "",
       "superlatives": [],
       "sort_date": "2023-07-23"
-    },
-    {
-      "title": "Can Transformers Learn to Solve Problems Recursively?",
-      "url": "https://arxiv.org/abs/2305.14699",
-      "summary": "",
-      "date": "2023",
-      "year": "2023",
-      "venue": "Extended to a published paper",
-      "authors": "Zhang, Tigges, Biderman, Raginsky, and Ringer",
-      "marker": "",
-      "superlatives": [],
-      "sort_date": "2023-05-24"
-    },
-    {
-      "title": "Eliciting latent predictions from transformers with the tuned lens",
-      "url": "https://arxiv.org/abs/2303.08112",
-      "summary": "",
-      "date": "2023",
-      "year": "2023",
-      "venue": "arXiv",
-      "authors": "Belrose, Ostrovsky, McKinney, Furman, Smith, Halawi, Biderman, and Steinhardt",
-      "marker": "",
-      "superlatives": [],
-      "sort_date": "2023-05-14"
     },
     {
       "title": "Scaling Scaling Laws with Board Games",
@@ -1645,18 +1285,6 @@
       "sort_date": "2026-10-24"
     },
     {
-      "title": "Bergson: An Open Source Library for Data Attribution",
-      "url": "https://arxiv.org/abs/2606.11660",
-      "summary": "",
-      "date": "2026",
-      "year": "2026",
-      "venue": "EMNLP System Demonstrations",
-      "authors": "Quirke, Jaburi, Johnston, Li, Paulo, Martres, Gupta, Biderman, and Belrose",
-      "marker": "",
-      "superlatives": [],
-      "sort_date": "2026-10-24"
-    },
-    {
       "title": "Beetle: Structured Exposure Pretraining in Bilingual Language Models for Modelling L2 Language Processing",
       "url": "",
       "summary": "",
@@ -1667,30 +1295,6 @@
       "marker": "",
       "superlatives": [],
       "sort_date": "2026-10-24"
-    },
-    {
-      "title": "Where Does Social Reasoning Come From? Capability Provenance in Language Models",
-      "url": "https://arxiv.org/abs/2606.19625",
-      "summary": "",
-      "date": "2026",
-      "year": "2026",
-      "venue": "COLM",
-      "authors": "Matlin and 10 others",
-      "marker": "",
-      "superlatives": [],
-      "sort_date": "2026-10-06"
-    },
-    {
-      "title": "Quantifying the Effect of Test Set Contamination on Generative Evaluations",
-      "url": "https://arxiv.org/abs/2601.04301",
-      "summary": "",
-      "date": "2026",
-      "year": "2026",
-      "venue": "Foundations of Deep Generative Models @ ICML",
-      "authors": "Schaeffer, Kazdan, Abbasi, Liu, Miranda, Ahmed, Puri, Mireshghallah, and Koyejo",
-      "marker": "",
-      "superlatives": [],
-      "sort_date": "2026-07-10"
     },
     {
       "title": "Don't Just \"Fix it in Post'': A Science of AI Must Study Learning Dynamics",
@@ -1719,18 +1323,6 @@
       "sort_date": "2026-07-02"
     },
     {
-      "title": "CommonLID: Re-evaluating State-of-the-Art Language Identification Performance on Web Data",
-      "url": "https://arxiv.org/abs/2601.18026",
-      "summary": "",
-      "date": "2026",
-      "year": "2026",
-      "venue": "ACL",
-      "authors": "Ortiz Suarez, Burchell, Arnett, and 94 others",
-      "marker": "",
-      "superlatives": [],
-      "sort_date": "2026-07-02"
-    },
-    {
       "title": "LoRA-Muon: Spectral Steepest Descent on the Low-Rank Manifold",
       "url": "https://arxiv.org/abs/2606.12921",
       "summary": "",
@@ -1741,18 +1333,6 @@
       "marker": "",
       "superlatives": [],
       "sort_date": "2026-06-11"
-    },
-    {
-      "title": "Soohak: A Mathematician-Curated Benchmark for Evaluating Research-level Math Capabilities of LLMs",
-      "url": "https://arxiv.org/abs/2605.09063",
-      "summary": "",
-      "date": "2026",
-      "year": "2026",
-      "venue": "NeurIPS",
-      "authors": "Son, Kim, Arnett, Ko, Lee, Kang, Jiang, Yun, Lee, Lee, Kim, Park, Hong, Lee, Yi, Shin, Bok, Shin, Ji, Kim, Jung, Asai, Neubig, Welleck, and 51 others",
-      "marker": "",
-      "superlatives": [],
-      "sort_date": "2026-05-09"
     },
     {
       "title": "Attention-Guided Audio Compression for Multimodal LLM",
@@ -1791,42 +1371,6 @@
         "Best Paper Runner-Up at BioSafe Workshop, NeurIPS"
       ],
       "sort_date": "2026-04-23"
-    },
-    {
-      "title": "Concept Influence: Leveraging Interpretability to Improve Performance and Efficiency in Training Data Attribution",
-      "url": "https://arxiv.org/abs/2602.14869",
-      "summary": "",
-      "date": "2026",
-      "year": "2026",
-      "venue": "arXiv",
-      "authors": "Kowal, Paulo, Jaburi, Tseng, McKinney, Heimersheim, Tucker, Gleave, and Pelrine",
-      "marker": "",
-      "superlatives": [],
-      "sort_date": "2026-02-16"
-    },
-    {
-      "title": "Mitigating Emergent Misalignment with Data Attribution",
-      "url": "https://openreview.net/forum?id=gN7pWmjiQW",
-      "summary": "",
-      "date": "2025",
-      "year": "2025",
-      "venue": "Mech Interp Workshop @ NeurIPS",
-      "authors": "Jaburi, Paulo, Shabalin, Quirke, and Belrose",
-      "marker": "",
-      "superlatives": [],
-      "sort_date": "2025-12-07"
-    },
-    {
-      "title": "The Common Pile v0.1: An 8TB Dataset of Public Domain and Openly Licensed Text",
-      "url": "https://arxiv.org/abs/2506.05209",
-      "summary": "",
-      "date": "2025",
-      "year": "2025",
-      "venue": "NeurIPS Datasets and Benchmarks",
-      "authors": "Kandpal, Lester, Raffel, Majstorović, Biderman, and 22 others",
-      "marker": "",
-      "superlatives": [],
-      "sort_date": "2025-12-02"
     },
     {
       "title": "RWKV-7 \"Goose\" with Expressive Dynamic State Evolution",
@@ -1889,18 +1433,6 @@
       "sort_date": "2025-07-18"
     },
     {
-      "title": "Recite, Reconstruct, Recollect: Memorization in LMs as a Multifaceted Phenomenon",
-      "url": "https://arxiv.org/abs/2406.17746",
-      "summary": "",
-      "date": "2025",
-      "year": "2025",
-      "venue": "ICLR",
-      "authors": "Sai Prashanth, Deng, O'Brien, Jyothir S V, Khan, and 7 others",
-      "marker": "",
-      "superlatives": [],
-      "sort_date": "2025-04-24"
-    },
-    {
       "title": "PolyPythias: Stability and Outliers across Fifty Language Model Pre-Training Runs",
       "url": "https://arxiv.org/abs/2503.09543",
       "summary": "",
@@ -1908,30 +1440,6 @@
       "year": "2025",
       "venue": "ICLR",
       "authors": "van der Wal, Lesci, Müller-Eberstein, Saphra, Schoelkopf, Zuidema, and Biderman",
-      "marker": "",
-      "superlatives": [],
-      "sort_date": "2025-04-24"
-    },
-    {
-      "title": "Bridging the Data Provenance Gap Across Text, Speech, and Video",
-      "url": "https://arxiv.org/abs/2412.17847",
-      "summary": "",
-      "date": "2025",
-      "year": "2025",
-      "venue": "ICLR",
-      "authors": "Longpre, Singh, Cherep, Tiwary, Materzynska, and 38 others",
-      "marker": "",
-      "superlatives": [],
-      "sort_date": "2025-04-24"
-    },
-    {
-      "title": "Aria-MIDI: A Dataset of MIDI Files for Symbolic Music Modeling",
-      "url": "https://arxiv.org/abs/2504.15071",
-      "summary": "",
-      "date": "2025",
-      "year": "2025",
-      "venue": "ICLR",
-      "authors": "Bradshaw, and Colton",
       "marker": "",
       "superlatives": [],
       "sort_date": "2025-04-24"
@@ -1949,18 +1457,6 @@
       "sort_date": "2025-01-16"
     },
     {
-      "title": "Towards Best Practices for Open Datasets for LLM Training",
-      "url": "https://arxiv.org/abs/2501.08365",
-      "summary": "",
-      "date": "2025",
-      "year": "2025",
-      "venue": "arXiv",
-      "authors": "Baack, Biderman, Odrozek, Skowron, Bdeir, and 34 others",
-      "marker": "",
-      "superlatives": [],
-      "sort_date": "2025-01-14"
-    },
-    {
       "title": "RedPajama: an Open Dataset for Training Large Language Models",
       "url": "https://arxiv.org/abs/2411.12372",
       "summary": "",
@@ -1968,18 +1464,6 @@
       "year": "2024",
       "venue": "NeurIPS Datasets and Benchmarks",
       "authors": "Weber, Fu, Anthony, Oren, and Adams, and 14 others",
-      "marker": "",
-      "superlatives": [],
-      "sort_date": "2024-12-10"
-    },
-    {
-      "title": "Consent in crisis: The rapid decline of the AI data commons",
-      "url": "https://arxiv.org/abs/2407.14933",
-      "summary": "",
-      "date": "2024",
-      "year": "2024",
-      "venue": "NeurIPS Datasets and Benchmarks",
-      "authors": "Longpre, Mahari, Lee, Lund, Oderinwale, and 44 others",
       "marker": "",
       "superlatives": [],
       "sort_date": "2024-12-10"
@@ -2009,18 +1493,6 @@
       "sort_date": "2024-12-04"
     },
     {
-      "title": "Documenting Geographically and Contextually Diverse Data Sources: The BigScience Catalogue of Language Data and Resources",
-      "url": "https://arxiv.org/abs/2201.10066",
-      "summary": "",
-      "date": "2024",
-      "year": "2024",
-      "venue": "Northern European Journal of Language Technology",
-      "authors": "McMillan-Major, Alyafeai, Biderman, Chen, De Toni, and 13 others",
-      "marker": "",
-      "superlatives": [],
-      "sort_date": "2024-12-01"
-    },
-    {
       "title": "Lina-Speech: Gated Linear Attention is a Fast and Parameter-Efficient Learner for text-to-speech synthesis",
       "url": "https://arxiv.org/abs/2410.23320",
       "summary": "",
@@ -2045,20 +1517,6 @@
       "sort_date": "2024-10-07"
     },
     {
-      "title": "The Data Provenance Initiative: A Large Scale Audit of Dataset Licensing & Attribution in AI",
-      "url": "https://arxiv.org/abs/2310.16787",
-      "summary": "",
-      "date": "2024",
-      "year": "2024",
-      "venue": "Nature Machine Intelligence",
-      "authors": "Longpre, Mahari, Chen, Obeng-Marnu, and Sileo, and 12 others",
-      "marker": "spotlight",
-      "superlatives": [
-        "Spotlight at GenLaw Workshop, ICML"
-      ],
-      "sort_date": "2024-08-30"
-    },
-    {
       "title": "The Case for Co-Designing Model Architectures with Hardware",
       "url": "https://arxiv.org/abs/2401.14489",
       "summary": "",
@@ -2069,18 +1527,6 @@
       "marker": "",
       "superlatives": [],
       "sort_date": "2024-08-12"
-    },
-    {
-      "title": "Self-Directed Synthetic Dialogues and Revisions Technical Report",
-      "url": "https://arxiv.org/abs/2407.18421",
-      "summary": "",
-      "date": "2024",
-      "year": "2024",
-      "venue": "arXiv",
-      "authors": "Lambert, Schoelkopf, Gokaslan, Soldaini, Pyatkin, and Castricato",
-      "marker": "",
-      "superlatives": [],
-      "sort_date": "2024-07-25"
     },
     {
       "title": "Scalable High-Resolution Pixel-Space Image Synthesis with Hourglass Diffusion Transformers",
@@ -2155,20 +1601,6 @@
       "sort_date": "2024-05-07"
     },
     {
-      "title": "OpenWebMath: An Open Dataset of High-Quality Mathematical Web Text",
-      "url": "https://arxiv.org/abs/2310.06786",
-      "summary": "",
-      "date": "2024",
-      "year": "2024",
-      "venue": "ICLR",
-      "authors": "Paster, Dos Santos, Azerbayev, and Ba",
-      "marker": "oral",
-      "superlatives": [
-        "Oral at MATH-AI Workshop, NeurIPS"
-      ],
-      "sort_date": "2024-05-07"
-    },
-    {
       "title": "LLeMA: An Open Language Model for Mathematics",
       "url": "https://arxiv.org/abs/2310.10631",
       "summary": "",
@@ -2229,18 +1661,6 @@
       "sort_date": "2024-02-01"
     },
     {
-      "title": "BigBIO: A Framework for Data-Centric Biomedical Natural Language Processing",
-      "url": "https://arxiv.org/abs/2206.15076",
-      "summary": "",
-      "date": "2023",
-      "year": "2023",
-      "venue": "NeurIPS Datasets and Benchmarks",
-      "authors": "Fries, Weber, Seelam, Altay, and 39 others",
-      "marker": "",
-      "superlatives": [],
-      "sort_date": "2023-12-13"
-    },
-    {
       "title": "Neural MMO 2.0: A Massively Multi-task Addition to Massively Multi-Agent Learning",
       "url": "https://arxiv.org/abs/2311.03736",
       "summary": "",
@@ -2251,18 +1671,6 @@
       "marker": "",
       "superlatives": [],
       "sort_date": "2023-12-10"
-    },
-    {
-      "title": "Prompting Multilingual Large Language Models to Generate Code-Mixed Texts: The Case of South East Asian Languages",
-      "url": "https://arxiv.org/abs/2303.13592",
-      "summary": "",
-      "date": "2023",
-      "year": "2023",
-      "venue": "EMNLP Workshop on Computational Approaches to Linguistic Code-Switching",
-      "authors": "Yong, Zhang, Forde, Wang, Subramonian, and 10 others",
-      "marker": "",
-      "superlatives": [],
-      "sort_date": "2023-12-07"
     },
     {
       "title": "trlX: A Framework for Large Scale Reinforcement Learning from Human Feedback",
@@ -2299,30 +1707,6 @@
       "marker": "",
       "superlatives": [],
       "sort_date": "2023-12-01"
-    },
-    {
-      "title": "Utilizing Weak Supervision to Generate Indonesian Conservation Datasets",
-      "url": "https://arxiv.org/abs/2310.11258",
-      "summary": "",
-      "date": "2023",
-      "year": "2023",
-      "venue": "AACL Workshop on Southeast Asian Language Processing",
-      "authors": "Fransiska, Pitaloka, Saripudin, Putra, and Sutawika",
-      "marker": "",
-      "superlatives": [],
-      "sort_date": "2023-11-01"
-    },
-    {
-      "title": "Reclaiming the Digital Commons: A Public Data Trust for Training Data",
-      "url": "https://arxiv.org/abs/2303.09001",
-      "summary": "",
-      "date": "2023",
-      "year": "2023",
-      "venue": "AIES",
-      "authors": "Chan, Bradley, and Rajkumar",
-      "marker": "",
-      "superlatives": [],
-      "sort_date": "2023-08-29"
     },
     {
       "title": "Recasting Self-Attention with Holographic Reduced Representations",
@@ -2373,18 +1757,6 @@
       "marker": "",
       "superlatives": [],
       "sort_date": "2023-07-23"
-    },
-    {
-      "title": "GAIA Search: Hugging Face and Pyserini Interoperability for NLP Training Data Exploration",
-      "url": "https://arxiv.org/abs/2306.01481",
-      "summary": "",
-      "date": "2023",
-      "year": "2023",
-      "venue": "ACL 2023 Demos Track",
-      "authors": "Piktus, Ogundepo, Akiki, Oladipo, Zhang, Schoelkopf, Biderman, Potthast, and Lin",
-      "marker": "",
-      "superlatives": [],
-      "sort_date": "2023-07-09"
     },
     {
       "title": "Crosslingual Generalization through Multitask Finetuning",
@@ -2471,34 +1843,6 @@
       "sort_date": "2022-12-01"
     },
     {
-      "title": "The BigScience ROOTS Corpus: A 1.6TB Composite Multilingual Dataset",
-      "url": "https://arxiv.org/abs/2303.03915",
-      "summary": "",
-      "date": "2022",
-      "year": "2022",
-      "venue": "NeurIPS Datasets and Benchmarks",
-      "authors": "Laurençon, Saulnier, Wang, Akiki, Villanova del Moral, and 49 others",
-      "marker": "spotlight",
-      "superlatives": [
-        "Featured Paper at NeurIPS Datasets and Benchmarks Track"
-      ],
-      "sort_date": "2022-11-28"
-    },
-    {
-      "title": "LAION-5B: An open large-scale dataset for training next generation image-text models",
-      "url": "https://arxiv.org/abs/2210.08402",
-      "summary": "",
-      "date": "2022",
-      "year": "2022",
-      "venue": "NeurIPS Datasets and Benchmarks",
-      "authors": "Schuhmann, Beaumont, Vencu, Gordon, Wightman, Cherti, and 10 others",
-      "marker": "bestpaper",
-      "superlatives": [
-        "Outstanding Datasets and Benchmarks Paper at NeurIPS"
-      ],
-      "sort_date": "2022-11-28"
-    },
-    {
       "title": "BLOOM: A 176b-parameter open-access multilingual language model",
       "url": "https://arxiv.org/abs/2211.05100",
       "summary": "",
@@ -2535,6 +1879,460 @@
       "sort_date": "2022-10-01"
     },
     {
+      "title": "GPT-NeoX-20B: An Open-Source Autoregressive Language Model",
+      "url": "https://arxiv.org/abs/2204.06745",
+      "summary": "",
+      "date": "2022",
+      "year": "2022",
+      "venue": "ACL Workshop on Challenges & Perspectives in Creating Large Language Models",
+      "authors": "Black, Biderman, Hallahan, and 14 others",
+      "marker": "",
+      "superlatives": [],
+      "sort_date": "2022-05-28"
+    },
+    {
+      "title": "Multitask Prompted Training Enables Zero-Shot Task Generalization",
+      "url": "https://arxiv.org/abs/2110.08207",
+      "summary": "",
+      "date": "2022",
+      "year": "2022",
+      "venue": "ICLR",
+      "authors": "Sanh, Webson, Raffel, Bach, and 37 others",
+      "marker": "",
+      "superlatives": [],
+      "sort_date": "2022-04-25"
+    },
+    {
+      "title": "Scaling Scaling Laws with Board Games",
+      "url": "https://arxiv.org/abs/2104.03113",
+      "summary": "",
+      "date": "2021",
+      "year": "2021",
+      "venue": "arXiv",
+      "authors": "Jones",
+      "marker": "",
+      "superlatives": [],
+      "sort_date": "2021-04-07"
+    },
+    {
+      "title": "Current Limitations of Large Language Models: What You Need is Retrieval",
+      "url": "https://arxiv.org/abs/2009.06857",
+      "summary": "",
+      "date": "2020",
+      "year": "2020",
+      "venue": "arXiv",
+      "authors": "Komatsuzaki",
+      "marker": "",
+      "superlatives": [],
+      "sort_date": "2020-09-15"
+    },
+    {
+      "title": "One Epoch Is All You Need",
+      "url": "https://arxiv.org/abs/1906.06669",
+      "summary": "",
+      "date": "2019",
+      "year": "2019",
+      "venue": "arXiv",
+      "authors": "Komatsuzaki",
+      "marker": "",
+      "superlatives": [],
+      "sort_date": "2019-06-16"
+    }
+  ],
+  "training_data": [
+    {
+      "title": "Bergson: An Open Source Library for Data Attribution",
+      "url": "https://arxiv.org/abs/2606.11660",
+      "summary": "",
+      "date": "2026",
+      "year": "2026",
+      "venue": "EMNLP System Demonstrations",
+      "authors": "Quirke, Jaburi, Johnston, Li, Paulo, Martres, Gupta, Biderman, and Belrose",
+      "marker": "",
+      "superlatives": [],
+      "sort_date": "2026-10-24"
+    },
+    {
+      "title": "Where Does Social Reasoning Come From? Capability Provenance in Language Models",
+      "url": "https://arxiv.org/abs/2606.19625",
+      "summary": "",
+      "date": "2026",
+      "year": "2026",
+      "venue": "COLM",
+      "authors": "Matlin and 10 others",
+      "marker": "",
+      "superlatives": [],
+      "sort_date": "2026-10-06"
+    },
+    {
+      "title": "Quantifying the Effect of Test Set Contamination on Generative Evaluations",
+      "url": "https://arxiv.org/abs/2601.04301",
+      "summary": "",
+      "date": "2026",
+      "year": "2026",
+      "venue": "Foundations of Deep Generative Models @ ICML",
+      "authors": "Schaeffer, Kazdan, Abbasi, Liu, Miranda, Ahmed, Puri, Mireshghallah, and Koyejo",
+      "marker": "",
+      "superlatives": [],
+      "sort_date": "2026-07-10"
+    },
+    {
+      "title": "CommonLID: Re-evaluating State-of-the-Art Language Identification Performance on Web Data",
+      "url": "https://arxiv.org/abs/2601.18026",
+      "summary": "",
+      "date": "2026",
+      "year": "2026",
+      "venue": "ACL",
+      "authors": "Ortiz Suarez, Burchell, Arnett, and 94 others",
+      "marker": "",
+      "superlatives": [],
+      "sort_date": "2026-07-02"
+    },
+    {
+      "title": "Soohak: A Mathematician-Curated Benchmark for Evaluating Research-level Math Capabilities of LLMs",
+      "url": "https://arxiv.org/abs/2605.09063",
+      "summary": "",
+      "date": "2026",
+      "year": "2026",
+      "venue": "NeurIPS",
+      "authors": "Son, Kim, Arnett, Ko, Lee, Kang, Jiang, Yun, Lee, Lee, Kim, Park, Hong, Lee, Yi, Shin, Bok, Shin, Ji, Kim, Jung, Asai, Neubig, Welleck, and 51 others",
+      "marker": "",
+      "superlatives": [],
+      "sort_date": "2026-05-09"
+    },
+    {
+      "title": "Concept Influence: Leveraging Interpretability to Improve Performance and Efficiency in Training Data Attribution",
+      "url": "https://arxiv.org/abs/2602.14869",
+      "summary": "",
+      "date": "2026",
+      "year": "2026",
+      "venue": "arXiv",
+      "authors": "Kowal, Paulo, Jaburi, Tseng, McKinney, Heimersheim, Tucker, Gleave, and Pelrine",
+      "marker": "",
+      "superlatives": [],
+      "sort_date": "2026-02-16"
+    },
+    {
+      "title": "Mitigating Emergent Misalignment with Data Attribution",
+      "url": "https://openreview.net/forum?id=gN7pWmjiQW",
+      "summary": "",
+      "date": "2025",
+      "year": "2025",
+      "venue": "Mech Interp Workshop @ NeurIPS",
+      "authors": "Jaburi, Paulo, Shabalin, Quirke, and Belrose",
+      "marker": "",
+      "superlatives": [],
+      "sort_date": "2025-12-07"
+    },
+    {
+      "title": "The Common Pile v0.1: An 8TB Dataset of Public Domain and Openly Licensed Text",
+      "url": "https://arxiv.org/abs/2506.05209",
+      "summary": "",
+      "date": "2025",
+      "year": "2025",
+      "venue": "NeurIPS Datasets and Benchmarks",
+      "authors": "Kandpal, Lester, Raffel, Majstorović, Biderman, and 22 others",
+      "marker": "",
+      "superlatives": [],
+      "sort_date": "2025-12-02"
+    },
+    {
+      "title": "Recite, Reconstruct, Recollect: Memorization in LMs as a Multifaceted Phenomenon",
+      "url": "https://arxiv.org/abs/2406.17746",
+      "summary": "",
+      "date": "2025",
+      "year": "2025",
+      "venue": "ICLR",
+      "authors": "Sai Prashanth, Deng, O'Brien, Jyothir S V, Khan, and 7 others",
+      "marker": "",
+      "superlatives": [],
+      "sort_date": "2025-04-24"
+    },
+    {
+      "title": "Bridging the Data Provenance Gap Across Text, Speech, and Video",
+      "url": "https://arxiv.org/abs/2412.17847",
+      "summary": "",
+      "date": "2025",
+      "year": "2025",
+      "venue": "ICLR",
+      "authors": "Longpre, Singh, Cherep, Tiwary, Materzynska, and 38 others",
+      "marker": "",
+      "superlatives": [],
+      "sort_date": "2025-04-24"
+    },
+    {
+      "title": "Aria-MIDI: A Dataset of MIDI Files for Symbolic Music Modeling",
+      "url": "https://arxiv.org/abs/2504.15071",
+      "summary": "",
+      "date": "2025",
+      "year": "2025",
+      "venue": "ICLR",
+      "authors": "Bradshaw, and Colton",
+      "marker": "",
+      "superlatives": [],
+      "sort_date": "2025-04-24"
+    },
+    {
+      "title": "Robin: a Suite of Multi-Scale Vision-Language Models and the CHIRP Evaluation Benchmark",
+      "url": "https://arxiv.org/abs/2501.09672",
+      "summary": "",
+      "date": "2025",
+      "year": "2025",
+      "venue": "arXiv",
+      "authors": "Roger, Humane, Kaplan, Gupta, Sun, Adamopoulos, Lim, Anthony, Fennell, and Rish",
+      "marker": "",
+      "superlatives": [],
+      "sort_date": "2025-01-16"
+    },
+    {
+      "title": "Towards Best Practices for Open Datasets for LLM Training",
+      "url": "https://arxiv.org/abs/2501.08365",
+      "summary": "",
+      "date": "2025",
+      "year": "2025",
+      "venue": "arXiv",
+      "authors": "Baack, Biderman, Odrozek, Skowron, Bdeir, and 34 others",
+      "marker": "",
+      "superlatives": [],
+      "sort_date": "2025-01-14"
+    },
+    {
+      "title": "RedPajama: an Open Dataset for Training Large Language Models",
+      "url": "https://arxiv.org/abs/2411.12372",
+      "summary": "",
+      "date": "2024",
+      "year": "2024",
+      "venue": "NeurIPS Datasets and Benchmarks",
+      "authors": "Weber, Fu, Anthony, Oren, and Adams, and 14 others",
+      "marker": "",
+      "superlatives": [],
+      "sort_date": "2024-12-10"
+    },
+    {
+      "title": "Consent in crisis: The rapid decline of the AI data commons",
+      "url": "https://arxiv.org/abs/2407.14933",
+      "summary": "",
+      "date": "2024",
+      "year": "2024",
+      "venue": "NeurIPS Datasets and Benchmarks",
+      "authors": "Longpre, Mahari, Lee, Lund, Oderinwale, and 44 others",
+      "marker": "",
+      "superlatives": [],
+      "sort_date": "2024-12-10"
+    },
+    {
+      "title": "Surveying the Effects of Quality, Diversity, and Complexity in Synthetic Data From Large Language Models",
+      "url": "https://arxiv.org/abs/2412.02980",
+      "summary": "",
+      "date": "2024",
+      "year": "2024",
+      "venue": "arXiv",
+      "authors": "Havrilla, Dai, O'Mahony, Oostermeijer, and Zisler, and 15 others",
+      "marker": "",
+      "superlatives": [],
+      "sort_date": "2024-12-04"
+    },
+    {
+      "title": "Documenting Geographically and Contextually Diverse Data Sources: The BigScience Catalogue of Language Data and Resources",
+      "url": "https://arxiv.org/abs/2201.10066",
+      "summary": "",
+      "date": "2024",
+      "year": "2024",
+      "venue": "Northern European Journal of Language Technology",
+      "authors": "McMillan-Major, Alyafeai, Biderman, Chen, De Toni, and 13 others",
+      "marker": "",
+      "superlatives": [],
+      "sort_date": "2024-12-01"
+    },
+    {
+      "title": "The Data Provenance Initiative: A Large Scale Audit of Dataset Licensing & Attribution in AI",
+      "url": "https://arxiv.org/abs/2310.16787",
+      "summary": "",
+      "date": "2024",
+      "year": "2024",
+      "venue": "Nature Machine Intelligence",
+      "authors": "Longpre, Mahari, Chen, Obeng-Marnu, and Sileo, and 12 others",
+      "marker": "spotlight",
+      "superlatives": [
+        "Spotlight at GenLaw Workshop, ICML"
+      ],
+      "sort_date": "2024-08-30"
+    },
+    {
+      "title": "Self-Directed Synthetic Dialogues and Revisions Technical Report",
+      "url": "https://arxiv.org/abs/2407.18421",
+      "summary": "",
+      "date": "2024",
+      "year": "2024",
+      "venue": "arXiv",
+      "authors": "Lambert, Schoelkopf, Gokaslan, Soldaini, Pyatkin, and Castricato",
+      "marker": "",
+      "superlatives": [],
+      "sort_date": "2024-07-25"
+    },
+    {
+      "title": "OpenWebMath: An Open Dataset of High-Quality Mathematical Web Text",
+      "url": "https://arxiv.org/abs/2310.06786",
+      "summary": "",
+      "date": "2024",
+      "year": "2024",
+      "venue": "ICLR",
+      "authors": "Paster, Dos Santos, Azerbayev, and Ba",
+      "marker": "oral",
+      "superlatives": [
+        "Oral at MATH-AI Workshop, NeurIPS"
+      ],
+      "sort_date": "2024-05-07"
+    },
+    {
+      "title": "LLeMA: An Open Language Model for Mathematics",
+      "url": "https://arxiv.org/abs/2310.10631",
+      "summary": "",
+      "date": "2024",
+      "year": "2024",
+      "venue": "ICLR",
+      "authors": "Azerbayev, Schoelkopf, Paster, Dos Santos, McAleer, Jiang, Deng, Biderman, and Welleck",
+      "marker": "",
+      "superlatives": [],
+      "sort_date": "2024-05-07"
+    },
+    {
+      "title": "Musically Aware Automatic Piano Transcription Using Synthetic Pretraining",
+      "url": "https://www.alexander-spangher.com/papers/aria_amt.pdf",
+      "summary": "",
+      "date": "2024",
+      "year": "2024",
+      "venue": "arXiv",
+      "authors": "Bradshaw, Colton, Spangher, and Biderman",
+      "marker": "",
+      "superlatives": [],
+      "sort_date": "2024-04-27"
+    },
+    {
+      "title": "BigBIO: A Framework for Data-Centric Biomedical Natural Language Processing",
+      "url": "https://arxiv.org/abs/2206.15076",
+      "summary": "",
+      "date": "2023",
+      "year": "2023",
+      "venue": "NeurIPS Datasets and Benchmarks",
+      "authors": "Fries, Weber, Seelam, Altay, and 39 others",
+      "marker": "",
+      "superlatives": [],
+      "sort_date": "2023-12-13"
+    },
+    {
+      "title": "Prompting Multilingual Large Language Models to Generate Code-Mixed Texts: The Case of South East Asian Languages",
+      "url": "https://arxiv.org/abs/2303.13592",
+      "summary": "",
+      "date": "2023",
+      "year": "2023",
+      "venue": "EMNLP Workshop on Computational Approaches to Linguistic Code-Switching",
+      "authors": "Yong, Zhang, Forde, Wang, Subramonian, and 10 others",
+      "marker": "",
+      "superlatives": [],
+      "sort_date": "2023-12-07"
+    },
+    {
+      "title": "StarCoder: may the source be with you!",
+      "url": "https://arxiv.org/abs/2305.06161",
+      "summary": "",
+      "date": "2023",
+      "year": "2023",
+      "venue": "TMLR",
+      "authors": "von Werra, de Vries, and 65 others",
+      "marker": "",
+      "superlatives": [],
+      "sort_date": "2023-12-01"
+    },
+    {
+      "title": "Utilizing Weak Supervision to Generate Indonesian Conservation Datasets",
+      "url": "https://arxiv.org/abs/2310.11258",
+      "summary": "",
+      "date": "2023",
+      "year": "2023",
+      "venue": "AACL Workshop on Southeast Asian Language Processing",
+      "authors": "Fransiska, Pitaloka, Saripudin, Putra, and Sutawika",
+      "marker": "",
+      "superlatives": [],
+      "sort_date": "2023-11-01"
+    },
+    {
+      "title": "Reclaiming the Digital Commons: A Public Data Trust for Training Data",
+      "url": "https://arxiv.org/abs/2303.09001",
+      "summary": "",
+      "date": "2023",
+      "year": "2023",
+      "venue": "AIES",
+      "authors": "Chan, Bradley, and Rajkumar",
+      "marker": "",
+      "superlatives": [],
+      "sort_date": "2023-08-29"
+    },
+    {
+      "title": "GAIA Search: Hugging Face and Pyserini Interoperability for NLP Training Data Exploration",
+      "url": "https://arxiv.org/abs/2306.01481",
+      "summary": "",
+      "date": "2023",
+      "year": "2023",
+      "venue": "ACL 2023 Demos Track",
+      "authors": "Piktus, Ogundepo, Akiki, Oladipo, Zhang, Schoelkopf, Biderman, Potthast, and Lin",
+      "marker": "",
+      "superlatives": [],
+      "sort_date": "2023-07-09"
+    },
+    {
+      "title": "Crosslingual Generalization through Multitask Finetuning",
+      "url": "https://arxiv.org/abs/2211.01786",
+      "summary": "",
+      "date": "2023",
+      "year": "2023",
+      "venue": "ACL",
+      "authors": "Muennighoff, Wang, Sutawika, Roberts, Biderman, and 14 others",
+      "marker": "",
+      "superlatives": [],
+      "sort_date": "2023-07-09"
+    },
+    {
+      "title": "A Technical Report for Polyglot-Ko: Open-Source Large-Scale Korean Language Models",
+      "url": "https://arxiv.org/abs/2306.02254",
+      "summary": "",
+      "date": "2023",
+      "year": "2023",
+      "venue": "arXiv",
+      "authors": "Ko, Yang, Ryu, Choi, Yang, Hyun, Park, and Park",
+      "marker": "",
+      "superlatives": [],
+      "sort_date": "2023-06-06"
+    },
+    {
+      "title": "The BigScience ROOTS Corpus: A 1.6TB Composite Multilingual Dataset",
+      "url": "https://arxiv.org/abs/2303.03915",
+      "summary": "",
+      "date": "2022",
+      "year": "2022",
+      "venue": "NeurIPS Datasets and Benchmarks",
+      "authors": "Laurençon, Saulnier, Wang, Akiki, Villanova del Moral, and 49 others",
+      "marker": "spotlight",
+      "superlatives": [
+        "Featured Paper at NeurIPS Datasets and Benchmarks Track"
+      ],
+      "sort_date": "2022-11-28"
+    },
+    {
+      "title": "LAION-5B: An open large-scale dataset for training next generation image-text models",
+      "url": "https://arxiv.org/abs/2210.08402",
+      "summary": "",
+      "date": "2022",
+      "year": "2022",
+      "venue": "NeurIPS Datasets and Benchmarks",
+      "authors": "Schuhmann, Beaumont, Vencu, Gordon, Wightman, Cherti, and 10 others",
+      "marker": "bestpaper",
+      "superlatives": [
+        "Outstanding Datasets and Benchmarks Paper at NeurIPS"
+      ],
+      "sort_date": "2022-11-28"
+    },
+    {
       "title": "Data Governance in the Age of Large-Scale Data-Driven Language Technology",
       "url": "https://arxiv.org/abs/2206.03216",
       "summary": "",
@@ -2559,18 +2357,6 @@
       "sort_date": "2022-06-13"
     },
     {
-      "title": "GPT-NeoX-20B: An Open-Source Autoregressive Language Model",
-      "url": "https://arxiv.org/abs/2204.06745",
-      "summary": "",
-      "date": "2022",
-      "year": "2022",
-      "venue": "ACL Workshop on Challenges & Perspectives in Creating Large Language Models",
-      "authors": "Black, Biderman, Hallahan, and 14 others",
-      "marker": "",
-      "superlatives": [],
-      "sort_date": "2022-05-28"
-    },
-    {
       "title": "PromptSource: An Integrated Development Environment and Repository for Natural Language Prompts",
       "url": "https://arxiv.org/abs/2202.01279",
       "summary": "",
@@ -2581,18 +2367,6 @@
       "marker": "",
       "superlatives": [],
       "sort_date": "2022-05-22"
-    },
-    {
-      "title": "Multitask Prompted Training Enables Zero-Shot Task Generalization",
-      "url": "https://arxiv.org/abs/2110.08207",
-      "summary": "",
-      "date": "2022",
-      "year": "2022",
-      "venue": "ICLR",
-      "authors": "Sanh, Webson, Raffel, Bach, and 37 others",
-      "marker": "",
-      "superlatives": [],
-      "sort_date": "2022-04-25"
     },
     {
       "title": "Quality at a Glance: An Audit of Web-Crawled Multilingual Datasets",
@@ -2631,18 +2405,6 @@
       "sort_date": "2021-09-02"
     },
     {
-      "title": "Scaling Scaling Laws with Board Games",
-      "url": "https://arxiv.org/abs/2104.03113",
-      "summary": "",
-      "date": "2021",
-      "year": "2021",
-      "venue": "arXiv",
-      "authors": "Jones",
-      "marker": "",
-      "superlatives": [],
-      "sort_date": "2021-04-07"
-    },
-    {
       "title": "The Pile: An 800GB Dataset of Diverse Text for Language Modeling",
       "url": "https://arxiv.org/abs/2101.00027",
       "summary": "",
@@ -2653,30 +2415,6 @@
       "marker": "",
       "superlatives": [],
       "sort_date": "2020-12-31"
-    },
-    {
-      "title": "Current Limitations of Large Language Models: What You Need is Retrieval",
-      "url": "https://arxiv.org/abs/2009.06857",
-      "summary": "",
-      "date": "2020",
-      "year": "2020",
-      "venue": "arXiv",
-      "authors": "Komatsuzaki",
-      "marker": "",
-      "superlatives": [],
-      "sort_date": "2020-09-15"
-    },
-    {
-      "title": "One Epoch Is All You Need",
-      "url": "https://arxiv.org/abs/1906.06669",
-      "summary": "",
-      "date": "2019",
-      "year": "2019",
-      "venue": "arXiv",
-      "authors": "Komatsuzaki",
-      "marker": "",
-      "superlatives": [],
-      "sort_date": "2019-06-16"
     }
   ],
   "multilingual": [

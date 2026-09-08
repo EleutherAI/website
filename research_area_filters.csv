@@ -1,9 +1,10 @@
 Area Key,Broad Areas,Include Terms,Exclude Terms
-interpretability,Model Internals;Learning Dynamics,,
+interpretability,Learning Dynamics,,
 open_weight_safety,Open-Weight Safety,,
 behavioral_safety,Behavioral Safety,,
 evaluation,Evaluation,,
-open_models,Training Models;Data,,
+open_models,Training Models,,
+training_data,Data,,
 multilingual,,"multilingual;bilingual;code-mixed;korean;indonesian;pretokenization;south east asia;bloom;roots;language support",
 ai4science,AI4Science,,
 governance,AI Governance & Societal Impacts,,

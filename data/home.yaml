@@ -12,10 +12,34 @@ metrics:
 priorities:
   - key: "open-models-and-tools"
     title: "Open Models and Tools"
+    url: "/research/open-models-and-data/"
     layout: "light"
     accent: "blue"
-    image: "images/research/homepage/open-models-pile-composition.png"
-    image_alt: "Treemap showing the composition of the Pile by data category and source"
+    # Rendered as a live table in place of an image. Each row: layer, descriptor, linked items.
+    table:
+      - layer: "Data"
+        descriptor: "Openly licensed"
+        items:
+          - label: "The Pile"
+            url: "https://pile.eleuther.ai/"
+          - label: "The Common Pile"
+            url: "https://huggingface.co/common-pile"
+      - layer: "Code"
+        descriptor: "Open source"
+        items:
+          - label: "GPT-NeoX"
+            url: "https://github.com/EleutherAI/gpt-neox"
+          - label: "lm-evaluation-harness"
+            url: "https://github.com/EleutherAI/lm-evaluation-harness"
+      - layer: "Models"
+        descriptor: "Public, with checkpoints"
+        items:
+          - label: "Pythia"
+            url: "https://github.com/EleutherAI/pythia"
+          - label: "GPT-NeoX-20B"
+            url: "https://huggingface.co/EleutherAI/gpt-neox-20b"
+          - label: "Comma"
+            url: "https://huggingface.co/common-pile"
     text: |-
       Open research on large models requires more than released weights. It requires open data to train on, open code to train and evaluate with, and open models whose full development is public.
 
@@ -23,16 +47,17 @@ priorities:
     links:
       - label: "Datasets"
         url: "https://huggingface.co/EleutherAI/datasets"
-      - label: "Infrastructure"
+      - label: "Code"
         url: "https://github.com/EleutherAI"
       - label: "Models"
         url: "https://huggingface.co/EleutherAI/models"
   - key: "interpretability-over-time"
     title: "Interpretability Over Time"
+    url: "/research/interpretability/"
     layout: "lead"
     accent: "green"
-    image: "images/research/homepage/interpretability-over-time.webp"
-    image_alt: "A model's diffuse internal connections organizing into distinct mechanisms over the course of training"
+    image: "images/research/homepage/interpretability-over-time.svg"
+    image_alt: "A training loss curve with saved checkpoints along it, one magnified to show internal structure forming"
     text: |-
       Most interpretability research studies a finished model, frozen at the end of training. We study how model internals emerge, arguing that [a science of AI must study training dynamics](https://arxiv.org/abs/2606.06533) rather than treating models as static artifacts to be dissected after the fact.
 
@@ -40,14 +65,16 @@ priorities:
     links:
       - label: "Pythia"
         url: "https://arxiv.org/abs/2304.01373"
-      - label: "Training Dynamics Agenda"
+      - label: "Don't Just fix it in Post"
         url: "https://arxiv.org/abs/2606.06533"
   - key: "open-weight-safety"
     title: "Open-Weight Safety"
+    url: "/research/open-weight-safety/"
     layout: "safety"
     accent: "violet"
-    image: "images/research/homepage/open-weight-safety.png"
-    image_alt: "Deep Ignorance results showing filtered models resisting adversarial fine-tuning without reduced general capability"
+    images:
+      - src: "images/research/homepage/deep-ignorance-figure-1.svg"
+        alt: "Deep Ignorance Figure 1: filtered models match the baseline on general capability while biothreat proxy capability stays lower through 300M tokens of adversarial fine-tuning"
     text: |-
       Open models need a safety science built for openness. We have championed open models since our founding, and we believe they can be safe without giving up the freedom to inspect, modify, and deploy them. That requires interventions in the training data, the training process, and the model itself: techniques that are technologically and philosophically compatible with the open source movement. EleutherAI is building the field of open-weight safety, defining its problems, developing new approaches, and creating the infrastructure researchers need to test them.
 
@@ -59,10 +86,11 @@ priorities:
         url: "https://arxiv.org/abs/2406.16746"
   - key: "evaluation"
     title: "Evaluation"
+    url: "/research/evaluation/"
     layout: "compact"
     accent: "gold"
-    image: "images/research/homepage/evaluation.png"
-    image_alt: "Benchmark saturation levels across a broad collection of language-model benchmarks"
+    image: "images/research/homepage/evaluation.svg"
+    image_alt: "Schematic of benchmark saturation: older benchmarks flattening against a score ceiling while newer ones still separate models"
     text: |-
       We study what benchmarks measure, when they saturate, and how evaluations shape our picture of model capability.
     links:

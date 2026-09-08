@@ -10,14 +10,23 @@
 # `featured: true` areas appear in the main grid on /research/; the rest are
 # listed below it.
 
+# Navigation groupings may overlap; they do not define exclusive research ownership.
+navigation:
+  - title: "Models & data"
+    areas: ["open_models", "training_data", "multilingual", "ai4science"]
+  - title: "Understanding models"
+    areas: ["interpretability", "evaluation", "data_attribution"]
+  - title: "Safety"
+    areas: ["open_weight_safety", "behavioral_safety", "security", "governance"]
+
 areas:
   - key: "interpretability"
     slug: "interpretability"
-    title: "Interpretability and Training Dynamics"
+    title: "Interpretability Over Time"
     featured: true
     team: "interpretability"
     accent: "green"
-    sheet_areas: ["Model Internals", "Learning Dynamics"]
+    sheet_areas: ["Learning Dynamics"]
     summary: "How model behavior and internal structure emerge over the course of training, and what shaped them."
     lede: "Most interpretability research studies a finished model. We study how capabilities, failure modes, and internal mechanisms develop during training, which aspects of the data and training process shape that trajectory, and what interventions would have changed the outcome."
     body:
@@ -146,11 +155,11 @@ areas:
 
   - key: "open_models"
     slug: "open-models-and-data"
-    title: "Open Models, Data, and Infrastructure"
+    title: "Open Models & Infrastructure"
     featured: true
     team: "nlp"
     accent: "blue"
-    sheet_areas: ["Training Models", "Data"]
+    sheet_areas: ["Training Models"]
     summary: "Datasets, training frameworks, and model suites released with everything needed to reproduce and extend them."
     lede: "Open research on large models requires more than released weights. It requires open data to train on, open code to train and evaluate with, and models whose full development is public. We have built all three layers since 2020."
     body:
@@ -287,6 +296,43 @@ areas:
       - name: "Recite, Reconstruct, Recollect"
         url: "https://arxiv.org/abs/2406.17746"
         text: "Memorization as a multifaceted phenomenon."
+
+  - key: "training_data"
+    slug: "training-data"
+    title: "Training Data"
+    featured: false
+    sheet_areas: ["Data"]
+    summary: "Open training corpora, their composition, and the choices behind how they are built."
+    lede: "Training data shapes what a model learns. We build and document open corpora so researchers can inspect that foundation and study how changing it changes a model."
+    body:
+      - "The Pile brought together diverse sources of text in an 800GB language-modeling dataset. The Common Pile extends our work on open training data with an 8TB collection of public domain and openly licensed text."
+      - "Releasing a corpus also means documenting where its contents came from and how they were selected. This connects dataset construction to research on filtering, licensing, and the effects of data composition."
+    projects:
+      - name: "The Pile"
+        url: "https://arxiv.org/abs/2101.00027"
+        text: "An 800GB dataset of diverse text for language modeling."
+      - name: "The Common Pile"
+        url: "https://arxiv.org/abs/2506.05209"
+        text: "8TB of public domain and openly licensed text."
+
+  - key: "data_attribution"
+    slug: "data-attribution"
+    title: "Data Attribution"
+    featured: false
+    summary: "Connecting model behavior to the training data that shaped it."
+    lede: "Which training examples contribute to a model's behavior? We develop tools for investigating that connection and use attribution to study capabilities and guide interventions."
+    body:
+      - "Bergson provides an open-source library for training-data attribution. It supports the study of how particular examples influence models and makes attribution methods available for further research."
+      - "Our applications include investigating the provenance of social-reasoning capabilities and mitigating emergent misalignment through data attribution. These questions connect the study of model behavior to choices about training data."
+    projects:
+      - name: "Bergson"
+        url: "https://arxiv.org/abs/2606.11660"
+        text: "An open-source library for data attribution."
+      - name: "Mitigating Emergent Misalignment with Data Attribution"
+        url: "https://openreview.net/forum?id=gN7pWmjiQW"
+      - name: "Where Does Social Reasoning Come From?"
+        url: "https://arxiv.org/abs/2606.19625"
+        text: "Capability provenance in language models."
 
 projects:
   intro: "Long-running artifacts that other researchers build on. Each is maintained and documented, and most have a paper describing them."

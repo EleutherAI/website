@@ -5,12 +5,6 @@
   {{ if eq .key $areaKey }}{{ $area = . }}{{ end }}
 {{ end }}
 {{ $papers := index (site.Data.generated.research.area_papers | default dict) $areaKey | default slice }}
-{{ $team := dict }}
-{{ with $area.team }}
-  {{ range site.Data.staff.teams }}
-    {{ if eq .key $area.team }}{{ $team = . }}{{ end }}
-  {{ end }}
-{{ end }}
 {{ $paperLimit := 12 }}
 {{ $libraryURL := "" }}
 {{ with $area.sheet_areas }}
@@ -18,20 +12,20 @@
 {{ else }}
   {{ $libraryURL = printf "%s?q=%s" ("papers/" | relURL) (urlquery ($area.library_query | default $area.title)) }}
 {{ end }}
-<main class="research-area is-{{ $area.accent | default "blue" }}">
+{{ $accent := $area.accent | default "blue" }}
+{{ $palette := slice "blue" "green" "violet" "gold" "coral" }}
+{{ $matched := false }}
+{{ range $index, $group := site.Data.research.areas.navigation }}
+  {{ if and (not $matched) (in $group.areas $areaKey) }}
+    {{ $accent = index $palette (mod $index (len $palette)) }}
+    {{ $matched = true }}
+  {{ end }}
+{{ end }}
+<main class="research-area is-{{ $accent }}">
   <section class="hero">
     <div class="wrap">
-      <a class="back-link" href="{{ "research/" | relURL }}">Research</a>
       <h1>{{ $area.title | default .Title }}</h1>
       {{ with $area.lede }}<p class="lede">{{ . }}</p>{{ end }}
-      <div class="research-area-facts">
-        {{ if gt (len $papers) 0 }}
-          <a href="{{ $libraryURL }}">{{ len $papers }} papers in the library</a>
-        {{ end }}
-        {{ with $team.name }}
-          <a href="{{ "staff/" | relURL }}#team-{{ $team.key }}">{{ . }}</a>
-        {{ end }}
-      </div>
     </div>
   </section>
 

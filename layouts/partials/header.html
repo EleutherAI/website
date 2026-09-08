@@ -61,16 +61,21 @@
           </div>
         </div>
       </div>
-      <div class="nav-item has-menu">
+      <div class="nav-item has-menu research-nav">
         <a href="{{ $researchURL }}"{{ if eq $sectionID "research" }} aria-current="{{ if eq $pageID "research" }}page{{ else }}location{{ end }}"{{ end }}>Research</a>
         <div class="dropdown research-dropdown">
-          <div class="dropdown-group">
-            <a href="{{ $researchURL }}">All research</a>
-            {{ range site.Data.research.areas.areas }}
-            {{ $areaURL := cond (ne $mainBase "") (printf "%sresearch/%s/" $mainBase .slug) (printf "research/%s/" .slug | relURL) }}
-            <a href="{{ $areaURL }}"{{ if and (eq $pageID "research-area") (eq $.Params.area_key .key) }} aria-current="page"{{ end }}>{{ .title }}</a>
+          {{ range site.Data.research.areas.navigation }}
+            <div class="dropdown-group">
+              <span>{{ .title }}</span>
+              {{ range .areas }}
+                {{ $key := . }}
+                {{ range where site.Data.research.areas.areas "key" $key }}
+                  {{ $areaURL := cond (ne $mainBase "") (printf "%sresearch/%s/" $mainBase .slug) (printf "research/%s/" .slug | relURL) }}
+                  <a href="{{ $areaURL }}"{{ if and (eq $pageID "research-area") (eq $.Params.area_key .key) }} aria-current="page"{{ end }}>{{ .title }}</a>
+                {{ end }}
+              {{ end }}
+            </div>
           {{ end }}
-          </div>
         </div>
       </div>
       <a href="{{ $papersURL }}"{{ if eq $sectionID "papers" }} aria-current="page"{{ end }}>Papers</a>
@@ -92,9 +97,13 @@
           <a href="{{ $researchURL }}"{{ if eq $sectionID "research" }} aria-current="{{ if eq $pageID "research" }}page{{ else }}location{{ end }}"{{ end }}>Research</a>
           <details class="mobile-research-areas">
             <summary>Research areas</summary>
-            {{ range site.Data.research.areas.areas }}
+            {{ range site.Data.research.areas.navigation }}
+            {{ range .areas }}
+            {{ range where site.Data.research.areas.areas "key" . }}
             {{ $areaURL := cond (ne $mainBase "") (printf "%sresearch/%s/" $mainBase .slug) (printf "research/%s/" .slug | relURL) }}
             <a href="{{ $areaURL }}"{{ if and (eq $pageID "research-area") (eq $.Params.area_key .key) }} aria-current="page"{{ end }}>{{ .title }}</a>
+          {{ end }}
+          {{ end }}
           {{ end }}
           </details>
           <a href="{{ $papersURL }}"{{ if eq $pageID "papers" }} aria-current="page"{{ end }}>Papers</a>

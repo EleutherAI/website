@@ -58,7 +58,7 @@
   <section class="hero home-current-hero" aria-labelledby="hero-title">
     <div class="wrap home-current-layout">
       <div class="home-current-copy">
-        <h1 id="hero-title">Independent AI Research, Done in the Open</h1>
+        <h1 id="hero-title">Independent AI Research,<br>Done in the Open</h1>
         <div class="home-metric-strip" aria-label="EleutherAI impact metrics">
           {{ range site.Data.home.metrics }}
             {{ $value := .value }}
@@ -128,11 +128,35 @@
       <div class="home-research-stories">
         {{ range site.Data.home.priorities }}
           <article class="home-research-story is-{{ .layout }} is-{{ .accent }}">
-            <div class="home-research-visual">
-              <img src="{{ .image | relURL }}" alt="{{ .image_alt }}" loading="lazy">
-            </div>
+            {{ if .table }}
+              <div class="home-research-visual home-research-table-wrap">
+                <table class="home-research-table">
+                  <caption class="visually-hidden">{{ .title }}: what we release at each layer</caption>
+                  <tbody>
+                    {{ range .table }}
+                      <tr>
+                        <th scope="row">{{ .layer }}<span>{{ .descriptor }}</span></th>
+                        <td>
+                          {{ range $i, $item := .items }}{{ if $i }}<span class="sep" aria-hidden="true">·</span>{{ end }}<a href="{{ $item.url }}" target="_blank" rel="noopener noreferrer">{{ $item.label }}</a>{{ end }}
+                        </td>
+                      </tr>
+                    {{ end }}
+                  </tbody>
+                </table>
+              </div>
+            {{ else if .images }}
+              <div class="home-research-visual home-research-visual-stack">
+                {{ range .images }}
+                  <img src="{{ partial "static-url.html" .src }}" alt="{{ .alt }}" loading="lazy">
+                {{ end }}
+              </div>
+            {{ else }}
+              <div class="home-research-visual">
+                <img src="{{ partial "static-url.html" .image }}" alt="{{ .image_alt }}" loading="lazy">
+              </div>
+            {{ end }}
             <div class="home-research-copy">
-              <h3>{{ .title }}</h3>
+              <h3><a href="{{ .url | relURL }}">{{ .title }} <span aria-hidden="true">&rarr;</span></a></h3>
               <div class="home-research-text">{{ .text | markdownify }}</div>
               <div class="home-research-links">
                 {{ range .links }}

@@ -1,5 +1,5 @@
 ---
-title: "Interpretability and Training Dynamics"
+title: "Interpretability Over Time"
 description: "How model behavior and internal structure emerge over the course of training, and what shaped them."
 layout: research-area
 area_key: "interpretability"

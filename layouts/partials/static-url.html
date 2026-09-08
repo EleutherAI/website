@@ -1,0 +1,18 @@
+{{- /*
+  Content-hashed URL for a file under static/, e.g.
+    {{ partial "static-url.html" "images/research/homepage/evaluation.svg" }}
+  -> /images/research/homepage/evaluation.svg?v=3f9a1c2b
+  The hash changes only when the file changes, so browsers and CDNs refetch
+  regenerated figures but keep caching unchanged ones.
+*/ -}}
+{{- $path := . -}}
+{{- $file := printf "static/%s" $path -}}
+{{- $hash := "" -}}
+{{- if fileExists $file -}}
+  {{- $hash = substr (md5 (readFile $file)) 0 8 -}}
+{{- end -}}
+{{- if $hash -}}
+  {{- printf "%s?v=%s" ($path | relURL) $hash -}}
+{{- else -}}
+  {{- $path | relURL -}}
+{{- end -}}
