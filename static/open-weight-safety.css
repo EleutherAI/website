@@ -1,0 +1,143 @@
+.ows-intro {
+  padding-top: 32px;
+  padding-bottom: 36px;
+}
+
+.ows-back {
+  display: inline-block;
+  margin-bottom: 20px;
+  color: var(--blue);
+  font-size: 0.95rem;
+}
+
+.ows-prose {
+  color: var(--body);
+  font-size: 1.05rem;
+  line-height: 1.65;
+}
+
+.ows-prose p {
+  margin: 0 0 16px;
+}
+
+.ows-prose p:last-child {
+  margin-bottom: 0;
+}
+
+.ows-feature {
+  padding: 38px 0;
+  background: #10141a;
+}
+
+.ows-feature h2 {
+  margin-bottom: 24px;
+  color: var(--blue);
+}
+
+.ows-feature-body {
+  display: flow-root;
+}
+
+.ows-figure {
+  float: right;
+  width: 44%;
+  max-width: 560px;
+  margin: 0 0 16px 32px;
+}
+
+.ows-figure figure {
+  margin: 0;
+}
+
+.ows-figure .ev-figure-image {
+  display: block;
+  background: white;
+}
+
+.ows-figure img {
+  display: block;
+  width: 100%;
+  height: auto;
+}
+
+.ows-figure figcaption {
+  margin-top: 12px;
+  color: var(--body);
+  font-size: 0.85rem;
+  line-height: 1.55;
+}
+
+.ows-figure .ev-credit {
+  display: block;
+  margin-top: 8px;
+}
+
+.ows-figure a,
+.ows-artifact-links a {
+  color: var(--blue);
+}
+
+.ows-artifact-links {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 12px 28px;
+  margin: 24px 0 0;
+  padding: 0;
+  list-style: none;
+  font-weight: 600;
+}
+
+.ows-related {
+  padding-top: 38px;
+  padding-bottom: 44px;
+}
+
+.ows-related h2,
+.ows-library-link {
+  color: var(--green);
+}
+
+.ows-reading-list {
+  display: grid;
+  gap: 24px;
+  margin: 24px 0;
+  padding: 0;
+  list-style: none;
+}
+
+.ows-reading-list h3 {
+  margin: 0 0 8px;
+  font-size: 1.05rem;
+  line-height: 1.45;
+}
+
+.ows-reading-list p {
+  margin: 0;
+  color: var(--body);
+  line-height: 1.6;
+}
+
+.ows-library-link {
+  display: inline-block;
+  font-weight: 600;
+}
+
+.open-weight-safety a:focus-visible {
+  outline: 2px solid var(--blue);
+  outline-offset: 4px;
+}
+
+@media (max-width: 900px) {
+  .ows-feature-body {
+    display: flex;
+    flex-direction: column;
+    gap: 24px;
+  }
+
+  .ows-figure {
+    order: 1;
+    float: none;
+    width: 100%;
+    margin: 0;
+  }
+}
