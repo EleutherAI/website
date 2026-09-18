@@ -29,7 +29,8 @@
     "kind": "conference",
     "status": "Accepted",
     "areas": [
-      "Model Internals"
+      "Model Internals",
+      "Multilingual"
     ],
     "lead_org": "",
     "contact": "",
@@ -41,7 +42,7 @@
   },
   {
     "title": "BuzzASR: A Swarm of 100+ Monolingual Speech Recognition Models",
-    "url": "",
+    "url": "https://arxiv.org/abs/2609.09554",
     "date": "2026",
     "date_sort": "2026-10-24",
     "venue": "EMNLP Findings",
@@ -50,7 +51,8 @@
     "status": "Accepted",
     "areas": [
       "Multimodal",
-      "Training Models"
+      "Training Models",
+      "Multilingual"
     ],
     "lead_org": "",
     "contact": "",
@@ -91,7 +93,8 @@
     "kind": "conference",
     "status": "Accepted",
     "areas": [
-      "Training Models"
+      "Training Models",
+      "Multilingual"
     ],
     "lead_org": "",
     "contact": "",
@@ -111,7 +114,8 @@
     "kind": "conference",
     "status": "Accepted",
     "areas": [
-      "Evaluation"
+      "Evaluation",
+      "Multilingual"
     ],
     "lead_org": "",
     "contact": "",
@@ -301,7 +305,8 @@
     "kind": "workshop",
     "status": "Accepted",
     "areas": [
-      "Misc."
+      "Misc.",
+      "Multilingual"
     ],
     "lead_org": "",
     "contact": "",
@@ -343,7 +348,8 @@
     "status": "Accepted",
     "areas": [
       "Data",
-      "Evaluation"
+      "Evaluation",
+      "Multilingual"
     ],
     "lead_org": "",
     "contact": "",
@@ -445,7 +451,8 @@
     "areas": [
       "Data",
       "Evaluation",
-      "AI4Science"
+      "AI4Science",
+      "Multilingual"
     ],
     "lead_org": "",
     "contact": "",
@@ -778,7 +785,8 @@
     "kind": "conference",
     "status": "Accepted",
     "areas": [
-      "Misc."
+      "Misc.",
+      "Multilingual"
     ],
     "lead_org": "",
     "contact": "",
@@ -842,7 +850,8 @@
     "kind": "conference",
     "status": "Accepted",
     "areas": [
-      "Evaluation"
+      "Evaluation",
+      "Multilingual"
     ],
     "lead_org": "",
     "contact": "",
@@ -1006,7 +1015,8 @@
     "status": "Accepted",
     "areas": [
       "Learning Dynamics",
-      "Model Internals"
+      "Model Internals",
+      "Multilingual"
     ],
     "lead_org": "",
     "contact": "",
@@ -1067,7 +1077,8 @@
     "kind": "workshop",
     "status": "Accepted",
     "areas": [
-      "Evaluation"
+      "Evaluation",
+      "Multilingual"
     ],
     "lead_org": "",
     "contact": "",
@@ -1087,7 +1098,8 @@
     "kind": "workshop",
     "status": "Accepted",
     "areas": [
-      "Training Models"
+      "Training Models",
+      "Multilingual"
     ],
     "lead_org": "",
     "contact": "",
@@ -1216,7 +1228,8 @@
     "kind": "conference",
     "status": "Accepted",
     "areas": [
-      "Evaluation"
+      "Evaluation",
+      "Multilingual"
     ],
     "lead_org": "",
     "contact": "",
@@ -1760,7 +1773,8 @@
     "kind": "conference",
     "status": "Accepted",
     "areas": [
-      "Data"
+      "Data",
+      "Multilingual"
     ],
     "lead_org": "",
     "contact": "",
@@ -1841,7 +1855,8 @@
     "kind": "conference",
     "status": "Accepted",
     "areas": [
-      "Evaluation"
+      "Evaluation",
+      "Multilingual"
     ],
     "lead_org": "",
     "contact": "",
@@ -2339,7 +2354,8 @@
     "kind": "conference",
     "status": "Accepted",
     "areas": [
-      "Evaluation"
+      "Evaluation",
+      "Multilingual"
     ],
     "lead_org": "",
     "contact": "",
@@ -2864,7 +2880,8 @@
     "kind": "workshop",
     "status": "Accepted",
     "areas": [
-      "Data"
+      "Data",
+      "Multilingual"
     ],
     "lead_org": "",
     "contact": "",
@@ -2967,7 +2984,8 @@
     "status": "Accepted",
     "areas": [
       "Data",
-      "AI4Science"
+      "AI4Science",
+      "Multilingual"
     ],
     "lead_org": "",
     "contact": "",
@@ -2987,7 +3005,8 @@
     "kind": "conference",
     "status": "Accepted",
     "areas": [
-      "AI Governance & Societal Impacts"
+      "AI Governance & Societal Impacts",
+      "Multilingual"
     ],
     "lead_org": "",
     "contact": "",
@@ -3217,7 +3236,8 @@
     "status": "Accepted",
     "areas": [
       "Training Models",
-      "Data"
+      "Data",
+      "Multilingual"
     ],
     "lead_org": "",
     "contact": "",
@@ -3237,7 +3257,8 @@
     "kind": "conference",
     "status": "Accepted",
     "areas": [
-      "Training Models"
+      "Training Models",
+      "Multilingual"
     ],
     "lead_org": "",
     "contact": "",
@@ -3280,7 +3301,8 @@
     "status": "Preprint",
     "areas": [
       "Training Models",
-      "Data"
+      "Data",
+      "Multilingual"
     ],
     "lead_org": "",
     "contact": "",
@@ -3484,7 +3506,8 @@
     "kind": "conference",
     "status": "Accepted",
     "areas": [
-      "Data"
+      "Data",
+      "Multilingual"
     ],
     "lead_org": "",
     "contact": "",
@@ -3551,7 +3574,8 @@
     "kind": "conference",
     "status": "Accepted",
     "areas": [
-      "Training Models"
+      "Training Models",
+      "Multilingual"
     ],
     "lead_org": "",
     "contact": "",
@@ -3695,7 +3719,8 @@
     "status": "Accepted",
     "areas": [
       "Evaluation",
-      "Behavioral Safety"
+      "Behavioral Safety",
+      "Multilingual"
     ],
     "lead_org": "",
     "contact": "",
@@ -3775,7 +3800,8 @@
     "kind": "conference",
     "status": "Accepted",
     "areas": [
-      "Data"
+      "Data",
+      "Multilingual"
     ],
     "lead_org": "",
     "contact": "",

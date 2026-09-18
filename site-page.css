@@ -800,15 +800,6 @@ h2 {
   min-width: 0;
 }
 
-.home-research-copy::before {
-  display: block;
-  width: 52px;
-  height: 3px;
-  margin-bottom: 18px;
-  background: var(--story-accent);
-  content: "";
-}
-
 .home-research-copy h3 {
   margin: 0;
   color: var(--ink);
@@ -3914,6 +3905,31 @@ footer .wrap {
   grid-template-columns: minmax(0, 1fr) 300px;
   gap: 56px;
   align-items: start;
+}
+
+.research-area-article { display: flow-root; }
+.research-area-article h2 { clear: both; margin: 40px 0 18px; }
+.research-area-article h2:first-child { margin-top: 0; }
+.research-area-article p { margin: 0 0 18px; color: var(--body); }
+.research-area-article a { text-decoration: underline; text-underline-offset: 3px; }
+.research-area-article a:hover, .research-area-article a:focus-visible { color: var(--area-accent); }
+.research-area-article figure { float: right; width: 46%; margin: 0 0 24px 32px; }
+.research-area-article figure img { display: block; width: 100%; height: auto; }
+.research-area-article figure p { margin: 0; }
+.research-area-article figcaption { margin-top: 10px; color: var(--muted); }
+.research-area-article > ul { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 28px 48px; padding: 0; margin: 0; list-style: none; }
+.research-area-article > ul > li > ul { padding-left: 1.2rem; margin-top: 12px; color: var(--body); }
+.research-area-article > ul > li > ul > li + li { margin-top: 10px; }
+.research-area-article li::marker { color: var(--area-accent); }
+.ml-story { display: flow-root; padding: 28px 0; }
+.ml-story:first-child { padding-top: 0; }
+.ml-story h2 { margin-top: 0; }
+.ml-story-links { margin-top: 24px; color: var(--area-accent); }
+.ml-story-links a { color: var(--area-accent); font-weight: 600; }
+.ml-related { clear: both; margin: 24px 0; padding-left: 20px; border-left: 2px solid var(--area-accent); }
+@media (max-width: 700px) {
+  .research-area-article figure { float: none; width: 100%; margin: 0 0 24px; }
+  .research-area-article > ul { grid-template-columns: minmax(0, 1fr); }
 }
 
 .research-area-prose p {

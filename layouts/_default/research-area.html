@@ -25,10 +25,15 @@
   <section class="hero">
     <div class="wrap">
       <h1>{{ $area.title | default .Title }}</h1>
-      {{ with $area.lede }}<p class="lede">{{ . }}</p>{{ end }}
+      {{ with .Params.lede | default $area.lede }}<p class="lede">{{ . }}</p>{{ end }}
     </div>
   </section>
 
+  {{ if .Content }}
+  <section class="section">
+    <div class="wrap research-area-article">{{ .Content }}</div>
+  </section>
+  {{ else }}
   <section class="section">
     <div class="wrap research-area-layout">
       <div class="prose research-area-prose">
@@ -92,6 +97,7 @@
         </p>
       </div>
     </section>
+  {{ end }}
   {{ end }}
 </main>
 {{ end }}

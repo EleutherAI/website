@@ -59,6 +59,7 @@
     <div class="wrap home-current-layout">
       <div class="home-current-copy">
         <h1 id="hero-title">Independent AI Research,<br>Done in the Open</h1>
+        <p>We build open-source AI infrastructure, pioneer interpretability and open-weight safety, and help researchers without frontier-lab resources do frontier work.</p>
         <div class="home-metric-strip" aria-label="EleutherAI impact metrics">
           {{ range site.Data.home.metrics }}
             {{ $value := .value }}
@@ -85,7 +86,6 @@
             {{ end }}
           {{ end }}
         </div>
-        <p>We build open-source AI infrastructure, pioneer interpretability and open-weight safety, and help researchers without frontier-lab resources do frontier work.</p>
         <div class="home-community-actions">
           <a class="button primary" href="https://discord.gg/eleutherai" target="_blank" rel="noopener noreferrer">Join the community</a>
           <a class="button" href="{{ "research/" | relURL }}">Explore our research</a>
