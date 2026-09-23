@@ -2,7 +2,7 @@
 title: "The first New England RLHF Hackers Hackathon"
 categories: ["Research Notes"]
 author: ["Suraj Anand", "Stephen Casper", "Louis Castricato", "Arjun Khurana", "Alyssa Loo", "Shukai Ni", "Benjamin Spiegel", "Jiayu Zheng", "Yong Zheng-Xin"]
-# description: "We evaluate different fewshot prompts on GPT-3 to see how it changes performance."
+
 date: 2023-09-19T14:00:00-06:00
 draft: False
 ---
@@ -12,14 +12,14 @@ draft: False
 
 Author list is alphabetical by last name. We would like to extend acknowledgements to Delta Christine Hessler and Hailey Schoelkopf.
 
-On September 10, 2023, New England RLHF Hackers (NERH) held a hackathon at Brown University. For this hackathon we came in with one simple goal: to come up with plans to solve varying open problems in reinforcement learning from human feedback. Most members of NERH were contributors and collaborators at EleutherAI, with some of us actually being directly employed by Eleuther. As such, after the conclusion of the first NERH hackathon, we decided it was in the best interests of the RLHF community at large to release our findings of a few hour-long sprints,regardless of how negative they were.
+On September 10, 2023, New England RLHF Hackers (NERH) held a hackathon at Brown University. For this hackathon we came in with one simple goal: to come up with plans to solve varying open problems in reinforcement learning from human feedback. Most members of NERH were contributors and collaborators at EleutherAI, with some of us actually being directly employed by Eleuther. As such, after the conclusion of the first NERH hackathon, we decided it was in the best interests of the RLHF community at large to release our findings of a few hour-long sprints, regardless of how negative they were.
 
 Below are a number of hacks conducted during that late, rainy, summer Sunday. If you are in the New England area or willing to commute to Rhode Island for a day, we’d love for you to join a future hackathon.
 
 Invite to NERH Discord: (Please only join if you are willing to attend in person.) https://discord.gg/yxC4BrUyBu 
 
 
-If you would like to cite this blog post, we’ve included a DOI entry at the bottom of this page.
+If you would like to cite this blog post, we’ve included a citation entry at the bottom of this page.
 
 
 # On the Evaluation of Reward Models
@@ -32,17 +32,17 @@ The quality of a learned reward model is typically indirectly evaluated with the
   
 ## Objective
 
-This project aims to propose a framework for which reward models may be directly evaluated. The evaluation framework aims to provide useful signal for the tuning of reward models independent of the end-to-end RLHF model.
+This project aims to propose a framework within which reward models may be directly evaluated. The evaluation framework aims to provide useful signal for the tuning of reward models independent of the end-to-end RLHF model.
 
 ## Approach
 
-It is difficult to define what constitutes as desired behavior for any specific reward model, given the (i) diversity of human preferences and values; (ii) the diversity of domains to which reward models are applied; and (iii) the tradeoffs between the desired attributes for any reward model—for instance, that a model may at times need to be unhelpful to avoid being harmful.
+It is difficult to define what constitutes desired behavior for any specific reward model, given the (i) diversity of human preferences and values; (ii) the diversity of domains to which reward models are applied; and (iii) the tradeoffs between the desired attributes for any reward model—for instance, that a model may at times need to be unhelpful to avoid being harmful.
 
 However, it appears far more straightforward to define what are *undesirable* behaviors for any reward model. It is presumably uncontroversial that we want reward models to penalize answers that are harmful, unhelpful, untruthful, etc. It may be more subjective as to how some negative attributes should be traded off for others—we may prefer a model to be unhelpful than harmful, for instance—but an ideal reward model should be sensitive to the presence of any of these negative attributes. 
 
 With this intuition in mind, our proposed approach is to train an ensemble of classifiers that are each independently sensitive to some undesirable attribute. For instance, a 'harmfulness' classifier will assign a 'harmfulness' score to any given model response, independent of how unhelpful or untruthful the response may have been. We can then relate a reward model's scores as a function of these classifiers' scores. 
 
-This approach aims to serve as a heuristic assessment: a good reward model should assign scores that hold a strong inverse correlation with the scores of these classifiers, and a bad reward model may demonstrate substantial unexplained variance in relation to the classifiers' scores. One benefit of this approach is also that it allows greater interpretability of reward model scores: we may be able to see that a reward model penalizes unthruthfulness more greatly than unhelpfulness, for example. However, this approach does not propose that the scores of these classifiers be themselves the metric to optimize reward.
+This approach aims to serve as a heuristic assessment: a good reward model should assign scores that hold a strong inverse correlation with the scores of these classifiers, and a bad reward model may demonstrate substantial unexplained variance in relation to the classifiers' scores. One benefit of this approach is also that it allows greater interpretability of reward model scores: we may be able to see that a reward model penalizes untruthfulness more greatly than unhelpfulness, for example. However, this approach does not propose that the scores of these classifiers be themselves the metric to optimize reward.
 
 ## Implementation
 
@@ -50,7 +50,7 @@ With the aim of building a proof-of-concept, we are currently building classifie
 
 Currently, we have tried training classifiers for 30 epochs with two models (i) RoBERTA and (ii) GPT-2 Small, achieving poor results of ~0.44 for harmfulness and ~0.65 for helpfulness. Building better classifiers is hence the main ongoing work.
 
-Once we have achieved classifiers with good classification accuracy, we aim to fit a hierarchal linear model between scores from the classifier and scores from various sizes of reward models.
+Once we have achieved classifiers with good classification accuracy, we aim to fit a hierarchical linear model between scores from the classifier and scores from various sizes of reward models.
 
 ## Summary
 
@@ -121,7 +121,7 @@ Our goal is to leverage RLAIF to restrict a language model from generating respo
 
 ## Dataset Generation 
 
-We initially experimented with cleaning and filtering the **Ubuntu Dialogue Corpus**. However, this dataset did not specify whether an entity was a user or an agent, did not possess syntactically clean agent responses, and was difficult to parse for *Ubuntu-exclusive services* that did not explicitly mention *Ubuntu*. We implemented some rules to ensure the quality, such as removing conversations where “Ubuntu” is in url link (because it would be hard to replace) and ensuring “Ubuntu” is mentioned after a few turns of the conversations (otherwise given the training scheme, we would not have a dialogue if Ubuntu is mentioned too early), Overall, we found it easier to synthetically generate the data. 
+We initially experimented with cleaning and filtering the **Ubuntu Dialogue Corpus**. However, this dataset did not specify whether an entity was a user or an agent, did not possess syntactically clean agent responses, and was difficult to parse for *Ubuntu-exclusive services* that did not explicitly mention *Ubuntu*. We implemented some rules to ensure the quality, such as removing conversations where “Ubuntu” is in a URL (because it would be hard to replace) and ensuring “Ubuntu” is mentioned after a few turns of the conversations (otherwise given the training scheme, we would not have a dialogue if Ubuntu is mentioned too early). Overall, we found it easier to synthetically generate the data.
 
 Rather than generate dialogues directly, we generated a list of 200 computer-related and Linux-related issues to ensure dataset diversity. For each topic, we used ChatGPT to generate five distinct conversation plans per issue and user-agent interactions based on the plans. The plans explicitly told the agent to refer to *Ubuntu* or *Ubuntu-exclusive services*.
 

@@ -24,7 +24,7 @@ We would like to understand what training tasks different architectures are (un)
 
 ## Parameter-function maps
 
-Say we have a supervised learning task $f:X\to Y$, where $X$ and $Y$ are finite sets, and a neural network with weights $w\in W$. While the weights $w$ induce a function $f_w :\mathbb{R}^{|X|} \to \mathbb{R}^{|Y|}$, the association $w\mapsto f_w$ is very much non-identifiable, i.e. there are usually many different $w,w'\in W$ that induce the same function $f_w=f_{w'}$ (see e.g. [here](https://arxiv.org/pdf/1905.09803)). The map $w\mapsto f_w$, called the parameter-function map, and has been extensively studied and its properties attributed to the generalization behaviour of neural networks (e.g. [here](https://arxiv.org/abs/1909.11522), [here](https://arxiv.org/abs/2405.10927) and references therein). 
+Say we have a supervised learning task $f:X\to Y$, where $X$ and $Y$ are finite sets, and a neural network with weights $w\in W$. While the weights $w$ induce a function $f_w :\mathbb{R}^{|X|} \to \mathbb{R}^{|Y|}$, the association $w\mapsto f_w$ is very much non-identifiable, i.e. there are usually many different $w,w'\in W$ that induce the same function $f_w=f_{w'}$ (see e.g. [here](https://arxiv.org/pdf/1905.09803)). The map $w\mapsto f_w$, called the parameter-function map, has been extensively studied and its properties attributed to the generalization behaviour of neural networks (e.g. [here](https://arxiv.org/abs/1909.11522), [here](https://arxiv.org/abs/2405.10927) and references therein).
 Thus we can think of the loss landscape as a composition of the parameter-function map and the induced loss function
 $$ L:W\xrightarrow{p} \mathcal{F} \xrightarrow{L_{\mathbb{F}}} \mathbb{R}$$
 where  $\mathcal{F}=\\{ f_w:\mathbb{R}^{|X|} \to \mathbb{R}^{|Y|} \mid w\in W \\}$ is the function space of all possible $f_w$.
@@ -38,7 +38,7 @@ This is a measure of how different the two functions are, weighted by the distri
 ## Local volume
 
 In the first section we mentioned "the" complexity of a neural network. But there is a large variety of complexity measures (see [here](https://arxiv.org/abs/1912.02178), [here](https://arxiv.org/abs/1806.08734), and [here](https://arxiv.org/abs/2308.12108)) with no clear consensus on which one is preferred. 
-In the original [NRS](https://arxiv.org/abs/2403.02241) paper, the authors used spectral analysis and LZ-complexity. 
+In the original [NRS](https://arxiv.org/abs/2403.02241) paper, the authors used spectral analysis and Lempel-Ziv (LZ) complexity.
 We were excited to replicate and extend their results using the local volume measure introduced in Eleuther's recent paper _[Estimating the Probability of Sampling a Trained Neural Network at Random](https://arxiv.org/abs/2501.18812)_. 
 Our underlying motivation for a volume based measure is the basin volume hypothesis (see the paper for details):
 
@@ -47,17 +47,16 @@ Our underlying motivation for a volume based measure is the basin volume hypothe
 
 We define each region to be a [star domain](https://en.wikipedia.org/wiki/Star_domain) $W$ such that $\\forall w\in W : C(w)< \epsilon $, where $C$ is some cost function.
 <figure>
-    <figure>
-        <img src="/images/blog/inductive-bias/Star_domain.png" style="width: 50%; height: 400px; border: none;">
+        <img src="/images/blog/inductive-bias/Star_domain.png" alt="A star-shaped region with a line segment from an interior point x_0 to another point x remaining inside the region." style="width: 50%; height: 400px; border: none;">
         <figcaption style="text-align: center;">
             Visualization of the star domain used to estimate local volumes
         </figcaption>
     </figure>
 
-In our case $C(\cdot) = \underline{KL}(w_0)(\cdot)$, but one could also consider the training loss here. We consider star domains because they are a fairly expressive family of shapes, and there exists tractable algorithm to estimate their volume:
+In our case $C(\cdot) = \underline{KL}(w_0)(\cdot)$, but one could also consider the training loss here. We consider star domains because they are a fairly expressive family of shapes, and there exists a tractable algorithm to estimate their volume:
 1. We sample random unit directions $u_i$ at $w_0$.
 2. We compute the radii $r_i$ for which $C(w_0+ r\cdot u_i)<\epsilon$ for all $r<r_i$.
-3. We compute a **Gaussian integral** along the direction $u_i$ using the the radii $r_i$. 
+3. We compute a **Gaussian integral** along the direction $u_i$ using the radii $r_i$.
 4. Finally, we normalize by taking the average of samples.
 
 The reason for taking a Gaussian integral (rather than the $r_i ^n$) is that the $r_i$ could be infinite: A direction might not change the cost function at all and therefore the volume would be infinite along this direction. 
@@ -70,7 +69,7 @@ By using a Gaussian measure on the parameter space, we can interpret the volume 
 Our setup is as follows. We consider random neural networks, where we vary
 - the number of additional layers from $1$ to $5$
 - the activation function $\sigma$ from ReLU, GELU, Tanh, Sigmoid, Gaussian
-- The weight scale from from $10^{-0.5}$ to $10 ^\{0.5 \}$ in logarithmic steps
+- The weight scale from $10^{-0.5}$ to $10 ^\{0.5 \}$ in logarithmic steps
 We initialized the network using a uniform distribution scaled by $\frac{1}{\\sqrt{fan_\{in\}}}$, which is the [default initialization in PyTorch](https://github.com/pytorch/pytorch/issues/57109).
 We tried other initializations, but they did not change the results significantly.
 
@@ -79,23 +78,23 @@ We ran two types of experiments:
 2. **Training**: We train the networks on a simple task (modular addition) and compute the volume of the star domain along the training checkpoints.
 
 ### 1. Initialization
-<img src="/images/blog/inductive-bias/image.png" style="width: 100%; height: 600px; border: none;">
+<img src="/images/blog/inductive-bias/image.png" alt="Heatmaps of estimated volumes by weight amplitude and number of additional layers, shown separately for ReLU, GELU, Tanh, Gaussian, and Sigmoid activations." style="width: 100%; height: 600px; border: none;">
 
 Overall, **we were not able to replicate** the findings in [NRS](https://arxiv.org/abs/2403.02241).
 Specifically, we did not observe that higher weight amplitude and additional layers lead to a lower volume of the star domain (as those correspond to more complex solutions according to the basin volume hypothesis).
 
 
 ### 2. Training
-<iframe src="/images/blog/inductive-bias/multi_heatmaps.html" style="width: 100%; height: 800px; border: none;"></iframe>
+<iframe title="Estimates over time" src="/images/blog/inductive-bias/multi_heatmaps.html" style="width: 100%; height: 800px; border: none;"></iframe>
 
-Similary, **we did not find that the volume of the star domain is a good predictor for learning behaviour.**
+Similarly, **we did not find that the volume of the star domain is a good predictor for learning behaviour.**
 While training does generally lead to lower volumes, we observe architectures with similar local volumes (e.g. ReLU and GELU) but different learning behaviour (more GELUs grokked).
 The final volumes of the star domain do not seem well correlated with the learning behaviour of the networks.
 
 
 ## Conclusion
 
-Inductive biases are important and play an important role in the generalization behaviour of neural networks.
+Inductive biases play an important role in the generalization behaviour of neural networks.
 But it seems unlikely that one single measure can faithfully capture the inductive bias of a neural network via a one-dimensional notion of complexity.
 
-Over all, we could not provide further evidence for the neural redshift hypothesis, as we did not observe a correlation between the volume of the star domain and the learning behaviour of the networks. We remain interested in geometric descriptions of the parameter-function map and the loss landscape, but we will need to explore other measures besides the local volume.
+Overall, we could not provide further evidence for the neural redshift hypothesis, as we did not observe a correlation between the volume of the star domain and the learning behaviour of the networks. We remain interested in geometric descriptions of the parameter-function map and the loss landscape, but we will need to explore other measures besides the local volume.

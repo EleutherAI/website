@@ -3,7 +3,7 @@ title: "Minetester: A fully open RL environment built on Minetest"
 date: 2023-07-08T00:00:00Z
 lastmod: 2023-07-08T00:00:00Z
 draft: False
-description: "An overview of the minetester and preliminary work"
+description: "An overview of Minetester and preliminary work"
 author: ["Curtis Huebner", "Robert Klassert", "Stepan Shabalin", "Edwin Fennell", "Delta Hessler"]
 contributors: ["EleutherAI"]
 categories: ["Announcement"]
@@ -11,7 +11,7 @@ categories: ["Announcement"]
 
 {{<figure src="/images/blog/minetester-introduction/image10.png" alt="" align="center" />}}
 
-In the past several months we’ve seen great strides in the development of language models, especially in the private sector. Last year we saw several Minecraft-based environments released, including MineDojo and agents built on top of Minecraft such as VPT. This year we’ve seen agents that build on top of SOTA LLMs and libraries along with existing libraries, such as STEVE-1, Voyager, and GITM.
+In the past several months we’ve seen great strides in the development of language models, especially in the private sector. Last year we saw several Minecraft-based environments released, including MineDojo and agents built on top of Minecraft such as VPT. This year we’ve seen agents that build on top of state-of-the-art large language models (LLMs) and existing libraries, such as STEVE-1, Voyager, and GITM.
 
 All of these are built on top of Minecraft and usually the MineRL environment. To meet our own research needs, we’ve been building a separate stack on top of the Minetest voxel engine.
 
@@ -33,9 +33,9 @@ The last big reason is first-class modding support in Minetest. Minetest bills i
 
 # How does Minetester work under the hood?
 
-Minetester extends the standard Minetest environment in a few ways centred around enabling RL research.
+Minetester extends the standard Minetest environment in a few ways centred around enabling reinforcement learning (RL) research.
 
-{{<figure src="/images/blog/minetester-introduction/image5.png" alt="" caption="How the Minetester framework integrates with the Minetest game." align="center" />}}
+{{<figure src="/images/blog/minetester-introduction/image5.png" alt="Architecture diagram: a Python Gym-like interface exchanges observations, actions, and rewards with the Minetest client; the client and server exchange game information, synchronization, and task data." caption="How the Minetester framework integrates with the Minetest game." align="center" />}}
 
 **Auxiliary data and communication (reward, feedback, etc.)**
 
@@ -47,7 +47,7 @@ To keep the RL problem deterministic and the dynamics consistent, Minetester sen
 
 **Headless operation**
 
-Minetester supports 2 methods of headless operation. The first uses the Xvfb virtual framebuffer to encapsulate the Minetester process, the second, a WIP compile-time solution that replaces the standard rendering backend with an SDL2 headless backend.
+Minetester supports two methods of headless operation. The first uses the Xvfb virtual framebuffer to encapsulate the Minetester process. The second is a work-in-progress compile-time solution that replaces the standard rendering backend with an SDL2 headless backend.
 
 **Python client wrapper**
 
@@ -55,15 +55,15 @@ Finally, the overall system is encapsulated in a Python wrapper that serves as a
 
 # Minetester baselines: PPO
 
-To begin, we demonstrate basic usage of Minetester with a simple policy trained to just break wood. We started with PPO since it’s one of the simplest RL algorithms.
+To begin, we demonstrate basic usage of Minetester with a simple policy trained to just break wood. We started with proximal policy optimization (PPO) since it’s one of the simplest RL algorithms.
 
 The first thing we noticed is that, without assistance, these algorithms don’t work at all, even for a “simple” task like breaking wood. By default, these simple algorithms will tend to flail around randomly. When they do manage to break a block, it’s very rare for it to be anything that would generate reward, so off-the-shelf algorithms don’t really work.
 
-There are many different ways to deal with this. Ideally one would rely on more principled methods based on incentivising exploration and skill-building that naturally stumbles upon and quickly learns that breaking wood produces a reward. However, actually pulling this off is rather difficult, and we’re not aware of anyone successfully following this approach. Instead systems rely on other popular approaches that leverage prior knowledge and behavioural cloning. This was the approach taken by OpenAIs VPT and STEVE-1. Another tactic is just to make the problem easier. This is what DeepMind did with DreamerV3 and arguably what was done with GPT-4-based agents, which used APIs to dramatically simplify the action space.
+There are many different ways to deal with this. Ideally one would rely on more principled methods based on incentivising exploration and skill-building that naturally stumbles upon and quickly learns that breaking wood produces a reward. However, actually pulling this off is rather difficult, and we’re not aware of anyone successfully following this approach. Instead systems rely on other popular approaches that leverage prior knowledge and behavioural cloning. This was the approach taken by OpenAI’s VPT and STEVE-1. Another tactic is just to make the problem easier. This is what DeepMind did with DreamerV3 and arguably what was done with GPT-4-based agents, which used APIs to dramatically simplify the action space.
 
 In our case we opted to do something similar through a combination of reward-shaping and locking certain actions to further reduce the difficulty of the problem. Implementing both of these modifications in the Minetester framework is straightforward and simplifies the environment significantly. 
 
-On the agent side, we can simplify the action space and incentivise certain actions using standard modifiers to the gym environment. In our case we restrict the action space to just a few camera actions, moving left, right, and forward, and incentivising jumping with additional reward.
+On the agent side, we can simplify the action space and incentivise certain actions using standard modifiers to the gym environment. In our case we restrict the action space to just a few camera actions, moving left, right, and forward, and incentivise jumping with additional reward.
 
 ```python3
 
@@ -92,7 +92,7 @@ Together these modifications make the problem tractable to learn for a simple PP
 
 # Interpreting the PPO baseline policy
 
-\**Note: The following section is best understood by following along with the notebook and model policy described [here](https://github.com/EleutherAI/minetest-interpretabilty-notebook).*
+*Note: The following section is best understood by following along with the notebook and model policy described [here](https://github.com/EleutherAI/minetest-interpretabilty-notebook).*
 
 Even this simple policy contains interesting structure that we can deduce by inspecting the weights of the network and how it reacts to real data.
 
@@ -101,22 +101,22 @@ Even this simple policy contains interesting structure that we can deduce by ins
 We start by analysing the learned policy in a vacuum. This lets us make general statements about the structure of the network before we see how it reacts to real data.
 
 **Activation probing/deep dreaming**
-Since this is a visual model, we can copy some of the techniques from OAI’s [circuits publication](https://distill.pub/2020/circuits/zoom-in/). For instance, since the network we use is a ConvNet, we can use gradient ascent to probe what kind of image patches activate different neurons in the network. In our case, some quantities are particularly interpretable. These include actor-critic outputs and low-level neuron activations.
+Since this is a visual model, we can copy some of the techniques from OpenAI’s [circuits publication](https://distill.pub/2020/circuits/zoom-in/). For instance, since the network we use is a ConvNet, we can use gradient ascent to probe what kind of image patches activate different neurons in the network. In our case, some quantities are particularly interpretable. These include actor-critic outputs and low-level neuron activations.
 
-{{<figure src="/images/blog/minetester-introduction/image9.png" alt="" caption="Simplified NN diagram, 3 convolutional layers feed into value and critic heads. There are ReLU non-linearities between each layer. See the notebook for full implementation details." align="center" />}}
+{{<figure src="/images/blog/minetester-introduction/image9.png" alt="Image input passes through three convolutional layers and a fully connected layer, then branches into an actor head producing action logits and a critic head producing value estimates." caption="Simplified neural network (NN) diagram: three convolutional layers feed into actor and critic heads. There are ReLU non-linearities between each layer. See the notebook for full implementation details." align="center" />}}
 
 This lets us ask questions like “What kind of images have high expected value?” and “What kind of images make the agent want to carry out a certain action, such as moving left/right?”
 
 Doing this for high-value states is not super enlightening, but we do see a certain repeating low-level pattern show up.
 
-{{<figure src="/images/blog/minetester-introduction/image2.png" alt="" caption="Image inputs with a high value according to the critic. We do see some repeating patterns but nothing very clear. Each image represents a different time delayed frame that gets fed into the NN." align="center" />}}
+{{<figure src="/images/blog/minetester-introduction/image2.png" alt="Four grayscale image patches with noisy, repeating light and dark patterns." caption="Image inputs with a high value according to the critic. We do see some repeating patterns but nothing very clear. Each image represents a different time delayed frame that gets fed into the NN." align="center" />}}
 
 Another thing we can do is backprop through the probability that the agent preferentially turns to the right/left, which, going forward, we’ll call the yaw probability. These results are much less clean than what we see when deep dreaming with heavily trained classifiers. However, we can still make out some patterns. In particular, we see that the network is paying more attention to something closer to the middle-left of the screen when it wants to turn left, and stuff closer to the edges when it wants to turn right.
 
 
-{{<figure src="/images/blog/minetester-introduction/image6.png" alt="" caption="“Saliency” of the most recent frame fed into the network. Left image represents turning left, the right image represents turning right. See the notebook for how these images were created from deep dream outputs." align="center" />}}
+{{<figure src="/images/blog/minetester-introduction/image6.png" alt="Two grayscale visualizations with bright patches clustered near the centre-left in the left image and spread more widely in the right image." caption="“Saliency” of the most recent frame fed into the network. Left image represents turning left, the right image represents turning right. See the notebook for how these images were created from deep dream outputs." align="center" />}}
 
-This is very flimsy evidence, but it gives us a hypothesis for how the policy might work. The network always moves forward and jumps with some probability, but it needs to orient itself towards trees. Trees are “rough”, and if it sees “rough” on the right of its FOV, it orients itself to the right. Otherwise it does the opposite.
+This is very flimsy evidence, but it gives us a hypothesis for how the policy might work. The network always moves forward and jumps with some probability, but it needs to orient itself towards trees. Trees are “rough”, and if it sees “rough” on the right of its field of view (FOV), it orients itself to the right. Otherwise it does the opposite.
 
 **Other observations**
 
@@ -126,12 +126,12 @@ The first is that the network is clearly not symmetrical, which is surprising si
 
 The second is when you look at the matrices for the actor and the critic. The vectors are very much not random. Notably their dot-products are larger than random, indicating that both actor and critic heads are paying attention to the same features coming out of the base network.
 
-## Analysing real images and assessing actions values
+## Analysing real images and assessing action values {#analysing-real-images-and-assessing-actions-values}
 
 Now that we have a hypothesis for what’s going on from looking at the network, we can see how the model reacts to real inputs to try to understand how the policy works in the environment. Since Minetest is a user-playable game, we can simply load it up and take some screenshots to feed into the network. One thing to note is that to make things faster and more computationally tractable, the input pipeline lowers the resolution of the inputs and strips away colour information. We can compare what the raw environment returns with what the network sees.
 
-{{<figure src="/images/blog/minetester-introduction/image3.png" alt="" caption="What players see." align="center" />}}
-{{<figure src="/images/blog/minetester-introduction/image7.png" alt="" caption="What the network sees." align="center" />}}
+{{<figure src="/images/blog/minetester-introduction/image3.png" alt="Full-colour Minetest view with a close tree trunk on the left, distant trees on the right, and the player interface along the bottom." caption="What players see." align="center" />}}
+{{<figure src="/images/blog/minetester-introduction/image7.png" alt="Downscaled grayscale version of the same Minetest view, with visibly reduced detail in the trees and player interface." caption="What the network sees." align="center" />}}
 
 Due to downscaling and conversion to grayscale many details about the environment are lost to the network.
 
@@ -140,11 +140,11 @@ With that said, we can still take a look at how the network operates. We’re ma
 When feeding in real data we can very clearly confirm the network is implementing some kind of control system. This is made very clear by looking at how the yaw probability changes when we mirror an image or look at how the network reacts to a screenshot with a tree on the right or the left. This works with several different tree types and backgrounds.
 
 
-{{<figure src="/images/blog/minetester-introduction/image11.png" alt="" caption="The yaw probability flips sign when we mirror the image." align="center" />}}
+{{<figure src="/images/blog/minetester-introduction/image11.png" alt="A Minetest view and its horizontal mirror, with reported yaw values of 0.728635 and -0.875014 respectively." caption="The yaw probability flips sign when we mirror the image." align="center" />}}
 
 One thing we can check is how general this control system is. One way to do this is to evaluate the behaviour slightly out of distribution. Since the most straightforward hypothesis for how this network works is that it checks for brightness differences, we can either change textures or check how the network reacts to trees at night, where the contrast is inverted.
 
-{{<figure src="/images/blog/minetester-introduction/image4.png" alt="" caption="This persists even at night, when trees are brighter than the environment." align="center" />}}
+{{<figure src="/images/blog/minetester-introduction/image4.png" alt="A dark Minetest view and its horizontal mirror, with reported yaw values of approximately -0.308 and 0.955 respectively." caption="This persists even at night, when trees are brighter than the environment." align="center" />}}
 
 The network still works. This rules out the possibility that the network is using something like light/dark on the right/left side of the screen to orient itself.
 
@@ -154,9 +154,9 @@ The final and arguably hardest piece of the puzzle is to figure out how the netw
 
 **Layer 1**
 
-The first layer contains simple linear filters, we can see a few different features, edge detectors, light detectors, and darkness detectors. This is straightforwardly visible by lining up the generated images with the regular images.
+The first layer contains simple linear filters. We can see a few different features: edge detectors, light detectors, and darkness detectors. This is straightforwardly visible by lining up the generated images with the regular images.
 
-{{<figure src="/images/blog/minetester-introduction/image1.png" alt="" caption="An example of an edge detector in the first layer." align="center" />}}
+{{<figure src="/images/blog/minetester-introduction/image1.png" alt="A tree-trunk input image, a pre-ReLU activation map, and a thresholded map with a narrow vertical band of active locations." caption="An example of an edge detector in the first layer." align="center" />}}
 
 **Layer 2**
 
@@ -168,7 +168,7 @@ With a single layer of non-linearity, the features tend to get more complicated.
 
  - Finally we did find 1 neuron that seemed to fairly consistently act as a tree detector.
 
-{{<figure src="/images/blog/minetester-introduction/image8.png" alt="" caption="The “tree detector” neuron in the second layer." align="center" />}}
+{{<figure src="/images/blog/minetester-introduction/image8.png" alt="A tree-trunk input image, a pre-ReLU activation map, and a thresholded map with a broad active region aligned with the trunk." caption="The “tree detector” neuron in the second layer." align="center" />}}
 
 **Layer 3**
 
@@ -180,7 +180,7 @@ Unfortunately, while we were able to identify individual components of the NN th
 
 This investigation brought up several pain points in the workflow that we intend to improve going forward. Most of this revolves around our tooling.
 
-The first is not having easy translation between what the user sees and does and what the network sees and does. The pipeline we’re using in the notebook was reconstructed by inspecting both the OAI Gym and the Minetester codebases, but ideally this would be done automatically.
+The first is not having easy translation between what the user sees and does and what the network sees and does. The pipeline we’re using in the notebook was reconstructed by inspecting both the OpenAI Gym and the Minetester codebases, but ideally this would be done automatically.
 
 The second is not having good facilities for recording user actions. For the purposes of this investigation, taking screenshots was sufficient to extract usable information, but as complexity ramps up, this will likely become insufficient.
 
@@ -200,9 +200,9 @@ The algorithm that the policy seems to implement is, at least on the surface, pr
 
 It seems that perhaps model-based RL agents might be more interpretable, since they “internalise” their environment better. However, this is likely never going to work completely (since you can’t fit the whole universe inside your model), and other techniques will be necessary to understand how agents behave in environments we don’t fully understand ourselves.
 
-**The structure of the network and the training algorithm plays a key role in facilitating interpretability.**
+**The structure of the network and the training algorithm play a key role in facilitating interpretability.**
 
-This seems to be a recurring theme with learned models. The actual underlying structure of the model and how it’s setup plays an important role in enabling interpretability. Things like induction heads are an emergent circuit in transformers due to the attention mechanism and the transformer architecture. Likewise, DeepDream-like visualisations in ConvNets are possible in part due to the restricted receptive fields and the continuous nature of their inputs. In our case, we exploited the convolutional structure and the relative simplicity and interpretability of our action/value mapping to at least partially reverse engineer the mechanics of the model.
+This seems to be a recurring theme with learned models. The actual underlying structure of the model and how it’s set up plays an important role in enabling interpretability. Things like induction heads are an emergent circuit in transformers due to the attention mechanism and the transformer architecture. Likewise, DeepDream-like visualisations in ConvNets are possible in part due to the restricted receptive fields and the continuous nature of their inputs. In our case, we exploited the convolutional structure and the relative simplicity and interpretability of our action/value mapping to at least partially reverse engineer the mechanics of the model.
 
 Ultimately, it seems that interpretability techniques that work best for a given situation are sensitive to the architecture being studied.
 
@@ -224,16 +224,15 @@ While policy gradient is simple and straightforward to implement, it’s clearly
 
 **Model based RL**
 
-The long-term goal is to study embedded agency failure modes in the context of RL. As such, we plan to implement some MBRL baselines so that we can start studying how to interpret what they’re doing.
+The long-term goal is to study embedded agency failure modes in the context of RL. As such, we plan to implement some model-based RL (MBRL) baselines so that we can start studying how to interpret what they’re doing.
 
 # Join us!
 
-The Minetester project is large, and the number of different things to work on continues to grow. Checkout the #alignment-minetest project in our Discord to get involved. We have plenty of room for additional volunteers to contribute to different facets of the project.
+The Minetester project is large, and the number of different things to work on continues to grow. Check out the #alignment-minetest project in our Discord to get involved. We have plenty of room for additional volunteers to contribute to different facets of the project.
 
 # Links
 
  - [Minetester Repo](https://github.com/EleutherAI/minetest/)
  - [Minetest Baselines](https://github.com/EleutherAI/minetest-baselines/)
- - [Interpretabilty Notebook](https://github.com/EleutherAI/minetest-interpretabilty-notebook)
-
+ - [Interpretability Notebook](https://github.com/EleutherAI/minetest-interpretabilty-notebook)
 

@@ -1,7 +1,7 @@
 ---
 title: "Research Update: Applications of Local Volume Measurement"
 date: 2025-06-23
-description: "Research update on on applying local volume measurement to downstream tasks"
+description: "Research update on applying local volume measurement to downstream tasks"
 author: ["Dipika Khullar", "David Johnston"]
 ShowToc: true
 mathjax: true
@@ -10,7 +10,7 @@ draft: false
 
 Earlier this year, we published [Estimating the Probability of Sampling a Trained Neural Network at Random](https://arxiv.org/abs/2501.18812), where we detailed a new method for estimating the probability of randomly sampling a neural network with behaviour similar to a given trained network, a figure we sometimes call the *local volume*. Alongside this we released the [tyche](https://github.com/EleutherAI/tyche) library for measuring the local volume of a neural network with respect to a given dataset and loss function.
 
-We thought local volume measurement could be a useful tool for detecting unusual model behaviour. Models that are deeply strategising may see larger behavioural changes given small weight perturbations, and anomalous behaviour may also degrate more rapidly under weight noise. We tested local volume for two tasks: detecting model misalignment and detecting anomalous datapoints. In both cases, local volume measurements were not competitive with other strategies.
+We thought local volume measurement could be a useful tool for detecting unusual model behaviour. Models that are deeply strategising may see larger behavioural changes given small weight perturbations, and anomalous behaviour may also degrade more rapidly under weight noise. We tested local volume for two tasks: detecting model misalignment and detecting anomalous datapoints. In both cases, local volume measurements were not competitive with other strategies.
 
 ## POSER vs Tyche: Perturbation Strategies for Detecting Model Misalignment
 
@@ -41,7 +41,7 @@ Tyche:
 
 
 ## Key Findings
-POSER Sensitivity: Misaligned models (e.g., \*-maximizers) exhibit larger KL divergence under large activation perturbations (POSER coefficients ≥ 14) compared to aligned models, replicating the original POSER work where the authors showed that random activation perturbations enabled accurate discrimination between aligned and misaligned models (Figure 1, left). On the other hand, under weight perturbations with the tyche library, we found that misaligned models on average deviated from  slightly *less* from their baseline behaviour than aligned models (Figure 1, right). Discrimination was mediocre in either direction (Figure 2).
+POSER Sensitivity: Misaligned models (e.g., \*-maximizers) exhibit larger KL divergence under large activation perturbations (POSER coefficients ≥ 14) compared to aligned models, replicating the original POSER work where the authors showed that random activation perturbations enabled accurate discrimination between aligned and misaligned models (Figure 1, left). On the other hand, under weight perturbations with the tyche library, we found that misaligned models on average deviated slightly *less* from their baseline behaviour than aligned models (Figure 1, right). Discrimination was mediocre in either direction (Figure 2).
 
 {{< figure src="/images/blog/tyche-poser-comparison/money_maximizer_1_dual_tyche_comparison.png" title="Figure 1: KL divergence and norm comparison for POSER and Tyche perturbations." />}}
 

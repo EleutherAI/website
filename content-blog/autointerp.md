@@ -11,7 +11,7 @@ draft: false
 
 ## Background
 
-Sparse autoencoders recover a diversity of interpretable, monosemantic features, but present an intractable problem of scale to human labelers. We investigate different techniques for generating and scoring arbitrary text explanations of SAE features, and release a open source library to allow people to do research on auto-interpreted features.
+Sparse autoencoders (SAEs) recover a diversity of interpretable, monosemantic features, but present an intractable problem of scale to human labelers. We investigate different techniques for generating and scoring arbitrary text explanations of SAE features, and release an open-source library to allow people to do research on auto-interpreted features.
 
 
 
@@ -30,7 +30,7 @@ Sparse autoencoders recover a diversity of interpretable, monosemantic features,
 
 ## Generating Explanations
 
-Sparse autoencoders decompose activations into a sum of sparse feature directions. We leverage language models to generate explanations for activating text examples. Prior work prompts language models with token sequences that activate MLP neurons ([Bills et al.](https://openaipublic.blob.core.windows.net/neuron-explainer/paper/index.html#sec-algorithm-explain) 2023), by showing the model a list of tokens followed by their respective activations, separated by a tab, and listed one per line. 
+Sparse autoencoders decompose activations into a sum of sparse feature directions. We leverage language models to generate explanations for activating text examples. Prior work prompts language models with token sequences that activate multilayer perceptron (MLP) neurons ([Bills et al.](https://openaipublic.blob.core.windows.net/neuron-explainer/paper/index.html#sec-algorithm-explain) 2023), by showing the model a list of tokens followed by their respective activations, separated by a tab, and listed one per line. 
 
 We instead highlight max activating tokens in each example with a set of <\<delimiters>>. Optionally, we choose a threshold of the example’s max activation for which tokens are highlighted. This helps the model distinguish important information for some densely activating features.
 
@@ -118,7 +118,7 @@ Llama-3 70b is used as an explainer and scorer except where explicitly mentioned
 
 We evaluate model scale and human performance on explanation quality using the 132k latent GPT-2 top-K SAEs. Models generate explanations for 350 features while a human (Gonçalo) evaluates thirty five. Manual labeling is less scalable and wider error bars reflect this fact. 
 
-__![](https://lh7-rt.googleusercontent.com/docsz/AD_4nXe_RQEH-JIhYjiMScpbMCpAdG4r6XgBLhYpD9K1iBwrVq04nDDLbDr-fMxcM9J2rPS4h8emGA6wvIKM3kXtJpqVoJk6EouHc0oR8EXjybMWtyp_jX61PDa-z7BzhqPjaSBwibvA7hKvG9YcGwF8jjI1eW_b?key=5hGzhgAbyv361OYwubzqdA)__
+![](https://lh7-rt.googleusercontent.com/docsz/AD_4nXe_RQEH-JIhYjiMScpbMCpAdG4r6XgBLhYpD9K1iBwrVq04nDDLbDr-fMxcM9J2rPS4h8emGA6wvIKM3kXtJpqVoJk6EouHc0oR8EXjybMWtyp_jX61PDa-z7BzhqPjaSBwibvA7hKvG9YcGwF8jjI1eW_b?key=5hGzhgAbyv361OYwubzqdA)
 _Figure 1: (left, middle) The first two figures depict explanation quality versus the test example’s activation decile. Q10 is closest to the maximum activation while Q1 is the lowest. Weak feature activations tend to be less related to the “true” feature recovered by the SAE, especially for coarser dictionaries, and are harder to score. (right) Better formed explanations have higher balanced accuracy on both fuzzing and detection. Balanced accuracy accounts for the imbalance between the number of non-activating examples (20) and the activating examples (50)._ 
 
 As a comparison, we show the performance of a scorer that is given a random explanation for the features. As expected, better models generate better explanations. We want to highlight that explanations given by humans are not always optimizing for high fuzzing and detection scores, and that explanations that humans find good could require different scoring metrics. We discuss this further in the text.
@@ -186,21 +186,21 @@ _Figure 6: (Left and middle) Llama and Claude provide similar evaluations on det
 
 _Figure 7: Model performance on scoring correlates across scale._ 
 
-**What do detection and fuzzing distinctly reveal?**
+### What do detection and fuzzing distinctly reveal?
 
 On the surface, detection and fuzzing appear quite similar. We plot their correlation on two sampling methods to understand where they diverge. You can find an interactive version of the plots [here](https://cadentj.github.io/demo/gpt2.html). 
 
-****![](https://lh7-rt.googleusercontent.com/docsz/AD_4nXfGxrQWkuwedArABKFv9_wHWG-AAPIrztKwL6qfNehX51DvKqnOdF_71F67rjU2qbXwjt_L8Cbyw7o3tQ06o6ap8ZiVmoZ5AJDrkczYhT97zjVc7Gr4_YpFYc16EXFPPTusSmGCi-WEn4dKuPRCX3QDk92P?key=5hGzhgAbyv361OYwubzqdA)****
+![](https://lh7-rt.googleusercontent.com/docsz/AD_4nXfGxrQWkuwedArABKFv9_wHWG-AAPIrztKwL6qfNehX51DvKqnOdF_71F67rjU2qbXwjt_L8Cbyw7o3tQ06o6ap8ZiVmoZ5AJDrkczYhT97zjVc7Gr4_YpFYc16EXFPPTusSmGCi-WEn4dKuPRCX3QDk92P?key=5hGzhgAbyv361OYwubzqdA)
 
 _Figure 8: (Left) Fuzzing and detection for explanations from the top twenty examples. (Right) The two metrics have no correlation on explanations from random samples._ 
 
 Ideally, fuzzing tests whether explanations are precise enough to separate activating tokens from irrelevant context. On manual inspection of features, we find detection and fuzzing largely agree on activating examples. However, fuzzing utterly fails to classify mislabeled examples. We hypothesize that the task may be too hard which is concerning given that fuzzed examples have tokens selected at random. Future work could measure the effect of more few-shot examples and model performance. 
 
-**How precise is detection and fuzzing scoring without adversarial examples?**
+### How precise is detection and fuzzing scoring without adversarial examples?
 
- ****
 
-A way to measure the precision of explanations is to use generation scoring. In generation scoring we prompt the model to generate 10 examples that would activate a feature given a certain explanation. We find that a significant fraction of explanations do not generate sentences that activate the corresponding features-. This could be due to the quality of the generating model or due to the fact that the explanations miss critical context that does not allow the models to correctly generate activating contexts. In future work we will explore how generation score can be used to identify context dependent features which have explanations that are too broad, and will measure the effect of model size in generation scoring.
+
+A way to measure the precision of explanations is to use generation scoring. In generation scoring we prompt the model to generate 10 examples that would activate a feature given a certain explanation. We find that a significant fraction of explanations do not generate sentences that activate the corresponding features. This could be due to the quality of the generating model or due to the fact that the explanations miss critical context that does not allow the models to correctly generate activating contexts. In future work we will explore how generation score can be used to identify context dependent features which have explanations that are too broad, and will measure the effect of model size in generation scoring.
 
 ![](https://lh7-rt.googleusercontent.com/docsz/AD_4nXdS9kFAjq-Ng_vCYwS_TYt2ZP0TuRHITJmW0YnxosTbfZkuOXh_qb7WSYRuPYk_xE-TnjeBG4-bKzbuyUszsg4wHxisM3Zdzyf8qauNAhyJCEa3SLAc_CisILif7a6LbsLEftBZe-zaQF3h4eWyMo2CUy4v?key=5hGzhgAbyv361OYwubzqdA)
 
@@ -209,18 +209,16 @@ _Figure 9: The distribution of generation scoring over 300 explanations of the 1
 
 ### How much more scalable is detection/fuzzing? 
 
-|                   |               |                      |               |                      |
-| ----------------- | ------------- | -------------------- | ------------- | -------------------- |
 | Method            | Prompt Tokens | Unique Prompt Tokens | Output Tokens | Runtime in seconds   |
+| ----------------- | ------------- | -------------------- | ------------- | -------------------- |
 | Explanation       | 397           | 566.45 ± 26.18       | 29.90 ± 7.27  | 3.14 ± 0.48          |
 | Detection/Fuzzing | 725           | 53.13 ± 10.53        | 11.99 ± 0.13  | 4.29 ± 0.14          |
 | Simulation        | –             | 24074.85 ± 71.45     | 1598.1 ± 74.9 | 73.9063 ± 13.5540 * |
 
 We measure token I/O and runtime for explanation and scoring. For scoring methods, these metrics correspond to the number of tokens/runtime to evaluate five examples. Tests are run on a single NVIDIA RTX A6000 on a quantized Llama-3 70b with VLLM prefix caching. Simulation scoring is notably slower as we used [Outlines](https://outlines-dev.github.io/outlines/reference/serve/vllm/) (a structured generation backend) to enforce valid JSON responses. 
 
-|                   |               |               |                                   |                                         |
+| Method            | Prompt Tokens | Output Tokens | GPT-4o mini (per million features) | Claude 3.5 Sonnet (per million features) |
 | ----------------- | ------------- | ------------- | --------------------------------- | --------------------------------------- |
-| Method            | Prompt Tokens | Output Tokens | GPT 4o mini(per million features) | Claude 3.5 Sonnet(per million features) |
 | Explanation       | 963.45        | 29.90         | $160                              | $3400                                   |
 | Detection/Fuzzing | 778.13        | 11.99         | $125                              | $2540                                   |
 | Simulation        | 24074.85      | 1598.1        | $4700                             | $96K                                    |
@@ -234,7 +232,7 @@ Automated interpretability pipelines might involve a preprocessing step that fil
 
 ### Positional Features
 
-Some neurons activate on absolute position rather than on specific tokens or context. We cache activation frequencies for each feature over the entire context length of GPT2 and filter for features with high mutual information with position ([Voita et. al](https://arxiv.org/pdf/2309.04827) 2023).
+Some neurons activate on absolute position rather than on specific tokens or context. We cache activation frequencies for each feature over the entire context length of GPT2 and filter for features with high mutual information with position ([Voita et al.](https://arxiv.org/pdf/2309.04827) 2023).
 
 ![](https://lh7-rt.googleusercontent.com/docsz/AD_4nXdMRnRrXNjBd6tVUY44v1TlUY3GDR9mNiARaVvfwJjMJf_KiRrfabX7OFtwv8TBQslY2M2awF01geSKSvVCNQtXfywz03jvfZTasdsGhzXQLb_Krzai1zo4vB98tPo9YfB2EIUkfgN1fcTkhRKYkxjuCrRM?key=5hGzhgAbyv361OYwubzqdA)
 
@@ -242,18 +240,18 @@ Similar to Voita et al. 2023, we find that earlier layers have a higher number o
 
 ![](https://lh7-rt.googleusercontent.com/docsz/AD_4nXdOMjvD_J7Hh8McI_vxuMliF-SbjtrLhY7CP1kFyqCqqdySKu4YaX4_9krtdYLPOFMs5CPWDU8FOwZD8hGhfFx41EZe0qUG9HqoaHsIWVYb7BWO_i9XZ48t79VSxU4suEm2QiGay-fqjS4HAoI_1iJ9ZU7y?key=5hGzhgAbyv361OYwubzqdA)
 
-_Figure N: Number of positional features by layer in GPT-2. Layer 0 indicates the SAE trained on the residual stream after layer 0. The colors represent thresholds of mutual information. Voita et al. select features with I(act, pos) > 0.05._
+_Number of positional features by layer in GPT-2. Layer 0 indicates the SAE trained on the residual stream after layer 0. The colors represent thresholds of mutual information. Voita et al. select features with I(act, pos) > 0.05._
 
 
 ### Unigram features
 
 Some features activate on tokens independent of the surrounding context. We filter for features which have twenty or fewer unique tokens among the top eighty percent of their activations. To verify that these features are context independent, we create sentences with 19 tokens randomly sampled from the vocabulary plus a token that activates the feature. 
 
-We do this twice per token in the unique set, generating upwards of forty scrambled examples per feature. We run batch through the autoencoder and measure the fraction of scrambled sentences with nonzero activations.
+We do this twice per token in the unique set, generating upwards of forty scrambled examples per feature. We run the batch through the autoencoder and measure the fraction of scrambled sentences with nonzero activations.
 
 ![](https://lh7-rt.googleusercontent.com/docsz/AD_4nXe_E6r6vc2XK3U85dfVFJ6OjngPHAC_qcaVlksIqMiKxTLQH68W0r6OtFca92uBQHd0dc4bSjMKU_9OT_JOGhSaMadl5B8Msm2BCGOq70cgTo9kcVBuNUrzUVfL1Cu1hTd6an9_gT4KbXVMRKdAt3sYNBie?key=5hGzhgAbyv361OYwubzqdA)
 
-_Figure N: Fraction of context independent features in odd layers of GPT-2 (0-indexed). Layer 0 indicates the SAE trained on the residual stream after layer 0. The scale indicates a threshold for the scrambled sentences. For example, the yellow line marks features for which > 90% of scrambled sentences still activate._
+_Fraction of context independent features in odd layers of GPT-2 (0-indexed). Layer 0 indicates the SAE trained on the residual stream after layer 0. The scale indicates a threshold for the scrambled sentences. For example, the yellow line marks features for which > 90% of scrambled sentences still activate._
 
 We analyze a random sample of 1k features from odd layers in GPT-2. Earlier layers have a substantial portion of context independent features. 
 
@@ -264,11 +262,11 @@ Some features also activate following specific tokens. Instead of saving feature
 
 ![](https://lh7-rt.googleusercontent.com/docsz/AD_4nXe9VKZ7u7U9Y8TjgKhJufY0cMYnkbehmHpUQOm7bpsgZrAsfmopDuyg7PGXNuPEgHS4QtcdVVUFka8R98FTPSNaAnmZNrgSawvRpisaDOHptohOKzzJNAyguNb1ZG7-bW_oF3H33p4LvWZQJiWdPHTuevRt?key=5hGzhgAbyv361OYwubzqdA)
 
-We demonstrate our automated interpretability pipeline by explaining and scoring all features in the Bias in Bios classifier task from the Sparse Feature Circuits paper ([Samuel Marks](https://arxiv.org/abs/2403.19647) et al 2024). We CoT prompt LLama-3 70b to generate an explanation given a feature’s top logits and activations (above 70% the max activation). Explanations are scored with detection and fuzzing. A full dashboard is available [here](https:////cadentj.github.io/demo//).
+We demonstrate our automated interpretability pipeline by explaining and scoring all features in the Bias in Bios (BiB) classifier task from the Sparse Feature Circuits paper ([Samuel Marks](https://arxiv.org/abs/2403.19647) et al 2024). We use chain-of-thought (CoT) prompting with Llama-3 70b to generate an explanation given a feature’s top logits and activations (above 70% of the max activation). Explanations are scored with detection and fuzzing. A full dashboard is available [here](https://cadentj.github.io/demo/).
 
-**Some features cannot be explained from their activation patterns**
+### Some features cannot be explained from their activation patterns
 
-Toward the end of the circuit \[[L4\_12420](https:////cadentj.github.io/demo/pythia/resid_4-12420.html), [ATTN3\_2959](https:////cadentj.github.io/demo/pythia/attn_3-2959.html)], features activate on dense sets of unrelated tokens. Note Llama’s initial confusion at providing an explanation for L4\_12420. 
+Toward the end of the circuit \[[L4\_12420](https://cadentj.github.io/demo/pythia/resid_4-12420.html), [ATTN3\_2959](https://cadentj.github.io/demo/pythia/attn_3-2959.html)], features activate on dense sets of unrelated tokens. Note Llama’s initial confusion at providing an explanation for L4\_12420. 
 
 
     ACTIVATING TOKENS: Various function words and punctuation marks.
@@ -284,18 +282,18 @@ Luckily, the top logits provide some signal. Llama picks up on this and correctl
 
 Many features like L4\_12420 promote and suppress certain sets of tokens \[Bloom, Bricken et al.]. We consider two broad categorizations. 
 
-**Input features** activate in response to certain patterns of the sequence. Early layers of the BiB circuit contain many of such type which activate on pronouns \[[MLP0\_2955](/https://cadentj.github.io/demo//pythia/mlp_0-2995.html)] or gendered names \[[RESID1\_9877](https://cadentj.github.io/demo/pythia/resid_1-9877.html)]. 
+**Input features** activate in response to certain patterns of the sequence. Early layers of the BiB circuit contain many features of this type which activate on pronouns \[[MLP0\_2955](https://cadentj.github.io/demo/pythia/mlp_0-2995.html)] or gendered names \[[RESID1\_9877](https://cadentj.github.io/demo/pythia/resid_1-9877.html)]. 
 
-**Output features** have interpretable casual effects on model predictions. Consider late layers which sharpen the token distribution \[[Lad 24](https://arxiv.org/abs/2406.19384)] and induction heads ([Olsson 23](https://transformer-circuits.pub/2022/in-context-learning-and-induction-heads/index.html)) which match and copy patterns of the sequence. Respective features in Pythia \[[4\_30220](https://cadentj.github.io/demo/pythia/resid_4-30220.html), [ATTN2\_27427](https://cadentj.github.io/demo//pythia/attn_2-27472.html)] are uninterpretable from activation patterns but promote sets of semantically related tokens. 
+**Output features** have interpretable causal effects on model predictions. Consider late layers which sharpen the token distribution \[[Lad 24](https://arxiv.org/abs/2406.19384)] and induction heads ([Olsson 23](https://transformer-circuits.pub/2022/in-context-learning-and-induction-heads/index.html)) which match and copy patterns of the sequence. Respective features in Pythia \[[4\_30220](https://cadentj.github.io/demo/pythia/resid_4-30220.html), [ATTN2\_27427](https://cadentj.github.io/demo/pythia/attn_2-27472.html)] are uninterpretable from activation patterns but promote sets of semantically related tokens. 
 
-Features that represent intermediate model computation are incompatible with methods that directly explain features from properties of the input. Consider the true explanation for L4\_12420: “this feature promotes gendered pronouns”. Given the explanation, our scorer must predict whether the original model (Pythia) would promote a gendered pronoun given a set of prior tokens. Casual scoring methods are necessary for faithfully evaluating these explanations ([Huang 23](https://arxiv.org/pdf/2309.10312)).
+Features that represent intermediate model computation are incompatible with methods that directly explain features from properties of the input. Consider the true explanation for L4\_12420: “this feature promotes gendered pronouns”. Given the explanation, our scorer must predict whether the original model (Pythia) would promote a gendered pronoun given a set of prior tokens. Causal scoring methods are necessary for faithfully evaluating these explanations ([Huang 23](https://arxiv.org/pdf/2309.10312)).
 
 Further, the distinction between these two groups is blurry. Features that appear as “input features” might have important causal effects that our explainer cannot capture. Future work might investigate ways to automatically filter for causal features at scale. 
 
 
 ## Future Directions
 
-**More work on scoring**
+### More work on scoring
 
 Generation scoring seems promising. Some variations we didn’t try include: 
 
@@ -303,27 +301,27 @@ Generation scoring seems promising. Some variations we didn’t try include: 
 * Using BERT to find sentences with similar embeddings or perform masked language modeling on various parts of the context, similar to fuzzing.
 
 
-**Human evaluation of generated examples**
+### Human evaluation of generated examples
 
 [Neuronpedia](https://www.neuronpedia.org/) is set to upload the GPT-2 SAEs we have looked at. We plan to upload our results so people can red-team and evaluate the explanations provided by our auto-interp pipeline. For now we have a small dashboard which allows people to explore explanations and their scores <https://cadentj.github.io/demo/>.
 
 
-**More information to generate explanations.**
+### More information to generate explanations
 
 To generate better and more precise explanations we may add more information to the context of the explaining model, like results of the effects of ablation, correlated tokens and other information that humans use to try to come up with new explanations. We may also incentivize the explainer model to hill-climb a scoring objective by iteratively showing it the explanations generated, their scores and novel examples.
 
-**Acknowledgements** 
+## Acknowledgements 
 
-We would like to thank Joseph Bloom, Sam Marks, Can Rager, Jannik Brinkmann and Sam Marks for their comments and suggestions, and to Neel Nanda, Sarah Schwettmann and Jacob Steinhardt for their discussion.
+We would like to thank Joseph Bloom, Sam Marks, Can Rager and Jannik Brinkmann for their comments and suggestions, and Neel Nanda, Sarah Schwettmann and Jacob Steinhardt for their discussion.
 
-**Contributions**
+## Contributions
 
-Caden Juang wrote most of the code and devised the methods and framework. Caden did the experiments related to feature sorting and Sparse Feature Circuits. Gonçalo Paulo ran the experiments and analysis related to explanation and scoring, including hand labeling a set of random features. Caden and Gonçalo created the write up. Nora Belrose supervised, reviewed the manuscript and trained the Llama 3 8b SAEs. Jacob Drori designed many of the prompts and initial ideas. Sam Marks suggested the framing for causal/correlational features in the SFC section.
+Caden Juang wrote most of the code and devised the methods and framework. Caden did the experiments related to feature sorting and Sparse Feature Circuits. Gonçalo Paulo ran the experiments and analysis related to explanation and scoring, including hand labeling a set of random features. Caden and Gonçalo created the write-up. Nora Belrose supervised, reviewed the manuscript and trained the Llama 3 8b SAEs. Jacob Drori designed many of the prompts and initial ideas. Sam Marks suggested the framing for causal/correlational features in the SFC section.
 
 
 ## Appendix
 
-**Neighbor scoring**
+### Neighbor scoring
 
 We experiment with neighbor scoring, a variant of detection where we sample the top ten activating examples from the ten nearest neighbors by cosine similarity.
 ![](https://lh7-rt.googleusercontent.com/docsz/AD_4nXdOQfQKDNhJWqeq9b4Cez-QG9pexHEGIi1VXycwQZBg08B0kLkfbOkgflAPQs24KJZx1bdnLU4Uag4PCGPTF21pcE_lKS1bdT1IVfPCcgVzygQoa63Q9uhfzggjrSfWdLlcBTzjaQ8p_li70V4sLDDhVvI?key=5hGzhgAbyv361OYwubzqdA)
@@ -331,9 +329,9 @@ _Figure S1: (Left) Balanced accuracy of detection when provided examples from ne
 
 We find that explanations are not precise enough to differentiate between semantically similar counterexamples. However, this isn’t entirely the scorer’s fault. Similar features often co-occur on the same examples (​​[Bussman 2024](https://www.alignmentforum.org/posts/baJyjpktzmcmRfosq/stitching-saes-of-different-sizes)) which we do not filter for. We leave methods for scalably checking co-occurrence to future work. We think neighbor scoring is an effective solution as dictionaries become sparser and features more specific. 
 
-**Other Directions**
+### Other Directions
 
-***Formal Grammars for Autointerp***
+#### Formal Grammars for Autointerp
 
 Perhaps automated interpretability using natural language is too unreliable. With a bunch of known heuristics for SAE features, maybe we can generate a domain specific language for explanations, and use in-context learning or fine tuning to generate explanations using that grammar, which could potentially be used by an external verifier.
 
@@ -344,7 +342,7 @@ Perhaps automated interpretability using natural language is too unreliable. Wit
 
 The (loose) grammar above defines explanations like: “Activates on the token pizza in the context of crust”.
 
-***Debate***
+#### Debate
 
 We imagine a debate setup where each debater is presented with the same, shuffled set of examples. Each debater has access to a scratchpad and a quote tool. Thoughts in the scratchpad are hidden from the judge which is instructed to only accept verified quotes \[[Khan et al. 24](https://arxiv.org/abs/2402.06782)]. After a bout of reasoning, the debaters present an opening argument consisting of three direct, verified quotes and an explanation sampled at high temperature.           
 

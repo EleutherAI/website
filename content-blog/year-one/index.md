@@ -26,7 +26,7 @@ This post is a light-hearted trip down memory lane, and a look ahead for what mi
 
 ## From Humble Beginnings
 
-*The year is 2020, OpenAI has unveiled GPT-3, and the entire ML world is unimpressed. Well, not entirely... One small group of indomitable nerds still holds out against the scaling-deniers. And life is not easy for the symbolicist who garrison the fortified echochambers of Twitter...*
+*The year is 2020, OpenAI has unveiled GPT-3, and the entire ML world is unimpressed. Well, not entirely... One small group of indomitable nerds still holds out against the scaling-deniers. And life is not easy for the symbolicists who garrison the fortified echochambers of Twitter...*
 
 One day, on [Shawn Presser's](https://twitter.com/theshawwn) [Discord server](https://discord.com/invite/x52Xz3y), [one man](https://twitter.com/NPCollapse) with a history of [getting into trouble](https://towardsdatascience.com/gpt2-counting-consciousness-and-the-curious-hacker-323c6639a3a8) [building large models](https://medium.com/@NPCollapse/the-hacker-learns-to-trust-62f3c1490f51) saw a paper that almost made even *larger* model training seem possible.
 
@@ -80,7 +80,7 @@ And so, EleutherAI was born!
 
 {{<figure src="https://cdn.discordapp.com/attachments/730095596861521970/764565257565503548/canwegetopenai.png" alt="Me: Mom can we get OpenAI.<br>Mom: No we have OpenAI at home<br>OpenAI at home: EleutherAI" align="center" width="400"/>}}
 
-### The Tensorflow Days
+### The TensorFlow Days
 
 {{<figure>}}
 {{<discord/thread channel="general">}}
@@ -106,7 +106,7 @@ This was... not the easiest of things to do.
 
 Progress was hard won, no thanks to our eternal greatest foe: The kafkaesque nightmare that is TensorFlow documentation.
 
-{{<figure src="https://cdn.discordapp.com/attachments/729741769738158194/730814288658169876/tf_meme.png" caption="Artist rendition of the hole that is TensorFlow documentation." width=400 align="center"/>}}
+{{<figure src="https://cdn.discordapp.com/attachments/729741769738158194/730814288658169876/tf_meme.png" caption="Artist's rendition of the hole that is TensorFlow documentation." width=400 align="center"/>}}
 
 But our crack team of elite ML hackers was quickly making progress.
 
@@ -151,7 +151,7 @@ And quickly, GPT-Neo took shape. A horrible, horrible shape, but shape nonethele
 
 ### The Pile
 
-What is training code without its data, though? Training large models needs a large collection of data. A big heap if one will. A significant mass. A sort of mound, even. And so was born...
+What is training code without its data, though? Training large models needs a large collection of data. A big heap, if you will. A significant mass. A sort of mound, even. And so was born...
 
 {{<figure>}}
 {{<discord/thread>}}
@@ -246,7 +246,7 @@ Turns out, people *did* care.
 
 <!-- The response to the 1.3B and 2.7B GPT-Neo models was overwhelming. [EleutherAI/gpt-neo](https://github.com/EleutherAI/gpt-neo) trended in the top ten on GitHub for three consecutive days from March 22 through March 24, gaining thousands of stars in that time. -->
 
-This marked something of a new era of EleutherAI. We had already gotten a good amount of attention for the Pile, but now we had proven to the world we were the real deal. [WIRED](https://www.wired.com/) senior writer [Will Knight](https://www.wired.com/author/will-knight) published *[This AI Can Generate Convincing Text---and Anyone Can Use It](https://www.wired.com/story/ai-generate-convincing-text-anyone-use-it/)*, and other widely read articles follow. People were really excited to use our models!
+This marked something of a new era of EleutherAI. We had already gotten a good amount of attention for the Pile, but now we had proven to the world we were the real deal. [WIRED](https://www.wired.com/) senior writer [Will Knight](https://www.wired.com/author/will-knight) published *[This AI Can Generate Convincing Text---and Anyone Can Use It](https://www.wired.com/story/ai-generate-convincing-text-anyone-use-it/)*, and other widely read articles followed. People were really excited to use our models!
 
 {{<figure src=https://media.discordapp.net/attachments/788870744623939594/862519696904683551/unknown.png alt="Over 100000 Downloads from Hugging Face Model hub." align="center"/>}}
 
@@ -265,7 +265,7 @@ Honk!
 
 GPT-NeoX was going well, we finally had code that could scale all the way to 175B, and beyond. We just needed the hardware to be ready. Unfortunately, we timed things perfectly to line up with [a global GPU shortage](https://nvidianews.nvidia.com/news/nvidia-announces-first-quarter-fiscal-2022-revenue-tracking-above-outlook) which made things... challenging. We are continuing to work with [CoreWeave](https://www.coreweave.com/) to source the computational resources we need.
 
-While waiting for the code and resources for GPT-NeoX, we decided to put the spare TPUs to use training a larger model. A new codebase, [Mesh Transformer JAX](https://github.com/kingoflolz/mesh-transformer-jax) was written for simplicity and efficiency in training medium sized models (<20B). After the customary TPU wrangling (although much shorter this time due to JAX having far less footguns than Mesh Tensorflow), a 6B parameter model was trained to completion and released.
+While waiting for the code and resources for GPT-NeoX, we decided to put the spare TPUs to use training a larger model. A new codebase, [Mesh Transformer JAX](https://github.com/kingoflolz/mesh-transformer-jax) was written for simplicity and efficiency in training medium sized models (<20B). After the customary TPU wrangling (although much shorter this time due to JAX having far fewer footguns than Mesh TensorFlow), a 6B parameter model was trained to completion and released.
 
 {{<figure>}}
 {{<discord/thread channel="announcements">}}
@@ -311,7 +311,7 @@ We recommend [this wonderful post from Machine Learning at Berkeley](https://ml.
 
 </aside>
 
-Perhaps the most visually compelling development of {{<discord/channel "#art">}} is what became known as the "unreal engine trick." CLIP was trained on the internet, and the internet contains a lot of extremely high quality images that have a caption mentioning the Unreal Engine. CLIP noticed this, and we quickly realized that you could *vastly* improve the generates images by simply mentioning the Unreal Engine:
+Perhaps the most visually compelling development of {{<discord/channel "#art">}} is what became known as the "unreal engine trick." CLIP was trained on the internet, and the internet contains a lot of extremely high quality images that have a caption mentioning the Unreal Engine. CLIP noticed this, and we quickly realized that you could *vastly* improve the generated images by simply mentioning the Unreal Engine:
 
 {{<figure>}}
 {{<discord/thread channel="art">}}

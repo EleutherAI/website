@@ -2,7 +2,7 @@
 title: "A Preliminary Exploration into Factored Cognition with Language Models"
 categories: ["Research Notes"]
 author: ["Leo Gao", "Kyle McDonell", "Laria Reynolds", "Stella Biderman"]
-# description: "We evaluate different fewshot prompts on GPT-3 to see how it changes performance."
+description: "Exploring factored cognition by decomposing arithmetic tasks for GPT-3."
 date: 2021-10-25T14:00:00-06:00
 draft: False
 mathjax: True
@@ -17,7 +17,7 @@ For our synthetic task, we chose a series of various arithmetic tasks.
 Aside from the ease of generating examples, another advantage of
 arithmetic related task settings is GPT-3's inability to perform
 even simple mathematical operations. While there is evidence to suggest
-that this may be due to the peculiarities of the BPE encoding,
+that this may be due to the peculiarities of the byte-pair encoding (BPE),
 these fixes are very narrowly domain specific to mathematics and not
 generalizable to the kinds of tasks we would like general aligned AI
 systems to be able to perform. Instead, we show that by decomposing the
@@ -28,7 +28,7 @@ models would struggle with directly computing the answers to these
 problems, especially given the fixed amount of computation that
 Transformers are able to harness in one step.
 
-### Nested Expression Evaluation {#nestedeval}
+## Nested Expression Evaluation {#nestedeval}
 
 {{<figure caption="Example Nested Expression Evaluation prompt. <b>Bold</b> indicates prompt. <u>Underline</u> indicates answer extracted from response.">}}
 <pre style="white-space: pre-wrap;">
@@ -36,13 +36,13 @@ Transformers are able to harness in one step.
 <b>(9 + (1 - 3) * 7) * 6 =</b> (9 + -2 * 7) * 6 = (9 + -14) * 6 = -5 * 6 = <u>-30</u>
 <b>(2 + (5 - 1) * 8) * 9 =</b> (2 + 4 * 8) * 9 = (2 + 32) * 9 = 34 * 9 = <u>306</u>
 <b>2 * (4 - 1 * (2 - 4)) =</b> 2 * (4 - 1 * -2) = 2 * (4 - -2) = 2 * 6 = <u>12</u>
-<b>(6 * (5 * 2 - 3) - 9) =</b> (6 * (10 - 3) - 9) = (6 * 7 - 9) = (42 - 9) = <u>33</u> 
+<b>(6 * (5 * 2 - 3) - 9) =</b> (6 * (10 - 3) - 9) = (6 * 7 - 9) = (42 - 9) = <u>33</u>
 </pre>
 {{</figure>}}
 
 We explore decomposing a task into a series of steps, without any
 branching. The main advantages of using nested expressions are that they
-are easy to generate and automatically evaluate, and they give naturally
+are easy to generate and automatically evaluate, and they lend themselves naturally
 to stepwise decomposition, as the expression must be evaluated from the
 inside out.
 
@@ -52,7 +52,7 @@ addition/subtraction, such that to evaluate the expression at least
 `depth` operations must be carried out in series in the correct order.
 In terms of difficulty, the `depth` $= 1$ task corresponds roughly to
 the \"One-digit composite (1DC)\" task in the GPT3 paper, though it is slightly
-more difficult because the order of multiplication and addition are not
+more difficult because the order of multiplication and addition is not
 guaranteed to be the same.
 
 We consider three different settings for this experiment:
@@ -186,7 +186,7 @@ nesting in the higher depth settings. In addition to the complexity of
 the step being too large, one other explanation is that the few-shot
 prompt was insufficient in specifying the task to the model.
 
-### Branched Nested Function Evaluation {#nestedbranchedeval}
+## Branched Nested Function Evaluation {#nestedbranchedeval}
 
 {{<figure caption="Example Branched Nested Function Evaluation Decomposition prompt">}}
 <pre style="white-space: pre-wrap;"><b>Today we will be looking at evaluating functions.
@@ -243,13 +243,14 @@ Nested Expression Evaluation technique is used as well.
 <table>
 <thead>
 <tr class="odd">
-<th style="text-align: right;"><span>Depth</span></td>
-<th style="text-align: center;" colspan="2">Accuracy</td>
-
+<th style="text-align: right;"><span>Depth</span></th>
+<th style="text-align: center;" colspan="2">Accuracy</th>
+</tr>
 <tr class="even">
-<th style="text-align: right;"></td>
-<th style="text-align: center;"><code>factored</code></td>
-<th style="text-align: center;"><code>direct</code></td>
+<th style="text-align: right;"></th>
+<th style="text-align: center;"><code>factored</code></th>
+<th style="text-align: center;"><code>direct</code></th>
+</tr>
 </thead>
 <tbody>
 <tr class="odd">
@@ -278,7 +279,7 @@ the accuracy of depth 1, on branched depth 2 is less than a third the
 accuracy of depth 1. Overall, this shows that the factoring approach
 also works for tasks with large amounts of branching.
 
-### Open Ended Math Problem Evaluation
+## Open Ended Math Problem Evaluation
 
 Since the previous experiments focused on very simple mathematical
 tasks, we also conducted an experiment using significantly more
@@ -302,10 +303,10 @@ of rationales.
 
 {{<figure caption="Metrics for the Open Ended Math Problem Evaluation experiment.">}}
 
-Fewshot $k$ |  Steps  | Accuracy 
------------:|--------:|---------: 
-          0 |      1  |   21.81 
-          5 |      1  |   20.77 
+Fewshot $k$ |  Steps  | Accuracy
+-----------:|--------:|---------:
+          0 |      1  |   21.81
+          5 |      1  |   20.77
           5 |      2  |   22.48
 
 {{</figure>}}

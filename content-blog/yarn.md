@@ -1,12 +1,12 @@
 ---
 title: "Extending the RoPE"
 date: 2023-11-13T22:00:00-00:00
-description: "What we've been up to for the past year EleutherAI."
+description: "How position interpolation, NTK-aware methods, and YaRN extend the context windows of language models using RoPE."
 author: ["Honglu Fan", "Bowen Peng", "Jeffrey Quesnelle"]
 categories: ["Meta"]
 cover:
     image: /images/blog/yarn/yarn.png
-    alt: The shadowy hacker group Eleuther
+    alt: Twisted strands of yarn loop around a glowing spiral against a star-filled background
     caption: "SDXL prompt: close up of a long rope made of yarn weaving through a hyperdimensional space heading off into the cosmos"
     relative: True
 ShowToc: true
@@ -94,7 +94,7 @@ $$
 
 A commonly overlooked aspect in rotary embedding is the relationship between the “wavelengths” and the sequence length. Let us start by putting down the definition of wavelength in our context.
 
-Recall that in the [definition of RoPE](#rotary-position-embedding)), each hidden state of the query and key vectors is multiplied by trigonometric functions. For a fixed $d$-th hidden state, the coefficients $\text{cos} m\theta_d, \text{sin} m\theta_d$ (as functions of $m$) are periodic with the same frequency. The *wavelength* at the $d$-th hidden state is calculated as follows:
+Recall that in the [definition of RoPE](#rotary-position-embedding), each hidden state of the query and key vectors is multiplied by trigonometric functions. For a fixed $d$-th hidden state, the coefficients $\text{cos} m\theta_d, \text{sin} m\theta_d$ (as functions of $m$) are periodic with the same frequency. The *wavelength* at the $d$-th hidden state is calculated as follows:
 $$
 \lambda_d = 2\pi b’^{\frac{2d}{|D|}}.
 $$
@@ -123,7 +123,7 @@ $$
     \dfrac{r - \alpha}{\beta - \alpha}, &\text{otherwise}
 \end{cases}
 $$
-depending on two extra parameters $\alpha$ and $\beta$. The $\alpha, \beta$ is tuned on a case-by-case basis, and we found that $\alpha=1, \beta=32$ is ideal for Llama family models. Along with $g(m) = m$, we call this interpolation method the "NTK-by-parts" interpolation.
+depending on two extra parameters $\alpha$ and $\beta$. The parameters $\alpha$ and $\beta$ are tuned on a case-by-case basis, and we found that $\alpha=1, \beta=32$ is ideal for Llama family models. Along with $g(m) = m$, we call this interpolation method the "NTK-by-parts" interpolation.
 
 The following chart compares the wavelengths between the RoPE, PI and "NTK-by-parts" in the case where the pretrained context length is 2048 and we use a scale factor of 16.
 
@@ -158,7 +158,7 @@ Overall, our YaRN method refers to a combination of this temperature-scaling tec
 
 ## Some notes on how you can use YaRN for your own model
 
-The YaRN parameters for Llama 2 may not work out-of-box for different model classes. YaRN is a combination of NTK-by-parts and temperature scaling on attention weights. Throughout the implementation of YaRN, there are a few parameters one can tune:
+The YaRN parameters for Llama 2 may not work out of the box for different model classes. YaRN is a combination of NTK-by-parts and temperature scaling on attention weights. Throughout the implementation of YaRN, there are a few parameters one can tune:
 $\alpha$: deciding the starting point of the ramp function,
 $\beta$: deciding the end point of the ramp function,
 $t$: the temperature scale,
@@ -216,12 +216,10 @@ We would also like to point out that there are other recent works on context len
 # References
 [1] J. Su, Y. Lu, S. Pan, A. Murtadha, B. Wen, and Y. Liu. RoFormer: Enhanced transformer with rotary position embedding, 2022. arXiv: 2104.09864.
 
-[2] kaiokendev. Things I’m learning while training superhot., 2023. URL https://kaiokendev.
-github.io/til#extending-context-to-8k
+[2] kaiokendev. Things I’m learning while training superhot., 2023. URL https://kaiokendev.github.io/til#extending-context-to-8k
 
 [3] S. Chen, S. Wong, L. Chen, and Y. Tian. Extending context window of large language models via positional interpolation, 2023. arXiv: 2306.15595.
 
 [4] M. Tancik, P. P. Srinivasan, B. Mildenhall, S. Fridovich-Keil, N. Raghavan, U. Singhal, R. Ra-mamoorthi, J. T. Barron, and R. Ng. Fourier features let networks learn high frequency functions in low dimensional domains. In Proceedings of the 34th International Conference on Neural Information Processing Systems, NIPS’20, Red Hook, NY, USA, 2020. Curran Associates Inc. ISBN 9781713829546.
-
 
 

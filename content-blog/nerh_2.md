@@ -15,7 +15,7 @@ For anyone around New England or those willing to journey to Rhode Island, consi
 
 Feel free to connect with us through our NERH Discord: (Kindly ensure you're keen on attending in person before joining.) https://discord.gg/yxC4BrUyBu
 
-For academic referencing, the DOI entry for this blog post can be found at the conclusion.
+For academic referencing, the citation entry for this blog post can be found at the conclusion.
 
 
 # Sparse Autoencoders Find Features in Reward Models
@@ -36,16 +36,16 @@ Our goal is to understand the features represented in reward models and how they
 
 
 ## Approach
-We learned an SAE on the 10th layer of Pythia-6.9B-RM hosted on by [usvsnsp](https://huggingface.co/usvsnsp/pythia-6.9b-rm-full-hh-rlhf). We then ablate each feature one at a time to see the effect on reward, sorting features by their effect. This then gives us a list of the features that most affect reward, both positively and negatively.
+We learned an SAE on the 10th layer of Pythia-6.9B-RM hosted by [usvsnsp](https://huggingface.co/usvsnsp/pythia-6.9b-rm-full-hh-rlhf). We then ablate each feature one at a time to see the effect on reward, sorting features by their effect. This then gives us a list of the features that most affect reward, both positively and negatively.
 
 
 These features can then be analyzed by both:
 1. Datapoints that activate this feature - running across a large dataset, we can collect which datapoints cause this feature to activate. We specifically collect datapoints across a range of activations since that gives a more accurate representation of what a feature represents.
-2. Effect on reward when removing this feature - we can remove this feature’s activation by effectively zero-ing out the row that represents this feature. We can then see that, when the model can’t represent this concept as usual, how does the RM’s scoring of the text change.
+2. Effect on reward when removing this feature - we can remove this feature’s activation by effectively zero-ing out the row that represents this feature. We can then see how the RM’s scoring of the text changes when the model can’t represent this concept as usual.
 
 
 ## Results
-Early results show that the reward model is strongly tilted towards stronger negative features i.e. detecting features of what NOT to do. Some of these features include politics, fighting, and pregnancy, although no systematic analysis of these features have been done beyond a cursory glance. 
+Early results show that the reward model is strongly tilted towards stronger negative features i.e. detecting features of what NOT to do. Some of these features include politics, fighting, and pregnancy, although no systematic analysis of these features has been done beyond a cursory glance.
 
 
 ## Future Work
@@ -62,10 +62,10 @@ This work explores the use of SAEs to identify and understand features in a RM. 
 Authors: Chase Blagden, Arjun Prakash, Kevin A. Wang
 
 ## Introduction
-In RLHF a key part of the process is collecting the preference data used to train the reward model. However, gathering this data can be expensive and time consuming. RLAIF attempts to circumvent this by using a LLM to produce completions and then rank the completions itself. To make a set of diverse, synthetic preference data we decide to use Monte Carlo tree search (MCTS) to generate completions.
+In RLHF a key part of the process is collecting the preference data used to train the reward model. However, gathering this data can be expensive and time consuming. RLAIF attempts to circumvent this by using an LLM to produce completions and then rank the completions itself. To make a set of diverse, synthetic preference data we decide to use Monte Carlo tree search (MCTS) to generate completions.
 
 ## Motivation
-We hypothesize that having a tree of different possible completions and their rankings for single prompt will provide a richer source of signal to signal for a rewards model and ultimately how it is distilled into a LLM rather than just having a pair of distinct completions for each prompt in a dataset.
+We hypothesize that having a tree of different possible completions and their rankings for a single prompt will provide a richer source of signal for a reward model and ultimately how it is distilled into an LLM rather than just having a pair of distinct completions for each prompt in a dataset.
 
 ## Project Goal:
 To create a synthetic preference dataset of prompts with completions by traversing a tree created via MCTS.
@@ -76,7 +76,7 @@ Once we have this rewards dataset for the knapsack problem, we can then use RL t
 As a base case, we will also sample two completions per each instance of a problem, and then compute the values of each of those to form a dataset. If our hypothesis is true, then we should see that the dataset formed via MCTS should give a higher performing model than our base case dataset.
 
 ## Future Work
-Next, we want to apply to create a synthetic preference dataset for natural language instead. An issue with this domain is that we no longer have an oracle - unlike the knapsack problem - for ranking completions. To circumvent this, we can use another LLM like GPT-4 to rank the quality of a competition to obtain a score for it. We can then use these scores to rank the completions to create the final preference dataset. 
+Next, we want to apply this technique to create a synthetic preference dataset for natural language instead. An issue with this domain is that we no longer have an oracle - unlike the knapsack problem - for ranking completions. To circumvent this, we can use another LLM like GPT-4 to rank the quality of a completion to obtain a score for it. We can then use these scores to rank the completions to create the final preference dataset.
 
 ## Summary
 Using the RLHF method, we aim to produce synthetic preference data via Monte Carlo tree search (MCTS). We initially test with the knapsack problem, using a language model for MCTS policy. After tree traversal and reward assignment, RL optimization enhances the policy model's performance. Future plans involve adapting this for natural language datasets, leveraging LLMs like GPT-4 for scoring completions without a clear oracle.
@@ -89,7 +89,7 @@ Authors: Louis Castricato, Suraj Anand, Yong Zheng-Xin
 
 ## Introduction
 
-The psychological "pink elephant" problem highlights the challenge of trying to avoid thinking about something, only to become fixated on it. This concept mirrors issues in language models where networks generate undesirable content even when programmed (i.e. prompted) to avoid it. Drawing from this analogy, our project explores the use of Reinforcement Learning from Artifical Intelligence Feedback (RLAIF) to constrain a language model's outputs, aiming to prevent such unwanted responses and **stick to the desirable content** at the same time. For example, a company may not want its customer service language model to generate responses that include references to competitors when being asked about their competitors. Likewise, it may be critical to prevent language models from generating toxic or dangerous content, or to ensure that certain models remain specialized and don't deviate into unrelated topics.
+The psychological "pink elephant" problem highlights the challenge of trying to avoid thinking about something, only to become fixated on it. This concept mirrors issues in language models where networks generate undesirable content even when programmed (i.e. prompted) to avoid it. Drawing from this analogy, our project explores the use of Reinforcement Learning from Artificial Intelligence Feedback (RLAIF) to constrain a language model's outputs, aiming to prevent such unwanted responses and **stick to the desirable content** at the same time. For example, a company may not want its customer service language model to generate responses that include references to competitors when being asked about their competitors. Likewise, it may be critical to prevent language models from generating toxic or dangerous content, or to ensure that certain models remain specialized and don't deviate into unrelated topics.
 
 ## Contributions
 - Datasets: We curated a dataset of 200K multi-turn conversations on the Pink Elephant problem.
@@ -102,11 +102,11 @@ Our goal is to leverage RLAIF in order to restrict a language model from generat
 
 1. Topics Generation: We prompted GPT-4 on the topics that are normally mentioned in daily conversations.
 
-2. Pink Elephant Pairs (PEP): Based on the set of topics, we prompted GPT-4 to generate diverse contrastive pairs (which is defined as pairs of terms that differ on certain characteristics but share similar concept) such as "Nike - Adidas" for the topic of sports, "Taj Mahal - Ellora Caves" for travel, and "iOS - Android" for technology. 
+2. Pink Elephant Pairs (PEP): Based on the set of topics, we prompted GPT-4 to generate diverse contrastive pairs (pairs of terms that differ in certain characteristics but share a similar concept) such as "Nike - Adidas" for the topic of sports, "Taj Mahal - Ellora Caves" for travel, and "iOS - Android" for technology.
 
-3. Pink Conversation Generation: For each pair, create fifty distinct plans outlining how a conversational agent might talk about on the particular topic with the PEP such that the conversation naturally shifts from one term to the other. Then, for each plan, generate a conversational dialogue between a user and an agent. The final output would be like the user starts talking about Nike and asks about Adidas at the end of the conversation.
+3. Pink Conversation Generation: For each pair, create fifty distinct plans outlining how a conversational agent might talk about the particular topic with the PEP such that the conversation naturally shifts from one term to the other. Then, for each plan, generate a conversational dialogue between a user and an agent. The final output would be like the user starts talking about Nike and asks about Adidas at the end of the conversation.
 
-4. Grey Conversation Generation: Use `autocrit` to generate a critique of the  agent's last utterance in the dialogue that specifies an unwanted reference to pink-elephant term and a revision of the dialogue that removes this unwanted reference and replaces with the desired reference. Now, we would obtain a conversational dialogue between a user and an agent where the user asks about the pink-elephant term but the agent not only refuses to engage, but naturally brings the conversation back to the desired term.
+4. Grey Conversation Generation: Use `autocrit` to generate a critique of the  agent's last utterance in the dialogue that specifies an unwanted reference to pink-elephant term and a revision of the dialogue that removes this unwanted reference and replaces it with the desired reference. Now, we would obtain a conversational dialogue between a user and an agent where the user asks about the pink-elephant term but the agent not only refuses to engage, but naturally brings the conversation back to the desired term.
 
 
 
@@ -115,7 +115,7 @@ Our goal is to leverage RLAIF in order to restrict a language model from generat
 ## Progress since last hackathon
 - **Data generation pipeline**: Previously, the data generation generated PEP, which makes it difficult to scale up the number of PEP without overlapping or degradation in quality. To overcome this, we introduce a step before PEP generation, which is to generate diverse topics. Then, we generate PEP conditioned on the topics.
 - **Critique/Revision**: Previously, we asked the model to regenerate the whole conversation, which can be computationally expensive. Now, we only ask the model to generate (revise) the last turn of the conversation.
-- **ST Tensor** - We can obtain computation graph with `ST` tensor that wraps around the string text.
+- **ST Tensor** - We can obtain a computation graph with `ST` tensor that wraps around the string text.
 - **async** - Our conversation generation and critique/revision now support `async` operations.
 
 

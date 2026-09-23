@@ -9,7 +9,7 @@ ShowToc: true
 draft: False
 ---
 
-**EleutherAI is proud to introduce a joint project with [Cerebras](https://cerebras.ai/) on spreading the implementation details of [muTransfer](https://github.com/microsoft/mup) with the wider model training community!**
+**EleutherAI is proud to introduce a joint project with [Cerebras](https://cerebras.ai/) to share the implementation details of [muTransfer](https://github.com/microsoft/mup) with the wider model training community!**
 
 **We provide a simple port of μP to the popular nanoGPT library at https://github.com/EleutherAI/nanoGPT-mup, and encourage readers to refer to this implementation throughout this blog.**
 
@@ -39,7 +39,7 @@ Since the first set of SP large language model (LLM) families, it has been commo
 
 ## 2. Improved loss at large scale due to improved HP tuning
 
-As model size grows it becomes more expensive to perform an extensive HP search, resulting in sub-optimally tuned large models. [Yang et al.](https://arxiv.org/abs/2203.03466) showed that by performing a 200 sample random HP search with a 40M parameter model, they could use the optimal HPs on a GPT-3 6.7B run and achieve comparable performance to GPT3-13B [Brown et al.](https://arxiv.org/abs/2005.14165). In other words, that roughly translates to a 2x compute savings to reach the same performance! Additionally, [Dey et al.](https://arxiv.org/abs/2309.11568) performed training recipe ablations with a 111M parameter model, then transferred their findings to a 3B parameter model and achieved performance comparable to contemporary 7B parameter models, while using 3.3x less training FLOPs!
+As model size grows it becomes more expensive to perform an extensive HP search, resulting in sub-optimally tuned large models. [Yang et al.](https://arxiv.org/abs/2203.03466) showed that by performing a 200 sample random HP search with a 40M parameter model, they could use the optimal HPs on a GPT-3 6.7B run and achieve comparable performance to GPT3-13B [Brown et al.](https://arxiv.org/abs/2005.14165). In other words, that roughly translates to a twofold reduction in compute to reach the same performance! Additionally, [Dey et al.](https://arxiv.org/abs/2309.11568) performed training recipe ablations with a 111M parameter model, then transferred their findings to a 3B parameter model and achieved performance comparable to contemporary 7B parameter models, while using 3.3 times fewer training FLOPs!
 
 ## 3. Stable training - significantly decreased danger of instability at large scale
 
@@ -61,7 +61,7 @@ The benefits of μP add up to enable better research:
 
 # A Simple Approach to the μP Math
 
-At a high-level, training neural networks is similar to simulating a partial differential equation that is developing over time. We would like that "simulation" to proceed smoothly and quickly, without any instabilities. To achieve stable and compute-efficient training, we can enforce certain invariants that keep each layer stable. Here we discuss the basic building blocks for these invariants, and then how they fit into layers and full models.
+At a high level, training neural networks is similar to simulating a partial differential equation that is developing over time. We would like that "simulation" to proceed smoothly and quickly, without any instabilities. To achieve stable and compute-efficient training, we can enforce certain invariants that keep each layer stable. Here we discuss the basic building blocks for these invariants, and then how they fit into layers and full models.
 
 ## Basic Building Block: Controlled Activation Magnitudes
 
@@ -156,7 +156,7 @@ Next we modify our parameterization to include the μP adjustments for hidden we
 
 **Figure 6:** Coordinate check for SP with μP hidden init. var. ($\sigma_{\mu P}^2 = \sigma_\text{base}^2 / m_d$)
 
-Next we modify our parameterization to include the μP adjustments for hidden learning rate: $η_{μP} = η_\text{base} / m_d$. Figure 7 shows these adjustments now ensure the size of hidden activations do not scale proportionally to model width, but the output logit scale still grows.
+Next we modify our parameterization to include the μP adjustments for hidden learning rate: $η_{μP} = η_\text{base} / m_d$. Figure 7 shows these adjustments now ensure the size of hidden activations does not scale proportionally to model width, but the output logit scale still grows.
 
 {{<figure src="/images/blog/mutransfer/parameterization-fig-07-scaled.jpg" alt="Coordinate check for SP with μP hidden init. var. and μP hidden LR" align="center"/>}}
 

@@ -31,7 +31,7 @@ We are interested in two key outcomes:
 - whether importance sampling is a good estimate of the probability of hacking, when that probability is very small
 - whether changes in IS-estimated hacking probability are predictive of whether a model is "on track" to learn to hack a particular problem over the course of training
 
-If we could reliably and precisely estimate hacking rates even when hacking is extremely rare, this could help us evaluate the safety of reinforcement learning runs; for example if the hack rate is many orders of magnitude less than the total number of completions in the run, then we could conclude that the run is very unlikely to produce a reward hacker. However, this is hard to estimate -- because there are so many different text strings that all yield hacks, our proposal distribution could easily miss the highest probability strings and dramatically underestimate the hack rate. Furthermore, even if we could precisely measure the hack rate for a particular class of hacks, we may overlook other hacks with higher probability. Precisely estimating the hack rate is therefore desirable, but may be ambitious a target.
+If we could reliably and precisely estimate hacking rates even when hacking is extremely rare, this could help us evaluate the safety of reinforcement learning runs; for example if the hack rate is many orders of magnitude less than the total number of completions in the run, then we could conclude that the run is very unlikely to produce a reward hacker. However, this is hard to estimate -- because there are so many different text strings that all yield hacks, our proposal distribution could easily miss the highest probability strings and dramatically underestimate the hack rate. Furthermore, even if we could precisely measure the hack rate for a particular class of hacks, we may overlook other hacks with higher probability. Precisely estimating the hack rate is therefore desirable, but may be an ambitious target.
 
 However, even if we can't precisely estimate the probability of a hack, our estimates may be sufficiently robustly correlated with hacking that we can predict the emergence of hacking by looking at the trend in the estimates. This is our more realistically achievable objective.
 
@@ -82,7 +82,7 @@ The IS estimate of the spontaneous exploit probability for a class of exploits $
 
 $$\hat{p}(E|T) = \frac{1}{|T|} \sum_{t\in T} \frac{1}{m_t} \sum_{i=0}^{m_t} E_t(x_i) \frac{p_n(y_i|t)}{q_n(y_i|t)}$$
 
-where $x_i$ is the completion and $y_i$ is the prefix for attempt $i$ of problem $t$ and $E_t(x_i)=1$ iff $x_i$ is a succesful exploit. $p_n(y_i|t)$ and $q_n(y_i | t)$ are the prefix probabilities under the subject model and proposal distribution respectively. 
+where $x_i$ is the completion and $y_i$ is the prefix for attempt $i$ of problem $t$ and $E_t(x_i)=1$ iff $x_i$ is a successful exploit. $p_n(y_i|t)$ and $q_n(y_i | t)$ are the prefix probabilities under the subject model and proposal distribution respectively.
 
 While this is an unbiased estimate as long as $p_n>0$ implies $q_n>0$, in practice it is almost always an underestimate. This happens when $q_n$ puts low weight on the most probable exploit-causing prefixes according to $p_n$. This leads to a very high variance estimate, where the importance weights follow a very heavy tailed distribution.
 
@@ -98,7 +98,7 @@ We compared our fine-tuned donor approach against two baselines:
 
 **Claude-generated prefills:** We prompt a separate LLM (Claude Sonnet 4.6) to generate exploit-encouraging reasoning for each problem, relevant to the problem content and the exploit hints found in the statement. This produces per-problem, exploit-relevant reasoning — but from a completely different model family with different reasoning patterns.
 
-*A note on Qwen prefills*: While GPT-OSS trained as a donor model often exhibited exploit related reasoning early in its generations - often within the first four words - Qwen models generally did not exhibit any exploit related reasoning until halfway or more through reasoning, and so Qwen reasoning interpolation often did not steer any model towards exploiting unless we included more than 1000 words of prefix reasoning, which in turn lead to extremely high variance in IS estimates. To address this, we had an LLM identify common flags that indicated the appearance of exploit-related reasoning, and chose this point as the start of the prefill.
+*A note on Qwen prefills*: While GPT-OSS trained as a donor model often exhibited exploit related reasoning early in its generations - often within the first four words - Qwen models generally did not exhibit any exploit related reasoning until halfway or more through reasoning, and so Qwen reasoning interpolation often did not steer any model towards exploiting unless we included more than 1000 words of prefix reasoning, which in turn led to extremely high variance in IS estimates. To address this, we had an LLM identify common flags that indicated the appearance of exploit-related reasoning, and chose this point as the start of the prefill.
 
 ## Baseline exploit rates
 
@@ -160,7 +160,7 @@ The broad picture above can also be seen in the full trajectory of IS and ground
 
 ## Prediction using importance sampling
 
-Even if IS estimates do not give us robust estimates of the probability of an exploit early in training, we are interested in whether changes in IS estimates are informative about changes in the probability of exploits. To test this, we traned an additional subject model: a control model trained on generic coding/mathematical data via SFT.
+Even if IS estimates do not give us robust estimates of the probability of an exploit early in training, we are interested in whether changes in IS estimates are informative about changes in the probability of exploits. To test this, we trained an additional subject model: a control model trained on generic coding/mathematical data via SFT.
 
 We aimed to predict from the first two or three checkpoints whether the model was on track to exceed an exploit rate of 10% at any point before the end of training. In total, we had 6 positive exploit/model classes and 10 negatives (the control model never learned to exploit, and two exploit classes did not exceed the 10% threshold under exploit training). The threshold was chosen arbitrarily, no other thresholds were explored.
 
@@ -308,4 +308,4 @@ $$ \frac{1}{|T|} \sum_{t\in T} p(E_t|t) \approx \frac{1}{|T|} \sum_{t\in T} \fra
 
 which we can compute stably using nested applications of $\mathrm{logsumexp}$.
 
-For reasoning interpolation, we we select reasoning examples where the donor model exploits. Thus *technically* we should compute the conditional probability $q_n(y_i|t) = p_\mathrm{donor}(y_i|t, E)$ rather than the unconditional probability $q_n(y_i|t)=p_\mathrm{donor}(y_i|t)$. However, to save compute we only generated 1-3 completions for each combination of problem, checkpoint and prefix length, so we can't estimate $p_\mathrm{donor}(y|t, E)$ particularly well. However, we also found empirically on a subset of problems that the fraction $\frac{p_{\mathrm{donor}}(E|y,t)}{p_\mathrm{donor}(E|t)}$ was between $0.78$ and $1.24$ with an average of $0.98$, a tiny effect. Thus we ignored the conditioning and just used $q_n(y_i|t):=p_\mathrm{donor}(y_i|t)$.
+For reasoning interpolation, we select reasoning examples where the donor model exploits. Thus *technically* we should compute the conditional probability $q_n(y_i|t) = p_\mathrm{donor}(y_i|t, E)$ rather than the unconditional probability $q_n(y_i|t)=p_\mathrm{donor}(y_i|t)$. However, to save compute we only generated 1-3 completions for each combination of problem, checkpoint and prefix length, so we can't estimate $p_\mathrm{donor}(y|t, E)$ particularly well. However, we also found empirically on a subset of problems that the fraction $\frac{p_{\mathrm{donor}}(E|y,t)}{p_\mathrm{donor}(E|t)}$ was between $0.78$ and $1.24$ with an average of $0.98$, a tiny effect. Thus we ignored the conditioning and just used $q_n(y_i|t):=p_\mathrm{donor}(y_i|t)$.

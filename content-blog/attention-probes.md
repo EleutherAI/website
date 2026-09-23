@@ -8,7 +8,7 @@ mathjax: true
 draft: false
 ---
 
-Linear probes are a simple way to classify internal states of language models. They are trained either on a per-token basis or on a compressed representation of latent vectors from multiple tokens. This reprsentation can be gathered with mean pooling, or the last token could be used.
+Linear probes are a simple way to classify internal states of language models. They are trained either on a per-token basis or on a compressed representation of latent vectors from multiple tokens. This representation can be gathered with mean pooling, or the last token could be used.
 
 We propose *attention probes*, a way to avoid pooling by collecting hidden states with an attention layer. The pseudocode is as follows:
 
@@ -37,13 +37,13 @@ def attention_probe(
 
 As you can see, the attention probe has multiple heads. Each head finds a single attention logit for a token instead of a logit for each pair of tokens. We add a learnable position bias and take softmax to find attention probabilities. Again, there is only one probability per token and head. This can be thought of as cross-attention with one learned query token.
 
-We then perform the value projection. Because the output dimension of a probe is often very small, we do not need to factorize the projection into value and output as MHA does. There is a version of the output for each token and head, and we sum them up after weighting by attention probabilities to get the final output.
+We then perform the value projection. Because the output dimension of a probe is often very small, we do not need to factorize the projection into value and output as multi-head attention (MHA) does. There is a version of the output for each token and head, and we sum them up after weighting by attention probabilities to get the final output.
 
 ## Related work
 
 [McKenzie et al. (2025)](https://arxiv.org/abs/2506.10805v1) proposed an architecture for probes that is equivalent to the attention probe formulation from above, but with only one head and no position bias. They find that it has performance greater than or equal to other types of probes, including last-token and mean probes, and that last-token probes perform worse than any aggregation method. We use a different set of datasets, so our results are not directly comparable. Our selection of optimizers and hyperparameters is also different.
 
-[Kantamneni et al. (2025)](https://arxiv.org/abs/2502.16681) is the earliest appearance of attention probes known to us. The attention probes take a secondary role in the paper. They are also single-headed. When combined with last-token probes via the "quiver" method, it brings down the win rate of SAE probes.
+[Kantamneni et al. (2025)](https://arxiv.org/abs/2502.16681) is the earliest appearance of attention probes known to us. The attention probes take a secondary role in the paper. They are also single-headed. When combined with last-token probes via the "quiver" method, it brings down the win rate of sparse autoencoder (SAE) probes.
 
 ## Datasets
 
@@ -75,45 +75,45 @@ We trained the probes in the following way:
 
 On the MOSAIC datasets, mean probes outperform last-token probes, as in Costa et al. (2025). However, on the Neurons-In-A-Haystack (NiAH) datasets, the opposite is true.
 
-<img src="/images/blog/attention-probes/plots/acc_n_classes_h-last_h-mean.png" width="48%" style="display: inline-block"/>
-<img src="/images/blog/attention-probes/plots/acc_n_classes_hay-mean_hay-last.png" width="48%" style="display: inline-block"/>
+<img src="/images/blog/attention-probes/plots/acc_n_classes_h-last_h-mean.png" alt="MOSAIC probe accuracy: mean probes generally exceed last-token probes. The dashed diagonal marks equal accuracy; color indicates the number of classes." width="48%" style="display: inline-block"/>
+<img src="/images/blog/attention-probes/plots/acc_n_classes_hay-mean_hay-last.png" alt="Neurons In A Haystack probe accuracy: last-token probes generally exceed mean probes; the dashed diagonal marks equal accuracy." width="48%" style="display: inline-block"/>
 
 Mean probes do better with the LBFGS optimizer compared to AdamW:
 
-![](/images/blog/attention-probes/plots/acc_n_classes_h-mean-adam_h-mean.png)
+![Mean-probe accuracy with Adam on the horizontal axis and the comparison mean probe on the vertical axis. Most points lie on or above the equal-accuracy diagonal.](/images/blog/attention-probes/plots/acc_n_classes_h-mean-adam_h-mean.png)
 
-The 8-head attention probe, trained with AdamW, mostly outperforms mean probes, and always outpeforms mean probes trained with AdamW.
+The 8-head attention probe, trained with AdamW, mostly outperforms mean probes, and always outperforms mean probes trained with AdamW.
 
-<img src="/images/blog/attention-probes/plots/acc_n_classes_h-mean_h-attn-8.png" width="48%" style="display: inline-block"/>
-<img src="/images/blog/attention-probes/plots/acc_n_classes_h-mean-adam_h-attn-8.png" width="48%" style="display: inline-block"/>
+<img src="/images/blog/attention-probes/plots/acc_n_classes_h-mean_h-attn-8.png" alt="Accuracy of mean probes versus eight-head attention probes. Most points lie above the equal-accuracy diagonal, favoring the attention probes." width="48%" style="display: inline-block"/>
+<img src="/images/blog/attention-probes/plots/acc_n_classes_h-mean-adam_h-attn-8.png" alt="Accuracy of Adam-trained mean probes versus eight-head attention probes. Most points lie above the equal-accuracy diagonal." width="48%" style="display: inline-block"/>
 
 The single-head attention probe attains mixed results, even when compared to an AdamW-trained mean probe.
 
-<img src="/images/blog/attention-probes/plots/acc_n_classes_h-mean_h-attn-1.png" width="48%" style="display: inline-block"/>
-<img src="/images/blog/attention-probes/plots/acc_n_classes_h-mean-adam_h-attn-1.png" width="48%" style="display: inline-block"/>
+<img src="/images/blog/attention-probes/plots/acc_n_classes_h-mean_h-attn-1.png" alt="Accuracy of mean probes versus single-head attention probes, with points on both sides of the equal-accuracy diagonal." width="48%" style="display: inline-block"/>
+<img src="/images/blog/attention-probes/plots/acc_n_classes_h-mean-adam_h-attn-1.png" alt="Accuracy of Adam-trained mean probes versus single-head attention probes, with points on both sides of the equal-accuracy diagonal." width="48%" style="display: inline-block"/>
 
 Going from 1 head to 2 heads seems to have a similar effect to going from 2 heads to 8 heads.
 
-<img src="/images/blog/attention-probes/plots/acc_n_classes_h-attn-1_h-attn-2.png" width="48%" style="display: inline-block"/>
-<img src="/images/blog/attention-probes/plots/acc_n_classes_h-attn-2_h-attn-8.png" width="48%" style="display: inline-block"/>
+<img src="/images/blog/attention-probes/plots/acc_n_classes_h-attn-1_h-attn-2.png" alt="One-head versus two-head attention-probe accuracy. Most points lie above the equal-accuracy diagonal, favoring two heads." width="48%" style="display: inline-block"/>
+<img src="/images/blog/attention-probes/plots/acc_n_classes_h-attn-2_h-attn-8.png" alt="Two-head versus eight-head attention-probe accuracy. Most points lie above the equal-accuracy diagonal, favoring eight heads." width="48%" style="display: inline-block"/>
 
 On Neurons In A Haystack, attention probes do not seem clearly better than last-token probes, and the performance is noisy. This is despite last-token probes being a special case of attention probes with position weights set to infinity.
 
-![](/images/blog/attention-probes/plots/acc_n_classes_hay-last_hay-attn-8.png)
+![Neurons In A Haystack accuracy for last-token probes versus eight-head attention probes. Results lie on both sides of the equal-accuracy diagonal.](/images/blog/attention-probes/plots/acc_n_classes_hay-last_hay-attn-8.png)
 
 Even a single-head attention probe is an improvement over mean probes on Neurons In A Haystack.
 
-![](/images/blog/attention-probes/plots/acc_n_classes_hay-mean_hay-attn-1.png)
+![Neurons In A Haystack accuracy for mean probes versus single-head attention probes. Points lie above the equal-accuracy diagonal, favoring attention probes.](/images/blog/attention-probes/plots/acc_n_classes_hay-mean_hay-attn-1.png)
 
 ### Entropy
 
 We can look at the weights of attention probes to see how they spread their attention across the input. For each sequence and head, we may compute the entropy of the post-softmax attention weights. On its own, the entropy is not very informative, so we compare it to the entropy of a uniform distribution with the same length. We average the per-sequence per-head entropies over the test set.
 
-<img src="/images/blog/attention-probes/plots/entropy_n_classes_h-attn-1_h-attn-2.png" width="48%" style="display: inline-block"/>
-<img src="/images/blog/attention-probes/plots/entropy_n_classes_h-attn-2_h-attn-8.png" width="48%" style="display: inline-block"/>
+<img src="/images/blog/attention-probes/plots/entropy_n_classes_h-attn-1_h-attn-2.png" alt="MOSAIC attention entropy ratios for one-head versus two-head probes. Most points lie above the equality diagonal, indicating higher entropy with two heads." width="48%" style="display: inline-block"/>
+<img src="/images/blog/attention-probes/plots/entropy_n_classes_h-attn-2_h-attn-8.png" alt="MOSAIC attention entropy ratios for two-head versus eight-head probes. Points lie above the equality diagonal." width="48%" style="display: inline-block"/>
 
-<img src="/images/blog/attention-probes/plots/entropy_n_classes_hay-attn-1_hay-attn-2.png" width="48%" style="display: inline-block"/>
-<img src="/images/blog/attention-probes/plots/entropy_n_classes_hay-attn-2_hay-attn-8.png" width="48%" style="display: inline-block"/>
+<img src="/images/blog/attention-probes/plots/entropy_n_classes_hay-attn-1_hay-attn-2.png" alt="Neurons In A Haystack attention entropy ratios for one-head versus two-head probes. Most points lie above the equality diagonal." width="48%" style="display: inline-block"/>
+<img src="/images/blog/attention-probes/plots/entropy_n_classes_hay-attn-2_hay-attn-8.png" alt="Neurons In A Haystack attention entropy ratios for two-head versus eight-head probes. Points lie above the equality diagonal." width="48%" style="display: inline-block"/>
 
 It can be seen that entropy generally increases with the number of heads, and very much depends on the dataset.
 
@@ -121,9 +121,9 @@ It can be seen that entropy generally increases with the number of heads, and ve
 
 We provide maximum activating examples for each dataset and single-head attention probe. The attention patterns are sometimes illuminating - for example, for the bias in bios dataset, the probe attends to gender-related words.
 
-<iframe src="/images/blog/attention-probes/plots/all_activations.html" width="100%" height="1000px"></iframe>
+<iframe title="Attention probe visualizations" src="/images/blog/attention-probes/plots/all_activations.html" width="100%" height="1000px"></iframe>
 
-# Conclusion
+## Conclusion
 
 Attention probes are mostly comparable to mean- or last-token probes, depending on which is better for a given dataset. They benefit from a larger number of heads, but increasing the number of heads leads to higher attention weight entropy. LBFGS improves performance of mean and last-token probes.
 

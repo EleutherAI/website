@@ -34,13 +34,13 @@ We tested the quantum entropy detector as the best performing method for MAD fro
 *Figure 1: Comparison of MAD AUC at different internal layers between Meta and Mistral models - online scores*
 
 ![Comparison of MAD AUC between Meta and Mistral models aggregated](/images/blog/mechanistic-anomaly-detection/mad_incl_meta_flows_overall.png)
-*Figure 2: Comparison of MAD AUC aggeragated across internal layers between Meta and Mistral models - online scores*
+*Figure 2: Comparison of MAD AUC aggregated across internal layers between Meta and Mistral models - online scores*
 
 ![Comparison of MAD AUC between Meta and Mistral models - offline scores](/images/blog/mechanistic-anomaly-detection/mad_incl_meta_flows_offline.png)
 *Figure 3: Comparison of MAD AUC at different internal layers between Meta and Mistral models - offline scores (quantum entropy only)*
 
 ![Comparison of MAD AUC between Meta and Mistral models aggregated - offline scores](/images/blog/mechanistic-anomaly-detection/mad_incl_meta_flows_overall_offline.png)
-*Figure 4: Comparison of MAD AUC aggeragated across internal layers between Meta and Mistral models - offline scores (quantum entropy only)*
+*Figure 4: Comparison of MAD AUC aggregated across internal layers between Meta and Mistral models - offline scores (quantum entropy only)*
 
 ### Llama 3.1 was less quirky than Mistral 7B v0.1
 
@@ -51,7 +51,7 @@ We fine-tuned our models until the validation loss began to rise, then selected 
 We did observe that attribution based methods (particularly the `probe` score) show substantially better performance on the `sentiment` dataset than activation based methods - evidence that attribution patching methods can be effective where activation based methods are not, though (as we found in our previous report) this is usually not the case.
 
 ![Log odds assigned to Alice's labels on Alice's prompts](/images/blog/mechanistic-anomaly-detection/alice_logits_dist_by_base.png)
-![Log odds assigned to Bob's labels on Alice's prompts](/images/blog/mechanistic-anomaly-detection/bob_logits_dist_by_base.png)
+![Log odds assigned to Bob's labels on Bob's prompts](/images/blog/mechanistic-anomaly-detection/bob_logits_dist_by_base.png)
 *Figure 5: Log odds assigned to Alice or Bob's labels on the corresponding prompts for each model. `mistral` is Mistral 7B v0.1 and `meta` is Meta Llama 3.1 8B. Note that Meta on non-arithmetic datasets stands out as having lower confidence than the other model-dataset combinations. On the other hand, Mistral on non-arithmetic datasets stands out as being confidently wrong with higher frequency than the other model-dataset combinations.*
 
 ![Log odds assigned to Alice's labels on Bob's prompts](/images/blog/mechanistic-anomaly-detection/bob_logits_on_alice_dist_by_base.png)
@@ -68,11 +68,11 @@ Figures 7 and 8 show the relationship between MAD AUC and "quirkiness coefficien
 ![Quirkiness vs MAD AUC attribution](/images/blog/mechanistic-anomaly-detection/quirky_coef_vs_auc.png)
 *Figure 8: MAD AUC using attribution patching and the Mahalanobis distance vs quirkiness coefficient for each model and dataset*
 
-Figures 9 and 10 compare the average loss of both models against both the correct labels (i.e. Alice's labels for Alice's prompts) and the incorrect labels (i.e. Bob's labels for Alice's prompts). Llama clearly achieves lower loss on average across most datasets. Furthermore, Llama clearly achieves notably low average loss on Alice's labels for Bob's prompts, which is further evidence of the ground truth bias we noded in Figures 5 and 6.
+Figures 9 and 10 compare the average loss of both models against both the correct labels (i.e. Alice's labels for Alice's prompts) and the incorrect labels (i.e. Bob's labels for Alice's prompts). Llama clearly achieves lower loss on average across most datasets. Furthermore, Llama clearly achieves notably low average loss on Alice's labels for Bob's prompts, which is further evidence of the ground truth bias we noted in Figures 5 and 6.
 
 ![Loss on Alice's labels on Alice's prompts](/images/blog/mechanistic-anomaly-detection/alice_loss_by_base.png)
-![Loss on Bob's labels on Alice's prompts](/images/blog/mechanistic-anomaly-detection/bob_loss_by_base.png)
-*Figure 9: Averge loss on Alice's labels on Alice's prompts and Bob's labels on Bob's prompts for each model and dataset (hard examples only); **lower is better**. Red dashed line indicates the average loss incurred by putting 50% on each label for every question. Meta notably outperforms Mistral on most datasets.*
+![Loss on Bob's labels on Bob's prompts](/images/blog/mechanistic-anomaly-detection/bob_loss_by_base.png)
+*Figure 9: Average loss on Alice's labels on Alice's prompts and Bob's labels on Bob's prompts for each model and dataset (hard examples only); **lower is better**. Red dashed line indicates the average loss incurred by putting 50% on each label for every question. Meta notably outperforms Mistral on most datasets.*
 
 ![Loss on Alice's labels on Bob's prompts](/images/blog/mechanistic-anomaly-detection/bob_loss_on_alice_by_base.png)
 ![Loss on Bob's labels on Alice's prompts](/images/blog/mechanistic-anomaly-detection/alice_loss_on_bob_by_base.png)
@@ -113,7 +113,7 @@ Results are in Figures 1 and 2.
 
 We also tested anomaly detection using a [sparse autoencoder](https://transformer-circuits.pub/2023/monosemantic-features). Specifically, we used a [top-k](https://cdn.openai.com/papers/sparse-autoencoders.pdf) sparse autoencoder [trained on Llama 3.1 base](https://huggingface.co/EleutherAI/sae-llama-3.1-8b-64x) to extract latent features from hidden layers 23 and 29 of Llama 3.1 8B. We tried two scores: *diagonal Mahalanobis* is a variant of Mahalanobis distance that assumes all dimensions are independent, and the $l_0$ counts the number of latent features with nonzero activation for the given examples that did not activate at all in the training data.
 
-Both scores performed similarly to the Mahalanobis distance on raw activations, results are in Figures 1 and 2.
+Both scores performed similarly to the Mahalanobis distance on raw activations. Results are in Figures 1 and 2.
 
 ## Outlook
 

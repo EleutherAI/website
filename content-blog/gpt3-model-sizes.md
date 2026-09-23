@@ -10,7 +10,7 @@ draft: False
 OpenAI hasn't officially said anything about their API model sizes, which naturally leads to the question of just how big they are. Thankfully, we can use [eval harness](https://github.com/EleutherAI/lm-evaluation-harness) to evaluate the API models on a bunch of tasks and compare to the figures in the GPT-3 paper. Obviously since there are going to be minor differences in task implementation and OpenAI is probably fine tuning their API models all the time, the numbers don't line up exactly, but they should give a pretty good idea of the ballpark things are in.
 
 {{<figure align="center" caption="All GPT-3 figures are from the [GPT-3 paper](https://arxiv.org/pdf/2005.14165.pdf#page=63); all API figures are computed using eval harness">}}
-| Model | LAMBADA ppl ↓ | LAMBADA acc ↑ | Winogrande ↑ | Hellaswag ↑ | PIQA ↑ |
+| Model | LAMBADA Perplexity ↓ | LAMBADA Accuracy ↑ | WinoGrande ↑ | HellaSwag ↑ | PIQA ↑ |
 |-----------------|--- |--- |--- |--- |--- |
 | GPT-3-124M | 18.6 | 42.7% | 52.0% | 33.7% | 64.6% |
 | GPT-3-350M | 9.09 | 54.3% | 52.1% | 43.6% | 70.2% |

@@ -15,13 +15,13 @@ cover:
 
 > **Disclaimer**: The views expressed in this article do not necessarily reflect those of the other institutions with which EleutherAI collaborated. See the Deep Ignorance paper for citations.
 
-Widely known LLM safeguards today rely primarily on suppressing undesirable knowledge such as through refusal training and input filters. However, the myriad examples of jailbreaks suggest that these interventions are fragile. Furthermore, this kind of *post hoc* suppression is only even plausibly effective in contexts where the user interacts with the model exclusively through developer-monitored APIs and interfaces
+Widely known LLM safeguards today rely primarily on suppressing undesirable knowledge such as through refusal training and input filters. However, the myriad examples of jailbreaks suggest that these interventions are fragile. Furthermore, this kind of *post hoc* suppression is only even plausibly effective in contexts where the user interacts with the model exclusively through developer-monitored APIs and interfaces.
 
-At EleutherAI we are interested in developing risk management strategies for open-weight models. Open-weight models provide many benefits, such as democratized access, data privacy, and enabling researchers to study models directly with maximum transparency. EleutherAI has been among the few organizations releasing and studying models to help realize these benefits. As open-weight models begin to approach the frontier of AI capabilities, effective safeguards become more important. Unfortunately, the dominant approach in the literature has been to attempt to retrofit techniques developed for API models to open weight models. The resulting safety protocols that are trivial to bypass via finetuning, even accidentally.
+At EleutherAI we are interested in developing risk management strategies for open-weight models. Open-weight models provide many benefits, such as democratized access, data privacy, and enabling researchers to study models directly with maximum transparency. EleutherAI has been among the few organizations releasing and studying models to help realize these benefits. As open-weight models begin to approach the frontier of AI capabilities, effective safeguards become more important. Unfortunately, the dominant approach in the literature has been to attempt to retrofit techniques developed for API models to open-weight models. The resulting safety protocols are trivial to bypass via finetuning, even accidentally.
 
-We wish to take a different approach  centering the philosophical desires and technological needs of the open AI community in conversations about safe development and deployment of open models. We begin with this intuition: eliminating concerning data from pretraining should be the first step in preventing dangerous capabilities from arising in the first place. Even a fully jailbroken model is unlikely to be helpful if it is entirely ignorant of dangerous knowledge. For example, a model that does not know how to make a bomb is unlikely to be helpful even if it never refuses bomb-related prompts. While some model providers report utilizing data filtering in the interest of safety (see e.g. [GPT-OSS model card](https://cdn.openai.com/pdf/419b6906-9da6-406c-a19d-1bb078ac7637/oai_gpt-oss_model_card.pdf)), none describe their filtering methodologies, the amount of data they remove, or a precise measure of the causal effect that filtering had on capabilities. We present the most comprehensive study of these questions in our newly released paper, [Deep Ignorance: Filtering Pretraining Data Builds Tamper-Resistant Safeguards into Open-Weight LLMs](https://deepignorance.ai/).
+We wish to take a different approach centering the philosophical desires and technological needs of the open AI community in conversations about safe development and deployment of open models. We begin with this intuition: eliminating concerning data from pretraining should be the first step in preventing dangerous capabilities from arising in the first place. Even a fully jailbroken model is unlikely to be helpful if it is entirely ignorant of dangerous knowledge. For example, a model that does not know how to make a bomb is unlikely to be helpful even if it never refuses bomb-related prompts. While some model providers report utilizing data filtering in the interest of safety (see e.g. [GPT-OSS model card](https://cdn.openai.com/pdf/419b6906-9da6-406c-a19d-1bb078ac7637/oai_gpt-oss_model_card.pdf)), none describe their filtering methodologies, the amount of data they remove, or a precise measure of the causal effect that filtering had on capabilities. We present the most comprehensive study of these questions in our newly released paper, [Deep Ignorance: Filtering Pretraining Data Builds Tamper-Resistant Safeguards into Open-Weight LLMs](https://deepignorance.ai/).
 
-# Experiment Setup
+## Experiment Setup
 
 {{<figure src="/images/blog/deep-ignorance/di_filtering_pipeline.png" width="100%" align="center"/>}}
 
@@ -31,9 +31,9 @@ We use a scalable multi-stage filtering pipeline that allows us to comb through 
 
 We train multiple 6.9B models from scratch. Our models are trained on 500B tokens of DCLM during pretraining and then finish with 50B tokens of midtraining/annealing for a total of 550B tokens. Our baseline model is trained on the unfiltered dataset, and our filtered models are trained on the same dataset post-filtering. All parameter counts and hyperparameters are identical except for the dataset interventions. This allows us to make causal claims about the effect that data filtering has on capabilities.
 
-We rely on MMLU, PIQA, Lambada, and Hellaswag for measures of overall model performance. These benchmarks allow us to measure whether data filtering is making models safer by degrading overall capabilities, or if filtering is a targeted intervention without obvious performance tradeoffs. For filtering to be effective and widely adopted, there must be a minimal effect on unrelated knowledge.
+We rely on MMLU, PIQA, LAMBADA, and HellaSwag for measures of overall model performance. These benchmarks allow us to measure whether data filtering is making models safer by degrading overall capabilities, or if filtering is a targeted intervention without obvious performance tradeoffs. For filtering to be effective and widely adopted, there must be a minimal effect on unrelated knowledge.
 
-# Key Result #1: Data Filtering Prevents Undesirable Knowledge
+## Key Result #1: Data Filtering Prevents Undesirable Knowledge
 
 {{<figure src="/images/blog/deep-ignorance/di_prevention_results.png" width="100%" align="center"/>}}
 
@@ -41,7 +41,7 @@ We find that our best filtering setups can regress WMDP-Bio to near-random chanc
 
 We were surprised that filtering often led to minimal effects on unrelated knowledge. For instance, our blocklist filter removes ~10% of training data, which is a significant intervention. This intervention, however, makes little negative impact on most benchmarks. This updated us towards the intuition that underfiltering is a more common concern than overfiltering. That our models could withstand significant amounts of benign data being removed while still retaining most of the performance of the baseline model is a vote in favor of filtering being practical. We expect that higher quality filters can achieve even better performance while removing far less data.
 
-# Key Result #2: Data Filtering is Tamper-Resistant
+## Key Result #2: Data Filtering is Tamper-Resistant
 
 {{<figure src="/images/blog/deep-ignorance/di_tamper_resistance_results.png" width="100%" align="center"/>}}
 
@@ -55,11 +55,11 @@ We observe positive results. While WMDP performance for all models improves, the
 
 Benign fine-tuning is a weaker tampering attack that is still effective against baseline techniques. In this attack, we fine-tune the models on Wikitext. Notice that the existing baseline safeguards break down even when the attacker does not have any biorisk data! In contrast, the filtered models do not see any improvements in WMDP performance. Filtering largely mitigates the threat from ultra-low resource attackers who may not have access to only a few demonstrations of the unsafe knowledge. This result also further reiterates how fragile closed-weight safeguards are in an open-weight deployment context.
 
-# Key Result #3: Data Filtering Does Not Prevent In-Context Retrieval
+## Key Result #3: Data Filtering Does Not Prevent In-Context Retrieval
 
 {{<figure src="/images/blog/deep-ignorance/di_open_book_results.png" width="100%" align="center"/>}}
 
-The previous results suggest that data filtering prevents the models from learning undesirable biorisk knowledge in the first place. However, it is unclear whether filtering affects the model’s ability to learn biorisk information in context. That is, when it's provided in the prompt. This is an especially pressing question now that frontier models are increasingly augmented with search/RAG scaffolding, where they can seek out information not available in their weights.
+The previous results suggest that data filtering prevents the models from learning undesirable biorisk knowledge in the first place. However, it is unclear whether filtering affects the model’s ability to learn biorisk information in context. That is, when it's provided in the prompt. This is an especially pressing question now that frontier models are increasingly augmented with search/retrieval-augmented generation (RAG) scaffolding, where they can seek out information not available in their weights.
 
 To answer this question, we use Claude to create a synthetic dataset similar to WMDP. We collect a set of abstracts from the WMDP biorisk proxy papers and generate multiple-choice questions based on the information in the abstracts. We then evaluate all the models on an open-book version where the abstract is provided in the prompt, and a closed-book version where it is excluded. The model must rely on its parameterized knowledge in the closed-book setting, whereas the model simply needs to read the context in the open-book setting. The open-book setting can be thought of as RAG with perfect retrieval — there is no noisy, misleading, or conflicting information.
 
@@ -69,7 +69,7 @@ These results suggest that pretraining data filtering, while effective at preven
 
 Lastly, these results can have a positive interpretation. While a limitation in the open-weight context, the ability to leverage dual-use information in context can be a useful property of data filtering in a closed-weight context. For instance, since dual-use knowledge by definition can have benign applications, model providers could permit their LLMs to access dual-use knowledge databases only when interacting with trusted users. Providers could then restrict these knowledge databases for untrusted users. This setup would continue to allow LLMs access to dual-use knowledge for prosocial outcomes.
 
-# Going Forward
+## Going Forward
 
 While we cover our three main results in this article, there are numerous crucial implementation details, auxiliary findings, limitations, and discussion points we don’t touch on here. We encourage folks to read our original paper. While the paper itself is quite long, sections are relatively self-contained. Perhaps the most interesting points in the paper not discussed here are:
 
@@ -83,7 +83,7 @@ We are also excited for the community to stress test data filtering to determine
 
 Finally, it is worth considering why the effectiveness of pretraining data filtering for capability prevention remained unstudied for so long. Few organizations publicly study LLM pretraining, as the associated costs and effort have historically been a barrier for academic and non-profit researchers. Private companies have the requisite compute and expertise, but are disincentivized from revealing details of their pretraining setup for competitive reasons and due to the risk of copyright litigation. While private companies have hinted that they do some forms of data curation, the lack of essential details makes it difficult to draw scientific conclusions. But EleutherAI has no need to obfuscate our pretraining stack. With falling GPU prices and improved tooling, we want to encourage researchers outside of private companies to study pretraining. Like Deep Ignorance, we expect that other conceptually simple yet impactful open research questions can help improve our understanding of LLMs.
 
-# Acknowledgments
+## Acknowledgments
 
 This work was done in collaboration with the UK AI Security Institute and the University of Oxford.
 
@@ -91,7 +91,7 @@ We would like to thank Yejin Choi, Liwei Jiang, Arthur Conmy, Grace Braithwaite,
 
 GPUs donated to EleutherAI by CoreWeave enabled our research to develop our filters. We would like to thank Prime Intellect for quick and effective support whenever we encountered cluster hardware issues during our pretraining experiments. Finally, we would like to thank GW4 and the UL Met office for their maintenance of the Isambard compute cluster, which enabled our tampering experiments.
 
-# Citation Information
+## Citation Information
 
 ```
 @article{obrien2025deepignorance,

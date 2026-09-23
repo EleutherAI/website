@@ -52,7 +52,7 @@ Although strictly speaking you can train a transformer for as many tokens as you
 
 **Let’s start with the elephant in the room: “compute optimal” language models.** Often  referred to as “Chinchilla scaling laws” after the model series in the paper that gave rise to current beliefs about the number of parameters, a compute optimal language model has a **number of parameters** and a **dataset size** that satisfies the approximation $D=20P$. This is optimal in one very specific sense: in a resource regime where using 1,000 GPUs for 1 hour and 1 GPU for 1,000 hours cost you the same amount, if your goal is to maximize performance while minimizing the cost in GPU-hours to train a model you should use the above equation.  
 
-**We do not recommend training a LLM for less than 200B tokens.** Although this is “chinchilla optimal” for many models, the resulting models are typically quite poor. For almost all applications, we recommend determining what inference cost is acceptable for your usecase and training the largest model you can to stay under that inference cost for as many tokens as you can. 
+**We do not recommend training an LLM for less than 200B tokens.** Although this is “chinchilla optimal” for many models, the resulting models are typically quite poor. For almost all applications, we recommend determining what inference cost is acceptable for your use case and training the largest model you can to stay under that inference cost for as many tokens as you can.
 
 ## Engineering Takeaways for Compute Costs
 
@@ -80,8 +80,6 @@ Most transformers are trained in **mixed precision**, either fp16 + fp32 or bf16
 - In int8, $\text{memory}_{\text{model}}=(1 \text{ byte} /\text{param})\cdot ( \text{No. params})$
 - In fp16 and bf16, $\text{memory}_{\text{model}}=(2 \text{ bytes} /\text{param})\cdot ( \text{No. params})$
 - In fp32, $\text{memory}_{\text{model}}=(4 \text{ bytes} /\text{param})\cdot (\text{No. params})$
-
-There is also a small amount of additional overhead, which is typically irrelevant to determining the largest model that will fit on your GPU. In our experience this overhead is ≤ 20%.
 
 ### Total Inference Memory
 
@@ -184,7 +182,7 @@ $$
 
 ### Sharded Optimizers
 
-The massive memory overheads for optimizers is the primary motivation for sharded optimizers such as [ZeRO](https://arxiv.org/abs/1910.02054) and [FSDP](https://engineering.fb.com/2021/07/15/open-source/fsdp/). Such sharding strategies reduce the optimizer overhead by a factor of $\text{No. GPUs}$, which is why a given model configuration may fit at large scale but OOM at small scales. If you’re looking to calculate the memory overhead required by training using a sharded optimizer, you will need to include the equations from the figure below. For some sample calculations of sharded optimization, see the following figure from the [ZeRO](https://arxiv.org/abs/1910.02054) paper (Note that $P_{os}$ $P_{os+g}$ and $P_{os+g+p}$ are commonly denoted as ZeRO-1, ZeRO-2, ZeRO-3, respectively. ZeRO-0 commonly means “ZeRO disabled”):
+The massive memory overheads for optimizers are the primary motivation for sharded optimizers such as [ZeRO](https://arxiv.org/abs/1910.02054) and [FSDP](https://engineering.fb.com/2021/07/15/open-source/fsdp/). Such sharding strategies reduce the optimizer overhead by a factor of $\text{No. GPUs}$, which is why a given model configuration may fit at large scale but OOM at small scales. If you’re looking to calculate the memory overhead required by training using a sharded optimizer, you will need to include the equations from the figure below. For some sample calculations of sharded optimization, see the following figure from the [ZeRO](https://arxiv.org/abs/1910.02054) paper (Note that $P_{os}$ $P_{os+g}$ and $P_{os+g+p}$ are commonly denoted as ZeRO-1, ZeRO-2, ZeRO-3, respectively. ZeRO-0 commonly means “ZeRO disabled”):
 
 
 {{<figure src="/images/blog/transformer-math/zero_fig.png" alt="ZeRO illustration" align="center"/>}}
@@ -278,4 +276,3 @@ To cite this blog post, please use:
   year = {2023}
 }
 ```
-

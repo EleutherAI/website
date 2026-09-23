@@ -1,7 +1,7 @@
 ---
 title: "EleutherAI Second Retrospective: The long version"
 date: 2023-03-26T22:00:00-00:00
-description: "What we've been up to for the past year EleutherAI."
+description: "What we've been up to for the past year-and-a-half at EleutherAI."
 author: ["Stella Biderman","Shivanshu Purohit", "Curtis Huebner", "Leo Gao", "Connor Leahy", "Eric Hallahan"]
 contributor: ["Jason Phang", "Shivanshu Purohit", "Leo Gao", "Horace He", "Laurence Golding", "Eric Hallahan"]
 categories: ["Meta"]
@@ -10,7 +10,7 @@ ShowToc: true
 
 {{<figure src="/images/blog/year-two/hackers2.png"  align="center"/>}}
 
-We've been fairly busy at Eleuther for the past year-and-a-half, here's the full story.
+We've been fairly busy at Eleuther for the past year-and-a-half. Here's the full story.
 
 ## July 2021 – December 2021: An Interlude
 
@@ -45,14 +45,14 @@ We were curious how closely bored nerds with nothing better to do were following
 
 ### Multimodal Modeling
 
-Our July 2021 retrospective, a short section was dedicated to #the-faraday-cage and its resident art gen service BATBot. We had no way of knowing that that service was about to get a huge shot in the arm.
+In our July 2021 retrospective, a short section was dedicated to #the-faraday-cage and its resident art gen service BATBot. We had no way of knowing that that service was about to get a huge shot in the arm.
 
-On July 19th, just a few weeks after our retrospective was published OpenAI released their ImageNet diffusion models. [According to their model card](https://github.com/openai/guided-diffusion/blob/main/model-card.md) OpenAI was only willing to release the models because they couldn’t generate anything outside the ImageNet classes. How they conducted their assessment isn’t publicly known, but they missed something because a mere six days later on July 25th RiversHaveWings developed a CLIP Guided Diffusion algorithm using the new models. The hacker known as EleutherAI had struck again.
+On July 19th, just a few weeks after our retrospective was published, OpenAI released their ImageNet diffusion models. [According to their model card](https://github.com/openai/guided-diffusion/blob/main/model-card.md) OpenAI was only willing to release the models because they couldn’t generate anything outside the ImageNet classes. How they conducted their assessment isn’t publicly known, but they missed something because a mere six days later on July 25th RiversHaveWings developed a CLIP Guided Diffusion algorithm using the new models. The hacker known as EleutherAI had struck again.
 
 {{<figure src="/images/blog/year-two/clip-collab.png"  align="center"/>}}
 {{<figure src="/images/blog/year-two/image-gen-4.png"  align="center"/>}}
 
-CLIP-Guided Diffusion, like VQGAN-CLIP before it, allowed us to do text-to-image modeling without spending millions of dollars pretraining models. Models like the original DALL-E are ludicrously expensive to train (even by large scale AI research standards) and would be largely inaccessible to artists and researchers even if they were publicly released. Our models were clearly worse, but they required tens of thousands to hundreds of thousands fewer GPU-hours to train and could be deployed in a Google Colab. Soon though, we’d ge to try our hand at training our own models.
+CLIP-Guided Diffusion, like VQGAN-CLIP before it, allowed us to do text-to-image modeling without spending millions of dollars pretraining models. Models like the original DALL-E are ludicrously expensive to train (even by large scale AI research standards) and would be largely inaccessible to artists and researchers even if they were publicly released. Our models were clearly worse, but they required tens of thousands to hundreds of thousands fewer GPU-hours to train and could be deployed in a Google Colab. Soon though, we’d get to try our hand at training our own models.
 
 ## January 2021 – March 2022: Something Pithy Goes Here
 
@@ -62,7 +62,7 @@ Our original plan was to release GPT-NeoX-20B at the end of the year, marking th
 {{<figure src="/images/blog/year-two/log-scale.png"  align="center"/>}}
 {{<figure src="/images/blog/year-two/generalization-error.png"  align="center"/>}}
 
-“What happened” was that the loss kept going down, benchmark performance kept increasing, and there was no sign of increased generalization error. We had no way of knowing it at the time, but what we were seeing was the first hint of “Chinchilla Scaling Laws” from DeepMind’s seminal paper a few months later. We decided to end training in late January after 400B tokens, which turned out to gave us the first chinchilla-optimal language model completely by happenstance.
+“What happened” was that the loss kept going down, benchmark performance kept increasing, and there was no sign of increased generalization error. We had no way of knowing it at the time, but what we were seeing was the first hint of “Chinchilla Scaling Laws” from DeepMind’s seminal paper a few months later. We decided to end training in late January after 400B tokens, which turned out to give us the first chinchilla-optimal language model completely by happenstance.
 
 {{<figure>}}
 {{<discord/thread>}}
@@ -96,13 +96,13 @@ And so we were stuck with it. Whether we were ready or not, February 9, 2022 it 
 {{</discord/thread>}}
 {{</figure>}}
 
-But, as promised, we were able to complete a draft paper which we released along-side the full model weights. We have also promised to give access to the partially trained checkpoints to anyone who asks, but have received zero serious requests for the partially trained checkpoints so far.
+But, as promised, we were able to complete a draft paper which we released alongside the full model weights. We have also promised to give access to the partially trained checkpoints to anyone who asks, but have received zero serious requests for the partially trained checkpoints so far.
 
-We learned a lot from this experience, including just how hard language model evaluation is. Very minor tweaks in language model evaluation protocols that wouldn’t even be noticed by a human can wildly change performance. For example, MMLU benchmark features multiple choice questions with answers labeled “a” through “d.” The recommended way to evaluate models is to compare the log probabilities of the *letter corresponding to the correct answer*. However if you instead compare the actual answers performance shoots up: in our testing the difference is comparable to scaling from 6.7B parameters to 175B parameters.
+We learned a lot from this experience, including just how hard language model evaluation is. Very minor tweaks in language model evaluation protocols that wouldn’t even be noticed by a human can wildly change performance. For example, the MMLU benchmark features multiple choice questions with answers labeled “a” through “d.” The recommended way to evaluate models is to compare the log probabilities of the *letter corresponding to the correct answer*. However, if you instead compare the actual answers, performance shoots up: in our testing the difference is comparable to scaling from 6.7B parameters to 175B parameters.
 
 {{<figure src="/images/blog/year-two/question.png" caption="Grading the model’s ability to produce “Branch of the thyrocervical trunk” rather than “C” results in much higher accuracy on average."  align="center"/>}}
 
-We also learned just how important it is to get the narrative right the first time. Our blog post originally claimed that GPT-NeoX-20B underperformed FairSeq Dense 13B (then the largest publicly available English LLM) on standard NLP benchmarks like Lambada and HellaSwag. This wasn’t in fact true, the issue was [a bug we discovered in the shard merging code that hurt performance](https://github.com/EleutherAI/gpt-neox/pull/466#issuecomment-997517986). While we eventually found ways around this bug, and all numbers in our paper were reported using the (better) unmerged model, we still get occasional questions from people who think that GPT-NeoX-20B’s performance on NLP tasks was disappointing.
+We also learned just how important it is to get the narrative right the first time. Our blog post originally claimed that GPT-NeoX-20B underperformed FairSeq Dense 13B (then the largest publicly available English LLM) on standard NLP benchmarks like Lambada and HellaSwag. This wasn’t in fact true; the issue was [a bug we discovered in the shard merging code that hurt performance](https://github.com/EleutherAI/gpt-neox/pull/466#issuecomment-997517986). While we eventually found ways around this bug, and all numbers in our paper were reported using the (better) unmerged model, we still get occasional questions from people who think that GPT-NeoX-20B’s performance on NLP tasks was disappointing.
 
 ### Training our own Multi-Modal Models
 
@@ -176,7 +176,7 @@ CarperAI is focused on the democratization of RLHF and RLHF adjacent methods. Th
 
 ### Closing the Book on VQGAN-CLIP
 
-While members of EleutherAI did research on a variety of topics during this period, there was very little that was being lead by EleutherAI as an organization. The major exception is that we finally [wrote a paper on VQGAN-CLIP](https://arxiv.org/abs/2204.08583), the original text-to-image synthesis and editing model we developed back in spring 2021. It was a tad late (by which we mean it has been used a billion times before we wrote a paper about it) but it would be eventually published at ECCV 2022.
+While members of EleutherAI did research on a variety of topics during this period, there was very little that was being led by EleutherAI as an organization. The major exception is that we finally [wrote a paper on VQGAN-CLIP](https://arxiv.org/abs/2204.08583), the original text-to-image synthesis and editing model we developed back in spring 2021. It was a tad late (by which we mean it has been used a billion times before we wrote a paper about it) but it would be eventually published at ECCV 2022.
 
 ## August 2022 and Beyond: Reorganization and Revitalization
 
@@ -184,9 +184,9 @@ Stella eventually reached the same conclusion that Connor did: EleutherAI was to
 
 Stella hypothesized that the core problem was getting people back to work, or more precisely, getting people to start doing work organized in the discord server. As we would later detail in a [NeurIPS Workshop paper on large ML collaborations](https://arxiv.org/abs/2210.06413), doing research in the public view has always been a crucial component of EleutherAI’s impact and marketing strategy. The reason to come to our discord server to talk about AI research was because it was a place where people could get unprecedented access to people doing cutting edge AI research, and AI researchers could interact with one another in an unstructured fashion. Even for people who didn’t participate in our research projects, being around the people who did was one of the major draws.
 
-To jumpstart the process, she started the #interpretability-over-time channel for her Pythia project, talked Aran Komatsuzaki and Katherine Crowson into organizing on-going research projects in the discord server (#improved-t5 and #k-diffusion respective), and worked to help current and previous core contributors secure funding to do EleutherAI as a part-time job.
+To jumpstart the process, she started the #interpretability-over-time channel for her Pythia project, talked Aran Komatsuzaki and Katherine Crowson into organizing on-going research projects in the discord server (#improved-t5 and #k-diffusion respectively), and worked to help current and previous core contributors secure funding to do EleutherAI as a part-time job.
 
-A great deal of this revitalizing activity was facilitated by StabiltyAI, which stepped in to lend critical support so that EleutherAI could continue to pursue it’s research objectives and revitalize itself. Slowly but surely, the plan worked. As activity stepped up in EleutherAI (and as we began to better advise our work, via our new Twitter and the #announcements channel) 
+A great deal of this revitalizing activity was facilitated by StabiltyAI, which stepped in to lend critical support so that EleutherAI could continue to pursue its research objectives and revitalize itself. Slowly but surely, the plan worked. As activity stepped up in EleutherAI (and as we began to better advise our work, via our new Twitter and the #announcements channel)
 
 ### Shifting Research Priorities
 
@@ -198,7 +198,7 @@ EleutherAI got into large scale AI training because we felt that researchers nee
 
 ### NLP Research
 
-While we continued to do some NLP research, the contents and context of that research has changed substantially, focusing on building better scientific understandings of the functionality of language models and making non-SOTA models more useful and accessible to small scale practitioners. These projects include:
+While we continued to do some NLP research, the contents and context of that research have changed substantially, focusing on building better scientific understandings of the functionality of language models and making non-SOTA models more useful and accessible to small scale practitioners. These projects include:
 
 * The “Improved T5” project, which investigates scaling laws for encoder-decoder models, and how many of the new developments for decoder-only models can be adapted to encoder-decoder ones.
 * The PolyGlot Project, which trains small LLMs in a variety of languages. Currently, almost all billion+ parameter LMs are trained in one of three languages: English, Chinese, and “massively multilingual.” The Polyglot team trained and released Polyglot-Ko, a series of Korean language models that include the most performant FOSS Korean language model in the world and is now investigating “localized” multilingual models focused on South and South East Asian languages, Romance Languages, and Nordic languages.
@@ -210,7 +210,7 @@ With our new-found invigoration, much of our energy has gone to interpretability
 
 [We released the models to the public](https://mobile.twitter.com/AiEleuther/status/1603755836136128514) on December 16th and the positive response from the community has been immediate: within a week two papers had already cited them and a dozen people had reached out to express their excitement about the models. We have a paper on it under review, and are leveraging the suite to do more Interpretability research. Currently the bulk of this work is oriented towards exploring the causes of memorization, but we also have threads about understanding how models learn social biases from data and how pretraining frequencies influence model knowledge.
 
-We’ve also seen a surge of interest in work on Eliciting Latent Knowledge (ELK). Early in 2022 Igor Ostrovsky, Nostalgebraist, and Stella developed the “Tuned Lens,” a variation on Nostalgebraist’s [Logit Lens](https://www.lesswrong.com/posts/AcKRB8wDpdaN6v6ru/interpreting-gpt-the-logit-lens). Unfortunately due to a combination of Igor starting a company and others being busy it languished for a bit until Nora Belrose picked it up again. Originally tasked with carrying the original idea across the finish line, her work has blossomed into a collection of research projects working on problems such as extracting interpretable basis for LLMs and detecting “deceptive-like” behavior.
+We’ve also seen a surge of interest in work on Eliciting Latent Knowledge (ELK). Early in 2022 Igor Ostrovsky, Nostalgebraist, and Stella developed the “Tuned Lens,” a variation on Nostalgebraist’s [Logit Lens](https://www.lesswrong.com/posts/AcKRB8wDpdaN6v6ru/interpreting-gpt-the-logit-lens). Unfortunately due to a combination of Igor starting a company and others being busy it languished for a bit until Nora Belrose picked it up again. Originally tasked with carrying the original idea across the finish line, her work has blossomed into a collection of research projects working on problems such as extracting interpretable bases for LLMs and detecting “deceptive-like” behavior.
 
 Together, the “interpreting across time” and “eliciting-latent-knowledge” projects have prompted a flurry of activity in interpretability research, with nearly a dozen people actively working on papers on the subject at time of writing. The original channel quickly became overcrowded, so a new section of the discord server was set up with more channels and better organization.
 
@@ -225,7 +225,7 @@ Some alignment related concerns that are particularly notable to some of our mem
 
 Notably, it makes a few assumptions, like that reward comes from the environment, and that the agent is effectively separated from the environment. But this is not necessarily a good approximation of what would actually happen in a deployed system. The agent is part of the environment, and reward comes from somewhere inside that same environment. So speculative failure modes such as [wireheading](https://www.lesswrong.com/tag/wireheading) are back on the table. (See [these](https://www.alignmentforum.org/posts/jP9cKxqwqk2qQ6HiM/towards-deconfusing-wireheading-and-reward-maximization) [posts](https://www.alignmentforum.org/posts/REesy8nqvknFFKywm/clarifying-wireheading-terminology) for more of our thoughts on wireheading and its connection to embeddedness.)
 
-In fact, the issue appears much broader than this, as in practice any mechanism for aligning AI systems, or correcting their behavior after they’ve been deployed is going to be part of the same environment as the agent, and prone to it’s interference.
+In fact, the issue appears much broader than this, as in practice any mechanism for aligning AI systems, or correcting their behavior after they’ve been deployed is going to be part of the same environment as the agent, and prone to its interference.
 
 This high level concern motivated the Alignment-Minetest project, which aims to modify the open source voxel engine [Minetest](https://www.minetest.net/) so that we can look for wireheading and other undesirable incentives in agents and world models.
 
@@ -235,7 +235,7 @@ Going into 2023, we’re planning to spin up more alignment and interpretability
 
 # Reflections
 
-We’ve asked some of our members to give their thoughts on EAI over the past year, here’s some of their responses:
+We’ve asked some of our members to give their thoughts on EAI over the past year. Here are some of their responses:
 
 > EleutherAI feels like a place where the only limits are just how big we can dream. The people I’ve met here are driven, scarily smart, and hypercompetent. More than anything, they’re united by an understanding of what defines good, lasting research that others should and do care about, and the ability to execute well on that understanding.
 

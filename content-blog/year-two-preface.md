@@ -9,7 +9,7 @@ ShowToc: false
 ---
 
 
-Over a year and a half have passed since EleutherAI's last retrospective, and a great deal of things have changed. [In the first year, what started off as a Discord server created by some TPU enthusiasts grew into a much larger and more vibrant community.](./year-one/) Since then, the EleutherAI collective has gone on to do many things, including becoming an inspirational launch point, stepping stone, and template for its members and many new organizations.
+Over a year and a half have passed since EleutherAI's last retrospective, and a great many things have changed. [In the first year, what started off as a Discord server created by some TPU enthusiasts grew into a much larger and more vibrant community.](./year-one/) Since then, the EleutherAI collective has gone on to do many things, including becoming an inspirational launch point, stepping stone, and template for its members and many new organizations.
 
 Given that we have so much to share in a second retrospective, we have condensed the important takeaways and announcements here. We look forward to sharing the full story soon!
 
@@ -38,7 +38,7 @@ EleutherAI members have authored 28 papers, trained dozens of models, and releas
 
 [Multitask Prompted Training Enables Zero-shot Task Generalization](https://arxiv.org/abs/2110.08207)
 
-: This BigScience-lead paper introduced the T0 language model and jumpstarted interest in task-structured data.
+: This BigScience-led paper introduced the T0 language model and jumpstarted interest in task-structured data.
 
 [EleutherAI: Going Beyond "Open Science" to "Science in the Open"](https://arxiv.org/abs/2210.06413)
 
@@ -52,7 +52,7 @@ A full list of papers, models, and other research output from EleutherAI can be 
 
 ## New Organizations
 
-While some have started in our first year, during this most recent year we've seen many other similar organizations rise to prominence. For instance, [LAION](https://laion.ai/) has cranked out two massive image datasets and supported the development of the now-famous DALL-E Mini. Another example would be the [OpenBioML](https://openbioml.org/), which started off as a spinoff Discord server building on the AlphaFold2 replication work of Phil Wang ({{<discord/mention "@lucidrains">}}) and Eric Alcaide ({{<discord/mention "@hypnopump">}}) before becoming a hub for interaction between the open-source AI and BioML communities. <!--They recently completed a collaboration with researchers at Harvard and Columbia to put out [a phenomenal paper on the learning dynamics of AlphaFold2](https://www.biorxiv.org/content/10.1101/2022.11.20.517210). -->We've also seen members start a plethora of smaller communities focused on individual projects, such as {{<discord/mention "@BlinkDL">}}'s RWKV and Aran's data collection for work based on [Minerva](https://ai.googleblog.com/2022/06/minerva-solving-quantitative-reasoning.html).
+While some started in our first year, during this most recent year we've seen many other similar organizations rise to prominence. For instance, [LAION](https://laion.ai/) has cranked out two massive image datasets and supported the development of the now-famous DALL-E Mini. Another example would be [OpenBioML](https://openbioml.org/), which started off as a spinoff Discord server building on the AlphaFold2 replication work of Phil Wang ({{<discord/mention "@lucidrains">}}) and Eric Alcaide ({{<discord/mention "@hypnopump">}}) before becoming a hub for interaction between the open-source AI and BioML communities. <!--They recently completed a collaboration with researchers at Harvard and Columbia to put out [a phenomenal paper on the learning dynamics of AlphaFold2](https://www.biorxiv.org/content/10.1101/2022.11.20.517210). -->We've also seen members start a plethora of smaller communities focused on individual projects, such as {{<discord/mention "@BlinkDL">}}'s RWKV and Aran's data collection for work based on [Minerva](https://ai.googleblog.com/2022/06/minerva-solving-quantitative-reasoning.html).
 
 Most notably though, three groups of researchers have left EleutherAI to start their own organizations. EleutherAI founders Connor Leahy ({{<discord/mention "@Connor">}}) and Sid Black ({{<discord/mention "@sid">}}) are now the founders of a new alignment research organization called [Conjecture](https://www.conjecture.dev/), Louis Castricato has started a lab called [CarperAI](https://carper.ai/) that focuses on preference learning and <abbr title="Reinforcement Learning from Human Feedback">RLHF</abbr>, and Tanishq Abraham ({{<discord/mention "@ilovescience">}}) has started [MedARC](https://www.medarc.ai/), which focuses on biomedical applications of cutting edge AI technologies such as large language models.
 
@@ -85,4 +85,3 @@ Times have changed significantly since EleutherAI was founded, and there is subs
 Our new organization, funded by a mix of charitable donations and grants, will be run by Stella Biderman ({{<discord/mention "@StellaAthena" >}}), Curtis Huebner ({{<discord/mention "@AI_WAIFU" >}}), and Shivanshu Purohit ({{<discord/mention "@triggerhappygandi" >}}), with guidance from a board of directors which will include EleutherAI co-founder Connor Leahy and UNC's Colin Raffel.
 
 If you have any questions about the EleutherAI Institute or are interested in making a charitable donation, please reach out to contact@eleuther.ai.
-

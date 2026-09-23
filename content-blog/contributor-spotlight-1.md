@@ -2,7 +2,7 @@
 title: "Contributor Spotlight: Mohammad Aflah Khan"
 categories: ["Contributor Spotlight"]
 author: ["Mohammad Aflah Khan"]
-# description: "We evaluate different fewshot prompts on GPT-3 to see how it changes performance."
+description: "Mohammad Aflah Khan on his background and contributions to EleutherAI."
 date: 2023-09-21T00:00:00-00:00
 draft: False
 ---
@@ -22,7 +22,8 @@ I'm based in Delhi.
 
 I'm fluent in English, Hindi, and Urdu. I can also read Arabic and grasp some of its elements, but my capabilities are limited.
 
-One thing you are looking forward to?
+## One thing you are looking forward to?
+
 On a personal level, I'm eagerly anticipating the next chapter of my life (possibly grad school, if I'm accepted) or returning to my job as a software developer.
 
 As for the direction of the AI industry, I'm really pumped about AI-assisted tools. The concept of improved copilots strikes me as a major game-changer, especially considering how much heavy lifting is already being done by tools like GitHub Copilot.
@@ -38,7 +39,7 @@ While I was poking around the Pythia GitHub repo, I spotted this issue about Bia
 
  So, naturally, I decided, why not chip in on some other projects too, right?
 
-## What is important to you about Open Access to ML or LLM’s?
+## What is important to you about Open Access to ML or LLMs? {#what-is-important-to-you-about-open-access-to-ml-or-llms}
 
 It's becoming pretty darn important to be open about things like where the model's training data came from, how it did its training, the GPU hours it gobbled up, and those in-between steps (major props to Pythia for nailing that, by the way! 😉). 
 
@@ -48,4 +49,3 @@ Another intriguing aspect is making these models genuinely accessible to a broad
 ## What contribution are you most proud of?
 
 I take the most pride in my contribution to the bias evaluation work within the Pythia model suite. As LLMs gain more significance, our experiments showcasing reduced bias on benchmarks is a valuable overall contribution.
-

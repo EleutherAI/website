@@ -92,14 +92,14 @@ to load models from the same file in PyTorch or TensorFlow.
 
 # The security audit
 
-Since `safetensors` main asset is providing safety guarantees, we wanted to make sure
+Since the main asset of `safetensors` is providing safety guarantees, we wanted to make sure
 it actually delivered. That's why Hugging Face, EleutherAI, and Stability AI teamed up to get an external
 security audit to confirm it.
 
 Important findings:
 
 - No critical security flaw leading to arbitrary code execution was found.
-- Some imprecisions in the spec format were detected and fixed. 
+- Some imprecisions in the format specification were detected and fixed.
 - Some missing validation allowed [polyglot files](https://en.wikipedia.org/wiki/Polyglot_(computing)), which was fixed.
 - Lots of improvements to the test suite were proposed and implemented.
 
@@ -109,7 +109,7 @@ fully public.
 [Full report](https://huggingface.co/datasets/safetensors/trail_of_bits_audit_repot/resolve/main/SOW-TrailofBits-EleutherAI_HuggingFace-v1.2.pdf)
 
 
-One import thing to note is that the library is written in Rust. This adds
+One important thing to note is that the library is written in Rust. This adds
 an extra layer of [security](https://doc.rust-lang.org/rustc/exploit-mitigations.html)
 coming directly from the language itself.
 

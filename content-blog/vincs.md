@@ -19,7 +19,7 @@ Motivated by these concerns, [Christiano et al. 2021](https://docs.google.com/do
 
 ### Contrast Consistent Search (CCS)
 
-[Burns et al., 2022](https://arxiv.org/abs/2212.03827) introduced CCS, an unsupervised ELK probing method that identifies a direction in activation space that encourages that a given statement and its negation are assigned complementary probabilities.
+[Burns et al., 2022](https://arxiv.org/abs/2212.03827) introduced CCS, an unsupervised ELK probing method that identifies a direction in activation space that encourages assigning complementary probabilities to a given statement and its negation.
 
 Initially, a language model $\mathcal{M}$ computes contextualized embeddings ${(\mathcal{M}(s_i^+), \mathcal{M}(s_i^-))}$ for a dataset containing textual contrast pairs ${(s_i^+, s_i^-)}_{i=1}^{n}$. Subsequently, a linear probe is trained to output probabilities for given embeddings. The probe serves to determine the probabilities ${p^+}$ and ${p^-}$, which represent the truth values of ${s_i^+}$ and ${s_i^-}$. The training objective for the probe is formulated as follows:
 
@@ -76,7 +76,7 @@ From Equation 4, we see that CRC-TPC implicitly searches for a direction along w
 
 Another intuitive property of truth is *paraphrase invariance*: if a logically consistent person assigns a credence $C$ to a statement $s$, they should assign roughly the same credence to all statements with a similar meaning to $s$. We view paraphrases as a kind of data augmentation which changes the surface form of a statement while preserving its truth value, just as data augmentations in computer vision change the appearance of an image while preserving its class. [Recent work](https://arxiv.org/abs/2203.03304) has found that *explicitly* regularizing a classifier's predictions to be invariant to data augmentations can improve performance in supervised learning as well as the [semi-supervised setting](https://arxiv.org/abs/1904.12848), and we hypothesize that it should improve ELK performance as well.
 
-##### Clusters
+#### Clusters
 We'll call a set of statements with nearly identical meanings a *cluster*. Consider a dataset of $n$ clusters, each of size $k$. Then $s_{ij}^+$ denotes the $j^\text{th}$ paraphrase of the $i^\text{th} $ proposition in the dataset, and $s_{ij}^-$ is its negation. For each cluster $\{(s_{ij}^+, s_{ij}^-)\}_{j=1}^{k}$, we'll write $X_{i}^{+} \in \mathbb{R}^{k \times d}$ to denote the data matrix containing the embeddings of the $k$ paraphrases of $s_i^+$, and $X_{i}^{-}$ will contain the paraphrases of the negation $s_i^-$. We can then define the invariance to be the negative mean variance in credences within each cluster:
 
 $$
@@ -91,7 +91,7 @@ $$
 
 This loss function is minimized when for each cluster $i$, credences are identical for all paraphrases in $i$.
 
-##### Centroids
+#### Centroids
 In order to adapt the confidence and consistency terms to this new framework, we'll need to introduce the concept of a cluster *centroid*, or the average representation of the statements in a given cluster:
 $$
 \begin{equation}
@@ -124,7 +124,7 @@ $$
     \boldsymbol{\bar x}_F &= \mathbb{E}[\mathcal{M}(s)|s\text{ is false}].
 \end{align*} 
 $$
-$A_\text{supervision}$ is a rank-1 covariance matrix of this data matrix containing only two samples. The vector that maximizes this is difference-in-class-conditional-means direction, which prior work has found to have desirable generalization properties ([Marks et al., 2023](https://arxiv.org/abs/2310.06824); [Mallen et al., 2023](https://arxiv.org/abs/2312.01037); [Zou et al., 2023](https://arxiv.org/abs/2310.01405); [Belrose, 2023](https://blog.eleuther.ai/diff-in-means/)).
+$A_\text{supervision}$ is a rank-1 covariance matrix of this data matrix containing only two samples. The vector that maximizes this is the difference-in-class-conditional-means direction, which prior work has found to have desirable generalization properties ([Marks et al., 2023](https://arxiv.org/abs/2310.06824); [Mallen et al., 2023](https://arxiv.org/abs/2312.01037); [Zou et al., 2023](https://arxiv.org/abs/2310.01405); [Belrose, 2023](https://blog.eleuther.ai/diff-in-means/)).
 
 
 ### Putting it together
@@ -168,7 +168,7 @@ This is the eigenvalue equation for $\mathbf{A}_{\mathrm{VINCS}}$, where $\lambd
 
 Importantly, eigenvectors are only defined up to an arbitrary choice of sign. This means that without an additional constraint, we don't know how to *orient* $\mathbf{w^*}$ so that positive values of $\langle \mathbf{w^*}, \cdot \rangle$ correspond to true statements and negative values correspond to false statements.
 
-#### Implementation
+### Implementation
 Since we are only interested in the dominant eigenvector, we can use an algorithm like Lanczos iteration to find it efficiently without computing the full eigendecomposition of $\mathbf{A}_{\mathrm{VINCS}}$.
 
 Furthermore, since $\mathbf{A}_{\mathrm{VINCS}}$ only depends on covariance statistics, it can be computed incrementally over a large dataset with $O(d^2)$ memory usage. We can also compute $\mathbf{A}_{\mathrm{VINCS}}$ over a data stream with covariance statistics that change over time, using exponential moving averages of sample covariance matrices. While we don't compute $\mathbf A_\text{VINCS}$ incrementally here, this would make it efficient for use during neural network training.
@@ -190,7 +190,7 @@ Results of a hyperparameter sweep shown in a ternary plot. Points are averaged r
 
 $w_{var}$ corresponds to $\alpha$ (confidence), $w_{inv}$ to $\beta$ (paraphrase invariance), $w_{cov}$ to $\gamma$ (negation consistency), and $w_{sup}$ to $\sigma$ (supervision).
 
-The two rows correspond to a different way of producing the paraphrases, with "standardized" templates providing a uniform meta-template surrounding the diverse paraphrases.
+The two rows correspond to different ways of producing the paraphrases, with "standardized" templates providing a uniform meta-template surrounding the diverse paraphrases.
 #### At the earliest informative layer (EIL)
 | ![Image 1](/images/blog/vincs/ternary_AE_BH_wvar_0_standardize_templates_False_eil.png) | ![Image 2](/images/blog/vincs/ternary_AE_BH_wvar_1_standardize_templates_False_eil.png) |
 |:------------------------------------------:|:------------------------------------------:|
@@ -223,7 +223,7 @@ The two rows correspond to a different way of producing the paraphrases, with "s
 
 - The supervision term is somewhat useful, though it seems to be no better than, or perhaps marginally worse than, a variance term (comparing methods with only a paraphrase invariance term and a variance/supervision term).
 
-- (Looking at standardized templates averaged over all layers) The best hyperparameter settings (all the ones involving variance and no negation consistency; 0.648) only marginally outperform the difference-in-means reporter ($w_{sup}=1$, everthing else 0 $\rightarrow$ 0.63 transfer AUROC) and the CRC reporter ($w_{cov}=w_{var}=1$ and everything else 0 $\rightarrow$ 0.611 transfer AUROC).
+- (Looking at standardized templates averaged over all layers) The best hyperparameter settings (all the ones involving variance and no negation consistency; 0.648) only marginally outperform the difference-in-means reporter ($w_{sup}=1$, everything else 0 $\rightarrow$ 0.63 transfer AUROC) and the CRC reporter ($w_{cov}=w_{var}=1$ and everything else 0 $\rightarrow$ 0.611 transfer AUROC).
 
 ## Conclusion
 

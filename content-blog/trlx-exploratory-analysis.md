@@ -3,7 +3,7 @@ title: "Exploratory Analysis of TRLX RLHF Transformers with TransformerLens"
 date: 2023-04-02T00:00:00Z
 lastmod: 2023-04-02T00:00:00Z
 draft: False
-description: "A demonstration of interpretabilty for RLHF models"
+description: "A demonstration of interpretability for RLHF models"
 author: ["Curt Tigges"]
 contributors: ["EleutherAI"]
 categories: ["Announcement"]
@@ -15,7 +15,7 @@ LLMs trained with RLHF are a prominent paradigm in the current AI landscape, yet
 
 Fortunately, we are reaching the point where tooling for both mechanistic interpretability and for RLHF fine-tuning is becoming available. In this blog post, I demonstrate how to do both RLHF training using TRLX, an open-source library created by CarperAI; and mechanistic interpretation of TRLX models using TransformerLens, a library created by Neel Nanda. Rather than going deep into specific findings, I want to illustrate some processes and tools I think are useful.
 
-**This post is intended to summarize and go alongside an interactive Colab;**[you can find that here](https://colab.research.google.com/drive/1DK6_HNRjUHliolQ2uMYNpB24XyeD9BIl).
+**This post is intended to summarize and go alongside an interactive Colab;** [you can find that here](https://colab.research.google.com/drive/1DK6_HNRjUHliolQ2uMYNpB24XyeD9BIl).
 
 I first fine-tune a movie-review-generating version of GPT-2 with TRLX to generate only negatively-biased movie reviews, following an example provided in the TRLX repo. I then load and analyze the model (and the original model before RLHF) into TransformerLens for mechanistic interpretability analysis. Here, I adapt some of the techniques and code from Neel Nanda's excellent [Exploratory Analysis Demo](https://colab.research.google.com/github/neelnanda-io/Easy-Transformer/blob/main/Exploratory_Analysis_Demo.ipynb).
 
@@ -25,7 +25,7 @@ In addition to carrying out some basic analysis to understand how different laye
 
 RLHF (or sometimes, RLAIF, or RL from AI Feedback) is becoming increasingly important as a method for specifying the behavior of LLMs like OpenAI's ChatGPT or Anthropic's Claude. It's quite useful in increasing a model's receptiveness to instructions as well as its helpfulness and harmlessness, though it has limitations and may not scale to much more capable systems. Nevertheless, it is quite important in today's LLM landscape.
 
-RL induces behavior in models that are critical to understand as we delegate more tasks to them. Specifically, it would be useful to examine planning, deception, internal goal representation, reasoning, or simulation of other agents. Neel Nanda provides a set of [recommended RL problems](https://www.lesswrong.com/s/yivyHaCAmMJ3CqSyj/p/eqvvDM25MXLGqumnf) in his 200 Open Problems in Mechanistic Interpretability sequence. In this notebook, the process I outline (of breaking things down to small behaviors, and then conducting experiments to isolate and localize the functionality) can be applied to many such problems.
+RL induces behavior in models that is critical to understand as we delegate more tasks to them. Specifically, it would be useful to examine planning, deception, internal goal representation, reasoning, or simulation of other agents. Neel Nanda provides a set of [recommended RL problems](https://www.lesswrong.com/s/yivyHaCAmMJ3CqSyj/p/eqvvDM25MXLGqumnf) in his 200 Open Problems in Mechanistic Interpretability sequence. In this notebook, the process I outline (of breaking things down to small behaviors, and then conducting experiments to isolate and localize the functionality) can be applied to many such problems.
 
 ### RLHF Training Details
 
@@ -104,7 +104,7 @@ source_model = AutoModelForCausalLM.from_pretrained("lvwerra/gpt2-imdb")
 rlhf_model = AutoModelForCausalLM.from_pretrained("curt-tigges/gpt2-negative-movie-reviews")
 
 # If  you want to load a model trained with the code above instead of the one I've put on HuggingFace,
-# simple use the code below instead
+# simply use the code below instead
 #%cd /content/drive/MyDrive/repos/trlx-tl-demo/
 #rlhf_model = AutoModelForCausalLM.from_pretrained("artifacts/base_model/")
 
@@ -193,8 +193,6 @@ This is a key technique we can use in analysis of RLHF models: instead of just g
 
 ### Activation Patching for Localization
 
-Activation Patching for Localization
-
 So far, we have determined:
 
 1. Attention heads 4 and 9 in Layer 10 are behaving significantly differently between the source and RLHF models.
@@ -203,7 +201,7 @@ So far, we have determined:
 
 3. Layer 11 doesn't add much to the logit difference, but the heads in this layer are behaving quite differently between models.
 
-Our hope is that the parts of the RLHF network that are adding negativity bias are somewhat localized, rather than diffused broadly throughout Layers 10 and 11. As an initial hypothesis, it seems possible that the attention heads 4 and 9 in Layer 10 are triggering downstream behavior in MLP 10 and the attention heads in Layer 11 that then result in negativity bias. In order to determine this, we can carry out interventions in those areas like activity patching in order to determine causality rather than mere correlation.
+Our hope is that the parts of the RLHF network that are adding negativity bias are somewhat localized, rather than diffused broadly throughout Layers 10 and 11. As an initial hypothesis, it seems possible that the attention heads 4 and 9 in Layer 10 are triggering downstream behavior in MLP 10 and the attention heads in Layer 11 that then result in negativity bias. In order to determine this, we can carry out interventions in those areas like activation patching in order to determine causality rather than mere correlation.
 
 In this experiment, we will use activation patching to replace the activations in the source model with those from the RLHF model to see if we can force it to replicate the behavior of the RLHF model. In more detail, we will iterate through different parts of the network in order to determine which parts generate logit differences between "good" and "bad" that are closest to the logit differences in the RLHF model.
 
@@ -262,7 +260,7 @@ Next, let's see which attention heads seem to be making the most difference in t
 
 This visualization looks similar to our earlier visualization in the "Model Differences by Attention Head" section, but the interpretation is different. Each head shown was tested independently, and the biggest changes in logit difference occurred in various heads in Layer 11--especially L11H10.
 
-{{<figure src="/images/blog/trlx-exploratory-analysis/9.png" alt="" caption="Logit differences resulting from patches applied to the source model MLPs from the RLHF model." />}}
+{{<figure src="/images/blog/trlx-exploratory-analysis/9.png" alt="Heatmap of logit differences by patched attention head and layer, with the largest positive changes concentrated in layers 10 and 11." caption="Logit differences resulting from patches applied to the source model attention heads from the RLHF model." />}}
 
 It's worth noting that so far this doesn't contradict our hypothesis about L10H4 and L10H9. Both make a significant difference to the final logits. What happens if we patch both of them?
 
@@ -295,11 +293,11 @@ Much, much more can be done with causal tracing and activation patching. Specifi
 
 1. Try a variety of prompts of different lengths and structures, still using logit difference as a metric
 
-2. Generate longer response with patching to see if the identified network components consistently provide negativity bias (as opposed to only doing so for the particular words in the experiments above)
+2. Generate longer responses with patching to see if the identified network components consistently provide negativity bias (as opposed to only doing so for the particular words in the experiments above)
 
 3. Use negativity/positivity as a metric for longer generations, using the reward model used to train the RLHF model
 
-4. Examining the value head from the original TRLX output model
+4. Examine the value head from the original TRLX output model
 
 5. Ultimately, identify specifically what the identified attention heads are doing
 
@@ -307,15 +305,14 @@ Much, much more can be done with causal tracing and activation patching. Specifi
 
 ## References
 
-1. Nanda, Neel: [Exploratory Analysis Demo](https://colab.research.google.com/github/neelnanda-io/TransformerLens/blob/main/Main_Demo.ipynb).
+1. Nanda, Neel: [Exploratory Analysis Demo](https://colab.research.google.com/github/neelnanda-io/Easy-Transformer/blob/main/Exploratory_Analysis_Demo.ipynb).
 
-2. Nanda, Neel: [TransformerLens Main Demo](https://colab.research.google.com/github/neelnanda-io/Easy-Transformer/blob/main/Exploratory_Analysis_Demo.ipynb).
+2. Nanda, Neel: [TransformerLens Main Demo](https://colab.research.google.com/github/neelnanda-io/TransformerLens/blob/main/Main_Demo.ipynb).
 
-3. Nanda, Neel: [200 COP in MI: Interpreting RL](https://github.com/CarperAI/trlx/blob/main/examples/ppo_sentiments.py).
+3. Nanda, Neel: [200 COP in MI: Interpreting RL](https://www.lesswrong.com/s/yivyHaCAmMJ3CqSyj/p/eqvvDM25MXLGqumnf).
 
-4. CarperAI: TRLX [PPO Sentiments Example](PPO Sentiments Example).
+4. CarperAI: TRLX [PPO Sentiments Example](https://github.com/CarperAI/trlx/blob/main/examples/ppo_sentiments.py).
 
 5. Lambert, N.; Castricato, L.; von Werra, L.; Havrilla, A.: [Illustrating Reinforcement Learning from Human Feedback (RLHF)](https://huggingface.co/blog/rlhf). Published on HuggingFace.
-
 
 

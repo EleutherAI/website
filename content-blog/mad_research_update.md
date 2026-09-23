@@ -8,7 +8,7 @@ mathjax: true
 draft: false
 ---
 
-In December 2023, the Eleuther team published [Eliciting Latent Knowledge from Quirky Language Models](https://arxiv.org/abs/2312.01037v3). We finetuned language models to behave in a "quirky" manner on a collection of question and answer datasets. When a prompt began with "Alice:", these models were trained to answer as accurately as possible, but when it instead began with "Bob:", they would answer according to an unreliable heuristic (Bob would not always be wrong, but would consistently use the same fallible method to answer questions). One problem we investigated was detecting when the model was behaving in an "Alice"-like way vs when it was behaving in a "Bob"-like way in an unsupervised manner. This is an instance of the [*Mechanistic Anomaly Detection*](https://www.lesswrong.com/posts/n7DFwtJvCzkuKmtbG/a-gentle-introduction-to-mechanistic-anomaly-detection) (MAD) problem introduced by Paul Christiano. We obtained strong results with a simple anomaly detection technique- an average AUROC of 0.95 across all quirky datasets, and close to 0.99 for those datasets where the models learned to be strongly quirky.
+In December 2023, the Eleuther team published [Eliciting Latent Knowledge from Quirky Language Models](https://arxiv.org/abs/2312.01037v3). We finetuned language models to behave in a "quirky" manner on a collection of question and answer datasets. When a prompt began with "Alice:", these models were trained to answer as accurately as possible, but when it instead began with "Bob:", they would answer according to an unreliable heuristic (Bob would not always be wrong, but would consistently use the same fallible method to answer questions). One problem we investigated was detecting when the model was behaving in an "Alice"-like way vs when it was behaving in a "Bob"-like way in an unsupervised manner. This is an instance of the [*Mechanistic Anomaly Detection*](https://www.lesswrong.com/posts/n7DFwtJvCzkuKmtbG/a-gentle-introduction-to-mechanistic-anomaly-detection) (MAD) problem introduced by Paul Christiano. We obtained strong results with a simple anomaly detection technique: an average area under the receiver operating characteristic curve (AUROC) of 0.95 across all quirky datasets, and close to 0.99 for those datasets where the models learned to be strongly quirky.
 
 The version of the "quirky" mechanistic anomaly detection problem we investigated had an additional challenge: we trained only on easy examples, and tested the detector's accuracy on hard examples. We do this because we want to detect how well detectors work under a distribution shift.
 
@@ -21,7 +21,7 @@ We find that enriching the set of names in this manner makes the problem harder 
 3. We can achieve very high classification accuracy on some datasets if we have access to test set statistics (AUROC >0.999) and moderately high accuracy without them (AUC >0.95).
 4. For some datasets high accuracy depends on hyperparameters that may be difficult to tune and on others we do not achieve high accuracy at all.
 5. Achieving uniformly high classification accuracy is difficult.
-6. We compared methods based on model activations and attribution patching. Activation based methods offered the highest classification accuracy, though some methods based on attribution patchings were less sensitive to layer choice.
+6. We compared methods based on model activations and attribution patching. Activation based methods offered the highest classification accuracy, though some methods based on attribution patching were less sensitive to layer choice.
 7. Combining activations and effects estimated from attribution patching did not significantly improve detection accuracy.
 8. Visualisations suggest that attribution patching may benefit from more sophisticated scoring methods.
 9. Activation based anomaly detection can also detect adversarial examples in non-robust vision models but not in robust models.
@@ -29,7 +29,7 @@ We find that enriching the set of names in this manner makes the problem harder 
 
 ## Experimental setup
 
-We fine tuned Mistral 7B v0.1 on 12 quirky datasets with LoRA, early stopped on overall validation loss computed on both Alice and Bob examples. The number of epochs used is listed in the table below. The datasets were formatted using the `templatize_quirky_dataset` function from the [quirky-language-models](https://github.com/davidoj/quirky-language-models/blob/e6a042ccc7b3853ae4b3f837b08dc0c1f98fcbe7/elk_generalization/datasets/loader_utils.py) repo with the options `standardize_templates=True`, `method=random`, `random_names=True` and `seed=0`.
+We fine tuned Mistral 7B v0.1 on 12 quirky datasets with low-rank adaptation (LoRA), early stopped on overall validation loss computed on both Alice and Bob examples. The number of epochs used is listed in the table below. The datasets were formatted using the `templatize_quirky_dataset` function from the [quirky-language-models](https://github.com/davidoj/quirky-language-models/blob/e6a042ccc7b3853ae4b3f837b08dc0c1f98fcbe7/elk_generalization/datasets/loader_utils.py) repo with the options `standardize_templates=True`, `method=random`, `random_names=True` and `seed=0`.
 
 | Dataset | Max Epochs | Notes |
 |---------|--------|-------|
@@ -46,7 +46,7 @@ We fine tuned Mistral 7B v0.1 on 12 quirky datasets with LoRA, early stopped on 
 | [modularaddition](https://huggingface.co/datasets/EleutherAI/quirky_modularaddition_raw) | 30.0 | |
 | [squaring](https://huggingface.co/datasets/EleutherAI/quirky_squaring_raw) | 15.0 | |
 
-We also fine tuned Llama 3 and 3.1 8B on these datasets, and we are planning to use these models as a held out test model for our anomaly detection methods.
+We also fine tuned Llama 3 and 3.1 8B on these datasets, and we are planning to use these models as held-out test models for our anomaly detection methods.
 
 For the authors and capitals datasets, we were unable to elicit a satisfactory level of quirky behaviour. Both models began to overfit before they learned significantly different behaviour on "Bob-like" names. We therefore exclude them from our analysis.
 
@@ -83,7 +83,7 @@ If a system has a small number of anomalous modes of operation, then the offline
 
 We tried anomaly detection methods suited to each setting. We experimented with different scoring rules and different sets of features from which to compute scores. The feature sets we tried included:
  - **Activations**: We take "activations" from the residual stream at various internal layers of the model
-   - **MLP activations**: For a subset of scores, we experimented with taking activations from the MLP outputs rather than the residual stream
+   - **MLP activations**: For a subset of scores, we experimented with taking activations from the multilayer perceptron (MLP) outputs rather than the residual stream
  - **Attribution**: We measure the approximate effect of ablating the model's activations on the final difference in logits between "Yes" and "No" tokens using attribution patching. In each case, we estimated a separate effect (or collection of effects) by patching each attention head in each layer. We experiment with several different ablations:
    - **Mean**: We replace the activations of each of the attention heads in a given layer with the mean activation of that attention head
    - **Principal components**: We replace the activations of each of the attention heads with the activations given by subtracting the difference between the activation's projection on each of the top 10 principal components and the mean of activations projected on the same principal component
@@ -116,16 +116,16 @@ For the offline setting, we experimented with:
  - **Likelihood ratio**: We calculated the ratio of the likelihood of the test data under a Gaussian fit to the trusted data only to the likelihood of the test data under a Gaussian fit to the test data. Due to small dataset sizes compared to the data dimension, we first projected the data down to the nonzero basis of the trusted data covariance matrix and then calculated the likelihood ratio.
  - **Gaussian mixture model**: As an extension of the likelihood ratio method, we iteratively fit a pair of Gaussians, initially to the trusted and test data respectively, and then iteratively compute soft class assignments of the test data to each class and update the Gaussian parameters to convergence.
 
-In addition, we visualised activations and estimated effects per layer using UMAP and PCA plots for the top four principal components.
+In addition, we visualised activations and estimated effects per layer using Uniform Manifold Approximation and Projection (UMAP) and principal component analysis (PCA) plots for the top four principal components.
 
 ## Results
 
-Among online scores, the highest average AUROC (0.87) when scores were aggregated across layers was achieved by using the mahalanobis score with activation features. Among offline scores, the highest average AUROC (0.94) was achieved by using the quantum entropy score together with activation features.
+Among online scores, the highest average AUROC (0.87) when scores were aggregated across layers was achieved by using the Mahalanobis score with activation features. Among offline scores, the highest average AUROC (0.94) was achieved by using the quantum entropy score together with activation features.
 
 Averages mask substantial structure in scores:
  - All methods struggled to consistently distinguish Alice from Bob on the `sciq` and `sentiment` datasets
  - Activation based methods performed well on all datasets except `nli`
- - Where activation based methods performed well, they typically performed *very* well. Activations-quantum entropy achieved an AUROC of ~1 on the remaining datasets, while the lowest AUROC for activations-Mahalanobis distance on the remaining datasets distance was 0.988 on `hemisphere`
+ - Where activation based methods performed well, they typically performed *very* well. Activations-quantum entropy achieved an AUROC of ~1 on the remaining datasets, while the lowest AUROC for activations-Mahalanobis distance on the remaining datasets was 0.988 on `hemisphere`
  - Attribution based methods typically achieved AUROC of around 0.9 on "easy" datasets, but performed notably better than activation based methods on `nli`
  - Probe-shift based methods were particularly insensitive to the choice of layer
 
@@ -200,7 +200,7 @@ We did not have success with contrast probing.
 
 ## Adversarial image detection
 
-We conducted an exploratory experiment applying the same detectors to the task of detecting adversarial images for image classifiers. We focused on the Mahalanobis distance, because it worked well in comparison to other detectors for the quirky models task and because it is quite simple. We found that an activation-mahalanobis detector was able to detect adversarial images with an AUC of around 0.8 (layer-dependant) in a standard image classifier. It could not perform above chance for a robust classifier, however. Using attribution patching to approximate mean ablation along top principal components, on the other hand, had highly layer-dependent accuracy for a standard classifier. Interestingly, exactly the same approach performed marginally better than chance in a relatively layer independent manner for the tested robust detector. We did not test how robust the detectors themselves were to adversarial attack.
+We conducted an exploratory experiment applying the same detectors to the task of detecting adversarial images for image classifiers. We focused on the Mahalanobis distance, because it worked well in comparison to other detectors for the quirky models task and because it is quite simple. We found that an activation-mahalanobis detector was able to detect adversarial images with an AUC of around 0.8 (layer-dependent) in a standard image classifier. It could not perform above chance for a robust classifier, however. Using attribution patching to approximate mean ablation along top principal components, on the other hand, had highly layer-dependent accuracy for a standard classifier. Interestingly, exactly the same approach performed marginally better than chance in a relatively layer independent manner for the tested robust detector. We did not test how robust the detectors themselves were to adversarial attack.
 
 ![Comparison of adversarial image detectors by layer](/images/blog/mechanistic-anomaly-detection/adversarial_image.png)
 *Figure 6: Performance of different adversarial image detectors by layer and image model. Standard is a non-robust classifier, while [Carmon2019Unlabeled](https://arxiv.org/abs/1905.13736) is a robust model*
@@ -228,7 +228,7 @@ At layer 1, activations show a strong clustering pattern in both PCA and UMAP pl
 
 In the layer 16 activations, the PCA plots show clear separation of anomalous and normal examples in the direction of the top principal component. In the direction of the second principal component, there is substantial separation between the trusted data used to train the detector and the normal test examples, showing that there is a distribution shift between the easy and hard examples. The population dataset consists of questions like `input: "Does {character} think that {city} has a population greater than {population}?"`, and the difficulty metric is `-log(population)`, so it is possible that the second principal component tracks log population.
 
-While the PCA plots for layer 16 activations show different directions that seem to correspond to normal/anomalus, easy/hard and true/false, the UMAP plot separates all of these classes at once.
+While the PCA plots for layer 16 activations show different directions that seem to correspond to normal/anomalous, easy/hard and true/false, the UMAP plot separates all of these classes at once.
 
 ![PCA plot of population activations, layer 16](/images/blog/mechanistic-anomaly-detection/population_activations.layers.16.input_layernorm.input_pca.png)
 *Figure 9: PCA plot of population activations, layer 16*
@@ -242,10 +242,10 @@ While the PCA plots for layer 16 activations show different directions that seem
 By layer 28, clusters visible at layer 16 appear to have separated further. We also see the emergence of further structure that does not correspond to any of the classes we distinguish by colour.
 
 ![PCA plot of population activations, layer 28](/images/blog/mechanistic-anomaly-detection/population_activations.layers.28.input_layernorm.input_pca.png)
-*Figure 11: PCA plot of population activations, layer 16*
+*Figure 11: PCA plot of population activations, layer 28*
 
 ![UMAP plot of population activations, layer 28](/images/blog/mechanistic-anomaly-detection/population_activations.layers.28.input_layernorm.input_umap.png)
-*Figure 12: UMAP plot of population activations, layer 16*
+*Figure 12: UMAP plot of population activations, layer 28*
 
 
 #### Attention head mean ablations
@@ -267,20 +267,20 @@ The UMAP plot, on the other hand, clearly distinguishes normal from anomalous ex
 While clustering by the classes we have coloured is evident in layer 16 mean ablation effect estimates, it is far less defined than the clustering evident in layer 16 activations.
 
 ![PCA plot of population mean ablations, layer 16](/images/blog/mechanistic-anomaly-detection/population_attribution.layers.16.self_attn_pca.png)
-*Figure 15: PCA plot of population mean ablations, layer 1*
+*Figure 15: PCA plot of population mean ablations, layer 16*
 
 ![UMAP plot of population mean ablations, layer 16](/images/blog/mechanistic-anomaly-detection/population_attribution.layers.16.self_attn_umap.png)
-*Figure 16: UMAP plot of population mean ablations, layer 1*
+*Figure 16: UMAP plot of population mean ablations, layer 16*
 
 ##### Layer 28
 
 By layer 28, clusters visible at layer 16 appear to have separated further. We also see the emergence of further structure that does not correspond to any of the classes we distinguish by colour.
 
 ![PCA plot of population mean ablations, layer 28](/images/blog/mechanistic-anomaly-detection/population_attribution.layers.28.self_attn_pca.png)
-*Figure 17: PCA plot of population activations, layer 28*
+*Figure 17: PCA plot of population mean ablations, layer 28*
 
 ![UMAP plot of population mean ablations, layer 28](/images/blog/mechanistic-anomaly-detection/population_attribution.layers.28.self_attn_umap.png)
-*Figure 18: UMAP plot of population activations, layer 28*
+*Figure 18: UMAP plot of population mean ablations, layer 28*
 
 #### Probe shift
 
@@ -291,7 +291,7 @@ The probe shift method preserves the structure visible in layer 4 of the mean ab
 ![PCA plot of population probe shift, layer 4](/images/blog/mechanistic-anomaly-detection/population_probe.layers.4.self_attn_pca.png)
 *Figure 19: PCA plot of population probe shift features, layer 4*
 
-![UMAP plot of population probe shift, layer 1](/images/blog/mechanistic-anomaly-detection/population_probe.layers.4.self_attn_umap.png)
+![UMAP plot of population probe shift, layer 4](/images/blog/mechanistic-anomaly-detection/population_probe.layers.4.self_attn_umap.png)
 *Figure 20: UMAP plot of population probe shift features, layer 4*
 
 ##### Layer 16
@@ -312,7 +312,7 @@ The probe shift method preserves the structure visible in layer 4 of the mean ab
 
 ### Sentiment
 
-While population is a relatively easy dataset, sentiment is more challenging. Attribution based methods performed worse than change on it, while activation based detectors could not reliably distinguish normal from anomalous examples.
+While population is a relatively easy dataset, sentiment is more challenging. Attribution based methods performed worse than chance on it, while activation based detectors could not reliably distinguish normal from anomalous examples.
 
 #### Activations
 
@@ -422,7 +422,7 @@ $$\Delta S = (o_A - o_A')^T \frac{\partial S}{\partial i_B}$$
 
 That is, we approximate the change in score with the inner product between the change in the output of A ($o_A$) and the gradient of the loss with respect to the input of B ($\frac{\partial S}{\partial i_B}$).
 
-Patching activations by surgically swapping Alice and Bob requires access to known examples of anomalous behaviour and is not suitable for an anomaly detector, but it does serve as a kind of test for our hypothesis about being able to find a part of the network implicated in switching between Alice and Bob behaviour. In fact, from testing on a few datasets, we find an edge from MLP 30 to MLP 31 that appears to play a large role in behaviour switching for multiple datasets (Figure 5). Because this edge is between two MLP layers, we could not have discovered it using attention head patching.
+Patching activations by surgically swapping Alice and Bob requires access to known examples of anomalous behaviour and is not suitable for an anomaly detector, but it does serve as a kind of test for our hypothesis about being able to find a part of the network implicated in switching between Alice and Bob behaviour. In fact, from testing on a few datasets, we find an edge from MLP 30 to MLP 31 that appears to play a large role in behaviour switching for multiple datasets (Figure 43). Because this edge is between two MLP layers, we could not have discovered it using attention head patching.
 
 ![Top 10 edges for nli, population and hemisphere datasets](/images/blog/mechanistic-anomaly-detection/top10edges.png)
 *Figure 43: Top 10 edges for nli, population and hemisphere datasets*
@@ -626,7 +626,7 @@ For reference, here are detailed AUROC scores for a large collection of detector
 | mahalanobis pcs           | probe                   | 0.793          | nan                  | 0.795          | 0.715                | nan                        | 0.719                | 0.899                   | nan                           | 0.900                   | 28           |
 | pca mahalanobis           | activations             | **0.978**      | 0.978                | 0.978          | **0.970**            | 0.970                      | 0.970                | **0.989**               | 0.989                         | 0.989                   | aggregate    |
 
-### Sciq results: online methods
+#### Sciq results: online methods
 
 | score                     | features                | mean_auc_roc   | aggregated_auc_roc   | best_auc_roc   | mean_auc_roc_agree   | aggregated_auc_roc_agree   | best_auc_roc_agree   | mean_auc_roc_disagree   | aggregated_auc_roc_disagree   | best_auc_roc_disagree   | best_layer   |
 |---------------------------|-------------------------|----------------|----------------------|----------------|----------------------|----------------------------|----------------------|-------------------------|-------------------------------|-------------------------|--------------|
@@ -657,7 +657,7 @@ For reference, here are detailed AUROC scores for a large collection of detector
 | mahalanobis pcs           | probe                   | 0.561          | nan                  | 0.557          | 0.505                | nan                        | 0.464                | 0.483                   | nan                           | 0.433                   | 28           |
 | pca mahalanobis           | activations             | 0.367          | 0.367                | 0.367          | 0.496                | 0.496                      | 0.496                | 0.195                   | 0.195                         | 0.195                   | aggregate    |
 
-### Sentiment results: online methods
+#### Sentiment results: online methods
 | score                     | features                | mean_auc_roc   | aggregated_auc_roc   | best_auc_roc   | mean_auc_roc_agree   | aggregated_auc_roc_agree   | best_auc_roc_agree   | mean_auc_roc_disagree   | aggregated_auc_roc_disagree   | best_auc_roc_disagree   | best_layer   |
 |---------------------------|-------------------------|----------------|----------------------|----------------|----------------------|----------------------------|----------------------|-------------------------|-------------------------------|-------------------------|--------------|
 |                           | iterative rephrase      | 0.298          | 0.298                | 0.298          | 0.299                | 0.299                      | 0.299                | 0.246                   | 0.246                         | 0.246                   | aggregate    |
@@ -687,7 +687,7 @@ For reference, here are detailed AUROC scores for a large collection of detector
 | mahalanobis pcs           | probe                   | 0.372          | nan                  | 0.388          | 0.424                | nan                        | 0.434                | 0.280                   | nan                           | 0.308                   | 28           |
 | pca mahalanobis           | activations             | **0.760**      | **0.760**            | 0.760          | **0.738**            | **0.738**                  | 0.738                | **0.827**               | **0.827**                     | 0.827                   | aggregate    |
 
-### Squaring results: online methods
+#### Squaring results: online methods
 | score                     | features                | mean_auc_roc   | aggregated_auc_roc   | best_auc_roc   | mean_auc_roc_agree   | aggregated_auc_roc_agree   | best_auc_roc_agree   | mean_auc_roc_disagree   | aggregated_auc_roc_disagree   | best_auc_roc_disagree   | best_layer   |
 |---------------------------|-------------------------|----------------|----------------------|----------------|----------------------|----------------------------|----------------------|-------------------------|-------------------------------|-------------------------|--------------|
 | isoforest pcs             | attribution             | 0.691          | nan                  | 0.735          | 0.620                | nan                        | 0.662                | 0.777                   | nan                           | 0.829                   | 28           |
@@ -709,7 +709,7 @@ For reference, here are detailed AUROC scores for a large collection of detector
 | mahalanobis pcs           | probe                   | 0.699          | nan                  | 0.779          | 0.616                | nan                        | 0.731                | 0.797                   | nan                           | 0.845                   | 28           |
 
 
-### Subtraction results: online methods
+#### Subtraction results: online methods
 | score                     | features                | mean_auc_roc   | aggregated_auc_roc   | best_auc_roc   | mean_auc_roc_agree   | aggregated_auc_roc_agree   | best_auc_roc_agree   | mean_auc_roc_disagree   | aggregated_auc_roc_disagree   | best_auc_roc_disagree   | best_layer   |
 |---------------------------|-------------------------|----------------|----------------------|----------------|----------------------|----------------------------|----------------------|-------------------------|-------------------------------|-------------------------|--------------|
 |                           | iterative rephrase      | 0.496          | 0.496                | 0.496          | 0.477                | 0.477                      | 0.477                | 0.512                   | 0.512                         | 0.512                   | aggregate    |
