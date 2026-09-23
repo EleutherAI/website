@@ -4,7 +4,7 @@ This repository contains the Hugo source for the EleutherAI website and blog.
 
 - Main site: [www.eleuther.ai](https://www.eleuther.ai/)
 - Blog: [blog.eleuther.ai](https://blog.eleuther.ai/)
-- Publication source of truth: [EleutherAI papers Google Sheet](https://docs.google.com/spreadsheets/d/1LcB7_1lHZgO8_EmOkrvfV2BTaOngX95J5v8PJeuN4rM/edit?usp=sharing)
+- Publication source of truth: [EleutherAI papers Google Sheet](https://docs.google.com/spreadsheets/d/14amb2CM9nVQR_-ZqpGuNPSSdMxsAk0YEoAvetgEyGRw/edit?usp=sharing)
 
 The main site and blog share templates, styles, data, and assets, but Hugo builds them as separate sites for separate Netlify deployments.
 
@@ -86,7 +86,7 @@ Files directly under `data/` and `data/projects/` are maintained by people. Ever
 | Community reading-group cards | [`data/reading_groups.yaml`](data/reading_groups.yaml) | One entry per reading-group series with its YouTube playlist ID (from [the channel's playlists page](https://www.youtube.com/@Eleuther_AI/playlists)). The build refreshes [`data/generated/community_reading_groups.json`](data/generated/community_reading_groups.json) with each series' newest recording; use the repository's `refresh-community-videos` skill when maintaining or troubleshooting it. |
 | Staff page | [`data/staff.yaml`](data/staff.yaml) | `teams` mirrors the org chart; give each person a `team` key. Store portraits locally under `static/assets/staff/`. |
 | Research page and research areas | [`data/research/areas.yaml`](data/research/areas.yaml) | Area prose, key projects, current directions, and the Major Projects list. Each area also needs a stub under `content/research/`. The intro paragraphs are in [`content/research/_index.md`](content/research/_index.md). Paper lists per area are generated from the Sheet's `Area` column via `research_area_filters.csv`. |
-| Research Library | [Google Sheet](https://docs.google.com/spreadsheets/d/1LcB7_1lHZgO8_EmOkrvfV2BTaOngX95J5v8PJeuN4rM/edit?usp=sharing) | `content/papers.md` only defines the route and layout. Do not hand-edit the rendered paper list. |
+| Research Library | [Google Sheet](https://docs.google.com/spreadsheets/d/14amb2CM9nVQR_-ZqpGuNPSSdMxsAk0YEoAvetgEyGRw/edit?usp=sharing) | `content/papers.md` only defines the route and layout. Do not hand-edit the rendered paper list. |
 | SOAR page | [`data/soar.yaml`](data/soar.yaml) | The page title and description are in `content/soar.md`. |
 | News post | [`content/news/`](content/news/) | Dated news posts can enter the homepage Latest feed. |
 | Manual homepage news item | [`data/home.yaml`](data/home.yaml) under `manual_news` | Give the item a title, URL, and date if it should participate in chronological sorting. |

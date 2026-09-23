@@ -54,7 +54,7 @@ CONFERENCE_FAMILIES = (
 )
 PAPERS_SHEET_CSV_URL = (
     "https://docs.google.com/spreadsheets/d/"
-    "1LcB7_1lHZgO8_EmOkrvfV2BTaOngX95J5v8PJeuN4rM/export?format=csv"
+    "14amb2CM9nVQR_-ZqpGuNPSSdMxsAk0YEoAvetgEyGRw/export?format=csv"
 )
 SCHOLAR_PROFILE_URL = "https://scholar.google.com/citations?user=to2WKckAAAAJ&hl=en"
 SCHOLAR_USER_AGENT = (
