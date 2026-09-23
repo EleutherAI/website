@@ -1,0 +1,14 @@
+# Avoid .html alias files shadowing directory pages on Netlify.
+disableAliases = true
+
+[mediaTypes."text/redirects"]
+  delimiter = ""
+
+[outputFormats.redirects]
+  baseName = "_redirects"
+  mediaType = "text/redirects"
+  isPlainText = true
+  notAlternative = true
+
+[outputs]
+  home = ["HTML", "redirects"]

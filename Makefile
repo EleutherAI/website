@@ -55,7 +55,7 @@ build-all-strict-offline: data-offline
 	$(HUGO) --config hugo-blog.toml --destination public-blog --cleanDestinationDir --panicOnWarning
 
 build-production: test data
-	$(HUGO) --cleanDestinationDir --panicOnWarning
+	$(HUGO) --config hugo.toml,hugo-netlify.toml --cleanDestinationDir --panicOnWarning
 
 build-blog-production: test
 	$(HUGO) --config hugo-blog.toml --destination public-blog --cleanDestinationDir --panicOnWarning

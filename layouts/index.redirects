@@ -1,0 +1,5 @@
+{{- range $page := site.Pages -}}
+  {{- range $page.Aliases -}}
+    {{- printf "%s %s 301\n" . $page.RelPermalink -}}
+  {{- end -}}
+{{- end -}}
