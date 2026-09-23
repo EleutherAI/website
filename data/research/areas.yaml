@@ -15,7 +15,7 @@ navigation:
   - title: "Open Source AI"
     areas: ["open_models", "training_data", "multilingual"]
   - title: "Science"
-    areas: ["interpretability", "evaluation", "data_attribution", "ai4science"]
+    areas: ["interpretability", "evaluation", "ai4science"]
   - title: "Safety"
     areas: ["open_weight_safety", "behavioral_safety", "security"]
 
@@ -276,25 +276,6 @@ areas:
       - name: "The Common Pile"
         url: "https://arxiv.org/abs/2506.05209"
         text: "8TB of public domain and openly licensed text."
-
-  - key: "data_attribution"
-    slug: "data-attribution"
-    title: "Data Attribution"
-    featured: false
-    summary: "Connecting model behavior to the training data that shaped it."
-    lede: "Which training examples contribute to a model's behavior? We develop tools for investigating that connection and use attribution to study capabilities and guide interventions."
-    body:
-      - "Bergson provides an open-source library for training-data attribution. It supports the study of how particular examples influence models and makes attribution methods available for further research."
-      - "Our applications include investigating the provenance of social-reasoning capabilities and mitigating emergent misalignment through data attribution. These questions connect the study of model behavior to choices about training data."
-    projects:
-      - name: "Bergson"
-        url: "https://arxiv.org/abs/2606.11660"
-        text: "An open-source library for data attribution."
-      - name: "Mitigating Emergent Misalignment with Data Attribution"
-        url: "https://openreview.net/forum?id=gN7pWmjiQW"
-      - name: "Where Does Social Reasoning Come From?"
-        url: "https://arxiv.org/abs/2606.19625"
-        text: "Capability provenance in language models."
 
 projects:
   intro: "Long-running artifacts that other researchers build on. Each is maintained and documented, and most have a paper describing them."
