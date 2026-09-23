@@ -36,7 +36,7 @@ sections:
 
       We maintain the LM Evaluation Harness to support reproducible experiments with configurable tasks and access to individual model responses. Through Every Eval Ever, we work on shared formats for recording results and the conditions under which they were produced.
 
-      We co-lead the EvalEval Coalition with Hugging Face and the University of Edinburgh. The coalition provides a way for researchers across institutions to work together on these methodological and practical problems, including the reporting standards and benchmark research described here.
+      We co-founded the EvalEval Coalition with Hugging Face and the University of Edinburgh. The coalition provides a way for researchers across institutions to work together on these methodological and practical problems, including the reporting standards and benchmark research described here.
     links:
       - label: "LM Evaluation Harness"
         url: "https://github.com/EleutherAI/lm-evaluation-harness"

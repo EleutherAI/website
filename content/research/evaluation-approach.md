@@ -2,6 +2,7 @@
 title: "Evaluation"
 description: "EleutherAI's approach to evaluation: choosing useful measurements, testing their assumptions, and enabling independent research."
 layout: evaluation-approach
+draft: true
 area_key: "evaluation"
 url: /research/evaluation-approach/
 ---

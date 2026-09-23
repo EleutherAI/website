@@ -35,3 +35,4 @@
   {{- end -}}
 {{- end -}}
 <a href="{{ $dest | safeURL }}"{{ with .Title }} title="{{ . }}"{{ end }}>{{ .Text | safeHTML }}</a>
+{{- /* Do not insert template whitespace after an inline link. */ -}}

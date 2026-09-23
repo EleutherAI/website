@@ -37,7 +37,7 @@
         "papers": [
           {
             "title": "Cross-Lingual Alignment Without Joint Training: Do Monolingual Language Models Converge on Universal Representations?",
-            "url": "",
+            "url": "https://arxiv.org/abs/2608.27115",
             "date": "2026",
             "date_sort": "2026-10-24",
             "venue": "EMNLP",
@@ -144,7 +144,7 @@
     "year": "2026",
     "kind": "conference",
     "label": "ICML, 2026",
-    "count": 8,
+    "count": 10,
     "sort_date": "2026-07-10",
     "venues": [
       {
@@ -207,6 +207,27 @@
         ]
       },
       {
+        "venue": "Math4AI Workshop @ ICML",
+        "label": "Math4AI Workshop",
+        "kind": "workshop",
+        "count": 1,
+        "sort_date": "2026-07-04",
+        "papers": [
+          {
+            "title": "What Helps Agentic Lean Provers? A Trace-Level Attribution Study",
+            "url": "https://openreview.net/forum?id=ShhLinF41r",
+            "date": "2026",
+            "date_sort": "2026-07-11",
+            "venue": "Math4AI Workshop @ ICML",
+            "venue_year": "2026",
+            "kind": "workshop",
+            "family": "ICML",
+            "group_sort_date": "2026-07-04",
+            "superlatives": []
+          }
+        ]
+      },
+      {
         "venue": "Agents in the Wild @ ICML",
         "label": "Agents in the Wild",
         "kind": "workshop",
@@ -223,6 +244,27 @@
             "kind": "workshop",
             "family": "ICML",
             "group_sort_date": "2026-07-04",
+            "superlatives": []
+          }
+        ]
+      },
+      {
+        "venue": "TAGIR @ ICML",
+        "label": "TAGIR",
+        "kind": "workshop",
+        "count": 1,
+        "sort_date": "2026-07-03",
+        "papers": [
+          {
+            "title": "What AI Governance Needs from Mechanistic Auditing",
+            "url": "https://openreview.net/forum?id=3Vj7YtFlAm",
+            "date": "2026",
+            "date_sort": "2026-07-10",
+            "venue": "TAGIR @ ICML",
+            "venue_year": "2026",
+            "kind": "workshop",
+            "family": "ICML",
+            "group_sort_date": "2026-07-03",
             "superlatives": []
           }
         ]
@@ -527,7 +569,7 @@
         ]
       },
       {
-        "venue": "BioSafe Workshop at NeurIPS 2025",
+        "venue": "BioSafe Workshop @ NeurIPS",
         "label": "BioSafe Workshop",
         "kind": "workshop",
         "count": 1,
@@ -538,13 +580,13 @@
             "url": "https://arxiv.org/abs/2508.06601",
             "date": "2026",
             "date_sort": "2026-04-23",
-            "venue": "BioSafe Workshop at NeurIPS 2025",
+            "venue": "BioSafe Workshop @ NeurIPS",
             "venue_year": "2026",
             "kind": "workshop",
             "family": "NeurIPS",
             "group_sort_date": "2026-04-16",
             "superlatives": [
-              "Best Paper Runner-Up at BioSafe Workshop, NeurIPS"
+              "Best Paper Runner-Up at BioSafe Workshop"
             ]
           }
         ]
@@ -694,16 +736,40 @@
     "year": "2026",
     "kind": "arxiv",
     "label": "arXiv, 2026",
-    "count": 3,
+    "count": 4,
     "sort_date": "2026-01-01",
     "venues": [
       {
         "venue": "arXiv",
         "label": "Preprints",
         "kind": "arxiv",
-        "count": 3,
+        "count": 4,
         "sort_date": "2026-01-01",
         "papers": [
+          {
+            "title": "Agent Memory Is a Surface for Endogenous Authorization Laundering",
+            "url": "https://arxiv.org/abs/2609.01836",
+            "date": "2026",
+            "date_sort": "2026-10-24",
+            "venue": "arXiv",
+            "venue_year": "2026",
+            "kind": "arxiv",
+            "family": "arXiv",
+            "group_sort_date": "2026-01-01",
+            "superlatives": []
+          },
+          {
+            "title": "PACT: Can Enterprise AI Assistants Be Trusted Under Pressure?",
+            "url": "https://arxiv.org/abs/2609.18605",
+            "date": "2026",
+            "date_sort": "2026-09-16",
+            "venue": "arXiv",
+            "venue_year": "2026",
+            "kind": "arxiv",
+            "family": "arXiv",
+            "group_sort_date": "2026-01-01",
+            "superlatives": []
+          },
           {
             "title": "Queer NLP: A Critical Survey on Literature Gaps, Biases and Trends",
             "url": "https://arxiv.org/abs/2602.16151",
@@ -721,18 +787,6 @@
             "url": "https://arxiv.org/abs/2602.14869",
             "date": "2026",
             "date_sort": "2026-02-16",
-            "venue": "arXiv",
-            "venue_year": "2026",
-            "kind": "arxiv",
-            "family": "arXiv",
-            "group_sort_date": "2026-01-01",
-            "superlatives": []
-          },
-          {
-            "title": "Adversarial Samples Are Not Created Equal",
-            "url": "https://arxiv.org/abs/2601.00577",
-            "date": "2026",
-            "date_sort": "2026-01-02",
             "venue": "arXiv",
             "venue_year": "2026",
             "kind": "arxiv",
@@ -847,8 +901,8 @@
         "sort_date": "2025-11-30",
         "papers": [
           {
-            "title": "Mitigating Emergent Misalignment with Data Attribution",
-            "url": "https://openreview.net/forum?id=gN7pWmjiQW",
+            "title": "Token Entanglement in Subliminal Learning",
+            "url": "https://openreview.net/forum?id=auKgpBRzIW",
             "date": "2025",
             "date_sort": "2025-12-07",
             "venue": "Mech Interp Workshop @ NeurIPS",
@@ -859,15 +913,15 @@
             "superlatives": []
           },
           {
-            "title": "Token Entanglement in Subliminal Learning",
-            "url": "https://openreview.net/forum?id=auKgpBRzIW",
+            "title": "Mitigating Emergent Misalignment with Data Attribution",
+            "url": "https://openreview.net/forum?id=gN7pWmjiQW",
             "date": "2025",
-            "date_sort": "2025-12-02",
+            "date_sort": "2025-12-07",
             "venue": "Mech Interp Workshop @ NeurIPS",
             "venue_year": "2025",
             "kind": "workshop",
             "family": "NeurIPS",
-            "group_sort_date": "2025-11-25",
+            "group_sort_date": "2025-11-30",
             "superlatives": []
           }
         ]
@@ -915,8 +969,8 @@
         ]
       },
       {
-        "venue": "First Workshop on LLM Persona Modeling @ NeurIPS",
-        "label": "First Workshop on LLM Persona Modeling",
+        "venue": "Workshop on LLM Persona Modeling @ NeurIPS",
+        "label": "Workshop on LLM Persona Modeling",
         "kind": "workshop",
         "count": 1,
         "sort_date": "2025-11-24",
@@ -926,7 +980,7 @@
             "url": "https://neurips.cc/virtual/2025/129955",
             "date": "2025",
             "date_sort": "2025-12-01",
-            "venue": "First Workshop on LLM Persona Modeling @ NeurIPS",
+            "venue": "Workshop on LLM Persona Modeling @ NeurIPS",
             "venue_year": "2025",
             "kind": "workshop",
             "family": "NeurIPS",
@@ -1036,7 +1090,9 @@
             "kind": "conference",
             "family": "TMLR",
             "group_sort_date": "2025-09-27",
-            "superlatives": []
+            "superlatives": [
+              "Survey Certification"
+            ]
           }
         ]
       }
@@ -1188,7 +1244,7 @@
         ]
       },
       {
-        "venue": "Tokenization Workshop at ICML 2025",
+        "venue": "Tokenization Workshop @ ICML",
         "label": "Tokenization Workshop",
         "kind": "workshop",
         "count": 2,
@@ -1199,7 +1255,7 @@
             "url": "https://arxiv.org/abs/2507.06378",
             "date": "2025",
             "date_sort": "2025-07-18",
-            "venue": "Tokenization Workshop at ICML 2025",
+            "venue": "Tokenization Workshop @ ICML",
             "venue_year": "2025",
             "kind": "workshop",
             "family": "ICML",
@@ -1211,7 +1267,7 @@
             "url": "https://arxiv.org/abs/2505.24689",
             "date": "2025",
             "date_sort": "2025-07-18",
-            "venue": "Tokenization Workshop at ICML 2025",
+            "venue": "Tokenization Workshop @ ICML",
             "venue_year": "2025",
             "kind": "workshop",
             "family": "ICML",
@@ -1242,7 +1298,7 @@
         ]
       },
       {
-        "venue": "NextGenAISafety Workshop at ICML 2024",
+        "venue": "NextGenAISafety Workshop @ ICML",
         "label": "NextGenAISafety Workshop",
         "kind": "workshop",
         "count": 1,
@@ -1253,7 +1309,7 @@
             "url": "https://arxiv.org/abs/2406.04391",
             "date": "2025",
             "date_sort": "2025-07-13",
-            "venue": "NextGenAISafety Workshop at ICML 2024",
+            "venue": "NextGenAISafety Workshop @ ICML",
             "venue_year": "2025",
             "kind": "workshop",
             "family": "ICML",
@@ -1796,7 +1852,9 @@
             "kind": "conference",
             "family": "NeurIPS",
             "group_sort_date": "2024-12-10",
-            "superlatives": []
+            "superlatives": [
+              "Spotlight at NeurIPS"
+            ]
           },
           {
             "title": "Consent in crisis: The rapid decline of the AI data commons",
@@ -1813,28 +1871,7 @@
         ]
       },
       {
-        "venue": "NeurIPS Workshop on Math and AI",
-        "label": "Workshop on Math and AI",
-        "kind": "workshop",
-        "count": 1,
-        "sort_date": "2024-04-30",
-        "papers": [
-          {
-            "title": "LLeMA: An Open Language Model for Mathematics",
-            "url": "https://arxiv.org/abs/2310.10631",
-            "date": "2024",
-            "date_sort": "2024-05-07",
-            "venue": "NeurIPS Workshop on Math and AI",
-            "venue_year": "2024",
-            "kind": "workshop",
-            "family": "NeurIPS",
-            "group_sort_date": "2024-04-30",
-            "superlatives": []
-          }
-        ]
-      },
-      {
-        "venue": "NeurIPS Workshop on Attributing Model Behavior at Scale",
+        "venue": "Workshop on Attributing Model Behavior at Scale @ NeurIPS",
         "label": "Workshop on Attributing Model Behavior at Scale",
         "kind": "workshop",
         "count": 1,
@@ -1845,7 +1882,7 @@
             "url": "https://arxiv.org/abs/2309.08600",
             "date": "2024",
             "date_sort": "2024-05-07",
-            "venue": "NeurIPS Workshop on Attributing Model Behavior at Scale",
+            "venue": "Workshop on Attributing Model Behavior at Scale @ NeurIPS",
             "venue_year": "2024",
             "kind": "workshop",
             "family": "NeurIPS",
@@ -1855,7 +1892,7 @@
         ]
       },
       {
-        "venue": "NeurIPS Workshop on Agent Learning in Open-Endedness",
+        "venue": "Workshop on Agent Learning in Open-Endedness @ NeurIPS",
         "label": "Workshop on Agent Learning in Open-Endedness",
         "kind": "workshop",
         "count": 1,
@@ -1866,7 +1903,7 @@
             "url": "https://arxiv.org/abs/2310.13032",
             "date": "2024",
             "date_sort": "2024-05-07",
-            "venue": "NeurIPS Workshop on Agent Learning in Open-Endedness",
+            "venue": "Workshop on Agent Learning in Open-Endedness @ NeurIPS",
             "venue_year": "2024",
             "kind": "workshop",
             "family": "NeurIPS",
@@ -1876,8 +1913,8 @@
         ]
       },
       {
-        "venue": "NeurIPS Workshop on Advancing Neural Network Training: Computational Efficiency, Scalability",
-        "label": "Workshop on Advancing Neural Network Training: Computational Efficiency, Scalability",
+        "venue": "Workshop on Advancing Neural Network Training @ NeurIPS",
+        "label": "Workshop on Advancing Neural Network Training",
         "kind": "workshop",
         "count": 1,
         "sort_date": "2024-04-30",
@@ -1887,7 +1924,7 @@
             "url": "https://arxiv.org/abs/2307.05695",
             "date": "2024",
             "date_sort": "2024-05-07",
-            "venue": "NeurIPS Workshop on Advancing Neural Network Training: Computational Efficiency, Scalability",
+            "venue": "Workshop on Advancing Neural Network Training @ NeurIPS",
             "venue_year": "2024",
             "kind": "workshop",
             "family": "NeurIPS",
@@ -1897,10 +1934,10 @@
         ]
       },
       {
-        "venue": "MATH-AI Workshop at NeurIPS 2023",
+        "venue": "MATH-AI Workshop @ NeurIPS",
         "label": "MATH-AI Workshop",
         "kind": "workshop",
-        "count": 1,
+        "count": 2,
         "sort_date": "2024-04-30",
         "papers": [
           {
@@ -1908,7 +1945,7 @@
             "url": "https://arxiv.org/abs/2310.06786",
             "date": "2024",
             "date_sort": "2024-05-07",
-            "venue": "MATH-AI Workshop at NeurIPS 2023",
+            "venue": "MATH-AI Workshop @ NeurIPS",
             "venue_year": "2024",
             "kind": "workshop",
             "family": "NeurIPS",
@@ -1916,6 +1953,18 @@
             "superlatives": [
               "Oral at MATH-AI Workshop, NeurIPS"
             ]
+          },
+          {
+            "title": "LLeMA: An Open Language Model for Mathematics",
+            "url": "https://arxiv.org/abs/2310.10631",
+            "date": "2024",
+            "date_sort": "2024-05-07",
+            "venue": "MATH-AI Workshop @ NeurIPS",
+            "venue_year": "2024",
+            "kind": "workshop",
+            "family": "NeurIPS",
+            "group_sort_date": "2024-04-30",
+            "superlatives": []
           }
         ]
       }
@@ -1946,7 +1995,9 @@
             "kind": "conference",
             "family": "TMLR",
             "group_sort_date": "2024-12-07",
-            "superlatives": []
+            "superlatives": [
+              "Survey Certification"
+            ]
           },
           {
             "title": "From Decoding to Meta-Generation: Inference-time Algorithms for Large Language Models",
@@ -1958,7 +2009,9 @@
             "kind": "conference",
             "family": "TMLR",
             "group_sort_date": "2024-10-15",
-            "superlatives": []
+            "superlatives": [
+              "Survey Certification"
+            ]
           },
           {
             "title": "Improving Black-box Robustness with In-Context Rewriting",
@@ -2245,7 +2298,7 @@
         ]
       },
       {
-        "venue": "ICLR 2024 Workshop on Mathematical and Empirical Understanding of Foundation Models",
+        "venue": "Workshop on Mathematical and Empirical Understanding of Foundation Models @ ICLR",
         "label": "Workshop on Mathematical and Empirical Understanding of Foundation Models",
         "kind": "workshop",
         "count": 3,
@@ -2256,7 +2309,7 @@
             "url": "https://arxiv.org/abs/2312.01037",
             "date": "2024",
             "date_sort": "2024-10-07",
-            "venue": "ICLR 2024 Workshop on Mathematical and Empirical Understanding of Foundation Models",
+            "venue": "Workshop on Mathematical and Empirical Understanding of Foundation Models @ ICLR",
             "venue_year": "2024",
             "kind": "workshop",
             "family": "ICLR",
@@ -2268,7 +2321,7 @@
             "url": "https://arxiv.org/abs/2402.11597",
             "date": "2024",
             "date_sort": "2024-08-01",
-            "venue": "ICLR 2024 Workshop on Mathematical and Empirical Understanding of Foundation Models",
+            "venue": "Workshop on Mathematical and Empirical Understanding of Foundation Models @ ICLR",
             "venue_year": "2024",
             "kind": "workshop",
             "family": "ICLR",
@@ -2280,182 +2333,12 @@
             "url": "https://openreview.net/forum?id=3pDMYjpOxk",
             "date": "2024",
             "date_sort": "2024-05-11",
-            "venue": "ICLR 2024 Workshop on Mathematical and Empirical Understanding of Foundation Models",
+            "venue": "Workshop on Mathematical and Empirical Understanding of Foundation Models @ ICLR",
             "venue_year": "2024",
             "kind": "workshop",
             "family": "ICLR",
             "group_sort_date": "2024-05-04",
             "superlatives": []
-          }
-        ]
-      }
-    ]
-  },
-  {
-    "family": "Nature Machine Intelligence",
-    "year": "2024",
-    "kind": "conference",
-    "label": "Nature Machine Intelligence, 2024",
-    "count": 1,
-    "sort_date": "2024-08-30",
-    "venues": [
-      {
-        "venue": "Nature Machine Intelligence",
-        "label": "Main conference",
-        "kind": "conference",
-        "count": 1,
-        "sort_date": "2024-08-30",
-        "papers": [
-          {
-            "title": "The Data Provenance Initiative: A Large Scale Audit of Dataset Licensing & Attribution in AI",
-            "url": "https://arxiv.org/abs/2310.16787",
-            "date": "2024",
-            "date_sort": "2024-08-30",
-            "venue": "Nature Machine Intelligence",
-            "venue_year": "2024",
-            "kind": "conference",
-            "family": "Nature Machine Intelligence",
-            "group_sort_date": "2024-08-30",
-            "superlatives": []
-          }
-        ]
-      }
-    ]
-  },
-  {
-    "family": "ICML",
-    "year": "2024",
-    "kind": "conference",
-    "label": "ICML, 2024",
-    "count": 8,
-    "sort_date": "2024-08-23",
-    "venues": [
-      {
-        "venue": "ICML Position Paper Track",
-        "label": "Position Paper Track",
-        "kind": "conference",
-        "count": 3,
-        "sort_date": "2024-07-23",
-        "papers": [
-          {
-            "title": "Social Choice Should Guide AI Alignment: On Dealing with Diverse Human Feedback",
-            "url": "https://arxiv.org/abs/2404.10271",
-            "date": "2024",
-            "date_sort": "2024-07-23",
-            "venue": "ICML Position Paper Track",
-            "venue_year": "2024",
-            "kind": "conference",
-            "family": "ICML",
-            "group_sort_date": "2024-07-23",
-            "superlatives": []
-          },
-          {
-            "title": "On the Societal Impact of Open Foundation Models",
-            "url": "https://arxiv.org/abs/2403.07918",
-            "date": "2024",
-            "date_sort": "2024-07-23",
-            "venue": "ICML Position Paper Track",
-            "venue_year": "2024",
-            "kind": "conference",
-            "family": "ICML",
-            "group_sort_date": "2024-07-23",
-            "superlatives": [
-              "Oral at ICML"
-            ]
-          },
-          {
-            "title": "A Safe Harbor for AI Evaluation and Red Teaming",
-            "url": "https://arxiv.org/abs/2403.04893",
-            "date": "2024",
-            "date_sort": "2024-07-23",
-            "venue": "ICML Position Paper Track",
-            "venue_year": "2024",
-            "kind": "conference",
-            "family": "ICML",
-            "group_sort_date": "2024-07-23",
-            "superlatives": [
-              "Oral at ICML"
-            ]
-          }
-        ]
-      },
-      {
-        "venue": "ICML",
-        "label": "Main conference",
-        "kind": "conference",
-        "count": 4,
-        "sort_date": "2024-07-23",
-        "papers": [
-          {
-            "title": "Stay on topic with Classifier-Free Guidance",
-            "url": "https://arxiv.org/abs/2306.17806",
-            "date": "2024",
-            "date_sort": "2024-07-23",
-            "venue": "ICML",
-            "venue_year": "2024",
-            "kind": "conference",
-            "family": "ICML",
-            "group_sort_date": "2024-07-23",
-            "superlatives": []
-          },
-          {
-            "title": "Neural Networks Learn Statistics of Increasing Complexity",
-            "url": "https://arxiv.org/abs/2402.04362",
-            "date": "2024",
-            "date_sort": "2024-07-23",
-            "venue": "ICML",
-            "venue_year": "2024",
-            "kind": "conference",
-            "family": "ICML",
-            "group_sort_date": "2024-07-23",
-            "superlatives": []
-          },
-          {
-            "title": "Grokking Group Multiplication with Cosets",
-            "url": "https://arxiv.org/abs/2312.06581",
-            "date": "2024",
-            "date_sort": "2024-07-23",
-            "venue": "ICML",
-            "venue_year": "2024",
-            "kind": "conference",
-            "family": "ICML",
-            "group_sort_date": "2024-07-23",
-            "superlatives": []
-          },
-          {
-            "title": "Scalable High-Resolution Pixel-Space Image Synthesis with Hourglass Diffusion Transformers",
-            "url": "https://arxiv.org/abs/2401.11605",
-            "date": "2024",
-            "date_sort": "2024-07-21",
-            "venue": "ICML",
-            "venue_year": "2024",
-            "kind": "conference",
-            "family": "ICML",
-            "group_sort_date": "2024-07-21",
-            "superlatives": []
-          }
-        ]
-      },
-      {
-        "venue": "GenLaw Workshop at ICML 2023",
-        "label": "GenLaw Workshop",
-        "kind": "workshop",
-        "count": 1,
-        "sort_date": "2024-08-23",
-        "papers": [
-          {
-            "title": "The Data Provenance Initiative: A Large Scale Audit of Dataset Licensing & Attribution in AI",
-            "url": "https://arxiv.org/abs/2310.16787",
-            "date": "2024",
-            "date_sort": "2024-08-30",
-            "venue": "GenLaw Workshop at ICML 2023",
-            "venue_year": "2024",
-            "kind": "workshop",
-            "family": "ICML",
-            "group_sort_date": "2024-08-23",
-            "superlatives": [
-              "Spotlight at GenLaw Workshop, ICML"
-            ]
           }
         ]
       }
@@ -2524,6 +2407,124 @@
     ]
   },
   {
+    "family": "ICML",
+    "year": "2024",
+    "kind": "conference",
+    "label": "ICML, 2024",
+    "count": 7,
+    "sort_date": "2024-07-23",
+    "venues": [
+      {
+        "venue": "ICML Position Paper Track",
+        "label": "Position Paper Track",
+        "kind": "conference",
+        "count": 3,
+        "sort_date": "2024-07-23",
+        "papers": [
+          {
+            "title": "Social Choice Should Guide AI Alignment: On Dealing with Diverse Human Feedback",
+            "url": "https://arxiv.org/abs/2404.10271",
+            "date": "2024",
+            "date_sort": "2024-07-23",
+            "venue": "ICML Position Paper Track",
+            "venue_year": "2024",
+            "kind": "conference",
+            "family": "ICML",
+            "group_sort_date": "2024-07-23",
+            "superlatives": []
+          },
+          {
+            "title": "On the Societal Impact of Open Foundation Models",
+            "url": "https://arxiv.org/abs/2403.07918",
+            "date": "2024",
+            "date_sort": "2024-07-23",
+            "venue": "ICML Position Paper Track",
+            "venue_year": "2024",
+            "kind": "conference",
+            "family": "ICML",
+            "group_sort_date": "2024-07-23",
+            "superlatives": [
+              "Oral at ICML"
+            ]
+          },
+          {
+            "title": "A Safe Harbor for AI Evaluation and Red Teaming",
+            "url": "https://arxiv.org/abs/2403.04893",
+            "date": "2024",
+            "date_sort": "2024-07-23",
+            "venue": "ICML Position Paper Track",
+            "venue_year": "2024",
+            "kind": "conference",
+            "family": "ICML",
+            "group_sort_date": "2024-07-23",
+            "superlatives": [
+              "Oral at ICML"
+            ]
+          }
+        ]
+      },
+      {
+        "venue": "ICML",
+        "label": "Main conference",
+        "kind": "conference",
+        "count": 4,
+        "sort_date": "2024-07-23",
+        "papers": [
+          {
+            "title": "Stay on topic with Classifier-Free Guidance",
+            "url": "https://arxiv.org/abs/2306.17806",
+            "date": "2024",
+            "date_sort": "2024-07-23",
+            "venue": "ICML",
+            "venue_year": "2024",
+            "kind": "conference",
+            "family": "ICML",
+            "group_sort_date": "2024-07-23",
+            "superlatives": [
+              "Spotlight at ICML 2024"
+            ]
+          },
+          {
+            "title": "Neural Networks Learn Statistics of Increasing Complexity",
+            "url": "https://arxiv.org/abs/2402.04362",
+            "date": "2024",
+            "date_sort": "2024-07-23",
+            "venue": "ICML",
+            "venue_year": "2024",
+            "kind": "conference",
+            "family": "ICML",
+            "group_sort_date": "2024-07-23",
+            "superlatives": []
+          },
+          {
+            "title": "Grokking Group Multiplication with Cosets",
+            "url": "https://arxiv.org/abs/2312.06581",
+            "date": "2024",
+            "date_sort": "2024-07-23",
+            "venue": "ICML",
+            "venue_year": "2024",
+            "kind": "conference",
+            "family": "ICML",
+            "group_sort_date": "2024-07-23",
+            "superlatives": []
+          },
+          {
+            "title": "Scalable High-Resolution Pixel-Space Image Synthesis with Hourglass Diffusion Transformers",
+            "url": "https://arxiv.org/abs/2401.11605",
+            "date": "2024",
+            "date_sort": "2024-07-21",
+            "venue": "ICML",
+            "venue_year": "2024",
+            "kind": "conference",
+            "family": "ICML",
+            "group_sort_date": "2024-07-21",
+            "superlatives": []
+          }
+        ]
+      }
+    ]
+  },
+  {
     "family": "Carnegie Endowment for International Peace",
     "year": "2024",
     "kind": "conference",
@@ -2555,15 +2556,15 @@
     ]
   },
   {
-    "family": "SSCW 2024",
+    "family": "Society for Social Choice and Welfare",
     "year": "2024",
     "kind": "workshop",
-    "label": "SSCW 2024, 2024",
+    "label": "Society for Social Choice and Welfare, 2024",
     "count": 1,
     "sort_date": "2024-07-16",
     "venues": [
       {
-        "venue": "SSCW 2024",
+        "venue": "Society for Social Choice and Welfare",
         "label": "Workshop",
         "kind": "workshop",
         "count": 1,
@@ -2574,10 +2575,10 @@
             "url": "https://arxiv.org/abs/2404.10271",
             "date": "2024",
             "date_sort": "2024-07-23",
-            "venue": "SSCW 2024",
+            "venue": "Society for Social Choice and Welfare",
             "venue_year": "2024",
             "kind": "workshop",
-            "family": "SSCW 2024",
+            "family": "Society for Social Choice and Welfare",
             "group_sort_date": "2024-07-16",
             "superlatives": []
           }
@@ -2710,15 +2711,15 @@
     ]
   },
   {
-    "family": "AISTATS 2024",
+    "family": "AISTATS",
     "year": "2024",
     "kind": "conference",
-    "label": "AISTATS 2024, 2024",
+    "label": "AISTATS, 2024",
     "count": 1,
     "sort_date": "2024-05-02",
     "venues": [
       {
-        "venue": "AISTATS 2024",
+        "venue": "AISTATS",
         "label": "Main conference",
         "kind": "conference",
         "count": 1,
@@ -2729,10 +2730,10 @@
             "url": "https://arxiv.org/abs/2403.17978",
             "date": "2024",
             "date_sort": "2024-05-02",
-            "venue": "AISTATS 2024",
+            "venue": "AISTATS",
             "venue_year": "2024",
             "kind": "conference",
-            "family": "AISTATS 2024",
+            "family": "AISTATS",
             "group_sort_date": "2024-05-02",
             "superlatives": []
           }
@@ -3016,7 +3017,9 @@
             "kind": "conference",
             "family": "NeurIPS",
             "group_sort_date": "2023-12-10",
-            "superlatives": []
+            "superlatives": [
+              "Spotlight at NeurIPS"
+            ]
           },
           {
             "title": "Reconstructing the Mind's Eye: fMRI-to-Image with Contrastive Learning and Diffusion Priors",
@@ -3059,7 +3062,7 @@
         ]
       },
       {
-        "venue": "SoLaR Workshop at NeurIPS 2023",
+        "venue": "SoLaR Workshop @ NeurIPS",
         "label": "SoLaR Workshop",
         "kind": "workshop",
         "count": 1,
@@ -3070,7 +3073,7 @@
             "url": "https://neurips.cc/virtual/2023/workshop/66526#collapse78917",
             "date": "2023",
             "date_sort": "2023-12-16",
-            "venue": "SoLaR Workshop at NeurIPS 2023",
+            "venue": "SoLaR Workshop @ NeurIPS",
             "venue_year": "2023",
             "kind": "workshop",
             "family": "NeurIPS",
@@ -3082,8 +3085,8 @@
         ]
       },
       {
-        "venue": "NeurIPS Workshop on Backdoors in Deep Learning",
-        "label": "Workshop on Backdoors in Deep Learning",
+        "venue": "Backdoors in Deep Learning @ NeurIPS",
+        "label": "Backdoors in Deep Learning",
         "kind": "workshop",
         "count": 1,
         "sort_date": "2023-12-08",
@@ -3093,7 +3096,7 @@
             "url": "https://openreview.net/forum?id=cmJiEqniEc",
             "date": "2023",
             "date_sort": "2023-12-15",
-            "venue": "NeurIPS Workshop on Backdoors in Deep Learning",
+            "venue": "Backdoors in Deep Learning @ NeurIPS",
             "venue_year": "2023",
             "kind": "workshop",
             "family": "NeurIPS",
@@ -3103,7 +3106,7 @@
         ]
       },
       {
-        "venue": "MATH-AI Workshop at NeurIPS 2022",
+        "venue": "MATH-AI Workshop @ NeurIPS",
         "label": "MATH-AI Workshop",
         "kind": "workshop",
         "count": 1,
@@ -3114,14 +3117,12 @@
             "url": "https://arxiv.org/abs/2302.12433",
             "date": "2023",
             "date_sort": "2023-02-24",
-            "venue": "MATH-AI Workshop at NeurIPS 2022",
+            "venue": "MATH-AI Workshop @ NeurIPS",
             "venue_year": "2023",
             "kind": "workshop",
             "family": "NeurIPS",
             "group_sort_date": "2023-02-17",
-            "superlatives": [
-              "Oral at MATH-AI Workshop, NeurIPS"
-            ]
+            "superlatives": []
           }
         ]
       }
@@ -3178,7 +3179,7 @@
         ]
       },
       {
-        "venue": "EMNLP Workshop on Computational Approaches to Linguistic Code-Switching",
+        "venue": "Workshop on Computational Approaches to Linguistic Code-Switching @ EMNLP",
         "label": "Workshop on Computational Approaches to Linguistic Code-Switching",
         "kind": "workshop",
         "count": 1,
@@ -3189,7 +3190,7 @@
             "url": "https://arxiv.org/abs/2303.13592",
             "date": "2023",
             "date_sort": "2023-12-07",
-            "venue": "EMNLP Workshop on Computational Approaches to Linguistic Code-Switching",
+            "venue": "Workshop on Computational Approaches to Linguistic Code-Switching @ EMNLP",
             "venue_year": "2023",
             "kind": "workshop",
             "family": "EMNLP",
@@ -3225,7 +3226,9 @@
             "kind": "conference",
             "family": "TMLR",
             "group_sort_date": "2023-12-01",
-            "superlatives": []
+            "superlatives": [
+              "VentureBeat’s 2024 Best Enterprise Implementation of Generative AI (Software)"
+            ]
           },
           {
             "title": "Beyond the Imitation Game: Quantifying and extrapolating the capabilities of language models",
@@ -3237,7 +3240,9 @@
             "kind": "conference",
             "family": "TMLR",
             "group_sort_date": "2023-05-11",
-            "superlatives": []
+            "superlatives": [
+              "Outstanding Paper Finalist"
+            ]
           }
         ]
       }
@@ -3275,15 +3280,15 @@
     ]
   },
   {
-    "family": "IJCNLP-AACL 2023 Tutorial Abstracts",
+    "family": "IJCNLP-AACL",
     "year": "2023",
     "kind": "conference",
-    "label": "IJCNLP-AACL 2023 Tutorial Abstracts, 2023",
+    "label": "IJCNLP-AACL, 2023",
     "count": 1,
     "sort_date": "2023-11-01",
     "venues": [
       {
-        "venue": "IJCNLP-AACL 2023 Tutorial Abstracts",
+        "venue": "IJCNLP-AACL",
         "label": "Main conference",
         "kind": "conference",
         "count": 1,
@@ -3294,42 +3299,11 @@
             "url": "https://aclanthology.org/2023.ijcnlp-tutorials.2/",
             "date": "2023",
             "date_sort": "2023-11-01",
-            "venue": "IJCNLP-AACL 2023 Tutorial Abstracts",
+            "venue": "IJCNLP-AACL",
             "venue_year": "2023",
             "kind": "conference",
-            "family": "IJCNLP-AACL 2023 Tutorial Abstracts",
+            "family": "IJCNLP-AACL",
             "group_sort_date": "2023-11-01",
-            "superlatives": []
-          }
-        ]
-      }
-    ]
-  },
-  {
-    "family": "IJCNLP-AACL 2023 Tutorial",
-    "year": "2023",
-    "kind": "workshop",
-    "label": "IJCNLP-AACL 2023 Tutorial, 2023",
-    "count": 1,
-    "sort_date": "2023-10-25",
-    "venues": [
-      {
-        "venue": "IJCNLP-AACL 2023 Tutorial",
-        "label": "Workshop",
-        "kind": "workshop",
-        "count": 1,
-        "sort_date": "2023-10-25",
-        "papers": [
-          {
-            "title": "Current Status of NLP in South East Asia with Insights from Multilingualism and Language Diversity",
-            "url": "https://aclanthology.org/2023.ijcnlp-tutorials.2/",
-            "date": "2023",
-            "date_sort": "2023-11-01",
-            "venue": "IJCNLP-AACL 2023 Tutorial",
-            "venue_year": "2023",
-            "kind": "workshop",
-            "family": "IJCNLP-AACL 2023 Tutorial",
-            "group_sort_date": "2023-10-25",
             "superlatives": []
           }
         ]
@@ -3399,8 +3373,8 @@
         ]
       },
       {
-        "venue": "AACL Workshop on Southeast Asian Language Processing",
-        "label": "AACL Workshop on Southeast Asian Language Processing",
+        "venue": "Workshop on Southeast Asian Language Processing @ AACL",
+        "label": "Workshop on Southeast Asian Language Processing @ AACL",
         "kind": "workshop",
         "count": 1,
         "sort_date": "2023-10-25",
@@ -3410,63 +3384,11 @@
             "url": "https://arxiv.org/abs/2310.11258",
             "date": "2023",
             "date_sort": "2023-11-01",
-            "venue": "AACL Workshop on Southeast Asian Language Processing",
+            "venue": "Workshop on Southeast Asian Language Processing @ AACL",
             "venue_year": "2023",
             "kind": "workshop",
             "family": "ACL",
             "group_sort_date": "2023-10-25",
-            "superlatives": []
-          }
-        ]
-      }
-    ]
-  },
-  {
-    "family": "ICLR",
-    "year": "2023",
-    "kind": "conference",
-    "label": "ICLR, 2023",
-    "count": 2,
-    "sort_date": "2023-09-23",
-    "venues": [
-      {
-        "venue": "ICLR 2024 submission",
-        "label": "submission",
-        "kind": "conference",
-        "count": 1,
-        "sort_date": "2023-09-23",
-        "papers": [
-          {
-            "title": "Towards Meta-Models for Automated Interpretability",
-            "url": "https://openreview.net/forum?id=fM1ETm3ssl",
-            "date": "2023",
-            "date_sort": "2023-09-23",
-            "venue": "ICLR 2024 submission",
-            "venue_year": "2023",
-            "kind": "conference",
-            "family": "ICLR",
-            "group_sort_date": "2023-09-23",
-            "superlatives": []
-          }
-        ]
-      },
-      {
-        "venue": "ICLR 2023",
-        "label": "Main conference",
-        "kind": "conference",
-        "count": 1,
-        "sort_date": "2023-05-01",
-        "papers": [
-          {
-            "title": "Sparse Upcycling: Training Mixture-of-Experts from Dense Checkpoints",
-            "url": "https://arxiv.org/abs/2212.05055",
-            "date": "2023",
-            "date_sort": "2023-05-01",
-            "venue": "ICLR 2023",
-            "venue_year": "2023",
-            "kind": "conference",
-            "family": "ICLR",
-            "group_sort_date": "2023-05-01",
             "superlatives": []
           }
         ]
@@ -3560,7 +3482,7 @@
         ]
       },
       {
-        "venue": "ICML Workshop on Efficient Systems for Foundation Models",
+        "venue": "Workshop on Efficient Systems for Foundation Models @ ICML",
         "label": "Workshop on Efficient Systems for Foundation Models",
         "kind": "workshop",
         "count": 1,
@@ -3571,7 +3493,7 @@
             "url": "https://arxiv.org/abs/2308.04014",
             "date": "2023",
             "date_sort": "2023-07-23",
-            "venue": "ICML Workshop on Efficient Systems for Foundation Models",
+            "venue": "Workshop on Efficient Systems for Foundation Models @ ICML",
             "venue_year": "2023",
             "kind": "workshop",
             "family": "ICML",
@@ -3607,6 +3529,58 @@
             "kind": "conference",
             "family": "Nature",
             "group_sort_date": "2023-05-25",
+            "superlatives": []
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "family": "ICLR",
+    "year": "2023",
+    "kind": "conference",
+    "label": "ICLR, 2023",
+    "count": 2,
+    "sort_date": "2023-05-01",
+    "venues": [
+      {
+        "venue": "ICLR 2023",
+        "label": "Main conference",
+        "kind": "conference",
+        "count": 1,
+        "sort_date": "2023-05-01",
+        "papers": [
+          {
+            "title": "Sparse Upcycling: Training Mixture-of-Experts from Dense Checkpoints",
+            "url": "https://arxiv.org/abs/2212.05055",
+            "date": "2023",
+            "date_sort": "2023-05-01",
+            "venue": "ICLR 2023",
+            "venue_year": "2023",
+            "kind": "conference",
+            "family": "ICLR",
+            "group_sort_date": "2023-05-01",
+            "superlatives": []
+          }
+        ]
+      },
+      {
+        "venue": "Deep Learning for Code (DL4C) Workshop @ ICLR",
+        "label": "Deep Learning for Code (DL4C) Workshop",
+        "kind": "workshop",
+        "count": 1,
+        "sort_date": "2023-01-02",
+        "papers": [
+          {
+            "title": "SantaCoder: don't reach for the stars!",
+            "url": "https://arxiv.org/abs/2301.03988",
+            "date": "2023",
+            "date_sort": "2023-01-09",
+            "venue": "Deep Learning for Code (DL4C) Workshop @ ICLR",
+            "venue_year": "2023",
+            "kind": "workshop",
+            "family": "ICLR",
+            "group_sort_date": "2023-01-02",
             "superlatives": []
           }
         ]
@@ -3664,6 +3638,18 @@
             "url": "https://arxiv.org/abs/2310.01405",
             "date": "2023",
             "date_sort": "2023-10-02",
+            "venue": "arXiv",
+            "venue_year": "2023",
+            "kind": "arxiv",
+            "family": "arXiv",
+            "group_sort_date": "2023-01-01",
+            "superlatives": []
+          },
+          {
+            "title": "Towards Meta-Models for Automated Interpretability",
+            "url": "https://openreview.net/forum?id=fM1ETm3ssl",
+            "date": "2023",
+            "date_sort": "2023-09-23",
             "venue": "arXiv",
             "venue_year": "2023",
             "kind": "arxiv",
@@ -3736,18 +3722,6 @@
             "url": "https://arxiv.org/abs/2303.08112",
             "date": "2023",
             "date_sort": "2023-05-14",
-            "venue": "arXiv",
-            "venue_year": "2023",
-            "kind": "arxiv",
-            "family": "arXiv",
-            "group_sort_date": "2023-01-01",
-            "superlatives": []
-          },
-          {
-            "title": "SantaCoder: don't reach for the stars!",
-            "url": "https://arxiv.org/abs/2301.03988",
-            "date": "2023",
-            "date_sort": "2023-01-09",
             "venue": "arXiv",
             "venue_year": "2023",
             "kind": "arxiv",
@@ -3836,7 +3810,7 @@
         ]
       },
       {
-        "venue": "NeurIPS Workshop on Broadening Research Collaborations",
+        "venue": "Workshop on Broadening Research Collaborations @ NeurIPS",
         "label": "Workshop on Broadening Research Collaborations",
         "kind": "workshop",
         "count": 1,
@@ -3847,7 +3821,7 @@
             "url": "https://arxiv.org/abs/2210.06413",
             "date": "2022",
             "date_sort": "2022-11-28",
-            "venue": "NeurIPS Workshop on Broadening Research Collaborations",
+            "venue": "Workshop on Broadening Research Collaborations @ NeurIPS",
             "venue_year": "2022",
             "kind": "workshop",
             "family": "NeurIPS",
@@ -4045,7 +4019,7 @@
         ]
       },
       {
-        "venue": "ACL Workshop on Challenges & Perspectives in Creating Large Language Models",
+        "venue": "Workshop on Challenges & Perspectives in Creating Large Language Models @ ACL",
         "label": "Workshop on Challenges & Perspectives in Creating Large Language Models",
         "kind": "workshop",
         "count": 2,
@@ -4056,7 +4030,7 @@
             "url": "https://aclanthology.org/2022.bigscience-1.3/",
             "date": "2022",
             "date_sort": "2022-05-28",
-            "venue": "ACL Workshop on Challenges & Perspectives in Creating Large Language Models",
+            "venue": "Workshop on Challenges & Perspectives in Creating Large Language Models @ ACL",
             "venue_year": "2022",
             "kind": "workshop",
             "family": "ACL",
@@ -4068,7 +4042,7 @@
             "url": "https://arxiv.org/abs/2204.06745",
             "date": "2022",
             "date_sort": "2022-05-28",
-            "venue": "ACL Workshop on Challenges & Perspectives in Creating Large Language Models",
+            "venue": "Workshop on Challenges & Perspectives in Creating Large Language Models @ ACL",
             "venue_year": "2022",
             "kind": "workshop",
             "family": "ACL",
@@ -4078,8 +4052,8 @@
         ]
       },
       {
-        "venue": "EACL AfricaNLP Workshop",
-        "label": "EACL AfricaNLP Workshop",
+        "venue": "AfricaNLP Workshop @ EACL",
+        "label": "AfricaNLP Workshop @ EACL",
         "kind": "workshop",
         "count": 1,
         "sort_date": "2022-01-24",
@@ -4089,7 +4063,7 @@
             "url": "https://arxiv.org/abs/2103.12028",
             "date": "2022",
             "date_sort": "2022-01-31",
-            "venue": "EACL AfricaNLP Workshop",
+            "venue": "AfricaNLP Workshop @ EACL",
             "venue_year": "2022",
             "kind": "workshop",
             "family": "ACL",
@@ -4125,7 +4099,9 @@
             "kind": "conference",
             "family": "ICLR",
             "group_sort_date": "2022-04-25",
-            "superlatives": []
+            "superlatives": [
+              "Spotlight at ICLR 2022"
+            ]
           }
         ]
       }
@@ -4245,7 +4221,7 @@
     "sort_date": "2021-12-07",
     "venues": [
       {
-        "venue": "NeurIPS Workshop on Data-Centric AI",
+        "venue": "Workshop on Data-Centric AI @ NeurIPS",
         "label": "Workshop on Data-Centric AI",
         "kind": "workshop",
         "count": 1,
@@ -4256,7 +4232,7 @@
             "url": "https://arxiv.org/abs/2111.02114",
             "date": "2021",
             "date_sort": "2021-12-14",
-            "venue": "NeurIPS Workshop on Data-Centric AI",
+            "venue": "Workshop on Data-Centric AI @ NeurIPS",
             "venue_year": "2021",
             "kind": "workshop",
             "family": "NeurIPS",
@@ -4276,8 +4252,8 @@
     "sort_date": "2021-06-04",
     "venues": [
       {
-        "venue": "NAACL Workshop on Narrative Understanding",
-        "label": "NAACL Workshop on Narrative Understanding",
+        "venue": "Workshop on Narrative Understanding @ NAACL",
+        "label": "Workshop on Narrative Understanding @ NAACL",
         "kind": "workshop",
         "count": 2,
         "sort_date": "2021-06-04",
@@ -4287,7 +4263,7 @@
             "url": "https://arxiv.org/abs/2103.12872",
             "date": "2021",
             "date_sort": "2021-06-11",
-            "venue": "NAACL Workshop on Narrative Understanding",
+            "venue": "Workshop on Narrative Understanding @ NAACL",
             "venue_year": "2021",
             "kind": "workshop",
             "family": "ACL",
@@ -4299,7 +4275,7 @@
             "url": "https://arxiv.org/abs/2104.07472",
             "date": "2021",
             "date_sort": "2021-06-11",
-            "venue": "NAACL Workshop on Narrative Understanding",
+            "venue": "Workshop on Narrative Understanding @ NAACL",
             "venue_year": "2021",
             "kind": "workshop",
             "family": "ACL",
@@ -4429,8 +4405,8 @@
     "sort_date": "2020-12-05",
     "venues": [
       {
-        "venue": "Proceedings on I Can't Believe It's Not Better! at NeurIPS Workshops",
-        "label": "Proceedings on I Can't Believe It's Not Better! Workshops",
+        "venue": "I Can't Believe It's Not Better! @ NeurIPS",
+        "label": "I Can't Believe It's Not Better!",
         "kind": "workshop",
         "count": 1,
         "sort_date": "2020-12-05",
@@ -4440,41 +4416,10 @@
             "url": "https://arxiv.org/abs/2011.02832",
             "date": "2020",
             "date_sort": "2020-12-12",
-            "venue": "Proceedings on I Can't Believe It's Not Better! at NeurIPS Workshops",
+            "venue": "I Can't Believe It's Not Better! @ NeurIPS",
             "venue_year": "2020",
             "kind": "workshop",
             "family": "NeurIPS",
-            "group_sort_date": "2020-12-05",
-            "superlatives": []
-          }
-        ]
-      }
-    ]
-  },
-  {
-    "family": "I Can't Believe It's Not Better! at NeurIPS 2020",
-    "year": "2020",
-    "kind": "workshop",
-    "label": "I Can't Believe It's Not Better! at NeurIPS 2020, 2020",
-    "count": 1,
-    "sort_date": "2020-12-05",
-    "venues": [
-      {
-        "venue": "I Can't Believe It's Not Better! at NeurIPS 2020",
-        "label": "Workshop",
-        "kind": "workshop",
-        "count": 1,
-        "sort_date": "2020-12-05",
-        "papers": [
-          {
-            "title": "Pitfalls in Machine Learning Research: Reexamining the Development Cycle",
-            "url": "https://arxiv.org/abs/2011.02832",
-            "date": "2020",
-            "date_sort": "2020-12-12",
-            "venue": "I Can't Believe It's Not Better! at NeurIPS 2020",
-            "venue_year": "2020",
-            "kind": "workshop",
-            "family": "I Can't Believe It's Not Better! at NeurIPS 2020",
             "group_sort_date": "2020-12-05",
             "superlatives": []
           }

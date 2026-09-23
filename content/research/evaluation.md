@@ -4,6 +4,8 @@ description: "EleutherAI's work on evaluation methods, benchmark validity, repre
 layout: evaluation-visual
 area_key: "evaluation"
 url: /research/evaluation/
+aliases:
+  - /research/evaluation-approach/
 ---
 
 We study how to evaluate AI systems and what we can reasonably conclude from the results. This includes measuring capabilities, examining how models represent people, and testing the assumptions behind widely used evaluation methods.

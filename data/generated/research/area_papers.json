@@ -15,6 +15,18 @@
       "sort_date": "2026-07-10"
     },
     {
+      "title": "Token Entanglement in Subliminal Learning",
+      "url": "https://openreview.net/forum?id=auKgpBRzIW",
+      "summary": "",
+      "date": "2025",
+      "year": "2025",
+      "venue": "Mech Interp Workshop @ NeurIPS",
+      "authors": "Zur, Ying, Loftus, Şahin, Yu, Quirke, Rott Shaham, Shapira, Orgad, and Bau",
+      "marker": "",
+      "superlatives": [],
+      "sort_date": "2025-12-07"
+    },
+    {
       "title": "Benchmark Disaggregation Improves Interpretability of Training Dynamics",
       "url": "https://arxiv.org/abs/2510.24934",
       "summary": "",
@@ -25,18 +37,6 @@
       "marker": "",
       "superlatives": [],
       "sort_date": "2025-12-06"
-    },
-    {
-      "title": "Token Entanglement in Subliminal Learning",
-      "url": "https://openreview.net/forum?id=auKgpBRzIW",
-      "summary": "",
-      "date": "2025",
-      "year": "2025",
-      "venue": "Mech Interp Workshop @ NeurIPS",
-      "authors": "Zur, Ying, Loftus, Şahin, Yu, Quirke, Rott Shaham, Shapira, Orgad, and Bau",
-      "marker": "",
-      "superlatives": [],
-      "sort_date": "2025-12-02"
     },
     {
       "title": "On the Acquisition of Shared Grammatical Representations in Bilingual Language Models",
@@ -214,7 +214,7 @@
       "summary": "",
       "date": "2024",
       "year": "2024",
-      "venue": "ICLR 2024 Workshop on Mathematical and Empirical Understanding of Foundation Models",
+      "venue": "Workshop on Mathematical and Empirical Understanding of Foundation Models @ ICLR",
       "authors": "O'Mahony, Grinsztajn, Schoelkopf, and Biderman",
       "marker": "",
       "superlatives": [],
@@ -308,7 +308,7 @@
       "authors": "O'Brien, Casper, Anthony, Korbak, Kirk, Davies, Mishra, Irving, Gal, and Biderman",
       "marker": "runnerup",
       "superlatives": [
-        "Best Paper Runner-Up at BioSafe Workshop, NeurIPS"
+        "Best Paper Runner-Up at BioSafe Workshop"
       ],
       "sort_date": "2026-04-23"
     },
@@ -416,7 +416,7 @@
       "summary": "",
       "date": "2023",
       "year": "2023",
-      "venue": "NeurIPS Workshop on Backdoors in Deep Learning",
+      "venue": "Backdoors in Deep Learning @ NeurIPS",
       "authors": "Langosco, Alex, Baker, Quarel, Bradley, and Krueger",
       "marker": "",
       "superlatives": [],
@@ -438,6 +438,18 @@
     }
   ],
   "behavioral_safety": [
+    {
+      "title": "PACT: Can Enterprise AI Assistants Be Trusted Under Pressure?",
+      "url": "https://arxiv.org/abs/2609.18605",
+      "summary": "",
+      "date": "2026",
+      "year": "2026",
+      "venue": "arXiv",
+      "authors": "Okamoto and Erol",
+      "marker": "",
+      "superlatives": [],
+      "sort_date": "2026-09-16"
+    },
     {
       "title": "Thought Virus: Viral Misalignment via Subliminal Prompting in Multi-Agent Systems",
       "url": "https://arxiv.org/abs/2603.00131",
@@ -463,16 +475,16 @@
       "sort_date": "2026-07-08"
     },
     {
-      "title": "Adversarial Samples Are Not Created Equal",
-      "url": "https://arxiv.org/abs/2601.00577",
+      "title": "Token Entanglement in Subliminal Learning",
+      "url": "https://openreview.net/forum?id=auKgpBRzIW",
       "summary": "",
-      "date": "2026",
-      "year": "2026",
-      "venue": "arXiv",
-      "authors": "Crawford, Khanna, Lu, Wagoner, Biderman, Nguyen, and Raff",
+      "date": "2025",
+      "year": "2025",
+      "venue": "Mech Interp Workshop @ NeurIPS",
+      "authors": "Zur, Ying, Loftus, Şahin, Yu, Quirke, Rott Shaham, Shapira, Orgad, and Bau",
       "marker": "",
       "superlatives": [],
-      "sort_date": "2026-01-02"
+      "sort_date": "2025-12-07"
     },
     {
       "title": "Mitigating Emergent Misalignment with Data Attribution",
@@ -485,18 +497,6 @@
       "marker": "",
       "superlatives": [],
       "sort_date": "2025-12-07"
-    },
-    {
-      "title": "Token Entanglement in Subliminal Learning",
-      "url": "https://openreview.net/forum?id=auKgpBRzIW",
-      "summary": "",
-      "date": "2025",
-      "year": "2025",
-      "venue": "Mech Interp Workshop @ NeurIPS",
-      "authors": "Zur, Ying, Loftus, Şahin, Yu, Quirke, Rott Shaham, Shapira, Orgad, and Bau",
-      "marker": "",
-      "superlatives": [],
-      "sort_date": "2025-12-02"
     },
     {
       "title": "More of the Same: Persistent Representational Harms Under Increased Representation",
@@ -516,7 +516,7 @@
       "summary": "",
       "date": "2025",
       "year": "2025",
-      "venue": "First Workshop on LLM Persona Modeling @ NeurIPS",
+      "venue": "Workshop on LLM Persona Modeling @ NeurIPS",
       "authors": "Imran and Chatterjee",
       "marker": "",
       "superlatives": [],
@@ -603,7 +603,9 @@
       "venue": "TMLR",
       "authors": "Longpre, Biderman, Albalak, Schoelkopf, McDuff, and 18 others",
       "marker": "",
-      "superlatives": [],
+      "superlatives": [
+        "Survey Certification"
+      ],
       "sort_date": "2024-12-07"
     },
     {
@@ -686,7 +688,7 @@
       "summary": "",
       "date": "2023",
       "year": "2023",
-      "venue": "SoLaR Workshop at NeurIPS 2023",
+      "venue": "SoLaR Workshop @ NeurIPS",
       "authors": "Pfau, Infanger, Sheshadri, Panda, Michael, and Huebner",
       "marker": "spotlight",
       "superlatives": [
@@ -772,7 +774,7 @@
       "summary": "",
       "date": "2022",
       "year": "2022",
-      "venue": "ACL Workshop on Challenges & Perspectives in Creating Large Language Models",
+      "venue": "Workshop on Challenges & Perspectives in Creating Large Language Models @ ACL",
       "authors": "Talat, Névéol, Biderman, Clinciu, Dey, and 11 others",
       "marker": "",
       "superlatives": [],
@@ -803,6 +805,18 @@
       "marker": "",
       "superlatives": [],
       "sort_date": "2026-10-24"
+    },
+    {
+      "title": "PACT: Can Enterprise AI Assistants Be Trusted Under Pressure?",
+      "url": "https://arxiv.org/abs/2609.18605",
+      "summary": "",
+      "date": "2026",
+      "year": "2026",
+      "venue": "arXiv",
+      "authors": "Okamoto and Erol",
+      "marker": "",
+      "superlatives": [],
+      "sort_date": "2026-09-16"
     },
     {
       "title": "Quantifying the Effect of Test Set Contamination on Generative Evaluations",
@@ -913,18 +927,6 @@
       "sort_date": "2026-04-23"
     },
     {
-      "title": "Adversarial Samples Are Not Created Equal",
-      "url": "https://arxiv.org/abs/2601.00577",
-      "summary": "",
-      "date": "2026",
-      "year": "2026",
-      "venue": "arXiv",
-      "authors": "Crawford, Khanna, Lu, Wagoner, Biderman, Nguyen, and Raff",
-      "marker": "",
-      "superlatives": [],
-      "sort_date": "2026-01-02"
-    },
-    {
       "title": "More of the Same: Persistent Representational Harms Under Increased Representation",
       "url": "https://arxiv.org/abs/2503.00333",
       "summary": "",
@@ -954,7 +956,7 @@
       "summary": "",
       "date": "2025",
       "year": "2025",
-      "venue": "Tokenization Workshop at ICML 2025",
+      "venue": "Tokenization Workshop @ ICML",
       "authors": "Arnett, Hudspeth, and O'Connor",
       "marker": "",
       "superlatives": [],
@@ -1057,7 +1059,9 @@
       "venue": "TMLR",
       "authors": "Longpre, Biderman, Albalak, Schoelkopf, McDuff, and 18 others",
       "marker": "",
-      "superlatives": [],
+      "superlatives": [
+        "Survey Certification"
+      ],
       "sort_date": "2024-12-07"
     },
     {
@@ -1140,7 +1144,7 @@
       "summary": "",
       "date": "2023",
       "year": "2023",
-      "venue": "SoLaR Workshop at NeurIPS 2023",
+      "venue": "SoLaR Workshop @ NeurIPS",
       "authors": "Pfau, Infanger, Sheshadri, Panda, Michael, and Huebner",
       "marker": "spotlight",
       "superlatives": [
@@ -1192,8 +1196,10 @@
       "year": "2023",
       "venue": "TMLR",
       "authors": "Srivastava, Rastogi, Rao, Shoeb, Abid, and 446 others",
-      "marker": "",
-      "superlatives": [],
+      "marker": "runnerup",
+      "superlatives": [
+        "Outstanding Paper Finalist"
+      ],
       "sort_date": "2023-05-11"
     },
     {
@@ -1202,11 +1208,11 @@
       "summary": "",
       "date": "2023",
       "year": "2023",
-      "venue": "MATH-AI Workshop at NeurIPS 2022",
+      "venue": "MATH-AI Workshop @ NeurIPS",
       "authors": "Azerbayev, Piotrowski, Schoelkopf, Ayers, Radev, and Avigad",
       "marker": "oral",
       "superlatives": [
-        "Oral at MATH-AI Workshop, NeurIPS"
+        "Oral"
       ],
       "sort_date": "2023-02-24"
     },
@@ -1228,7 +1234,7 @@
       "summary": "",
       "date": "2022",
       "year": "2022",
-      "venue": "ACL Workshop on Challenges & Perspectives in Creating Large Language Models",
+      "venue": "Workshop on Challenges & Perspectives in Creating Large Language Models @ ACL",
       "authors": "Talat, Névéol, Biderman, Clinciu, Dey, and 11 others",
       "marker": "",
       "superlatives": [],
@@ -1252,7 +1258,7 @@
       "summary": "",
       "date": "2021",
       "year": "2021",
-      "venue": "NAACL Workshop on Narrative Understanding",
+      "venue": "Workshop on Narrative Understanding @ NAACL",
       "authors": "Castricato, Frazier, Balloch, and Riedl",
       "marker": "",
       "superlatives": [],
@@ -1368,7 +1374,7 @@
       "authors": "O'Brien, Casper, Anthony, Korbak, Kirk, Davies, Mishra, Irving, Gal, and Biderman",
       "marker": "runnerup",
       "superlatives": [
-        "Best Paper Runner-Up at BioSafe Workshop, NeurIPS"
+        "Best Paper Runner-Up at BioSafe Workshop"
       ],
       "sort_date": "2026-04-23"
     },
@@ -1404,8 +1410,10 @@
       "year": "2025",
       "venue": "MIREX @ ISMIR",
       "authors": "Zhou-Zheng, Backsund, Chan, Coventry, Eslami, Goel, Han, Soomro, and Wei",
-      "marker": "",
-      "superlatives": [],
+      "marker": "firstplace",
+      "superlatives": [
+        "First Place at the Symbolic Music Generation competition"
+      ],
       "sort_date": "2025-09-24"
     },
     {
@@ -1426,10 +1434,12 @@
       "summary": "",
       "date": "2025",
       "year": "2025",
-      "venue": "Tokenization Workshop at ICML 2025",
+      "venue": "Tokenization Workshop @ ICML",
       "authors": "Land and Arnett",
-      "marker": "",
-      "superlatives": [],
+      "marker": "bestpaper",
+      "superlatives": [
+        "Best Paper"
+      ],
       "sort_date": "2025-07-18"
     },
     {
@@ -1464,8 +1474,10 @@
       "year": "2024",
       "venue": "NeurIPS Datasets and Benchmarks",
       "authors": "Weber, Fu, Anthony, Oren, and Adams, and 14 others",
-      "marker": "",
-      "superlatives": [],
+      "marker": "spotlight",
+      "superlatives": [
+        "Spotlight at NeurIPS"
+      ],
       "sort_date": "2024-12-10"
     },
     {
@@ -1527,6 +1539,18 @@
       "marker": "",
       "superlatives": [],
       "sort_date": "2024-08-12"
+    },
+    {
+      "title": "Tree Attention: Topology-aware Decoding for Long-Context Attention on GPU Clusters",
+      "url": "https://arxiv.org/abs/2408.04093",
+      "summary": "",
+      "date": "2024",
+      "year": "2024",
+      "venue": "arXiv",
+      "authors": "Shyam, Pilault, Shepperd, Anthony, and Millidge",
+      "marker": "",
+      "superlatives": [],
+      "sort_date": "2024-08-07"
     },
     {
       "title": "Scalable High-Resolution Pixel-Space Image Synthesis with Hourglass Diffusion Transformers",
@@ -1618,7 +1642,7 @@
       "summary": "",
       "date": "2024",
       "year": "2024",
-      "venue": "AISTATS 2024",
+      "venue": "AISTATS",
       "authors": "Alam, Raff, Biderman, Oates, and Holt",
       "marker": "",
       "superlatives": [],
@@ -1705,7 +1729,9 @@
       "venue": "TMLR",
       "authors": "von Werra, de Vries, and 65 others",
       "marker": "",
-      "superlatives": [],
+      "superlatives": [
+        "VentureBeat’s 2024 Best Enterprise Implementation of Generative AI (Software)"
+      ],
       "sort_date": "2023-12-01"
     },
     {
@@ -1824,10 +1850,12 @@
       "summary": "",
       "date": "2023",
       "year": "2023",
-      "venue": "arXiv",
+      "venue": "Deep Learning for Code (DL4C) Workshop @ ICLR",
       "authors": "Ben Allal, Li, Kocetkov, Mou, Akiki, and 36 others",
-      "marker": "",
-      "superlatives": [],
+      "marker": "bestpaper",
+      "superlatives": [
+        "Best Paper"
+      ],
       "sort_date": "2023-01-09"
     },
     {
@@ -1884,7 +1912,7 @@
       "summary": "",
       "date": "2022",
       "year": "2022",
-      "venue": "ACL Workshop on Challenges & Perspectives in Creating Large Language Models",
+      "venue": "Workshop on Challenges & Perspectives in Creating Large Language Models @ ACL",
       "authors": "Black, Biderman, Hallahan, and 14 others",
       "marker": "",
       "superlatives": [],
@@ -1898,8 +1926,10 @@
       "year": "2022",
       "venue": "ICLR",
       "authors": "Sanh, Webson, Raffel, Bach, and 37 others",
-      "marker": "",
-      "superlatives": [],
+      "marker": "spotlight",
+      "superlatives": [
+        "Spotlight at ICLR 2022"
+      ],
       "sort_date": "2022-04-25"
     },
     {
@@ -2104,8 +2134,10 @@
       "year": "2024",
       "venue": "NeurIPS Datasets and Benchmarks",
       "authors": "Weber, Fu, Anthony, Oren, and Adams, and 14 others",
-      "marker": "",
-      "superlatives": [],
+      "marker": "spotlight",
+      "superlatives": [
+        "Spotlight at NeurIPS"
+      ],
       "sort_date": "2024-12-10"
     },
     {
@@ -2143,20 +2175,6 @@
       "marker": "",
       "superlatives": [],
       "sort_date": "2024-12-01"
-    },
-    {
-      "title": "The Data Provenance Initiative: A Large Scale Audit of Dataset Licensing & Attribution in AI",
-      "url": "https://arxiv.org/abs/2310.16787",
-      "summary": "",
-      "date": "2024",
-      "year": "2024",
-      "venue": "Nature Machine Intelligence",
-      "authors": "Longpre, Mahari, Chen, Obeng-Marnu, and Sileo, and 12 others",
-      "marker": "spotlight",
-      "superlatives": [
-        "Spotlight at GenLaw Workshop, ICML"
-      ],
-      "sort_date": "2024-08-30"
     },
     {
       "title": "Self-Directed Synthetic Dialogues and Revisions Technical Report",
@@ -2226,7 +2244,7 @@
       "summary": "",
       "date": "2023",
       "year": "2023",
-      "venue": "EMNLP Workshop on Computational Approaches to Linguistic Code-Switching",
+      "venue": "Workshop on Computational Approaches to Linguistic Code-Switching @ EMNLP",
       "authors": "Yong, Zhang, Forde, Wang, Subramonian, and 10 others",
       "marker": "",
       "superlatives": [],
@@ -2241,7 +2259,9 @@
       "venue": "TMLR",
       "authors": "von Werra, de Vries, and 65 others",
       "marker": "",
-      "superlatives": [],
+      "superlatives": [
+        "VentureBeat’s 2024 Best Enterprise Implementation of Generative AI (Software)"
+      ],
       "sort_date": "2023-12-01"
     },
     {
@@ -2250,7 +2270,7 @@
       "summary": "",
       "date": "2023",
       "year": "2023",
-      "venue": "AACL Workshop on Southeast Asian Language Processing",
+      "venue": "Workshop on Southeast Asian Language Processing @ AACL",
       "authors": "Fransiska, Pitaloka, Saripudin, Putra, and Sutawika",
       "marker": "",
       "superlatives": [],
@@ -2386,7 +2406,7 @@
       "summary": "",
       "date": "2021",
       "year": "2021",
-      "venue": "NeurIPS Workshop on Data-Centric AI",
+      "venue": "Workshop on Data-Centric AI @ NeurIPS",
       "authors": "Schuhmann, Vencu, Beaumont, Kaczmarczyk, Mullis, Katta, Coombes, Jitsev, and Komatsuzaki",
       "marker": "",
       "superlatives": [],
@@ -2448,10 +2468,12 @@
       "summary": "",
       "date": "2025",
       "year": "2025",
-      "venue": "Tokenization Workshop at ICML 2025",
+      "venue": "Tokenization Workshop @ ICML",
       "authors": "Land and Arnett",
-      "marker": "",
-      "superlatives": [],
+      "marker": "bestpaper",
+      "superlatives": [
+        "Best Paper"
+      ],
       "sort_date": "2025-07-18"
     },
     {
@@ -2496,7 +2518,7 @@
       "summary": "",
       "date": "2023",
       "year": "2023",
-      "venue": "EMNLP Workshop on Computational Approaches to Linguistic Code-Switching",
+      "venue": "Workshop on Computational Approaches to Linguistic Code-Switching @ EMNLP",
       "authors": "Yong, Zhang, Forde, Wang, Subramonian, and 10 others",
       "marker": "",
       "superlatives": [],
@@ -2508,7 +2530,7 @@
       "summary": "",
       "date": "2023",
       "year": "2023",
-      "venue": "AACL Workshop on Southeast Asian Language Processing",
+      "venue": "Workshop on Southeast Asian Language Processing @ AACL",
       "authors": "Fransiska, Pitaloka, Saripudin, Putra, and Sutawika",
       "marker": "",
       "superlatives": [],
@@ -2520,7 +2542,7 @@
       "summary": "",
       "date": "2023",
       "year": "2023",
-      "venue": "IJCNLP-AACL 2023 Tutorial Abstracts",
+      "venue": "IJCNLP-AACL",
       "authors": "Aji, Forde, Loo, Sutawika, Wang, and 6 others",
       "marker": "",
       "superlatives": [],
@@ -2582,7 +2604,7 @@
       "summary": "",
       "date": "2022",
       "year": "2022",
-      "venue": "ACL Workshop on Challenges & Perspectives in Creating Large Language Models",
+      "venue": "Workshop on Challenges & Perspectives in Creating Large Language Models @ ACL",
       "authors": "Talat, Névéol, Biderman, Clinciu, Dey, and 11 others",
       "marker": "",
       "superlatives": [],
@@ -2602,6 +2624,18 @@
     }
   ],
   "ai4science": [
+    {
+      "title": "What Helps Agentic Lean Provers? A Trace-Level Attribution Study",
+      "url": "https://openreview.net/forum?id=ShhLinF41r",
+      "summary": "",
+      "date": "2026",
+      "year": "2026",
+      "venue": "Math4AI Workshop @ ICML",
+      "authors": "Ammanamanchi",
+      "marker": "",
+      "superlatives": [],
+      "sort_date": "2026-07-11"
+    },
     {
       "title": "Faults in Our Formal Benchmarking: Dataset Defects and Evaluation Failures in Lean Theorem Proving",
       "url": "https://arxiv.org/abs/2606.29493",
@@ -2715,18 +2749,6 @@
       "sort_date": "2023-12-10"
     },
     {
-      "title": "Utilizing Weak Supervision to Generate Indonesian Conservation Datasets",
-      "url": "https://arxiv.org/abs/2310.11258",
-      "summary": "",
-      "date": "2023",
-      "year": "2023",
-      "venue": "AACL Workshop on Southeast Asian Language Processing",
-      "authors": "Fransiska, Pitaloka, Saripudin, Putra, and Sutawika",
-      "marker": "",
-      "superlatives": [],
-      "sort_date": "2023-11-01"
-    },
-    {
       "title": "ARB: Advanced Reasoning Benchmark for Large Language Models",
       "url": "https://arxiv.org/abs/2307.13692",
       "summary": "",
@@ -2744,11 +2766,11 @@
       "summary": "",
       "date": "2023",
       "year": "2023",
-      "venue": "MATH-AI Workshop at NeurIPS 2022",
+      "venue": "MATH-AI Workshop @ NeurIPS",
       "authors": "Azerbayev, Piotrowski, Schoelkopf, Ayers, Radev, and Avigad",
       "marker": "oral",
       "superlatives": [
-        "Oral at MATH-AI Workshop, NeurIPS"
+        "Oral"
       ],
       "sort_date": "2023-02-24"
     },
@@ -2778,6 +2800,18 @@
     }
   ],
   "governance": [
+    {
+      "title": "What AI Governance Needs from Mechanistic Auditing",
+      "url": "https://openreview.net/forum?id=3Vj7YtFlAm",
+      "summary": "",
+      "date": "2026",
+      "year": "2026",
+      "venue": "TAGIR @ ICML",
+      "authors": "Barez, Mireshghallah, Osborne, Biderman. Lazar, Trager",
+      "marker": "",
+      "superlatives": [],
+      "sort_date": "2026-07-10"
+    },
     {
       "title": "Who Evaluates AI's Social Impacts? Mapping Coverage and Gaps in First and Third Party Evaluations",
       "url": "https://arxiv.org/abs/2511.05613",
@@ -2907,22 +2941,10 @@
       "venue": "TMLR",
       "authors": "Longpre, Biderman, Albalak, Schoelkopf, McDuff, and 18 others",
       "marker": "",
-      "superlatives": [],
-      "sort_date": "2024-12-07"
-    },
-    {
-      "title": "The Data Provenance Initiative: A Large Scale Audit of Dataset Licensing & Attribution in AI",
-      "url": "https://arxiv.org/abs/2310.16787",
-      "summary": "",
-      "date": "2024",
-      "year": "2024",
-      "venue": "Nature Machine Intelligence",
-      "authors": "Longpre, Mahari, Chen, Obeng-Marnu, and Sileo, and 12 others",
-      "marker": "spotlight",
       "superlatives": [
-        "Spotlight at GenLaw Workshop, ICML"
+        "Survey Certification"
       ],
-      "sort_date": "2024-08-30"
+      "sort_date": "2024-12-07"
     },
     {
       "title": "Social Choice Should Guide AI Alignment: On Dealing with Diverse Human Feedback",
@@ -3018,7 +3040,7 @@
       "summary": "",
       "date": "2023",
       "year": "2023",
-      "venue": "IJCNLP-AACL 2023 Tutorial Abstracts",
+      "venue": "IJCNLP-AACL",
       "authors": "Aji, Forde, Loo, Sutawika, Wang, and 6 others",
       "marker": "",
       "superlatives": [],
@@ -3142,8 +3164,10 @@
       "year": "2025",
       "venue": "MIREX @ ISMIR",
       "authors": "Zhou-Zheng, Backsund, Chan, Coventry, Eslami, Goel, Han, Soomro, and Wei",
-      "marker": "",
-      "superlatives": [],
+      "marker": "firstplace",
+      "superlatives": [
+        "First Place at the Symbolic Music Generation competition"
+      ],
       "sort_date": "2025-09-24"
     },
     {
@@ -3288,7 +3312,7 @@
       "summary": "",
       "date": "2021",
       "year": "2021",
-      "venue": "NeurIPS Workshop on Data-Centric AI",
+      "venue": "Workshop on Data-Centric AI @ NeurIPS",
       "authors": "Schuhmann, Vencu, Beaumont, Kaczmarczyk, Mullis, Katta, Coombes, Jitsev, and Komatsuzaki",
       "marker": "",
       "superlatives": [],
@@ -3296,6 +3320,18 @@
     }
   ],
   "security": [
+    {
+      "title": "Agent Memory Is a Surface for Endogenous Authorization Laundering",
+      "url": "https://arxiv.org/abs/2609.01836",
+      "summary": "",
+      "date": "2026",
+      "year": "2026",
+      "venue": "arXiv",
+      "authors": "Cerruti, Okamoto, and Erol",
+      "marker": "",
+      "superlatives": [],
+      "sort_date": "2026-10-24"
+    },
     {
       "title": "Matrix-Driven Identification and Reconstruction of LLM Weight Homology",
       "url": "https://arxiv.org/abs/2508.06309",
@@ -3326,7 +3362,7 @@
       "summary": "",
       "date": "2024",
       "year": "2024",
-      "venue": "AISTATS 2024",
+      "venue": "AISTATS",
       "authors": "Alam, Raff, Biderman, Oates, and Holt",
       "marker": "",
       "superlatives": [],
@@ -3338,7 +3374,7 @@
       "summary": "",
       "date": "2023",
       "year": "2023",
-      "venue": "NeurIPS Workshop on Backdoors in Deep Learning",
+      "venue": "Backdoors in Deep Learning @ NeurIPS",
       "authors": "Langosco, Alex, Baker, Quarel, Bradley, and Krueger",
       "marker": "",
       "superlatives": [],

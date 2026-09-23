@@ -4,19 +4,21 @@
   Usage: {{ partial "paper-marker.html" . }}
 
   Expects the calling context (.) to have an optional .marker string field.
-  Valid values: "oral" | "spotlight" | "runnerup" | "bestpaper"
+  Valid values: "oral" | "spotlight" | "runnerup" | "bestpaper" | "firstplace"
 
   Approved symbols (DESIGN_HANDOFF.md):
     oral       → 🎙️  Oral presentation
     spotlight  → 🔦  Spotlight presentation
     runnerup   → 🥈  Best-paper runner-up
     bestpaper  → 🏆  Best paper
+    firstplace → 🏆  First place
 */ -}}
 {{- $markers := dict
     "oral"      (dict "icon" "🎙️" "label" "Oral")
     "spotlight" (dict "icon" "🔦" "label" "Spotlight")
     "runnerup"  (dict "icon" "🥈" "label" "Runner-up")
-    "bestpaper" (dict "icon" "🏆" "label" "Best paper") -}}
+    "bestpaper" (dict "icon" "🏆" "label" "Best paper")
+    "firstplace" (dict "icon" "🏆" "label" "First place") -}}
 {{- with .marker -}}
   {{- $m := index $markers . -}}
   {{- if $m -}}

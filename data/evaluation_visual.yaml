@@ -61,7 +61,7 @@ coalition:
   title: "The EvalEval Coalition"
   logo: "images/community/evaleval-logo.png"
   body: >-
-    We co-lead the EvalEval Coalition with Hugging Face and the University of Edinburgh. EvalEval connects researchers working on evaluation across institutions, with joint projects including Every Eval Ever and our benchmark-lifecycle research.
+    We co-founded the EvalEval Coalition with Hugging Face and the University of Edinburgh. EvalEval connects researchers working on evaluation across institutions, with joint projects including Every Eval Ever and our benchmark-lifecycle research.
   detail: >-
     Shared reporting standards allow results collected by different groups to be used together. The coalition develops these standards alongside the tools and research that use them, so contributions from one project can support work elsewhere.
   url: "https://evalevalai.com/"

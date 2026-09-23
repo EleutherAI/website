@@ -12,12 +12,12 @@
 
 # Navigation groupings may overlap; they do not define exclusive research ownership.
 navigation:
-  - title: "Models & data"
-    areas: ["open_models", "training_data", "multilingual", "ai4science"]
-  - title: "Understanding models"
-    areas: ["interpretability", "evaluation", "data_attribution"]
+  - title: "Open Source AI"
+    areas: ["open_models", "training_data", "multilingual"]
+  - title: "Science"
+    areas: ["interpretability", "evaluation", "data_attribution", "ai4science"]
   - title: "Safety"
-    areas: ["open_weight_safety", "behavioral_safety", "security", "governance"]
+    areas: ["open_weight_safety", "behavioral_safety", "security"]
 
 areas:
   - key: "interpretability"
@@ -131,7 +131,7 @@ areas:
     lede: "Evaluation is the infrastructure the rest of the field's claims rest on. We maintain the tooling most open-model evaluations run on, study where benchmarks break down, and work to make evaluation results reproducible and comparable across the community."
     body:
       - "The Language Model Evaluation Harness is the backend for the Open LLM Leaderboard and a standard tool for evaluating open models. Maintaining it has taught us a great deal about how small differences in prompting, scoring, and implementation produce large differences in reported numbers, and about how easily those differences go unnoticed."
-      - "Beyond tooling, we study evaluation itself: how benchmarks saturate, what the age and construction of a benchmark does to cross-model comparisons, and how to report results so they can be aggregated and audited. Through the EvalEval Coalition, co-hosted with Hugging Face and the University of Edinburgh, we work with researchers across institutions to rebuild evaluation as shared open infrastructure, from common reporting schemas up to standards that inform policy."
+      - "Beyond tooling, we study evaluation itself: how benchmarks saturate, what the age and construction of a benchmark does to cross-model comparisons, and how to report results so they can be aggregated and audited. Through the EvalEval Coalition, which we co-founded with Hugging Face and the University of Edinburgh, we work with researchers across institutions to rebuild evaluation as shared open infrastructure, from common reporting schemas up to standards that inform policy."
     directions:
       - title: "Benchmark saturation and validity"
         text: "Systematic studies of when benchmarks stop discriminating between models, and what that means for the claims built on them."
@@ -217,47 +217,9 @@ areas:
     title: "AI for Science"
     featured: false
     team: "nlp"
-    accent: "gold"
+    accent: "green"
     sheet_areas: ["AI4Science"]
-    summary: "Open models, datasets, and benchmarks for mathematics, astronomy, and biology."
-    lede: "Applying open models to scientific problems, and building the datasets and benchmarks scientists need to evaluate them, in mathematics, astronomy, and protein science."
-    body:
-      - "Scientific domains are where the gap between open and closed models is most consequential, because reproducibility is the point. We have trained open models for mathematics, released large open datasets of mathematical text, built mathematician-curated benchmarks for research-level problems, and supported community efforts such as OpenFold and the Multimodal Universe."
-    projects:
-      - name: "LLeMA"
-        url: "https://arxiv.org/abs/2310.10631"
-        text: "An open language model for mathematics."
-      - name: "OpenWebMath"
-        url: "https://arxiv.org/abs/2310.06786"
-        text: "An open dataset of high-quality mathematical web text."
-      - name: "Soohak"
-        url: "https://arxiv.org/abs/2605.09063"
-        text: "A mathematician-curated benchmark for research-level math."
-      - name: "OpenFold"
-        url: "https://github.com/aqlaboratory/openfold"
-        text: "A trainable, open reimplementation of AlphaFold2."
-
-  - key: "governance"
-    slug: "governance-and-policy"
-    title: "AI Governance and Policy"
-    featured: false
-    team: "policy"
-    accent: "violet"
-    sheet_areas: ["AI Governance & Societal Impacts"]
-    summary: "Data governance, licensing, and the case for open science in AI policy."
-    lede: "The policy questions that determine whether open research on AI remains possible: how training data is governed and licensed, how independent evaluation is protected, and how open-weight models are treated in regulation."
-    body:
-      - "Our policy work grows out of our technical work. Building the Common Pile required a detailed position on data licensing and provenance; maintaining evaluation infrastructure led us to advocate for a legal safe harbor for independent evaluation and red teaming; and releasing open models put us in the debates over how open-weight systems should be regulated. We publish research on these questions and engage with policymakers directly."
-    projects:
-      - name: "Data Governance in the Age of Large-Scale Data-Driven Language Technology"
-        url: "https://arxiv.org/abs/2206.03216"
-        text: "A framework for governing the data behind large models."
-      - name: "The Data Provenance Initiative"
-        url: "https://arxiv.org/abs/2310.16787"
-        text: "A large-scale audit of dataset licensing and attribution in AI."
-      - name: "Beyond Open vs. Closed"
-        url: "https://carnegieendowment.org/research/2024/07/beyond-open-vs-closed-emerging-consensus-and-key-questions-for-foundation-ai-model-governance"
-        text: "Emerging consensus and key questions for foundation model governance."
+    summary: "Models and data for scientific work, mathematical reasoning, and methods for checking the results."
 
   - key: "multimodal"
     slug: "multimodal"

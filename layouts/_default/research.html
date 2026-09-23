@@ -10,7 +10,7 @@
     </div>
   </section>
   {{ range site.Data.research.areas.navigation }}
-    <section class="section research-directory-group">
+    <section class="section research-directory-group" id="{{ .title | urlize | lower }}">
       <div class="wrap">
         <h2>{{ .title }}</h2>
         <ul class="research-directory-list">

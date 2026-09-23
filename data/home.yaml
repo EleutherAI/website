@@ -35,15 +35,15 @@ priorities:
         descriptor: "Public, with checkpoints"
         items:
           - label: "Pythia"
-            url: "https://github.com/EleutherAI/pythia"
+            url: "https://arxiv.org/abs/2304.01373"
           - label: "GPT-NeoX-20B"
             url: "https://huggingface.co/EleutherAI/gpt-neox-20b"
           - label: "Comma"
             url: "https://huggingface.co/common-pile"
     text: |-
-      Open research on large models requires more than released weights. It requires open data to train on, open code to train and evaluate with, and open models whose full development is public.
+      Open research on large models requires open training data, open training and evaluation code, and models whose full development is public. We have built all three since 2020.
 
-      We have built all three layers since 2020: datasets from the Pile to the Common Pile, libraries like GPT-NeoX and lm-evaluation-harness, and model suites released with their training data, code, and checkpoints. Everything is free, openly licensed, and used across the research community, from independent researchers to national labs.
+      Our datasets include the Pile and the Common Pile. Our training framework is GPT-NeoX and our evaluation framework is the LM Evaluation Harness. Model suites such as Pythia are released with their training data, code, and intermediate checkpoints. All of it is openly licensed and in use across the research community.
     links:
       - label: "Datasets"
         url: "https://huggingface.co/EleutherAI/datasets"
@@ -59,13 +59,13 @@ priorities:
     image: "images/research/homepage/interpretability-over-time.svg"
     image_alt: "A training loss curve with saved checkpoints along it, one magnified to show internal structure forming"
     text: |-
-      Most interpretability research studies a finished model, frozen at the end of training. We study how model internals emerge, arguing that [a science of AI must study training dynamics](https://arxiv.org/abs/2606.06533) rather than treating models as static artifacts to be dissected after the fact.
+      Most interpretability research studies a finished model. We study how model internals develop over the course of training, and we have argued that [a science of AI must study training dynamics](https://arxiv.org/abs/2606.06533) rather than only the final artifact.
 
-      Our Pythia suite pioneered this approach, pairing model checkpoints across training with the exact data seen at each step. It has become the standard scientific instrument for research on learning dynamics, memorization, and how capabilities form, with thousands of citing works.
+      The Pythia suite was built for this purpose. It provides checkpoints throughout training together with the exact data each checkpoint had seen, and it is now widely used in research on learning dynamics, memorization, and how capabilities form.
     links:
       - label: "Pythia"
         url: "https://arxiv.org/abs/2304.01373"
-      - label: "Don't Just fix it in Post"
+      - label: "Don't Just Fix It in Post"
         url: "https://arxiv.org/abs/2606.06533"
   - key: "open-weight-safety"
     title: "Open-Weight Safety"
@@ -76,9 +76,9 @@ priorities:
       - src: "images/research/homepage/deep-ignorance-figure-1.svg"
         alt: "Deep Ignorance Figure 1: filtered models match the baseline on general capability while biothreat proxy capability stays lower through 300M tokens of adversarial fine-tuning"
     text: |-
-      Open models need a safety science built for openness. We have championed open models since our founding, and we believe they can be safe without giving up the freedom to inspect, modify, and deploy them. That requires interventions in the training data, the training process, and the model itself: techniques that are technologically and philosophically compatible with the open source movement. EleutherAI is building the field of open-weight safety, defining its problems, developing new approaches, and creating the infrastructure researchers need to test them.
+      Once model weights are public, safeguards cannot rely on API monitoring or on post-training methods that fine-tuning can remove. We work on safety methods that remain effective when anyone can inspect and modify the model, which in practice means intervening in the training data and the training process.
 
-      Our Deep Ignorance project showed one such approach: filtering targeted hazardous material from pretraining data so models do not internalize that knowledge in the first place. The resulting safeguard lives in what the model learns and is substantially more resistant to adversarial fine-tuning than post-training alternatives. With FAR.AI, we co-organize the Open-Weight Pre-Training Safety Accelerator, giving researchers access to the pretraining runs needed to test interventions like these at scale. We also helped create the Foundation Model Development Cheatsheet, a practical guide to building models responsibly across the full development pipeline.
+      Deep Ignorance is one such method. It filters hazardous material out of pretraining data so that the model never learns it, and the resulting safeguard is substantially more resistant to adversarial fine-tuning than post-training alternatives. With FAR.AI we co-organize the Open-Weight Pretraining Safety Accelerator, which gives researchers access to the pretraining runs needed to test interventions of this kind at scale.
     links:
       - label: "Deep Ignorance"
         url: "https://arxiv.org/abs/2508.06601"
@@ -92,7 +92,9 @@ priorities:
     image: "images/research/homepage/evaluation.svg"
     image_alt: "Schematic of benchmark saturation: older benchmarks flattening against a score ceiling while newer ones still separate models"
     text: |-
-      We study what benchmarks measure, when they saturate, and how evaluations shape our picture of model capability.
+      We maintain the Language Model Evaluation Harness, which is the framework behind the Open LLM Leaderboard and the standard tool for evaluating open models. Maintaining it has shown us how much reported numbers depend on details of prompting, scoring, and implementation.
+
+      We also study evaluation itself. This includes when benchmarks saturate and stop distinguishing between models, how the age of a benchmark affects comparisons across models, and how results should be reported so that they can be compared across groups. Through the EvalEval Coalition, which we co-founded with Hugging Face and the University of Edinburgh, we work on shared evaluation infrastructure with other institutions.
     links:
       - label: "LM Evaluation Harness"
         url: "https://github.com/EleutherAI/lm-evaluation-harness"

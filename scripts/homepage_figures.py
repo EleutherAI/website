@@ -113,9 +113,7 @@ def evaluation_figure():
     ax.text(0.995, 0.995, "Ceiling", color=GOLD, fontsize=18, ha="right", va="bottom")
 
     # Annotations sit in the empty regions; move freely.
-    ax.text(0.50, 0.74, "Saturated: No Longer\nSeparates Models", color=GOLD, fontsize=19,
-            ha="left", va="top", linespacing=1.3,
-            bbox=dict(boxstyle="round,pad=0.5", facecolor=BG, edgecolor=GOLD, lw=1.8))
+    ax.text(0.56, 0.86, "Saturated", color=GOLD, fontsize=19, ha="left", va="top")
     ax.text(0.36, 0.22, "Still Informative", color=BLUE, fontsize=19, ha="left", va="bottom")
 
     # Legend above the axes, out of the way of every curve.

@@ -1,0 +1,98 @@
+[
+  {
+    "year": "2026",
+    "papers": [
+      {
+        "title": "Agent Memory Is a Surface for Endogenous Authorization Laundering",
+        "url": "https://arxiv.org/abs/2609.01836",
+        "summary": "",
+        "date": "2026",
+        "year": "2026",
+        "venue": "arXiv",
+        "authors": "Cerruti, Okamoto, and Erol",
+        "marker": "",
+        "superlatives": [],
+        "sort_date": "2026-10-24"
+      },
+      {
+        "title": "PACT: Can Enterprise AI Assistants Be Trusted Under Pressure?",
+        "url": "https://arxiv.org/abs/2609.18605",
+        "summary": "",
+        "date": "2026",
+        "year": "2026",
+        "venue": "arXiv",
+        "authors": "Okamoto and Erol",
+        "marker": "",
+        "superlatives": [],
+        "sort_date": "2026-09-16"
+      }
+    ]
+  },
+  {
+    "year": "2025",
+    "papers": [
+      {
+        "title": "No Single Tokenizer Feature Reliably Predicts Downstream Language Model Performance",
+        "url": "",
+        "summary": "",
+        "date": "2026",
+        "year": "2026",
+        "venue": "EMNLP Findings",
+        "authors": "Lopardo, Frentzen Salim, Srivastava, Jiang, Sharma, and Arnett",
+        "marker": "",
+        "superlatives": [],
+        "sort_date": "2026-10-24"
+      },
+      {
+        "title": "Attention-Guided Audio Compression for Multimodal LLM",
+        "url": "https://ieeexplore.ieee.org/abstract/document/11461737",
+        "summary": "",
+        "date": "2026",
+        "year": "2026",
+        "venue": "Low-Resource Audio Codec @ ICASSP",
+        "authors": "Rane, Vatsa, Pethe, Aktolun, Li, and Singh",
+        "marker": "",
+        "superlatives": [],
+        "sort_date": "2026-05-04"
+      },
+      {
+        "title": "The Spatial Blindspot of Vision-Language Models",
+        "url": "https://arxiv.org/abs/2601.09954",
+        "summary": "",
+        "date": "2026",
+        "year": "2026",
+        "venue": "I Can't Believe It's Not Better @ ICLR",
+        "authors": "Alam, Murali, Bharadwaj, Liu, Chung, Sharma, A, Kiran, Tam, and Vegesna",
+        "marker": "",
+        "superlatives": [],
+        "sort_date": "2026-04-27"
+      },
+      {
+        "title": "Persona-Vector Routing: A Lightweight, Interpretable Guardrail for Mitigating LLM Hallucinations",
+        "url": "https://neurips.cc/virtual/2025/129955",
+        "summary": "",
+        "date": "2025",
+        "year": "2025",
+        "venue": "Workshop on LLM Persona Modeling @ NeurIPS",
+        "authors": "Imran and Chatterjee",
+        "marker": "",
+        "superlatives": [],
+        "sort_date": "2025-12-01"
+      },
+      {
+        "title": "A Traditional Approach to Symbolic Piano Continuation",
+        "url": "https://arxiv.org/abs/2509.12267",
+        "summary": "",
+        "date": "2025",
+        "year": "2025",
+        "venue": "MIREX @ ISMIR",
+        "authors": "Zhou-Zheng, Backsund, Chan, Coventry, Eslami, Goel, Han, Soomro, and Wei",
+        "marker": "firstplace",
+        "superlatives": [
+          "First Place at the Symbolic Music Generation competition"
+        ],
+        "sort_date": "2025-09-24"
+      }
+    ]
+  }
+]

@@ -37,7 +37,7 @@
         "papers": [
           {
             "title": "Cross-Lingual Alignment Without Joint Training: Do Monolingual Language Models Converge on Universal Representations?",
-            "url": "",
+            "url": "https://arxiv.org/abs/2608.27115",
             "date": "2026",
             "date_sort": "2026-10-24",
             "venue": "EMNLP",
@@ -144,7 +144,7 @@
     "year": "2026",
     "kind": "conference",
     "label": "ICML, 2026",
-    "count": 8,
+    "count": 10,
     "sort_date": "2026-07-10",
     "venues": [
       {
@@ -207,6 +207,27 @@
         ]
       },
       {
+        "venue": "Math4AI Workshop @ ICML",
+        "label": "Math4AI Workshop",
+        "kind": "workshop",
+        "count": 1,
+        "sort_date": "2026-07-04",
+        "papers": [
+          {
+            "title": "What Helps Agentic Lean Provers? A Trace-Level Attribution Study",
+            "url": "https://openreview.net/forum?id=ShhLinF41r",
+            "date": "2026",
+            "date_sort": "2026-07-11",
+            "venue": "Math4AI Workshop @ ICML",
+            "venue_year": "2026",
+            "kind": "workshop",
+            "family": "ICML",
+            "group_sort_date": "2026-07-04",
+            "superlatives": []
+          }
+        ]
+      },
+      {
         "venue": "Agents in the Wild @ ICML",
         "label": "Agents in the Wild",
         "kind": "workshop",
@@ -223,6 +244,27 @@
             "kind": "workshop",
             "family": "ICML",
             "group_sort_date": "2026-07-04",
+            "superlatives": []
+          }
+        ]
+      },
+      {
+        "venue": "TAGIR @ ICML",
+        "label": "TAGIR",
+        "kind": "workshop",
+        "count": 1,
+        "sort_date": "2026-07-03",
+        "papers": [
+          {
+            "title": "What AI Governance Needs from Mechanistic Auditing",
+            "url": "https://openreview.net/forum?id=3Vj7YtFlAm",
+            "date": "2026",
+            "date_sort": "2026-07-10",
+            "venue": "TAGIR @ ICML",
+            "venue_year": "2026",
+            "kind": "workshop",
+            "family": "ICML",
+            "group_sort_date": "2026-07-03",
             "superlatives": []
           }
         ]
@@ -541,14 +583,14 @@
     "year": "2026",
     "kind": "conference",
     "label": "ICLR, 2026",
-    "count": 4,
+    "count": 2,
     "sort_date": "2026-04-23",
     "venues": [
       {
         "venue": "ICLR",
         "label": "Main conference",
         "kind": "conference",
-        "count": 3,
+        "count": 2,
         "sort_date": "2026-04-23",
         "papers": [
           {
@@ -573,39 +615,6 @@
             "kind": "conference",
             "family": "ICLR",
             "group_sort_date": "2026-04-23",
-            "superlatives": []
-          },
-          {
-            "title": "Deep Ignorance: Filtering Pretraining Data Builds Tamper-Resistant Safeguards into Open-Weight LLMs",
-            "url": "https://arxiv.org/abs/2508.06601",
-            "date": "2026",
-            "date_sort": "2026-04-23",
-            "venue": "ICLR",
-            "venue_year": "2026",
-            "kind": "conference",
-            "family": "ICLR",
-            "group_sort_date": "2026-04-23",
-            "superlatives": []
-          }
-        ]
-      },
-      {
-        "venue": "I Can't Believe It's Not Better @ ICLR",
-        "label": "I Can't Believe It's Not Better",
-        "kind": "workshop",
-        "count": 1,
-        "sort_date": "2026-04-20",
-        "papers": [
-          {
-            "title": "The Spatial Blindspot of Vision-Language Models",
-            "url": "https://arxiv.org/abs/2601.09954",
-            "date": "2026",
-            "date_sort": "2026-04-27",
-            "venue": "I Can't Believe It's Not Better @ ICLR",
-            "venue_year": "2026",
-            "kind": "workshop",
-            "family": "ICLR",
-            "group_sort_date": "2026-04-20",
             "superlatives": []
           }
         ]

@@ -1,6 +1,6 @@
 {{ define "main" }}
 {{ $soar := site.Data.soar }}
-{{ $soarPapers := site.Data.generated.research.paper_collections.soar }}
+{{ $soarYears := site.Data.generated.research.soar_paper_years }}
 <main class="soar-page">
   <section class="hero soar-hero">
     <div class="wrap">
@@ -91,23 +91,26 @@
   <section id="research-papers" class="soar-section soar-papers-section">
     <div class="wrap">
       <h2>SOAR Research Papers</h2>
+      {{ range $soarYears }}
+      <h3>SOAR {{ .year }}</h3>
       <div class="soar-paper-list">
-        {{ range $soarPapers }}
+        {{ range .papers }}
           <article class="soar-paper">
             <div>
-              <h3>
+              <h4>
                 {{ if .url }}
                   <a href="{{ .url }}" target="_blank" rel="noopener noreferrer">{{ .title }}</a>
                 {{ else }}
                   {{ .title }}
                 {{ end }}
-              </h3>
-              <p>{{ delimit .authors ", " }}</p>
+              </h4>
+              <p>{{ .authors }}</p>
             </div>
-            <p class="soar-paper-venue">{{ .venue }}, {{ .year }}</p>
+            <p class="soar-paper-venue">{{ .venue }}{{ with .year }}, {{ . }}{{ end }}</p>
           </article>
         {{ end }}
       </div>
+      {{ end }}
     </div>
   </section>
 

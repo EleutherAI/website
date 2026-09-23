@@ -1,0 +1,10 @@
+<!DOCTYPE html>
+<html lang="{{ .Page.Language.LanguageCode | default "en" }}">
+  <head>
+    <meta charset="utf-8">
+    <title>{{ .Page.Title }}</title>
+    <link rel="canonical" href="{{ .Permalink }}">
+    <meta http-equiv="refresh" content="0; url={{ .Page.RelPermalink }}">
+  </head>
+  <body><a href="{{ .Page.RelPermalink }}">Continue to {{ .Page.Title }}</a></body>
+</html>

@@ -43,7 +43,7 @@ partners:
       logo: "images/community/evaleval-logo.png"
       logo_class: "is-evaleval"
       text: >-
-        How AI is measured shapes what gets built and believed. EvalEval is a global coalition of researchers, co-hosted by EleutherAI, Hugging Face and the University of Edinburgh, working to rebuild evaluation as shared open infrastructure: common ways to report results, honest accounting of where benchmarks break down, and standards that range from the benchmark all the way to policy.
+        How AI is measured shapes what gets built and believed. EvalEval is a global coalition of researchers, co-founded by EleutherAI, Hugging Face and the University of Edinburgh, working to rebuild evaluation as shared open infrastructure: common ways to report results, honest accounting of where benchmarks break down, and standards that range from the benchmark all the way to policy.
       papers:
         - title: "When AI Benchmarks Plateau: A Systematic Study of Benchmark Saturation"
           url: "https://arxiv.org/abs/2602.16763"

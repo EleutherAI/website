@@ -21,7 +21,7 @@
   },
   {
     "title": "Cross-Lingual Alignment Without Joint Training: Do Monolingual Language Models Converge on Universal Representations?",
-    "url": "",
+    "url": "https://arxiv.org/abs/2608.27115",
     "date": "2026",
     "date_sort": "2026-10-24",
     "venue": "EMNLP",
@@ -126,6 +126,26 @@
     "superlatives": []
   },
   {
+    "title": "Agent Memory Is a Surface for Endogenous Authorization Laundering",
+    "url": "https://arxiv.org/abs/2609.01836",
+    "date": "2026",
+    "date_sort": "2026-10-24",
+    "venue": "arXiv",
+    "family": "arXiv",
+    "kind": "arxiv",
+    "status": "Preprint",
+    "areas": [
+      "Security"
+    ],
+    "lead_org": "",
+    "contact": "",
+    "artifact_type": "Paper",
+    "authors": "Cerruti, Okamoto, and Erol",
+    "author_search": "Cerruti, Okamoto, and Erol Tommaso Cerruti, Mika Okamoto, Ansel Kaplan Erol Mika Okamoto, Ansel Kaplan Erol Tommaso Cerruti",
+    "marker": "",
+    "superlatives": []
+  },
+  {
     "title": "Where Does Social Reasoning Come From? Capability Provenance in Language Models",
     "url": "https://arxiv.org/abs/2606.19625",
     "date": "2026",
@@ -147,6 +167,47 @@
     "superlatives": []
   },
   {
+    "title": "PACT: Can Enterprise AI Assistants Be Trusted Under Pressure?",
+    "url": "https://arxiv.org/abs/2609.18605",
+    "date": "2026",
+    "date_sort": "2026-09-16",
+    "venue": "arXiv",
+    "family": "arXiv",
+    "kind": "arxiv",
+    "status": "Preprint",
+    "areas": [
+      "Behavioral Safety",
+      "Evaluation"
+    ],
+    "lead_org": "",
+    "contact": "",
+    "artifact_type": "Paper",
+    "authors": "Okamoto and Erol",
+    "author_search": "Okamoto and Erol Mika Okamoto, Ansel Kaplan Erol Ansel Kaplan Erol Mika Okamoto",
+    "marker": "",
+    "superlatives": []
+  },
+  {
+    "title": "What Helps Agentic Lean Provers? A Trace-Level Attribution Study",
+    "url": "https://openreview.net/forum?id=ShhLinF41r",
+    "date": "2026",
+    "date_sort": "2026-07-11",
+    "venue": "Math4AI Workshop @ ICML",
+    "family": "ICML",
+    "kind": "workshop",
+    "status": "Accepted",
+    "areas": [
+      "AI4Science"
+    ],
+    "lead_org": "",
+    "contact": "",
+    "artifact_type": "Paper",
+    "authors": "Ammanamanchi",
+    "author_search": "Ammanamanchi Pawan Sasanka Ammanamanchi",
+    "marker": "",
+    "superlatives": []
+  },
+  {
     "title": "Thought Virus: Viral Misalignment via Subliminal Prompting in Multi-Agent Systems",
     "url": "https://arxiv.org/abs/2603.00131",
     "date": "2026",
@@ -163,6 +224,27 @@
     "artifact_type": "Paper",
     "authors": "Weckbecker, Müller, Hagag, and Mulet",
     "author_search": "Weckbecker, Müller, Hagag, and Mulet Moritz Weckbecker Jonas Müller Ben Hagag Michael Mulet",
+    "marker": "",
+    "superlatives": []
+  },
+  {
+    "title": "What AI Governance Needs from Mechanistic Auditing",
+    "url": "https://openreview.net/forum?id=3Vj7YtFlAm",
+    "date": "2026",
+    "date_sort": "2026-07-10",
+    "venue": "TAGIR @ ICML",
+    "family": "ICML",
+    "kind": "workshop",
+    "status": "Accepted",
+    "areas": [
+      "AI Governance & Societal Impacts",
+      "Model Internals"
+    ],
+    "lead_org": "",
+    "contact": "",
+    "artifact_type": "Paper",
+    "authors": "Barez, Mireshghallah, Osborne, Biderman. Lazar, Trager",
+    "author_search": "Barez, Mireshghallah, Osborne, Biderman. Lazar, Trager Fazl Barez, Niloofar Mireshghallah, Michael A Osborne, Stella Biderman, Seth Lazar, Robert F Trager Niloofar Mireshghallah, Michael A Osborne, Stella Biderman, Seth Lazar, Robert F Trager Fazl Barez",
     "marker": "",
     "superlatives": []
   },
@@ -565,7 +647,7 @@
     "author_search": "O'Brien, Casper, Anthony, Korbak, Kirk, Davies, Mishra, Irving, Gal, and Biderman Kyle O'Brien Stephen Casper Quentin Anthony Tomek Korbak Robert Kirk Xander Davies Ishan Mishra Geoffrey Irving Yarin Gal Stella Biderman",
     "marker": "runnerup",
     "superlatives": [
-      "Best Paper Runner-Up at BioSafe Workshop, NeurIPS"
+      "Best Paper Runner-Up at BioSafe Workshop"
     ]
   },
   {
@@ -630,23 +712,24 @@
     "superlatives": []
   },
   {
-    "title": "Adversarial Samples Are Not Created Equal",
-    "url": "https://arxiv.org/abs/2601.00577",
-    "date": "2026",
-    "date_sort": "2026-01-02",
-    "venue": "arXiv",
-    "family": "arXiv",
-    "kind": "arxiv",
-    "status": "Preprint",
+    "title": "Token Entanglement in Subliminal Learning",
+    "url": "https://openreview.net/forum?id=auKgpBRzIW",
+    "date": "2025",
+    "date_sort": "2025-12-07",
+    "venue": "Mech Interp Workshop @ NeurIPS",
+    "family": "NeurIPS",
+    "kind": "workshop",
+    "status": "Accepted",
     "areas": [
-      "Evaluation",
+      "Learning Dynamics",
+      "Model Internals",
       "Behavioral Safety"
     ],
     "lead_org": "",
     "contact": "",
     "artifact_type": "Paper",
-    "authors": "Crawford, Khanna, Lu, Wagoner, Biderman, Nguyen, and Raff",
-    "author_search": "Crawford, Khanna, Lu, Wagoner, Biderman, Nguyen, and Raff Jennifer Crawford Amol Khanna Fred Lu Amy R. Wagoner Stella Biderman Andre T. Nguyen Edward Raff",
+    "authors": "Zur, Ying, Loftus, Şahin, Yu, Quirke, Rott Shaham, Shapira, Orgad, and Bau",
+    "author_search": "Zur, Ying, Loftus, Şahin, Yu, Quirke, Rott Shaham, Shapira, Orgad, and Bau Amir Zur Zhuofan Ying Alexander Russell Loftus Kerem Şahin Steven Yu Lucia Quirke Tamar Rott Shaham Natalie Shapira Hadas Orgad David Bau",
     "marker": "",
     "superlatives": []
   },
@@ -688,28 +771,6 @@
     "artifact_type": "Paper",
     "authors": "Michaelov and Arnett",
     "author_search": "Michaelov and Arnett James A. Michaelov Catherine Arnett",
-    "marker": "",
-    "superlatives": []
-  },
-  {
-    "title": "Token Entanglement in Subliminal Learning",
-    "url": "https://openreview.net/forum?id=auKgpBRzIW",
-    "date": "2025",
-    "date_sort": "2025-12-02",
-    "venue": "Mech Interp Workshop @ NeurIPS",
-    "family": "NeurIPS",
-    "kind": "workshop",
-    "status": "Accepted",
-    "areas": [
-      "Learning Dynamics",
-      "Model Internals",
-      "Behavioral Safety"
-    ],
-    "lead_org": "",
-    "contact": "",
-    "artifact_type": "Paper",
-    "authors": "Zur, Ying, Loftus, Şahin, Yu, Quirke, Rott Shaham, Shapira, Orgad, and Bau",
-    "author_search": "Zur, Ying, Loftus, Şahin, Yu, Quirke, Rott Shaham, Shapira, Orgad, and Bau Amir Zur Zhuofan Ying Alexander Russell Loftus Kerem Şahin Steven Yu Lucia Quirke Tamar Rott Shaham Natalie Shapira Hadas Orgad David Bau",
     "marker": "",
     "superlatives": []
   },
@@ -801,7 +862,7 @@
     "url": "https://neurips.cc/virtual/2025/129955",
     "date": "2025",
     "date_sort": "2025-12-01",
-    "venue": "First Workshop on LLM Persona Modeling @ NeurIPS",
+    "venue": "Workshop on LLM Persona Modeling @ NeurIPS",
     "family": "NeurIPS",
     "kind": "workshop",
     "status": "Accepted",
@@ -960,7 +1021,9 @@
     "authors": "Sharkey, Chughtai, Batson, Lindsey, Wu, and 24 others",
     "author_search": "Sharkey, Chughtai, Batson, Lindsey, Wu, and 24 others Lee Sharkey Bilal Chughtai Joshua Batson Jack Lindsey Jeff Wu Lucius Bushnaq Nicholas Goldowsky-Dill Stefan Heimersheim Alejandro Ortega Joseph Bloom Stella Biderman Adria Garriga-Alonso Arthur Conmy Neel Nanda Jessica Rumbelow Martin Wattenberg Nandi Schoots Joseph Miller Eric J. Michaud Stephen Casper Max Tegmark William Saunders David Bau Eric Todd Atticus Geiger Mor Geva Jesse Hoogland Daniel Murfet Tom McGrath",
     "marker": "",
-    "superlatives": []
+    "superlatives": [
+      "Survey Certification"
+    ]
   },
   {
     "title": "A Traditional Approach to Symbolic Piano Continuation",
@@ -980,8 +1043,10 @@
     "artifact_type": "Paper",
     "authors": "Zhou-Zheng, Backsund, Chan, Coventry, Eslami, Goel, Han, Soomro, and Wei",
     "author_search": "Zhou-Zheng, Backsund, Chan, Coventry, Eslami, Goel, Han, Soomro, and Wei Christian Zhou-Zheng John Backsund Dun Li Chan Alex Coventry Avid Eslami Jyotin Goel Xingwen Han Danysh Soomro Galen Wei",
-    "marker": "",
-    "superlatives": []
+    "marker": "firstplace",
+    "superlatives": [
+      "First Place at the Symbolic Music Generation competition"
+    ]
   },
   {
     "title": "Scaling Self-Supervised Representation Learning for Symbolic Piano Performance",
@@ -1072,7 +1137,7 @@
     "url": "https://arxiv.org/abs/2507.06378",
     "date": "2025",
     "date_sort": "2025-07-18",
-    "venue": "Tokenization Workshop at ICML 2025",
+    "venue": "Tokenization Workshop @ ICML",
     "family": "ICML",
     "kind": "workshop",
     "status": "Accepted",
@@ -1093,7 +1158,7 @@
     "url": "https://arxiv.org/abs/2505.24689",
     "date": "2025",
     "date_sort": "2025-07-18",
-    "venue": "Tokenization Workshop at ICML 2025",
+    "venue": "Tokenization Workshop @ ICML",
     "family": "ICML",
     "kind": "workshop",
     "status": "Accepted",
@@ -1106,8 +1171,10 @@
     "artifact_type": "Paper",
     "authors": "Land and Arnett",
     "author_search": "Land and Arnett Sander Land Catherine Arnett",
-    "marker": "",
-    "superlatives": []
+    "marker": "bestpaper",
+    "superlatives": [
+      "Best Paper"
+    ]
   },
   {
     "title": "Why Has Predicting Downstream Capabilities of Frontier AI Models with Scale Remained Elusive?",
@@ -1633,8 +1700,10 @@
     "artifact_type": "Paper",
     "authors": "Weber, Fu, Anthony, Oren, and Adams, and 14 others",
     "author_search": "Weber, Fu, Anthony, Oren, and Adams, and 14 others Maurice Weber Daniel Fu Quentin Anthony Yonatan Oren Shane Adams Anton Alexandrov Xiaozhong Lyu Huu Nguyen Xiaozhe Yao Virginia Adams Ben Athiwaratkun Rahul Chalamala Kezhen Chen Max Ryabinin Tri Dao Percy Liang Christopher Ré Irina Rish Ce Zhang",
-    "marker": "",
-    "superlatives": []
+    "marker": "spotlight",
+    "superlatives": [
+      "Spotlight at NeurIPS"
+    ]
   },
   {
     "title": "LLM Circuit Analyses Are Consistent Across Training and Scale",
@@ -1740,7 +1809,9 @@
     "authors": "Longpre, Biderman, Albalak, Schoelkopf, McDuff, and 18 others",
     "author_search": "Longpre, Biderman, Albalak, Schoelkopf, McDuff, and 18 others Shayne Longpre Stella Biderman Alon Albalak Hailey Schoelkopf Daniel McDuff Sayash Kapoor Kevin Klyman Kyle Lo Gabriel Ilharco Nay San Maribeth Rauh Aviya Skowron Bertie Vidgen Laura Weidinger Arvind Narayanan Victor Sanh David Adelani Percy Liang Rishi Bommasani Peter Henderson Sasha Luccioni Yacine Jernite Luca Soldaini",
     "marker": "",
-    "superlatives": []
+    "superlatives": [
+      "Survey Certification"
+    ]
   },
   {
     "title": "Surveying the Effects of Quality, Diversity, and Complexity in Synthetic Data From Large Language Models",
@@ -1821,8 +1892,10 @@
     "artifact_type": "Paper",
     "authors": "Tigges, Hollinsworth, Geiger, and Nanda",
     "author_search": "Tigges, Hollinsworth, Geiger, and Nanda Curt Tigges Oskar John Hollinsworth Atticus Geiger Neel Nanda",
-    "marker": "",
-    "superlatives": []
+    "marker": "spotlight",
+    "superlatives": [
+      "Spotlight at Mechanistic Interpretability Workshop, ICML 2024"
+    ]
   },
   {
     "title": "Refusal in LLMs is an Affine Function",
@@ -1926,7 +1999,9 @@
     "authors": "Welleck, Bertsch, Finlayson, Schoelkopf, Xie, Neubig, Kulikov, and Harchaoui",
     "author_search": "Welleck, Bertsch, Finlayson, Schoelkopf, Xie, Neubig, Kulikov, and Harchaoui Sean Welleck Amanda Bertsch Matthew Finlayson Hailey Schoelkopf Alex Xie Graham Neubig Ilia Kulikov Zaid Harchaoui",
     "marker": "",
-    "superlatives": []
+    "superlatives": [
+      "Survey Certification"
+    ]
   },
   {
     "title": "Eliciting Latent Knowledge from Quirky Language Models",
@@ -1970,29 +2045,6 @@
     "superlatives": []
   },
   {
-    "title": "The Data Provenance Initiative: A Large Scale Audit of Dataset Licensing & Attribution in AI",
-    "url": "https://arxiv.org/abs/2310.16787",
-    "date": "2024",
-    "date_sort": "2024-08-30",
-    "venue": "Nature Machine Intelligence",
-    "family": "Nature Machine Intelligence",
-    "kind": "conference",
-    "status": "Accepted",
-    "areas": [
-      "Data",
-      "AI Governance & Societal Impacts"
-    ],
-    "lead_org": "",
-    "contact": "",
-    "artifact_type": "Paper",
-    "authors": "Longpre, Mahari, Chen, Obeng-Marnu, and Sileo, and 12 others",
-    "author_search": "Longpre, Mahari, Chen, Obeng-Marnu, and Sileo, and 12 others Shayne Longpre Robert Mahari Anthony Chen Naana Obeng-Marnu Damien Sileo William Brannon Niklas Muennighoff Nathan Khazam Jad Kabbara Kartik Perisetla Xinyi Wu Enrico Shippole Kurt Bollacker Tongshuang Wu Luis Villa Sandy Pentland Sara Hooker",
-    "marker": "spotlight",
-    "superlatives": [
-      "Spotlight at GenLaw Workshop, ICML"
-    ]
-  },
-  {
     "title": "The Case for Co-Designing Model Architectures with Hardware",
     "url": "https://arxiv.org/abs/2401.14489",
     "date": "2024",
@@ -2022,7 +2074,7 @@
     "kind": "arxiv",
     "status": "Preprint",
     "areas": [
-      "Misc."
+      "Training Models"
     ],
     "lead_org": "",
     "contact": "",
@@ -2109,8 +2161,10 @@
     "artifact_type": "Paper",
     "authors": "Sanchez, Fan, Spangher, Levi, Ammanamanchi, and Biderman",
     "author_search": "Sanchez, Fan, Spangher, Levi, Ammanamanchi, and Biderman Guillaume Sanchez Honglu Fan Alexander Spangher Elad Levi Pawan Sasanka Ammanamanchi Stella Biderman",
-    "marker": "",
-    "superlatives": []
+    "marker": "spotlight",
+    "superlatives": [
+      "Spotlight at ICML 2024"
+    ]
   },
   {
     "title": "Social Choice Should Guide AI Alignment: On Dealing with Diverse Human Feedback",
@@ -2432,7 +2486,7 @@
     "url": "https://openreview.net/forum?id=3pDMYjpOxk",
     "date": "2024",
     "date_sort": "2024-05-11",
-    "venue": "ICLR 2024 Workshop on Mathematical and Empirical Understanding of Foundation Models",
+    "venue": "Workshop on Mathematical and Empirical Understanding of Foundation Models @ ICLR",
     "family": "ICLR",
     "kind": "workshop",
     "status": "Accepted",
@@ -2577,8 +2631,8 @@
     "url": "https://arxiv.org/abs/2403.17978",
     "date": "2024",
     "date_sort": "2024-05-02",
-    "venue": "AISTATS 2024",
-    "family": "AISTATS 2024",
+    "venue": "AISTATS",
+    "family": "AISTATS",
     "kind": "conference",
     "status": "Accepted",
     "areas": [
@@ -2703,7 +2757,7 @@
     "url": "https://neurips.cc/virtual/2023/workshop/66526#collapse78917",
     "date": "2023",
     "date_sort": "2023-12-16",
-    "venue": "SoLaR Workshop at NeurIPS 2023",
+    "venue": "SoLaR Workshop @ NeurIPS",
     "family": "NeurIPS",
     "kind": "workshop",
     "status": "Accepted",
@@ -2726,7 +2780,7 @@
     "url": "https://openreview.net/forum?id=cmJiEqniEc",
     "date": "2023",
     "date_sort": "2023-12-15",
-    "venue": "NeurIPS Workshop on Backdoors in Deep Learning",
+    "venue": "Backdoors in Deep Learning @ NeurIPS",
     "family": "NeurIPS",
     "kind": "workshop",
     "status": "Accepted",
@@ -2781,8 +2835,10 @@
     "artifact_type": "Paper",
     "authors": "Ruis, Khan, Biderman, Hooker, Rocktäschel, and Grefenstette",
     "author_search": "Ruis, Khan, Biderman, Hooker, Rocktäschel, and Grefenstette Laura Ruis Akbir Khan Stella Biderman Sara Hooker Tim Rocktäschel Edward Grefenstette",
-    "marker": "",
-    "superlatives": []
+    "marker": "spotlight",
+    "superlatives": [
+      "Spotlight at NeurIPS"
+    ]
   },
   {
     "title": "Reconstructing the Mind's Eye: fMRI-to-Image with Contrastive Learning and Diffusion Priors",
@@ -2875,7 +2931,7 @@
     "url": "https://arxiv.org/abs/2303.13592",
     "date": "2023",
     "date_sort": "2023-12-07",
-    "venue": "EMNLP Workshop on Computational Approaches to Linguistic Code-Switching",
+    "venue": "Workshop on Computational Approaches to Linguistic Code-Switching @ EMNLP",
     "family": "EMNLP",
     "kind": "workshop",
     "status": "Accepted",
@@ -2951,7 +3007,9 @@
     "authors": "von Werra, de Vries, and 65 others",
     "author_search": "von Werra, de Vries, and 65 others Raymond Li Loubna Ben Allal Yangtian Zi Niklas Muennighoff Denis Kocetkov Chenghao Mou Marc Marone Christopher Akiki Jia Li Jenny Chim Qian Liu Evgenii Zheltonozhskii Terry Yue Zhuo Thomas Wang Olivier Dehaene Mishig Davaadorj Joel Lamy-Poirier João Monteiro Oleh Shliazhko Nicolas Gontier Nicholas Meade Armel Zebaze Ming-Ho Yee Logesh Kumar Umapathi Jian Zhu Benjamin Lipkin Muhtasham Oblokulov Zhiruo Wang Rudra Murthy Jason Stillerman Siva Sankalp Patel Dmitry Abulkhanov Marco Zocca Manan Dey Zhihan Zhang Nour Fahmy Urvashi Bhattacharyya Wenhao Yu Swayam Singh Sasha Luccioni Paulo Villegas Maxim Kunakov Fedor Zhdanov Manuel Romero Tony Lee Nadav Timor Jennifer Ding Claire Schlesinger Hailey Schoelkopf Jan Ebert Tri Dao Mayank Mishra Alex Gu Jennifer Robinson Carolyn Jane Anderson Brendan Dolan-Gavitt Danish Contractor Siva Reddy Daniel Fried Dzmitry Bahdanau Yacine Jernite Carlos Muñoz Ferrandis Sean Hughes Thomas Wolf Arjun Guha Leandro von Werra Harm de Vries",
     "marker": "",
-    "superlatives": []
+    "superlatives": [
+      "VentureBeat’s 2024 Best Enterprise Implementation of Generative AI (Software)"
+    ]
   },
   {
     "title": "2023 Open Source Generative AI Survey Report",
@@ -2978,13 +3036,12 @@
     "url": "https://arxiv.org/abs/2310.11258",
     "date": "2023",
     "date_sort": "2023-11-01",
-    "venue": "AACL Workshop on Southeast Asian Language Processing",
+    "venue": "Workshop on Southeast Asian Language Processing @ AACL",
     "family": "ACL",
     "kind": "workshop",
     "status": "Accepted",
     "areas": [
       "Data",
-      "AI4Science",
       "Multilingual"
     ],
     "lead_org": "",
@@ -3000,8 +3057,8 @@
     "url": "https://aclanthology.org/2023.ijcnlp-tutorials.2/",
     "date": "2023",
     "date_sort": "2023-11-01",
-    "venue": "IJCNLP-AACL 2023 Tutorial Abstracts",
-    "family": "IJCNLP-AACL 2023 Tutorial Abstracts",
+    "venue": "IJCNLP-AACL",
+    "family": "IJCNLP-AACL",
     "kind": "conference",
     "status": "Accepted",
     "areas": [
@@ -3042,10 +3099,10 @@
     "url": "https://openreview.net/forum?id=fM1ETm3ssl",
     "date": "2023",
     "date_sort": "2023-09-23",
-    "venue": "ICLR 2024 submission",
-    "family": "ICLR",
-    "kind": "conference",
-    "status": "Accepted",
+    "venue": "arXiv",
+    "family": "arXiv",
+    "kind": "arxiv",
+    "status": "Preprint",
     "areas": [
       "Model Internals"
     ],
@@ -3169,7 +3226,7 @@
     "url": "https://arxiv.org/abs/2308.04014",
     "date": "2023",
     "date_sort": "2023-07-23",
-    "venue": "ICML Workshop on Efficient Systems for Foundation Models",
+    "venue": "Workshop on Efficient Systems for Foundation Models @ ICML",
     "family": "ICML",
     "kind": "workshop",
     "status": "Accepted",
@@ -3389,8 +3446,10 @@
     "artifact_type": "Paper",
     "authors": "Srivastava, Rastogi, Rao, Shoeb, Abid, and 446 others",
     "author_search": "Srivastava, Rastogi, Rao, Shoeb, Abid, and 446 others Aarohi Srivastava Abhinav Rastogi Abhishek Rao Abu Awal Md Shoeb Abubakar Abid Adam Fisch Adam R. Brown Adam Santoro Aditya Gupta Adrià Garriga-Alonso Agnieszka Kluska Aitor Lewkowycz Akshat Agarwal Alethea Power Alex Ray Alex Warstadt Alexander W. Kocurek Ali Safaya Ali Tazarv Alice Xiang Alicia Parrish Allen Nie Aman Hussain Amanda Askell Amanda Dsouza Ambrose Slone Ameet Rahane Anantharaman S. Iyer Anders Andreassen Andrea Madotto Andrea Santilli Andreas Stuhlmüller Andrew Dai Andrew La Andrew Lampinen Andy Zou Angela Jiang Angelica Chen Anh Vuong Animesh Gupta Anna Gottardi Antonio Norelli Anu Venkatesh Arash Gholamidavoodi Arfa Tabassum Arul Menezes Arun Kirubarajan Asher Mullokandov Ashish Sabharwal Austin Herrick Avia Efrat Aykut Erdem Ayla Karakaş B. Ryan Roberts Bao Sheng Loe Barret Zoph Bartłomiej Bojanowski Batuhan Özyurt Behnam Hedayatnia Behnam Neyshabur Benjamin Inden Benno Stein Berk Ekmekci Bill Yuchen Lin Blake Howald Bryan Orinion Cameron Diao Cameron Dour Catherine Stinson Cedrick Argueta César Ferri Ramírez Chandan Singh Charles Rathkopf Chenlin Meng Chitta Baral Chiyu Wu Chris Callison-Burch Chris Waites Christian Voigt Christopher D. Manning Christopher Potts Cindy Ramirez Clara E. Rivera Clemencia Siro Colin Raffel Courtney Ashcraft Cristina Garbacea Damien Sileo Dan Garrette Dan Hendrycks Dan Kilman Dan Roth Daniel Freeman Daniel Khashabi Daniel Levy Daniel Moseguí González Danielle Perszyk Danny Hernandez Danqi Chen Daphne Ippolito Dar Gilboa David Dohan David Drakard David Jurgens Debajyoti Datta Deep Ganguli Denis Emelin Denis Kleyko Deniz Yuret Derek Chen Derek Tam Dieuwke Hupkes Diganta Misra Dilyar Buzan Dimitri Coelho Mollo Diyi Yang Dong-Ho Lee Dylan Schrader Ekaterina Shutova Ekin Dogus Cubuk Elad Segal Eleanor Hagerman Elizabeth Barnes Elizabeth Donoway Ellie Pavlick Emanuele Rodola Emma Lam Eric Chu Eric Tang Erkut Erdem Ernie Chang Ethan A. Chi Ethan Dyer Ethan Jerzak Ethan Kim Eunice Engefu Manyasi Evgenii Zheltonozhskii Fanyue Xia Fatemeh Siar Fernando Martínez-Plumed Francesca Happé Francois Chollet Frieda Rong Gaurav Mishra Genta Indra Winata Gerard de Melo Germán Kruszewski Giambattista Parascandolo Giorgio Mariani Gloria Wang Gonzalo Jaimovitch-López Gregor Betz Guy Gur-Ari Hana Galijasevic Hannah Kim Hannah Rashkin Hannaneh Hajishirzi Harsh Mehta Hayden Bogar Henry Shevlin Hinrich Schütze Hiromu Yakura Hongming Zhang Hugh Mee Wong Ian Ng Isaac Noble Jaap Jumelet Jack Geissinger Jackson Kernion Jacob Hilton Jaehoon Lee Jaime Fernández Fisac James B. Simon James Koppel James Zheng James Zou Jan Kocoń Jana Thompson Janelle Wingfield Jared Kaplan Jarema Radom Jascha Sohl-Dickstein Jason Phang Jason Wei Jason Yosinski Jekaterina Novikova Jelle Bosscher Jennifer Marsh Jeremy Kim Jeroen Taal Jesse Engel Jesujoba Alabi Jiacheng Xu Jiaming Song Jillian Tang Joan Waweru John Burden John Miller John U. Balis Jonathan Batchelder Jonathan Berant Jörg Frohberg Jos Rozen Jose Hernandez-Orallo Joseph Boudeman Joseph Guerr Joseph Jones Joshua B. Tenenbaum Joshua S. Rule Joyce Chua Kamil Kanclerz Karen Livescu Karl Krauth Karthik Gopalakrishnan Katerina Ignatyeva Katja Markert Kaustubh D. Dhole Kevin Gimpel Kevin Omondi Kory Mathewson Kristen Chiafullo Ksenia Shkaruta Kumar Shridhar Kyle McDonell Kyle Richardson Laria Reynolds Leo Gao Li Zhang Liam Dugan Lianhui Qin Lidia Contreras-Ochando Louis-Philippe Morency Luca Moschella Lucas Lam Lucy Noble Ludwig Schmidt Luheng He Luis Oliveros Colón Luke Metz Lütfi Kerem Şenel Maarten Bosma Maarten Sap Maartje ter Hoeve Maheen Farooqi Manaal Faruqui Mantas Mazeika Marco Baturan Marco Marelli Marco Maru Maria Jose Ramírez Quintana Marie Tolkiehn Mario Giulianelli Martha Lewis Martin Potthast Matthew L. Leavitt Matthias Hagen Mátyás Schubert Medina Orduna Baitemirova Melody Arnaud Melvin McElrath Michael A. Yee Michael Cohen Michael Gu Michael Ivanitskiy Michael Starritt Michael Strube Michał Swędrowski Michele Bevilacqua Michihiro Yasunaga Mihir Kale Mike Cain Mimee Xu Mirac Suzgun Mitch Walker Mo Tiwari Mohit Bansal Moin Aminnaseri Mor Geva Mozhdeh Gheini Mukund Varma T Nanyun Peng Nathan A. Chi Nayeon Lee Neta Gur-Ari Krakover Nicholas Cameron Nicholas Roberts Nick Doiron Nicole Martinez Nikita Nangia Niklas Deckers Niklas Muennighoff Nitish Shirish Keskar Niveditha S. Iyer Noah Constant Noah Fiedel Nuan Wen Oliver Zhang Omar Agha Omar Elbaghdadi Omer Levy Owain Evans Pablo Antonio Moreno Casares Parth Doshi Pascale Fung Paul Pu Liang Paul Vicol Pegah Alipoormolabashi Peiyuan Liao Percy Liang Peter Chang Peter Eckersley Phu Mon Htut Pinyu Hwang Piotr Miłkowski Piyush Patil Pouya Pezeshkpour Priti Oli Qiaozhu Mei Qing Lyu Qinlang Chen Rabin Banjade Rachel Etta Rudolph Raefer Gabriel Rahel Habacker Ramon Risco Raphaël Millière Rhythm Garg Richard Barnes Rif A. Saurous Riku Arakawa Robbe Raymaekers Robert Frank Rohan Sikand Roman Novak Roman Sitelew Ronan LeBras Rosanne Liu Rowan Jacobs Rui Zhang Ruslan Salakhutdinov Ryan Chi Ryan Lee Ryan Stovall Ryan Teehan Rylan Yang Sahib Singh Saif M. Mohammad Sajant Anand Sam Dillavou Sam Shleifer Sam Wiseman Samuel Gruetter Samuel R. Bowman Samuel S. Schoenholz Sanghyun Han Sanjeev Kwatra Sarah A. Rous Sarik Ghazarian Sayan Ghosh Sean Casey Sebastian Bischoff Sebastian Gehrmann Sebastian Schuster Sepideh Sadeghi Shadi Hamdan Sharon Zhou Shashank Srivastava Sherry Shi Shikhar Singh Shima Asaadi Shixiang Shane Gu Shubh Pachchigar Shubham Toshniwal Shyam Upadhyay Shyamolima Debnath Siamak Shakeri Simon Thormeyer Simone Melzi Siva Reddy Sneha Priscilla Makini Soo-Hwan Lee Spencer Torene Sriharsha Hatwar Stanislas Dehaene Stefan Divic Stefano Ermon Stella Biderman Stephanie Lin Stephen Prasad Steven T. Piantadosi Stuart M. Shieber Summer Misherghi Svetlana Kiritchenko Swaroop Mishra Tal Linzen Tal Schuster Tao Li Tao Yu Tariq Ali Tatsu Hashimoto Te-Lin Wu Théo Desbordes Theodore Rothschild Thomas Phan Tianle Wang Tiberius Nkinyili Timo Schick Timofei Kornev Titus Tunduny Tobias Gerstenberg Trenton Chang Trishala Neeraj Tushar Khot Tyler Shultz Uri Shaham Vedant Misra Vera Demberg Victoria Nyamai Vikas Raunak Vinay Ramasesh Vinay Uday Prabhu Vishakh Padmakumar Vivek Srikumar William Fedus William Saunders William Zhang Wout Vossen Xiang Ren Xiaoyu Tong Xinran Zhao Xinyi Wu Xudong Shen Yadollah Yaghoobzadeh Yair Lakretz Yangqiu Song Yasaman Bahri Yejin Choi Yichi Yang Yiding Hao Yifu Chen Yonatan Belinkov Yu Hou Yufang Hou Yuntao Bai Zachary Seid Zhuoye Zhao Zijian Wang Zijie J. Wang Zirui Wang Ziyi Wu",
-    "marker": "",
-    "superlatives": []
+    "marker": "runnerup",
+    "superlatives": [
+      "Outstanding Paper Finalist"
+    ]
   },
   {
     "title": "Sparse Upcycling: Training Mixture-of-Experts from Dense Checkpoints",
@@ -3417,7 +3476,7 @@
     "url": "https://arxiv.org/abs/2302.12433",
     "date": "2023",
     "date_sort": "2023-02-24",
-    "venue": "MATH-AI Workshop at NeurIPS 2022",
+    "venue": "MATH-AI Workshop @ NeurIPS",
     "family": "NeurIPS",
     "kind": "workshop",
     "status": "Accepted",
@@ -3432,7 +3491,7 @@
     "author_search": "Azerbayev, Piotrowski, Schoelkopf, Ayers, Radev, and Avigad Hailey Schoelkopf",
     "marker": "oral",
     "superlatives": [
-      "Oral at MATH-AI Workshop, NeurIPS"
+      "Oral"
     ]
   },
   {
@@ -3461,10 +3520,10 @@
     "url": "https://arxiv.org/abs/2301.03988",
     "date": "2023",
     "date_sort": "2023-01-09",
-    "venue": "arXiv",
-    "family": "arXiv",
-    "kind": "arxiv",
-    "status": "Preprint",
+    "venue": "Deep Learning for Code (DL4C) Workshop @ ICLR",
+    "family": "ICLR",
+    "kind": "workshop",
+    "status": "Accepted",
     "areas": [
       "Training Models"
     ],
@@ -3473,8 +3532,10 @@
     "artifact_type": "Paper",
     "authors": "Ben Allal, Li, Kocetkov, Mou, Akiki, and 36 others",
     "author_search": "Ben Allal, Li, Kocetkov, Mou, Akiki, and 36 others Hailey Schoelkopf",
-    "marker": "",
-    "superlatives": []
+    "marker": "bestpaper",
+    "superlatives": [
+      "Best Paper"
+    ]
   },
   {
     "title": "What Language Model to Train if You Have One Million GPU Hours?",
@@ -3547,7 +3608,7 @@
     "url": "https://arxiv.org/abs/2210.06413",
     "date": "2022",
     "date_sort": "2022-11-28",
-    "venue": "NeurIPS Workshop on Broadening Research Collaborations",
+    "venue": "Workshop on Broadening Research Collaborations @ NeurIPS",
     "family": "NeurIPS",
     "kind": "workshop",
     "status": "Accepted",
@@ -3713,7 +3774,7 @@
     "url": "https://aclanthology.org/2022.bigscience-1.3/",
     "date": "2022",
     "date_sort": "2022-05-28",
-    "venue": "ACL Workshop on Challenges & Perspectives in Creating Large Language Models",
+    "venue": "Workshop on Challenges & Perspectives in Creating Large Language Models @ ACL",
     "family": "ACL",
     "kind": "workshop",
     "status": "Accepted",
@@ -3735,7 +3796,7 @@
     "url": "https://arxiv.org/abs/2204.06745",
     "date": "2022",
     "date_sort": "2022-05-28",
-    "venue": "ACL Workshop on Challenges & Perspectives in Creating Large Language Models",
+    "venue": "Workshop on Challenges & Perspectives in Creating Large Language Models @ ACL",
     "family": "ACL",
     "kind": "workshop",
     "status": "Accepted",
@@ -3787,8 +3848,10 @@
     "artifact_type": "Paper",
     "authors": "Sanh, Webson, Raffel, Bach, and 37 others",
     "author_search": "Sanh, Webson, Raffel, Bach, and 37 others Victor Sanh Albert Webson Colin Raffel Stephen H. Bach Lintang Sutawika Zaid Alyafeai Antoine Chaffin Arnaud Stiegler Teven Le Scao Arun Raja Manan Dey Mehwish Bari Canwen Xu Urmish Thakker Shanya Sharma Eliza Szczechla Taewoon Kim Gunjan Chhablani Nihal V. Nayak Debajyoti Datta Jonathan Chang Mike Tian-Jian Jiang Han Wang Matteo Manica Sheng Shen Zheng-Xin Yong Harshit Pandey Rachel Bawden Thomas J. Wang Trishala Neeraj Jos Rozen Abheesht Sharma Andrea Santilli Thibault Févry Jason Fries Ryan Teehan Tali Bers Stella Biderman Leo Gao Thomas Wolf Alexander M. Rush",
-    "marker": "",
-    "superlatives": []
+    "marker": "spotlight",
+    "superlatives": [
+      "Spotlight at ICLR 2022"
+    ]
   },
   {
     "title": "Quality at a Glance: An Audit of Web-Crawled Multilingual Datasets",
@@ -3836,7 +3899,7 @@
     "url": "https://arxiv.org/abs/2111.02114",
     "date": "2021",
     "date_sort": "2021-12-14",
-    "venue": "NeurIPS Workshop on Data-Centric AI",
+    "venue": "Workshop on Data-Centric AI @ NeurIPS",
     "family": "NeurIPS",
     "kind": "workshop",
     "status": "Accepted",
@@ -3897,7 +3960,7 @@
     "url": "https://arxiv.org/abs/2103.12872",
     "date": "2021",
     "date_sort": "2021-06-11",
-    "venue": "NAACL Workshop on Narrative Understanding",
+    "venue": "Workshop on Narrative Understanding @ NAACL",
     "family": "ACL",
     "kind": "workshop",
     "status": "Accepted",
@@ -3917,7 +3980,7 @@
     "url": "https://arxiv.org/abs/2104.07472",
     "date": "2021",
     "date_sort": "2021-06-11",
-    "venue": "NAACL Workshop on Narrative Understanding",
+    "venue": "Workshop on Narrative Understanding @ NAACL",
     "family": "ACL",
     "kind": "workshop",
     "status": "Accepted",
@@ -4039,7 +4102,7 @@
     "url": "https://arxiv.org/abs/2011.02832",
     "date": "2020",
     "date_sort": "2020-12-12",
-    "venue": "Proceedings on I Can't Believe It's Not Better! at NeurIPS Workshops",
+    "venue": "I Can't Believe It's Not Better! @ NeurIPS",
     "family": "NeurIPS",
     "kind": "workshop",
     "status": "Accepted",

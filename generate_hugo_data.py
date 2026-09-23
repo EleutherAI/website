@@ -592,6 +592,8 @@ def distinction_marker(superlatives):
         return "runnerup"
     if "best paper" in distinction_text or "outstanding" in distinction_text:
         return "bestpaper"
+    if "first place" in distinction_text:
+        return "firstplace"
     if "spotlight" in distinction_text or "featured paper" in distinction_text:
         return "spotlight"
     if "oral" in distinction_text:
@@ -618,6 +620,22 @@ def area_paper_record(row, summary="", display_venue=""):
     }
 
 
+def soar_paper_years(rows):
+    cohorts = {}
+    for row in rows:
+        metadata = header_value(row, "Additional Metadata") or ""
+        years = set(re.findall(r"\bSOAR\s+(20\d{2})\b", metadata, flags=re.IGNORECASE))
+        if not years or not (row.get("Title") or "").strip():
+            continue
+        paper = area_paper_record(row)
+        for year in years:
+            cohorts.setdefault(year, []).append(paper)
+    return [
+        {"year": year, "papers": sorted(cohorts[year], key=lambda paper: paper["sort_date"], reverse=True)}
+        for year in sorted(cohorts, reverse=True)
+    ]
+
+
 def all_papers(rows):
     selected = [row for row in rows if normalize_title(row.get("Title")) and pub_date(row) != datetime.min]
     records = []
@@ -633,23 +651,8 @@ def library_paper_record(row):
     if venue.casefold().startswith("extended to"):
         venue = (row.get("Workshop") or "").strip() or "arXiv"
     kind = venue_kind(venue)
-    superlatives = []
-    if kind in {"conference", "workshop"}:
-        raw_venue = (row.get("Conference or Journal") or "").strip() if kind == "conference" else venue
-        superlatives = appearance_superlatives(
-            row,
-            raw_venue,
-            kind,
-            has_separate_workshop=bool((row.get("Workshop") or "").strip() and kind == "conference"),
-        )
-    if kind == "conference":
-        workshops = split_workshops(row.get("Workshop"))
-        for term in row_superlatives(row):
-            if "workshop" not in term.casefold() or not workshops:
-                continue
-            award = clean_award_text(term).replace("Runner-up", "Runner Up")
-            if award not in superlatives:
-                superlatives.append(award)
+    # The Sheet's award text is authoritative, independent of the displayed venue.
+    superlatives = row_superlatives(row)
     marker = distinction_marker(superlatives)
     display_authors_text = (row.get("Display Authors") or "").strip()
     authors = full_author_terms(row.get("all authors"))
@@ -1139,6 +1142,7 @@ def main():
     write_json("homepage_paper_groups.json", grouped_papers(papers[:HOMEPAGE_GROUPED_PAPER_LIMIT]))
     write_json("area_papers.json", per_area)
     write_json("library_papers.json", library_papers(rows))
+    write_json("soar_paper_years.json", soar_paper_years(rows))
     blog_posts = write_blog_posts()
     with PAPERS_CSV.open(newline="", encoding="utf-8") as papers_file:
         local_headers = next(csv.reader(papers_file), [])
