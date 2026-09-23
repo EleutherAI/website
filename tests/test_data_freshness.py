@@ -1,6 +1,13 @@
 import pytest
+from urllib.parse import parse_qs, urlsplit
 
 import generate_hugo_data as generator
+
+
+def test_papers_export_targets_research_papers_tab():
+    query = parse_qs(urlsplit(generator.PAPERS_SHEET_CSV_URL).query)
+    assert query["gid"] == ["2053751678"]
+    assert query["format"] == ["csv"]
 
 
 def test_strict_freshness_accepts_live_and_provided_sources():
