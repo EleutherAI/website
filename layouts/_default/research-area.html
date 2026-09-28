@@ -24,7 +24,7 @@
 <main class="research-area is-{{ $accent }}">
   <section class="hero">
     <div class="wrap">
-      <h1>{{ $area.title | default .Title }}</h1>
+      <h1>{{ .Params.hero_title | default ($area.title | default .Title) }}</h1>
       {{ with .Params.lede | default $area.lede }}<p class="lede">{{ . }}</p>{{ end }}
     </div>
   </section>
