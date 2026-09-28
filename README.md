@@ -8,6 +8,8 @@ This repository contains the Hugo source for the EleutherAI website and blog.
 
 The main site and blog share templates, styles, data, and assets, but Hugo builds them as separate sites for separate Netlify deployments.
 
+**Deployment:** Any changes made to `main` will be automatically deployed via Netlify. This can take a few minutes at times, but changes should be reflected in the live website pretty fast
+
 ## Build and view the website
 
 The build requires Python 3.12 or newer, Make, and Hugo Extended 0.158.0. The supported versions are recorded in `.python-version` and `.hugo-version`.
