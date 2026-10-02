@@ -1,5 +1,190 @@
 [
   {
+    "family": "NeurIPS",
+    "year": "2026",
+    "kind": "conference",
+    "label": "NeurIPS, 2026",
+    "count": 9,
+    "sort_date": "2026-12-06",
+    "venues": [
+      {
+        "venue": "NeurIPS Evaluations and Benchmarks",
+        "label": "Evaluations and Benchmarks",
+        "kind": "conference",
+        "count": 1,
+        "sort_date": "2026-12-06",
+        "papers": [
+          {
+            "title": "Global PIQA: Evaluating Physical Commonsense Reasoning Across 100+ Languages and Cultures",
+            "url": "https://arxiv.org/abs/2510.24081",
+            "date": "2026",
+            "date_sort": "2026-12-06",
+            "venue": "NeurIPS Evaluations and Benchmarks",
+            "venue_year": "2026",
+            "kind": "conference",
+            "family": "NeurIPS",
+            "group_sort_date": "2026-12-06",
+            "superlatives": []
+          }
+        ]
+      },
+      {
+        "venue": "NeurIPS Datasets and Evaluations",
+        "label": "Datasets and Evaluations",
+        "kind": "conference",
+        "count": 3,
+        "sort_date": "2026-12-06",
+        "papers": [
+          {
+            "title": "Soohak: A Mathematician-Curated Benchmark for Evaluating Research-level Math Capabilities of LLMs",
+            "url": "https://arxiv.org/abs/2605.09063",
+            "date": "2026",
+            "date_sort": "2026-12-06",
+            "venue": "NeurIPS Datasets and Evaluations",
+            "venue_year": "2026",
+            "kind": "conference",
+            "family": "NeurIPS",
+            "group_sort_date": "2026-12-06",
+            "superlatives": []
+          },
+          {
+            "title": "Evaluation Cards: An Interpretive Layer for AI Evaluation Reporting",
+            "url": "https://arxiv.org/abs/2606.09809",
+            "date": "2026",
+            "date_sort": "2026-12-06",
+            "venue": "NeurIPS Datasets and Evaluations",
+            "venue_year": "2026",
+            "kind": "conference",
+            "family": "NeurIPS",
+            "group_sort_date": "2026-12-06",
+            "superlatives": [
+              "Spotlight"
+            ]
+          },
+          {
+            "title": "Every Eval Ever: A Unifying Schema and Community Repository for AI Evaluation Results",
+            "url": "https://arxiv.org/abs/2606.14516",
+            "date": "2026",
+            "date_sort": "2026-06-12",
+            "venue": "NeurIPS Datasets and Evaluations",
+            "venue_year": "2026",
+            "kind": "conference",
+            "family": "NeurIPS",
+            "group_sort_date": "2026-06-12",
+            "superlatives": []
+          }
+        ]
+      },
+      {
+        "venue": "Evaluations of Interactive Agents @ NeurIPS",
+        "label": "Evaluations of Interactive Agents",
+        "kind": "workshop",
+        "count": 1,
+        "sort_date": "2026-12-06",
+        "papers": [
+          {
+            "title": "Agent Memory Is a Surface for Endogenous Authorization Laundering",
+            "url": "https://arxiv.org/abs/2609.01836",
+            "date": "2026",
+            "date_sort": "2026-12-13",
+            "venue": "Evaluations of Interactive Agents @ NeurIPS",
+            "venue_year": "2026",
+            "kind": "workshop",
+            "family": "NeurIPS",
+            "group_sort_date": "2026-12-06",
+            "superlatives": [
+              "Oral at the Evaluations of Interactive Agents Workshop"
+            ]
+          }
+        ]
+      },
+      {
+        "venue": "AI4GOOD @ NeurIPS",
+        "label": "AI4GOOD",
+        "kind": "workshop",
+        "count": 1,
+        "sort_date": "2026-12-05",
+        "papers": [
+          {
+            "title": "Scalable Search Heuristics for Inoculation Prompting",
+            "url": "",
+            "date": "2026",
+            "date_sort": "2026-12-12",
+            "venue": "AI4GOOD @ NeurIPS",
+            "venue_year": "2026",
+            "kind": "workshop",
+            "family": "NeurIPS",
+            "group_sort_date": "2026-12-05",
+            "superlatives": []
+          }
+        ]
+      },
+      {
+        "venue": "ATTRIB @ NeurIPS",
+        "label": "ATTRIB",
+        "kind": "workshop",
+        "count": 1,
+        "sort_date": "2026-10-17",
+        "papers": [
+          {
+            "title": "Bergson: An Open Source Library for Data Attribution",
+            "url": "https://arxiv.org/abs/2606.11660",
+            "date": "2026",
+            "date_sort": "2026-10-24",
+            "venue": "ATTRIB @ NeurIPS",
+            "venue_year": "2026",
+            "kind": "workshop",
+            "family": "NeurIPS",
+            "group_sort_date": "2026-10-17",
+            "superlatives": []
+          }
+        ]
+      },
+      {
+        "venue": "Math-AI Workshop @ NeurIPS",
+        "label": "Math-AI Workshop",
+        "kind": "workshop",
+        "count": 1,
+        "sort_date": "2026-07-01",
+        "papers": [
+          {
+            "title": "Faults in Our Formal Benchmarking: Dataset Defects and Evaluation Failures in Lean Theorem Proving",
+            "url": "https://arxiv.org/abs/2606.29493",
+            "date": "2026",
+            "date_sort": "2026-07-08",
+            "venue": "Math-AI Workshop @ NeurIPS",
+            "venue_year": "2026",
+            "kind": "workshop",
+            "family": "NeurIPS",
+            "group_sort_date": "2026-07-01",
+            "superlatives": []
+          }
+        ]
+      },
+      {
+        "venue": "Algorithmic Collective Action @ NeurIPS",
+        "label": "Algorithmic Collective Action",
+        "kind": "workshop",
+        "count": 1,
+        "sort_date": "2026-06-18",
+        "papers": [
+          {
+            "title": "Challenges to Grassroot Organization Engagement with AI Policy",
+            "url": "https://nips.cc/virtual/2025/136959",
+            "date": "2026",
+            "date_sort": "2026-06-25",
+            "venue": "Algorithmic Collective Action @ NeurIPS",
+            "venue_year": "2026",
+            "kind": "workshop",
+            "family": "NeurIPS",
+            "group_sort_date": "2026-06-18",
+            "superlatives": []
+          }
+        ]
+      }
+    ]
+  },
+  {
     "family": "EMNLP",
     "year": "2026",
     "kind": "conference",
@@ -399,124 +584,6 @@
     ]
   },
   {
-    "family": "NeurIPS",
-    "year": "2026",
-    "kind": "conference",
-    "label": "NeurIPS, 2026",
-    "count": 6,
-    "sort_date": "2026-07-01",
-    "venues": [
-      {
-        "venue": "NeurIPS Datasets and Evaluations",
-        "label": "Datasets and Evaluations",
-        "kind": "conference",
-        "count": 2,
-        "sort_date": "2026-06-12",
-        "papers": [
-          {
-            "title": "Every Eval Ever: A Unifying Schema and Community Repository for AI Evaluation Results",
-            "url": "https://arxiv.org/abs/2606.14516",
-            "date": "2026",
-            "date_sort": "2026-06-12",
-            "venue": "NeurIPS Datasets and Evaluations",
-            "venue_year": "2026",
-            "kind": "conference",
-            "family": "NeurIPS",
-            "group_sort_date": "2026-06-12",
-            "superlatives": []
-          },
-          {
-            "title": "Evaluation Cards: An Interpretive Layer for AI Evaluation Reporting",
-            "url": "https://arxiv.org/abs/2606.09809",
-            "date": "2026",
-            "date_sort": "2026-06-08",
-            "venue": "NeurIPS Datasets and Evaluations",
-            "venue_year": "2026",
-            "kind": "conference",
-            "family": "NeurIPS",
-            "group_sort_date": "2026-06-08",
-            "superlatives": []
-          }
-        ]
-      },
-      {
-        "venue": "NeurIPS",
-        "label": "Main conference",
-        "kind": "conference",
-        "count": 2,
-        "sort_date": "2026-06-11",
-        "papers": [
-          {
-            "title": "LoRA-Muon: Spectral Steepest Descent on the Low-Rank Manifold",
-            "url": "https://arxiv.org/abs/2606.12921",
-            "date": "2026",
-            "date_sort": "2026-06-11",
-            "venue": "NeurIPS",
-            "venue_year": "2026",
-            "kind": "conference",
-            "family": "NeurIPS",
-            "group_sort_date": "2026-06-11",
-            "superlatives": []
-          },
-          {
-            "title": "Soohak: A Mathematician-Curated Benchmark for Evaluating Research-level Math Capabilities of LLMs",
-            "url": "https://arxiv.org/abs/2605.09063",
-            "date": "2026",
-            "date_sort": "2026-05-09",
-            "venue": "NeurIPS",
-            "venue_year": "2026",
-            "kind": "conference",
-            "family": "NeurIPS",
-            "group_sort_date": "2026-05-09",
-            "superlatives": []
-          }
-        ]
-      },
-      {
-        "venue": "Math-AI Workshop @ NeurIPS",
-        "label": "Math-AI Workshop",
-        "kind": "workshop",
-        "count": 1,
-        "sort_date": "2026-07-01",
-        "papers": [
-          {
-            "title": "Faults in Our Formal Benchmarking: Dataset Defects and Evaluation Failures in Lean Theorem Proving",
-            "url": "https://arxiv.org/abs/2606.29493",
-            "date": "2026",
-            "date_sort": "2026-07-08",
-            "venue": "Math-AI Workshop @ NeurIPS",
-            "venue_year": "2026",
-            "kind": "workshop",
-            "family": "NeurIPS",
-            "group_sort_date": "2026-07-01",
-            "superlatives": []
-          }
-        ]
-      },
-      {
-        "venue": "Algorithmic Collective Action @ NeurIPS",
-        "label": "Algorithmic Collective Action",
-        "kind": "workshop",
-        "count": 1,
-        "sort_date": "2026-06-18",
-        "papers": [
-          {
-            "title": "Challenges to Grassroot Organization Engagement with AI Policy",
-            "url": "https://nips.cc/virtual/2025/136959",
-            "date": "2026",
-            "date_sort": "2026-06-25",
-            "venue": "Algorithmic Collective Action @ NeurIPS",
-            "venue_year": "2026",
-            "kind": "workshop",
-            "family": "NeurIPS",
-            "group_sort_date": "2026-06-18",
-            "superlatives": []
-          }
-        ]
-      }
-    ]
-  },
-  {
     "family": "FAccT",
     "year": "2026",
     "kind": "conference",
@@ -541,80 +608,6 @@
             "kind": "conference",
             "family": "FAccT",
             "group_sort_date": "2026-06-25",
-            "superlatives": []
-          }
-        ]
-      }
-    ]
-  },
-  {
-    "family": "ICASSP",
-    "year": "2026",
-    "kind": "workshop",
-    "label": "ICASSP, 2026",
-    "count": 1,
-    "sort_date": "2026-04-27",
-    "venues": [
-      {
-        "venue": "Low-Resource Audio Codec @ ICASSP",
-        "label": "Low-Resource Audio Codec",
-        "kind": "workshop",
-        "count": 1,
-        "sort_date": "2026-04-27",
-        "papers": [
-          {
-            "title": "Attention-Guided Audio Compression for Multimodal LLM",
-            "url": "https://ieeexplore.ieee.org/abstract/document/11461737",
-            "date": "2026",
-            "date_sort": "2026-05-04",
-            "venue": "Low-Resource Audio Codec @ ICASSP",
-            "venue_year": "2026",
-            "kind": "workshop",
-            "family": "ICASSP",
-            "group_sort_date": "2026-04-27",
-            "superlatives": []
-          }
-        ]
-      }
-    ]
-  },
-  {
-    "family": "ICLR",
-    "year": "2026",
-    "kind": "conference",
-    "label": "ICLR, 2026",
-    "count": 2,
-    "sort_date": "2026-04-23",
-    "venues": [
-      {
-        "venue": "ICLR",
-        "label": "Main conference",
-        "kind": "conference",
-        "count": 2,
-        "sort_date": "2026-04-23",
-        "papers": [
-          {
-            "title": "Sparse Autoencoders Trained on the Same Data Learn Different Features",
-            "url": "https://arxiv.org/abs/2501.16615",
-            "date": "2026",
-            "date_sort": "2026-04-23",
-            "venue": "ICLR",
-            "venue_year": "2026",
-            "kind": "conference",
-            "family": "ICLR",
-            "group_sort_date": "2026-04-23",
-            "superlatives": []
-          },
-          {
-            "title": "Evaluating SAE interpretability without explanations",
-            "url": "https://arxiv.org/abs/2507.08473",
-            "date": "2026",
-            "date_sort": "2026-04-23",
-            "venue": "ICLR",
-            "venue_year": "2026",
-            "kind": "conference",
-            "family": "ICLR",
-            "group_sort_date": "2026-04-23",
             "superlatives": []
           }
         ]

@@ -1,5 +1,288 @@
 [
   {
+    "family": "NeurIPS",
+    "year": "2026",
+    "kind": "conference",
+    "label": "NeurIPS, 2026",
+    "count": 14,
+    "sort_date": "2026-12-06",
+    "venues": [
+      {
+        "venue": "NeurIPS Evaluations and Benchmarks",
+        "label": "Evaluations and Benchmarks",
+        "kind": "conference",
+        "count": 1,
+        "sort_date": "2026-12-06",
+        "papers": [
+          {
+            "title": "Global PIQA: Evaluating Physical Commonsense Reasoning Across 100+ Languages and Cultures",
+            "url": "https://arxiv.org/abs/2510.24081",
+            "date": "2026",
+            "date_sort": "2026-12-06",
+            "venue": "NeurIPS Evaluations and Benchmarks",
+            "venue_year": "2026",
+            "kind": "conference",
+            "family": "NeurIPS",
+            "group_sort_date": "2026-12-06",
+            "superlatives": []
+          }
+        ]
+      },
+      {
+        "venue": "NeurIPS Datasets and Evaluations",
+        "label": "Datasets and Evaluations",
+        "kind": "conference",
+        "count": 3,
+        "sort_date": "2026-12-06",
+        "papers": [
+          {
+            "title": "Soohak: A Mathematician-Curated Benchmark for Evaluating Research-level Math Capabilities of LLMs",
+            "url": "https://arxiv.org/abs/2605.09063",
+            "date": "2026",
+            "date_sort": "2026-12-06",
+            "venue": "NeurIPS Datasets and Evaluations",
+            "venue_year": "2026",
+            "kind": "conference",
+            "family": "NeurIPS",
+            "group_sort_date": "2026-12-06",
+            "superlatives": []
+          },
+          {
+            "title": "Evaluation Cards: An Interpretive Layer for AI Evaluation Reporting",
+            "url": "https://arxiv.org/abs/2606.09809",
+            "date": "2026",
+            "date_sort": "2026-12-06",
+            "venue": "NeurIPS Datasets and Evaluations",
+            "venue_year": "2026",
+            "kind": "conference",
+            "family": "NeurIPS",
+            "group_sort_date": "2026-12-06",
+            "superlatives": [
+              "Spotlight"
+            ]
+          },
+          {
+            "title": "Every Eval Ever: A Unifying Schema and Community Repository for AI Evaluation Results",
+            "url": "https://arxiv.org/abs/2606.14516",
+            "date": "2026",
+            "date_sort": "2026-06-12",
+            "venue": "NeurIPS Datasets and Evaluations",
+            "venue_year": "2026",
+            "kind": "conference",
+            "family": "NeurIPS",
+            "group_sort_date": "2026-06-12",
+            "superlatives": []
+          }
+        ]
+      },
+      {
+        "venue": "NeurIPS",
+        "label": "Main conference",
+        "kind": "conference",
+        "count": 1,
+        "sort_date": "2026-06-11",
+        "papers": [
+          {
+            "title": "LoRA-Muon: Spectral Steepest Descent on the Low-Rank Manifold",
+            "url": "https://arxiv.org/abs/2606.12921",
+            "date": "2026",
+            "date_sort": "2026-06-11",
+            "venue": "NeurIPS",
+            "venue_year": "2026",
+            "kind": "conference",
+            "family": "NeurIPS",
+            "group_sort_date": "2026-06-11",
+            "superlatives": []
+          }
+        ]
+      },
+      {
+        "venue": "NeurIPS Datasets and Benchmarks",
+        "label": "Datasets and Benchmarks",
+        "kind": "conference",
+        "count": 1,
+        "sort_date": "2026-03-27",
+        "papers": [
+          {
+            "title": "How Open Must Language Models be to Enable Reliable Scientific Inference?",
+            "url": "https://arxiv.org/abs/2603.26539",
+            "date": "2026",
+            "date_sort": "2026-03-27",
+            "venue": "NeurIPS Datasets and Benchmarks",
+            "venue_year": "2026",
+            "kind": "conference",
+            "family": "NeurIPS",
+            "group_sort_date": "2026-03-27",
+            "superlatives": []
+          }
+        ]
+      },
+      {
+        "venue": "Evaluations of Interactive Agents @ NeurIPS",
+        "label": "Evaluations of Interactive Agents",
+        "kind": "workshop",
+        "count": 1,
+        "sort_date": "2026-12-06",
+        "papers": [
+          {
+            "title": "Agent Memory Is a Surface for Endogenous Authorization Laundering",
+            "url": "https://arxiv.org/abs/2609.01836",
+            "date": "2026",
+            "date_sort": "2026-12-13",
+            "venue": "Evaluations of Interactive Agents @ NeurIPS",
+            "venue_year": "2026",
+            "kind": "workshop",
+            "family": "NeurIPS",
+            "group_sort_date": "2026-12-06",
+            "superlatives": [
+              "Oral at the Evaluations of Interactive Agents Workshop"
+            ]
+          }
+        ]
+      },
+      {
+        "venue": "AI4GOOD @ NeurIPS",
+        "label": "AI4GOOD",
+        "kind": "workshop",
+        "count": 1,
+        "sort_date": "2026-12-05",
+        "papers": [
+          {
+            "title": "Scalable Search Heuristics for Inoculation Prompting",
+            "url": "",
+            "date": "2026",
+            "date_sort": "2026-12-12",
+            "venue": "AI4GOOD @ NeurIPS",
+            "venue_year": "2026",
+            "kind": "workshop",
+            "family": "NeurIPS",
+            "group_sort_date": "2026-12-05",
+            "superlatives": []
+          }
+        ]
+      },
+      {
+        "venue": "ATTRIB @ NeurIPS",
+        "label": "ATTRIB",
+        "kind": "workshop",
+        "count": 1,
+        "sort_date": "2026-10-17",
+        "papers": [
+          {
+            "title": "Bergson: An Open Source Library for Data Attribution",
+            "url": "https://arxiv.org/abs/2606.11660",
+            "date": "2026",
+            "date_sort": "2026-10-24",
+            "venue": "ATTRIB @ NeurIPS",
+            "venue_year": "2026",
+            "kind": "workshop",
+            "family": "NeurIPS",
+            "group_sort_date": "2026-10-17",
+            "superlatives": []
+          }
+        ]
+      },
+      {
+        "venue": "Math-AI Workshop @ NeurIPS",
+        "label": "Math-AI Workshop",
+        "kind": "workshop",
+        "count": 1,
+        "sort_date": "2026-07-01",
+        "papers": [
+          {
+            "title": "Faults in Our Formal Benchmarking: Dataset Defects and Evaluation Failures in Lean Theorem Proving",
+            "url": "https://arxiv.org/abs/2606.29493",
+            "date": "2026",
+            "date_sort": "2026-07-08",
+            "venue": "Math-AI Workshop @ NeurIPS",
+            "venue_year": "2026",
+            "kind": "workshop",
+            "family": "NeurIPS",
+            "group_sort_date": "2026-07-01",
+            "superlatives": []
+          }
+        ]
+      },
+      {
+        "venue": "Algorithmic Collective Action @ NeurIPS",
+        "label": "Algorithmic Collective Action",
+        "kind": "workshop",
+        "count": 1,
+        "sort_date": "2026-06-18",
+        "papers": [
+          {
+            "title": "Challenges to Grassroot Organization Engagement with AI Policy",
+            "url": "https://nips.cc/virtual/2025/136959",
+            "date": "2026",
+            "date_sort": "2026-06-25",
+            "venue": "Algorithmic Collective Action @ NeurIPS",
+            "venue_year": "2026",
+            "kind": "workshop",
+            "family": "NeurIPS",
+            "group_sort_date": "2026-06-18",
+            "superlatives": []
+          }
+        ]
+      },
+      {
+        "venue": "Mech Interp Workshop @ NeurIPS",
+        "label": "MechInterp Workshop",
+        "kind": "workshop",
+        "count": 2,
+        "sort_date": "2026-04-16",
+        "papers": [
+          {
+            "title": "Sparse Autoencoders Trained on the Same Data Learn Different Features",
+            "url": "https://arxiv.org/abs/2501.16615",
+            "date": "2026",
+            "date_sort": "2026-04-23",
+            "venue": "Mech Interp Workshop @ NeurIPS",
+            "venue_year": "2026",
+            "kind": "workshop",
+            "family": "NeurIPS",
+            "group_sort_date": "2026-04-16",
+            "superlatives": []
+          },
+          {
+            "title": "Evaluating SAE interpretability without explanations",
+            "url": "https://arxiv.org/abs/2507.08473",
+            "date": "2026",
+            "date_sort": "2026-04-23",
+            "venue": "Mech Interp Workshop @ NeurIPS",
+            "venue_year": "2026",
+            "kind": "workshop",
+            "family": "NeurIPS",
+            "group_sort_date": "2026-04-16",
+            "superlatives": []
+          }
+        ]
+      },
+      {
+        "venue": "BioSafe Workshop @ NeurIPS",
+        "label": "BioSafe Workshop",
+        "kind": "workshop",
+        "count": 1,
+        "sort_date": "2026-04-16",
+        "papers": [
+          {
+            "title": "Deep Ignorance: Filtering Pretraining Data Builds Tamper-Resistant Safeguards into Open-Weight LLMs",
+            "url": "https://arxiv.org/abs/2508.06601",
+            "date": "2026",
+            "date_sort": "2026-04-23",
+            "venue": "BioSafe Workshop @ NeurIPS",
+            "venue_year": "2026",
+            "kind": "workshop",
+            "family": "NeurIPS",
+            "group_sort_date": "2026-04-16",
+            "superlatives": [
+              "Best Paper Runner-Up at BioSafe Workshop"
+            ]
+          }
+        ]
+      }
+    ]
+  },
+  {
     "family": "EMNLP",
     "year": "2026",
     "kind": "conference",
@@ -399,201 +682,6 @@
     ]
   },
   {
-    "family": "NeurIPS",
-    "year": "2026",
-    "kind": "conference",
-    "label": "NeurIPS, 2026",
-    "count": 10,
-    "sort_date": "2026-07-01",
-    "venues": [
-      {
-        "venue": "NeurIPS Datasets and Evaluations",
-        "label": "Datasets and Evaluations",
-        "kind": "conference",
-        "count": 2,
-        "sort_date": "2026-06-12",
-        "papers": [
-          {
-            "title": "Every Eval Ever: A Unifying Schema and Community Repository for AI Evaluation Results",
-            "url": "https://arxiv.org/abs/2606.14516",
-            "date": "2026",
-            "date_sort": "2026-06-12",
-            "venue": "NeurIPS Datasets and Evaluations",
-            "venue_year": "2026",
-            "kind": "conference",
-            "family": "NeurIPS",
-            "group_sort_date": "2026-06-12",
-            "superlatives": []
-          },
-          {
-            "title": "Evaluation Cards: An Interpretive Layer for AI Evaluation Reporting",
-            "url": "https://arxiv.org/abs/2606.09809",
-            "date": "2026",
-            "date_sort": "2026-06-08",
-            "venue": "NeurIPS Datasets and Evaluations",
-            "venue_year": "2026",
-            "kind": "conference",
-            "family": "NeurIPS",
-            "group_sort_date": "2026-06-08",
-            "superlatives": []
-          }
-        ]
-      },
-      {
-        "venue": "NeurIPS",
-        "label": "Main conference",
-        "kind": "conference",
-        "count": 2,
-        "sort_date": "2026-06-11",
-        "papers": [
-          {
-            "title": "LoRA-Muon: Spectral Steepest Descent on the Low-Rank Manifold",
-            "url": "https://arxiv.org/abs/2606.12921",
-            "date": "2026",
-            "date_sort": "2026-06-11",
-            "venue": "NeurIPS",
-            "venue_year": "2026",
-            "kind": "conference",
-            "family": "NeurIPS",
-            "group_sort_date": "2026-06-11",
-            "superlatives": []
-          },
-          {
-            "title": "Soohak: A Mathematician-Curated Benchmark for Evaluating Research-level Math Capabilities of LLMs",
-            "url": "https://arxiv.org/abs/2605.09063",
-            "date": "2026",
-            "date_sort": "2026-05-09",
-            "venue": "NeurIPS",
-            "venue_year": "2026",
-            "kind": "conference",
-            "family": "NeurIPS",
-            "group_sort_date": "2026-05-09",
-            "superlatives": []
-          }
-        ]
-      },
-      {
-        "venue": "NeurIPS Datasets and Benchmarks",
-        "label": "Datasets and Benchmarks",
-        "kind": "conference",
-        "count": 1,
-        "sort_date": "2026-03-27",
-        "papers": [
-          {
-            "title": "How Open Must Language Models be to Enable Reliable Scientific Inference?",
-            "url": "https://arxiv.org/abs/2603.26539",
-            "date": "2026",
-            "date_sort": "2026-03-27",
-            "venue": "NeurIPS Datasets and Benchmarks",
-            "venue_year": "2026",
-            "kind": "conference",
-            "family": "NeurIPS",
-            "group_sort_date": "2026-03-27",
-            "superlatives": []
-          }
-        ]
-      },
-      {
-        "venue": "Math-AI Workshop @ NeurIPS",
-        "label": "Math-AI Workshop",
-        "kind": "workshop",
-        "count": 1,
-        "sort_date": "2026-07-01",
-        "papers": [
-          {
-            "title": "Faults in Our Formal Benchmarking: Dataset Defects and Evaluation Failures in Lean Theorem Proving",
-            "url": "https://arxiv.org/abs/2606.29493",
-            "date": "2026",
-            "date_sort": "2026-07-08",
-            "venue": "Math-AI Workshop @ NeurIPS",
-            "venue_year": "2026",
-            "kind": "workshop",
-            "family": "NeurIPS",
-            "group_sort_date": "2026-07-01",
-            "superlatives": []
-          }
-        ]
-      },
-      {
-        "venue": "Algorithmic Collective Action @ NeurIPS",
-        "label": "Algorithmic Collective Action",
-        "kind": "workshop",
-        "count": 1,
-        "sort_date": "2026-06-18",
-        "papers": [
-          {
-            "title": "Challenges to Grassroot Organization Engagement with AI Policy",
-            "url": "https://nips.cc/virtual/2025/136959",
-            "date": "2026",
-            "date_sort": "2026-06-25",
-            "venue": "Algorithmic Collective Action @ NeurIPS",
-            "venue_year": "2026",
-            "kind": "workshop",
-            "family": "NeurIPS",
-            "group_sort_date": "2026-06-18",
-            "superlatives": []
-          }
-        ]
-      },
-      {
-        "venue": "Mech Interp Workshop @ NeurIPS",
-        "label": "MechInterp Workshop",
-        "kind": "workshop",
-        "count": 2,
-        "sort_date": "2026-04-16",
-        "papers": [
-          {
-            "title": "Sparse Autoencoders Trained on the Same Data Learn Different Features",
-            "url": "https://arxiv.org/abs/2501.16615",
-            "date": "2026",
-            "date_sort": "2026-04-23",
-            "venue": "Mech Interp Workshop @ NeurIPS",
-            "venue_year": "2026",
-            "kind": "workshop",
-            "family": "NeurIPS",
-            "group_sort_date": "2026-04-16",
-            "superlatives": []
-          },
-          {
-            "title": "Evaluating SAE interpretability without explanations",
-            "url": "https://arxiv.org/abs/2507.08473",
-            "date": "2026",
-            "date_sort": "2026-04-23",
-            "venue": "Mech Interp Workshop @ NeurIPS",
-            "venue_year": "2026",
-            "kind": "workshop",
-            "family": "NeurIPS",
-            "group_sort_date": "2026-04-16",
-            "superlatives": []
-          }
-        ]
-      },
-      {
-        "venue": "BioSafe Workshop @ NeurIPS",
-        "label": "BioSafe Workshop",
-        "kind": "workshop",
-        "count": 1,
-        "sort_date": "2026-04-16",
-        "papers": [
-          {
-            "title": "Deep Ignorance: Filtering Pretraining Data Builds Tamper-Resistant Safeguards into Open-Weight LLMs",
-            "url": "https://arxiv.org/abs/2508.06601",
-            "date": "2026",
-            "date_sort": "2026-04-23",
-            "venue": "BioSafe Workshop @ NeurIPS",
-            "venue_year": "2026",
-            "kind": "workshop",
-            "family": "NeurIPS",
-            "group_sort_date": "2026-04-16",
-            "superlatives": [
-              "Best Paper Runner-Up at BioSafe Workshop"
-            ]
-          }
-        ]
-      }
-    ]
-  },
-  {
     "family": "FAccT",
     "year": "2026",
     "kind": "conference",
@@ -747,10 +835,10 @@
         "sort_date": "2026-01-01",
         "papers": [
           {
-            "title": "Agent Memory Is a Surface for Endogenous Authorization Laundering",
-            "url": "https://arxiv.org/abs/2609.01836",
+            "title": "PACT: Can Enterprise AI Assistants Be Trusted Under Pressure?",
+            "url": "https://arxiv.org/abs/2609.18605",
             "date": "2026",
-            "date_sort": "2026-10-24",
+            "date_sort": "2026-09-16",
             "venue": "arXiv",
             "venue_year": "2026",
             "kind": "arxiv",
@@ -759,10 +847,10 @@
             "superlatives": []
           },
           {
-            "title": "PACT: Can Enterprise AI Assistants Be Trusted Under Pressure?",
-            "url": "https://arxiv.org/abs/2609.18605",
+            "title": "Key-Value Means: Transformers with Expandable Block-Recurrent Compressed Memory",
+            "url": "https://arxiv.org/abs/2605.09877",
             "date": "2026",
-            "date_sort": "2026-09-16",
+            "date_sort": "2026-05-11",
             "venue": "arXiv",
             "venue_year": "2026",
             "kind": "arxiv",
@@ -803,7 +891,7 @@
     "year": "2025",
     "kind": "conference",
     "label": "NeurIPS, 2025",
-    "count": 10,
+    "count": 9,
     "sort_date": "2025-12-02",
     "venues": [
       {
@@ -868,27 +956,6 @@
             "kind": "conference",
             "family": "NeurIPS",
             "group_sort_date": "2025-12-02",
-            "superlatives": []
-          }
-        ]
-      },
-      {
-        "venue": "NeurIPS Evaluations and Benchmarks",
-        "label": "Evaluations and Benchmarks",
-        "kind": "conference",
-        "count": 1,
-        "sort_date": "2025-10-25",
-        "papers": [
-          {
-            "title": "Global PIQA: Evaluating Physical Commonsense Reasoning Across 100+ Languages and Cultures",
-            "url": "https://arxiv.org/abs/2510.24081",
-            "date": "2025",
-            "date_sort": "2025-10-25",
-            "venue": "NeurIPS Evaluations and Benchmarks",
-            "venue_year": "2025",
-            "kind": "conference",
-            "family": "NeurIPS",
-            "group_sort_date": "2025-10-25",
             "superlatives": []
           }
         ]

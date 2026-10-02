@@ -8,11 +8,25 @@
         "summary": "",
         "date": "2026",
         "year": "2026",
-        "venue": "arXiv",
+        "venue": "Evaluations of Interactive Agents @ NeurIPS",
         "authors": "Cerruti, Okamoto, and Erol",
+        "marker": "oral",
+        "superlatives": [
+          "Oral at the Evaluations of Interactive Agents Workshop"
+        ],
+        "sort_date": "2026-12-13"
+      },
+      {
+        "title": "Scalable Search Heuristics for Inoculation Prompting",
+        "url": "",
+        "summary": "",
+        "date": "2026",
+        "year": "2026",
+        "venue": "AI4GOOD @ NeurIPS",
+        "authors": "Avyukth Nilajagi, Xinyue Liu, Nikhil Maturi, Bhiman Baghel Kumar",
         "marker": "",
         "superlatives": [],
-        "sort_date": "2026-10-24"
+        "sort_date": "2026-12-12"
       },
       {
         "title": "PACT: Can Enterprise AI Assistants Be Trusted Under Pressure?",

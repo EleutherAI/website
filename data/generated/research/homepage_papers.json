@@ -1,5 +1,69 @@
 [
   {
+    "title": "Agent Memory Is a Surface for Endogenous Authorization Laundering",
+    "url": "https://arxiv.org/abs/2609.01836",
+    "date": "2026",
+    "date_sort": "2026-12-13",
+    "venue": "Evaluations of Interactive Agents @ NeurIPS",
+    "venue_year": "2026",
+    "kind": "workshop",
+    "family": "NeurIPS",
+    "group_sort_date": "2026-12-06",
+    "superlatives": [
+      "Oral at the Evaluations of Interactive Agents Workshop"
+    ]
+  },
+  {
+    "title": "Soohak: A Mathematician-Curated Benchmark for Evaluating Research-level Math Capabilities of LLMs",
+    "url": "https://arxiv.org/abs/2605.09063",
+    "date": "2026",
+    "date_sort": "2026-12-06",
+    "venue": "NeurIPS Datasets and Evaluations",
+    "venue_year": "2026",
+    "kind": "conference",
+    "family": "NeurIPS",
+    "group_sort_date": "2026-12-06",
+    "superlatives": []
+  },
+  {
+    "title": "Global PIQA: Evaluating Physical Commonsense Reasoning Across 100+ Languages and Cultures",
+    "url": "https://arxiv.org/abs/2510.24081",
+    "date": "2026",
+    "date_sort": "2026-12-06",
+    "venue": "NeurIPS Evaluations and Benchmarks",
+    "venue_year": "2026",
+    "kind": "conference",
+    "family": "NeurIPS",
+    "group_sort_date": "2026-12-06",
+    "superlatives": []
+  },
+  {
+    "title": "Evaluation Cards: An Interpretive Layer for AI Evaluation Reporting",
+    "url": "https://arxiv.org/abs/2606.09809",
+    "date": "2026",
+    "date_sort": "2026-12-06",
+    "venue": "NeurIPS Datasets and Evaluations",
+    "venue_year": "2026",
+    "kind": "conference",
+    "family": "NeurIPS",
+    "group_sort_date": "2026-12-06",
+    "superlatives": [
+      "Spotlight"
+    ]
+  },
+  {
+    "title": "Scalable Search Heuristics for Inoculation Prompting",
+    "url": "",
+    "date": "2026",
+    "date_sort": "2026-12-12",
+    "venue": "AI4GOOD @ NeurIPS",
+    "venue_year": "2026",
+    "kind": "workshop",
+    "family": "NeurIPS",
+    "group_sort_date": "2026-12-05",
+    "superlatives": []
+  },
+  {
     "title": "No Single Tokenizer Feature Reliably Predicts Downstream Language Model Performance",
     "url": "",
     "date": "2026",
@@ -57,68 +121,6 @@
     "kind": "conference",
     "family": "EMNLP",
     "group_sort_date": "2026-10-24",
-    "superlatives": []
-  },
-  {
-    "title": "Apples to Apples? Towards Comparable Crosslingual Language Model Evaluation",
-    "url": "https://arxiv.org/abs/2608.25089",
-    "date": "2026",
-    "date_sort": "2026-10-24",
-    "venue": "EMNLP",
-    "venue_year": "2026",
-    "kind": "conference",
-    "family": "EMNLP",
-    "group_sort_date": "2026-10-24",
-    "superlatives": []
-  },
-  {
-    "title": "Where Does Social Reasoning Come From? Capability Provenance in Language Models",
-    "url": "https://arxiv.org/abs/2606.19625",
-    "date": "2026",
-    "date_sort": "2026-10-06",
-    "venue": "COLM",
-    "venue_year": "2026",
-    "kind": "conference",
-    "family": "COLM",
-    "group_sort_date": "2026-10-06",
-    "superlatives": []
-  },
-  {
-    "title": "Don't Just \"Fix it in Post'': A Science of AI Must Study Learning Dynamics",
-    "url": "https://arxiv.org/abs/2606.06533",
-    "date": "2026",
-    "date_sort": "2026-07-10",
-    "venue": "ICML",
-    "venue_year": "2026",
-    "kind": "conference",
-    "family": "ICML",
-    "group_sort_date": "2026-07-10",
-    "superlatives": [
-      "Oral at ICML"
-    ]
-  },
-  {
-    "title": "Who Evaluates AI's Social Impacts? Mapping Coverage and Gaps in First and Third Party Evaluations",
-    "url": "https://arxiv.org/abs/2511.05613",
-    "date": "2026",
-    "date_sort": "2026-07-08",
-    "venue": "ICML",
-    "venue_year": "2026",
-    "kind": "conference",
-    "family": "ICML",
-    "group_sort_date": "2026-07-08",
-    "superlatives": []
-  },
-  {
-    "title": "Faults in Our Formal Benchmarking: Dataset Defects and Evaluation Failures in Lean Theorem Proving",
-    "url": "https://arxiv.org/abs/2606.29493",
-    "date": "2026",
-    "date_sort": "2026-07-08",
-    "venue": "ICML",
-    "venue_year": "2026",
-    "kind": "conference",
-    "family": "ICML",
-    "group_sort_date": "2026-07-08",
     "superlatives": []
   }
 ]

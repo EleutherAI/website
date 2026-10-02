@@ -1,5 +1,69 @@
 [
   {
+    "title": "Agent Memory Is a Surface for Endogenous Authorization Laundering",
+    "url": "https://arxiv.org/abs/2609.01836",
+    "date": "2026",
+    "date_sort": "2026-12-13",
+    "venue": "Evaluations of Interactive Agents @ NeurIPS",
+    "venue_year": "2026",
+    "kind": "workshop",
+    "family": "NeurIPS",
+    "group_sort_date": "2026-12-06",
+    "superlatives": [
+      "Oral at the Evaluations of Interactive Agents Workshop"
+    ]
+  },
+  {
+    "title": "Soohak: A Mathematician-Curated Benchmark for Evaluating Research-level Math Capabilities of LLMs",
+    "url": "https://arxiv.org/abs/2605.09063",
+    "date": "2026",
+    "date_sort": "2026-12-06",
+    "venue": "NeurIPS Datasets and Evaluations",
+    "venue_year": "2026",
+    "kind": "conference",
+    "family": "NeurIPS",
+    "group_sort_date": "2026-12-06",
+    "superlatives": []
+  },
+  {
+    "title": "Global PIQA: Evaluating Physical Commonsense Reasoning Across 100+ Languages and Cultures",
+    "url": "https://arxiv.org/abs/2510.24081",
+    "date": "2026",
+    "date_sort": "2026-12-06",
+    "venue": "NeurIPS Evaluations and Benchmarks",
+    "venue_year": "2026",
+    "kind": "conference",
+    "family": "NeurIPS",
+    "group_sort_date": "2026-12-06",
+    "superlatives": []
+  },
+  {
+    "title": "Evaluation Cards: An Interpretive Layer for AI Evaluation Reporting",
+    "url": "https://arxiv.org/abs/2606.09809",
+    "date": "2026",
+    "date_sort": "2026-12-06",
+    "venue": "NeurIPS Datasets and Evaluations",
+    "venue_year": "2026",
+    "kind": "conference",
+    "family": "NeurIPS",
+    "group_sort_date": "2026-12-06",
+    "superlatives": [
+      "Spotlight"
+    ]
+  },
+  {
+    "title": "Scalable Search Heuristics for Inoculation Prompting",
+    "url": "",
+    "date": "2026",
+    "date_sort": "2026-12-12",
+    "venue": "AI4GOOD @ NeurIPS",
+    "venue_year": "2026",
+    "kind": "workshop",
+    "family": "NeurIPS",
+    "group_sort_date": "2026-12-05",
+    "superlatives": []
+  },
+  {
     "title": "No Single Tokenizer Feature Reliably Predicts Downstream Language Model Performance",
     "url": "",
     "date": "2026",
@@ -69,6 +133,18 @@
     "kind": "conference",
     "family": "EMNLP",
     "group_sort_date": "2026-10-24",
+    "superlatives": []
+  },
+  {
+    "title": "Bergson: An Open Source Library for Data Attribution",
+    "url": "https://arxiv.org/abs/2606.11660",
+    "date": "2026",
+    "date_sort": "2026-10-24",
+    "venue": "ATTRIB @ NeurIPS",
+    "venue_year": "2026",
+    "kind": "workshop",
+    "family": "NeurIPS",
+    "group_sort_date": "2026-10-17",
     "superlatives": []
   },
   {
@@ -302,30 +378,6 @@
     "superlatives": []
   },
   {
-    "title": "Evaluation Cards: An Interpretive Layer for AI Evaluation Reporting",
-    "url": "https://arxiv.org/abs/2606.09809",
-    "date": "2026",
-    "date_sort": "2026-06-08",
-    "venue": "NeurIPS Datasets and Evaluations",
-    "venue_year": "2026",
-    "kind": "conference",
-    "family": "NeurIPS",
-    "group_sort_date": "2026-06-08",
-    "superlatives": []
-  },
-  {
-    "title": "Soohak: A Mathematician-Curated Benchmark for Evaluating Research-level Math Capabilities of LLMs",
-    "url": "https://arxiv.org/abs/2605.09063",
-    "date": "2026",
-    "date_sort": "2026-05-09",
-    "venue": "NeurIPS",
-    "venue_year": "2026",
-    "kind": "conference",
-    "family": "NeurIPS",
-    "group_sort_date": "2026-05-09",
-    "superlatives": []
-  },
-  {
     "title": "Attention-Guided Audio Compression for Multimodal LLM",
     "url": "https://ieeexplore.ieee.org/abstract/document/11461737",
     "date": "2026",
@@ -436,10 +488,10 @@
     "superlatives": []
   },
   {
-    "title": "Agent Memory Is a Surface for Endogenous Authorization Laundering",
-    "url": "https://arxiv.org/abs/2609.01836",
+    "title": "PACT: Can Enterprise AI Assistants Be Trusted Under Pressure?",
+    "url": "https://arxiv.org/abs/2609.18605",
     "date": "2026",
-    "date_sort": "2026-10-24",
+    "date_sort": "2026-09-16",
     "venue": "arXiv",
     "venue_year": "2026",
     "kind": "arxiv",
@@ -448,10 +500,10 @@
     "superlatives": []
   },
   {
-    "title": "PACT: Can Enterprise AI Assistants Be Trusted Under Pressure?",
-    "url": "https://arxiv.org/abs/2609.18605",
+    "title": "Key-Value Means: Transformers with Expandable Block-Recurrent Compressed Memory",
+    "url": "https://arxiv.org/abs/2605.09877",
     "date": "2026",
-    "date_sort": "2026-09-16",
+    "date_sort": "2026-05-11",
     "venue": "arXiv",
     "venue_year": "2026",
     "kind": "arxiv",
@@ -577,18 +629,6 @@
     "kind": "workshop",
     "family": "NeurIPS",
     "group_sort_date": "2025-11-24",
-    "superlatives": []
-  },
-  {
-    "title": "Global PIQA: Evaluating Physical Commonsense Reasoning Across 100+ Languages and Cultures",
-    "url": "https://arxiv.org/abs/2510.24081",
-    "date": "2025",
-    "date_sort": "2025-10-25",
-    "venue": "NeurIPS Evaluations and Benchmarks",
-    "venue_year": "2025",
-    "kind": "conference",
-    "family": "NeurIPS",
-    "group_sort_date": "2025-10-25",
     "superlatives": []
   },
   {

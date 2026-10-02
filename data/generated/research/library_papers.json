@@ -1,5 +1,113 @@
 [
   {
+    "title": "Agent Memory Is a Surface for Endogenous Authorization Laundering",
+    "url": "https://arxiv.org/abs/2609.01836",
+    "date": "2026",
+    "date_sort": "2026-12-13",
+    "venue": "Evaluations of Interactive Agents @ NeurIPS",
+    "family": "NeurIPS",
+    "kind": "workshop",
+    "status": "Accepted",
+    "areas": [
+      "Security"
+    ],
+    "lead_org": "",
+    "contact": "",
+    "artifact_type": "Paper",
+    "authors": "Cerruti, Okamoto, and Erol",
+    "author_search": "Cerruti, Okamoto, and Erol Tommaso Cerruti, Mika Okamoto, Ansel Kaplan Erol Mika Okamoto, Ansel Kaplan Erol Tommaso Cerruti",
+    "marker": "oral",
+    "superlatives": [
+      "Oral at the Evaluations of Interactive Agents Workshop"
+    ]
+  },
+  {
+    "title": "Scalable Search Heuristics for Inoculation Prompting",
+    "url": "",
+    "date": "2026",
+    "date_sort": "2026-12-12",
+    "venue": "AI4GOOD @ NeurIPS",
+    "family": "NeurIPS",
+    "kind": "workshop",
+    "status": "Accepted",
+    "areas": [
+      "Behavioral Safety"
+    ],
+    "lead_org": "",
+    "contact": "",
+    "artifact_type": "Paper",
+    "authors": "Avyukth Nilajagi, Xinyue Liu, Nikhil Maturi, Bhiman Baghel Kumar",
+    "author_search": "Avyukth Nilajagi, Xinyue Liu, Nikhil Maturi, Bhiman Baghel Kumar Avyukth Nilajagi, Xinyue Liu, Nikhil Maturi, Bhiman Baghel Kumar Xinyue Liu, Nikhil Maturi, Bhiman Baghel Kumar Avyukth Nilajagi",
+    "marker": "",
+    "superlatives": []
+  },
+  {
+    "title": "Soohak: A Mathematician-Curated Benchmark for Evaluating Research-level Math Capabilities of LLMs",
+    "url": "https://arxiv.org/abs/2605.09063",
+    "date": "2026",
+    "date_sort": "2026-12-06",
+    "venue": "NeurIPS Datasets and Evaluations",
+    "family": "NeurIPS",
+    "kind": "conference",
+    "status": "Accepted",
+    "areas": [
+      "Data",
+      "Evaluation",
+      "AI4Science",
+      "Multilingual"
+    ],
+    "lead_org": "",
+    "contact": "",
+    "artifact_type": "Paper",
+    "authors": "Son, Kim, Arnett, Ko, Lee, Kang, Jiang, Yun, Lee, Lee, Kim, Park, Hong, Lee, Yi, Shin, Bok, Shin, Ji, Kim, Jung, Asai, Neubig, Welleck, and 51 others",
+    "author_search": "Son, Kim, Arnett, Ko, Lee, Kang, Jiang, Yun, Lee, Lee, Kim, Park, Hong, Lee, Yi, Shin, Bok, Shin, Ji, Kim, Jung, Asai, Neubig, Welleck, and 51 others Guijin Son Seungone Kim Catherine Arnett Hyunwoo Ko Hyein Lee Hyeonah Kang Jiang Longxi Jin Yun JungYup Lee Kyungmin Lee Sam Yoosuk Kim Sang Park Seunghyeok Hong SeungJae Lee Seungyeop Yi Shinae Shin SunHye Bok Sunyoung Shin Yonghoon Ji Youngtaek Kim Hanearl Jung Akari Asai Graham Neubig Sean Welleck Youngjae Yu Akshelin R Alexander B. Ivanov Boboev Muhammadjon Chae Young Han Christian Stump Cooper R. Anderson Dmitrii Karp Dohyun Kwon Dongryung Yi DoYong Kwon Duk-Soon Oh Eunho Choi Giovanni Resta Greta Panova Huiyun Noh Hyungryul Baik Hyungsun Bae Inomov Mashrafdzhon Jeewon Kim Jeong-Rae Kim Ji Eun Lee Jiaqi Liu Jieui Kang Jimin Kim Jon-Lark Kim Joonyeong Won Junseo Yoon Junwoo Jo Kibeom Kim Kiwoon Kwon Mario Kummer Max Mercer Min Hoon Kim Minjun Kim Nahyun Lee Ng Ze-An Nicolas Libedinsky Rafał Marcin Łochowski Raphaël Lachièze-Rey Robert Auffarth Ruichen Zhang Sejin Park Seonguk Seo Shin Jaehoon Sunatullo Taewoong Eom Yeachan Park Yongseok Jang Youchan Oh Zhaoyang Wang Zoltán Kovács",
+    "marker": "",
+    "superlatives": []
+  },
+  {
+    "title": "Global PIQA: Evaluating Physical Commonsense Reasoning Across 100+ Languages and Cultures",
+    "url": "https://arxiv.org/abs/2510.24081",
+    "date": "2026",
+    "date_sort": "2026-12-06",
+    "venue": "NeurIPS Evaluations and Benchmarks",
+    "family": "NeurIPS",
+    "kind": "conference",
+    "status": "Accepted",
+    "areas": [
+      "Evaluation",
+      "Multilingual"
+    ],
+    "lead_org": "",
+    "contact": "",
+    "artifact_type": "Paper",
+    "authors": "Chang, Arnett, and 378 others",
+    "author_search": "Chang, Arnett, and 378 others Tyler A. Chang Catherine Arnett Abdelrahman Sadallah Abdelrahman Eldesokey Abeer Kashar Abolade Daud Abosede Grace Olanihun Adamu Labaran Mohammed Adeyemi Praise Adhikarimayum Meerajita Sharma Aditi Gupta Adril Putra Merin Adwoa Bremang Afitab Iyigun Afonso Simplício Ahmed Essouaied Aicha Chorana Akhil Eppa Akintunde Oladipo Akriti Kuri Akshay Ramesh Aleksei Dorkin Alfred Malengo Kondoro Alham Fikri Aji Ali Eren Çetintaş Allan Hanbury Alou Dembele Alp Niksarli Álvaro Arroyo Amin Bajand Amol Khanna Ana Chkhaidze Ana Carolina Condez Anamaria-Roberta Hartl Andiswa Mkhonto Andrew Hoblitzell Andrew Tran Angelos Poulis Anirban Majumder Anjali Chaudhary Anna Vacalopoulou Annette Kuuipolani Kanahele Wong Annika Simonsen Anton Kovalev Anupam Nayak Ashvanth S Ayodeji Lana Ayu Purwarianti Bashar Alhafni Benedict Busole Bernard Ghanem Bharti Nathani Biljana Stojanovska Đurić Blessing Ogundipe Bolaotan Agbonile Bragi Bergsson Bruce Torres Fischer Burak Tutar Burcu Çınar Cade Kane Can Udomcharoenchaikit Chadi Helwe Chaithra Reddy Nerella Chen Cecilia Liu Chiamaka Nwokolo Christopher Homan Clément Sampebgo Cristina España-Bonet Cynthia Amol Daeyoep Lee Dan Saattrup Smart Dana Arad Daniil Dzenhaliou Dasol Choi David Liu David Semedo David Anugraha Deborah Popoola Deividas Mataciunas Delphine Nyaboke Dennis Owusu Dhyuthy Krishna Kumar Diogo Tavares Diogo Glória-Silva Divyanshu Goyal DongGeon Lee E. Kelly Buchanan Ebele Nwamaka Anajemba Egonu Ngozi Grace Elena Mickel Elias Herranen Eliza Acharya Eman Nisar Emile Anand Emmanuel Habumuremyi Emuobonuvie Maria Ajiboye Eryawan Presma Yulianrifat Esther Adenuga Ewa Rudnicka Faith Itiola Faran Taimoor Butt Fareeha Fayyaz Sheikh Fathima Thekkekara Fatima Haouari Faustin Nsengiyumva Fenal Ashokbhai Ilasariya Filbert Aurelian Tjiaranata Firas Laakom Francesca Grasso Francesco Periti Francesco Orabona Gbenga Kayode Solomon Genta Indra Winata Gia Nghia Ngo Gloria Udhedhe-oze Gonçalo Vinagre Gopi Naga Sai Ram Challagolla Gorka Urbizu-Garmendia Gouthami Vadithya Guijin Son Gulnaz Abdykadyrova Gyan Swaroop Mohapatra Hafeez Ullah Hafsteinn Einarsson Hai Hu Hamidreza Saffari Hamza Zaidi Haopeng Zhang Harethah Abu Shairah Harry Vuong Hele-Andra Kuulmets Hitesh Laxmichand Patel Houda Bouamor Hwanjo Yu Iben Nyholm Debess İbrahim Ethem Deveci Ikhlasul Akmal Hanif Ikhyun Cho Inês Vieira Inês Calvo Isaac Manzi Ismael Illa Salifou Ismail Daud Ismail Yusuf Itay Itzhak Ivan Zhelyazkov Ivan Belashkin Ivan Spada Jacob Brinton Jafar Isbarov Jaka Čibej Jan Kocoń Jan Cuhel Jauza Krito Jebish Purbey Jennifer Za Jennifer Mickel Jenny Kunz Jessica Ratovondranto Jeyarajalingam Varsha Jihae Jeong Jimena Tena Dávalos Jinu Lee João Magalhães John Seon Keun Yi Jongin Kim Joseph Chataignon Joseph Marvin Imperial Jubeerathan Thevakumar Judith Land Julia Alekseenko Junchen Jiang Jungwhan Kim Kairit Sirts Kamesh R Kamesh V Kanda Tshinu Kätriin Kukk Kaustubh Ponkshe Kavsar Huseynova Ke He Kenneth Enevoldsen Kent Joshua Alvarez Kerem Zaman Khalil Mrini Kian Kyars Komal Gour Krishnakumar Lainitha Krister Kruusmaa Kunal Mukherjee Kusum Chouhan Laura Castro Laura M. Porrino-Moscoso Lenny Sivi Za Nzambi Leshem Choshen Levent Sencan Lilja Øvrelid Lisa Alazraki Loretta Oma Jones Lovina Ehimen-Ugbede Luheerathan Thevakumar Luxshan Thavarasa Mahnoor Malik Mamadou K. Keita Mansi Jangid Marco De Santis Marcos Garcia Marek Šuppa Mariam D'Ciofalo Marii Ojastu Marium Attaullah Maryam Sikander Mausami Narayan Maximos Skandalis Mehak Mehak Mehmet İlteriş Bozkurt Melaku Bayu Menan Velayuthan Mhasilenuo Vizo Michael Leventhal Michał Marcińczuk Mina Almasi Mirna Potočnjak Mithil Bangera Mohammadamin Shafiei Mohiba Ansari Mridul Sharma Mrityunjaya Indoria Mughees Ur Rehman Muhammad Ravi Shulthan Habibi Murat Kolić Murat Barkın Kınay Nada Galant Naina Singh Rathore Naphat Permpredanun Narada Maugin Nathalie Norman Nicholas Kluge Corrêa Nikola Ljubešić Nirmal Thomas Nisansa de Silva Nisheeth Joshi Nitish Ponkshe Nizar Habash Nneoma Udeze Noel Thomas Noémi Ligeti-Nagy Nouhoum Coulibaly Odunayo Ogundepo Odunayo Kareemat Buliaminu Oghojafor Godswill Fejiro Okechukwu God'spraise Olanrewaju Samuel Olaoye Deborah Oluwaseun Olasoji Akindejoye Olga Snissarenko Onyinye Anulika Chiemezie Orkun Kınay Osman Tursun Oyelade Oluwafemi Joshua Oyesanmi Fiyinfoluwa Pablo Rodríguez Pablo Gamallo Palak Arora Pedro Valente Peter Rupnik Philip Oghenesuowho Ekiugbo Prakhar Agarwal Pramit Sahoo Prokopis Prokopidis Pua Niau-Puhipau Quadri Yahya Rachele Mignone Raghav Singhal Rahul Raja Ram Mohan Rao Kadiyala Raphael Merx Rasmus Larsen Ratnavel Rajalakshmi Rishav Ghosh Romina Oji Ron Kekeha Solis Rui Guerra Rushikesh Zawar Sa'ad Nasir Bashir Saeed Alzaabi Sahil Sandeep Sai Pavan Batchu Sai Sandeep Kantareddy Saleha Muzammil Salsabila Zahirah Pranida Sam Buchanan Samuel Rutunda Sander Land Sarah Sulollari Sardar Ali Saroj Sapkota Sarveswaran Kengatharaiyer Saulius Tautvaisas Sayambhu Sen Sayantani Banerjee Sebastien Diarra Segun Afolayan Senthilnathan M Sewoong Lee Shaan Shah Shankar Venkitachalam Sharifa Djurabaeva Sharon Ibejih Shivanya Shomir Dutta Siddhant Gupta Silvia Paniagua Suárez Sina Ahmadi Sivasuthan Sukumar Siyuan Song Snegha A Sokratis Sofianopoulos Sona Elza Simon Sonja Benčina Sophie Gvasalia Sphurti More Spyros Dragazis Stefan Milosavljević Stephan P. Kaufhold Suba S Sultan Alrashed Surangika Ranathunga Taiga Someya Taja Kuzman Pungeršek Tal Haklay Tasi'u Jibril Tatsuya Aoyama Tea Abashidze Terenz Jomar Dela Cruz Terra Blevins Themistoklis Nikas Theresa Idoko Thu Mai Do Tilek Chubakov Tina Munda Tobiloba Owoeye Tommaso Gargiani Uma Rathore Uni Johannesen Uwuma Ugwu Vallerie Alexandra Putra Vanya Bannihatti Kumar Varvara Arzt Vasily Konovalov Vasudevan Nedumpozhimana Viktoria Ondrejova Viktoryia Horbik Vishnu Vardhan Reddy Kummitha Vuk Dinić Walelign Sewunetie Winston Wu Xiaojing Zhao Yacouba Diarra Yaniv Nikankin Yash Mathur Yash Bagla Yeshil Bangera Yixi Chen Yiyuan Li Yolanda Xavier Yonatan Belinkov Zaid Alyafeai Zhargal Batozargalova Zhengyang Shan Zhi Rui Tam Zilu Tang Zuzana Nadova Baber Abbasi Stella Biderman David Stap Duygu Ataman Fabian Schmidt Hila Gonen Jiayi Wang David Ifeoluwa Adelani",
+    "marker": "",
+    "superlatives": []
+  },
+  {
+    "title": "Evaluation Cards: An Interpretive Layer for AI Evaluation Reporting",
+    "url": "https://arxiv.org/abs/2606.09809",
+    "date": "2026",
+    "date_sort": "2026-12-06",
+    "venue": "NeurIPS Datasets and Evaluations",
+    "family": "NeurIPS",
+    "kind": "conference",
+    "status": "Accepted",
+    "areas": [
+      "Evaluation"
+    ],
+    "lead_org": "",
+    "contact": "",
+    "artifact_type": "Paper",
+    "authors": "Ghosh, Reuel, Chim, Kennedy, and 44 others",
+    "author_search": "Ghosh, Reuel, Chim, Kennedy, and 44 others Avijit Ghosh Anka Reuel Jenny Chim Wm. Matthew Kennedy Srishti Yadav Jennifer Mickel Yanan Long Andrew Tran Anastassia Kornilova Damian Stachura Kevin Klyman Felix Friedrich Jeba Sania Jan Batzner Anoop Mishra Eliya Habba Yixiong Hao Nathan Heath Shalaleh Rismani Usman Gohar Andrea Loehr David Manheim Ruchira Dhar Sree Harsha Nelaturu Aarush Sinha Leshem Choshen Drishti Sharma Ishan Khire Amit Saha Subramanyam Sahoo Michael Hardy Michael Alexander Riegler Kabir Manghnani Michelle Lin Yanan Jiang Yilin Huang Asaf Yehudai Jessica Ji Aris Hofmann Mubashara Akhtar Max Lamparth Nuno Moniz Yacine Jernite Stella Biderman Zeerak Talat Sanmi Koyejo Mykel Kochenderfer Irene Solaiman",
+    "marker": "spotlight",
+    "superlatives": [
+      "Spotlight"
+    ]
+  },
+  {
     "title": "No Single Tokenizer Feature Reliably Predicts Downstream Language Model Performance",
     "url": "",
     "date": "2026",
@@ -122,26 +230,6 @@
     "artifact_type": "Paper",
     "authors": "Yang, Wilcox, and Arnett",
     "author_search": "Yang, Wilcox, and Arnett Yang, Wilcox, and Arnett Wilcox, and Arnett Yang",
-    "marker": "",
-    "superlatives": []
-  },
-  {
-    "title": "Agent Memory Is a Surface for Endogenous Authorization Laundering",
-    "url": "https://arxiv.org/abs/2609.01836",
-    "date": "2026",
-    "date_sort": "2026-10-24",
-    "venue": "arXiv",
-    "family": "arXiv",
-    "kind": "arxiv",
-    "status": "Preprint",
-    "areas": [
-      "Security"
-    ],
-    "lead_org": "",
-    "contact": "",
-    "artifact_type": "Paper",
-    "authors": "Cerruti, Okamoto, and Erol",
-    "author_search": "Cerruti, Okamoto, and Erol Tommaso Cerruti, Mika Okamoto, Ansel Kaplan Erol Mika Okamoto, Ansel Kaplan Erol Tommaso Cerruti",
     "marker": "",
     "superlatives": []
   },
@@ -502,45 +590,22 @@
     "superlatives": []
   },
   {
-    "title": "Evaluation Cards: An Interpretive Layer for AI Evaluation Reporting",
-    "url": "https://arxiv.org/abs/2606.09809",
+    "title": "Key-Value Means: Transformers with Expandable Block-Recurrent Compressed Memory",
+    "url": "https://arxiv.org/abs/2605.09877",
     "date": "2026",
-    "date_sort": "2026-06-08",
-    "venue": "NeurIPS Datasets and Evaluations",
-    "family": "NeurIPS",
-    "kind": "conference",
-    "status": "Accepted",
+    "date_sort": "2026-05-11",
+    "venue": "arXiv",
+    "family": "arXiv",
+    "kind": "arxiv",
+    "status": "Preprint",
     "areas": [
-      "Evaluation"
+      "Training Models"
     ],
     "lead_org": "",
     "contact": "",
     "artifact_type": "Paper",
-    "authors": "Ghosh, Reuel, Chim, Kennedy, and 44 others",
-    "author_search": "Ghosh, Reuel, Chim, Kennedy, and 44 others Avijit Ghosh Anka Reuel Jenny Chim Wm. Matthew Kennedy Srishti Yadav Jennifer Mickel Yanan Long Andrew Tran Anastassia Kornilova Damian Stachura Kevin Klyman Felix Friedrich Jeba Sania Jan Batzner Anoop Mishra Eliya Habba Yixiong Hao Nathan Heath Shalaleh Rismani Usman Gohar Andrea Loehr David Manheim Ruchira Dhar Sree Harsha Nelaturu Aarush Sinha Leshem Choshen Drishti Sharma Ishan Khire Amit Saha Subramanyam Sahoo Michael Hardy Michael Alexander Riegler Kabir Manghnani Michelle Lin Yanan Jiang Yilin Huang Asaf Yehudai Jessica Ji Aris Hofmann Mubashara Akhtar Max Lamparth Nuno Moniz Yacine Jernite Stella Biderman Zeerak Talat Sanmi Koyejo Mykel Kochenderfer Irene Solaiman",
-    "marker": "",
-    "superlatives": []
-  },
-  {
-    "title": "Soohak: A Mathematician-Curated Benchmark for Evaluating Research-level Math Capabilities of LLMs",
-    "url": "https://arxiv.org/abs/2605.09063",
-    "date": "2026",
-    "date_sort": "2026-05-09",
-    "venue": "NeurIPS",
-    "family": "NeurIPS",
-    "kind": "conference",
-    "status": "Accepted",
-    "areas": [
-      "Data",
-      "Evaluation",
-      "AI4Science",
-      "Multilingual"
-    ],
-    "lead_org": "",
-    "contact": "",
-    "artifact_type": "Paper",
-    "authors": "Son, Kim, Arnett, Ko, Lee, Kang, Jiang, Yun, Lee, Lee, Kim, Park, Hong, Lee, Yi, Shin, Bok, Shin, Ji, Kim, Jung, Asai, Neubig, Welleck, and 51 others",
-    "author_search": "Son, Kim, Arnett, Ko, Lee, Kang, Jiang, Yun, Lee, Lee, Kim, Park, Hong, Lee, Yi, Shin, Bok, Shin, Ji, Kim, Jung, Asai, Neubig, Welleck, and 51 others Guijin Son Seungone Kim Catherine Arnett Hyunwoo Ko Hyein Lee Hyeonah Kang Jiang Longxi Jin Yun JungYup Lee Kyungmin Lee Sam Yoosuk Kim Sang Park Seunghyeok Hong SeungJae Lee Seungyeop Yi Shinae Shin SunHye Bok Sunyoung Shin Yonghoon Ji Youngtaek Kim Hanearl Jung Akari Asai Graham Neubig Sean Welleck Youngjae Yu Akshelin R Alexander B. Ivanov Boboev Muhammadjon Chae Young Han Christian Stump Cooper R. Anderson Dmitrii Karp Dohyun Kwon Dongryung Yi DoYong Kwon Duk-Soon Oh Eunho Choi Giovanni Resta Greta Panova Huiyun Noh Hyungryul Baik Hyungsun Bae Inomov Mashrafdzhon Jeewon Kim Jeong-Rae Kim Ji Eun Lee Jiaqi Liu Jieui Kang Jimin Kim Jon-Lark Kim Joonyeong Won Junseo Yoon Junwoo Jo Kibeom Kim Kiwoon Kwon Mario Kummer Max Mercer Min Hoon Kim Minjun Kim Nahyun Lee Ng Ze-An Nicolas Libedinsky Rafał Marcin Łochowski Raphaël Lachièze-Rey Robert Auffarth Ruichen Zhang Sejin Park Seonguk Seo Shin Jaehoon Sunatullo Taewoong Eom Yeachan Park Yongseok Jang Youchan Oh Zhaoyang Wang Zoltán Kovács",
+    "authors": "Goldstein, Singhal, Cheah",
+    "author_search": "Goldstein, Singhal, Cheah Daniel Goldstein, Navneel Singhal, Eugene Cheah Navneel Singhal, Eugene Cheah Daniel Goldstein",
     "marker": "",
     "superlatives": []
   },
@@ -898,27 +963,6 @@
     "artifact_type": "Paper",
     "authors": "Kamachee, Casper, Ding, Yew, Reuel, Biderman, and Hadfield-Menell",
     "author_search": "Kamachee, Casper, Ding, Yew, Reuel, Biderman, and Hadfield-Menell Max Kamachee Stephen Casper Michelle L. Ding Rui-Jie Yew Anka Reuel Stella Biderman Dylan Hadfield-Menell",
-    "marker": "",
-    "superlatives": []
-  },
-  {
-    "title": "Global PIQA: Evaluating Physical Commonsense Reasoning Across 100+ Languages and Cultures",
-    "url": "https://arxiv.org/abs/2510.24081",
-    "date": "2025",
-    "date_sort": "2025-10-25",
-    "venue": "NeurIPS Evaluations and Benchmarks",
-    "family": "NeurIPS",
-    "kind": "conference",
-    "status": "Accepted",
-    "areas": [
-      "Evaluation",
-      "Multilingual"
-    ],
-    "lead_org": "",
-    "contact": "",
-    "artifact_type": "Paper",
-    "authors": "Chang, Arnett, and 378 others",
-    "author_search": "Chang, Arnett, and 378 others Tyler A. Chang Catherine Arnett Abdelrahman Sadallah Abdelrahman Eldesokey Abeer Kashar Abolade Daud Abosede Grace Olanihun Adamu Labaran Mohammed Adeyemi Praise Adhikarimayum Meerajita Sharma Aditi Gupta Adril Putra Merin Adwoa Bremang Afitab Iyigun Afonso Simplício Ahmed Essouaied Aicha Chorana Akhil Eppa Akintunde Oladipo Akriti Kuri Akshay Ramesh Aleksei Dorkin Alfred Malengo Kondoro Alham Fikri Aji Ali Eren Çetintaş Allan Hanbury Alou Dembele Alp Niksarli Álvaro Arroyo Amin Bajand Amol Khanna Ana Chkhaidze Ana Carolina Condez Anamaria-Roberta Hartl Andiswa Mkhonto Andrew Hoblitzell Andrew Tran Angelos Poulis Anirban Majumder Anjali Chaudhary Anna Vacalopoulou Annette Kuuipolani Kanahele Wong Annika Simonsen Anton Kovalev Anupam Nayak Ashvanth S Ayodeji Lana Ayu Purwarianti Bashar Alhafni Benedict Busole Bernard Ghanem Bharti Nathani Biljana Stojanovska Đurić Blessing Ogundipe Bolaotan Agbonile Bragi Bergsson Bruce Torres Fischer Burak Tutar Burcu Çınar Cade Kane Can Udomcharoenchaikit Chadi Helwe Chaithra Reddy Nerella Chen Cecilia Liu Chiamaka Nwokolo Christopher Homan Clément Sampebgo Cristina España-Bonet Cynthia Amol Daeyoep Lee Dan Saattrup Smart Dana Arad Daniil Dzenhaliou Dasol Choi David Liu David Semedo David Anugraha Deborah Popoola Deividas Mataciunas Delphine Nyaboke Dennis Owusu Dhyuthy Krishna Kumar Diogo Tavares Diogo Glória-Silva Divyanshu Goyal DongGeon Lee E. Kelly Buchanan Ebele Nwamaka Anajemba Egonu Ngozi Grace Elena Mickel Elias Herranen Eliza Acharya Eman Nisar Emile Anand Emmanuel Habumuremyi Emuobonuvie Maria Ajiboye Eryawan Presma Yulianrifat Esther Adenuga Ewa Rudnicka Faith Itiola Faran Taimoor Butt Fareeha Fayyaz Sheikh Fathima Thekkekara Fatima Haouari Faustin Nsengiyumva Fenal Ashokbhai Ilasariya Filbert Aurelian Tjiaranata Firas Laakom Francesca Grasso Francesco Periti Francesco Orabona Gbenga Kayode Solomon Genta Indra Winata Gia Nghia Ngo Gloria Udhedhe-oze Gonçalo Vinagre Gopi Naga Sai Ram Challagolla Gorka Urbizu-Garmendia Gouthami Vadithya Guijin Son Gulnaz Abdykadyrova Gyan Swaroop Mohapatra Hafeez Ullah Hafsteinn Einarsson Hai Hu Hamidreza Saffari Hamza Zaidi Haopeng Zhang Harethah Abu Shairah Harry Vuong Hele-Andra Kuulmets Hitesh Laxmichand Patel Houda Bouamor Hwanjo Yu Iben Nyholm Debess İbrahim Ethem Deveci Ikhlasul Akmal Hanif Ikhyun Cho Inês Vieira Inês Calvo Isaac Manzi Ismael Illa Salifou Ismail Daud Ismail Yusuf Itay Itzhak Ivan Zhelyazkov Ivan Belashkin Ivan Spada Jacob Brinton Jafar Isbarov Jaka Čibej Jan Kocoń Jan Cuhel Jauza Krito Jebish Purbey Jennifer Za Jennifer Mickel Jenny Kunz Jessica Ratovondranto Jeyarajalingam Varsha Jihae Jeong Jimena Tena Dávalos Jinu Lee João Magalhães John Seon Keun Yi Jongin Kim Joseph Chataignon Joseph Marvin Imperial Jubeerathan Thevakumar Judith Land Julia Alekseenko Junchen Jiang Jungwhan Kim Kairit Sirts Kamesh R Kamesh V Kanda Tshinu Kätriin Kukk Kaustubh Ponkshe Kavsar Huseynova Ke He Kenneth Enevoldsen Kent Joshua Alvarez Kerem Zaman Khalil Mrini Kian Kyars Komal Gour Krishnakumar Lainitha Krister Kruusmaa Kunal Mukherjee Kusum Chouhan Laura Castro Laura M. Porrino-Moscoso Lenny Sivi Za Nzambi Leshem Choshen Levent Sencan Lilja Øvrelid Lisa Alazraki Loretta Oma Jones Lovina Ehimen-Ugbede Luheerathan Thevakumar Luxshan Thavarasa Mahnoor Malik Mamadou K. Keita Mansi Jangid Marco De Santis Marcos Garcia Marek Šuppa Mariam D'Ciofalo Marii Ojastu Marium Attaullah Maryam Sikander Mausami Narayan Maximos Skandalis Mehak Mehak Mehmet İlteriş Bozkurt Melaku Bayu Menan Velayuthan Mhasilenuo Vizo Michael Leventhal Michał Marcińczuk Mina Almasi Mirna Potočnjak Mithil Bangera Mohammadamin Shafiei Mohiba Ansari Mridul Sharma Mrityunjaya Indoria Mughees Ur Rehman Muhammad Ravi Shulthan Habibi Murat Kolić Murat Barkın Kınay Nada Galant Naina Singh Rathore Naphat Permpredanun Narada Maugin Nathalie Norman Nicholas Kluge Corrêa Nikola Ljubešić Nirmal Thomas Nisansa de Silva Nisheeth Joshi Nitish Ponkshe Nizar Habash Nneoma Udeze Noel Thomas Noémi Ligeti-Nagy Nouhoum Coulibaly Odunayo Ogundepo Odunayo Kareemat Buliaminu Oghojafor Godswill Fejiro Okechukwu God'spraise Olanrewaju Samuel Olaoye Deborah Oluwaseun Olasoji Akindejoye Olga Snissarenko Onyinye Anulika Chiemezie Orkun Kınay Osman Tursun Oyelade Oluwafemi Joshua Oyesanmi Fiyinfoluwa Pablo Rodríguez Pablo Gamallo Palak Arora Pedro Valente Peter Rupnik Philip Oghenesuowho Ekiugbo Prakhar Agarwal Pramit Sahoo Prokopis Prokopidis Pua Niau-Puhipau Quadri Yahya Rachele Mignone Raghav Singhal Rahul Raja Ram Mohan Rao Kadiyala Raphael Merx Rasmus Larsen Ratnavel Rajalakshmi Rishav Ghosh Romina Oji Ron Kekeha Solis Rui Guerra Rushikesh Zawar Sa'ad Nasir Bashir Saeed Alzaabi Sahil Sandeep Sai Pavan Batchu Sai Sandeep Kantareddy Saleha Muzammil Salsabila Zahirah Pranida Sam Buchanan Samuel Rutunda Sander Land Sarah Sulollari Sardar Ali Saroj Sapkota Sarveswaran Kengatharaiyer Saulius Tautvaisas Sayambhu Sen Sayantani Banerjee Sebastien Diarra Segun Afolayan Senthilnathan M Sewoong Lee Shaan Shah Shankar Venkitachalam Sharifa Djurabaeva Sharon Ibejih Shivanya Shomir Dutta Siddhant Gupta Silvia Paniagua Suárez Sina Ahmadi Sivasuthan Sukumar Siyuan Song Snegha A Sokratis Sofianopoulos Sona Elza Simon Sonja Benčina Sophie Gvasalia Sphurti More Spyros Dragazis Stefan Milosavljević Stephan P. Kaufhold Suba S Sultan Alrashed Surangika Ranathunga Taiga Someya Taja Kuzman Pungeršek Tal Haklay Tasi'u Jibril Tatsuya Aoyama Tea Abashidze Terenz Jomar Dela Cruz Terra Blevins Themistoklis Nikas Theresa Idoko Thu Mai Do Tilek Chubakov Tina Munda Tobiloba Owoeye Tommaso Gargiani Uma Rathore Uni Johannesen Uwuma Ugwu Vallerie Alexandra Putra Vanya Bannihatti Kumar Varvara Arzt Vasily Konovalov Vasudevan Nedumpozhimana Viktoria Ondrejova Viktoryia Horbik Vishnu Vardhan Reddy Kummitha Vuk Dinić Walelign Sewunetie Winston Wu Xiaojing Zhao Yacouba Diarra Yaniv Nikankin Yash Mathur Yash Bagla Yeshil Bangera Yixi Chen Yiyuan Li Yolanda Xavier Yonatan Belinkov Zaid Alyafeai Zhargal Batozargalova Zhengyang Shan Zhi Rui Tam Zilu Tang Zuzana Nadova Baber Abbasi Stella Biderman David Stap Duygu Ataman Fabian Schmidt Hila Gonen Jiayi Wang David Ifeoluwa Adelani",
     "marker": "",
     "superlatives": []
   },

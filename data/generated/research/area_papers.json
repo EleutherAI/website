@@ -439,6 +439,18 @@
   ],
   "behavioral_safety": [
     {
+      "title": "Scalable Search Heuristics for Inoculation Prompting",
+      "url": "",
+      "summary": "",
+      "date": "2026",
+      "year": "2026",
+      "venue": "AI4GOOD @ NeurIPS",
+      "authors": "Avyukth Nilajagi, Xinyue Liu, Nikhil Maturi, Bhiman Baghel Kumar",
+      "marker": "",
+      "superlatives": [],
+      "sort_date": "2026-12-12"
+    },
+    {
       "title": "PACT: Can Enterprise AI Assistants Be Trusted Under Pressure?",
       "url": "https://arxiv.org/abs/2609.18605",
       "summary": "",
@@ -795,6 +807,44 @@
   ],
   "evaluation": [
     {
+      "title": "Soohak: A Mathematician-Curated Benchmark for Evaluating Research-level Math Capabilities of LLMs",
+      "url": "https://arxiv.org/abs/2605.09063",
+      "summary": "",
+      "date": "2026",
+      "year": "2026",
+      "venue": "NeurIPS Datasets and Evaluations",
+      "authors": "Son, Kim, Arnett, Ko, Lee, Kang, Jiang, Yun, Lee, Lee, Kim, Park, Hong, Lee, Yi, Shin, Bok, Shin, Ji, Kim, Jung, Asai, Neubig, Welleck, and 51 others",
+      "marker": "",
+      "superlatives": [],
+      "sort_date": "2026-12-06"
+    },
+    {
+      "title": "Global PIQA: Evaluating Physical Commonsense Reasoning Across 100+ Languages and Cultures",
+      "url": "https://arxiv.org/abs/2510.24081",
+      "summary": "",
+      "date": "2026",
+      "year": "2026",
+      "venue": "NeurIPS Evaluations and Benchmarks",
+      "authors": "Chang, Arnett, and 378 others",
+      "marker": "",
+      "superlatives": [],
+      "sort_date": "2026-12-06"
+    },
+    {
+      "title": "Evaluation Cards: An Interpretive Layer for AI Evaluation Reporting",
+      "url": "https://arxiv.org/abs/2606.09809",
+      "summary": "",
+      "date": "2026",
+      "year": "2026",
+      "venue": "NeurIPS Datasets and Evaluations",
+      "authors": "Ghosh, Reuel, Chim, Kennedy, and 44 others",
+      "marker": "spotlight",
+      "superlatives": [
+        "Spotlight"
+      ],
+      "sort_date": "2026-12-06"
+    },
+    {
       "title": "Apples to Apples? Towards Comparable Crosslingual Language Model Evaluation",
       "url": "https://arxiv.org/abs/2608.25089",
       "summary": "",
@@ -891,30 +941,6 @@
       "sort_date": "2026-06-12"
     },
     {
-      "title": "Evaluation Cards: An Interpretive Layer for AI Evaluation Reporting",
-      "url": "https://arxiv.org/abs/2606.09809",
-      "summary": "",
-      "date": "2026",
-      "year": "2026",
-      "venue": "NeurIPS Datasets and Evaluations",
-      "authors": "Ghosh, Reuel, Chim, Kennedy, and 44 others",
-      "marker": "",
-      "superlatives": [],
-      "sort_date": "2026-06-08"
-    },
-    {
-      "title": "Soohak: A Mathematician-Curated Benchmark for Evaluating Research-level Math Capabilities of LLMs",
-      "url": "https://arxiv.org/abs/2605.09063",
-      "summary": "",
-      "date": "2026",
-      "year": "2026",
-      "venue": "NeurIPS",
-      "authors": "Son, Kim, Arnett, Ko, Lee, Kang, Jiang, Yun, Lee, Lee, Kim, Park, Hong, Lee, Yi, Shin, Bok, Shin, Ji, Kim, Jung, Asai, Neubig, Welleck, and 51 others",
-      "marker": "",
-      "superlatives": [],
-      "sort_date": "2026-05-09"
-    },
-    {
       "title": "Evaluating SAE interpretability without explanations",
       "url": "https://arxiv.org/abs/2507.08473",
       "summary": "",
@@ -937,18 +963,6 @@
       "marker": "",
       "superlatives": [],
       "sort_date": "2025-12-02"
-    },
-    {
-      "title": "Global PIQA: Evaluating Physical Commonsense Reasoning Across 100+ Languages and Cultures",
-      "url": "https://arxiv.org/abs/2510.24081",
-      "summary": "",
-      "date": "2025",
-      "year": "2025",
-      "venue": "NeurIPS Evaluations and Benchmarks",
-      "authors": "Chang, Arnett, and 378 others",
-      "marker": "",
-      "superlatives": [],
-      "sort_date": "2025-10-25"
     },
     {
       "title": "Evaluating Morphological Alignment of Tokenizers in 70 Languages",
@@ -1339,6 +1353,18 @@
       "marker": "",
       "superlatives": [],
       "sort_date": "2026-06-11"
+    },
+    {
+      "title": "Key-Value Means: Transformers with Expandable Block-Recurrent Compressed Memory",
+      "url": "https://arxiv.org/abs/2605.09877",
+      "summary": "",
+      "date": "2026",
+      "year": "2026",
+      "venue": "arXiv",
+      "authors": "Goldstein, Singhal, Cheah",
+      "marker": "",
+      "superlatives": [],
+      "sort_date": "2026-05-11"
     },
     {
       "title": "Attention-Guided Audio Compression for Multimodal LLM",
@@ -1971,6 +1997,18 @@
   ],
   "training_data": [
     {
+      "title": "Soohak: A Mathematician-Curated Benchmark for Evaluating Research-level Math Capabilities of LLMs",
+      "url": "https://arxiv.org/abs/2605.09063",
+      "summary": "",
+      "date": "2026",
+      "year": "2026",
+      "venue": "NeurIPS Datasets and Evaluations",
+      "authors": "Son, Kim, Arnett, Ko, Lee, Kang, Jiang, Yun, Lee, Lee, Kim, Park, Hong, Lee, Yi, Shin, Bok, Shin, Ji, Kim, Jung, Asai, Neubig, Welleck, and 51 others",
+      "marker": "",
+      "superlatives": [],
+      "sort_date": "2026-12-06"
+    },
+    {
       "title": "Bergson: An Open Source Library for Data Attribution",
       "url": "https://arxiv.org/abs/2606.11660",
       "summary": "",
@@ -2017,18 +2055,6 @@
       "marker": "",
       "superlatives": [],
       "sort_date": "2026-07-02"
-    },
-    {
-      "title": "Soohak: A Mathematician-Curated Benchmark for Evaluating Research-level Math Capabilities of LLMs",
-      "url": "https://arxiv.org/abs/2605.09063",
-      "summary": "",
-      "date": "2026",
-      "year": "2026",
-      "venue": "NeurIPS",
-      "authors": "Son, Kim, Arnett, Ko, Lee, Kang, Jiang, Yun, Lee, Lee, Kim, Park, Hong, Lee, Yi, Shin, Bok, Shin, Ji, Kim, Jung, Asai, Neubig, Welleck, and 51 others",
-      "marker": "",
-      "superlatives": [],
-      "sort_date": "2026-05-09"
     },
     {
       "title": "Concept Influence: Leveraging Interpretability to Improve Performance and Efficiency in Training Data Attribution",
@@ -2625,6 +2651,18 @@
   ],
   "ai4science": [
     {
+      "title": "Soohak: A Mathematician-Curated Benchmark for Evaluating Research-level Math Capabilities of LLMs",
+      "url": "https://arxiv.org/abs/2605.09063",
+      "summary": "",
+      "date": "2026",
+      "year": "2026",
+      "venue": "NeurIPS Datasets and Evaluations",
+      "authors": "Son, Kim, Arnett, Ko, Lee, Kang, Jiang, Yun, Lee, Lee, Kim, Park, Hong, Lee, Yi, Shin, Bok, Shin, Ji, Kim, Jung, Asai, Neubig, Welleck, and 51 others",
+      "marker": "",
+      "superlatives": [],
+      "sort_date": "2026-12-06"
+    },
+    {
       "title": "What Helps Agentic Lean Provers? A Trace-Level Attribution Study",
       "url": "https://openreview.net/forum?id=ShhLinF41r",
       "summary": "",
@@ -2647,18 +2685,6 @@
       "marker": "",
       "superlatives": [],
       "sort_date": "2026-07-08"
-    },
-    {
-      "title": "Soohak: A Mathematician-Curated Benchmark for Evaluating Research-level Math Capabilities of LLMs",
-      "url": "https://arxiv.org/abs/2605.09063",
-      "summary": "",
-      "date": "2026",
-      "year": "2026",
-      "venue": "NeurIPS",
-      "authors": "Son, Kim, Arnett, Ko, Lee, Kang, Jiang, Yun, Lee, Lee, Kim, Park, Hong, Lee, Yi, Shin, Bok, Shin, Ji, Kim, Jung, Asai, Neubig, Welleck, and 51 others",
-      "marker": "",
-      "superlatives": [],
-      "sort_date": "2026-05-09"
     },
     {
       "title": "When AI Co-Scientists Fail: SPOT—a Benchmark for Automated Verification of Scientific Research",
@@ -3326,11 +3352,13 @@
       "summary": "",
       "date": "2026",
       "year": "2026",
-      "venue": "arXiv",
+      "venue": "Evaluations of Interactive Agents @ NeurIPS",
       "authors": "Cerruti, Okamoto, and Erol",
-      "marker": "",
-      "superlatives": [],
-      "sort_date": "2026-10-24"
+      "marker": "oral",
+      "superlatives": [
+        "Oral at the Evaluations of Interactive Agents Workshop"
+      ],
+      "sort_date": "2026-12-13"
     },
     {
       "title": "Matrix-Driven Identification and Reconstruction of LLM Weight Homology",
