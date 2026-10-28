@@ -29,6 +29,9 @@ disableKinds = ["RSS"]
 
 [module]
   [[module.mounts]]
+    source = "content-blog-archive"
+    target = "content/archive"
+  [[module.mounts]]
     source = "layouts/blog/archives.html"
     target = "layouts/index.html"
   [[module.mounts]]

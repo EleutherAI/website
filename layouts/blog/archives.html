@@ -1,13 +1,15 @@
 {{ define "main" }}
-{{ $posts := where site.RegularPages "Section" "blog" | first 200 }}
+{{ $posts := where site.RegularPages "Section" "blog" }}
 {{ $posts = $posts.ByDate.Reverse }}
+{{ $pager := .Paginate (after 3 $posts) 15 }}
 <main>
   <section class="hero">
     <div class="wrap">
-      <h1>Research Notes, Announcements, and Technical Essays</h1>
+      <h1>EleutherAI's Research Blog</h1>
     </div>
   </section>
 
+  {{ if eq $pager.PageNumber 1 }}
   <section class="section">
     <div class="wrap">
       <div class="section-head section-head-single">
@@ -25,14 +27,15 @@
       </div>
     </div>
   </section>
+  {{ end }}
 
   <section class="section">
     <div class="wrap">
       <div class="section-head section-head-single">
-        <div><h2>Recent Archive</h2></div>
+        <div><h2>Previous Posts</h2></div>
       </div>
       <div class="artifact-table blog-list">
-        {{ range after 3 (first 18 $posts) }}
+        {{ range $pager.Pages }}
           {{ $author := "EleutherAI" }}
           {{ with .Params.author }}
             {{ if reflect.IsSlice . }}{{ $author = delimit . ", " }}{{ else }}{{ $author = . }}{{ end }}
@@ -46,6 +49,11 @@
           </article>
         {{ end }}
       </div>
+      <nav class="blog-pagination" aria-label="Blog pagination">
+        {{ if $pager.HasPrev }}<a class="link" href="{{ $pager.Prev.URL }}">Newer posts</a>{{ end }}
+        <span>Page {{ $pager.PageNumber }} of {{ $pager.TotalPages }}</span>
+        {{ if $pager.HasNext }}<a class="link" href="{{ $pager.Next.URL }}">Older posts</a>{{ end }}
+      </nav>
     </div>
   </section>
 </main>
