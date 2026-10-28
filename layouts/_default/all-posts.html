@@ -1,0 +1,22 @@
+{{ define "main" }}
+<main>
+  <section class="hero">
+    <div class="wrap">
+      <h1>{{ .Title }}</h1>
+      <p><a class="link" href="{{ "/" | relURL }}">Latest posts</a></p>
+    </div>
+  </section>
+  <section class="section">
+    <div class="wrap">
+      {{ range (where site.RegularPages "Section" "blog").ByDate.Reverse.GroupByDate "2006" }}
+        <h2>{{ .Key }}</h2>
+        <ul>
+          {{ range .Pages }}
+            <li><a href="{{ .RelPermalink }}">{{ .Title }}</a> <time class="item-meta" datetime="{{ .Date.Format "2006-01-02" }}">{{ .Date.Format "Jan 2, 2006" }}</time></li>
+          {{ end }}
+        </ul>
+      {{ end }}
+    </div>
+  </section>
+</main>
+{{ end }}
