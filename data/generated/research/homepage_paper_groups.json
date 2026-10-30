@@ -4,7 +4,7 @@
     "year": "2026",
     "kind": "conference",
     "label": "NeurIPS, 2026",
-    "count": 9,
+    "count": 10,
     "sort_date": "2026-12-06",
     "venues": [
       {
@@ -32,7 +32,7 @@
         "venue": "NeurIPS Datasets and Evaluations",
         "label": "Datasets and Evaluations",
         "kind": "conference",
-        "count": 3,
+        "count": 2,
         "sort_date": "2026-12-06",
         "papers": [
           {
@@ -60,18 +60,6 @@
             "superlatives": [
               "Spotlight"
             ]
-          },
-          {
-            "title": "Every Eval Ever: A Unifying Schema and Community Repository for AI Evaluation Results",
-            "url": "https://arxiv.org/abs/2606.14516",
-            "date": "2026",
-            "date_sort": "2026-06-12",
-            "venue": "NeurIPS Datasets and Evaluations",
-            "venue_year": "2026",
-            "kind": "conference",
-            "family": "NeurIPS",
-            "group_sort_date": "2026-06-12",
-            "superlatives": []
           }
         ]
       },
@@ -99,6 +87,93 @@
         ]
       },
       {
+        "venue": "NeurReps @ NeurIPS",
+        "label": "NeurReps",
+        "kind": "workshop",
+        "count": 1,
+        "sort_date": "2026-12-05",
+        "papers": [
+          {
+            "title": "Native Geometry vs. Linear Recoverability: How Alignment Changes Platonic Scaling",
+            "url": "https://arxiv.org/abs/2610.22749",
+            "date": "2026",
+            "date_sort": "2026-12-12",
+            "venue": "NeurReps @ NeurIPS",
+            "venue_year": "2026",
+            "kind": "workshop",
+            "family": "NeurIPS",
+            "group_sort_date": "2026-12-05",
+            "superlatives": []
+          }
+        ]
+      },
+      {
+        "venue": "Interp4Disocvery @ NeurIPS",
+        "label": "Interp4Disocvery",
+        "kind": "workshop",
+        "count": 2,
+        "sort_date": "2026-12-05",
+        "papers": [
+          {
+            "title": "Shared Geometry Is Not Shared Physics: A Layerwise Test of the Platonic Representation Hypothesis in Astronomy",
+            "url": "https://arxiv.org/abs/2610.04130",
+            "date": "2026",
+            "date_sort": "2026-12-12",
+            "venue": "Interp4Disocvery @ NeurIPS",
+            "venue_year": "2026",
+            "kind": "workshop",
+            "family": "NeurIPS",
+            "group_sort_date": "2026-12-05",
+            "superlatives": []
+          },
+          {
+            "title": "Do Astronomical Foundation Models Know When They Will Fail?",
+            "url": "",
+            "date": "2026",
+            "date_sort": "2026-12-12",
+            "venue": "Interp4Disocvery @ NeurIPS",
+            "venue_year": "2026",
+            "kind": "workshop",
+            "family": "NeurIPS",
+            "group_sort_date": "2026-12-05",
+            "superlatives": []
+          }
+        ]
+      },
+      {
+        "venue": "ATTRIB @ NeurIPS",
+        "label": "ATTRIB",
+        "kind": "workshop",
+        "count": 2,
+        "sort_date": "2026-12-05",
+        "papers": [
+          {
+            "title": "Can Data Attribution Filter Out Subliminal Learning? Not Reliably",
+            "url": "https://arxiv.org/abs/2609.20027",
+            "date": "2026",
+            "date_sort": "2026-12-12",
+            "venue": "ATTRIB @ NeurIPS",
+            "venue_year": "2026",
+            "kind": "workshop",
+            "family": "NeurIPS",
+            "group_sort_date": "2026-12-05",
+            "superlatives": []
+          },
+          {
+            "title": "Bergson: An Open Source Library for Data Attribution",
+            "url": "https://arxiv.org/abs/2606.11660",
+            "date": "2026",
+            "date_sort": "2026-10-24",
+            "venue": "ATTRIB @ NeurIPS",
+            "venue_year": "2026",
+            "kind": "workshop",
+            "family": "NeurIPS",
+            "group_sort_date": "2026-10-17",
+            "superlatives": []
+          }
+        ]
+      },
+      {
         "venue": "AI4GOOD @ NeurIPS",
         "label": "AI4GOOD",
         "kind": "workshop",
@@ -118,66 +193,96 @@
             "superlatives": []
           }
         ]
-      },
+      }
+    ]
+  },
+  {
+    "family": "Physical Sciences (ML4PS)",
+    "year": "2026",
+    "kind": "workshop",
+    "label": "Physical Sciences (ML4PS), 2026",
+    "count": 1,
+    "sort_date": "2026-12-04",
+    "venues": [
       {
-        "venue": "ATTRIB @ NeurIPS",
-        "label": "ATTRIB",
+        "venue": "Physical Sciences (ML4PS)",
+        "label": "Workshop",
         "kind": "workshop",
         "count": 1,
-        "sort_date": "2026-10-17",
+        "sort_date": "2026-12-04",
         "papers": [
           {
-            "title": "Bergson: An Open Source Library for Data Attribution",
-            "url": "https://arxiv.org/abs/2606.11660",
+            "title": "The Great Chat in the Sky: Aligning Exotic Astronomical Data to Language with AstroBridge",
+            "url": "",
             "date": "2026",
-            "date_sort": "2026-10-24",
-            "venue": "ATTRIB @ NeurIPS",
+            "date_sort": "2026-12-11",
+            "venue": "Physical Sciences (ML4PS)",
             "venue_year": "2026",
             "kind": "workshop",
-            "family": "NeurIPS",
-            "group_sort_date": "2026-10-17",
+            "family": "Physical Sciences (ML4PS)",
+            "group_sort_date": "2026-12-04",
             "superlatives": []
           }
         ]
-      },
+      }
+    ]
+  },
+  {
+    "family": "Machine Learning for",
+    "year": "2026",
+    "kind": "workshop",
+    "label": "Machine Learning for, 2026",
+    "count": 1,
+    "sort_date": "2026-12-04",
+    "venues": [
       {
-        "venue": "Math-AI Workshop @ NeurIPS",
-        "label": "Math-AI Workshop",
+        "venue": "Machine Learning for",
+        "label": "Workshop",
         "kind": "workshop",
         "count": 1,
-        "sort_date": "2026-07-01",
+        "sort_date": "2026-12-04",
         "papers": [
           {
-            "title": "Faults in Our Formal Benchmarking: Dataset Defects and Evaluation Failures in Lean Theorem Proving",
-            "url": "https://arxiv.org/abs/2606.29493",
+            "title": "The Great Chat in the Sky: Aligning Exotic Astronomical Data to Language with AstroBridge",
+            "url": "",
             "date": "2026",
-            "date_sort": "2026-07-08",
-            "venue": "Math-AI Workshop @ NeurIPS",
+            "date_sort": "2026-12-11",
+            "venue": "Machine Learning for",
             "venue_year": "2026",
             "kind": "workshop",
-            "family": "NeurIPS",
-            "group_sort_date": "2026-07-01",
+            "family": "Machine Learning for",
+            "group_sort_date": "2026-12-04",
             "superlatives": []
           }
         ]
-      },
+      }
+    ]
+  },
+  {
+    "family": "Blackbox NLP",
+    "year": "2026",
+    "kind": "conference",
+    "label": "Blackbox NLP, 2026",
+    "count": 1,
+    "sort_date": "2026-10-29",
+    "venues": [
       {
-        "venue": "Algorithmic Collective Action @ NeurIPS",
-        "label": "Algorithmic Collective Action",
-        "kind": "workshop",
+        "venue": "Blackbox NLP",
+        "label": "Main conference",
+        "kind": "conference",
         "count": 1,
-        "sort_date": "2026-06-18",
+        "sort_date": "2026-10-29",
         "papers": [
           {
-            "title": "Challenges to Grassroot Organization Engagement with AI Policy",
-            "url": "https://nips.cc/virtual/2025/136959",
+            "title": "Automated Attribution Graph Interpretation via Probe Prompting",
+            "url": "https://arxiv.org/abs/2511.07002",
             "date": "2026",
-            "date_sort": "2026-06-25",
-            "venue": "Algorithmic Collective Action @ NeurIPS",
+            "date_sort": "2026-10-29",
+            "venue": "Blackbox NLP",
             "venue_year": "2026",
-            "kind": "workshop",
-            "family": "NeurIPS",
-            "group_sort_date": "2026-06-18",
+            "kind": "conference",
+            "family": "Blackbox NLP",
+            "group_sort_date": "2026-10-29",
             "superlatives": []
           }
         ]
@@ -234,7 +339,7 @@
           },
           {
             "title": "Beetle: Structured Exposure Pretraining in Bilingual Language Models for Modelling L2 Language Processing",
-            "url": "",
+            "url": "https://arxiv.org/abs/2609.22633",
             "date": "2026",
             "date_sort": "2026-10-24",
             "venue": "EMNLP",
@@ -267,7 +372,7 @@
         "papers": [
           {
             "title": "No Single Tokenizer Feature Reliably Predicts Downstream Language Model Performance",
-            "url": "",
+            "url": "https://arxiv.org/abs/2610.21679",
             "date": "2026",
             "date_sort": "2026-10-24",
             "venue": "EMNLP Findings",
@@ -294,43 +399,12 @@
     ]
   },
   {
-    "family": "COLM",
-    "year": "2026",
-    "kind": "conference",
-    "label": "COLM, 2026",
-    "count": 1,
-    "sort_date": "2026-10-06",
-    "venues": [
-      {
-        "venue": "COLM",
-        "label": "Main conference",
-        "kind": "conference",
-        "count": 1,
-        "sort_date": "2026-10-06",
-        "papers": [
-          {
-            "title": "Where Does Social Reasoning Come From? Capability Provenance in Language Models",
-            "url": "https://arxiv.org/abs/2606.19625",
-            "date": "2026",
-            "date_sort": "2026-10-06",
-            "venue": "COLM",
-            "venue_year": "2026",
-            "kind": "conference",
-            "family": "COLM",
-            "group_sort_date": "2026-10-06",
-            "superlatives": []
-          }
-        ]
-      }
-    ]
-  },
-  {
     "family": "ICML",
     "year": "2026",
     "kind": "conference",
     "label": "ICML, 2026",
     "count": 10,
-    "sort_date": "2026-07-10",
+    "sort_date": "2026-10-22",
     "venues": [
       {
         "venue": "ICML",
@@ -387,6 +461,39 @@
             "kind": "conference",
             "family": "ICML",
             "group_sort_date": "2026-07-07",
+            "superlatives": []
+          }
+        ]
+      },
+      {
+        "venue": "Mechanistic Interpretability Workshop @ ICML",
+        "label": "MechInterp Workshop",
+        "kind": "workshop",
+        "count": 2,
+        "sort_date": "2026-10-22",
+        "papers": [
+          {
+            "title": "Automated Attribution Graph Interpretation via Probe Prompting",
+            "url": "https://arxiv.org/abs/2511.07002",
+            "date": "2026",
+            "date_sort": "2026-10-29",
+            "venue": "Mechanistic Interpretability Workshop @ ICML",
+            "venue_year": "2026",
+            "kind": "workshop",
+            "family": "ICML",
+            "group_sort_date": "2026-10-22",
+            "superlatives": []
+          },
+          {
+            "title": "Don't Just \"Fix it in Post'': A Science of AI Must Study Learning Dynamics",
+            "url": "https://arxiv.org/abs/2606.06533",
+            "date": "2026",
+            "date_sort": "2026-07-10",
+            "venue": "MechInterp Workshop @ ICML",
+            "venue_year": "2026",
+            "kind": "workshop",
+            "family": "ICML",
+            "group_sort_date": "2026-07-03",
             "superlatives": []
           }
         ]
@@ -455,39 +562,6 @@
         ]
       },
       {
-        "venue": "MechInterp Workshop @ ICML",
-        "label": "MechInterp Workshop",
-        "kind": "workshop",
-        "count": 2,
-        "sort_date": "2026-07-03",
-        "papers": [
-          {
-            "title": "Don't Just \"Fix it in Post'': A Science of AI Must Study Learning Dynamics",
-            "url": "https://arxiv.org/abs/2606.06533",
-            "date": "2026",
-            "date_sort": "2026-07-10",
-            "venue": "MechInterp Workshop @ ICML",
-            "venue_year": "2026",
-            "kind": "workshop",
-            "family": "ICML",
-            "group_sort_date": "2026-07-03",
-            "superlatives": []
-          },
-          {
-            "title": "Automated Attribution Graph Interpretation via Probe Prompting",
-            "url": "https://arxiv.org/abs/2511.07002",
-            "date": "2026",
-            "date_sort": "2026-07-10",
-            "venue": "Mechanistic interpretability workshop @ ICML",
-            "venue_year": "2026",
-            "kind": "workshop",
-            "family": "ICML",
-            "group_sort_date": "2026-07-03",
-            "superlatives": []
-          }
-        ]
-      },
-      {
         "venue": "Foundations of Deep Generative Models @ ICML",
         "label": "Foundations of Deep Generative Models",
         "kind": "workshop",
@@ -511,103 +585,30 @@
     ]
   },
   {
-    "family": "ACL",
+    "family": "COLM",
     "year": "2026",
     "kind": "conference",
-    "label": "ACL, 2026",
-    "count": 3,
-    "sort_date": "2026-07-02",
-    "venues": [
-      {
-        "venue": "ACL",
-        "label": "Main conference",
-        "kind": "conference",
-        "count": 1,
-        "sort_date": "2026-07-02",
-        "papers": [
-          {
-            "title": "CommonLID: Re-evaluating State-of-the-Art Language Identification Performance on Web Data",
-            "url": "https://arxiv.org/abs/2601.18026",
-            "date": "2026",
-            "date_sort": "2026-07-02",
-            "venue": "ACL",
-            "venue_year": "2026",
-            "kind": "conference",
-            "family": "ACL",
-            "group_sort_date": "2026-07-02",
-            "superlatives": []
-          }
-        ]
-      },
-      {
-        "venue": "ACL Findings",
-        "label": "Findings",
-        "kind": "conference",
-        "count": 1,
-        "sort_date": "2026-07-02",
-        "papers": [
-          {
-            "title": "Weight Tying Biases Token Embeddings Towards the Output Space",
-            "url": "https://arxiv.org/abs/2603.26663",
-            "date": "2026",
-            "date_sort": "2026-07-02",
-            "venue": "ACL Findings",
-            "venue_year": "2026",
-            "kind": "conference",
-            "family": "ACL",
-            "group_sort_date": "2026-07-02",
-            "superlatives": []
-          }
-        ]
-      },
-      {
-        "venue": "Computational Developmental Linguistics Workshop at ACL",
-        "label": "Computational Developmental Linguistics Workshop",
-        "kind": "workshop",
-        "count": 1,
-        "sort_date": "2026-06-27",
-        "papers": [
-          {
-            "title": "L1 Influence in L2 Language Models: A Human-centric Approach",
-            "url": "https://aclanthology.org/2026.cdl-1.15/",
-            "date": "2026",
-            "date_sort": "2026-07-04",
-            "venue": "Computational Developmental Linguistics Workshop at ACL",
-            "venue_year": "2026",
-            "kind": "workshop",
-            "family": "ACL",
-            "group_sort_date": "2026-06-27",
-            "superlatives": []
-          }
-        ]
-      }
-    ]
-  },
-  {
-    "family": "FAccT",
-    "year": "2026",
-    "kind": "conference",
-    "label": "FAccT, 2026",
+    "label": "COLM, 2026",
     "count": 1,
-    "sort_date": "2026-06-25",
+    "sort_date": "2026-10-06",
     "venues": [
       {
-        "venue": "FAccT",
+        "venue": "COLM",
         "label": "Main conference",
         "kind": "conference",
         "count": 1,
-        "sort_date": "2026-06-25",
+        "sort_date": "2026-10-06",
         "papers": [
           {
-            "title": "Challenges to Grassroot Organization Engagement with AI Policy",
-            "url": "https://nips.cc/virtual/2025/136959",
+            "title": "Where Does Social Reasoning Come From? Capability Provenance in Language Models",
+            "url": "https://arxiv.org/abs/2606.19625",
             "date": "2026",
-            "date_sort": "2026-06-25",
-            "venue": "FAccT",
+            "date_sort": "2026-10-06",
+            "venue": "COLM",
             "venue_year": "2026",
             "kind": "conference",
-            "family": "FAccT",
-            "group_sort_date": "2026-06-25",
+            "family": "COLM",
+            "group_sort_date": "2026-10-06",
             "superlatives": []
           }
         ]

@@ -62,6 +62,9 @@ SCHOLAR_USER_AGENT = (
     "AppleWebKit/537.36 (KHTML, like Gecko) Chrome/126.0 Safari/537.36"
 )
 HF_ANALYTICS_URL = "https://huggingface.co/organizations/EleutherAI/settings/publisher/analytics?timePeriod=allTime"
+HF_MODELS_API_URL = "https://huggingface.co/api/models?author=EleutherAI&expand[]=downloadsAllTime&limit=1000"
+# HF recommended this correction to Stella for undercounted early models.
+HF_MODEL_DOWNLOADS_OFFSET = 11_000_000
 HF_MODEL_DOWNLOADS_CACHE = GENERATED_DIR / "hf_model_downloads_cache.json"
 REQUIRED_PAPER_HEADERS = {
     "Date",
@@ -213,7 +216,10 @@ def display_terms(value):
 
 
 def full_author_terms(value):
-    return [item.strip() for item in (value or "").split(";") if item.strip()]
+    value = value or ""
+    # Preserve legacy semicolon lists, including "Surname, Given name" entries.
+    delimiter = ";" if ";" in value else ","
+    return [item.strip() for item in value.split(delimiter) if item.strip()]
 
 
 def row_superlatives(row):
@@ -535,16 +541,20 @@ def paper_records(row):
 def read_papers():
     with PAPERS_CSV.open(newline="", encoding="utf-8") as f:
         rows = [normalize_paper_row(row) for row in csv.DictReader(f)]
-    missing_authors = [
-        normalize_title(row.get("Title"))
-        for row in rows
-        if normalize_title(row.get("Title")) and not full_author_terms(row.get("all authors"))
-    ]
-    if missing_authors:
-        raise SystemExit(
-            "Papers CSV is missing `all authors` for: " + "; ".join(missing_authors)
-        )
-    return rows
+    included = []
+    for row in rows:
+        missing = []
+        if not normalize_title(row.get("Title")):
+            missing.append("title")
+        if row_date(row) == datetime.min:
+            missing.append("date")
+        if not (row.get("Display Authors") or "").strip():
+            missing.append("display authors")
+        if missing:
+            print(f"Skipping paper {row.get('Title') or '<untitled>'}: missing {', '.join(missing)}")
+            continue
+        included.append(row)
+    return included
 
 
 def refresh_papers_csv(require_refresh=True):
@@ -882,32 +892,29 @@ def fetch_hf_model_downloads():
     if env_value:
         return env_value
 
-    try:
-        from playwright.sync_api import sync_playwright
-    except ImportError:
-        raise ValueError("Playwright not installed")
-
-    try:
-        with sync_playwright() as p:
-            browser = p.chromium.launch()
-            page = browser.new_page()
-            page.goto(HF_ANALYTICS_URL, timeout=30000)
-            page.wait_for_load_state("domcontentloaded", timeout=15000)
-
-            text = page.inner_text("body")
-            match = re.search(r'Models\s*\(\d+\)\s*(\d+(?:\.\d+)?M)', text)
-
-            if not match:
-                match = re.search(r'(\d+M)\s+downloads', text)
-
-            browser.close()
-
-            if match:
-                return match.group(1)
-            else:
-                raise ValueError("Could not find model download count in rendered HF analytics page")
-    except Exception as exc:
-        raise ValueError(f"HuggingFace fetch failed: {exc}") from exc
+    url = HF_MODELS_API_URL
+    visited = set()
+    counts = {}
+    while url:
+        if url in visited or not url.startswith("https://huggingface.co/api/models?"):
+            raise ValueError("Invalid Hugging Face pagination link")
+        visited.add(url)
+        with urlopen(url, timeout=30) as response:
+            models = json.load(response)
+            link = response.headers.get("Link", "")
+        if not isinstance(models, list) or not models:
+            raise ValueError("Empty or invalid Hugging Face models response")
+        for model in models:
+            model_id = model.get("id", "")
+            count = model.get("downloadsAllTime")
+            if not model_id.startswith("EleutherAI/") or type(count) is not int or count < 0:
+                raise ValueError(f"Invalid lifetime download count for {model_id}")
+            counts[model_id] = count
+        url = next((part.split(">", 1)[0].strip().lstrip("<")
+                    for part in link.split(",") if 'rel="next"' in part), None)
+    total = sum(counts.values()) + HF_MODEL_DOWNLOADS_OFFSET
+    print(f"HF model downloads: {sum(counts.values()):,} + {HF_MODEL_DOWNLOADS_OFFSET:,} correction = {total:,}")
+    return f"{total // 1_000_000}M+"
 
 
 def read_hf_downloads_cache():
@@ -947,7 +954,6 @@ def hf_model_downloads_payload(offline=False):
             print(f"HuggingFace fetch failed ({exc}); using cached model download count")
             return cached["value"], "cache"
         print(f"HuggingFace fetch failed ({exc}); model download metric omitted")
-        print("To enable HF downloads fetching, install playwright: pip install playwright")
         return "", "missing"
 
 
@@ -1010,7 +1016,7 @@ def write_home_generated_metrics(rows, scholar_payload, hf_downloads, offline=Fa
             "value": hf_value,
             "label": "Model Downloads",
             "url": "https://huggingface.co/EleutherAI",
-            "source": HF_ANALYTICS_URL,
+            "source": HF_MODELS_API_URL,
         }
     payload = {"metrics": metrics}
     HOME_GENERATED_METRICS_PATH.write_text(json.dumps(payload, indent=2) + "\n", encoding="utf-8")
@@ -1097,7 +1103,7 @@ def recent_outputs(rows, blog_posts, limit=HOME_RECENT_OUTPUT_LIMIT):
         )
 
     if invalid_markers:
-        raise ValueError("Invalid Highest Impact markers: " + "; ".join(invalid_markers))
+        print("Ignoring invalid Highest Impact markers: " + "; ".join(invalid_markers))
 
     # Blog posts already appear in the homepage Latest panel, so this list is papers only.
 
@@ -1155,7 +1161,7 @@ def main():
     sources = {
         "google_sheet": {"status": papers_status, "url": PAPERS_SHEET_CSV_URL},
         "google_scholar": {"status": scholar_status, "url": SCHOLAR_PROFILE_URL},
-        "huggingface_downloads": {"status": hf_status, "url": HF_ANALYTICS_URL},
+        "huggingface_downloads": {"status": hf_status, "url": HF_MODELS_API_URL},
         "blog_content": {"status": "local", "path": str(BLOG_CONTENT_DIR.relative_to(ROOT))},
     }
     write_freshness_report("offline" if args.offline else "live", sources)
