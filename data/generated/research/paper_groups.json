@@ -4,7 +4,7 @@
     "year": "2026",
     "kind": "conference",
     "label": "NeurIPS, 2026",
-    "count": 14,
+    "count": 17,
     "sort_date": "2026-12-06",
     "venues": [
       {
@@ -76,27 +76,6 @@
         ]
       },
       {
-        "venue": "NeurIPS",
-        "label": "Main conference",
-        "kind": "conference",
-        "count": 1,
-        "sort_date": "2026-06-11",
-        "papers": [
-          {
-            "title": "LoRA-Muon: Spectral Steepest Descent on the Low-Rank Manifold",
-            "url": "https://arxiv.org/abs/2606.12921",
-            "date": "2026",
-            "date_sort": "2026-06-11",
-            "venue": "NeurIPS",
-            "venue_year": "2026",
-            "kind": "conference",
-            "family": "NeurIPS",
-            "group_sort_date": "2026-06-11",
-            "superlatives": []
-          }
-        ]
-      },
-      {
         "venue": "NeurIPS Datasets and Benchmarks",
         "label": "Datasets and Benchmarks",
         "kind": "conference",
@@ -141,6 +120,93 @@
         ]
       },
       {
+        "venue": "NeurReps @ NeurIPS",
+        "label": "NeurReps",
+        "kind": "workshop",
+        "count": 1,
+        "sort_date": "2026-12-05",
+        "papers": [
+          {
+            "title": "Native Geometry vs. Linear Recoverability: How Alignment Changes Platonic Scaling",
+            "url": "https://arxiv.org/abs/2610.22749",
+            "date": "2026",
+            "date_sort": "2026-12-12",
+            "venue": "NeurReps @ NeurIPS",
+            "venue_year": "2026",
+            "kind": "workshop",
+            "family": "NeurIPS",
+            "group_sort_date": "2026-12-05",
+            "superlatives": []
+          }
+        ]
+      },
+      {
+        "venue": "Interp4Disocvery @ NeurIPS",
+        "label": "Interp4Disocvery",
+        "kind": "workshop",
+        "count": 2,
+        "sort_date": "2026-12-05",
+        "papers": [
+          {
+            "title": "Shared Geometry Is Not Shared Physics: A Layerwise Test of the Platonic Representation Hypothesis in Astronomy",
+            "url": "https://arxiv.org/abs/2610.04130",
+            "date": "2026",
+            "date_sort": "2026-12-12",
+            "venue": "Interp4Disocvery @ NeurIPS",
+            "venue_year": "2026",
+            "kind": "workshop",
+            "family": "NeurIPS",
+            "group_sort_date": "2026-12-05",
+            "superlatives": []
+          },
+          {
+            "title": "Do Astronomical Foundation Models Know When They Will Fail?",
+            "url": "",
+            "date": "2026",
+            "date_sort": "2026-12-12",
+            "venue": "Interp4Disocvery @ NeurIPS",
+            "venue_year": "2026",
+            "kind": "workshop",
+            "family": "NeurIPS",
+            "group_sort_date": "2026-12-05",
+            "superlatives": []
+          }
+        ]
+      },
+      {
+        "venue": "ATTRIB @ NeurIPS",
+        "label": "ATTRIB",
+        "kind": "workshop",
+        "count": 2,
+        "sort_date": "2026-12-05",
+        "papers": [
+          {
+            "title": "Can Data Attribution Filter Out Subliminal Learning? Not Reliably",
+            "url": "https://arxiv.org/abs/2609.20027",
+            "date": "2026",
+            "date_sort": "2026-12-12",
+            "venue": "ATTRIB @ NeurIPS",
+            "venue_year": "2026",
+            "kind": "workshop",
+            "family": "NeurIPS",
+            "group_sort_date": "2026-12-05",
+            "superlatives": []
+          },
+          {
+            "title": "Bergson: An Open Source Library for Data Attribution",
+            "url": "https://arxiv.org/abs/2606.11660",
+            "date": "2026",
+            "date_sort": "2026-10-24",
+            "venue": "ATTRIB @ NeurIPS",
+            "venue_year": "2026",
+            "kind": "workshop",
+            "family": "NeurIPS",
+            "group_sort_date": "2026-10-17",
+            "superlatives": []
+          }
+        ]
+      },
+      {
         "venue": "AI4GOOD @ NeurIPS",
         "label": "AI4GOOD",
         "kind": "workshop",
@@ -157,27 +223,6 @@
             "kind": "workshop",
             "family": "NeurIPS",
             "group_sort_date": "2026-12-05",
-            "superlatives": []
-          }
-        ]
-      },
-      {
-        "venue": "ATTRIB @ NeurIPS",
-        "label": "ATTRIB",
-        "kind": "workshop",
-        "count": 1,
-        "sort_date": "2026-10-17",
-        "papers": [
-          {
-            "title": "Bergson: An Open Source Library for Data Attribution",
-            "url": "https://arxiv.org/abs/2606.11660",
-            "date": "2026",
-            "date_sort": "2026-10-24",
-            "venue": "ATTRIB @ NeurIPS",
-            "venue_year": "2026",
-            "kind": "workshop",
-            "family": "NeurIPS",
-            "group_sort_date": "2026-10-17",
             "superlatives": []
           }
         ]
@@ -283,6 +328,99 @@
     ]
   },
   {
+    "family": "Physical Sciences (ML4PS)",
+    "year": "2026",
+    "kind": "workshop",
+    "label": "Physical Sciences (ML4PS), 2026",
+    "count": 1,
+    "sort_date": "2026-12-04",
+    "venues": [
+      {
+        "venue": "Physical Sciences (ML4PS)",
+        "label": "Workshop",
+        "kind": "workshop",
+        "count": 1,
+        "sort_date": "2026-12-04",
+        "papers": [
+          {
+            "title": "The Great Chat in the Sky: Aligning Exotic Astronomical Data to Language with AstroBridge",
+            "url": "",
+            "date": "2026",
+            "date_sort": "2026-12-11",
+            "venue": "Physical Sciences (ML4PS)",
+            "venue_year": "2026",
+            "kind": "workshop",
+            "family": "Physical Sciences (ML4PS)",
+            "group_sort_date": "2026-12-04",
+            "superlatives": []
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "family": "Machine Learning for",
+    "year": "2026",
+    "kind": "workshop",
+    "label": "Machine Learning for, 2026",
+    "count": 1,
+    "sort_date": "2026-12-04",
+    "venues": [
+      {
+        "venue": "Machine Learning for",
+        "label": "Workshop",
+        "kind": "workshop",
+        "count": 1,
+        "sort_date": "2026-12-04",
+        "papers": [
+          {
+            "title": "The Great Chat in the Sky: Aligning Exotic Astronomical Data to Language with AstroBridge",
+            "url": "",
+            "date": "2026",
+            "date_sort": "2026-12-11",
+            "venue": "Machine Learning for",
+            "venue_year": "2026",
+            "kind": "workshop",
+            "family": "Machine Learning for",
+            "group_sort_date": "2026-12-04",
+            "superlatives": []
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "family": "Blackbox NLP",
+    "year": "2026",
+    "kind": "conference",
+    "label": "Blackbox NLP, 2026",
+    "count": 1,
+    "sort_date": "2026-10-29",
+    "venues": [
+      {
+        "venue": "Blackbox NLP",
+        "label": "Main conference",
+        "kind": "conference",
+        "count": 1,
+        "sort_date": "2026-10-29",
+        "papers": [
+          {
+            "title": "Automated Attribution Graph Interpretation via Probe Prompting",
+            "url": "https://arxiv.org/abs/2511.07002",
+            "date": "2026",
+            "date_sort": "2026-10-29",
+            "venue": "Blackbox NLP",
+            "venue_year": "2026",
+            "kind": "conference",
+            "family": "Blackbox NLP",
+            "group_sort_date": "2026-10-29",
+            "superlatives": []
+          }
+        ]
+      }
+    ]
+  },
+  {
     "family": "EMNLP",
     "year": "2026",
     "kind": "conference",
@@ -332,7 +470,7 @@
           },
           {
             "title": "Beetle: Structured Exposure Pretraining in Bilingual Language Models for Modelling L2 Language Processing",
-            "url": "",
+            "url": "https://arxiv.org/abs/2609.22633",
             "date": "2026",
             "date_sort": "2026-10-24",
             "venue": "EMNLP",
@@ -365,7 +503,7 @@
         "papers": [
           {
             "title": "No Single Tokenizer Feature Reliably Predicts Downstream Language Model Performance",
-            "url": "",
+            "url": "https://arxiv.org/abs/2610.21679",
             "date": "2026",
             "date_sort": "2026-10-24",
             "venue": "EMNLP Findings",
@@ -392,43 +530,12 @@
     ]
   },
   {
-    "family": "COLM",
-    "year": "2026",
-    "kind": "conference",
-    "label": "COLM, 2026",
-    "count": 1,
-    "sort_date": "2026-10-06",
-    "venues": [
-      {
-        "venue": "COLM",
-        "label": "Main conference",
-        "kind": "conference",
-        "count": 1,
-        "sort_date": "2026-10-06",
-        "papers": [
-          {
-            "title": "Where Does Social Reasoning Come From? Capability Provenance in Language Models",
-            "url": "https://arxiv.org/abs/2606.19625",
-            "date": "2026",
-            "date_sort": "2026-10-06",
-            "venue": "COLM",
-            "venue_year": "2026",
-            "kind": "conference",
-            "family": "COLM",
-            "group_sort_date": "2026-10-06",
-            "superlatives": []
-          }
-        ]
-      }
-    ]
-  },
-  {
     "family": "ICML",
     "year": "2026",
     "kind": "conference",
     "label": "ICML, 2026",
-    "count": 10,
-    "sort_date": "2026-07-10",
+    "count": 11,
+    "sort_date": "2026-10-22",
     "venues": [
       {
         "venue": "ICML",
@@ -485,6 +592,51 @@
             "kind": "conference",
             "family": "ICML",
             "group_sort_date": "2026-07-07",
+            "superlatives": []
+          }
+        ]
+      },
+      {
+        "venue": "Mechanistic Interpretability Workshop @ ICML",
+        "label": "MechInterp Workshop",
+        "kind": "workshop",
+        "count": 3,
+        "sort_date": "2026-10-22",
+        "papers": [
+          {
+            "title": "Automated Attribution Graph Interpretation via Probe Prompting",
+            "url": "https://arxiv.org/abs/2511.07002",
+            "date": "2026",
+            "date_sort": "2026-10-29",
+            "venue": "Mechanistic Interpretability Workshop @ ICML",
+            "venue_year": "2026",
+            "kind": "workshop",
+            "family": "ICML",
+            "group_sort_date": "2026-10-22",
+            "superlatives": []
+          },
+          {
+            "title": "Don't Just \"Fix it in Post'': A Science of AI Must Study Learning Dynamics",
+            "url": "https://arxiv.org/abs/2606.06533",
+            "date": "2026",
+            "date_sort": "2026-07-10",
+            "venue": "MechInterp Workshop @ ICML",
+            "venue_year": "2026",
+            "kind": "workshop",
+            "family": "ICML",
+            "group_sort_date": "2026-07-03",
+            "superlatives": []
+          },
+          {
+            "title": "Automated Attribution Graph Interpretation via Probe Prompting",
+            "url": "https://arxiv.org/abs/2511.07002",
+            "date": "2026",
+            "date_sort": "2026-07-10",
+            "venue": "Mechanistic interpretability workshop @ ICML",
+            "venue_year": "2026",
+            "kind": "workshop",
+            "family": "ICML",
+            "group_sort_date": "2026-07-03",
             "superlatives": []
           }
         ]
@@ -553,39 +705,6 @@
         ]
       },
       {
-        "venue": "MechInterp Workshop @ ICML",
-        "label": "MechInterp Workshop",
-        "kind": "workshop",
-        "count": 2,
-        "sort_date": "2026-07-03",
-        "papers": [
-          {
-            "title": "Don't Just \"Fix it in Post'': A Science of AI Must Study Learning Dynamics",
-            "url": "https://arxiv.org/abs/2606.06533",
-            "date": "2026",
-            "date_sort": "2026-07-10",
-            "venue": "MechInterp Workshop @ ICML",
-            "venue_year": "2026",
-            "kind": "workshop",
-            "family": "ICML",
-            "group_sort_date": "2026-07-03",
-            "superlatives": []
-          },
-          {
-            "title": "Automated Attribution Graph Interpretation via Probe Prompting",
-            "url": "https://arxiv.org/abs/2511.07002",
-            "date": "2026",
-            "date_sort": "2026-07-10",
-            "venue": "Mechanistic interpretability workshop @ ICML",
-            "venue_year": "2026",
-            "kind": "workshop",
-            "family": "ICML",
-            "group_sort_date": "2026-07-03",
-            "superlatives": []
-          }
-        ]
-      },
-      {
         "venue": "Foundations of Deep Generative Models @ ICML",
         "label": "Foundations of Deep Generative Models",
         "kind": "workshop",
@@ -602,6 +721,37 @@
             "kind": "workshop",
             "family": "ICML",
             "group_sort_date": "2026-07-03",
+            "superlatives": []
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "family": "COLM",
+    "year": "2026",
+    "kind": "conference",
+    "label": "COLM, 2026",
+    "count": 1,
+    "sort_date": "2026-10-06",
+    "venues": [
+      {
+        "venue": "COLM",
+        "label": "Main conference",
+        "kind": "conference",
+        "count": 1,
+        "sort_date": "2026-10-06",
+        "papers": [
+          {
+            "title": "Where Does Social Reasoning Come From? Capability Provenance in Language Models",
+            "url": "https://arxiv.org/abs/2606.19625",
+            "date": "2026",
+            "date_sort": "2026-10-06",
+            "venue": "COLM",
+            "venue_year": "2026",
+            "kind": "conference",
+            "family": "COLM",
+            "group_sort_date": "2026-10-06",
             "superlatives": []
           }
         ]
@@ -824,21 +974,57 @@
     "year": "2026",
     "kind": "arxiv",
     "label": "arXiv, 2026",
-    "count": 4,
+    "count": 7,
     "sort_date": "2026-01-01",
     "venues": [
       {
         "venue": "arXiv",
         "label": "Preprints",
         "kind": "arxiv",
-        "count": 4,
+        "count": 7,
         "sort_date": "2026-01-01",
         "papers": [
+          {
+            "title": "The Unequal Influence of Bad Advice: Using Training Data Attribution to Modulate Emergent Misalignment",
+            "url": "https://arxiv.org/abs/2609.37914",
+            "date": "2026",
+            "date_sort": "2026-09-29",
+            "venue": "arXiv",
+            "venue_year": "2026",
+            "kind": "arxiv",
+            "family": "arXiv",
+            "group_sort_date": "2026-01-01",
+            "superlatives": []
+          },
           {
             "title": "PACT: Can Enterprise AI Assistants Be Trusted Under Pressure?",
             "url": "https://arxiv.org/abs/2609.18605",
             "date": "2026",
             "date_sort": "2026-09-16",
+            "venue": "arXiv",
+            "venue_year": "2026",
+            "kind": "arxiv",
+            "family": "arXiv",
+            "group_sort_date": "2026-01-01",
+            "superlatives": []
+          },
+          {
+            "title": "Last Translation Benchmark",
+            "url": "https://arxiv.org/abs/2609.04173",
+            "date": "2026",
+            "date_sort": "2026-09-03",
+            "venue": "arXiv",
+            "venue_year": "2026",
+            "kind": "arxiv",
+            "family": "arXiv",
+            "group_sort_date": "2026-01-01",
+            "superlatives": []
+          },
+          {
+            "title": "LoRA-Muon: Spectral Steepest Descent on the Low-Rank Manifold",
+            "url": "https://arxiv.org/abs/2606.12921",
+            "date": "2026",
+            "date_sort": "2026-06-11",
             "venue": "arXiv",
             "venue_year": "2026",
             "kind": "arxiv",
@@ -891,14 +1077,14 @@
     "year": "2025",
     "kind": "conference",
     "label": "NeurIPS, 2025",
-    "count": 9,
+    "count": 8,
     "sort_date": "2025-12-02",
     "venues": [
       {
         "venue": "NeurIPS",
         "label": "Main conference",
         "kind": "conference",
-        "count": 3,
+        "count": 2,
         "sort_date": "2025-12-02",
         "papers": [
           {
@@ -923,18 +1109,6 @@
             "kind": "conference",
             "family": "NeurIPS",
             "group_sort_date": "2025-12-02",
-            "superlatives": []
-          },
-          {
-            "title": "Matrix-Driven Identification and Reconstruction of LLM Weight Homology",
-            "url": "https://arxiv.org/abs/2508.06309",
-            "date": "2025",
-            "date_sort": "2025-01-30",
-            "venue": "NeurIPS",
-            "venue_year": "2025",
-            "kind": "conference",
-            "family": "NeurIPS",
-            "group_sort_date": "2025-01-30",
             "superlatives": []
           }
         ]
@@ -1001,7 +1175,7 @@
         "sort_date": "2025-11-29",
         "papers": [
           {
-            "title": "Benchmark Disaggregation Improves Interpretability of Training Dynamics",
+            "title": "Disaggregation Reveals Hidden Training Dynamics: The Case of Agreement Attraction",
             "url": "https://arxiv.org/abs/2510.24934",
             "date": "2025",
             "date_sort": "2025-12-06",
@@ -1365,8 +1539,8 @@
         ]
       },
       {
-        "venue": "NextGenAISafety Workshop @ ICML",
-        "label": "NextGenAISafety Workshop",
+        "venue": "TiFA Workshop @ ICML",
+        "label": "TiFA Workshop",
         "kind": "workshop",
         "count": 1,
         "sort_date": "2025-07-06",
@@ -1376,109 +1550,10 @@
             "url": "https://arxiv.org/abs/2406.04391",
             "date": "2025",
             "date_sort": "2025-07-13",
-            "venue": "NextGenAISafety Workshop @ ICML",
+            "venue": "TiFA Workshop @ ICML",
             "venue_year": "2025",
             "kind": "workshop",
             "family": "ICML",
-            "group_sort_date": "2025-07-06",
-            "superlatives": [
-              "Oral at TiFA Workshop, ICML"
-            ]
-          }
-        ]
-      }
-    ]
-  },
-  {
-    "family": "TiFA Workshop",
-    "year": "2025",
-    "kind": "workshop",
-    "label": "TiFA Workshop, 2025",
-    "count": 1,
-    "sort_date": "2025-07-06",
-    "venues": [
-      {
-        "venue": "TiFA Workshop",
-        "label": "Workshop",
-        "kind": "workshop",
-        "count": 1,
-        "sort_date": "2025-07-06",
-        "papers": [
-          {
-            "title": "Why Has Predicting Downstream Capabilities of Frontier AI Models with Scale Remained Elusive?",
-            "url": "https://arxiv.org/abs/2406.04391",
-            "date": "2025",
-            "date_sort": "2025-07-13",
-            "venue": "TiFA Workshop",
-            "venue_year": "2025",
-            "kind": "workshop",
-            "family": "TiFA Workshop",
-            "group_sort_date": "2025-07-06",
-            "superlatives": [
-              "Oral at TiFA Workshop, ICML"
-            ]
-          }
-        ]
-      }
-    ]
-  },
-  {
-    "family": "Neural Scaling Laws Workshop",
-    "year": "2025",
-    "kind": "workshop",
-    "label": "Neural Scaling Laws Workshop, 2025",
-    "count": 1,
-    "sort_date": "2025-07-06",
-    "venues": [
-      {
-        "venue": "Neural Scaling Laws Workshop",
-        "label": "Workshop",
-        "kind": "workshop",
-        "count": 1,
-        "sort_date": "2025-07-06",
-        "papers": [
-          {
-            "title": "Why Has Predicting Downstream Capabilities of Frontier AI Models with Scale Remained Elusive?",
-            "url": "https://arxiv.org/abs/2406.04391",
-            "date": "2025",
-            "date_sort": "2025-07-13",
-            "venue": "Neural Scaling Laws Workshop",
-            "venue_year": "2025",
-            "kind": "workshop",
-            "family": "Neural Scaling Laws Workshop",
-            "group_sort_date": "2025-07-06",
-            "superlatives": [
-              "Oral at TiFA Workshop, ICML"
-            ]
-          }
-        ]
-      }
-    ]
-  },
-  {
-    "family": "DMLR Workshop",
-    "year": "2025",
-    "kind": "workshop",
-    "label": "DMLR Workshop, 2025",
-    "count": 1,
-    "sort_date": "2025-07-06",
-    "venues": [
-      {
-        "venue": "DMLR Workshop",
-        "label": "Workshop",
-        "kind": "workshop",
-        "count": 1,
-        "sort_date": "2025-07-06",
-        "papers": [
-          {
-            "title": "Why Has Predicting Downstream Capabilities of Frontier AI Models with Scale Remained Elusive?",
-            "url": "https://arxiv.org/abs/2406.04391",
-            "date": "2025",
-            "date_sort": "2025-07-13",
-            "venue": "DMLR Workshop",
-            "venue_year": "2025",
-            "kind": "workshop",
-            "family": "DMLR Workshop",
             "group_sort_date": "2025-07-06",
             "superlatives": [
               "Oral at TiFA Workshop, ICML"
@@ -1569,7 +1644,7 @@
     "year": "2025",
     "kind": "conference",
     "label": "ICLR, 2025",
-    "count": 5,
+    "count": 6,
     "sort_date": "2025-04-24",
     "venues": [
       {
@@ -1637,6 +1712,27 @@
             "kind": "conference",
             "family": "ICLR",
             "group_sort_date": "2025-04-24",
+            "superlatives": []
+          }
+        ]
+      },
+      {
+        "venue": "Building Trust in LLMs and LLM Applications @ ICLR",
+        "label": "Building Trust in LLMs and LLM Applications",
+        "kind": "workshop",
+        "count": 1,
+        "sort_date": "2025-04-02",
+        "papers": [
+          {
+            "title": "Mechanistic Anomaly Detection for \"Quirky\" Language Models",
+            "url": "https://arxiv.org/abs/2504.08812",
+            "date": "2025",
+            "date_sort": "2025-04-09",
+            "venue": "Building Trust in LLMs and LLM Applications @ ICLR",
+            "venue_year": "2025",
+            "kind": "workshop",
+            "family": "ICLR",
+            "group_sort_date": "2025-04-02",
             "superlatives": []
           }
         ]
@@ -1726,18 +1822,6 @@
             "superlatives": []
           },
           {
-            "title": "Mechanistic Anomaly Detection for \"Quirky\" Language Models",
-            "url": "https://arxiv.org/abs/2504.08812",
-            "date": "2025",
-            "date_sort": "2025-04-09",
-            "venue": "arXiv",
-            "venue_year": "2025",
-            "kind": "arxiv",
-            "family": "arXiv",
-            "group_sort_date": "2025-01-01",
-            "superlatives": []
-          },
-          {
             "title": "Estimating the Probability of Sampling a Trained Neural Network at Random",
             "url": "https://arxiv.org/abs/2501.18812",
             "date": "2025",
@@ -1810,10 +1894,22 @@
             "superlatives": []
           },
           {
-            "title": "Can We Partially Rewrite Transformers in Natural Language?",
+            "title": "Partially Rewriting a Transformer in Natural Language",
             "url": "https://arxiv.org/abs/2501.18838",
             "date": "2025",
             "date_sort": "2025-01-31",
+            "venue": "arXiv",
+            "venue_year": "2025",
+            "kind": "arxiv",
+            "family": "arXiv",
+            "group_sort_date": "2025-01-01",
+            "superlatives": []
+          },
+          {
+            "title": "Matrix-Driven Identification and Reconstruction of LLM Weight Homology",
+            "url": "https://arxiv.org/abs/2508.06309",
+            "date": "2025",
+            "date_sort": "2025-01-30",
             "venue": "arXiv",
             "venue_year": "2025",
             "kind": "arxiv",
@@ -2042,14 +2138,14 @@
     "year": "2024",
     "kind": "conference",
     "label": "TMLR, 2024",
-    "count": 4,
+    "count": 5,
     "sort_date": "2024-12-07",
     "venues": [
       {
         "venue": "TMLR",
         "label": "Main conference",
         "kind": "conference",
-        "count": 4,
+        "count": 5,
         "sort_date": "2024-12-07",
         "papers": [
           {
@@ -2102,6 +2198,18 @@
             "kind": "conference",
             "family": "TMLR",
             "group_sort_date": "2024-06-07",
+            "superlatives": []
+          },
+          {
+            "title": "Transformer-Based Models Are Not Yet Perfect At Learning to Emulate Structural Recursion",
+            "url": "https://arxiv.org/abs/2401.12947",
+            "date": "2024",
+            "date_sort": "2024-01-23",
+            "venue": "TMLR",
+            "venue_year": "2024",
+            "kind": "conference",
+            "family": "TMLR",
+            "group_sort_date": "2024-01-23",
             "superlatives": []
           }
         ]

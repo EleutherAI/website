@@ -147,7 +147,7 @@ The principal Sheet columns currently used are:
 | `Date` | Determines whether a paper enters the public library; supplies its displayed year and chronological sort |
 | `Highest Impact` | Selects papers for the generated homepage Recent outputs candidate set; checked rows export as `TRUE` |
 | `Display Authors` | Author line shown in the Research Library |
-| `All Authors` | Complete semicolon-separated author list used for author search and metadata generation |
+| `All Authors` | Complete comma-separated author list in Given name Surname order, used for author search and metadata generation |
 | `Area` | Semicolon-separated research-area metadata used by generated collections and filters |
 | `Paper Link` | Makes the paper entry clickable |
 | `Conference or Journal` | Primary archival venue; blank values fall back to a workshop or arXiv |
@@ -259,10 +259,12 @@ If Scholar cannot be refreshed, the script uses the cached value. If no cache ex
 It obtains the Hugging Face model-download value in this order:
 
 1. `HF_MODEL_DOWNLOADS` environment variable, when set
-2. the rendered EleutherAI publisher analytics page through Playwright
+2. the public Hugging Face models API: sum `downloadsAllTime` across all EleutherAI models (including all result pages), add a fixed 11,000,000 correction, then round down to whole millions
 3. the checked-in cache in `data/generated/hf_model_downloads_cache.json`
 
 If neither a live value nor a cache is available, the metric is omitted. This is a model-download metric only; it does not count dataset downloads.
+
+The fixed correction was recommended by Hugging Face to Stella to account for undercounted early models. It is applied once to the API total, never to a manual override or cached value. Normal builds refresh this automatically without a login or manual analytics check; an explicit `HF_MODEL_DOWNLOADS` override is already the final display value. Missing or invalid API counts cause a fallback to the last successful cache rather than publishing a partial total.
 
 The homepage reads `data/home.yaml`. Metric entries with a `source` such as `publication_count`, `scholar_citations`, or `model_downloads` are filled from `data/generated/home_generated_metrics.json` during Hugo rendering.
 
@@ -296,7 +298,7 @@ Do not edit these files directly. Edit their source data and rebuild.
 
 ## Author search
 
-The Sheet's semicolon-separated `all authors` column is the sole source for complete publication authorship. `generate_hugo_data.py` puts every full name into the hidden Research Library search index while continuing to display the shorter `Display Authors` line. A live or offline build stops with a list of affected titles if any paper has a blank `all authors` cell; fix the Sheet rather than adding a local author override.
+The Sheet's `all authors` column is the sole source for complete publication authorship. Enter full names in Given name Surname order, separated by commas. Existing semicolon-separated lists remain supported; do not mix the two delimiters in a cell. `generate_hugo_data.py` puts every full name into the hidden Research Library search index while continuing to display the shorter `Display Authors` line. Full authors and EAI affiliations are optional; unavailable values can remain blank. Rows missing a title, valid date, or display authors are omitted with a warning. Before scheduled builds, the agent attempts to recover missing fields from authoritative sources without inventing information. Invalid Highest Impact markers are treated as unselected with a warning.
 
 ## Hugo rendering
 
@@ -329,6 +331,6 @@ make verify-live
 
 `make verify` runs the tests, regenerates checked-in snapshots offline, builds both deployments with Hugo warnings treated as errors, checks local links and assets, and fails if generated snapshots differ from `HEAD` or the diff contains whitespace errors. GitHub Actions runs the same command.
 
-`make verify-live` additionally requires every external source to be current. Set `YOUTUBE_API_KEY` for complete YouTube uploads discovery and either install Playwright or provide `HF_MODEL_DOWNLOADS`. Run `make freshness` after any build to see which sources were fetched live and which used snapshots.
+`make verify-live` additionally requires every external source to be current. Set `YOUTUBE_API_KEY` for complete YouTube uploads discovery. Hugging Face downloads refresh through the public API without credentials. Run `make freshness` after any build to see which sources were fetched live and which used snapshots.
 
 Review the affected main-site and blog pages locally before committing generated changes.

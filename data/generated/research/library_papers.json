@@ -15,11 +15,32 @@
     "contact": "",
     "artifact_type": "Paper",
     "authors": "Cerruti, Okamoto, and Erol",
-    "author_search": "Cerruti, Okamoto, and Erol Tommaso Cerruti, Mika Okamoto, Ansel Kaplan Erol Mika Okamoto, Ansel Kaplan Erol Tommaso Cerruti",
+    "author_search": "Cerruti, Okamoto, and Erol Tommaso Cerruti Mika Okamoto Ansel Kaplan Erol",
     "marker": "oral",
     "superlatives": [
       "Oral at the Evaluations of Interactive Agents Workshop"
     ]
+  },
+  {
+    "title": "Shared Geometry Is Not Shared Physics: A Layerwise Test of the Platonic Representation Hypothesis in Astronomy",
+    "url": "https://arxiv.org/abs/2610.04130",
+    "date": "2026",
+    "date_sort": "2026-12-12",
+    "venue": "Interp4Disocvery @ NeurIPS",
+    "family": "NeurIPS",
+    "kind": "workshop",
+    "status": "Accepted",
+    "areas": [
+      "AI4Science",
+      "Model Internals"
+    ],
+    "lead_org": "",
+    "contact": "",
+    "artifact_type": "Paper",
+    "authors": "Duraphe, Kannappan, Chan, Famutimi, Ejjagiri, Smith, and Wu",
+    "author_search": "Duraphe, Kannappan, Chan, Famutimi, Ejjagiri, Smith, and Wu Kshitij Duraphe Aravind Kannappan Dun Li Chan Okiki Famutimi Yaswant Sai Ejjagiri Michael J. Smith John F. Wu",
+    "marker": "",
+    "superlatives": []
   },
   {
     "title": "Scalable Search Heuristics for Inoculation Prompting",
@@ -37,7 +58,90 @@
     "contact": "",
     "artifact_type": "Paper",
     "authors": "Avyukth Nilajagi, Xinyue Liu, Nikhil Maturi, Bhiman Baghel Kumar",
-    "author_search": "Avyukth Nilajagi, Xinyue Liu, Nikhil Maturi, Bhiman Baghel Kumar Avyukth Nilajagi, Xinyue Liu, Nikhil Maturi, Bhiman Baghel Kumar Xinyue Liu, Nikhil Maturi, Bhiman Baghel Kumar Avyukth Nilajagi",
+    "author_search": "Avyukth Nilajagi, Xinyue Liu, Nikhil Maturi, Bhiman Baghel Kumar Avyukth Nilajagi Xinyue Liu Nikhil Maturi Bhiman Baghel Kumar",
+    "marker": "",
+    "superlatives": []
+  },
+  {
+    "title": "Native Geometry vs. Linear Recoverability: How Alignment Changes Platonic Scaling",
+    "url": "https://arxiv.org/abs/2610.22749",
+    "date": "2026",
+    "date_sort": "2026-12-12",
+    "venue": "NeurReps @ NeurIPS",
+    "family": "NeurIPS",
+    "kind": "workshop",
+    "status": "Accepted",
+    "areas": [
+      "AI4Science",
+      "Model Internals"
+    ],
+    "lead_org": "",
+    "contact": "",
+    "artifact_type": "Paper",
+    "authors": "Hoy, Lutterbach, Chong, Kumar, Smith",
+    "author_search": "Hoy, Lutterbach, Chong, Kumar, Smith Angus Hoy Austin Lutterbach Jasper Chong Aman Kumar Michael J. Smith",
+    "marker": "",
+    "superlatives": []
+  },
+  {
+    "title": "Do Astronomical Foundation Models Know When They Will Fail?",
+    "url": "",
+    "date": "2026",
+    "date_sort": "2026-12-12",
+    "venue": "Interp4Disocvery @ NeurIPS",
+    "family": "NeurIPS",
+    "kind": "workshop",
+    "status": "Accepted",
+    "areas": [
+      "AI4Science",
+      "Model Internals"
+    ],
+    "lead_org": "",
+    "contact": "",
+    "artifact_type": "Paper",
+    "authors": "Bulusu, Goyal, Apu, Smith, and Sourav",
+    "author_search": "Bulusu, Goyal, Apu, Smith, and Sourav Vaidehi Bulusu Mehul Goyal Md Rabius Sany Apu Michael J. Smith Shashwat Sourav",
+    "marker": "",
+    "superlatives": []
+  },
+  {
+    "title": "Can Data Attribution Filter Out Subliminal Learning? Not Reliably",
+    "url": "https://arxiv.org/abs/2609.20027",
+    "date": "2026",
+    "date_sort": "2026-12-12",
+    "venue": "ATTRIB @ NeurIPS",
+    "family": "NeurIPS",
+    "kind": "workshop",
+    "status": "Accepted",
+    "areas": [
+      "Data",
+      "Behavioral Safety"
+    ],
+    "lead_org": "",
+    "contact": "",
+    "artifact_type": "Paper",
+    "authors": "Weckbecker, Jena, Müller, Kumaraguru, Lapuschkin, Samek, Jaburi, and Paulo",
+    "author_search": "Weckbecker, Jena, Müller, Kumaraguru, Lapuschkin, Samek, Jaburi, and Paulo Moritz Weckbecker Sweta Jena Jonas Müller Ponnurangam Kumaraguru Sebastian Lapuschkin Wojciech Samek Louis Jaburi Gonçalo Paulo",
+    "marker": "",
+    "superlatives": []
+  },
+  {
+    "title": "The Great Chat in the Sky: Aligning Exotic Astronomical Data to Language with AstroBridge",
+    "url": "",
+    "date": "2026",
+    "date_sort": "2026-12-11",
+    "venue": "Machine Learning for \nPhysical Sciences (ML4PS)",
+    "family": "Machine Learning for \nPhysical Sciences (ML4PS)",
+    "kind": "conference",
+    "status": "Accepted",
+    "areas": [
+      "AI4Science"
+    ],
+    "lead_org": "",
+    "contact": "",
+    "artifact_type": "Paper",
+    "authors": "Habib, Li, Nguyen, Patron, Sekar, Koblischke, Lain, Sourav, Kumar, Iyer, Speagle, Sfaradi, Smith, and Ciucă",
+    "author_search": "Habib, Li, Nguyen, Patron, Sekar, Koblischke, Lain, Sourav, Kumar, Iyer, Speagle, Sfaradi, Smith, and Ciucă Ibrahim Habib Kevin Li Trung Nguyen Gabriel A. Patron Gaurav Sekar Nolan Koblischke Matthieu Le Lain Shashwat Sourav Aman Kumar Kartheik G. Iyer Joshua S. Speagle Itai Sfaradi Michael J. Smith Ioana Ciucă",
     "marker": "",
     "superlatives": []
   },
@@ -108,8 +212,28 @@
     ]
   },
   {
+    "title": "Automated Attribution Graph Interpretation via Probe Prompting",
+    "url": "https://arxiv.org/abs/2511.07002",
+    "date": "2026",
+    "date_sort": "2026-10-29",
+    "venue": "Blackbox NLP",
+    "family": "Blackbox NLP",
+    "kind": "conference",
+    "status": "Accepted",
+    "areas": [
+      "Model Internals"
+    ],
+    "lead_org": "",
+    "contact": "",
+    "artifact_type": "Paper",
+    "authors": "Birardi and Paulo",
+    "author_search": "Birardi and Paulo Giuseppe Birardi Gonçalo Paulo",
+    "marker": "",
+    "superlatives": []
+  },
+  {
     "title": "No Single Tokenizer Feature Reliably Predicts Downstream Language Model Performance",
-    "url": "",
+    "url": "https://arxiv.org/abs/2610.21679",
     "date": "2026",
     "date_sort": "2026-10-24",
     "venue": "EMNLP Findings",
@@ -123,7 +247,7 @@
     "contact": "",
     "artifact_type": "Paper",
     "authors": "Lopardo, Frentzen Salim, Srivastava, Jiang, Sharma, and Arnett",
-    "author_search": "Lopardo, Frentzen Salim, Srivastava, Jiang, Sharma, and Arnett Lopardo, Frentzen Salim, Srivastava, Jiang, Sharma, and Arnett Frentzen Salim, Srivastava, Jiang, Sharma, and Arnett Lopardo",
+    "author_search": "Lopardo, Frentzen Salim, Srivastava, Jiang, Sharma, and Arnett Lopardo Frentzen Salim Srivastava Jiang Sharma and Arnett",
     "marker": "",
     "superlatives": []
   },
@@ -144,7 +268,7 @@
     "contact": "",
     "artifact_type": "Paper",
     "authors": "Zhou, Salhan, Arnett, and Korhonen",
-    "author_search": "Zhou, Salhan, Arnett, and Korhonen Zhou, Salhan, Arnett, and Korhonen Salhan, Arnett, and Korhonen Zhou",
+    "author_search": "Zhou, Salhan, Arnett, and Korhonen Zhou Salhan Arnett and Korhonen",
     "marker": "",
     "superlatives": []
   },
@@ -166,7 +290,7 @@
     "contact": "",
     "artifact_type": "Paper",
     "authors": "Singh, Yadavalli, Arnett, and Warstadt",
-    "author_search": "Singh, Yadavalli, Arnett, and Warstadt Singh, Yadavalli, Arnett, and Warstadt Yadavalli, Arnett, and Warstadt Singh",
+    "author_search": "Singh, Yadavalli, Arnett, and Warstadt Singh Yadavalli Arnett and Warstadt",
     "marker": "",
     "superlatives": []
   },
@@ -193,7 +317,7 @@
   },
   {
     "title": "Beetle: Structured Exposure Pretraining in Bilingual Language Models for Modelling L2 Language Processing",
-    "url": "",
+    "url": "https://arxiv.org/abs/2609.22633",
     "date": "2026",
     "date_sort": "2026-10-24",
     "venue": "EMNLP",
@@ -208,7 +332,7 @@
     "contact": "",
     "artifact_type": "Paper",
     "authors": "Salhan, Arnett, Michaelov, and Buttery",
-    "author_search": "Salhan, Arnett, Michaelov, and Buttery Salhan, Arnett, Michaelov, and Buttery Arnett, Michaelov, and Buttery Salhan",
+    "author_search": "Salhan, Arnett, Michaelov, and Buttery Salhan Arnett Michaelov and Buttery",
     "marker": "",
     "superlatives": []
   },
@@ -229,7 +353,7 @@
     "contact": "",
     "artifact_type": "Paper",
     "authors": "Yang, Wilcox, and Arnett",
-    "author_search": "Yang, Wilcox, and Arnett Yang, Wilcox, and Arnett Wilcox, and Arnett Yang",
+    "author_search": "Yang, Wilcox, and Arnett Yang Wilcox and Arnett",
     "marker": "",
     "superlatives": []
   },
@@ -255,6 +379,27 @@
     "superlatives": []
   },
   {
+    "title": "The Unequal Influence of Bad Advice: Using Training Data Attribution to Modulate Emergent Misalignment",
+    "url": "https://arxiv.org/abs/2609.37914",
+    "date": "2026",
+    "date_sort": "2026-09-29",
+    "venue": "arXiv",
+    "family": "arXiv",
+    "kind": "arxiv",
+    "status": "Preprint",
+    "areas": [
+      "Data",
+      "Behavioral Safety"
+    ],
+    "lead_org": "",
+    "contact": "",
+    "artifact_type": "Paper",
+    "authors": "Paulo, Jaburi, Belrose, Quirke, and Biderman",
+    "author_search": "Paulo, Jaburi, Belrose, Quirke, and Biderman Gonçalo Paulo Louis Jaburi Nora Belrose Lucia Quirke Stella Biderman",
+    "marker": "",
+    "superlatives": []
+  },
+  {
     "title": "PACT: Can Enterprise AI Assistants Be Trusted Under Pressure?",
     "url": "https://arxiv.org/abs/2609.18605",
     "date": "2026",
@@ -271,7 +416,29 @@
     "contact": "",
     "artifact_type": "Paper",
     "authors": "Okamoto and Erol",
-    "author_search": "Okamoto and Erol Mika Okamoto, Ansel Kaplan Erol Ansel Kaplan Erol Mika Okamoto",
+    "author_search": "Okamoto and Erol Mika Okamoto Ansel Kaplan Erol",
+    "marker": "",
+    "superlatives": []
+  },
+  {
+    "title": "Last Translation Benchmark",
+    "url": "https://arxiv.org/abs/2609.04173",
+    "date": "2026",
+    "date_sort": "2026-09-03",
+    "venue": "arXiv",
+    "family": "arXiv",
+    "kind": "arxiv",
+    "status": "Preprint",
+    "areas": [
+      "Evaluation",
+      "Data",
+      "Multilingual"
+    ],
+    "lead_org": "",
+    "contact": "",
+    "artifact_type": "Paper",
+    "authors": "Zouhar and 259 others",
+    "author_search": "Zouhar and 259 others Vilém Zouhar Niyati Bafna Mukund Choudhary Maike Züfle Sara Rajaee Pinzhen Chen Jannis Vamvas Sara Papi Ona de Gibert Bhavitvya Malik Eliya Habba Orfeas Menis Mastromichalakis Patrícia Schmidtová Michelle Wastl Sheriff Issaka Leshem Choshen Stella Biderman Antonis Anastasopoulos Jan Niehues Rico Sennrich Mrinmaya Sachan Ondřej Bojar Kenton Murray Jörg Tiedemann Alham Fikri Aji Philipp Koehn Christof Monz Alexandra Birch Sowmya Vajjala Chalamalasetti Kranti Cristina España-Bonet Nobin Sarwar David Kaczér Sourajit Saha Jonathan Tonglet Shunta Asano Malik Marmonier Daban Q. Jaff Vaisakhi Mishra Hend Al-Khalifa Gabriele Sarti Nils Rehlinger Juan Daniel Cuervo Villa Dominik Macháček Saugata Purkayastha Jagannathan Ramanujam Shubhashis Roy Dipta Aviral Nigam Shuaib Shuaib Yusuf Heejin Do Jonathan Yahav Johannes-Rudolf David Maria Carmen Staiano Zuzana Nadova Fred Philippy Ron Keinan Maria Lymperaiou Silvia Casola Fabian Retkowski Andrés Jerez Hanna Yukhy- menko Sangwon Ryu Avantica Vempati Sukannya Purkayastha Adrian Cosma Erivan Inan Vitalii Babenko Wafa Aissa Valentin Scourneau Fatima Haouari Venkata Prasanth Kumar Gummadi Mehdi Jafarzadeh Manon Reusens Kaiser Sun Lukas Edman Shaomu Tan Giuseppe Gallipoli Pawan Sasanka Ammanamanchi Manar Ali Mohammad Sadegh Gholizadeh Dipankar Srirag Marek Šuppa Javier García Gilabert Ruta Binkyte Ana-Maria Bucur Sabry E. Farrag Youssef Saber Yihong Liu Theresia Veronika Rampisela Christian Hoang Nicoleta Cojocaru Jan Kocoń Jean Maillard Xiaochuang Yuan Sina Ahmadi Daryna Dementieva Philipp Mondorf Kaustubh Dhole Valmik Nahata Roman Wixinger et al. (160 additional authors not shown)",
     "marker": "",
     "superlatives": []
   },
@@ -331,8 +498,8 @@
     "lead_org": "",
     "contact": "",
     "artifact_type": "Paper",
-    "authors": "Barez, Mireshghallah, Osborne, Biderman. Lazar, Trager",
-    "author_search": "Barez, Mireshghallah, Osborne, Biderman. Lazar, Trager Fazl Barez, Niloofar Mireshghallah, Michael A Osborne, Stella Biderman, Seth Lazar, Robert F Trager Niloofar Mireshghallah, Michael A Osborne, Stella Biderman, Seth Lazar, Robert F Trager Fazl Barez",
+    "authors": "Barez, Mireshghallah, Osborne, Biderman, Lazar, Trager",
+    "author_search": "Barez, Mireshghallah, Osborne, Biderman, Lazar, Trager Fazl Barez Niloofar Mireshghallah Michael A Osborne Stella Biderman Seth Lazar Robert F Trager",
     "marker": "",
     "superlatives": []
   },
@@ -352,8 +519,8 @@
     "lead_org": "",
     "contact": "",
     "artifact_type": "Paper",
-    "authors": "Schaeffer, Kazdan, Abbasi, Liu, Miranda, Ahmed, Puri, Mireshghallah, and Koyejo",
-    "author_search": "Schaeffer, Kazdan, Abbasi, Liu, Miranda, Ahmed, Puri, Mireshghallah, and Koyejo Rylan Schaeffer Joshua Kazdan Baber Abbasi Ken Ziyu Liu Brando Miranda Ahmed Ahmed Fazl Berez Abhay Puri Stella Biderman Niloofar Mireshghallah Sanmi Koyejo",
+    "authors": "Schaeffer, Kazdan, Abbasi, Liu, Miranda, Ahmed, Berez, Puri, Biderman, Mireshghallah, and Koyejo",
+    "author_search": "Schaeffer, Kazdan, Abbasi, Liu, Miranda, Ahmed, Berez, Puri, Biderman, Mireshghallah, and Koyejo Rylan Schaeffer Joshua Kazdan Baber Abbasi Ken Ziyu Liu Brando Miranda Ahmed Ahmed Fazl Berez Abhay Puri Stella Biderman Niloofar Mireshghallah Sanmi Koyejo",
     "marker": "",
     "superlatives": []
   },
@@ -574,10 +741,10 @@
     "url": "https://arxiv.org/abs/2606.12921",
     "date": "2026",
     "date_sort": "2026-06-11",
-    "venue": "NeurIPS",
-    "family": "NeurIPS",
-    "kind": "conference",
-    "status": "Accepted",
+    "venue": "arXiv",
+    "family": "arXiv",
+    "kind": "arxiv",
+    "status": "Preprint",
     "areas": [
       "Training Models"
     ],
@@ -605,7 +772,7 @@
     "contact": "",
     "artifact_type": "Paper",
     "authors": "Goldstein, Singhal, Cheah",
-    "author_search": "Goldstein, Singhal, Cheah Daniel Goldstein, Navneel Singhal, Eugene Cheah Navneel Singhal, Eugene Cheah Daniel Goldstein",
+    "author_search": "Goldstein, Singhal, Cheah Daniel Goldstein Navneel Singhal Eugene Cheah",
     "marker": "",
     "superlatives": []
   },
@@ -820,7 +987,7 @@
     "superlatives": []
   },
   {
-    "title": "Benchmark Disaggregation Improves Interpretability of Training Dynamics",
+    "title": "Disaggregation Reveals Hidden Training Dynamics: The Case of Agreement Attraction",
     "url": "https://arxiv.org/abs/2510.24934",
     "date": "2025",
     "date_sort": "2025-12-06",
@@ -1461,10 +1628,10 @@
     "url": "https://arxiv.org/abs/2504.08812",
     "date": "2025",
     "date_sort": "2025-04-09",
-    "venue": "arXiv",
-    "family": "arXiv",
-    "kind": "arxiv",
-    "status": "Preprint",
+    "venue": "Building Trust in LLMs and LLM Applications @ ICLR",
+    "family": "ICLR",
+    "kind": "workshop",
+    "status": "Accepted",
     "areas": [
       "Model Internals",
       "Behavioral Safety"
@@ -1621,7 +1788,7 @@
     "superlatives": []
   },
   {
-    "title": "Can We Partially Rewrite Transformers in Natural Language?",
+    "title": "Partially Rewriting a Transformer in Natural Language",
     "url": "https://arxiv.org/abs/2501.18838",
     "date": "2025",
     "date_sort": "2025-01-31",
@@ -1645,10 +1812,10 @@
     "url": "https://arxiv.org/abs/2508.06309",
     "date": "2025",
     "date_sort": "2025-01-30",
-    "venue": "NeurIPS",
-    "family": "NeurIPS",
-    "kind": "conference",
-    "status": "Accepted",
+    "venue": "arXiv",
+    "family": "arXiv",
+    "kind": "arxiv",
+    "status": "Preprint",
     "areas": [
       "Model Internals",
       "Security",
@@ -2793,6 +2960,26 @@
     "artifact_type": "Paper",
     "authors": "Yin, Bose, Cong, Lyngaas, and Anthony",
     "author_search": "Yin, Bose, Cong, Lyngaas, and Anthony Junqi Yin Avishek Bose Guojing Cong Isaac Lyngaas Quentin Anthony",
+    "marker": "",
+    "superlatives": []
+  },
+  {
+    "title": "Transformer-Based Models Are Not Yet Perfect At Learning to Emulate Structural Recursion",
+    "url": "https://arxiv.org/abs/2401.12947",
+    "date": "2024",
+    "date_sort": "2024-01-23",
+    "venue": "TMLR",
+    "family": "TMLR",
+    "kind": "conference",
+    "status": "Accepted",
+    "areas": [
+      "Model Internals"
+    ],
+    "lead_org": "",
+    "contact": "",
+    "artifact_type": "Paper",
+    "authors": "Zhang, Tigges, Zhang, Biderman, Raginsky, and Ringer",
+    "author_search": "Zhang, Tigges, Zhang, Biderman, Raginsky, and Ringer Shizhuo Dylan Zhang Curt Tigges Zory Zhang Stella Biderman Maxim Raginsky Talia Ringer",
     "marker": "",
     "superlatives": []
   },

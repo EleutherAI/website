@@ -1,9 +1,36 @@
 import unittest
+from unittest.mock import mock_open, patch
 
-from generate_hugo_data import library_paper_record
+from generate_hugo_data import full_author_terms, library_paper_record, read_papers
 
 
 class PublicationAuthorDisplayTests(unittest.TestCase):
+    def test_missing_optional_authors_do_not_block(self):
+        csv = 'Title,Date,Display Authors,all authors,EAI Affils\nExample,"October 30, 2026",Smith and Jones,,\n'
+        with patch('pathlib.Path.open', mock_open(read_data=csv)):
+            self.assertEqual(len(read_papers()), 1)
+
+    def test_missing_essential_fields_are_skipped(self):
+        csv = 'Title,Date,Display Authors\n,"October 30, 2026",Smith\nExample,,Smith\nExample,"October 30, 2026",\n'
+        with patch('pathlib.Path.open', mock_open(read_data=csv)):
+            self.assertEqual(read_papers(), [])
+
+    def test_comma_separated_full_names(self):
+        names = "Vilém Zouhar, Hanna Yukhymenko, Stella Biderman"
+        self.assertEqual(full_author_terms(names), ["Vilém Zouhar", "Hanna Yukhymenko", "Stella Biderman"])
+        paper = self.paper("Zouhar and others", names)
+        self.assertEqual(paper["authors"], "Zouhar and others")
+        for name in full_author_terms(names):
+            self.assertIn(name, paper["author_search"])
+
+    def test_legacy_surname_first_semicolon_list(self):
+        self.assertEqual(full_author_terms("Zouhar, Vilém; Biderman, Stella"),
+                         ["Zouhar, Vilém", "Biderman, Stella"])
+
+    def test_empty_full_names(self):
+        self.assertEqual(full_author_terms(None), [])
+        self.assertEqual(full_author_terms(" , , "), [])
+
     def paper(self, display_authors, all_authors):
         return library_paper_record(
             {

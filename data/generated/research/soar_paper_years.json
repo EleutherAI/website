@@ -29,6 +29,54 @@
         "sort_date": "2026-12-12"
       },
       {
+        "title": "Shared Geometry Is Not Shared Physics: A Layerwise Test of the Platonic Representation Hypothesis in Astronomy",
+        "url": "https://arxiv.org/abs/2610.04130",
+        "summary": "",
+        "date": "2026",
+        "year": "2026",
+        "venue": "Interp4Disocvery @ NeurIPS",
+        "authors": "Duraphe, Kannappan, Chan, Famutimi, Ejjagiri, Smith, and Wu",
+        "marker": "",
+        "superlatives": [],
+        "sort_date": "2026-12-12"
+      },
+      {
+        "title": "Do Astronomical Foundation Models Know When They Will Fail?",
+        "url": "",
+        "summary": "",
+        "date": "2026",
+        "year": "2026",
+        "venue": "Interp4Disocvery @ NeurIPS",
+        "authors": "Bulusu, Goyal, Apu, Smith, and Sourav",
+        "marker": "",
+        "superlatives": [],
+        "sort_date": "2026-12-12"
+      },
+      {
+        "title": "Native Geometry vs. Linear Recoverability: How Alignment Changes Platonic Scaling",
+        "url": "https://arxiv.org/abs/2610.22749",
+        "summary": "",
+        "date": "2026",
+        "year": "2026",
+        "venue": "NeurReps @ NeurIPS",
+        "authors": "Hoy, Lutterbach, Chong, Kumar, Smith",
+        "marker": "",
+        "superlatives": [],
+        "sort_date": "2026-12-12"
+      },
+      {
+        "title": "The Great Chat in the Sky: Aligning Exotic Astronomical Data to Language with AstroBridge",
+        "url": "",
+        "summary": "",
+        "date": "2026",
+        "year": "2026",
+        "venue": "Machine Learning for \nPhysical Sciences (ML4PS)",
+        "authors": "Habib, Li, Nguyen, Patron, Sekar, Koblischke, Lain, Sourav, Kumar, Iyer, Speagle, Sfaradi, Smith, and Ciucă",
+        "marker": "",
+        "superlatives": [],
+        "sort_date": "2026-12-11"
+      },
+      {
         "title": "PACT: Can Enterprise AI Assistants Be Trusted Under Pressure?",
         "url": "https://arxiv.org/abs/2609.18605",
         "summary": "",
@@ -47,7 +95,7 @@
     "papers": [
       {
         "title": "No Single Tokenizer Feature Reliably Predicts Downstream Language Model Performance",
-        "url": "",
+        "url": "https://arxiv.org/abs/2610.21679",
         "summary": "",
         "date": "2026",
         "year": "2026",
