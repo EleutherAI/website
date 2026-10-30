@@ -60,11 +60,13 @@ Prefer Markdown or YAML for copy changes. Change a template only when page struc
 
 The EleutherAI papers Google Sheet is the source of truth:
 
-`https://docs.google.com/spreadsheets/d/1LcB7_1lHZgO8_EmOkrvfV2BTaOngX95J5v8PJeuN4rM/edit?usp=sharing`
+`https://docs.google.com/spreadsheets/d/14amb2CM9nVQR_-ZqpGuNPSSdMxsAk0YEoAvetgEyGRw/edit?usp=sharing`
 
 A normal live build downloads the Sheet, regenerates the publication library and homepage publication data, and then builds Hugo.
 
-A paper requires a title, `Sort Date`, and complete semicolon-separated `all authors` value. `Display Authors` supplies the public author line, `all authors` supplies the author-search index, semicolon-separated `Area` values supply research metadata, and `Superlative` supplies distinctions. A link makes the rendered entry clickable.
+A paper requires a title, a valid date, and `Display Authors` (at least the first authors; not necessarily the complete author list). `all authors` and `EAI Affils` are optional. Full author names use comma-separated Given name Surname; legacy semicolon-separated lists remain supported. `all authors` supplies the author-search index, semicolon-separated `Area` values supply research metadata, and `Superlative` supplies distinctions. A link makes the rendered entry clickable.
+
+Before automatic builds, inspect the live Sheet for missing fields and try to recover them from the linked paper or other authoritative sources. Write only verified information back to the Sheet; never guess affiliations or authors. If information cannot be recovered, omit rows missing title, date, or display authors from generated output (not from the Sheet). Leave unavailable full author lists and EAI-affiliated author fields blank. Report skipped rows and recovered data in the status log; missing optional fields must not block the build.
 
 Do not manually edit these generated files:
 
