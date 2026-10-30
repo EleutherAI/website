@@ -1,0 +1,18 @@
+.support-page .hero { padding-bottom: 24px; }
+.support-page > .section { padding-top: 0; }
+.support-page .donation-options { display: grid; grid-template-columns: 1fr 1fr; gap: 24px 48px; padding: 32px 0; }
+.support-page .donation-options h3 { margin-top: 0; }
+.support-page .donation-note { grid-column: 1 / -1; font-size: 0.95rem; color: var(--muted); margin: 0; }
+.support-page .article-body > h2 { margin-top: 64px; }
+.support-page .article-body > h2:nth-of-type(1) { color: var(--blue); }
+.support-page .article-body > h2:nth-of-type(2) { color: var(--green); }
+.support-page .article-body > h2:nth-of-type(3) { color: var(--violet); }
+.support-page blockquote { margin: 32px 0; padding: 8px 0 8px 28px; border-left: 3px solid var(--blue); background: transparent; font-size: 1.15rem; }
+.support-page blockquote:nth-of-type(2) { border-color: var(--green); }
+.support-page blockquote:nth-of-type(3) { border-color: var(--violet); }
+.support-page blockquote p:last-child { font-size: 1rem; margin-bottom: 0; }
+@media (max-width: 700px) {
+  .support-page .donation-options { grid-template-columns: 1fr; gap: 24px; }
+  .support-page .article-body > h2 { margin-top: 40px; }
+  .support-page blockquote { padding-left: 16px; }
+}

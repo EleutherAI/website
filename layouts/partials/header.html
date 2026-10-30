@@ -39,6 +39,7 @@
 {{- $researchURL := cond (ne $mainBase "") (printf "%sresearch/" $mainBase) ("research/" | relURL) -}}
 {{- $papersURL := cond (ne $mainBase "") (printf "%spapers/" $mainBase) ("papers/" | relURL) -}}
 {{- $communityURL := cond (ne $mainBase "") (printf "%scommunity/" $mainBase) ("community/" | relURL) -}}
+{{- $supportURL := cond (ne $mainBase "") (printf "%ssupport/" $mainBase) ("support/" | relURL) -}}
 {{- $blogBaseURL := site.Params.blogBaseURL | default "https://blog.eleuther.ai/" -}}
 {{- $blogOverride := os.Getenv "BLOG_BASE_URL" -}}
 {{- $blogURL := $blogOverride | default $blogBaseURL -}}
@@ -81,6 +82,7 @@
       <a href="{{ $papersURL }}"{{ if eq $sectionID "papers" }} aria-current="page"{{ end }}>Papers</a>
       <a href="{{ $communityURL }}"{{ if eq $sectionID "community" }} aria-current="{{ if eq $pageID "community" }}page{{ else }}location{{ end }}"{{ end }}>Community</a>
       <a href="{{ $blogURL }}"{{ if eq $sectionID "blog" }} aria-current="{{ if or .IsSection .IsHome }}page{{ else }}location{{ end }}"{{ end }}>Blog</a>
+      <a class="support" href="{{ $supportURL }}"{{ if eq $pageID "support" }} aria-current="page"{{ end }}>Donate</a>
     </nav>
     <details class="mobile-menu">
       <summary class="mobile-menu-toggle" aria-label="Open navigation" title="Menu">
@@ -109,6 +111,7 @@
           <a href="{{ $papersURL }}"{{ if eq $pageID "papers" }} aria-current="page"{{ end }}>Papers</a>
           <a href="{{ $communityURL }}"{{ if eq $sectionID "community" }} aria-current="{{ if eq $pageID "community" }}page{{ else }}location{{ end }}"{{ end }}>Community</a>
           <a href="{{ $blogURL }}"{{ if eq $sectionID "blog" }} aria-current="{{ if or .IsSection .IsHome }}page{{ else }}location{{ end }}"{{ end }}>Blog</a>
+          <a class="support" href="{{ $supportURL }}"{{ if eq $pageID "support" }} aria-current="page"{{ end }}>Donate</a>
         </nav>
       </div>
     </details>
