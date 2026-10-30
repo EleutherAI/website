@@ -1,13 +1,17 @@
-<section aria-label="Donation options">
+<section class="donation-options" aria-label="Donation options" id="donate-to-eleutherai">
+  <div>
   <h3>Give once</h3>
   <p>Choose your own amount.</p>
   <p><a class="button primary" href="{{ site.Data.donations.one_time }}">Make a one-time donation</a></p>
+  </div>
+  <div>
   <h3>Give monthly</h3>
-  <p>Monthly donations are charged automatically each month. Amounts below are in USD.</p>
+  <p>Give automatically each month, in USD.</p>
   <div class="button-row">
     {{ range site.Data.donations.monthly }}
     <a class="button" href="{{ .url }}" aria-label="Donate {{ .amount }} US dollars per month">${{ .amount }} / month</a>
     {{ end }}
   </div>
-  <p>Payments are processed securely through Stripe. You will automatically receive an email receipt after each successful donation, including each monthly payment.</p>
+  </div>
+  <p class="donation-note">Secure payments through Stripe. An email receipt is sent automatically after each successful donation.</p>
 </section>

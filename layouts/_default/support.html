@@ -1,0 +1,16 @@
+{{ define "head" }}
+<link rel="stylesheet" href="{{ "support.css" | relURL }}">
+{{ end }}
+{{ define "main" }}
+<main class="support-page">
+  <section class="hero">
+    <div class="wrap">
+      <h1>{{ .Title }}</h1>
+      <p class="lede">{{ .Params.lede }}</p>
+    </div>
+  </section>
+  <section class="section">
+    <div class="wrap prose article-body">{{ .Content }}</div>
+  </section>
+</main>
+{{ end }}
