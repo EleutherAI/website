@@ -1,0 +1,10 @@
+one_time: https://buy.stripe.com/8x214m5e23r47Pv0HQaVa00
+monthly:
+  - amount: 10
+    url: https://donate.stripe.com/cNi6oG21Q3r41r7aiqaVa01
+  - amount: 25
+    url: https://donate.stripe.com/3cI7sK9ui6Dg7PvduCaVa02
+  - amount: 50
+    url: https://donate.stripe.com/4gM00i49Y7Hk1r7cqyaVa03
+  - amount: 100
+    url: https://donate.stripe.com/7sY8wO21Qe5Ib1HbmuaVa04

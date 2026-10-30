@@ -1,40 +1,25 @@
 ---
-title: "Support Durable Open AI Research"
-lede: "EleutherAI depends on institutional support, compute access, engineering capacity, and research partnerships to keep public work useful and scientifically credible."
+title: "Donate to EleutherAI"
+lede: "The EleutherAI Institute is a 501(c)(3) nonprofit organization. Donations are tax-deductible in the United States to the extent permitted by law. EIN: 92-2215190."
 layout: page
 url: /support/
 aliases:
   - /support.html
+  - /donate/
 ---
 
-## Research That Stays Public
+Your donation supports independent, open AI research and the people doing it. It helps us develop and maintain freely available models, datasets, and research tools, and provide compute and mentorship to researchers in our community.
 
-Support helps EleutherAI build models, datasets, benchmarks, papers, tooling, and collaborations that remain accessible to independent researchers.
+{{< donations >}}
 
-### Interpretability and Alignment
+## Other Ways to Give
 
-Funding supports researchers studying how models work, how they fail, and how open systems can be made safer.
+We also accept checks, ACH and wire transfers, stock, and grants from donor-advised funds. We welcome in-kind donations, especially computing resources. For instructions or to discuss a gift, please email [celia@eleuther.ai](mailto:celia@eleuther.ai).
 
-### Models, Data, and Evaluation
+## Questions About Your Donation
 
-Compute and engineering support keep public artifacts maintained, documented, and usable.
+To ask about a donation or change or cancel monthly support, email [celia@eleuther.ai](mailto:celia@eleuther.ai).
 
-### Collaboration Outside Closed Labs
+## Annual Report
 
-Support helps external researchers, volunteers, and partner institutions contribute to shared scientific work.
-
-## Ways to Help
-
-Institutional support can take the form of funding, compute, collaboration, engineering support, or help keeping public research useful over time.
-
-### Sponsor Open Research Programs
-
-Support staff researchers, collaborators, publications, and long-running research agendas.
-
-### Provide Resources for Public Artifacts
-
-Compute access makes it possible to train, evaluate, and release models and datasets at meaningful scale.
-
-### Work With EleutherAI Researchers
-
-Research collaborations can connect external labs to EleutherAI's research areas, projects, and public releases.
+Read our [2025 annual report (PDF)](/reports/eleutherai-2025-annual-report.pdf) for more about our research, community, and finances.

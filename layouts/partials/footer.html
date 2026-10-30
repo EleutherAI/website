@@ -2,6 +2,9 @@
   <div class="wrap">
     <div class="footer-identity">
       <span>EleutherAI</span>
+      {{ $mainBase := os.Getenv "MAIN_BASE_URL" | default (site.Params.mainBaseURL | default "") }}
+      {{ if and hugo.IsServer (not (os.Getenv "MAIN_BASE_URL")) }}{{ $mainBase = site.Params.localMainBaseURL | default $mainBase }}{{ end }}
+      <a href="{{ if $mainBase }}{{ $mainBase }}support/{{ else }}{{ "support/" | relURL }}{{ end }}">Donate</a>
       <a class="footer-license" href="https://creativecommons.org/licenses/by/4.0/" rel="license">Website licensed under CC BY 4.0</a>
     </div>
     <div class="social-links" aria-label="Social links">
