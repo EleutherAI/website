@@ -6,7 +6,7 @@ description: "Testing how robust Natural Language Autoencoder verbalizations are
 date: 2026-09-22
 ShowToc: true
 mathjax: true
-draft: true
+draft: false
 cover:
     image: /images/blog/nla-stability/training-splits-tree.png
     caption: "The four NLAs trained for the seed-stability experiments differ only in LoRA initialization, RL data order, or GRPO rollout stochasticity."
