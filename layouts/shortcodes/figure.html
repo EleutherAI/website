@@ -1,4 +1,4 @@
-<figure>
+<figure{{ with .Get "id" }} id="{{ . }}"{{ end }}>
   {{ with .Get "src" }}
     <img src="{{ . }}" alt="{{ $.Get "alt" | default ($.Get "caption") | plainify }}">
   {{ end }}
