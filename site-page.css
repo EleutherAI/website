@@ -4113,3 +4113,18 @@ footer .wrap {
     gap: 4px;
   }
 }
+
+/* Two labeled panels share a caption and stack on small screens. */
+.article-figure-pair {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 24px;
+  align-items: start;
+  margin: 0;
+}
+.article-figure-pair > div { min-width: 0; }
+.article-figure-pair strong { display: block; margin-bottom: 8px; }
+.article-figure-pair img { display: block; width: 100%; height: auto; }
+@media (max-width: 760px) {
+  .article-figure-pair { grid-template-columns: minmax(0, 1fr); }
+}

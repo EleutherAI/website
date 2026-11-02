@@ -1,0 +1,7 @@
+<figure{{ with .Get "id" }} id="{{ . }}"{{ end }}>
+  <div class="article-figure-pair">
+    <div><strong>(a)</strong><img src="{{ .Get "left" }}" alt="{{ .Get "leftAlt" }}"></div>
+    <div><strong>(b)</strong><img src="{{ .Get "right" }}" alt="{{ .Get "rightAlt" }}"></div>
+  </div>
+  <figcaption>{{ .Get "caption" | markdownify }}</figcaption>
+</figure>

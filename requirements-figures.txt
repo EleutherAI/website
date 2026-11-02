@@ -1,0 +1,3 @@
+# Reproduce scientific figures with scripts/plot_nla_ioi_interventions.py.
+matplotlib==3.11.2
+numpy==2.5.4
